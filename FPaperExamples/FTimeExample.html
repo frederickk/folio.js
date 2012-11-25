@@ -17,7 +17,7 @@
 		<link rel="apple-touch-startup-image" href="images/iphone_startup.png" />
 		-->
 		
-		<title>FPaperTemplate</title>
+		<title>FTime Examples</title>
 		
 		
 		<!-- CSS -->
@@ -61,7 +61,7 @@
 
 		<!-- LOAD PAPERJS -->
 		<!-- download PaperJS from http://paperjs.org/download/ and update path -->
-		<script type="text/javascript" src="path/to/paper.js"></script>
+		<script type="text/javascript" src="js/paper/paper.js"></script>
 		<script>
 			// ------------------------------------------------------------------------
 			// Global Properties
@@ -144,97 +144,15 @@
 			});
 
 
-
-			/**
-			 *
-			 *	Supporting Methods
-			 *
-			 *	uncomment if creating a web-app
-			 */
-			// $(function() {
-			// 	angle = 0; // orienation angle
-			// 	isRotated = false;
-
-			// 	var ios = navigator.userAgent.match(/(iPhone)|(iPod)|(iPad)/);
-			// 	device.isiPad    = (navigator.userAgent.match(/iPad/i) != null);
-			// 	device.isiPhone  = (navigator.userAgent.match(/iPhone/i) != null);
-			// 	device.isiPod    = (navigator.userAgent.match(/iPod/i) != null);
-			// 	device.isSafari  = (navigator.userAgent.match(/Safari/i) != null);
-			// 	device.isAndroid = (navigator.userAgent.match(/Android/i) != null);
-				
-
-			// 	// ------------------------------------------------------------------------
-			// 	function orientationChange() {
-			// 		angle = window.orientation;
-
-			// 		orientation	= 'landscape';
-			// 		if(angle == 0 || angle == 180)	orientation	= 'portrait';
-
-			// 		// switch (window.orientation) {
-			// 		// 	case 0:
-			// 		// 		break;
-			// 		// 	case 90:
-			// 		// 		break;
-			// 		// 	case -90:
-			// 		// 		break;
-			// 		// 	case 180:
-			// 		// 		break;
-			// 		// 	default:
-			// 		// 		break;
-			// 		// }
-			// 	}
-
-			// 	// ------------------------------------------------------------------------
-			// 	function resizeCanvas() {
-			// 		if (ios) {
-			// 			$('#container').height($(window).height() + 60)
-			// 		}
-					
-			// 		var width = $('#container').width();
-			// 		var height = $('#container').height();
-					
-			// 		// set canvas width and height
-			// 		$('#canvas').attr('width', width);
-			// 		$('#canvas').attr('height', height)
-
-			// 		// hides the WebKit url bar
-			// 		// if (ios) {
-			// 		// 	setTimeout(function() {
-			// 		// 		window.scrollTo(0, 1);
-			// 		// 	}, 100);	 
-			// 		// }
-
-			// 		// call Draw()
-			// 		Draw();
-			// 	}
-
-			// 	// ------------------------------------------------------------------------
-			// 	var resizeTimeout;
-			// 	$(window).resize(function() {
-			// 		clearTimeout(resizeTimeout);
-			// 		resizeTimeout = setTimeout(resizeCanvas, 100);
-			// 	});
-			// 	resizeCanvas();
-				
-			// 	// ------------------------------------------------------------------------
-			// 	var otimeout;
-			// 	window.onorientationchange = function() {
-			// 		clearTimeout(otimeout);
-			// 		otimeout = setTimeout(orientationChange, 50);
-			// 	}				
-
-			// });
-
-
 		</script>
 
 
-		<!-- LOAD ADDITIONAL JAVASCRIPTS -->
-		<!-- <script type="text/javascript" src="js/FrederickkPaper.js"></script> -->
+		<script type="text/javascript" src="https://raw.github.com/frederickk/FrederickkJS/master/FrederickkPaper.js"></script>
+		<script type="text/javascript" src="js/misc/StopWatch.js"></script>
 
-		<!-- LOAD PAPER SCRIPT -->
+		<!-- LOAD SCRIPT -->
 		<!-- be sure that the filename and path matches your script -->
-		<script type="text/javascript" src="scripts/FPaperTemplate.js"></script>
+		<script type="text/javascript" src="scripts/FTimeExample.js"></script>
 
 
 
