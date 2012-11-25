@@ -31,11 +31,17 @@ Feel free to rename the script file and HTML template file, but be sure to uppda
 
 I recommend a file structure as such:
 
+
 /scripts/
+
 	*** holder for all PaperJS scripts ***
+
 	FPaperTemplate.js (rename as desired)
+
 /js/
+
 	*** additional JavaScript libraries ***
+
 
 FPaperTemplate.html (rename as desired)
 
