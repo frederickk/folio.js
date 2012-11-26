@@ -57,17 +57,17 @@ var F3D = function() {
 	// ------------------------------------------------------------------------
 	this.FPoint3D = paper.Point.extend({
 		// properties
-		this.x = 0,
-		this.y = 0,
-		this.z = 0,
+		this.x: 0,
+		this.y: 0,
+		this.z: 0,
 	
-		this.scene = null;
+		this.scene: null,
 
-		this.xIndex;
-		this.yIndex;
-		this.zIndex;
-		this.xIndex2D;
-		this.yIndex2D;
+		this.xIndex: 0,
+		this.yIndex: 0,
+		this.zIndex: 0,
+		this.xIndex2D: 0,
+		this.yIndex2D: 0,
 
 
 		// constructor
@@ -154,9 +154,9 @@ var F3D = function() {
 	 */
 	this.FPath3D = function() {
 		// properties
-		this.points = [],
-		this.startPoint = new Point3D(),
-		this.endPoint = new Point3D(),
+		this.points: [],
+		this.startPoint: new Point3D(),
+		this.endPoint: new Point3D(),
 
 
 		// methods
@@ -204,22 +204,22 @@ var F3D = function() {
 	 */
 	this.FScene3D = function() {
 		// properties
-		this.group = new Group(),
-		this.matrix = new Matrix3D(),
-		this.rotationX = 0,
-		this.rotationY = 0,
-		this.rotationZ = 0,
-		this.scale = 1,
+		this.group: new Group(),
+		this.matrix: new Matrix3D(),
+		this.rotationX: 0,
+		this.rotationY: 0,
+		this.rotationZ: 0,
+		this.scale: 1,
 
-		this.focalLength = 1000,
-		this.sceneWidth = view.bounds.width,
-		this.sceneHeight = view.bounds.height,
+		this.focalLength: 1000,
+		this.sceneWidth: view.bounds.width,
+		this.sceneHeight: view.bounds.height,
 
-		this.points3D = [],
-		this.points2D = [],
-		this.numPoints = 0,
+		this.points3D: [],
+		this.points2D: [],
+		this.numPoints: 0,
 
-		this.items = [],
+		this.items: [],
 
 
 		// methods
