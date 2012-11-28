@@ -15,8 +15,8 @@ console.log( 'FTime Example Loaded' );
 // ------------------------------------------------------------------------
 // Properties
 // ------------------------------------------------------------------------
-var frederickk = new Frederickk();
-var ftime = frederickk.FTime;
+var f = Frederickk;
+var ftime = new f.FTime();
 
 var stopwatch = new StopWatch();
 
@@ -55,7 +55,6 @@ function Update(event) {
 // Draw
 // ------------------------------------------------------------------------
 function Draw() {
-
 }
 
 
