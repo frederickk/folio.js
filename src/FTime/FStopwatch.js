@@ -1,6 +1,6 @@
 /**
  *  
- *	Stopwatch.js
+ *	FStopwatch.js
  *	v0.1
  *  
  *	25. November 2012
@@ -24,6 +24,7 @@ Frederickk.FStopwatch = function() {
 	var then;
 	var timeInMs = 0;
 	var bStart = 0;
+
 
 
 	// Methods

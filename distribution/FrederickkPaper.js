@@ -92,6 +92,7 @@ Frederickk = {
  	//FControl: {}, 
  	FIO: {},
  	F3D: {},
+ 	FShape: {},
  	//FTime: {},
 
 
@@ -215,6 +216,14 @@ Frederickk = {
 		else return 'undefined'
 	},
 
+	findByName : function(items, name) {
+		var path;
+		for(var i=0; i<items.length; i++) {
+			var item = items[i];		
+			if(item.name == name) path = item; // break;
+		}
+		return path;
+	},
 
 
 
@@ -886,7 +895,7 @@ Frederickk.FIO = {
 
 /**
  *  
- *	Stopwatch.js
+ *	FStopwatch.js
  *	v0.1
  *  
  *	25. November 2012
@@ -910,6 +919,7 @@ Frederickk.FStopwatch = function() {
 	var then;
 	var timeInMs = 0;
 	var bStart = 0;
+
 
 
 	// Methods
@@ -1217,10 +1227,13 @@ Frederickk.FTime = function() {
  */
 Frederickk.F3D.FPath3 = function() {
 	// Properties
+	// public
+	this.name = '';
+	this.closed = false;
+
+
 	// private
 	var points = [];
-	// var startPoint = new Frederickk.F3D.FPoint3();
-	// var endPoint = new Frederickk.F3D.FPoint3();
 
 
 
@@ -1230,32 +1243,34 @@ Frederickk.F3D.FPath3 = function() {
 	 *			projected 2D path
 	 */
 	this.draw = function() {
-		var path = new Path();
+		var path = new paper.Path();
+		path.name = this.name;
 		for(var i=0; i<points.length; i++) {
-			path.add( new Point( points[i].x2D, points[i].y2D ) );
+			path.add( new paper.Point( points[i].x2D(), points[i].y2D() ) );
 		}
-		path.closed = true;
+		path.closed = this.closed;
 		return path;
 	};
 
 
-	// set
+
+	// Sets
 	/**
-	 *	@param scene
+	 *	@param _scene
 	 *			scene to associate points with
 	 */
-	this.addToScene = function(scene) {
+	this.addToScene = function(_scene) {
 		for(var i=0; i<points.length; i++) {
-			points[i].setup(scene);
+			points[i].setup(_scene);
 		}
 	};
 
 	/**
-	 *	@param point
+	 *	@param _point
 	 *			add points to path
 	 */
-	this.add = function(point) {
-		points[points.length] = point;
+	this.add = function(_point) {
+		points[points.length] = _point;
 	};
 	
 };
@@ -1297,9 +1312,9 @@ Frederickk.F3D.FPath3 = function() {
 Frederickk.F3D.FPoint3 = function(_x, _y, _z) {
 	// Properties
 	// public
-	this.x = _x != undefined ? _x : 0;
-	this.y = _y != undefined ? _y : 0;
-	this.z = _z != undefined ? _z : 0;
+	var x = _x != undefined ? _x : 0;
+	var y = _y != undefined ? _y : 0;
+	var z = _z != undefined ? _z : 0;
 
 
 	// private
@@ -1319,13 +1334,13 @@ Frederickk.F3D.FPoint3 = function(_x, _y, _z) {
 	 *			the scene with which the points are
 	 *			associated with
 	 */
-	this.setup = function(scene) {
-		scene = scene;
+	this.setup = function(_scene) {
+		scene = _scene;
 
-		var idx = scene.setupPoint(this.x, this.y, this.z);
+		var index = scene.setupPoint(x, y, z);
 
-		var i3 = idx*3;
-		var i2 = idx*2;
+		var i3 = index*3;
+		var i2 = index*2;
 
 		xIndex = i3;
 		yIndex = i3+1;
@@ -1352,9 +1367,16 @@ Frederickk.F3D.FPoint3 = function(_x, _y, _z) {
 
 
 	// gets
-	this.getSceneIndex = function() {
-		return mySceneIndex;
-	};
+	this.x = function() {
+		return _x;
+	}
+	this.y = function() {
+		return _y;
+	}
+	this.z = function() {
+		return _z;
+	}
+
 
 	/**
 	 *	@return projected 2D x
@@ -1368,6 +1390,11 @@ Frederickk.F3D.FPoint3 = function(_x, _y, _z) {
 	 */
 	this.y2D = function() {
 		return scene.points2D[yIndex2D];
+	};
+
+
+	this.getSceneIndex = function() {
+		return sceneIndex;
 	};
 
 };
@@ -1397,9 +1424,8 @@ Frederickk.F3D.FPoint3 = function(_x, _y, _z) {
  *	modified/expanded for use in PaperJS by Ken Frederick
  *
  */
- // _f3d.FScene3D = function() {
 
- // }
+
 Frederickk.F3D.FScene3D = function() {
 	// Properties
 	// private
@@ -1409,17 +1435,20 @@ Frederickk.F3D.FScene3D = function() {
 	var rotationX = 0;
 	var rotationY = 0;
 	var rotationZ = 0;
-	var scale = 1;
+	var sceneScale = 1;
 
 	var focalLength = 0;
 	var sceneWidth = 0;
 	var sceneHeight = 0;
 
-	var points3D = [];
-	var points2D = [];
 	var numPoints = 0;
 
 	var items = [];
+
+
+	// public
+	this.points3D = [];
+	this.points2D = [];
 
 
 
@@ -1440,52 +1469,43 @@ Frederickk.F3D.FScene3D = function() {
 		sceneWidth  = _width || paper.view.bounds.width;
 		sceneHeight = _height || paper.view.bounds.height;
 
-// 		this.sceneWidth = width != undefined ? width : view.bounds.width;
-// 		this.sceneHeight = height != undefined ? height : view.bounds.height;
-// 		this.focalLength = focalLength != undefined ? focalLength : 1000;
-
 		group = new paper.Group();
 	};
-
 
 	this.draw = function() {
 		var halfWidth = sceneWidth*0.5;
 		var halfHeight = sceneHeight*0.5;
 
 		matrix.identity();
-		matrix.scale(scale, scale, scale);
+		matrix.scale(sceneScale, sceneScale, sceneScale);
 		matrix.rotateX(rotationX);
 		matrix.rotateY(rotationY);
 		matrix.rotateZ(rotationZ);
 		matrix.translate(0, 0, 1000);
 
-		var transformed = matrix.transformArray(points3D);
+		var transformed = matrix.transformArray(this.points3D);
 		
-		// group.removeChildren();
 		for(var i=0; i<numPoints; i++) {
 			var i3 = i*3;
 			var i2 = i*2;
 
-			// var x = points3D[i3];
-			// var y = points3D[i3+1];
-			// var z = points3D[i3+2];
+			// var x = this.points3D[ i3];
+			// var y = this.points3D[ i3+1];
+			// var z = this.points3D[ i3+2];
 			var x = transformed[i3];
 			var y = transformed[i3+1];
 			var z = transformed[i3+2];
 			
 			var scale = focalLength/(z+focalLength);
 
-			points2D[i2]   = x*scale+halfWidth;
-			points2D[i2+1] = y*scale+halfHeight;
+			this.points2D[ i2 ]   = x*scale+halfWidth;
+			this.points2D[ i2+1 ] = y*scale+halfHeight;
 		}
 
+		group.removeChildren(); // clear out in between draws
 		for(var i=0; i<items.length; i++) {
 			var paths = items[i].draw();
-			paths.strokeColor = new paper.RGBColor(1.0,0.0,1.0);
-			console.log( 'scene.draw()' );
-			console.log( paths );
 			group.appendTop( paths );
-			console.log( i );
 		}
 
 		return group;
@@ -1494,12 +1514,12 @@ Frederickk.F3D.FScene3D = function() {
 	this.setupPoint = function(x, y, z) {
 		var returnVal = numPoints;
 
-		points2D[points2D.length] = 0;
-		points2D[points2D.length] = 0;
+		this.points2D[ this.points2D.length ] = 0;
+		this.points2D[ this.points2D.length ] = 0;
 
-		points3D[points3D.length] = x;
-		points3D[points3D.length] = y;
-		points3D[points3D.length] = z;
+		this.points3D[ this.points3D.length ] = x;
+		this.points3D[ this.points3D.length ] = y;
+		this.points3D[ this.points3D.length ] = z;
 
 		numPoints++;
 
@@ -1532,11 +1552,19 @@ Frederickk.F3D.FScene3D = function() {
 		return group;
 	};
 
+	/**
+	 *	@return scene size as array [width, height, depth]
+	 */
+	this.getSize = function() {
+		return [ sceneWidth, sceneHeight, focalLength ];
+	};
+
+
 };
 
 
 /**
- *  
+ *	
  *	Matrix3D
  *
  *	forked from daijimachine's "Matrix3D(lib)"
@@ -1547,22 +1575,22 @@ Frederickk.F3D.FScene3D = function() {
  *	http://twitter.com/daijimachine
  *
  *
- *  This library is free software; you can redistribute it and/or
- *  modify it under the terms of the GNU Lesser General Public
- *  License as published by the Free Software Foundation; either
- *  version 2.1 of the License, or (at your option) any later version.
- *  
- *  http://creativecommons.org/licenses/LGPL/2.1/
- *  
- *  This library is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- *  Lesser General Public License for more details.
- *  
- *  You should have received a copy of the GNU Lesser General Public
- *  License along with this library; if not, write to the Free Software
- *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
- *  
+ *	This library is free software; you can redistribute it and/or
+ *	modify it under the terms of the GNU Lesser General Public
+ *	License as published by the Free Software Foundation; either
+ *	version 2.1 of the License, or (at your option) any later version.
+ *	
+ *	http://creativecommons.org/licenses/LGPL/2.1/
+ *	
+ *	This library is distributed in the hope that it will be useful,
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *	Lesser General Public License for more details.
+ *	
+ *	You should have received a copy of the GNU Lesser General Public
+ *	License along with this library; if not, write to the Free Software
+ *	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ *	
  */
 
 
@@ -1734,6 +1762,312 @@ var Matrix3D = function( n11, n12, n13, n14,
 
 
 
+
+
+/**
+ *  
+ *	FBox.js
+ *	v0.1
+ *  
+ *	25. November 2012
+ *
+ *	Ken Frederick
+ *	ken.frederick@gmx.de
+ *
+ *	http://cargocollective.com/kenfrederick/
+ *	http://kenfrederick.blogspot.com/
+ *
+ *
+ *	FBox
+ *
+ *	Create a box
+ *
+ */
+Frederickk.FShape.FBox = paper.Path.extend({
+	// Properties
+	// public
+	scene: null,
+	whd: new Frederickk.F3D.FPoint3(),
+	whdTemp: new Frederickk.F3D.FPoint3(),
+	rotation: new Frederickk.F3D.FPoint3(),
+
+	bContainer: true,
+	bRotation: false,
+
+	// face numbers
+	face:	0,
+	FRONT:	0,
+	TOP:	1,
+	BOTTOM: 2,
+	LEFT:	3,
+	RIGHT:	4,
+	BACK:	5,
+	
+
+	// face colors
+	cols: [
+		new paper.RGBColor(1.0, 1.0, 0.0, 0.8), // FRONT
+		new paper.RGBColor(1.0, 0.0, 1.0, 0.8), // TOP
+		new paper.RGBColor(0.0, 0.0, 1.0, 0.8), // BOTTOM
+		new paper.RGBColor(1.0, 0.0, 0.0, 0.8), // LEFT
+		new paper.RGBColor(0.0, 1.0, 1.0, 0.8), // RIGHT
+		new paper.RGBColor(0.0, 1.0, 0.0, 0.8)  // BACK
+	],
+
+	// face points
+	pointsFRONT: [
+		new Frederickk.F3D.FPoint3(-0.5, -0.5, -0.5), //corner
+		new Frederickk.F3D.FPoint3( 0.0, -0.5, -0.5),
+		new Frederickk.F3D.FPoint3( 0.5, -0.5, -0.5), //corner
+		new Frederickk.F3D.FPoint3( 0.5,	0.0, -0.5),
+		new Frederickk.F3D.FPoint3( 0.5,	0.5, -0.5), //corner
+		new Frederickk.F3D.FPoint3( 0.0,	0.5, -0.5),
+		new Frederickk.F3D.FPoint3(-0.5,	0.5, -0.5), //corner
+		new Frederickk.F3D.FPoint3(-0.5,	0.0, -0.5)
+	],
+	
+	pointsTOP: [
+		new Frederickk.F3D.FPoint3(-0.5, -0.5,	0.5), //corner
+		new Frederickk.F3D.FPoint3( 0.0, -0.5,	0.5),
+		new Frederickk.F3D.FPoint3( 0.5, -0.5,	0.5), //corner
+		new Frederickk.F3D.FPoint3( 0.5, -0.5,	0.0),
+		new Frederickk.F3D.FPoint3( 0.5, -0.5, -0.5), //corner
+		new Frederickk.F3D.FPoint3( 0.0, -0.5, -0.5),
+		new Frederickk.F3D.FPoint3(-0.5, -0.5, -0.5), //corner
+		new Frederickk.F3D.FPoint3(-0.5, -0.5,	0.0)
+	],
+
+	pointsBOTTOM: [
+		new Frederickk.F3D.FPoint3(-0.5, 0.5,	0.5), //corner
+		new Frederickk.F3D.FPoint3( 0.0, 0.5,	0.5),
+		new Frederickk.F3D.FPoint3( 0.5, 0.5,	0.5), //corner
+		new Frederickk.F3D.FPoint3( 0.5, 0.5,	0.0),
+		new Frederickk.F3D.FPoint3( 0.5, 0.5, -0.5), //corner
+		new Frederickk.F3D.FPoint3( 0.0, 0.5, -0.5),
+		new Frederickk.F3D.FPoint3(-0.5, 0.5, -0.5), //corner
+		new Frederickk.F3D.FPoint3(-0.5, 0.5,	0.0)
+	],
+	pointsLEFT: [
+		new Frederickk.F3D.FPoint3(-0.5, -0.5, -0.5), //corner
+		new Frederickk.F3D.FPoint3(-0.5, -0.5,	0.0),
+		new Frederickk.F3D.FPoint3(-0.5, -0.5,	0.5), //corner
+		new Frederickk.F3D.FPoint3(-0.5,	0.0,	0.5),
+		new Frederickk.F3D.FPoint3(-0.5,	0.5,	0.5), //corner
+		new Frederickk.F3D.FPoint3(-0.5,	0.5,	0.0),
+		new Frederickk.F3D.FPoint3(-0.5,	0.5, -0.5), //corner
+		new Frederickk.F3D.FPoint3(-0.5,	0.0, -0.5)
+	],
+	pointsRIGHT: [
+		new Frederickk.F3D.FPoint3( 0.5, -0.5, -0.5), //corner
+		new Frederickk.F3D.FPoint3( 0.5, -0.5,	0.0),
+		new Frederickk.F3D.FPoint3( 0.5, -0.5,	0.5), //corner
+		new Frederickk.F3D.FPoint3( 0.5,	0.0,	0.5),
+		new Frederickk.F3D.FPoint3( 0.5,	0.5,	0.5), //corner
+		new Frederickk.F3D.FPoint3( 0.5,	0.5,	0.0),
+		new Frederickk.F3D.FPoint3( 0.5,	0.5, -0.5), //corner
+		new Frederickk.F3D.FPoint3( 0.5,	0.0, -0.5),
+	],
+	pointsBACK: [
+		new Frederickk.F3D.FPoint3(-0.5, -0.5,	0.5), //corner
+		new Frederickk.F3D.FPoint3( 0.0, -0.5,	0.5),
+		new Frederickk.F3D.FPoint3( 0.5, -0.5,	0.5), //corner
+		new Frederickk.F3D.FPoint3( 0.5,	0.0,	0.5),
+		new Frederickk.F3D.FPoint3( 0.5,	0.5,	0.5), //corner
+		new Frederickk.F3D.FPoint3( 0.0,	0.5,	0.5),
+		new Frederickk.F3D.FPoint3(-0.5,	0.5,	0.5), //corner
+		new Frederickk.F3D.FPoint3(-0.5,	0.0,	0.5),
+	],
+	
+	
+	// consecutive points for shapes
+	pointsMatrix: [
+		pointsTOP[0],
+		pointsTOP[1],
+		pointsTOP[2],
+		pointsTOP[3],
+		pointsTOP[4],
+		pointsTOP[5],
+		pointsTOP[6],
+		pointsTOP[7],
+		
+		pointsLEFT[3],
+		pointsRIGHT[3],
+		pointsFRONT[3],
+		pointsFRONT[7],
+
+		pointsBOTTOM[0],
+		pointsBOTTOM[1],
+		pointsBOTTOM[2],
+		pointsBOTTOM[3],
+		pointsBOTTOM[4],
+		pointsBOTTOM[5],
+		pointsBOTTOM[6],
+		pointsBOTTOM[7]
+	],
+
+	// private
+	vertices: [],
+
+
+
+	// Methods
+	setup : function(_scene) {
+		scene = _scene;
+
+	},
+
+	draw : function() {
+		if( vertices == null) {
+			drawMatrix();
+		}
+		else {
+			draw(vertices);
+		}
+	},
+
+	// ------------------------------------------------------------------------
+	drawMatrix : function() {
+// 		if( whd != null) {
+// 			for(i=0; i<pointsMatrix.length; i++) {
+// 				var color = HSVtoRGB( norm(i,0,pointsMatrix.length), 1.0, 1.0 );
+// 				color.alpha = 0.5;
+// 
+// 				translate( pointsMatrix[i].x*whd.x, pointsMatrix[i].y*whd.y, pointsMatrix[i].z*whd.z );
+// 				sphere(15);
+// 			}
+// 		}
+	},
+
+
+	// ------------------------------------------------------------------------
+	draw : function(_vertices) {
+// 		setVertices(_vertices);
+// 		
+// 		pushMatrix();
+// 		translate(sz*2, sz*2, sz*2);
+// 		if(bRotation) {
+// 			rotateX(rotation.x);
+// 			rotateY(rotation.y);
+// 			rotateZ(rotation.z);
+// 		}
+// 		
+// 		translate(-sz*2, -sz*2, -sz*2);
+// 		var path = new FPath3();
+// 		for(i=0; i<vertices.length; i++) {
+// 			path.add( new Frederickk.F3D.FPoint3(
+// 				pointsMatrix[ vertices[i] ].x*whd.x,
+// 				pointsMatrix[ vertices[i] ].y*whd.y,
+// 				pointsMatrix[ vertices[i] ].z*whd.z
+// 			) );
+// 		}
+// 		path.closed = true;
+// 		path.translate( )
+		
+	},
+
+
+
+	// Sets
+	setWHD : function(w, h, d) {
+		if(whdTemp.x == 0) whdTemp.set( w*2, parseInt(h*2), parseInt(d*2) );
+		whd.set( parseInt(w*2), parseInt(h*2), parseInt(d*2) );
+	},
+
+	// ------------------------------------------------------------------------
+	reset : function() {
+		setFace(0);
+		whd.x = whdTemp.x;
+		whd.y = whdTemp.y;
+		whd.z = whdTemp.z;
+	},
+
+	// ------------------------------------------------------------------------
+	/**
+	 *	@param num
+	 *				0 = front
+	 *				1 = top
+	 *				2 = bottom
+	 *				3 = left
+	 *				4 = right
+	 *				5 = back (same as front really...)
+	 */
+	setFace : function(num) {
+		face = num;
+	},
+	
+	// ------------------------------------------------------------------------
+	setVertices : function(_vertices) {
+		vertices = _vertices;
+	},
+
+	// ------------------------------------------------------------------------
+	showContainer : function(val) {
+		bContainer = val;
+	},
+
+	// ------------------------------------------------------------------------
+	Rotation : function(val, rads) {
+		bRotation = val;
+		rotation = rads;
+	},
+
+
+
+	// Gets
+	getWHD : function() {
+		return whdTemp;
+	}
+
+
+});
+
+
+/**
+ *  
+ *	FBubble.js
+ *	v0.1
+ *  
+ *	25. November 2012
+ *
+ *	Ken Frederick
+ *	ken.frederick@gmx.de
+ *
+ *	http://cargocollective.com/kenfrederick/
+ *	http://kenfrederick.blogspot.com/
+ *
+ *
+ *	FBubble
+ *
+ *	Create simple speech bubble forms
+ *
+ */
+Frederickk.FShape.FBubble = paper.Path.extend({
+
+});
+
+
+/**
+ *  
+ *	FSphere.js
+ *	v0.1
+ *  
+ *	25. November 2012
+ *
+ *	Ken Frederick
+ *	ken.frederick@gmx.de
+ *
+ *	http://cargocollective.com/kenfrederick/
+ *	http://kenfrederick.blogspot.com/
+ *
+ *
+ *	FSphere
+ *
+ *	Create a sphere
+ *
+ */
+Frederickk.FShape.FSphere = paper.Path.extend({
+
+});
 
 
 /**

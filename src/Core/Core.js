@@ -23,6 +23,7 @@ Frederickk = {
  	//FControl: {}, 
  	FIO: {},
  	F3D: {},
+ 	FShape: {},
  	//FTime: {},
 
 
@@ -146,6 +147,14 @@ Frederickk = {
 		else return 'undefined'
 	},
 
+	findByName : function(items, name) {
+		var path;
+		for(var i=0; i<items.length; i++) {
+			var item = items[i];		
+			if(item.name == name) path = item; // break;
+		}
+		return path;
+	},
 
 
 

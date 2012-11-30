@@ -24,10 +24,13 @@
  */
 Frederickk.F3D.FPath3 = function() {
 	// Properties
+	// public
+	this.name = '';
+	this.closed = false;
+
+
 	// private
 	var points = [];
-	// var startPoint = new Frederickk.F3D.FPoint3();
-	// var endPoint = new Frederickk.F3D.FPoint3();
 
 
 
@@ -37,32 +40,34 @@ Frederickk.F3D.FPath3 = function() {
 	 *			projected 2D path
 	 */
 	this.draw = function() {
-		var path = new Path();
+		var path = new paper.Path();
+		path.name = this.name;
 		for(var i=0; i<points.length; i++) {
-			path.add( new Point( points[i].x2D, points[i].y2D ) );
+			path.add( new paper.Point( points[i].x2D(), points[i].y2D() ) );
 		}
-		path.closed = true;
+		path.closed = this.closed;
 		return path;
 	};
 
 
-	// set
+
+	// Sets
 	/**
-	 *	@param scene
+	 *	@param _scene
 	 *			scene to associate points with
 	 */
-	this.addToScene = function(scene) {
+	this.addToScene = function(_scene) {
 		for(var i=0; i<points.length; i++) {
-			points[i].setup(scene);
+			points[i].setup(_scene);
 		}
 	};
 
 	/**
-	 *	@param point
+	 *	@param _point
 	 *			add points to path
 	 */
-	this.add = function(point) {
-		points[points.length] = point;
+	this.add = function(_point) {
+		points[points.length] = _point;
 	};
 	
 };

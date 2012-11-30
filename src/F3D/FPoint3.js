@@ -34,9 +34,9 @@
 Frederickk.F3D.FPoint3 = function(_x, _y, _z) {
 	// Properties
 	// public
-	this.x = _x != undefined ? _x : 0;
-	this.y = _y != undefined ? _y : 0;
-	this.z = _z != undefined ? _z : 0;
+	var x = _x != undefined ? _x : 0;
+	var y = _y != undefined ? _y : 0;
+	var z = _z != undefined ? _z : 0;
 
 
 	// private
@@ -56,13 +56,13 @@ Frederickk.F3D.FPoint3 = function(_x, _y, _z) {
 	 *			the scene with which the points are
 	 *			associated with
 	 */
-	this.setup = function(scene) {
-		scene = scene;
+	this.setup = function(_scene) {
+		scene = _scene;
 
-		var idx = scene.setupPoint(this.x, this.y, this.z);
+		var index = scene.setupPoint(x, y, z);
 
-		var i3 = idx*3;
-		var i2 = idx*2;
+		var i3 = index*3;
+		var i2 = index*2;
 
 		xIndex = i3;
 		yIndex = i3+1;
@@ -89,9 +89,16 @@ Frederickk.F3D.FPoint3 = function(_x, _y, _z) {
 
 
 	// gets
-	this.getSceneIndex = function() {
-		return mySceneIndex;
-	};
+	this.x = function() {
+		return _x;
+	}
+	this.y = function() {
+		return _y;
+	}
+	this.z = function() {
+		return _z;
+	}
+
 
 	/**
 	 *	@return projected 2D x
@@ -105,6 +112,11 @@ Frederickk.F3D.FPoint3 = function(_x, _y, _z) {
 	 */
 	this.y2D = function() {
 		return scene.points2D[yIndex2D];
+	};
+
+
+	this.getSceneIndex = function() {
+		return sceneIndex;
 	};
 
 };
