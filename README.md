@@ -3,89 +3,217 @@ FrederickkJS
 
 A collection of methods/functions that I find useful, as of now specifically created for application within PaperJS (http://paperjs.org/) most of which are based on my Frederickk library for Processing (http://github.com/frederickk/frederickk)
 
+
 At some point I plan to broaden this library to be used in combination with other JavaScript creative coding environments, such as ProcessingJS, etc.
+
+
+This library should be seen as very very alhpa.
+
 
 Not all of the code in here was created by me but credit and links are given where credit is due.
 
-```javascript
-// the core of the library
-var frederickk = new Frederickk();
 
-// to access other features quickly
-// you can use additional variables
-var ffade = frederickk.FFade;
-var ftime = frederickk.FTime;
-var fcolor = frederickk.FColor;
-var fpoint = frederickk.FPoint;
+
+Building
+-------------
+
+```
+$cd build/
+$ant -buildfile build.xml
 ```
 
-Here's an incomplete overview of what some of these classes in FrederickkPaper are. A more complete API will follow as time and interest allows.
 
-Frederickk (core)
-A collection mathematical operations, similar to those found in Processing
+Compiled files appear in the distribution folder in two flavors
+
+
+- FrederickkPaper.js
+- FrederickkPaper-min.js
+
+
+
+Usage
+-------------
 
 
 ```javascript
-random(minr, maxr);
-randomBias(minr, maxr, bias);
-clamp(val,min,max);
-norm(val,start,stop);
-map(value, istart, istop, ostart, ostop);
-roundDecimal(orig, deci);
-snap(value, gridSize, roundFunction);
-lerp(start, stop, amt);
-degrees(val);
-radians(val);
-boolToInt(val);
-getType(object);
+// create a shortcut to the namespace if you wish
+var f = Frederickk;
+
+// to access other features quickly
+// you can use additional shortcuts for namespaces
+var f3d = frederickk.F3D;
+var fio = frederickk.FIO;
+```
+
+
+Features
+-------------
+
+
+Here's an incomplete overview of what some of these classes in FrederickkPaper are. A more complete API will follow as time and interest allows. At some point, I'll compile this into real documentation until then...
+
+
+### Frederickk (core) ###
+A collection math, String, and Array operations, similar to those found in Processing
+
+
+Math functions
+
+
+```javascript
+Frederickk.random(minr, maxr);
+Frederickk.randomBias(minr, maxr, bias);
+Frederickk.clamp(val,min,max);
+Frederickk.norm(val,start,stop);
+Frederickk.map(value, istart, istop, ostart, ostop);
+Frederickk.roundDecimal(orig, deci);
+Frederickk.snap(value, gridSize, roundFunction);
+Frederickk.lerp(start, stop, amt);
+Frederickk.degrees(val);
+Frederickk.radians(val);
+Frederickk.boolToInt(val);
+Frederickk.getType(object);
 ```
 
 String functions
 
 
 ```javascript
-trimToFit(textObj);
-rtrim(str);trim(str);
+String.trimToFit(textObj);
+String.rtrim(str);trim(str);
 ```
 
 Array functions
 
 
 ```javascript
-merge(arr1, arr2);
-alphabetical(a, b); // sorting
+Frederickk.merge(arr1, arr2);
+Frederickk.alphabetical(a, b); // sorting
 Array.max();
 Array.min();
 Array.shuffle();
 ```
 
 
-FColor
+### FConversions ###
+A collection of helpful conversion ratios
+
+
+```javascript
+var conversions = new Frederickk.FConversions();
+
+Frederickk.FConversions.ptToMm;
+Frederickk.FConversions.mmToPt;
+
+Frederickk.FConversions.ptToCm;
+Frederickk.FConversions.CmToPt;
+
+Frederickk.FConversions.ptToIn;
+Frederickk.FConversions.inToPt;
+
+Frederickk.FConversions.ptToPi;
+Frederickk.FConversions.piToPt;
+```
+
+
+### FColor ###
 Expands paper.Color some of these may be redundant to the paperjs api, that's due to the legacy of the library's initially creation for use in Scriptographer.
 
 
 ```javascript
-FColor.lerpCMYKColor(c1,c2, amt);
-FColor.lerpRGBColor(c1,c2, amt);
-FColor.random();
-FColor.randomRGBColor();
-FColor.randomCMYKColor();
-FColor.randomGrayColor();
-FColor.ColorToInt(col);
-FColor.IntToColor(RGBint);
-FColor.ColorToHex(col);
-FColor.HexToColor(hex);
-FColor.HSVtoColor(h, s, v);
+var fcolor = new Frederickk.FColor();
+
+Frederickk.FColor.lerpCMYKColor(c1,c2, amt);
+Frederickk.FColor.lerpRGBColor(c1,c2, amt);
+Frederickk.FColor.random();
+Frederickk.FColor.randomRGBColor();
+Frederickk.FColor.randomCMYKColor();
+Frederickk.FColor.randomGrayColor();
+Frederickk.FColor.ColorToInt(col);
+Frederickk.FColor.IntToColor(RGBint);
+Frederickk.FColor.ColorToHex(col);
+Frederickk.FColor.HexToColor(hex);
+Frederickk.FColor.HSVtoColor(h, s, v);
 
 paper.Color.darken(pct);
 paper.Color.lighten(pct);
 ```
 
 
+### FFade ###
+A helper class for fading/animating elements
+
+
+
+### FPoint ###
+Expands paper.Point some of these may be redundant to the paperjs api, that's due to the legacy of the library's initially creation for use in Scriptographer.
+
+```javascript
+var fpoint = new Frederickk.FPoint();
+
+Frederickk.FPoint.norm(startPt, stopPt);
+Frederickk.FPoint.random();
+Frederickk.FPoint.heading();
+
+Frederickk.FPoint.interpolateTo(v2, f);
+Frederickk.FPoint.limit(lim);
+Frederickk.FPoint.magSq();
+
+Frederickk.FPoint.snapGrid(spacing);
+Frederickk.FPoint.snapIso(scale);
+```
+
+
+
+### FIO ###
+A collection of tools for handling files/cookies
+
+
+```javascript
+var fio = Frederickk.FIO;
+
+Frederickk.FIO.saveCookie(name, value, days);
+Frederickk.FIO.openCookie(name);
+Frederickk.FIO.deleteCookie(name);
+```
+
+
+### FTime ###
+A collection of methods for handling time
+
+```javascript
+var ftime = new Frederickk.FTime();
+
+Frederickk.FTime.hour();
+Frederickk.FTime.minute();
+Frederickk.FTime.second();
+Frederickk.FTime.now(format);
+Frederickk.FTime.nowMilliseconds();
+Frederickk.FTime.add(_d, _h, _m, _s);
+Frederickk.FTime.sub(_d, _h, _m, _s);
+Frederickk.FTime.set(_d, _h, _m, _s);
+Frederickk.FTime.get(ms, format);
+Frederickk.FTime.toMillsecond(_h, _m, _s);
+Frederickk.FTime.toArray(strHMS);
+```
+
+
+### F3D ###
+A barebones collection of classes for primitive 3D rendering
+
+```javascript
+var fpoint3 = new Frederickk.F3D.FPoint3(_x, _y, _z);
+var fpath3 = new Frederickk.F3D.FPath3();
+var fscene3d = new Frederickk.F3D.FScene3D();
+```
+
+
+
 FPaperExamples
 ============
 
 Examples of FrederickkJS to be added
+
 
 
 
