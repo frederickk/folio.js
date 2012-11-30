@@ -61,6 +61,7 @@ var Frederickk = Frederickk || {};
 
 (function() {
 	console.log('\nFrederickkPaper.js');
+	console.log('v.0.1a');
 	console.log('ken.frederick@gmx.de');
 	console.log('------------------------------------\n');
 })();
@@ -919,37 +920,37 @@ Frederickk.FStopwatch = function() {
 		else {
 			this.pause();
 		}
-	}
+	};
 
 	this.start = function() {
 		// start
 		bStart = 1;
 		then = new Date();
 		then.setTime(then.getTime() - timeInMs);
-	}
+	};
 
 	this.pause = function() {
 		// pause
 		bStart = 0;
 		now = new Date();
 		timeInMs = now.getTime() - then.getTime();
-	}
+	};
 
 	this.reset = function() {
 		bStart = 0;
 		timeInMs = 0;
-	}
+	};
 
 
 	// Sets
 	this.set = function(ms, run) {
 		timeInMs = ms;
-		(run) ? bStart = 0 : bStart = 1;
+		(run == true) ? bStart = 0 : bStart = 1;
 
 		then = new Date();
 		then.setTime(then.getTime() - timeInMs);
 		this.toggle();
-	}
+	};
 
 
 	// Gets
@@ -959,13 +960,13 @@ Frederickk.FStopwatch = function() {
 			timeInMs = now.getTime() - then.getTime();
 		}
 		return timeInMs;
-	}
+	};
 
 	this.isRunning = function() {
 		return (bStart) ? true : false;
-	}
+	};
 
-}
+};
 
 
 /**
@@ -1172,10 +1173,6 @@ Frederickk.FTime = function() {
 			m = _m;
 			s = _s;
 		}
-		console.log( 'h\t' + h );
-		console.log( 'm\t' + m );
-		console.log( 's\t' + s );
-
 		return parseInt(3600000 * h + 60000 * m + 1000 * s);
 	};
 

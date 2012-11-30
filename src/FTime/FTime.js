@@ -202,10 +202,6 @@ Frederickk.FTime = function() {
 			m = _m;
 			s = _s;
 		}
-		console.log( 'h\t' + h );
-		console.log( 'm\t' + m );
-		console.log( 's\t' + s );
-
 		return parseInt(3600000 * h + 60000 * m + 1000 * s);
 	};
 

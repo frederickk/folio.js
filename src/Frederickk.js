@@ -61,6 +61,7 @@ var Frederickk = Frederickk || {};
 
 (function() {
 	console.log('\nFrederickkPaper.js');
+	console.log('v.0.1a');
 	console.log('ken.frederick@gmx.de');
 	console.log('------------------------------------\n');
 })();
