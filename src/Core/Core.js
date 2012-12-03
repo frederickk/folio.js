@@ -41,7 +41,7 @@ Frederickk = {
 		return (minr + Math.random() * (maxr - minr));
 	},
 	randomInt : function(minr, maxr) {
-		return parseInt( random(minr,maxr) );
+		return parseInt( Frederickk.random(minr,maxr) );
 	},
 
 	/*
@@ -280,6 +280,16 @@ paper.Item.prototype.snapIso = function(scale) {
 	this.position.snapIso(scale);
 };
 
+
+
+/*
+ *
+ *	paper.Size
+ *
+ */
+paper.Size.prototype.area = function() {
+	return (this.width * this.height);
+};
 
 
 

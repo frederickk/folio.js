@@ -1,23 +1,23 @@
 FrederickkJS
 ============
 
-A collection of methods/functions that I find useful, as of now specifically created for application within PaperJS (http://paperjs.org/) most of which are based on my Frederickk library for Processing (http://github.com/frederickk/frederickk)
+A collection of methods/functions that I find useful, as of now specifically created for application within PaperJS (http://PaperJS.org/) most of which are based on my Frederickk library for Processing (http://github.com/frederickk/frederickk)
 
 
 At some point I plan to broaden this library to be used in combination with other JavaScript creative coding environments, such as ProcessingJS, etc.
 
 
-This library should be seen as very very alhpa.
+This library should be seen as very very alpha.
 
 
 Not all of the code in here was created by me but credit and links are given where credit is due.
 
 
-FPaperExamples
+Examples
 -------------
 
 ###F3D Example — 2 halbierte Würfel###
-shows the early stage of drawing simple 3D primitives
+shows how to draw simple 3D primitives (very rudimentary)
 
 https://dl.dropbox.com/u/7038255/frederickkjs/F3DExample.html
 
@@ -54,7 +54,7 @@ The idea is to make getting PaperJS up and running quicker with a simple templat
 
 By using the accompanying FPaperTemplate.html you can simply code everything within this file and all of the necessary callbacks are already implemented in the HTML
 
-This template takes advantage of PaperJS directly connected to the DOM http://paperjs.org/tutorials/getting-started/using-javascript-directly/, so that JavaScript variables created in the HTML can be accessed here and visa versa. I've already done the "hard work" for you within the HTML so that you can focus on creating
+This template takes advantage of PaperJS directly connected to the DOM http://PaperJS.org/tutorials/getting-started/using-javascript-directly/, so that JavaScript variables created in the HTML can be accessed here and visa versa. I've already done the "hard work" for you within the HTML so that you can focus on creating
 
 Feel free to rename the script file and HTML template file, but be sure to uppdate corresponding names in FPaperTemplate.html
 
@@ -163,7 +163,7 @@ Frederickk.FConversions.piToPt;
 
 
 ### FColor ###
-Expands paper.Color some of these may be redundant to the paperjs api, that's due to the legacy of the library's initially creation for use in Scriptographer.
+Expands paper.Color some of these may be redundant to the PaperJS api, that's due to the legacy of the library's initial creation for use in Scriptographer.
 
 
 ```javascript
@@ -192,7 +192,7 @@ A helper class for fading/animating elements
 
 
 ### FPoint ###
-Expands paper.Point some of these may be redundant to the paperjs api, that's due to the legacy of the library's initially creation for use in Scriptographer.
+Expands paper.Point some of these may be redundant to the PaperJS api, that's due to the legacy of the library's initial creation for use in Scriptographer.
 
 ```javascript
 var fpoint = new Frederickk.FPoint();

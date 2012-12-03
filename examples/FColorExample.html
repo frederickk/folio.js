@@ -17,10 +17,11 @@
 		<link rel="apple-touch-startup-image" href="images/iphone_startup.png" />
 		-->
 		
-		<title>F3D Example &#8212; 3 halbierte W&uuml;rfel</title>
+		<title>FColor Example &#8212; Chain-Chain-Chain</title>
 		
 		
 		<!-- CSS -->
+		<!-- LOAD ADDITIONAL CSS sTYLESHEETS -->
 		<link href="../FPaperTemplate/css/FPaper.css" rel="stylesheet" type="text/css" />
 
 		
@@ -105,16 +106,21 @@
 			});
 
 
+
+
+
+
 		</script>
 
 
 		<!-- LOAD ADDITIONAL JAVASCRIPTS -->
+		<!-- https://github.com/frederickk/FrederickkJS -->
 		<script type="text/javascript" src="../distribution/FrederickkPaper.js"></script>
 
 		<!-- LOAD PAPER SCRIPT -->
 		<!-- be sure that the filename and path matches your script -->
-		<script type="text/javascript" src="scripts/FBillBox.js"></script>
-		<script type="text/javascript" src="scripts/F3DExample.js"></script>
+		<script type="text/javascript" src="scripts/TSP.js"></script>
+		<script type="text/javascript" src="scripts/FColorExample.js"></script>
 
 
 
@@ -125,20 +131,19 @@
 
 		<!-- CANVAS -->
 		<div id="container">
-			<canvas resize="true" id="canvas" style="background: #F6F5EB;"></canvas>
+			<canvas resize="true" id="canvas"></canvas>
 		</div>
 
 
 		<!-- TEXT -->
 		<div id="textContainer">
-			<a href="http://www.kettererkunst.de/kunst/kd/details.php?obnr=100039513&anummer=1" target="new">3 halbierte W&uuml;rfel</a><br/>
+			Chain-Chain-Chain<br/>
 			<a href="http://paperjs.org/" target="new">paperjs</a> experiment by <a href="http://cargocollective.com/kenfrederick" target="new">kenfrederick</a>
 		</div>
 
 		<div id="manual">
-			<b>mouse</b> rotate in space<br/>
-			<b>spacebar</b> start animaton<br/>
-			<b>r</b> reset to start position
+			<b>mouse &amp; click</b> move circles<br/>
+			<b>mouse &amp; click &amp; shift</b> resize circles<br/>
 		</div>
 
 
@@ -147,8 +152,6 @@
 			<!-- any images which need to be accessed should be placed in here -->
 			<!-- http://paperjs.org/tutorials/images/working-with-rasters/ -->
 		</div>
-
-
 
 		
 	</body>

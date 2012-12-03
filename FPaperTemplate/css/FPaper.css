@@ -55,6 +55,22 @@ body,html {
 	line-height: 15px;
 }
 
+#manual {
+	position: absolute;
+	bottom: 70px;
+	left: 35px;
+
+	margin: 0px;
+	padding: 0px;
+	white-space: nowrap;
+	z-index: 200;
+
+	/* my personal faves */
+	font-family: "Akzidenz-Grotesk", akzidenz grotesk, helvetica, sans-serif;
+	font-size: 12px;
+	line-height: 15px;
+	color: rgba(0,0,0, 0.6);
+}
 
 /*
  *	a div to hold raster images

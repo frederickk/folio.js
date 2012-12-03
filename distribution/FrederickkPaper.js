@@ -110,7 +110,7 @@ Frederickk = {
 		return (minr + Math.random() * (maxr - minr));
 	},
 	randomInt : function(minr, maxr) {
-		return parseInt( random(minr,maxr) );
+		return parseInt( Frederickk.random(minr,maxr) );
 	},
 
 	/*
@@ -351,6 +351,16 @@ paper.Item.prototype.snapIso = function(scale) {
 
 
 
+/*
+ *
+ *	paper.Size
+ *
+ */
+paper.Size.prototype.area = function() {
+	return (this.width * this.height);
+};
+
+
 
 /**
  *  
@@ -483,68 +493,66 @@ Frederickk.FColor = function() {
 
 
 	// ------------------------------------------------------------------------
-	/*
-	 *
-	 *	http://www.easyrgb.com/math.html
-	 *
-	 *	@param h
-	 *			0.0 - 1.0
-	 *	@param s
-	 *			0.0 - 1.0
-	 *	@param v
-	 *			0.0 - 1.0
-	 *
-	 *	@return
-	 *		new paper.RGBColor object (values = 0.0 - 1.0)
-	 *
-	 */
-	this.HSVtoColor = function(h, s, v) {
-		var r, g, b;
-		var RGB = new paper.RGBColor(Math.round(v), Math.round(v), Math.round(v));
-		if(s!=0) { 
-			// h must be < 1
-			var var_h = h * 6;
-			if (var_h==6) var_h = 0;
-			var var_i = Math.floor( var_h );
-			var var_1 = v*(1-s);
-			var var_2 = v*(1-s*(var_h-var_i));
-			var var_3 = v*(1-s*(1-(var_h-var_i)));
-			if(var_i==0) { 
-				var_r = v; 
-				var_g = var_3; 
-				var_b = var_1;
-			}
-			else if(var_i==1) { 
-				var_r = var_2;
-				var_g = v;
-				var_b = var_1;
-			}
-			else if(var_i==2) { 
-				var_r = var_1;
-				var_g = v;
-				var_b = var_3
-			}
-			else if(var_i==3) { 
-				var_r = var_1;
-				var_g = var_2;
-				var_b = v;
-			}
-			else if (var_i==4) { 
-				var_r = var_3;
-				var_g = var_1;
-				var_b = v;
-			}
-			else { 
-				var_r = v;
-				var_g = var_1;
-				var_b = var_2
-			}
-			RGB.red = Math.round(var_r);
-			RGB.green = Math.round(var_g);
-			RGB.blue = Math.round(var_b);
-		}
-		return RGB;
-	};
+	// /*
+	//  *
+	//  *	@param h
+	//  *			0.0 - 1.0
+	//  *	@param s
+	//  *			0.0 - 1.0
+	//  *	@param v
+	//  *			0.0 - 1.0
+	//  *
+	//  *	@return
+	//  *		new paper.RGBColor object (values = 0.0 - 1.0)
+	//  *
+	//  */
+	// this.HSVtoColor = function(h, s, v) {
+	// 	var r, g, b;
+	// 	var RGB = new paper.RGBColor(Math.round(v), Math.round(v), Math.round(v));
+	// 	if(s!=0) { 
+	// 		// h must be < 1
+	// 		var var_h = h * 6;
+	// 		if (var_h==6) var_h = 0;
+	// 		var var_i = Math.floor( var_h );
+	// 		var var_1 = v*(1-s);
+	// 		var var_2 = v*(1-s*(var_h-var_i));
+	// 		var var_3 = v*(1-s*(1-(var_h-var_i)));
+	// 		if(var_i==0) { 
+	// 			var_r = v; 
+	// 			var_g = var_3; 
+	// 			var_b = var_1;
+	// 		}
+	// 		else if(var_i==1) { 
+	// 			var_r = var_2;
+	// 			var_g = v;
+	// 			var_b = var_1;
+	// 		}
+	// 		else if(var_i==2) { 
+	// 			var_r = var_1;
+	// 			var_g = v;
+	// 			var_b = var_3
+	// 		}
+	// 		else if(var_i==3) { 
+	// 			var_r = var_1;
+	// 			var_g = var_2;
+	// 			var_b = v;
+	// 		}
+	// 		else if (var_i==4) { 
+	// 			var_r = var_3;
+	// 			var_g = var_1;
+	// 			var_b = v;
+	// 		}
+	// 		else { 
+	// 			var_r = v;
+	// 			var_g = var_1;
+	// 			var_b = var_2
+	// 		}
+	// 		RGB.red = Math.round(var_r);
+	// 		RGB.green = Math.round(var_g);
+	// 		RGB.blue = Math.round(var_b);
+	// 	}
+	// 	return RGB;
+	// };
 
 };
 
@@ -997,13 +1005,17 @@ Frederickk.FStopwatch = function() {
  *
  */
 Frederickk.FTime = function() {
+	// ------------------------------------------------------------------------
 	// Properties
+	// ------------------------------------------------------------------------
 	// public
 	this.date;
 
 
 
+	// ------------------------------------------------------------------------
 	// Methods
+	// ------------------------------------------------------------------------
 	// private
 	var addZero = function(val) {
 		if (val.length == 1) val = '0' + val;
@@ -1037,7 +1049,7 @@ Frederickk.FTime = function() {
 	 *			return the current second as string 'ss'
 	 */
 	this.second = function() {
-		if(this.date === undefined) this.date = new  Date();
+		if(this.date === undefined) this.date = new Date();
 		var second = String( this.date.getSeconds() ); 
 		second = addZero(second);
 		return second;
@@ -1105,7 +1117,9 @@ Frederickk.FTime = function() {
 
 
  
-	// sets
+	// ------------------------------------------------------------------------
+	// Sets
+	// ------------------------------------------------------------------------
 	/**
 	 *	set to a specific time
 	 *
@@ -1126,7 +1140,9 @@ Frederickk.FTime = function() {
 
 
 
-	// gets
+	// ------------------------------------------------------------------------
+	// Gets
+	// ------------------------------------------------------------------------
 	/**
 	 *	@param ms
 	 *			input as milliseconds

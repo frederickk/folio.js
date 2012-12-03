@@ -88,7 +88,7 @@ function Setup() {
 	timeText.timer.position = new paper.Point(
 			view.bounds.width*0.6,
 			view.bounds.center.y+200);
-	timeText.timer.content = '00:00:00';
+	timeText.timer.content = 'Timer'; //'00:00:00';
 
 
 	// show the time since 1. January 1970
@@ -129,7 +129,7 @@ function Update(event) {
 
 	// get time of our stopwatch
 	var timerTimeStr = ftime.get( stopwatch.get() );
-	timeText.timer.content = timerTimeStr;
+	if(stopwatch.isRunning()) timeText.timer.content = timerTimeStr;
 	timer.setTime( ftime.toArray(timerTimeStr) );
 
 
@@ -208,7 +208,7 @@ var Clock = function(_pt, _radius) {
 
 	if(this.ticks) {
 		var groupTicks = new Group();
-		for (var a=0; a<360; a+=18) {
+		for (var a=0; a<360; a+=30) {
 			var x1 = pt.x + Math.cos(f.radians(a)) * (secondsRadius-3);
 			var y1 = pt.y + Math.sin(f.radians(a)) * (secondsRadius-3);
 			var x2 = pt.x + Math.cos(f.radians(a)) * (secondsRadius+9);
