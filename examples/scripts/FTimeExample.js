@@ -20,14 +20,17 @@ var ftime = new f.FTime();
 
 var stopwatch = new f.FStopwatch();
 
-var time = {
-	start: null,
-	elapsed: null
+var timeText = {
+	local: null,
+	running: null,
+	timer: null,
+	seventy: null
 };
 
 var local;
 var running;
 var timer;
+var seventy;
 
 
 // ------------------------------------------------------------------------
@@ -38,41 +41,69 @@ function Setup() {
 	// Show the local time
 	local = new Clock( 
 		new paper.Point(
-			view.bounds.width*0.25,
+			view.bounds.width*0.2,
 			view.bounds.center.y
 		),
 		200
 	);
+	timeText.local = new PointText( 
+		new paper.Point(
+			view.bounds.width*0.2,
+			view.bounds.center.y+200
+		)
+	);
+	timeText.local.justification = 'center';
+	timeText.local.characterStyle = {
+		font: 'Futura-Medium',
+		fontSize: 27,
+		fillColor: 'black'
+	};
+	timeText.local.content = 'Local';
+
 
 	// show the running time
 	running = new Clock(
-		view.bounds.center,
+		new paper.Point(
+			view.bounds.width*0.4,
+			view.bounds.center.y
+		),
 		200
 	);
+	timeText.running = timeText.local.clone();
+	timeText.running.position = new paper.Point(
+			view.bounds.width*0.4,
+			view.bounds.center.y+200);
+	timeText.running.content = 'Running';
+
 
 	// show the timer time
 	timer = new Clock( 
 		new paper.Point(
-			view.bounds.width*0.75,
+			view.bounds.width*0.6,
 			view.bounds.center.y
 		),
 		200
 	);
-	time.elapsed = new PointText( 
+	timeText.timer = timeText.local.clone();
+	timeText.timer.position = new paper.Point(
+			view.bounds.width*0.6,
+			view.bounds.center.y+200);
+	timeText.timer.content = '00:00:00';
+
+
+	// show the time since 1. January 1970
+	seventy = new Clock( 
 		new paper.Point(
-			view.bounds.width*0.75,
-			view.bounds.center.y+50
-		)
+			view.bounds.width*0.8,
+			view.bounds.center.y
+		),
+		200
 	);
-	time.elapsed.justification = 'center';
-	time.elapsed.characterStyle = {
-		font: 'futura',
-		fontSize: 12,
-		fillColor: 'black'
-	};
-	time.elapsed.content = '00:00';
-
-
+	timeText.seventy = timeText.local.clone();
+	timeText.seventy.position = new paper.Point(
+			view.bounds.width*0.8,
+			view.bounds.center.y+200);
+	timeText.seventy.content = '1970';
 
 
 
@@ -89,6 +120,7 @@ function Update(event) {
 	var now = new f.FTime();
 	local.setTime( ftime.toArray(now.now()) );
 
+
 	// get the run time of this app
 	var runTimeStr = ftime.get( event.time*1000 );
 	running.setTime( ftime.toArray(runTimeStr) );
@@ -97,8 +129,13 @@ function Update(event) {
 
 	// get time of our stopwatch
 	var timerTimeStr = ftime.get( stopwatch.get() );
-	time.elapsed.content = timerTimeStr;
+	timeText.timer.content = timerTimeStr;
 	timer.setTime( ftime.toArray(timerTimeStr) );
+
+
+	var sinceSeventy = new Date();
+	var sinceSeventyStr = ftime.get( sinceSeventy.getTime() );
+	seventy.setTime( ftime.toArray(sinceSeventyStr) );
 
 };
 
@@ -139,7 +176,7 @@ var Clock = function(_pt, _radius) {
 
 	// clock face
 	var face = new paper.Path.Circle(pt, clockRadius);
-	face.fillColor = 'white';
+	face.fillColor = null; //'white';
 	face.strokeColor = 'black';
 	face.strokeWidth = 9;
 	group.appendTop(face);

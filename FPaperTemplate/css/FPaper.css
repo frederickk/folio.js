@@ -30,7 +30,6 @@ body,html {
 	overflow: auto;
 }
 #container canvas {
-	background: #F6F5EB;
 	vertical-align: top;
 	display: block;
 	overflow: auto;

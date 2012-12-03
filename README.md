@@ -80,7 +80,8 @@ String functions
 
 ```javascript
 String.trimToFit(textObj);
-String.rtrim(str);trim(str);
+String.rtrim(str);
+String.trim(str);
 ```
 
 Array functions
@@ -212,7 +213,31 @@ var fscene3d = new Frederickk.F3D.FScene3D();
 FPaperExamples
 ============
 
-Examples of FrederickkJS to be added
+F3D Example — 2 halbierte Würfel
+- shows the early stage of drawing simple 3D primitives
+
+https://dl.dropbox.com/u/7038255/frederickkjs/F3DExample.html
+
+
+FTime Example
+- shows the features of FTime, which is partly a wrapper for the native JavaScript Date() object
+
+https://dl.dropbox.com/u/7038255/frederickkjs/FTimeExample.html
+
+
+FFade Example
+- shows how FFade can be used for timed transitions
+
+https://dl.dropbox.com/u/7038255/frederickkjs/FFadeExample.html
+
+
+FColor Example
+- shows FColor features such as color lerping
+
+https://dl.dropbox.com/u/7038255/frederickkjs/FColorExample.html
+
+
+All of these examples can be found in the above 'examples' directory. More Examples of FrederickkJS to be added as time permits.
 
 
 
