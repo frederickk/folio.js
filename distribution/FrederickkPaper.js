@@ -1219,25 +1219,45 @@ Frederickk.FTime = function() {
  *
  *	A barebones collection of classes for primitive 3D rendering
  *
- *	code mostly taken from
+ *	code inspired by
  *	http://www.netmagazine.com/tutorials/build-your-own-html5-3d-engine
+ *	https://github.com/mrdoob/three.js/
  *
  *	modified/expanded for use in PaperJS by Ken Frederick
  *
  */
-Frederickk.F3D.FPath3 = function() {
+Frederickk.F3D.FPath3 = function(_scene) {
+	// ------------------------------------------------------------------------
 	// Properties
+	// ------------------------------------------------------------------------
 	// public
 	this.name = '';
 	this.closed = false;
 
+	this.fillColor = null;
+	this.strokeColor = null;
+
 
 	// private
-	var points = [];
+	var scene = _scene;
+
+	var points3 = [];
+
+	var matrix = new Matrix3D();
+
+	var rotationX = 0;
+	var rotationY = 0;
+	var rotationZ = 0;
+
+	var translationX = 0;
+	var translationY = 0;
+	var translationZ = 0;
 
 
 
+	// ------------------------------------------------------------------------
 	// Methods
+	// ------------------------------------------------------------------------
 	/**
 	 *	@return path
 	 *			projected 2D path
@@ -1245,34 +1265,67 @@ Frederickk.F3D.FPath3 = function() {
 	this.draw = function() {
 		var path = new paper.Path();
 		path.name = this.name;
-		for(var i=0; i<points.length; i++) {
-			path.add( new paper.Point( points[i].x2D(), points[i].y2D() ) );
+		for(var i=0; i<points3.length; i++) {
+			var pt3 = points3[i];
+			path.add( new paper.Point( pt3.x2D(), pt3.y2D() ) );
 		}
+		path.fillColor = this.fillColor;
+		path.strokeColor = this.strokeColor;
 		path.closed = this.closed;
 		return path;
+
 	};
 
 
 
+	// ------------------------------------------------------------------------
 	// Sets
+	// ------------------------------------------------------------------------
 	/**
 	 *	@param _scene
 	 *			scene to associate points with
 	 */
 	this.addToScene = function(_scene) {
-		for(var i=0; i<points.length; i++) {
-			points[i].setup(_scene);
+		for(var i=0; i<points3.length; i++) {
+			points3[i].setup(_scene);
 		}
 	};
 
 	/**
-	 *	@param _point
-	 *			add points to path
+	 *	@param _fpoint3
+	 *			add FPoint3 to path
 	 */
-	this.add = function(_point) {
-		points[points.length] = _point;
+	this.add = function(_fpoint3) {
+		points3[points3.length] = _fpoint3;
 	};
-	
+
+
+	// ------------------------------------------------------------------------
+	this.translate = function(_x, _y, _z) {
+		translationX = _x != undefined ? _x : 0;
+		translationY = _y != undefined ? _y : 0;
+		translationZ = _z != undefined ? _z : 0;
+
+		for(var i=0; i<points3.length; i++) {
+			var pt3 = points3[i];
+			pt3.setX( (pt3.x() + translationX) );
+			pt3.setY( (pt3.y() + translationY) );
+			pt3.setZ( (pt3.z() + translationZ) );
+		}
+	};
+
+
+	// ------------------------------------------------------------------------
+	this.rotateX = function(val) {
+		rotationX = val;
+	};
+	this.rotateY = function(val) {
+		rotationY = val;
+	};
+	this.rotateZ = function(val) {
+		rotationZ = val;
+	};
+
 };
 
 
@@ -1294,8 +1347,9 @@ Frederickk.F3D.FPath3 = function() {
  *
  *	A barebones collection of classes for primitive 3D rendering
  *
- *	code mostly taken from
+ *	code inspired by
  *	http://www.netmagazine.com/tutorials/build-your-own-html5-3d-engine
+ *	https://github.com/mrdoob/three.js/
  *
  *	modified/expanded for use in PaperJS by Ken Frederick
  *
@@ -1310,7 +1364,9 @@ Frederickk.F3D.FPath3 = function() {
  *			z coordinate
  */
 Frederickk.F3D.FPoint3 = function(_x, _y, _z) {
+	// ------------------------------------------------------------------------
 	// Properties
+	// ------------------------------------------------------------------------
 	// public
 	var x = _x != undefined ? _x : 0;
 	var y = _y != undefined ? _y : 0;
@@ -1328,7 +1384,9 @@ Frederickk.F3D.FPoint3 = function(_x, _y, _z) {
 
 
 
+	// ------------------------------------------------------------------------
 	// Methods
+	// ------------------------------------------------------------------------
 	/**
 	 *	@param scene
 	 *			the scene with which the points are
@@ -1351,7 +1409,10 @@ Frederickk.F3D.FPoint3 = function(_x, _y, _z) {
 	};
 
 
-	// sets
+
+	// ------------------------------------------------------------------------
+	// Sets
+	// ------------------------------------------------------------------------
 	this.setX = function(value) {
 		if( scene != null ) scene.points3D[xIndex] = value;
 		x = value;
@@ -1365,17 +1426,43 @@ Frederickk.F3D.FPoint3 = function(_x, _y, _z) {
 		z = value;
 	};
 
+	this.set = function(_x, _y, _z) {
+		this.setX(_x);
+		this.setY(_y);
+		this.setZ(_z);
+	};
 
-	// gets
+
+
+	// ------------------------------------------------------------------------
+	// Gets
+	// ------------------------------------------------------------------------
+	/**
+	 *	Get a copy of this point.
+	 */
+	this.get = function() {
+		return new Frederickk.F3D.FPoint3(x,y,z);
+	};
+
+
+	/**
+	 *	@return 3D x
+	 */
 	this.x = function() {
-		return _x;
-	}
+		return x;
+	};
+	/**
+	 *	@return 3D y
+	 */
 	this.y = function() {
-		return _y;
-	}
+		return y;
+	};
+	/**
+	 *	@return 3D z
+	 */
 	this.z = function() {
-		return _z;
-	}
+		return z;
+	};
 
 
 	/**
@@ -1395,6 +1482,171 @@ Frederickk.F3D.FPoint3 = function(_x, _y, _z) {
 
 	this.getSceneIndex = function() {
 		return sceneIndex;
+	};
+
+
+	/**
+	 *	Calculate the magnitude (length) of the point
+	 *
+	 *	@return the magnitude of the point
+	 */
+	this.mag = function() {
+		return Math.sqrt(x*x + y*y + z*z);
+	};
+
+
+	/**
+	 *	Add a point to this point
+	 *
+	 *	@param _fpoint3
+	 *			the point to be added
+	 */
+	this.add = function(_fpoint3) {
+		x += _fpoint3.x();
+		y += _fpoint3.y();
+		z += _fpoint3.z();
+		this.set(x,y,z);
+	};
+	this.add = function(_x, _y, _z) {
+		x += _x;
+		y += _y;
+		z += _z;
+		this.set(x,y,z);
+
+	};
+
+
+	/**
+	 *	Subtract a point from this point
+	 *
+	 *	@param _fpoint3
+	 *			the point to be subtracted
+	 */
+	this.sub = function(_fpoint3) {
+		x -= _fpoint3.x();
+		y -= _fpoint3.y();
+		z -= _fpoint3.z();
+		this.set(x,y,z);
+	};
+	this.sub = function(_x, _y, _z) {
+		x -= _x;
+		y -= _y;
+		z -= _z;
+		this.set(x,y,z);
+	};
+
+
+	/**
+	 *	Scale this point by a scalar
+	 *
+	 *	@param n
+	 *			the value to scale by
+	 */
+	this.scale = function(n) {
+		x *= n;
+		y *= n;
+		z *= n;
+		this.set(x,y,z);
+	};
+
+
+	/**
+	 *	Multiply each element of one point by the elements of another point.
+	 *
+	 *	@param _fpoint3
+	 *			the point to multiply by
+	 */
+	this.mult = function(_fpoint3) {
+		x *= _fpoint3.x();
+		y *= _fpoint3.y();
+		z *= _fpoint3.z();
+		this.set(x,y,z);
+	};
+	this.mult = function(_x, _y, _z) {
+		x *= _x;
+		y *= _y;
+		z *= _z;
+		// this.set(x,y,z);
+	};
+
+
+	/**
+	 *	Divide each element of one point by the elements of another point.
+	 *
+	 *	@param _fpoint3
+	 *			the point to multiply by
+	 */
+	this.div = function(_fpoint3) {
+		x /= _fpoint3.x();
+		y /= _fpoint3.y();
+		z /= _fpoint3.z();
+		this.set(x,y,z);
+	};
+	this.div = function(_x, _y, _z) {
+		x /= _x;
+		y /= _y;
+		z /= _z;
+		this.set(x,y,z);
+
+	};
+
+
+	/**
+	 *	Calculate the Euclidean distance between two points (considering a point as a vector object)
+	 *
+	 *	@param _fpoint3
+	 *			another point
+	 *
+	 *	@return the Euclidean distance between
+	 */
+	this.getDistance = function(_fpoint3) {
+		var dx = x - _fpoint3.x();
+		var dy = y - _fpoint3.y();
+		var dz = z - _fpoint3.z();
+		return Math.sqrt(dx*dx + dy*dy + dz*dz);
+	};
+
+
+	/**
+	 * Calculate the angle between two points, using the dot product
+	 *
+	 * @param _fpoint3a
+	 *				a point
+	 * @param _fpoint3b
+	 *				another point
+	 *
+	 * @return the angle between the points
+	 */
+	this.angleBetween = function(_fpoint3a, _fpoint3b) {
+		var dot = _fpoint3a.x() * _fpoint3b.x() + _fpoint3a.y() * _fpoint3b.y() + _fpoint3a.z() * _fpoint3b.z();
+		var _f1mag = Math.sqrt(_fpoint3a.x() * _fpoint3a.x() + _fpoint3a.y() * _fpoint3a.y() + _fpoint3a.z() * _fpoint3a.z());
+		var _f2mag = Math.sqrt(_fpoint3b.x() * _fpoint3b.x() + _fpoint3b.y() * _fpoint3b.y() + _fpoint3b.z() * _fpoint3b.z());
+		return Math.acos(dot / (_f1mag * _f2mag));
+	};
+
+
+	/**
+   	 *	Normalize the point to length 1 (make it a unit point)
+	 */
+	this.normalize = function() {
+	    var m = this.mag();
+	    if (m != 0 && m != 1) {
+    	  this.div(m);
+	    }
+	};
+
+
+	this.toString = function() {
+		return '[ ' + x + ', ' + y + ', ' + z + ' ]';
+	};
+
+
+	/**
+	 *	Return a representation of this point as an array.
+	 */
+	 
+	this.array = function() {
+		return [x, y, z];
 	};
 
 };
@@ -1420,17 +1672,26 @@ Frederickk.F3D.FPoint3 = function(_x, _y, _z) {
  *
  *	code mostly taken from
  *	http://www.netmagazine.com/tutorials/build-your-own-html5-3d-engine
+ *	https://github.com/mrdoob/three.js/
  *
  *	modified/expanded for use in PaperJS by Ken Frederick
  *
  */
 
 
+
 Frederickk.F3D.FScene3D = function() {
+	// ------------------------------------------------------------------------
 	// Properties
+	// ------------------------------------------------------------------------
 	// private
 	var group;
+
+	var mode;
 	var matrix = new Matrix3D();
+
+	var halfWidth;
+	var halfHeight;
 
 	var rotationX = 0;
 	var rotationY = 0;
@@ -1452,36 +1713,51 @@ Frederickk.F3D.FScene3D = function() {
 
 
 
+	// ------------------------------------------------------------------------
 	// Methods
+	// ------------------------------------------------------------------------
 	/**
 	 *	@param _width
-	 *			width of scene
- 	 *			default: view.bounds.width
+	 *				width of scene
+ 	 *				default: view.bounds.width
 	 *	@param _height
-	 *			height of scene
- 	 *			default: view.bounds.height
+	 *				height of scene
+ 	 *				default: view.bounds.height
 	 *	@param _focalLength
-	 *			focal length of scene
- 	 *			default: 1000
+	 *				focal length of scene
+ 	 *				default: 1000
+	 *	@param _mode
+	 *				'PERSPECTIVE' objects scale to perspective
+	 *				'ORTHO' objects do not scale (isometric)
+	 *
 	 */
-	this.setup = function(_width, _height, _focalLength) {
+	this.setup = function(_width, _height, _focalLength, _mode) {
 		focalLength = _focalLength || 1000;
 		sceneWidth  = _width || paper.view.bounds.width;
 		sceneHeight = _height || paper.view.bounds.height;
 
+		halfWidth = sceneWidth*0.5;
+		halfHeight = sceneHeight*0.5;
+
+		mode = _mode != undefined ? _mode : 'PERSPECTIVE';
+		this.setMode(mode);
+
+
 		group = new paper.Group();
 	};
 
+	// ------------------------------------------------------------------------
 	this.draw = function() {
-		var halfWidth = sceneWidth*0.5;
-		var halfHeight = sceneHeight*0.5;
-
 		matrix.identity();
+
+		if(mode == 'ORTHO') ortho();
+		else perspective();
+
 		matrix.scale(sceneScale, sceneScale, sceneScale);
 		matrix.rotateX(rotationX);
 		matrix.rotateY(rotationY);
 		matrix.rotateZ(rotationZ);
-		matrix.translate(0, 0, 1000);
+		matrix.translate(0, 0, focalLength);
 
 		var transformed = matrix.transformArray(this.points3D);
 		
@@ -1489,9 +1765,9 @@ Frederickk.F3D.FScene3D = function() {
 			var i3 = i*3;
 			var i2 = i*2;
 
-			// var x = this.points3D[ i3];
-			// var y = this.points3D[ i3+1];
-			// var z = this.points3D[ i3+2];
+			// var x = this.points3D[i3];
+			// var y = this.points3D[i3+1];
+			// var z = this.points3D[i3+2];
 			var x = transformed[i3];
 			var y = transformed[i3+1];
 			var z = transformed[i3+2];
@@ -1508,9 +1784,13 @@ Frederickk.F3D.FScene3D = function() {
 			group.appendTop( paths );
 		}
 
+		// TODO: fix this scaling issue
+		if(mode == 'ORTHO') group.scale(200);
+
 		return group;
 	};
 
+	// ------------------------------------------------------------------------
 	this.setupPoint = function(x, y, z) {
 		var returnVal = numPoints;
 
@@ -1527,7 +1807,41 @@ Frederickk.F3D.FScene3D = function() {
 	};
 
 
-	// set
+	/**
+	 * matrix for isometric projection
+	 *
+	 *	TODO: figure out why this has to be
+	 *	configured like this?
+	 */
+	var ortho = function() {
+		matrix.makeOrtho( 
+			-halfHeight, halfHeight,
+			halfHeight, -halfHeight,
+			-halfHeight, halfHeight
+		);
+	};
+
+	/**
+	 * matrix for perspective projection
+	 */
+	var perspective = function() {
+		matrix.makePerspective( 
+			50,
+			1,
+			focalLength,
+			focalLength*2
+		);
+	};
+
+
+
+	// ------------------------------------------------------------------------
+	// Sets
+	// ------------------------------------------------------------------------
+	this.setMode = function(_mode) {
+		mode = _mode;
+	};
+
 	this.addItem = function(item) {
 		items[items.length] = item;
 		item.addToScene(this);
@@ -1544,7 +1858,10 @@ Frederickk.F3D.FScene3D = function() {
 	};
 
 
-	// get
+
+	// ------------------------------------------------------------------------
+	// Gets
+	// ------------------------------------------------------------------------
 	/**
 	 *	@return scene path items as group 
 	 */
@@ -1559,6 +1876,12 @@ Frederickk.F3D.FScene3D = function() {
 		return [ sceneWidth, sceneHeight, focalLength ];
 	};
 
+	/**
+	 *	@return scene transformation matrix
+	 */
+	this.getMatrix = function() {
+		return matrix;
+	};
 
 };
 
@@ -1574,6 +1897,7 @@ Frederickk.F3D.FScene3D = function() {
  *	http://www.daijima.jp/blog/
  *	http://twitter.com/daijimachine
  *
+ *	modification 
  *
  *	This library is free software; you can redistribute it and/or
  *	modify it under the terms of the GNU Lesser General Public
@@ -1601,33 +1925,30 @@ Frederickk.F3D.FScene3D = function() {
  *
  */
 var Matrix3D = function( n11, n12, n13, n14, 
-					n21, n22, n23, n24, 
-					n31, n32, n33, n34, 
-					n41, n42, n43, n44 ) {
-	this.n11 = n11 || 1;
-	this.n12 = n12 || 0;
-	this.n13 = n13 || 0;
-	this.n14 = n14 || 0;
-	this.n21 = n21 || 0;
-	this.n22 = n22 || 1;
-	this.n23 = n23 || 0;
-	this.n24 = n24 || 0;
-	this.n31 = n31 || 0;
-	this.n32 = n32 || 0;
-	this.n33 = n33 || 1;
-	this.n34 = n34 || 0;
-	this.n41 = n41 || 0;
-	this.n42 = n42 || 0;
-	this.n43 = n43 || 0;
-	this.n44 = n44 || 1;
+						 n21, n22, n23, n24, 
+						 n31, n32, n33, n34, 
+						 n41, n42, n43, n44 ) {
+	// ------------------------------------------------------------------------
+	// Properties
+	// ------------------------------------------------------------------------
+	this.n11 = n11 || 1.0;	this.n12 = n12 || 0.0;	this.n13 = n13 || 0.0;	this.n14 = n14 || 0.0;
+	this.n21 = n21 || 0.0;	this.n22 = n22 || 1.0;	this.n23 = n23 || 0.0;	this.n24 = n24 || 0.0;
+	this.n31 = n31 || 0.0;	this.n32 = n32 || 0.0;	this.n33 = n33 || 1.0;	this.n34 = n34 || 0.0;
+	this.n41 = n41 || 0.0;	this.n42 = n42 || 0.0;	this.n43 = n43 || 0.0;	this.n44 = n44 || 1.0;
 
 
 
+	// ------------------------------------------------------------------------
 	// Methods
+	// ------------------------------------------------------------------------
 	this.clone = function() {
-		return new Matrix3D(this.n11, this.n12, this.n13, this.n14, this.n21, this.n22, this.n23, this.n24, this.n31, this.n32, this.n33, this.n34, this.n41, this.n42, this.n43, this.n44);
+		return new Matrix3D( this.n11, this.n12, this.n13, this.n14,
+							 this.n21, this.n22, this.n23, this.n24,
+							 this.n31, this.n32, this.n33, this.n34,
+							 this.n41, this.n42, this.n43, this.n44 );
 	};
 
+	// ------------------------------------------------------------------------
 	this.concat = function(m) {
 		var values = {};
 	
@@ -1654,10 +1975,12 @@ var Matrix3D = function( n11, n12, n13, n14,
 		this.initialize(values);
 	};
 
+	// ------------------------------------------------------------------------
 	this.initialize = function(values) {
 		for(var i in values) this[i] = values[i];
 	};
 
+	// ------------------------------------------------------------------------
 	this.createBox = function(scalex, scaley, scalez, rotationx, rotationy, rotationz, tx, ty, tz) {
 		this.identity();
 		if (rotationx != 0) this.rotateX(rotationx);
@@ -1667,10 +1990,20 @@ var Matrix3D = function( n11, n12, n13, n14,
 		if (tx != 0 || ty != 0 || tz != 0) this.translate(tx, ty, tz);
 	};
 
+
+	// ------------------------------------------------------------------------
 	this.identity = function() {
-		this.initialize({n11:1, n12:0, n13:0, n14:0, n21:0, n22:1, n23:0, n24:0, n31:0, n32:0, n33:1, n34:0, n41:0, n42:0, n43:0, n44:1});
+		this.initialize({ n11:1, n12:0, n13:0, n14:0, 
+						  n21:0, n22:1, n23:0, n24:0, 
+						  n31:0, n32:0, n33:1, n34:0, 
+						  n41:0, n42:0, n43:0, n44:1 });
 	};
 
+
+	// ------------------------------------------------------------------------
+	/**
+	 *	Rotation
+	 */
 	this.rotateX = function(angle) {
 		var sin = Math.sin(angle);
 		var cos = Math.cos(angle);
@@ -1688,9 +2021,9 @@ var Matrix3D = function( n11, n12, n13, n14,
 		var cos = Math.cos(angle);
 	
 		this.concat(new Matrix3D(
-			cos, 0, -sin, 0, 
+			cos, 0, sin, 0, 
 			0, 1, 0, 0, 
-			sin, 0, cos, 0, 
+			-sin, 0, cos, 0, 
 			0, 0, 0, 1)
 		);
 	};
@@ -1700,28 +2033,74 @@ var Matrix3D = function( n11, n12, n13, n14,
 		var cos = Math.cos(angle);
 	
 		this.concat(new Matrix3D(
-			cos, sin, 0, 0, 
-			-sin, cos, 0, 0, 
+			cos,  -sin, 0, 0, 
+			sin, cos, 0, 0, 
 			0, 0, 1, 0, 
 			0, 0, 0, 1)
 		);
 	};
 
+	/**
+	 *
+	 *	@param axis
+	 *				FPoint3 xyz
+	 *	@param angle 
+	 *				rotation angle in degrees
+	 *
+	 */
+	this.setRotateAxis = function(axis, angle) {
+		// Based on http://www.gamedev.net/reference/articles/article1199.asp
+
+		var cos = Math.cos( angle );
+		var sin = Math.sin( angle );
+
+		var t = 1 - cos;
+
+		var x = axis.x();
+		var y = axis.y(); 
+		var z = axis.z();
+
+		var tx = t * x;
+		var ty = t * y;
+
+		this.concat(
+			tx * x + cos, 		tx * y - sin * z, 	tx * z + sin * y, 	0,
+			tx * y + sin * z, 	ty * y + cos, 		ty * z - sin * x, 	0,
+			tx * z - sin * y, 	ty * z + sin * x, 	t * z * z + cos, 	0,
+			0, 0, 0, 1
+		);
+	};
+
+
+	// ------------------------------------------------------------------------
+	/**
+	 *	Scaling
+	 */
 	this.scale = function(sx, sy, sz) {
 		this.concat(new Matrix3D(
 			sx, 0, 0, 0, 
 			0, sy, 0, 0, 
 			0, 0, sz, 0, 
-			0, 0, 0, 1)
+			0, 0, 0,  1)
 		);
 	};
 
+
+	// ------------------------------------------------------------------------
+	/**
+	 *	Translating
+	 */
 	this.translate = function(dx, dy, dz) {
 		this.n41 += dx;
 		this.n42 += dy;
 		this.n43 += dz;
 	};
 
+
+	// ------------------------------------------------------------------------
+	/**
+	 *	Transforming
+	 */
 	this.transformPoint = function(point) {
 		return new Vertex3D(
 			this.n11 * point.x + this.n21 * point.y + this.n31 * point.z + this.n41, 
@@ -1749,13 +2128,80 @@ var Matrix3D = function( n11, n12, n13, n14,
 		return rVal;
 	};
 
-	this.toString = function() {
-		return this.n11+","+this.n12+","+this.n13+","+this.n14+","+
-			this.n21+","+this.n22+","+this.n23+","+this.n24+","+
-			this.n31+","+this.n32+","+this.n33+","+this.n34+","+
-			this.n41+","+this.n42+","+this.n43+","+this.n44;
+
+	/**
+	 *
+	 *	Frustrum
+	 *	https://github.com/mrdoob/three.js/blob/master/src/core/Matrix4.js
+	 *
+	 */
+	this.makeFrustum = function(left, right, bottom, top, near, far) {
+
+		var values = {};
+
+		var x = 2 * near / ( right - left );
+		var y = 2 * near / ( top - bottom );
+
+		var a = ( right + left ) / ( right - left );
+		var b = ( top + bottom ) / ( top - bottom );
+		var c = - ( far + near ) / ( far - near );
+		var d = - 2 * far * near / ( far - near );
+
+		values.n11 = x;	values.n12 = 0;	values.n13 = a;	 	values.n14 = 0;
+		values.n21 = 0;	values.n22 = y;	values.n23 = b;	 	values.n24 = 0;
+		values.n31 = 0;	values.n32 = 0;	values.n33 = c;	 	values.n34 = d;
+		values.n41 = 0;	values.n42 = 0;	values.n43 = - 1;	values.n44 = 0;
+
+		this.concat(values);
+		// this.initialize(values);
 	};
-	
+
+	/**
+	 *
+	 *	Presets modified from Three.js
+	 *	https://github.com/mrdoob/three.js/blob/master/src/core/Matrix4.js
+	 *
+	 */
+	// ------------------------------------------------------------------------
+	this.makePerspective = function(fov, aspect, near, far) {
+		var ymax = near * Math.tan( fov * Math.PI / 360 );
+		var ymin = - ymax;
+		var xmin = ymin * aspect;
+		var xmax = ymax * aspect;
+
+		this.makeFrustum( xmin, xmax, ymin, ymax, near, far );
+	};
+
+	// ------------------------------------------------------------------------
+	this.makeOrtho = function(left, right, top, bottom, near, far) {
+
+		var values = {};
+
+		var w = right - left;
+		var h = top - bottom;
+		var p = far - near;
+
+		var x = ( right + left ) / w;
+		var y = ( top + bottom ) / h;
+		var z = ( far + near ) / p;
+
+		values.n11 = 2/w;	values.n12 = 0;		values.n13 = 0;	 	values.n14 = -x;
+		values.n21 = 0;		values.n22 = 2/h;	values.n23 = 0;	 	values.n24 = -y;
+		values.n31 = 0;		values.n32 = 0;		values.n33 = -2/p; 	values.n34 = -z;
+		values.n41 = 0;		values.n42 = 0;		values.n43 = 0;	 	values.n44 = 1;
+
+		this.concat(values);
+		// this.initialize(values);
+	};
+
+
+	// ------------------------------------------------------------------------
+	this.toString = function() {
+		return  this.n11 + ',' + this.n12 + ',' + this.n13 + ',' + this.n14 + ',' + 
+				this.n21 + ',' + this.n22 + ',' + this.n23 + ',' + this.n24 + ',' + 
+				this.n31 + ',' + this.n32 + ',' + this.n33 + ',' + this.n34 + ',' + 
+				this.n41 + ',' + this.n42 + ',' + this.n43 + ',' + this.n44;
+	};
 };
 
 
@@ -1764,11 +2210,13 @@ var Matrix3D = function( n11, n12, n13, n14,
 
 
 
+
+
 /**
- *  
+ *	
  *	FBox.js
  *	v0.1
- *  
+ *	
  *	25. November 2012
  *
  *	Ken Frederick
@@ -1780,42 +2228,224 @@ var Matrix3D = function( n11, n12, n13, n14,
  *
  *	FBox
  *
- *	Create a box
+ *	Create simple box
  *
  */
-Frederickk.FShape.FBox = paper.Path.extend({
+Frederickk.FShape.FBox = function(_scene) {
+	// ------------------------------------------------------------------------
 	// Properties
+	// ------------------------------------------------------------------------
 	// public
-	scene: null,
-	whd: new Frederickk.F3D.FPoint3(),
-	whdTemp: new Frederickk.F3D.FPoint3(),
-	rotation: new Frederickk.F3D.FPoint3(),
+	this.name = '';
+	this.closed = false;
 
-	bContainer: true,
-	bRotation: false,
+	this.fillColor = null;
+	this.strokeColor = null;
+
+
+	// private
+	var scene = _scene;
+
+
+	this.faceFRONT = [
+		new Frederickk.F3D.FPoint3(-0.5, -0.5, -0.5), //corner
+		new Frederickk.F3D.FPoint3( 0.5, -0.5, -0.5), //corner
+		new Frederickk.F3D.FPoint3( 0.5,	0.5, -0.5), //corner
+		new Frederickk.F3D.FPoint3(-0.5,	0.5, -0.5) //corner
+	];
+	
+	this.faceTOP = [
+		new Frederickk.F3D.FPoint3(-0.5, -0.5,	0.5), //corner
+		new Frederickk.F3D.FPoint3( 0.5, -0.5,	0.5), //corner
+		new Frederickk.F3D.FPoint3( 0.5, -0.5, -0.5), //corner
+		new Frederickk.F3D.FPoint3(-0.5, -0.5, -0.5) //corner
+	];
+
+	this.faceBOTTOM = [
+		new Frederickk.F3D.FPoint3(-0.5, 0.5,	0.5), //corner
+		new Frederickk.F3D.FPoint3( 0.5, 0.5,	0.5), //corner
+		new Frederickk.F3D.FPoint3( 0.5, 0.5, -0.5), //corner
+		new Frederickk.F3D.FPoint3(-0.5, 0.5, -0.5) //corner
+	];
+	
+	this.faceLEFT = [
+		new Frederickk.F3D.FPoint3(-0.5, -0.5, -0.5), //corner
+		new Frederickk.F3D.FPoint3(-0.5, -0.5,	0.5), //corner
+		new Frederickk.F3D.FPoint3(-0.5,	0.5,	0.5), //corner
+		new Frederickk.F3D.FPoint3(-0.5,	0.5, -0.5) //corner
+	];
+	
+	this.faceRIGHT = [
+		new Frederickk.F3D.FPoint3( 0.5, -0.5, -0.5), //corner
+		new Frederickk.F3D.FPoint3( 0.5, -0.5,	0.5), //corner
+		new Frederickk.F3D.FPoint3( 0.5,	0.5,	0.5), //corner
+		new Frederickk.F3D.FPoint3( 0.5,	0.5, -0.5) //corner
+	];
+	
+	this.faceBACK = [
+		new Frederickk.F3D.FPoint3(-0.5, -0.5,	0.5), //corner
+		new Frederickk.F3D.FPoint3( 0.5, -0.5,	0.5), //corner
+		new Frederickk.F3D.FPoint3( 0.5,	0.5,	0.5), //corner
+		new Frederickk.F3D.FPoint3(-0.5,	0.5,	0.5) //corner
+	];
+
+
+	var faces = [
+		['front',	this.faceFRONT],
+		['top',		this.faceTOP],
+		['bottom',	this.faceBOTTOM],
+		['left',	this.faceLEFT],
+		['right',	this.faceRIGHT],
+		['back',	this.faceBACK]
+	];
+
+	var facesFillColors = [
+		new paper.RGBColor(1.0, 1.0, 0,	 0.8), // FRONT
+		new paper.RGBColor(1.0, 0,	 1.0, 0.8), // TOP
+		new paper.RGBColor(0,	 0,	 1.0, 0.8), // BOTTOM
+		new paper.RGBColor(1.0, 0,	 0,	 0.8), // LEFT
+		new paper.RGBColor(0,	 1.0, 1.0, 0.8), // RIGHT
+		new paper.RGBColor(0,	 1.0, 0,	 0.8)	// BACK
+	];
+
+	var facesStrokeColors = [
+		new paper.RGBColor(1.0, 1.0, 0,	 0.8), // FRONT
+		new paper.RGBColor(1.0, 0,	 1.0, 0.8), // TOP
+		new paper.RGBColor(0,	 0,	 1.0, 0.8), // BOTTOM
+		new paper.RGBColor(1.0, 0,	 0,	 0.8), // LEFT
+		new paper.RGBColor(0,	 1.0, 1.0, 0.8), // RIGHT
+		new paper.RGBColor(0,	 1.0, 0,	 0.8)	// BACK
+	];
+
+
+	var whd = new Frederickk.F3D.FPoint3(10,10,10);
+
+
+
+	// ------------------------------------------------------------------------
+	// Methods
+	// ------------------------------------------------------------------------
+	this.init = function(_x, _y, _z) {
+		for(var i=0; i<faces.length; i++) {
+			var side = new f3d.FPath3();
+			side.name = faces[i][0];
+			var vertices = faces[i][1];
+			for(var j=0; j<vertices.length; j++) {
+				side.add( new f3d.FPoint3(
+					vertices[j].x()*whd.x(),
+					vertices[j].y()*whd.y(),
+					vertices[j].z()*whd.z()
+				));
+			}
+			side.fillColor = facesFillColors[i];
+			side.strokeColor = facesStrokeColors[i];
+			side.closed = true;
+			side.translate(_x,_y,_z);
+			scene.addItem( side );
+		}
+	};
+
+
+
+	// ------------------------------------------------------------------------
+	// Sets
+	// ------------------------------------------------------------------------
+	this.setWHD = function(_width, _height, _depth) {
+		whd.set(_width, _height, _depth);
+	};
+
+
+	// ------------------------------------------------------------------------
+	this.setFillColors = function(face, col) {
+		facesFillColors[face] = col;
+	};
+	this.setFillColors = function(colArr) {
+		facesFillColors = colArr;
+	};
+
+	// ------------------------------------------------------------------------
+	this.setStrokeColors = function(face, col) {
+		facesStrokeColors[face] = col;
+	};
+	this.setStrokeColors = function(colArr) {
+		facesStrokeColors = colArr;
+	};
+
+
+
+	// ------------------------------------------------------------------------
+	// Gets
+	// ------------------------------------------------------------------------
+	this.getWHD = function() {
+		return whd;
+	};
+
+};
+
+
+
+
+
+
+
+/**
+ *	
+ *	FBillBox.js
+ *	v0.1
+ *	
+ *	25. November 2012
+ *
+ *	Ken Frederick
+ *	ken.frederick@gmx.de
+ *
+ *	http://cargocollective.com/kenfrederick/
+ *	http://kenfrederick.blogspot.com/
+ *
+ *
+ *	FBillBox
+ *
+ *	Create Max Bill shapes
+ *	http://www.kettererkunst.de/kunst/kd/details.php?obnr=100039513&anummer=1
+ *
+ */
+Frederickk.FShape.FBillBox = function(_scene) {
+	// ------------------------------------------------------------------------
+	// Properties
+	// ------------------------------------------------------------------------
+	// public
+	this.name = '';
+	this.closed = false;
+
+	this.fillColor = null;
+	this.strokeColor = null;
+
+
+	// private
+	var scene = _scene;
+
+	var BoundingBox = new Frederickk.FShape.FBox(_scene);
+
+	var whd     = new Frederickk.F3D.FPoint3();
+	var whdTemp = new Frederickk.F3D.FPoint3();
+// 	rotation: new Frederickk.F3D.FPoint3();
+
+	var bContainer = true;
+	var bRotation = false;
+
+	// face number
+	var face = 0;
 
 	// face numbers
-	face:	0,
-	FRONT:	0,
-	TOP:	1,
-	BOTTOM: 2,
-	LEFT:	3,
-	RIGHT:	4,
-	BACK:	5,
-	
+	var FRONT	= 0;
+	var TOP 	= 1;
+	var BOTTOM	= 2;
+	var LEFT	= 3;
+	var RIGHT	= 4;
+	var BACK	= 5;
 
-	// face colors
-	cols: [
-		new paper.RGBColor(1.0, 1.0, 0.0, 0.8), // FRONT
-		new paper.RGBColor(1.0, 0.0, 1.0, 0.8), // TOP
-		new paper.RGBColor(0.0, 0.0, 1.0, 0.8), // BOTTOM
-		new paper.RGBColor(1.0, 0.0, 0.0, 0.8), // LEFT
-		new paper.RGBColor(0.0, 1.0, 1.0, 0.8), // RIGHT
-		new paper.RGBColor(0.0, 1.0, 0.0, 0.8)  // BACK
-	],
 
-	// face points
-	pointsFRONT: [
+	 // face points
+	var pointsFRONT = [
 		new Frederickk.F3D.FPoint3(-0.5, -0.5, -0.5), //corner
 		new Frederickk.F3D.FPoint3( 0.0, -0.5, -0.5),
 		new Frederickk.F3D.FPoint3( 0.5, -0.5, -0.5), //corner
@@ -1824,9 +2454,9 @@ Frederickk.FShape.FBox = paper.Path.extend({
 		new Frederickk.F3D.FPoint3( 0.0,	0.5, -0.5),
 		new Frederickk.F3D.FPoint3(-0.5,	0.5, -0.5), //corner
 		new Frederickk.F3D.FPoint3(-0.5,	0.0, -0.5)
-	],
+	];
 	
-	pointsTOP: [
+	var pointsTOP = [
 		new Frederickk.F3D.FPoint3(-0.5, -0.5,	0.5), //corner
 		new Frederickk.F3D.FPoint3( 0.0, -0.5,	0.5),
 		new Frederickk.F3D.FPoint3( 0.5, -0.5,	0.5), //corner
@@ -1835,9 +2465,9 @@ Frederickk.FShape.FBox = paper.Path.extend({
 		new Frederickk.F3D.FPoint3( 0.0, -0.5, -0.5),
 		new Frederickk.F3D.FPoint3(-0.5, -0.5, -0.5), //corner
 		new Frederickk.F3D.FPoint3(-0.5, -0.5,	0.0)
-	],
+	];
 
-	pointsBOTTOM: [
+	var pointsBOTTOM = [
 		new Frederickk.F3D.FPoint3(-0.5, 0.5,	0.5), //corner
 		new Frederickk.F3D.FPoint3( 0.0, 0.5,	0.5),
 		new Frederickk.F3D.FPoint3( 0.5, 0.5,	0.5), //corner
@@ -1846,8 +2476,8 @@ Frederickk.FShape.FBox = paper.Path.extend({
 		new Frederickk.F3D.FPoint3( 0.0, 0.5, -0.5),
 		new Frederickk.F3D.FPoint3(-0.5, 0.5, -0.5), //corner
 		new Frederickk.F3D.FPoint3(-0.5, 0.5,	0.0)
-	],
-	pointsLEFT: [
+	];
+	var pointsLEFT = [
 		new Frederickk.F3D.FPoint3(-0.5, -0.5, -0.5), //corner
 		new Frederickk.F3D.FPoint3(-0.5, -0.5,	0.0),
 		new Frederickk.F3D.FPoint3(-0.5, -0.5,	0.5), //corner
@@ -1856,8 +2486,8 @@ Frederickk.FShape.FBox = paper.Path.extend({
 		new Frederickk.F3D.FPoint3(-0.5,	0.5,	0.0),
 		new Frederickk.F3D.FPoint3(-0.5,	0.5, -0.5), //corner
 		new Frederickk.F3D.FPoint3(-0.5,	0.0, -0.5)
-	],
-	pointsRIGHT: [
+	];
+	var pointsRIGHT = [
 		new Frederickk.F3D.FPoint3( 0.5, -0.5, -0.5), //corner
 		new Frederickk.F3D.FPoint3( 0.5, -0.5,	0.0),
 		new Frederickk.F3D.FPoint3( 0.5, -0.5,	0.5), //corner
@@ -1866,8 +2496,8 @@ Frederickk.FShape.FBox = paper.Path.extend({
 		new Frederickk.F3D.FPoint3( 0.5,	0.5,	0.0),
 		new Frederickk.F3D.FPoint3( 0.5,	0.5, -0.5), //corner
 		new Frederickk.F3D.FPoint3( 0.5,	0.0, -0.5),
-	],
-	pointsBACK: [
+	];
+	var pointsBACK = [
 		new Frederickk.F3D.FPoint3(-0.5, -0.5,	0.5), //corner
 		new Frederickk.F3D.FPoint3( 0.0, -0.5,	0.5),
 		new Frederickk.F3D.FPoint3( 0.5, -0.5,	0.5), //corner
@@ -1876,11 +2506,10 @@ Frederickk.FShape.FBox = paper.Path.extend({
 		new Frederickk.F3D.FPoint3( 0.0,	0.5,	0.5),
 		new Frederickk.F3D.FPoint3(-0.5,	0.5,	0.5), //corner
 		new Frederickk.F3D.FPoint3(-0.5,	0.0,	0.5),
-	],
-	
-	
+	];	
+
 	// consecutive points for shapes
-	pointsMatrix: [
+	var pointsMatrix = [
 		pointsTOP[0],
 		pointsTOP[1],
 		pointsTOP[2],
@@ -1891,7 +2520,9 @@ Frederickk.FShape.FBox = paper.Path.extend({
 		pointsTOP[7],
 		
 		pointsLEFT[3],
+
 		pointsRIGHT[3],
+
 		pointsFRONT[3],
 		pointsFRONT[7],
 
@@ -1903,83 +2534,80 @@ Frederickk.FShape.FBox = paper.Path.extend({
 		pointsBOTTOM[5],
 		pointsBOTTOM[6],
 		pointsBOTTOM[7]
-	],
-
-	// private
-	vertices: [],
+	];	
+	var verticesArr = [];
 
 
 
+	// ------------------------------------------------------------------------
 	// Methods
-	setup : function(_scene) {
-		scene = _scene;
-
-	},
-
-	draw : function() {
-		if( vertices == null) {
-			drawMatrix();
+	// ------------------------------------------------------------------------
+	/**
+	 *
+	 *	TODO: add a way to translate shapes in 3D
+	 *
+	 */
+	this.init = function(_x, _y, _z) {
+		if(verticesArr === undefined || verticesArr == null) {
+			// choose random standard bill shape
+			var r = Frederickk.randomInt(0,3);
+			if(r == 0) this.red();
+			else if(r == 1) this.yellow();
+			else this.blue();
 		}
-		else {
-			draw(vertices);
+
+		// bill shape
+		var path = new Frederickk.F3D.FPath3();
+		path.name = this.name;
+		for(i=0; i<verticesArr.length; i++) {
+			path.add( 
+				new Frederickk.F3D.FPoint3(
+					pointsMatrix[ verticesArr[i] ].x()*whd.x(),
+					pointsMatrix[ verticesArr[i] ].y()*whd.y(),
+					pointsMatrix[ verticesArr[i] ].z()*whd.z()
+				)
+			);
 		}
-	},
+		path.fillColor = this.fillColor;
+		path.strokeColor = this.strokeColor;
+		path.translate(_x,_y,_z);
+		path.closed = true;
+
+		scene.addItem( path );
+
+		// Bounding Box
+		if(bContainer) {
+			BoundingBox.name = 'BoundingBox';
+			BoundingBox.setFillColors( 
+				[null,null,null,null,null,null]
+			);
+			BoundingBox.setStrokeColors(
+				['black','black','black','black','black','black',]
+			)
+			BoundingBox.init(_x, _y, _z);
+		}
+	};
+
+
 
 	// ------------------------------------------------------------------------
-	drawMatrix : function() {
-// 		if( whd != null) {
-// 			for(i=0; i<pointsMatrix.length; i++) {
-// 				var color = HSVtoRGB( norm(i,0,pointsMatrix.length), 1.0, 1.0 );
-// 				color.alpha = 0.5;
-// 
-// 				translate( pointsMatrix[i].x*whd.x, pointsMatrix[i].y*whd.y, pointsMatrix[i].z*whd.z );
-// 				sphere(15);
-// 			}
-// 		}
-	},
-
-
-	// ------------------------------------------------------------------------
-	draw : function(_vertices) {
-// 		setVertices(_vertices);
-// 		
-// 		pushMatrix();
-// 		translate(sz*2, sz*2, sz*2);
-// 		if(bRotation) {
-// 			rotateX(rotation.x);
-// 			rotateY(rotation.y);
-// 			rotateZ(rotation.z);
-// 		}
-// 		
-// 		translate(-sz*2, -sz*2, -sz*2);
-// 		var path = new FPath3();
-// 		for(i=0; i<vertices.length; i++) {
-// 			path.add( new Frederickk.F3D.FPoint3(
-// 				pointsMatrix[ vertices[i] ].x*whd.x,
-// 				pointsMatrix[ vertices[i] ].y*whd.y,
-// 				pointsMatrix[ vertices[i] ].z*whd.z
-// 			) );
-// 		}
-// 		path.closed = true;
-// 		path.translate( )
-		
-	},
-
-
-
 	// Sets
-	setWHD : function(w, h, d) {
-		if(whdTemp.x == 0) whdTemp.set( w*2, parseInt(h*2), parseInt(d*2) );
-		whd.set( parseInt(w*2), parseInt(h*2), parseInt(d*2) );
-	},
-
 	// ------------------------------------------------------------------------
-	reset : function() {
-		setFace(0);
+	this.setWHD = function(w, h, d) {
+		if(whdTemp.x() == 0) {
+			whdTemp.set( w, h, d );
+		}
+		whd.set( w, h, d );
+
+		BoundingBox.setWHD(w,h,d);
+	};
+
+	this.reset = function() {
+		this.setFace(0);
 		whd.x = whdTemp.x;
 		whd.y = whdTemp.y;
 		whd.z = whdTemp.z;
-	},
+	};
 
 	// ------------------------------------------------------------------------
 	/**
@@ -1991,35 +2619,254 @@ Frederickk.FShape.FBox = paper.Path.extend({
 	 *				4 = right
 	 *				5 = back (same as front really...)
 	 */
-	setFace : function(num) {
+	this.setFace = function(num) {
 		face = num;
-	},
+	};
 	
 	// ------------------------------------------------------------------------
-	setVertices : function(_vertices) {
-		vertices = _vertices;
-	},
+	this.setVertices = function(_verticesArr) {
+		verticesArr = _verticesArr;
+	};
 
 	// ------------------------------------------------------------------------
-	showContainer : function(val) {
+	this.showContainer = function(val) {
 		bContainer = val;
-	},
+	};
 
 	// ------------------------------------------------------------------------
-	Rotation : function(val, rads) {
-		bRotation = val;
-		rotation = rads;
-	},
+	this.red = function() {
+		this.fillColor = new paper.RGBColor(0.9, 0.26, 0.14),
+		verticesArr = [2,14,18,6];
+	};
+	this.yellow = function() {
+		this.fillColor = new paper.RGBColor(0.99, 0.84, 0)
+		verticesArr = [8,9,10,11];
+	};
+	this.blue = function() {
+		this.fillColor = new paper.RGBColor(0.04, 0.5, 0.74),
+		verticesArr = [1,9,15,17,11,7];
+	};
 
 
 
+	// ------------------------------------------------------------------------
 	// Gets
-	getWHD : function() {
+	// ------------------------------------------------------------------------
+	this.getWHD = function() {
 		return whdTemp;
-	}
+	};
+
+};
 
 
-});
+
+
+
+/**
+ *  
+ *	FBoxBill.js
+ *	v0.1
+ *  
+ *	25. November 2012
+ *
+ *	Ken Frederick
+ *	ken.frederick@gmx.de
+ *
+ *	http://cargocollective.com/kenfrederick/
+ *	http://kenfrederick.blogspot.com/
+ *
+ *
+ *	FBoxBill
+ *
+ *	Create a Max Bill shapes box
+ *	http://www.kettererkunst.de/kunst/kd/details.php?obnr=100039513&anummer=1
+ *
+ */
+// Frederickk.FShape.FBoxBill = Frederickk.FShape.FBox.extend({
+// 	// Properties
+// 	// private
+// 	whdTemp: new Frederickk.F3D.FPoint3(),
+// 	rotation: new Frederickk.F3D.FPoint3(),
+
+// 	bContainer: true,
+// 	bRotation: false,
+
+// 	// face number
+// 	face:	0,
+
+// 	// face numbers
+// 	FRONT	: 0,
+// 	TOP 	: 1,
+// 	BOTTOM	: 2,
+// 	LEFT	: 3,
+// 	RIGHT	: 4,
+// 	BACK	: 5,
+	
+
+// 	pointsMatrix: [],
+// 	verticesArr: [],
+
+
+
+// 	// Methods
+// 	init : function() {
+// 		// consecutive points for shapes
+// 		pointsMatrix = [
+// 			pointsTOP[0],
+// 			pointsTOP[1],
+// 			pointsTOP[2],
+// 			pointsTOP[3],
+// 			pointsTOP[4],
+// 			pointsTOP[5],
+// 			pointsTOP[6],
+// 			pointsTOP[7],
+			
+// 			pointsLEFT[3],
+
+// 			pointsRIGHT[3],
+
+// 			pointsFRONT[3],
+// 			pointsFRONT[7],
+
+// 			pointsBOTTOM[0],
+// 			pointsBOTTOM[1],
+// 			pointsBOTTOM[2],
+// 			pointsBOTTOM[3],
+// 			pointsBOTTOM[4],
+// 			pointsBOTTOM[5],
+// 			pointsBOTTOM[6],
+// 			pointsBOTTOM[7]
+// 		];		
+// 	},
+
+// // 	this.draw = function() {
+// // 		// if( verticesArr == null) {
+// // 		// 	drawMatrix();
+// // 		// }
+// // 		// else {
+// // 			draw(verticesArr);
+// // 		// }
+// // 	};
+
+// // 	// ------------------------------------------------------------------------
+// // 	/**
+// // 	 *
+// // 	 *	TODO: add a way to translate shapes in 3D
+// // 	 *
+// // 	 */
+// // 	var drawMatrix = function() {
+// // 		if( whd != null) {
+// // 			for(i=0; i<pointsMatrix.length; i++) {
+// // 				var color = Frederickk.HSVtoColor( 
+// // 					Frederickk.norm(i,0,pointsMatrix.length), 1.0, 1.0
+// // 				);
+// // 				color.alpha = 0.5;
+// // // 
+// // 				// translate( pointsMatrix[i].x*whd.x, pointsMatrix[i].y*whd.y, pointsMatrix[i].z*whd.z );
+// // 				// sphere(15);
+// // 			}
+// // 		}
+// // 	};
+
+
+// // 	// ------------------------------------------------------------------------
+// // 	var draw = function(_verticesArr) {
+// // 		verticesArr = _verticesArr;
+// // // 		
+// // // 		pushMatrix();
+// // // 		translate(sz*2, sz*2, sz*2);
+// // // 		if(bRotation) {
+// // // 			rotateX(rotation.x);
+// // // 			rotateY(rotation.y);
+// // // 			rotateZ(rotation.z);
+// // // 		}
+// // // 		
+// // // 		translate(-sz*2, -sz*2, -sz*2);
+// // 		var path = new Frederickk.F3D.FPath3();
+// // 		path.name = this.name;
+// // 		for(i=0; i<verticesArr.length; i++) {
+// // 			path.addPoints3( 
+// // 				new Frederickk.F3D.FPoint3(
+// // 					pointsMatrix[ verticesArr[i] ].x()*whd.x(),
+// // 					pointsMatrix[ verticesArr[i] ].y()*whd.y(),
+// // 					pointsMatrix[ verticesArr[i] ].z()*whd.z()
+// // 				)
+// // 			);
+// // 		}
+// // 		path.fillColor = this.fillColor;
+// // 		path.strokeColor = this.strokeColor;
+// // 		path.closed = this.closed;
+
+// // 		scene.addItem( path );
+
+// // // 		path.translate( )
+// // 		return path.draw();
+// // 	};
+
+
+
+// // 	// Sets
+// // 	this.setWHD = function(w, h, d) {
+// // 		if(whdTemp.x == 0) {
+// // 			whdTemp.set( 
+// // 				w*2,
+// // 				parseInt(h*2),
+// // 				parseInt(d*2)
+// // 			);
+// // 		}
+// // 		whd.set( 
+// // 			parseInt(w*2),
+// // 			parseInt(h*2),
+// // 			parseInt(d*2)
+// // 		);
+// // 	};
+
+// // 	// ------------------------------------------------------------------------
+// // 	this.reset = function() {
+// // 		this.setFace(0);
+// // 		whd.x = whdTemp.x;
+// // 		whd.y = whdTemp.y;
+// // 		whd.z = whdTemp.z;
+// // 	};
+
+// // 	// ------------------------------------------------------------------------
+// // 	/**
+// // 	 *	@param num
+// // 	 *				0 = front
+// // 	 *				1 = top
+// // 	 *				2 = bottom
+// // 	 *				3 = left
+// // 	 *				4 = right
+// // 	 *				5 = back (same as front really...)
+// // 	 */
+// // 	this.setFace = function(num) {
+// // 		face = num;
+// // 	};
+	
+// // 	// ------------------------------------------------------------------------
+// // 	this.setVertices = function(_verticesArr) {
+// // 		verticesArr = _verticesArr;
+// // 	};
+
+// // 	// ------------------------------------------------------------------------
+// // 	this.showContainer = function(val) {
+// // 		bContainer = val;
+// // 	};
+
+// // 	// ------------------------------------------------------------------------
+// // 	this.Rotation = function(val, rads) {
+// // 		bRotation = val;
+// // 		rotation = rads;
+// // 	};
+
+
+
+// // 	// Gets
+// // 	this.getWHD = function() {
+// // 		return whdTemp;
+// // 	};
+
+// });
 
 
 /**

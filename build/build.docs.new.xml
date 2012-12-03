@@ -3,7 +3,7 @@
 
 
 
-	<description>FrederickkJS ANT build file example</description>
+	<description>FrederickkJS ANT build file</description>
 
 
 
@@ -13,8 +13,10 @@
 		<!-- Source Lint/Hint dir -->
 		<property name="jslint.js" value="${basedir}/scripts/jslint.js" />
 		<!-- Rhino dir -->
-        <property name="js.jar" value="${basedir}/scripts/rhino/js.jar"/>
-		
+		<property name="js.jar" value="${basedir}/scripts/rhino/js.jar"/>
+		<!-- JSDoc-Toolkit dir -->
+		<property name="jsdoctoolkit.dir" value="/Users/ken.frederick/Documents/Development/java/jsdoc-toolkit" />
+
 		<!-- Source JS dir -->
 		<property name="src.dir" value="${basedir}/src" />
 		<property name="src.dir.core" value="${basedir}/src/Core/" />
@@ -27,9 +29,12 @@
 		<!-- Output dir -->
 		<property name="distribution.dir" value="${basedir}/distribution" />
 
-		<!-- Output dir -->
+		<!-- Output info -->
 		<property name="distribution.vers" value="0.1" />
 		<property name="distribution.file" value="FrederickkPaper" />
+
+		<!-- Documentation dir -->
+		<property name="doc.dir" value="${basedir}/docs" />
 
 		<!-- Build version information  -->
 		<property name="build.major" value="1" />
@@ -39,8 +44,7 @@
 
 
 	<!-- Create distribution directories -->
-	<target name="-init" depends="-load.properties"
-		description="Create distribution directory structure">
+	<target name="-init" depends="-load.properties" description="Create distribution directory structure">
 		<!-- Create the time stamp for the new distribution -->
 		<tstamp>
 			<format property="TODAY" pattern="EEE, d MMM yyyy HH:mm:ss Z" />
@@ -71,15 +75,13 @@
 		</exec>
 		<echo>Finished</echo>
 	</target>
-	
 
-	
+
+
 	<!-- Concatenate JS files -->
-	<target name="-js.concatenate" depends="-js.lint" 
-		description="Concatenates specified JavaScript files">
+	<target name="-js.concatenate" depends="-js.lint" description="Concatenates specified JavaScript files">
 		<concat destfile="${distribution.dir}/${distribution.file}.js">
 			<fileset dir="${src.dir}" includes="*.js" />
-				<!-- excludes="first.js, second.js" /> -->
 			<fileset dir="${src.dir.core}" includes="*.js" />
 			<fileset dir="${src.dir.fio}" includes="*.js" />
 			<fileset dir="${src.dir.ftime}" includes="*.js" />
@@ -90,11 +92,10 @@
 		<echo>Finished</echo>
 	</target>
 
-		
-	
+
+
 	<!-- Minify JS files -->
-	<target name="-js.minify" depends="-js.concatenate" 
-		description="Minifies JavaScript files">
+	<target name="-js.minify" depends="-js.concatenate" description="Minifies JavaScript files">
 		<apply executable="java" parallel="false" dest="${distribution.dir}">
 			<fileset 
 				dir="${distribution.dir}" 
@@ -111,6 +112,40 @@
 
 
 
+	<!-- Documentation -->
+	<target name="-js.docs" description="Generates documentation">
+		<sequential>
+			<delete dir="${doc.dir}"/>
+			<mkdir dir="${doc.dir}" />
+
+			<echo message="Running JSDoc Toolkit"/>
+
+			<!-- The java exe is told to run in the dir where our source files reside.
+					 If we instead ran it from the dir that the build file is in and gave it
+					 full paths to the source files the documentation would include the full
+					 filesystem paths (c:\path\to\source\) instead of relative ones.
+					 Since this command is running in the source dir, all of the paths
+					 given to it must first traverse down a level (../) to get back to the
+					 build file dir.
+			-->
+			<exec dir="${basedir}" executable="java" failonerror="true">
+				<arg line="-jar ${jsdoctoolkit.dir}/jsrun.jar ${jsdoctoolkit.dir}/app/run.js" />
+
+				<!-- -d tells JSDoc toolkit where to output the documentation -->
+				<arg line="-d=${doc.dir}" />
+
+				<!-- use the default template -->
+				<arg line="-t=${jsdoctoolkit.dir}/templates/jsdoc" />
+
+				<arg line="${distribution.dir}/${distribution.file}.js" />
+			</exec>
+		</sequential>
+		<echo>Finished</echo>
+	</target>
+
+
+
+
 	<!-- Build -->
 	<target name="prod" 
 		description="Builds project files for production use"
@@ -119,6 +154,7 @@
 			-init, 
 			-js.concatenate,
 			-js.lint, 
-			-js.minify">
+			-js.minify,
+			-js.docs">
 	</target>
 </project>

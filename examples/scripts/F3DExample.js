@@ -15,14 +15,17 @@
 // ------------------------------------------------------------------------
 var f = Frederickk;
 var f3d = f.F3D;
+var fshape = f.FShape;
 
 var scene = new f3d.FScene3D();
 
+
 // values
+var bRotate = false;
 var values = {
-	rotx:				45,
-	roty:				30,
-	rotz:				0
+	rotx:	45,
+	roty:	35.3,
+	rotz:	-30
 };
 
 
@@ -33,34 +36,33 @@ var values = {
 function Setup() {
 
 	// required setup scene
-	scene.setup(view.bounds.width, view.bounds.height, 1000);
+	scene.setup(view.bounds.width, view.bounds.height, 1000, 'ORTHO');
 
 
-	// var path = new f3d.FPath3();
-	// var numLinesSegments = pointData.length/4;
-	// for(var i=0; i<numLinesSegments; i++) {
-	// 	var i4 = i*4;
-	// 	path.add( new f3d.FPoint3(pointData[i4], pointData[i4+1], pointData[i4+2]) );
-	// }
-	// scene.addItem( path );
+	// FBillBox
+	// http://www.kettererkunst.de/kunst/kd/details.php?obnr=100039513&anummer=1
+	var billRed = new Frederickk.FShape.FBillBox(scene);
+	billRed.setWHD(600, 600, 600);
+	billRed.red();
+	billRed.init(600,-600,0);
+
+	var billYellow = new Frederickk.FShape.FBillBox(scene);
+	billYellow.setWHD(600, 600, 600);
+	billYellow.yellow();
+	billYellow.init(-600,600,0);
+
+	var billBlue = new Frederickk.FShape.FBillBox(scene);
+	billBlue.setWHD(600, 600, 600);
+	billBlue.blue();
+	billBlue.init(-600,-600,0);
 
 
-	//right side
-	var right = new f3d.FPath3();
-	right.add( new f3d.FPoint3(100,0,0) );
-	right.add( new f3d.FPoint3(100,100,0) );
-	right.add( new f3d.FPoint3(0,100,100) );
-	right.add( new f3d.FPoint3(0,0,100) );
-	scene.addItem( right );
-	
-	
-	//left side
-	var left = new f3d.FPath3();
-	left.add( new f3d.FPoint3(-100,0,0) );
-	left.add( new f3d.FPoint3(-100,100,0) );
-	left.add( new f3d.FPoint3(0,100,100) );
-	left.add( new f3d.FPoint3(0,0,100) );
-	scene.addItem( left );
+	// var billGreen = new Frederickk.FShape.FBillBox(scene);
+	// billGreen.setWHD(600, 600, 600);
+	// billGreen.fillColor = new paper.RGBColor(0.62, 0.77, 0.14);
+	// billGreen.setVertices( [9,17,7] );
+	// billGreen.init(-1800,600,0);
+
 
 }
 
@@ -69,7 +71,14 @@ function Setup() {
 // ------------------------------------------------------------------------
 // Update
 // ------------------------------------------------------------------------
-function Update() {
+function Update(event) {
+	if(bRotate) {
+		values.rotx = 720.0 * ( (Math.sin(event.time * 2) + 1) / 30 );
+		values.roty = 720.0 * ( (Math.cos(event.time * 2) + 1) / 30 );
+		values.rotz++;
+
+		Draw();
+	}
 }
 
 
@@ -78,13 +87,14 @@ function Update() {
 // Main
 // ------------------------------------------------------------------------
 function Draw() {
-	// clear out for update
-	scene.draw().removeChildren();
+	// rotate
+	scene.rotateX( f.radians(values.rotx) );
+	scene.rotateY( f.radians(values.roty) );
+	scene.rotateZ( f.radians(values.rotz) );
 
 	// draw to screen
-	scene.rotateX( values.rotx );
-	scene.rotateY( values.roty );
-	scene.draw().scale(10);
+	scene.draw().scale(1);
+
 }
 
 
@@ -92,6 +102,11 @@ function Draw() {
 // ------------------------------------------------------------------------
 // Methods
 // ------------------------------------------------------------------------
+function reset() {
+	values.rotx = 45;
+	values.roty = 35.3;
+	values.rotz = -30;
+}
 
 
 
@@ -114,15 +129,27 @@ function onMouseMove(event) {
 function onMouseDrag(event) {
 	values.rotx = event.point.y;
 	values.roty = event.point.x;
+	values.rotz = event.point.x - event.point.y;
 
-	console.log( values );
-
+	// redraw to update scene
 	Draw();
 }
 
 
 // ------------------------------------------------------------------------
 function onKeyDown(event) {
+	if(event.key == 'space') {
+		bRotate = !bRotate;
+		values.rotx += 1;
+		values.roty += 1;
+		values.rotz += 1;
+	}
+	if(event.key == 'r') {
+		reset();
+	}
+
+	// redraw to update scene
+	Draw();
 }
 
 function onKeyUp(event) {
@@ -130,237 +157,6 @@ function onKeyUp(event) {
 
 
 
-// // ------------------------------------------------------------------------
-// // Class
-// // ------------------------------------------------------------------------
-// function BillBox(scene) {
-// 	// Properties
-// 	this.scene = scene;
-// 	this.whd = new f3d.FPoint3();
-// 	this.whdTemp = new f3d.FPoint3();
-// 	this.rotation = new f3d.FPoint3();
-
-// 	this.bContainer = true;
-// 	this.bRotation = false;
-
-// 	// face numbers
-// 	this.face	= 0;
-// 	this.FRONT	= 0;
-// 	this.TOP	= 1;
-// 	this.BOTTOM = 2;
-// 	this.LEFT	= 3;
-// 	this.RIGHT	= 4;
-// 	this.BACK	= 5;
-	
-
-// 	// face colors
-// 	this.cols = [
-// 		new RGBColor(1.0, 1.0, 0.0, 0.8), // FRONT
-// 		new RGBColor(1.0, 0.0, 1.0, 0.8), // TOP
-// 		new RGBColor(0.0, 0.0, 1.0, 0.8), // BOTTOM
-// 		new RGBColor(1.0, 0.0, 0.0, 0.8), // LEFT
-// 		new RGBColor(0.0, 1.0, 1.0, 0.8), // RIGHT
-// 		new RGBColor(0.0, 1.0, 0.0, 0.8)  // BACK
-// 	];
-
-// 	// face points
-// 	this.pointsFRONT = [
-// 		new f3d.FPoint3(-0.5, -0.5, -0.5), //corner
-// 		new f3d.FPoint3( 0.0, -0.5, -0.5),
-// 		new f3d.FPoint3( 0.5, -0.5, -0.5), //corner
-// 		new f3d.FPoint3( 0.5,	0.0, -0.5),
-// 		new f3d.FPoint3( 0.5,	0.5, -0.5), //corner
-// 		new f3d.FPoint3( 0.0,	0.5, -0.5),
-// 		new f3d.FPoint3(-0.5,	0.5, -0.5), //corner
-// 		new f3d.FPoint3(-0.5,	0.0, -0.5)
-// 	];
-	
-// 	this.pointsTOP = [
-// 		new f3d.FPoint3(-0.5, -0.5,	0.5), //corner
-// 		new f3d.FPoint3( 0.0, -0.5,	0.5),
-// 		new f3d.FPoint3( 0.5, -0.5,	0.5), //corner
-// 		new f3d.FPoint3( 0.5, -0.5,	0.0),
-// 		new f3d.FPoint3( 0.5, -0.5, -0.5), //corner
-// 		new f3d.FPoint3( 0.0, -0.5, -0.5),
-// 		new f3d.FPoint3(-0.5, -0.5, -0.5), //corner
-// 		new f3d.FPoint3(-0.5, -0.5,	0.0)
-// 	];
-
-// 	this.pointsBOTTOM = [
-// 		new f3d.FPoint3(-0.5, 0.5,	0.5), //corner
-// 		new f3d.FPoint3( 0.0, 0.5,	0.5),
-// 		new f3d.FPoint3( 0.5, 0.5,	0.5), //corner
-// 		new f3d.FPoint3( 0.5, 0.5,	0.0),
-// 		new f3d.FPoint3( 0.5, 0.5, -0.5), //corner
-// 		new f3d.FPoint3( 0.0, 0.5, -0.5),
-// 		new f3d.FPoint3(-0.5, 0.5, -0.5), //corner
-// 		new f3d.FPoint3(-0.5, 0.5,	0.0)
-// 	];
-// 	this.pointsLEFT = [
-// 		new f3d.FPoint3(-0.5, -0.5, -0.5), //corner
-// 		new f3d.FPoint3(-0.5, -0.5,	0.0),
-// 		new f3d.FPoint3(-0.5, -0.5,	0.5), //corner
-// 		new f3d.FPoint3(-0.5,	0.0,	0.5),
-// 		new f3d.FPoint3(-0.5,	0.5,	0.5), //corner
-// 		new f3d.FPoint3(-0.5,	0.5,	0.0),
-// 		new f3d.FPoint3(-0.5,	0.5, -0.5), //corner
-// 		new f3d.FPoint3(-0.5,	0.0, -0.5)
-// 	];
-// 	this.pointsRIGHT = [
-// 		new f3d.FPoint3( 0.5, -0.5, -0.5), //corner
-// 		new f3d.FPoint3( 0.5, -0.5,	0.0),
-// 		new f3d.FPoint3( 0.5, -0.5,	0.5), //corner
-// 		new f3d.FPoint3( 0.5,	0.0,	0.5),
-// 		new f3d.FPoint3( 0.5,	0.5,	0.5), //corner
-// 		new f3d.FPoint3( 0.5,	0.5,	0.0),
-// 		new f3d.FPoint3( 0.5,	0.5, -0.5), //corner
-// 		new f3d.FPoint3( 0.5,	0.0, -0.5),
-// 	];
-// 	this.pointsBACK = [
-// 		new f3d.FPoint3(-0.5, -0.5,	0.5), //corner
-// 		new f3d.FPoint3( 0.0, -0.5,	0.5),
-// 		new f3d.FPoint3( 0.5, -0.5,	0.5), //corner
-// 		new f3d.FPoint3( 0.5,	0.0,	0.5),
-// 		new f3d.FPoint3( 0.5,	0.5,	0.5), //corner
-// 		new f3d.FPoint3( 0.0,	0.5,	0.5),
-// 		new f3d.FPoint3(-0.5,	0.5,	0.5), //corner
-// 		new f3d.FPoint3(-0.5,	0.0,	0.5),
-// 	];
-	
-	
-// 	// consecutive points for shapes
-// 	this.pointsMatrix = [
-// 		pointsTOP[0],
-// 		pointsTOP[1],
-// 		pointsTOP[2],
-// 		pointsTOP[3],
-// 		pointsTOP[4],
-// 		pointsTOP[5],
-// 		pointsTOP[6],
-// 		pointsTOP[7],
-		
-// 		pointsLEFT[3],
-// 		pointsRIGHT[3],
-// 		pointsFRONT[3],
-// 		pointsFRONT[7],
-
-// 		pointsBOTTOM[0],
-// 		pointsBOTTOM[1],
-// 		pointsBOTTOM[2],
-// 		pointsBOTTOM[3],
-// 		pointsBOTTOM[4],
-// 		pointsBOTTOM[5],
-// 		pointsBOTTOM[6],
-// 		pointsBOTTOM[7]
-// 	];
-// 	var vertices = [];
-
-
-
-// 	// Methods
-// 	this.draw = function() {
-// 		if( vertices == null) {
-// 			this.drawMatrix();
-// 		}
-// 		else {
-// 			this.draw(vertices);
-// 		}
-// 	};
-
-// 	// ------------------------------------------------------------------------
-// 	this.drawMatrix = function() {
-// // 		if( whd != null) {
-// // 			for(i=0; i<pointsMatrix.length; i++) {
-// // 				var color = HSVtoRGB( norm(i,0,pointsMatrix.length), 1.0, 1.0 );
-// // 				color.alpha = 0.5;
-// // 
-// // 				translate( pointsMatrix[i].x*whd.x, pointsMatrix[i].y*whd.y, pointsMatrix[i].z*whd.z );
-// // 				sphere(15);
-// // 			}
-// // 		}
-// 	};
-
-
-// 	// ------------------------------------------------------------------------
-// 	this.draw = function(_vertices) {
-// // 		setVertices(_vertices);
-// // 		
-// // 		pushMatrix();
-// // 		translate(sz*2, sz*2, sz*2);
-// // 		if(bRotation) {
-// // 			rotateX(rotation.x);
-// // 			rotateY(rotation.y);
-// // 			rotateZ(rotation.z);
-// // 		}
-// // 		
-// // 		translate(-sz*2, -sz*2, -sz*2);
-// // 		var path = new f3d.FPath3();
-// // 		for(i=0; i<vertices.length; i++) {
-// // 			path.add( new f3d.FPoint3(
-// // 				pointsMatrix[ vertices[i] ].x*whd.x,
-// // 				pointsMatrix[ vertices[i] ].y*whd.y,
-// // 				pointsMatrix[ vertices[i] ].z*whd.z
-// // 			) );
-// // 		}
-// // 		path.closed = true;
-// // 		path.translate( )
-		
-// 	};
-
-
-
-// 	// Sets
-// 	this.setWHD = function(w, h, d) {
-// 		if(whdTemp.x == 0) whdTemp.set( w*2, parseInt(h*2), parseInt(d*2) );
-// 		whd.set( parseInt(w*2), parseInt(h*2), parseInt(d*2) );
-// 	};
-
-// 	// ------------------------------------------------------------------------
-// 	this.reset = function() {
-// 		setFace(0);
-// 		whd.x = whdTemp.x;
-// 		whd.y = whdTemp.y;
-// 		whd.z = whdTemp.z;
-// 	};
-
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	@param num
-// 	 *				0 = front
-// 	 *				1 = top
-// 	 *				2 = bottom
-// 	 *				3 = left
-// 	 *				4 = right
-// 	 *				5 = back (same as front really...)
-// 	 */
-// 	this.setFace = function(num) {
-// 		face = num;
-// 	};
-	
-// 	// ------------------------------------------------------------------------
-// 	this.setVertices = function(_vertices) {
-// 		vertices = _vertices;
-// 	};
-
-// 	// ------------------------------------------------------------------------
-// 	this.showContainer = function(val) {
-// 		bContainer = val;
-// 	};
-
-// 	// ------------------------------------------------------------------------
-// 	this.Rotation = function(val, rads) {
-// 		bRotation = val;
-// 		rotation = rads;
-// 	};
-
-
-
-// 	// Gets
-// 	this.getWHD = function() {
-// 		return whdTemp;
-// 	};
-
-// };
 
 
 
