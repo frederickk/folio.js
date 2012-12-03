@@ -23,16 +23,41 @@
  *	modified/expanded for use in PaperJS by Ken Frederick
  *
  */
+
+/**
+ *	TODO: maek FPath3 an extension of paper.Item
+Frederickk.F3D.FPath3 = Item.extend({
+	// ------------------------------------------------------------------------
+	// Properties
+	// ------------------------------------------------------------------------
+
+
+});
+*/
 Frederickk.F3D.FPath3 = function(_scene) {
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
 	// public
+
+	// temporary until I figure out how
+	// to extend paper.Item properly
+	this.path;
+
 	this.name = '';
 	this.closed = false;
 
-	this.fillColor = null;
-	this.strokeColor = null;
+	this.opacity = 1.0;
+	this.blendMode = 'normal';
+	this.visible = true;
+	this.selected = false;
+
+	this.fillColor;
+
+	this.strokeColor;
+	this.strokeWidth = 1;
+	this.strokeCap;
+	this.strokeJoin;
 
 	this.rotation = new Frederickk.F3D.FPoint3();
 	this.translation = new Frederickk.F3D.FPoint3();
@@ -65,15 +90,29 @@ Frederickk.F3D.FPath3 = function(_scene) {
 	this.draw = function() {
 		var path = new paper.Path();
 		path.name = this.name;
+
 		for(var i=0; i<points3.length; i++) {
 			var pt3 = points3[i];
 			path.add( new paper.Point( pt3.x2D(), pt3.y2D() ) );
 		}
-		path.fillColor = this.fillColor;
-		path.strokeColor = this.strokeColor;
-		path.closed = this.closed;
-		return path;
 
+		// ! temporary see above !
+		path.opacity = this.opacity;
+		path.blendMode = this.blendMode;
+		path.visible = this.visible;
+		path.selected = this.selected;
+
+		path.fillColor = this.fillColor;
+
+		path.strokeColor = this.strokeColor;
+		path.strokeWidth = this.strokeWidth;
+		path.strokeCap = this.strokeCap;
+		path.strokeJoin = this.strokeJoin;
+
+		path.closed = this.closed;
+
+		this.path = path;
+		return this.path;
 	};
 
 
@@ -125,6 +164,15 @@ Frederickk.F3D.FPath3 = function(_scene) {
 	this.rotateZ = function(val) {
 		rotationZ = val;
 	};
+
+
+	// ------------------------------------------------------------------------
+	// Sets
+	// ------------------------------------------------------------------------
+	this.get = function() {
+		return this.path;
+	};
+
 
 };
 

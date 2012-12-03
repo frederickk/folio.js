@@ -17,43 +17,11 @@
 		<link rel="apple-touch-startup-image" href="images/iphone_startup.png" />
 		-->
 		
-		<title>F3DExample</title>
+		<title>F3D Example &#8212; 3 halbierte W&uuml;rfel</title>
 		
 		
 		<!-- CSS -->
-		<style type="text/css">
-		
-			body,html {
-				margin: 0;
-				overflow: hidden;
-			}
-
-			/*
-			 *	container divs for the canvas object
-			 */
-			#container {
-				width: 100%;
-				height: 100%;
-				overflow: auto;
-			}
-			#container canvas {
-				background: #F6F5EB;
-				vertical-align: top;
-				display: block;
-				overflow: auto;
-			}
-
-			/*
-			 *	a div to hold raster images
-			 *	hides them from view
-			 */
-			#rasterImages {
-				visibility: hidden;
-			}
-
-
-		</style>
-		
+		<link href="../FPaperTemplate/css/FPaper.css" rel="stylesheet" type="text/css" />
 
 		
 		<!-- JavaScript -->
@@ -157,6 +125,7 @@
 
 		<!-- LOAD PAPER SCRIPT -->
 		<!-- be sure that the filename and path matches your script -->
+		<script type="text/javascript" src="scripts/FBillBox.js"></script>
 		<script type="text/javascript" src="scripts/F3DExample.js"></script>
 
 
@@ -172,11 +141,21 @@
 		</div>
 
 
-		<!-- CANVAS -->
+		<!-- TEXT -->
+		<div id="textContainer">
+			<!-- any text you would like (season to taste) -->
+			<a href="http://www.kettererkunst.de/kunst/kd/details.php?obnr=100039513&anummer=1" target="new">3 halbierte W&uuml;rfel</a><br/>
+			<a href="http://paperjs.org/" target="new">paperjs</a> experiment by <a href="http://cargocollective.com/kenfrederick" target="new">kenfrederick</a>
+		</div>
+
+
+		<!-- IMAGES -->
 		<div id="rasterImages">
 			<!-- any images which need to be accessed should be placed in here -->
 			<!-- http://paperjs.org/tutorials/images/working-with-rasters/ -->
 		</div>
+
+
 
 		
 	</body>

@@ -16,13 +16,17 @@
  *
  */
 Frederickk.FTime = function() {
+	// ------------------------------------------------------------------------
 	// Properties
+	// ------------------------------------------------------------------------
 	// public
 	this.date;
 
 
 
+	// ------------------------------------------------------------------------
 	// Methods
+	// ------------------------------------------------------------------------
 	// private
 	var addZero = function(val) {
 		if (val.length == 1) val = '0' + val;
@@ -56,7 +60,7 @@ Frederickk.FTime = function() {
 	 *			return the current second as string 'ss'
 	 */
 	this.second = function() {
-		if(this.date === undefined) this.date = new  Date();
+		if(this.date === undefined) this.date = new Date();
 		var second = String( this.date.getSeconds() ); 
 		second = addZero(second);
 		return second;
@@ -124,7 +128,9 @@ Frederickk.FTime = function() {
 
 
  
-	// sets
+	// ------------------------------------------------------------------------
+	// Sets
+	// ------------------------------------------------------------------------
 	/**
 	 *	set to a specific time
 	 *
@@ -145,7 +151,9 @@ Frederickk.FTime = function() {
 
 
 
-	// gets
+	// ------------------------------------------------------------------------
+	// Gets
+	// ------------------------------------------------------------------------
 	/**
 	 *	@param ms
 	 *			input as milliseconds

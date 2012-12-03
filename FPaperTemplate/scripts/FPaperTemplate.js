@@ -25,8 +25,8 @@ console.log( 'Script Loaded' );
 *	to the DOM, so that JavaScript variables created in
 *	the HTML can be accessed here and visa versa.
 *
-*	Feel free to rename this file and HTML template file
-*	file, but be sure to uppdate the HTML in FPaperTemplate.html	
+*	Feel free to rename this file and HTML template file,
+*	but be sure to uppdate the HTML in FPaperTemplate.html	
 *
 */
 
@@ -50,7 +50,7 @@ console.log( 'Script Loaded' );
  *	Setup() is called once upon initial loading
  */
 function Setup() {
-}
+};
 
 
 
@@ -61,7 +61,7 @@ function Setup() {
  *	Update() is called every frame
  */
 function Update(event) {
-}
+};
 
 
 
@@ -73,7 +73,7 @@ function Update(event) {
  *	elements to the screen, similar to Processing's Draw()
  */
 function Draw() {
-}
+};
 
 
 
@@ -97,7 +97,7 @@ function Draw() {
  *	http://paperjs.org/reference/view#onresize
  */
 function onResize(event) {
-}
+};
 
 
 // ------------------------------------------------------------------------
@@ -110,19 +110,19 @@ function onResize(event) {
  *	http://paperjs.org/reference/tool#onmousedrag
  */
 function onMouseUp(event) {
-}
+};
 
 // ------------------------------------------------------------------------
 function onMouseDown(event) {
-}
+};
 
 // ------------------------------------------------------------------------
 function onMouseMove(event) {
-}
+};
 
 // ------------------------------------------------------------------------
 function onMouseDrag(event) {
-}
+};
 
 
 // ------------------------------------------------------------------------
@@ -133,8 +133,8 @@ function onMouseDrag(event) {
  *	http://paperjs.org/reference/tool#onkeyup
  */
 function onKeyDown(event) {
-}
+};
 
 // ------------------------------------------------------------------------
 function onKeyUp(event) {
-}
+};

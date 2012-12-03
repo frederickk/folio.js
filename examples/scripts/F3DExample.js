@@ -1,11 +1,15 @@
 /**
  *	F3D Example
+ *	3 Halibierte Würfel
  *
  *	Ken Frederick
  *	ken.frederick@gmx.de
  *
  *	http://cargocollective.com/kenfrederick/
  *	http://kenfrederick.blogspot.com/
+ *
+ *	
+ *	An example of creating very simple 3D objects
  *
  */
 
@@ -64,7 +68,7 @@ function Setup() {
 	// billGreen.init(-1800,600,0);
 
 
-}
+};
 
 
 
@@ -79,7 +83,7 @@ function Update(event) {
 
 		Draw();
 	}
-}
+};
 
 
 
@@ -95,7 +99,7 @@ function Draw() {
 	// draw to screen
 	scene.draw().scale(1);
 
-}
+};
 
 
 
@@ -106,7 +110,7 @@ function reset() {
 	values.rotx = 45;
 	values.roty = 35.3;
 	values.rotz = -30;
-}
+};
 
 
 
@@ -114,17 +118,17 @@ function reset() {
 // Events
 // ------------------------------------------------------------------------
 function onResize(event) {
-}
+};
 
 // ------------------------------------------------------------------------
 function onMouseUp(event) {
-}
+};
 
 function onMouseDown(event) {
-}
+};
 
 function onMouseMove(event) {
-}
+};
 
 function onMouseDrag(event) {
 	values.rotx = event.point.y;
@@ -133,7 +137,7 @@ function onMouseDrag(event) {
 
 	// redraw to update scene
 	Draw();
-}
+};
 
 
 // ------------------------------------------------------------------------
@@ -150,10 +154,10 @@ function onKeyDown(event) {
 
 	// redraw to update scene
 	Draw();
-}
+};
 
 function onKeyUp(event) {
-}
+};
 
 
 

@@ -17,47 +17,22 @@
 		<link rel="apple-touch-startup-image" href="images/iphone_startup.png" />
 		-->
 		
-		<title>FTime Examples</title>
+		<title>FTime Example &#8212; Clocks</title>
 		
 		
 		<!-- CSS -->
+		<link href="../FPaperTemplate/css/FPaper.css" rel="stylesheet" type="text/css" />
 		<style type="text/css">
-		
-			body,html {
-				margin: 0;
-				overflow: hidden;
+			#futura {
+				font-family: futura-bold, futura bold, 'futura bold', futura;
 			}
-
-			/*
-			 *	container divs for the canvas object
-			 */
-			#container {
-				width: 100%;
-				height: 100%;
-				overflow: auto;
-			}
-			#container canvas {
-				vertical-align: top;
-				display: block;
-				overflow: auto;
-			}
-
-			/*
-			 *	a div to hold raster images
-			 *	hides them from view
-			 */
-			#rasterImages {
-				visibility: hidden;
-			}
-
-
 		</style>
-		
 
 		
 		<!-- JavaScript -->
 		<!-- LOAD LIBRARIES -->
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
 
 		<!-- LOAD PAPERJS -->
 		<!-- download PaperJS from http://paperjs.org/download/ and update path -->
@@ -66,15 +41,6 @@
 			// ------------------------------------------------------------------------
 			// Global Properties
 			// ------------------------------------------------------------------------
-			// global properties for web-app handling
-			var angle = 0.0;
-			var device = {
-				isiPad: null,
-				isiPhone: null,
-				isiPod: null,
-				isSafari: null,
-				isAndroid: null
-			};
 
 
 
@@ -147,8 +113,8 @@
 		</script>
 
 
-		<script type="text/javascript" src="https://raw.github.com/frederickk/FrederickkJS/master/FrederickkPaper.js"></script>
-		<script type="text/javascript" src="js/misc/StopWatch.js"></script>
+		<!-- LOAD ADDITIONAL JAVASCRIPTS -->
+		<script type="text/javascript" src="../distribution/FrederickkPaper.js"></script>
 
 		<!-- LOAD SCRIPT -->
 		<!-- be sure that the filename and path matches your script -->
@@ -164,6 +130,14 @@
 		<!-- CANVAS -->
 		<div id="container">
 			<canvas resize="true" id="canvas"></canvas>
+		</div>
+
+
+		<!-- TEXT -->
+		<div id="textContainer">
+			<!-- any text you would like (season to taste) -->
+			<a href="http://www.kettererkunst.de/kunst/kd/details.php?obnr=100039513&anummer=1" target="new">Clocks</a><br/>
+			<a href="http://paperjs.org/" target="new">paperjs</a> experiment by <a href="http://cargocollective.com/kenfrederick" target="new">kenfrederick</a>
 		</div>
 
 

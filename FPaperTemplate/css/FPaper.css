@@ -12,6 +12,78 @@
 *
 */
 
+
+/*	------------------------------------------------------------------------
+ *	Core
+ *	------------------------------------------------------------------------ */
+body,html {
+	margin: 0;
+	overflow: hidden;
+}
+
+/*
+ *	container divs for the canvas object
+ */
+#container {
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+}
+#container canvas {
+	background: #F6F5EB;
+	vertical-align: top;
+	display: block;
+	overflow: auto;
+}
+
+/*
+ *	container div for text (season to taste)
+ */
+#textContainer {
+	position: absolute;
+	top: 70px;
+	left: 35px;
+
+	margin: 0px;
+	padding: 0px;
+	white-space: nowrap;
+	z-index: 200;
+
+	/* my personal faves */
+	font-family: "Akzidenz-Grotesk", akzidenz grotesk, helvetica, sans-serif;
+	font-weight: bold;
+	font-size: 12px;
+	line-height: 15px;
+}
+
+
+/*
+ *	a div to hold raster images
+ *	hides them from view
+ */
+#rasterImages {
+	visibility: hidden;
+}
+
+
+
+/* ------------------------------------------------------------------------
+ * Links
+ * ------------------------------------------------------------------------ */
+a {
+  color: #000;
+  text-decoration: underline;
+}
+a:hover {
+  color: #000;
+  text-decoration: underline;
+}
+
+
+
+/*	------------------------------------------------------------------------
+ *	'UI'-Elements
+ *	------------------------------------------------------------------------ */ 
 input {
 	font-family: "Akzidenz-Grotesk", akzidenz grotesk, helvetica, sans-serif;
 	font-size: 18px;
