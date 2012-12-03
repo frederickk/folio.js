@@ -13,21 +13,66 @@ This library should be seen as very very alhpa.
 Not all of the code in here was created by me but credit and links are given where credit is due.
 
 
-
-Building
+FPaperExamples
 -------------
 
-```
-$cd build/
-$ant -buildfile build.xml
-```
+###F3D Example — 2 halbierte Würfel###
+shows the early stage of drawing simple 3D primitives
+
+https://dl.dropbox.com/u/7038255/frederickkjs/F3DExample.html
 
 
-Compiled files appear in the distribution folder in two flavors
+###FTime Example — clocks###
+shows the features of FTime, which is partly a wrapper for the native JavaScript Date() object
+
+https://dl.dropbox.com/u/7038255/frederickkjs/FTimeExample.html
 
 
-- FrederickkPaper.js
-- FrederickkPaper-min.js
+###FFade Example###
+shows how FFade can be used for timed transitions
+
+https://dl.dropbox.com/u/7038255/frederickkjs/FFadeExample.html
+
+
+###FColor Example###
+shows FColor features such as color lerping
+
+https://dl.dropbox.com/u/7038255/frederickkjs/FColorExample.html
+
+
+All of these examples can be found in the above 'examples' directory. More Examples of FrederickkJS to be added as time permits.
+
+
+
+
+FPaperTemplate
+-------------
+
+This template was created to mimic the structure of other popular programming tools for artists/designers such as http://processing.org and http://www.openframeworks.cc/
+
+The idea is to make getting PaperJS up and running quicker with a simple template which is contextually similar to other tools.
+
+By using the accompanying FPaperTemplate.html you can simply code everything within this file and all of the necessary callbacks are already implemented in the HTML
+
+This template takes advantage of PaperJS directly connected to the DOM http://paperjs.org/tutorials/getting-started/using-javascript-directly/, so that JavaScript variables created in the HTML can be accessed here and visa versa. I've already done the "hard work" for you within the HTML so that you can focus on creating
+
+Feel free to rename the script file and HTML template file, but be sure to uppdate corresponding names in FPaperTemplate.html
+
+I recommend a file structure as such:
+
+
+/scripts/
+
+	*** holder for all PaperJS scripts ***
+
+	FPaperTemplate.js (rename as desired)
+
+/js/
+
+	*** additional JavaScript libraries ***
+
+
+FPaperTemplate.html (rename as desired)
 
 
 
@@ -210,64 +255,20 @@ var fscene3d = new Frederickk.F3D.FScene3D();
 
 
 
-FPaperExamples
-============
+Building
+-------------
 
-F3D Example — 2 halbierte Würfel
-- shows the early stage of drawing simple 3D primitives
-
-https://dl.dropbox.com/u/7038255/frederickkjs/F3DExample.html
-
-
-FTime Example
-- shows the features of FTime, which is partly a wrapper for the native JavaScript Date() object
-
-https://dl.dropbox.com/u/7038255/frederickkjs/FTimeExample.html
+```
+$cd build/
+$ant -buildfile build.xml
+```
 
 
-FFade Example
-- shows how FFade can be used for timed transitions
-
-https://dl.dropbox.com/u/7038255/frederickkjs/FFadeExample.html
+Compiled files appear in the distribution folder in two flavors
 
 
-FColor Example
-- shows FColor features such as color lerping
-
-https://dl.dropbox.com/u/7038255/frederickkjs/FColorExample.html
+- FrederickkPaper.js
+- FrederickkPaper-min.js
 
 
-All of these examples can be found in the above 'examples' directory. More Examples of FrederickkJS to be added as time permits.
-
-
-
-
-FPaperTemplate
-============
-
-This template was created to mimic the structure of other popular programming tools for artists/designers such as http://processing.org and http://www.openframeworks.cc/
-
-The idea is to make getting PaperJS up and running quicker with a simple template which is contextually similar to other tools.
-
-By using the accompanying FPaperTemplate.html you can simply code everything within this file and all of the necessary callbacks are already implemented in the HTML
-
-This template takes advantage of PaperJS directly connected to the DOM http://paperjs.org/tutorials/getting-started/using-javascript-directly/, so that JavaScript variables created in the HTML can be accessed here and visa versa. I've already done the "hard work" for you within the HTML so that you can focus on creating
-
-Feel free to rename the script file and HTML template file, but be sure to uppdate corresponding names in FPaperTemplate.html
-
-I recommend a file structure as such:
-
-
-/scripts/
-
-	*** holder for all PaperJS scripts ***
-
-	FPaperTemplate.js (rename as desired)
-
-/js/
-
-	*** additional JavaScript libraries ***
-
-
-FPaperTemplate.html (rename as desired)
 
