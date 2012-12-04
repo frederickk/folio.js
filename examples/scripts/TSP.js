@@ -1,3 +1,46 @@
+var CommonTangents = function(c1, c2) {
+	var dx = c2.position.x - c1.position.x;
+	var dy = c2.position.y - c1.position.y;
+
+	var r1 = Math.sqrt( c1.bounds.size.area() );
+	var r2 = Math.sqrt( c2.bounds.size.area() );
+
+	r1 /= 2;
+	r2 /= 2;
+
+	var dist = c1.position.getDistance( c2.position );
+
+	if (dist <= Math.abs(r2 - r1)) {
+		//	The circles are coinciding
+		//	There are no valid tangents.
+		return;
+	}
+
+	var angle1 = Math.atan2(dy, dx);
+	var angle2 = Math.acos((r1 - r2)/dist);
+
+	var pt1 = new paper.Point(
+		c1.position.x + r1 * Math.cos(angle1 + angle2),
+		c1.position.y + r1 * Math.sin(angle1 + angle2)
+	);
+	var pt2 = new paper.Point(
+		c2.position.x + r2 * Math.cos(angle1 + angle2),
+		c2.position.y + r2 * Math.sin(angle1 + angle2)
+	);
+	var pt4 = new paper.Point(
+		c1.position.x + r1 * Math.cos(angle1 - angle2),
+		c1.position.y + r1 * Math.sin(angle1 - angle2)
+	);
+	var pt3 = new paper.Point(
+		c2.position.x + r2 * Math.cos(angle1 - angle2),
+		c2.position.y + r2 * Math.sin(angle1 - angle2)
+	);
+
+	return [pt1, pt2, pt3, pt4]
+};
+
+
+// ------------------------------------------------------------------------
 /**
  *	Travelling Salesman Problem Algorithm
  *
@@ -8,7 +51,7 @@
  *	http://www.evilmadscientist.com/go/stipple
  *  
  *  
- *	Modified for Scriptographer/PaperJS
+ *	Modified/Simplified for PaperJS
  *  
  *	Ken Frederick
  *	ken.frederick@gmx.de
@@ -27,16 +70,18 @@ var TSP = function() {
 	// Properties
 	// ------------------------------------------------------------------------
 	this.items;
-	this.nodeRoute = []; // create an empty array to hold the routing info
+	this.nodeRoute = [];
 
 	this.tangentGroup;
 	this.linesPath;
+
 
 
 	// ------------------------------------------------------------------------
 	// Methods
 	// ------------------------------------------------------------------------
 	this.calculate = function(_items, _iterate) {
+		// this.nodeRoute = [];
 		this.tangentGroup = new paper.Group();
 		this.items = _items;
 
@@ -186,9 +231,11 @@ var TSP = function() {
 	// ------------------------------------------------------------------------
 	this.draw = function() { 
 		var obj1, obj2;
+		var angle;
 		var nodesNum = this.nodeRoute.length - 1;
 
 		this.tangentGroup.removeChildren();
+		// console.log( '--clear--' );
 		for (var j=0; j<nodesNum; ++j) {
 			obj1 = this.items[ this.nodeRoute[j] ];
 			obj2 = this.items[ this.nodeRoute[j+1] ];
@@ -196,10 +243,35 @@ var TSP = function() {
 			var pts = CommonTangents(obj1, obj2);
 
 			var lines = new paper.Path();
-			lines.add(pts[0]);	lines.add(pts[1]);
-			lines.add(pts[2]);	lines.add(pts[3]);
+			lines.add(pts[0]);
+			lines.add(pts[1]);
+
+			if( obj2.position.x > obj1.position.x ) angle = 0;
+			else if( obj2.position.y < obj1.position.y ) angle = -90;
+			else if( obj2.position.y > obj1.position.y ) angle = 90;
+			else angle = 180;
+			var tp2 = new paper.Point(
+				obj2.position.x + Math.cos( f.radians(angle) ) * (obj2.bounds.width/2),
+				obj2.position.y + Math.sin( f.radians(angle) ) * (obj2.bounds.height/2)
+			);
+			lines.arcTo(tp2, pts[2]);
+
+			lines.add(pts[2]);
+			lines.add(pts[3]);
+
+			if( obj1.position.x > obj2.position.x ) angle = 0;
+			else if( obj1.position.y < obj2.position.y ) angle = -90;
+			else if( obj1.position.y > obj2.position.y ) angle = 90;
+			else angle = 180;
+			var tp1 = new paper.Point(
+				obj1.position.x + Math.cos( f.radians(angle) ) * (obj1.bounds.width/2),
+				obj1.position.y + Math.sin( f.radians(angle) ) * (obj1.bounds.height/2)
+			);
+			lines.arcTo(tp1, pts[0]);
+
+			// lines.strokeColor = 'black';
 			lines.fillColor = obj1.fillColor;
-			// lines.blendMode = 'multiply';
+			lines.blendMode = 'normal';
 			lines.closed = true;
 
 			this.tangentGroup.appendTop( lines );
@@ -207,77 +279,16 @@ var TSP = function() {
 		
 	};
 
-	// ------------------------------------------------------------------------
-	// this.lines = function() { 
-	// 	this.linesPath = new paper.Path();
-	// 	var nodesNum = this.nodeRoute.length - 1;
-	// 	for (var j=0; j<nodesNum; ++j) {
-	// 		var obj1 = this.items[ this.nodeRoute[j] ];
-	// 		var obj2 = this.items[ this.nodeRoute[j+1] ];
-	// 		this.linesPath.add( obj1.position );
-	// 		this.linesPath.add( obj2.position );
-	// 	}
-	// 	this.lines.PathfillColor = null;
-	// };
-
 
 
 	// ------------------------------------------------------------------------
 	// Gets
 	// ------------------------------------------------------------------------
-	this.getLines = function() {
-		return this.linesPath;
-	};
-
 	this.getTangents = function() {
 		return this.tangentGroup;	
 	};
 
 
-};
-
-
-
-// ------------------------------------------------------------------------
-var CommonTangents = function(c1, c2) {
-	var dx = c2.position.x - c1.position.x;
-	var dy = c2.position.y - c1.position.y;
-
-	var r1 = Math.sqrt( c1.bounds.size.area() );
-	var r2 = Math.sqrt( c2.bounds.size.area() );
-
-	r1 /= 2;
-	r2 /= 2;
-
-	var dist = c1.position.getDistance( c2.position );
-
-	if (dist <= Math.abs(r2 - r1)) {
-		//	The circles are coinciding
-		//	There are no valid tangents.
-		return;
-	}
-
-	var angle1 = Math.atan2(dy, dx);
-	var angle2 = Math.acos((r1 - r2)/dist);
-
-	var pt1 = new paper.Point(
-		c1.position.x + r1 * Math.cos(angle1 + angle2),
-		c1.position.y + r1 * Math.sin(angle1 + angle2)
-	);
-	var pt2 = new paper.Point(
-		c2.position.x + r2 * Math.cos(angle1 + angle2),
-		c2.position.y + r2 * Math.sin(angle1 + angle2)
-	);
-	var pt4 = new paper.Point(
-		c1.position.x + r1 * Math.cos(angle1 - angle2),
-		c1.position.y + r1 * Math.sin(angle1 - angle2)
-	);
-	var pt3 = new paper.Point(
-		c2.position.x + r2 * Math.cos(angle1 - angle2),
-		c2.position.y + r2 * Math.sin(angle1 - angle2)
-	);
-
-	return [pt1, pt2, pt3, pt4]
 };
 
 

@@ -5,8 +5,8 @@ console.log( 'FColor Example Loaded' );
 var f = Frederickk;
 
 
-var items = [];
-var temp;
+// dots
+var dots;
 
 
 // tsp
@@ -21,6 +21,9 @@ var colors = {
 	end:	new f.FColor().random()
 };
 
+
+// hit
+var temp;
 var hitOptions = {
 	fill: true,
 	tolerance: 5
@@ -36,17 +39,26 @@ function Setup() {
 	background = new paper.Path.Rectangle(view.bounds.topLeft, view.bounds.bottomRight);
 
 	// draw dots
-	var grid = new paper.Size(view.bounds.width/7, view.bounds.height/4);
+	dots = new paper.Group();
+
+	var grid = new paper.Size(
+		view.bounds.width/7,
+		view.bounds.height/4
+	);
+
 	for(var y=grid.height; y<view.bounds.height; y+=grid.height) {
 		for(var x=grid.width; x<view.bounds.width; x+=grid.width) {
+			
 			var pt = new f.FPoint(x,y); //.random();
 			var path = new Path.Circle(pt, f.randomInt(3,60));
 			path.fillColor = 'white';
 			// path.blendMode = 'multiply';
-			items.push( path );
+
+			dots.appendTop(path);
 		}
 	}
-	items.shuffle();
+	
+	dots.children.shuffle();
 	updateBackground();
 };
 
@@ -64,10 +76,9 @@ function Update(event) {
 // Draw
 // ------------------------------------------------------------------------
 function Draw() {
-	console.log( 'Draw()' );
-
-	tsp.calculate( items, 1 );
+	tsp.calculate( dots.children, 10);
 	tsp.draw();
+	tsp.getTangents().moveBelow( dots );
 };
 
 
@@ -77,19 +88,21 @@ function Draw() {
 // ------------------------------------------------------------------------
 function updateBackground() {
 	// background
-	// var gradient = new Gradient([colors.start, colors.end]);
-	// var gradientColor = new GradientColor(gradient, view.bounds.topLeft, view.bounds.bottomRight);
-	// background.fillColor = gradientColor;
+	var gradient = new Gradient([colors.start, colors.end]);
+	var gradientColor = new GradientColor(gradient, view.bounds.topLeft, view.bounds.bottomRight);
+	background.fillColor = gradientColor;
+	background.opacity = 0.1;
 
 	// dots
-	for(var i=0; i<items.length; i++) {
+	for(var i=0; i<dots.children.length; i++) {
+		var kid = dots.children[i];
 		var col = new f.FColor().lerpRGBColor(
 			colors.start,
 			colors.end,
-			i/items.length
+			i/dots.children.length
 		);
-		items.opacity = 0.1; //i/items.length;
-		items[i].fillColor = col;
+		kid.opacity = 0.1;
+		kid.fillColor = col;
 	}
 
 	// links
@@ -99,10 +112,10 @@ function updateBackground() {
 			var col = new f.FColor().lerpRGBColor(
 				colors.start,
 				colors.end,
-				i/items.length
+				i/dots.children.length
 			);
 			tan.fillColor = col;
-			tan.opacity = 0.15; //(i/tsp.getTangents().children.length)-0.1;
+			tan.opacity = 0.2; //(i/tsp.getTangents().children.length)-0.1;
 
 		}
 	}
@@ -126,22 +139,14 @@ function onMouseUp(event) {
 // ------------------------------------------------------------------------
 function onMouseDown(event) {
 	// temp = new paper.Path.Circle( event.point, 6 );
-	// items[items.length] = temp;
+	// dots.appendTop(temp);
 
 	var hitResult = project.hitTest(event.point, hitOptions);
-	if (hitResult) {
-		temp = hitResult.item;
-
-		for(var i=0; i<items.length; i++) {
-			if( items[i].position.x == temp.position.x &&
-				items[i].position.y == temp.position.y ) {
-				temp = items[i];
-			}
+	if(hitResult) {
+		if(hitResult.item.isGroupedWith(dots.children[0]) ) {
+			temp = hitResult.item;
+			temp.fillColor = 'black';
 		}
-
-		// var amt = (event.point.x / view.bounds.width);
-		// var col = new f.FColor().lerpRGBColor( colors.start,colors.end, amt)
-		// temp.fillColor = col;
 	}
 };
 
