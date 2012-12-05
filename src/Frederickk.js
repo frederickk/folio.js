@@ -1,6 +1,6 @@
 /**
  *	
- *	Frederickk.js
+ *	FrederickkPaper.js
  *	v0.1
  *	
  *	25. November 2012
@@ -17,9 +17,11 @@
  *	most of which are based on my Frederickk library for Processing
  *	(http://github.com/frederickk/frederickk)
  *
- *
  *	Not all of the code in here was created by me
  *	but credit and links are given where credit is due
+ *
+ *	Additional information and demos can be found here
+ *	http://kenfrederick.blogspot.de/2012/12/frederickkjs.html
  *
  *
  *	This library is free software; you can redistribute it and/or

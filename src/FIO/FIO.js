@@ -17,39 +17,7 @@
  *	A collection of I/O methods;
  *
  */
-Frederickk.FIO = {
-	/**
-	 *
-	 *	Jürg Lehni
-	 *	http://scriptographer.org/forum/help/save-array-data-to-external-file/?pos=0#Post-3279
-	 *
-	 */
-	saveFile : function(str, fname) {
-		var file = new File(fname);
-		if (file.exists()) file.remove();
-		file.open();
-		file.write( Json.encode(str) );
-		file.close();
-	},
-	openFile : function(fname) {
-		var file = new File(script.file.parent, fname);
-		file.open();
-		var data = Json.decode( file.readAll() );
-		file.close();
-		
-		return data;
-	},
-	deleteFile : function(fname) {
-		var file = new File(fname);
-		// If file exists, we need to remove it first in order to overwrite its content.
-		if (file.exists()) file.remove();
-	},
-	checkFile : function(fname) {
-		var file = new File(fname);
-		if (file.exists()) return true;
-		else return false
-	},
-
+FrederickkPaper.FIO = {
 	/**
 	 *
 	 *	http://www.quirksmode.org/js/cookies.html
@@ -77,7 +45,7 @@ Frederickk.FIO = {
 	},
 
 	deleteCookie : function(name) {
-		Frederickk.FIO.saveCookie(name, '', -1);
+		FrederickkPaper.FIO.saveCookie(name, '', -1);
 	}
 
 };

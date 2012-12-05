@@ -38,24 +38,29 @@ var seventy;
 // ------------------------------------------------------------------------
 function Setup() {
 
+	var size;
+	if(view.bounds.width < 768) size = 100;
+	else size = 200;
+
+
 	// Show the local time
 	local = new Clock( 
 		new paper.Point(
-			view.bounds.width*0.2,
+			view.bounds.width*0.15,
 			view.bounds.center.y
 		),
-		200
+		size
 	);
 	timeText.local = new PointText( 
 		new paper.Point(
-			view.bounds.width*0.2,
-			view.bounds.center.y+200
+			view.bounds.width*0.15,
+			view.bounds.center.y+size
 		)
 	);
 	timeText.local.justification = 'center';
 	timeText.local.characterStyle = {
 		font: 'Futura-Medium',
-		fontSize: 27,
+		fontSize: size*0.135,
 		fillColor: 'black'
 	};
 	timeText.local.content = 'Local';
@@ -64,45 +69,45 @@ function Setup() {
 	// show the running time
 	running = new Clock(
 		new paper.Point(
-			view.bounds.width*0.4,
+			view.bounds.width*0.38,
 			view.bounds.center.y
 		),
-		200
+		size
 	);
 	timeText.running = timeText.local.clone();
 	timeText.running.position = new paper.Point(
-			view.bounds.width*0.4,
-			view.bounds.center.y+200);
+			view.bounds.width*0.38,
+			view.bounds.center.y+size);
 	timeText.running.content = 'Running';
 
 
 	// show the timer time
 	timer = new Clock( 
 		new paper.Point(
-			view.bounds.width*0.6,
+			view.bounds.width*0.62,
 			view.bounds.center.y
 		),
-		200
+		size
 	);
 	timeText.timer = timeText.local.clone();
 	timeText.timer.position = new paper.Point(
-			view.bounds.width*0.6,
-			view.bounds.center.y+200);
+			view.bounds.width*0.62,
+			view.bounds.center.y+size);
 	timeText.timer.content = 'Timer'; //'00:00:00';
 
 
 	// show the time since 1. January 1970
 	seventy = new Clock( 
 		new paper.Point(
-			view.bounds.width*0.8,
+			view.bounds.width*0.85,
 			view.bounds.center.y
 		),
-		200
+		size
 	);
 	timeText.seventy = timeText.local.clone();
 	timeText.seventy.position = new paper.Point(
-			view.bounds.width*0.8,
-			view.bounds.center.y+200);
+			view.bounds.width*0.85,
+			view.bounds.center.y+size);
 	timeText.seventy.content = '1970';
 
 

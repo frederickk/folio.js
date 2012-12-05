@@ -20,12 +20,16 @@
  *
  */
 
-Frederickk.FColor = function() {
+FrederickkPaper.FColor = function() {
+	// ------------------------------------------------------------------------
 	// Properties
+	// ------------------------------------------------------------------------
 
 
 
+	// ------------------------------------------------------------------------
 	// Methods
+	// ------------------------------------------------------------------------
 	// private
 	var componentToHex = function(col) {
 		var hex = c.toString(16);
@@ -35,18 +39,18 @@ Frederickk.FColor = function() {
 
 	// public
 	this.lerpCMYKColor = function(c1,c2, amt) {
-		var c = Frederickk.lerp(c1.cyan,		c2.cyan,		amt);
-		var m = Frederickk.lerp(c1.magenta,		c2.magenta,		amt);
-		var y = Frederickk.lerp(c1.yellow,		c2.yellow,		amt);
-		var k = Frederickk.lerp(c1.black,		c2.black,		amt);
+		var c = FrederickkPaper.lerp(c1.cyan,		c2.cyan,		amt);
+		var m = FrederickkPaper.lerp(c1.magenta,		c2.magenta,		amt);
+		var y = FrederickkPaper.lerp(c1.yellow,		c2.yellow,		amt);
+		var k = FrederickkPaper.lerp(c1.black,		c2.black,		amt);
 		
 		var col = new paper.CMYKColor(c,m,y,k);
 		return col;
 	};
 	this.lerpRGBColor = function(c1,c2, amt) {
-		var r = Frederickk.lerp(c1.red,		c2.red,		amt);
-		var g = Frederickk.lerp(c1.green,	c2.green,	amt);
-		var b = Frederickk.lerp(c1.blue,	c2.blue,	amt);
+		var r = FrederickkPaper.lerp(c1.red,		c2.red,		amt);
+		var g = FrederickkPaper.lerp(c1.green,	c2.green,	amt);
+		var b = FrederickkPaper.lerp(c1.blue,	c2.blue,	amt);
 		
 		var col = new paper.RGBColor(r,g,b);
 		return col;
@@ -192,17 +196,25 @@ Frederickk.FColor = function() {
 
 };
 
-paper.Color.prototype.darken = function(pct) {
-	this.red -= pct;
-	this.green -= pct;
-	this.blue -= pct;
-	return this;
-};
-paper.Color.prototype.lighten = function(pct) {
-	this.red += pct;
-	this.green += pct;
-	this.blue += pct;
-	return this;
-};
+
+/**
+ *
+ *	paper.Color
+ *
+ */
+paper.Color.inject({
+	darken : function(pct) {
+		this.red -= pct;
+		this.green -= pct;
+		this.blue -= pct;
+		return this;
+	},
+	lighten : function(pct) {
+		this.red += pct;
+		this.green += pct;
+		this.blue += pct;
+		return this;
+	}
+});
 
 

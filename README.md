@@ -1,4 +1,4 @@
-FrederickkJS
+FrederickkPaper
 ============
 
 A collection of methods/functions that I find useful, as of now specifically created for application within PaperJS (http://PaperJS.org/) most of which are based on my Frederickk library for Processing (http://github.com/frederickk/frederickk)
@@ -45,18 +45,18 @@ All of these examples can be found in the above 'examples' directory. More Examp
 
 
 
-FPaperTemplate
+FrederickPaper Template
 -------------
 
-This template was created to mimic the structure of other popular programming tools for artists/designers such as http://processing.org and http://www.openframeworks.cc/
+This template was created to mimic the structure of other popular programming tools for artists/designers such as http://processing.org, http://www.openframeworks.cc/, http://libcinder.org/
 
-The idea is to make getting PaperJS up and running quicker with a simple template which is contextually similar to other tools.
+The idea is to make getting PaperJS up and running quicker with a simple template which is contextually similar to these other tools.
 
-By using the accompanying FPaperTemplate.html you can simply code everything within this file and all of the necessary callbacks are already implemented in the HTML
+By using the accompanying FPaperTemplate.html you can simply code everything within this file and all of the necessary (most common) callbacks are already implemented within the HTML
 
-This template takes advantage of PaperJS directly connected to the DOM http://PaperJS.org/tutorials/getting-started/using-javascript-directly/, so that JavaScript variables created in the HTML can be accessed here and visa versa. I've already done the "hard work" for you within the HTML so that you can focus on creating
+This template takes advantage of PaperJS directly connected to the DOM http://PaperJS.org/tutorials/getting-started/using-javascript-directly/, so that JavaScript variables created in the HTML can be accessed here and visa versa. I've already done the "hard work" for you within the HTML so that you can focus on editing and creating the script file /scrips/FPaperTemplate.js
 
-Feel free to rename the script file and HTML template file, but be sure to uppdate corresponding names in FPaperTemplate.html
+When using the template and/or renaming it be sure to uppdate corresponding names in FPaperTemplate.html
 
 I recommend a file structure as such:
 
@@ -82,12 +82,14 @@ Usage
 
 ```javascript
 // create a shortcut to the namespace if you wish
-var f = Frederickk;
+var fpaper = FrederickkPaper;
 
 // to access other features quickly
 // you can use additional shortcuts for namespaces
-var f3d = frederickk.F3D;
-var fio = frederickk.FIO;
+var f3d = fpaper.F3D;
+var fio = fpaper.FIO;
+var fshape = fpaper.FShape;
+var ftime = fpaper.FTime;
 ```
 
 
@@ -106,39 +108,58 @@ Math functions
 
 
 ```javascript
-Frederickk.random(minr, maxr);
-Frederickk.randomBias(minr, maxr, bias);
-Frederickk.clamp(val,min,max);
-Frederickk.norm(val,start,stop);
-Frederickk.map(value, istart, istop, ostart, ostop);
-Frederickk.roundDecimal(orig, deci);
-Frederickk.snap(value, gridSize, roundFunction);
-Frederickk.lerp(start, stop, amt);
-Frederickk.degrees(val);
-Frederickk.radians(val);
-Frederickk.boolToInt(val);
-Frederickk.getType(object);
+FrederickkPaper.random(minr, maxr);
+FrederickkPaper.randomBias(minr, maxr, bias);
+FrederickkPaper.clamp(val,min,max);
+FrederickkPaper.norm(val,start,stop);
+FrederickkPaper.map(value, istart, istop, ostart, ostop);
+FrederickkPaper.roundDecimal(orig, deci);
+FrederickkPaper.snap(value, gridSize, roundFunction);
+FrederickkPaper.lerp(start, stop, amt);
+FrederickkPaper.degrees(val);
+FrederickkPaper.radians(val);
+FrederickkPaper.getAngle(point);
+FrederickkPaper.sq(num);
+FrederickkPaper.boolToInt(val);
+FrederickkPaper.getType(object);
+FrederickkPaper.findByName(items, name);
 ```
 
 String functions
 
 
 ```javascript
-String.trimToFit(textObj);
-String.rtrim(str);
-String.trim(str);
+FrederickkPaper.trimToFit(textObj);
+FrederickkPaper.rtrim(str);
+FrederickkPaper.trim(str);
+FrederickkPaper.strToBoll(str);
 ```
 
 Array functions
 
 
 ```javascript
-Frederickk.merge(arr1, arr2);
-Frederickk.alphabetical(a, b); // sorting
+FrederickkPaper.merge(arr1, arr2);
+FrederickkPaper.alphabetical(a, b); // sorting
 Array.max();
 Array.min();
 Array.shuffle();
 ```
+
+paper.Item extensions
+
+
+```javascript
+paper.Item.snapGrid(spacing);
+paper.Item.snapIso(scale);
+```
+
+paper.Size extensions
+
+```javascript
+paper.Size.area();
+```
+
 
 
 ### FConversions ###
@@ -146,19 +167,19 @@ A collection of helpful conversion ratios
 
 
 ```javascript
-var conversions = new Frederickk.FConversions();
+var conversions = new FrederickkPaper.FConversions();
 
-Frederickk.FConversions.ptToMm;
-Frederickk.FConversions.mmToPt;
+FrederickkPaper.FConversions.ptToMm;
+FrederickkPaper.FConversions.mmToPt;
 
-Frederickk.FConversions.ptToCm;
-Frederickk.FConversions.CmToPt;
+FrederickkPaper.FConversions.ptToCm;
+FrederickkPaper.FConversions.CmToPt;
 
-Frederickk.FConversions.ptToIn;
-Frederickk.FConversions.inToPt;
+FrederickkPaper.FConversions.ptToIn;
+FrederickkPaper.FConversions.inToPt;
 
-Frederickk.FConversions.ptToPi;
-Frederickk.FConversions.piToPt;
+FrederickkPaper.FConversions.ptToPi;
+FrederickkPaper.FConversions.piToPt;
 ```
 
 
@@ -167,27 +188,27 @@ Expands paper.Color some of these may be redundant to the PaperJS api, that's du
 
 
 ```javascript
-var fcolor = new Frederickk.FColor();
+var fcolor = new FrederickkPaper.FColor();
 
-Frederickk.FColor.lerpCMYKColor(c1,c2, amt);
-Frederickk.FColor.lerpRGBColor(c1,c2, amt);
-Frederickk.FColor.random();
-Frederickk.FColor.randomRGBColor();
-Frederickk.FColor.randomCMYKColor();
-Frederickk.FColor.randomGrayColor();
-Frederickk.FColor.ColorToInt(col);
-Frederickk.FColor.IntToColor(RGBint);
-Frederickk.FColor.ColorToHex(col);
-Frederickk.FColor.HexToColor(hex);
-Frederickk.FColor.HSVtoColor(h, s, v);
+FrederickkPaper.FColor.lerpCMYKColor(c1,c2, amt);
+FrederickkPaper.FColor.lerpRGBColor(c1,c2, amt);
+FrederickkPaper.FColor.random();
+FrederickkPaper.FColor.randomRGBColor();
+FrederickkPaper.FColor.randomCMYKColor();
+FrederickkPaper.FColor.randomGrayColor();
+FrederickkPaper.FColor.ColorToInt(col);
+FrederickkPaper.FColor.IntToColor(RGBint);
+FrederickkPaper.FColor.ColorToHex(col);
+FrederickkPaper.FColor.HexToColor(hex);
+```
 
+paper.Color extensions
+
+
+```javascript
 paper.Color.darken(pct);
 paper.Color.lighten(pct);
 ```
-
-
-### FFade ###
-A helper class for fading/animating elements
 
 
 
@@ -195,18 +216,18 @@ A helper class for fading/animating elements
 Expands paper.Point some of these may be redundant to the PaperJS api, that's due to the legacy of the library's initial creation for use in Scriptographer.
 
 ```javascript
-var fpoint = new Frederickk.FPoint();
+var fpoint = new FrederickkPaper.FPoint();
 
-Frederickk.FPoint.norm(startPt, stopPt);
-Frederickk.FPoint.random();
-Frederickk.FPoint.heading();
+FrederickkPaper.FPoint.norm(startPt, stopPt);
+FrederickkPaper.FPoint.random();
+FrederickkPaper.FPoint.heading();
 
-Frederickk.FPoint.interpolateTo(v2, f);
-Frederickk.FPoint.limit(lim);
-Frederickk.FPoint.magSq();
+FrederickkPaper.FPoint.interpolateTo(v2, f);
+FrederickkPaper.FPoint.limit(lim);
+FrederickkPaper.FPoint.magSq();
 
-Frederickk.FPoint.snapGrid(spacing);
-Frederickk.FPoint.snapIso(scale);
+FrederickkPaper.FPoint.snapGrid(spacing);
+FrederickkPaper.FPoint.snapIso(scale);
 ```
 
 
@@ -216,31 +237,57 @@ A collection of tools for handling files/cookies
 
 
 ```javascript
-var fio = Frederickk.FIO;
+var fio = FrederickkPaper.FIO;
 
-Frederickk.FIO.saveCookie(name, value, days);
-Frederickk.FIO.openCookie(name);
-Frederickk.FIO.deleteCookie(name);
+FrederickkPaper.FIO.saveCookie(name, value, days);
+FrederickkPaper.FIO.openCookie(name);
+FrederickkPaper.FIO.deleteCookie(name);
 ```
 
 
 ### FTime ###
-A collection of methods for handling time
+A collection of methods for handling time oriented tasks
 
 ```javascript
-var ftime = new Frederickk.FTime();
+var fdate = new FrederickkPaper.FTime.FDate();
+var fstopwatch = new FrederickkPaper.FTime.FStopwatch();
+var ftransition = new FrederickkPaper.FTime.FTransition();
+```
 
-Frederickk.FTime.hour();
-Frederickk.FTime.minute();
-Frederickk.FTime.second();
-Frederickk.FTime.now(format);
-Frederickk.FTime.nowMilliseconds();
-Frederickk.FTime.add(_d, _h, _m, _s);
-Frederickk.FTime.sub(_d, _h, _m, _s);
-Frederickk.FTime.set(_d, _h, _m, _s);
-Frederickk.FTime.get(ms, format);
-Frederickk.FTime.toMillsecond(_h, _m, _s);
-Frederickk.FTime.toArray(strHMS);
+
+####FDate####
+
+```javascript
+var ftime = new FrederickkPaper.FTime.FDate();
+
+FrederickkPaper.FTime.FDate.year();
+FrederickkPaper.FTime.FDate.month();
+FrederickkPaper.FTime.FDate.day();
+FrederickkPaper.FTime.FDate.hour();
+FrederickkPaper.FTime.FDate.minute();
+FrederickkPaper.FTime.FDate.second();
+FrederickkPaper.FTime.FDate.now(format);
+FrederickkPaper.FTime.FDate.nowMilliseconds();
+FrederickkPaper.FTime.FDate.add(_d, _h, _m, _s);
+FrederickkPaper.FTime.FDate.sub(_d, _h, _m, _s);
+FrederickkPaper.FTime.FDate.set(_d, _h, _m, _s);
+FrederickkPaper.FTime.FDate.get(ms, format);
+FrederickkPaper.FTime.FDate.toMillsecond(_h, _m, _s);
+FrederickkPaper.FTime.FDate.toArray(strHMS);
+```
+
+####FStopwatch####
+
+
+```javascript
+var fstopwatch = new FrederickkPaper.FTime.FStopwatch();
+```
+
+####FTransition####
+
+
+```javascript
+var ftransition = new FrederickkPaper.FTime.FTransition();
 ```
 
 
@@ -248,9 +295,9 @@ Frederickk.FTime.toArray(strHMS);
 A barebones collection of classes for primitive 3D rendering
 
 ```javascript
-var fpoint3 = new Frederickk.F3D.FPoint3(_x, _y, _z);
-var fpath3 = new Frederickk.F3D.FPath3();
-var fscene3d = new Frederickk.F3D.FScene3D();
+var fpoint3 = new FrederickkPaper.F3D.FPoint3(_x, _y, _z);
+var fpath3 = new FrederickkPaper.F3D.FPath3();
+var fscene3d = new FrederickkPaper.F3D.FScene3D();
 ```
 
 

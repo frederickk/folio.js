@@ -127,3 +127,18 @@ input.submit {
 	background-color: none;
 	border: none;
 }
+
+
+
+
+/*	------------------------------------------------------------------------
+ *	Media Queris
+ *	------------------------------------------------------------------------ */ 
+@media (max-width: 600px) {
+	#textContainer {
+		visibility: hidden;
+	}
+	#manual {
+		visibility: hidden;
+	}
+}

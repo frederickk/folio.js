@@ -32,7 +32,7 @@
  *	@param z
  *			z coordinate
  */
-Frederickk.F3D.FPoint3 = function(_x, _y, _z) {
+FrederickkPaper.F3D.FPoint3 = function(_x, _y, _z) {
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
@@ -110,7 +110,7 @@ Frederickk.F3D.FPoint3 = function(_x, _y, _z) {
 	 *	Get a copy of this point.
 	 */
 	this.get = function() {
-		return new Frederickk.F3D.FPoint3(x,y,z);
+		return new FrederickkPaper.F3D.FPoint3(x,y,z);
 	};
 
 

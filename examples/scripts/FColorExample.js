@@ -41,10 +41,20 @@ function Setup() {
 	// draw dots
 	dots = new paper.Group();
 
-	var grid = new paper.Size(
-		view.bounds.width/7,
-		view.bounds.height/4
-	);
+	var grid;
+	var size;
+	if(view.bounds.width < 768) {
+		grid = new paper.Size(
+			view.bounds.width/4,
+			view.bounds.height/4
+		);
+	}
+	else {
+		grid = new paper.Size(
+			view.bounds.width/7,
+			view.bounds.height/4
+		);
+	}
 
 	for(var y=grid.height; y<view.bounds.height; y+=grid.height) {
 		for(var x=grid.width; x<view.bounds.width; x+=grid.width) {
@@ -101,8 +111,9 @@ function updateBackground() {
 			colors.end,
 			i/dots.children.length
 		);
-		kid.opacity = 0.1;
+		// kid.opacity = 0.1;
 		kid.fillColor = col;
+		kid.fillColor.alpha = 0.1;
 	}
 
 	// links
@@ -115,7 +126,8 @@ function updateBackground() {
 				i/dots.children.length
 			);
 			tan.fillColor = col;
-			tan.opacity = 0.2; //(i/tsp.getTangents().children.length)-0.1;
+			tan.fillColor.alpha = 0.2;
+			// tan.opacity = 0.2; //(i/tsp.getTangents().children.length)-0.1;
 
 		}
 	}
@@ -146,6 +158,7 @@ function onMouseDown(event) {
 		if(hitResult.item.isGroupedWith(dots.children[0]) ) {
 			temp = hitResult.item;
 			temp.fillColor = 'black';
+			temp.fillColor.alpha = 0.1;
 		}
 	}
 };

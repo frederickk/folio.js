@@ -269,8 +269,11 @@ var TSP = function() {
 			);
 			lines.arcTo(tp1, pts[0]);
 
-			// lines.strokeColor = 'black';
+			lines.strokeColor = 'white';
+			lines.strokeWidth = 2;
 			lines.fillColor = obj1.fillColor;
+			lines.fillColor.alpha = 0.1;
+
 			lines.blendMode = 'normal';
 			lines.closed = true;
 

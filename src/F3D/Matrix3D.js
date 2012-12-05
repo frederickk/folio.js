@@ -9,6 +9,16 @@
  *	http://www.daijima.jp/blog/
  *	http://twitter.com/daijimachine
  *
+ *
+ *	expanded and modified with inspiration from three.js
+ *
+ *	Ken Frederick
+ *	ken.frederick@gmx.de
+ *
+ *	http://cargocollective.com/kenfrederick/
+ *	http://kenfrederick.blogspot.com/
+ *
+ *
  *	modification 
  *
  *	This library is free software; you can redistribute it and/or

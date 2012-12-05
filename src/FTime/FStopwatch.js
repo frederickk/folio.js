@@ -17,8 +17,10 @@
  *	A simple stopwatch
  *
  */
-Frederickk.FStopwatch = function() {
+FrederickkPaper.FTime.FStopwatch = function() {
+	// ------------------------------------------------------------------------
 	// Properties
+	// ------------------------------------------------------------------------
 	// private
 	var now;
 	var then;
@@ -27,7 +29,9 @@ Frederickk.FStopwatch = function() {
 
 
 
+	// ------------------------------------------------------------------------
 	// Methods
+	// ------------------------------------------------------------------------
 	this.toggle = function() {
 		if (bStart == 0) {
 			this.start();
@@ -57,7 +61,10 @@ Frederickk.FStopwatch = function() {
 	};
 
 
+
+	// ------------------------------------------------------------------------
 	// Sets
+	// ------------------------------------------------------------------------
 	this.set = function(ms, run) {
 		timeInMs = ms;
 		(run == true) ? bStart = 0 : bStart = 1;
@@ -68,7 +75,10 @@ Frederickk.FStopwatch = function() {
 	};
 
 
+
+	// ------------------------------------------------------------------------
 	// Gets
+	// ------------------------------------------------------------------------
 	this.get = function() {
 		if (bStart == 1)  {
 			now = new Date();

@@ -18,21 +18,27 @@
  *	to those found in Processing
  *
  */
-Frederickk = {
+FrederickkPaper = {
+	// ------------------------------------------------------------------------
  	// Namespaces
+	// ------------------------------------------------------------------------
  	//FControl: {}, 
  	FIO: {},
  	F3D: {},
  	FShape: {},
- 	//FTime: {},
+ 	FTime: {},
 
 
 
+	// ------------------------------------------------------------------------
 	// Properties
+	// ------------------------------------------------------------------------
 
 
 
+	// ------------------------------------------------------------------------
 	// Methods
+	// ------------------------------------------------------------------------
 	random : function(minr, maxr) {
 		if(maxr === undefined) {
 			maxr = minr;
@@ -41,7 +47,7 @@ Frederickk = {
 		return (minr + Math.random() * (maxr - minr));
 	},
 	randomInt : function(minr, maxr) {
-		return parseInt( Frederickk.random(minr,maxr) );
+		return parseInt( FrederickkPaper.random(minr,maxr) );
 	},
 
 	/*
@@ -125,6 +131,11 @@ Frederickk = {
 		return angle;
 	},
 
+
+	// ------------------------------------------------------------------------
+	sq : function(num) {
+		return num*num;
+	},
 
 
 	// ------------------------------------------------------------------------
@@ -273,12 +284,15 @@ Array.prototype.shuffle = function() {
  *	paper.Item
  *
  */
-paper.Item.prototype.snapGrid = function(spacing) {
-	this.position.snapGrid(spacing);
-};
-paper.Item.prototype.snapIso = function(scale) {
-	this.position.snapIso(scale);
-};
+paper.Item.inject({
+	snapGrid : function(spacing) {
+		this.position.snapGrid(spacing);
+	},
+	snapIso : function(scale) {
+		this.position.snapIso(scale);
+	}
+});
+
 
 
 
@@ -287,9 +301,11 @@ paper.Item.prototype.snapIso = function(scale) {
  *	paper.Size
  *
  */
-paper.Size.prototype.area = function() {
-	return (this.width * this.height);
-};
+paper.Size.inject({
+	area : function() {
+		return (this.width * this.height);
+	}
+});
 
 
 

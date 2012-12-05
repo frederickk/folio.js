@@ -15,16 +15,16 @@
  *	FPoint
  *
  */
-Frederickk.FPoint = paper.Point.extend({
+FrederickkPaper.FPoint = paper.Point.extend({
 	norm : function(startPt, stopPt) {
-		this.x = Frederickk.norm(this.x, start.x, stop.x);
-		this.y = Frederickk.norm(this.y, start.y, stop.y);
+		this.x = FrederickkPaper.norm(this.x, start.x, stop.x);
+		this.y = FrederickkPaper.norm(this.y, start.y, stop.y);
 		return this;
 	},
 
 	random : function() {
-		this.x = Frederickk.random(0, view.bounds.width);
-		this.y = Frederickk.random(0, view.bounds.height);
+		this.x = FrederickkPaper.random(0, view.bounds.width);
+		this.y = FrederickkPaper.random(0, view.bounds.height);
 		return this;
 	},
 

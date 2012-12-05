@@ -45,27 +45,31 @@ function Setup() {
 
 	// FBillBox
 	// http://www.kettererkunst.de/kunst/kd/details.php?obnr=100039513&anummer=1
-	var billRed = new Frederickk.FShape.FBillBox(scene);
-	billRed.setWHD(600, 600, 600);
+	var size;
+	if(view.bounds.width < 768) size = 300;
+	else size = 600;
+
+	var billRed = new FrederickkPaper.FShape.FBillBox(scene);
+	billRed.setWHD(size, size, size);
 	billRed.red();
-	billRed.init(600,-600,0);
+	billRed.init(size,-size,0);
 
-	var billYellow = new Frederickk.FShape.FBillBox(scene);
-	billYellow.setWHD(600, 600, 600);
+	var billYellow = new FrederickkPaper.FShape.FBillBox(scene);
+	billYellow.setWHD(size, size, size);
 	billYellow.yellow();
-	billYellow.init(-600,600,0);
+	billYellow.init(-size,size,0);
 
-	var billBlue = new Frederickk.FShape.FBillBox(scene);
-	billBlue.setWHD(600, 600, 600);
+	var billBlue = new FrederickkPaper.FShape.FBillBox(scene);
+	billBlue.setWHD(size, size, size);
 	billBlue.blue();
-	billBlue.init(-600,-600,0);
+	billBlue.init(-size,-size,0);
 
 
-	// var billGreen = new Frederickk.FShape.FBillBox(scene);
-	// billGreen.setWHD(600, 600, 600);
+	// var billGreen = new FrederickkPaper.FShape.FBillBox(scene);
+	// billGreen.setWHD(size, size, size);
 	// billGreen.fillColor = new paper.RGBColor(0.62, 0.77, 0.14);
 	// billGreen.setVertices( [9,17,7] );
-	// billGreen.init(-1800,600,0);
+	// billGreen.init(-(size*3),size,0);
 
 
 };

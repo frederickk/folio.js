@@ -17,7 +17,13 @@
  *	Create simple box
  *
  */
-Frederickk.FShape.FBox = function(_scene) {
+
+ /**
+  *
+  *	TODO: make this an extension of FPath3
+  *
+  */
+FrederickkPaper.FShape.FBox = function(_scene) {
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
@@ -40,45 +46,45 @@ Frederickk.FShape.FBox = function(_scene) {
 
 
 	this.faceFRONT = [
-		new Frederickk.F3D.FPoint3(-0.5, -0.5, -0.5), //corner
-		new Frederickk.F3D.FPoint3( 0.5, -0.5, -0.5), //corner
-		new Frederickk.F3D.FPoint3( 0.5,	0.5, -0.5), //corner
-		new Frederickk.F3D.FPoint3(-0.5,	0.5, -0.5) //corner
+		new FrederickkPaper.F3D.FPoint3(-0.5, -0.5, -0.5), //corner
+		new FrederickkPaper.F3D.FPoint3( 0.5, -0.5, -0.5), //corner
+		new FrederickkPaper.F3D.FPoint3( 0.5,	0.5, -0.5), //corner
+		new FrederickkPaper.F3D.FPoint3(-0.5,	0.5, -0.5) //corner
 	];
 	
 	this.faceTOP = [
-		new Frederickk.F3D.FPoint3(-0.5, -0.5,	0.5), //corner
-		new Frederickk.F3D.FPoint3( 0.5, -0.5,	0.5), //corner
-		new Frederickk.F3D.FPoint3( 0.5, -0.5, -0.5), //corner
-		new Frederickk.F3D.FPoint3(-0.5, -0.5, -0.5) //corner
+		new FrederickkPaper.F3D.FPoint3(-0.5, -0.5,	0.5), //corner
+		new FrederickkPaper.F3D.FPoint3( 0.5, -0.5,	0.5), //corner
+		new FrederickkPaper.F3D.FPoint3( 0.5, -0.5, -0.5), //corner
+		new FrederickkPaper.F3D.FPoint3(-0.5, -0.5, -0.5) //corner
 	];
 
 	this.faceBOTTOM = [
-		new Frederickk.F3D.FPoint3(-0.5, 0.5,	0.5), //corner
-		new Frederickk.F3D.FPoint3( 0.5, 0.5,	0.5), //corner
-		new Frederickk.F3D.FPoint3( 0.5, 0.5, -0.5), //corner
-		new Frederickk.F3D.FPoint3(-0.5, 0.5, -0.5) //corner
+		new FrederickkPaper.F3D.FPoint3(-0.5, 0.5,	0.5), //corner
+		new FrederickkPaper.F3D.FPoint3( 0.5, 0.5,	0.5), //corner
+		new FrederickkPaper.F3D.FPoint3( 0.5, 0.5, -0.5), //corner
+		new FrederickkPaper.F3D.FPoint3(-0.5, 0.5, -0.5) //corner
 	];
 	
 	this.faceLEFT = [
-		new Frederickk.F3D.FPoint3(-0.5, -0.5, -0.5), //corner
-		new Frederickk.F3D.FPoint3(-0.5, -0.5,	0.5), //corner
-		new Frederickk.F3D.FPoint3(-0.5,	0.5,	0.5), //corner
-		new Frederickk.F3D.FPoint3(-0.5,	0.5, -0.5) //corner
+		new FrederickkPaper.F3D.FPoint3(-0.5, -0.5, -0.5), //corner
+		new FrederickkPaper.F3D.FPoint3(-0.5, -0.5,	0.5), //corner
+		new FrederickkPaper.F3D.FPoint3(-0.5,	0.5,	0.5), //corner
+		new FrederickkPaper.F3D.FPoint3(-0.5,	0.5, -0.5) //corner
 	];
 	
 	this.faceRIGHT = [
-		new Frederickk.F3D.FPoint3( 0.5, -0.5, -0.5), //corner
-		new Frederickk.F3D.FPoint3( 0.5, -0.5,	0.5), //corner
-		new Frederickk.F3D.FPoint3( 0.5,	0.5,	0.5), //corner
-		new Frederickk.F3D.FPoint3( 0.5,	0.5, -0.5) //corner
+		new FrederickkPaper.F3D.FPoint3( 0.5, -0.5, -0.5), //corner
+		new FrederickkPaper.F3D.FPoint3( 0.5, -0.5,	0.5), //corner
+		new FrederickkPaper.F3D.FPoint3( 0.5,	0.5,	0.5), //corner
+		new FrederickkPaper.F3D.FPoint3( 0.5,	0.5, -0.5) //corner
 	];
 	
 	this.faceBACK = [
-		new Frederickk.F3D.FPoint3(-0.5, -0.5,	0.5), //corner
-		new Frederickk.F3D.FPoint3( 0.5, -0.5,	0.5), //corner
-		new Frederickk.F3D.FPoint3( 0.5,	0.5,	0.5), //corner
-		new Frederickk.F3D.FPoint3(-0.5,	0.5,	0.5) //corner
+		new FrederickkPaper.F3D.FPoint3(-0.5, -0.5,	0.5), //corner
+		new FrederickkPaper.F3D.FPoint3( 0.5, -0.5,	0.5), //corner
+		new FrederickkPaper.F3D.FPoint3( 0.5,	0.5,	0.5), //corner
+		new FrederickkPaper.F3D.FPoint3(-0.5,	0.5,	0.5) //corner
 	];
 
 
@@ -122,7 +128,7 @@ Frederickk.FShape.FBox = function(_scene) {
 
 
 
-	var whd = new Frederickk.F3D.FPoint3(10,10,10);
+	var whd = new FrederickkPaper.F3D.FPoint3(10,10,10);
 
 
 
