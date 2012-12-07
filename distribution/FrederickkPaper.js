@@ -1,8 +1,9 @@
 /**
  *	
- *	FrederickkPaper.js
+ *	frederickkPaper.js
  *	v0.1
- *	
+ *	https://github.com/frederickk/frederickkPaper
+ *
  *	25. November 2012
  *
  *	Ken Frederick
@@ -21,7 +22,7 @@
  *	but credit and links are given where credit is due
  *
  *	Additional information and demos can be found here
- *	http://kenfrederick.blogspot.de/2012/12/frederickkjs.html
+ *	http://kenfrederick.blogspot.de/2012/12/frederickkpaper.html
  *
  *
  *	This library is free software; you can redistribute it and/or
@@ -57,13 +58,14 @@
 
 
 // ------------------------------------------------------------------------
-var Frederickk = Frederickk || {};
+var frederickkPaper = frederickkPaper || {};
 
 
 
 (function() {
-	console.log('\nFrederickkPaper.js');
+	console.log('\nfrederickkPaper.js');
 	console.log('v.0.1a');
+	console.log('https://github.com/frederickk/frederickkPaper');
 	console.log('ken.frederick@gmx.de');
 	console.log('------------------------------------\n');
 })();
@@ -89,7 +91,7 @@ var Frederickk = Frederickk || {};
  *	to those found in Processing
  *
  */
-Frederickk = {
+frederickkPaper = {
 	// ------------------------------------------------------------------------
  	// Namespaces
 	// ------------------------------------------------------------------------
@@ -97,7 +99,7 @@ Frederickk = {
  	FIO: {},
  	F3D: {},
  	FShape: {},
- 	//FTime: {},
+ 	FTime: {},
 
 
 
@@ -118,7 +120,7 @@ Frederickk = {
 		return (minr + Math.random() * (maxr - minr));
 	},
 	randomInt : function(minr, maxr) {
-		return parseInt( FrederickkPaper.random(minr,maxr) );
+		return parseInt( frederickkPaper.random(minr,maxr) );
 	},
 
 	/*
@@ -402,7 +404,7 @@ paper.Size.inject({
  *
  */
 
-FrederickkPaper.FColor = function() {
+frederickkPaper.FColor = function() {
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
@@ -420,19 +422,10 @@ FrederickkPaper.FColor = function() {
 
 
 	// public
-	this.lerpCMYKColor = function(c1,c2, amt) {
-		var c = FrederickkPaper.lerp(c1.cyan,		c2.cyan,		amt);
-		var m = FrederickkPaper.lerp(c1.magenta,		c2.magenta,		amt);
-		var y = FrederickkPaper.lerp(c1.yellow,		c2.yellow,		amt);
-		var k = FrederickkPaper.lerp(c1.black,		c2.black,		amt);
-		
-		var col = new paper.CMYKColor(c,m,y,k);
-		return col;
-	};
 	this.lerpRGBColor = function(c1,c2, amt) {
-		var r = FrederickkPaper.lerp(c1.red,		c2.red,		amt);
-		var g = FrederickkPaper.lerp(c1.green,	c2.green,	amt);
-		var b = FrederickkPaper.lerp(c1.blue,	c2.blue,	amt);
+		var r = frederickkPaper.lerp(c1.red,	c2.red,		amt);
+		var g = frederickkPaper.lerp(c1.green,	c2.green,	amt);
+		var b = frederickkPaper.lerp(c1.blue,	c2.blue,	amt);
 		
 		var col = new paper.RGBColor(r,g,b);
 		return col;
@@ -499,18 +492,31 @@ FrederickkPaper.FColor = function() {
 		}
 		return str;
 	};
-	this.HexToColor = function(hex) {
+	this.HexToColor = function(_hex) {
 		// var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
 		// var r = parseInt(result[1], 16);
 		// var g = parseInt(result[2], 16);
 		// var b = parseInt(result[3], 16);
+
+		if( _hex.length >= 7 ) hex = _hex.split('#')[1];
+		else hex = _hex;
 
 		var big= parseInt(hex, 16);
 		var r = (big>> 16) & 255;
 		var g = (big>> 8) & 255;
 		var b = big& 255;
 
-		return new paper.RGBColor(r,g,b);
+		return new paper.RGBColor(r/255,g/255,b/255);
+	};
+
+
+	// ------------------------------------------------------------------------
+	this.ByteToColor = function(r255, g255, b255, a255)  {
+		var r = r255/255;
+		var g = g255/255;
+		var b = b255/255;
+		var a = (a255 != undefined) ? a255/255 : 1.0;
+		return new paper.RGBColor(r,g,b,a);
 	};
 
 
@@ -619,7 +625,7 @@ paper.Color.inject({
  *	A collection of helpful conversion ratios
  *
  */
-FrederickkPaper.FConversions = function() {
+frederickkPaper.FConversions = function() {
 	// conversions
 	this.ptToMm = 0.352777778;
 	this.mmToPt = 2.83464567;
@@ -632,152 +638,6 @@ FrederickkPaper.FConversions = function() {
 
 	this.ptToPi = 0.0833333333;
 	this.piToPt = 12;
-
-};
-
-
-/**
- *  
- *	FFade.js
- *	v0.1
- *  
- *	25. November 2012
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
- *  
- *  
- *	FFade
- *
- */
-FrederickkPaper.FFade = function() {
-	// ------------------------------------------------------------------------
-	// Properties
-	// ------------------------------------------------------------------------
-	// private
-	var fadeMillis = 1000; // set to default of 1s OR 1000ms
-	
-	var timeStartFade = 0.0;
-	var timeEndFade = 0.0;
-	
-	var bBeginFade = false;
-	var bFadeIn = false;
-	var bFadeOut = false;
-
-	// public
-	this.alpha = 1.0;
-
-
-	
-	// ------------------------------------------------------------------------
-	// Methods
-	// ------------------------------------------------------------------------
-	this.init = function(runtime) {
-		_currentTime = runtime;
-		this.update(_currentTime);
-	};
-	this.update = function(currentTime) {
-
-		if(bBeginFade) {
-			//console.log( 'bBeginFade' );
-
-			bBeginFade = false;
-			timeStartFade = currentTime;
-			if(bFadeIn) {
-				timeEndFade = currentTime + parseFloat((1.0 - this.alpha) * fadeMillis);
-			}
-			else {
-				timeEndFade = currentTime + parseFloat(this.alpha*fadeMillis);
-			}
-			if(timeEndFade == currentTime) {
-				if(bFadeIn) {
-					bFadeIn = false;
-					this.alpha = 1.0;
-				}
-				else {
-					bFadeOut = false;
-					this.alpha = 0.0;
-				}
-			}
-		}
-		if(bFadeIn) {
-			//console.log( 'bFadeIn' );
-
-			this.alpha = 1.0 - parseFloat((timeEndFade - currentTime) / fadeMillis);
-			if(currentTime > timeEndFade) {
-				bFadeIn = false;
-				this.alpha = 1.0;
-			}
-		}
-		else if(bFadeOut) {
-			//console.log( 'bFadeOut' );
-
-			this.alpha = parseFloat((timeEndFade - currentTime) / fadeMillis);
-			if(currentTime > timeEndFade) {
-				bFadeIn = false;
-				this.alpha = 0.0;
-			}
-		}
-
-		// console.log( this.alpha );
-	};
-
-	// ------------------------------------------------------------------------
-	this.fadeIn = function() {
-		//console.log( 'fadeIn()' );
-
-		if(bFadeIn)return;
-		if(this.alpha == 1.0) return;
-		bBeginFade = true;
-		bFadeIn = true;
-		bFadeOut = false;
-	};
-	this.fadeOut = function() {
-		//console.log( 'fadeOut()' );
-
-		if(bFadeOut)return;
-		if(this.alpha == 0.0) return;
-		bBeginFade = true;
-		bFadeOut = true;
-		bFadeIn = false;
-	};
-
-	// ------------------------------------------------------------------------
-	this.isFadingIn = function() {
-		return bFadeIn;
-	};
-	this.isFadingOut = function() {
-		return bFadeOut;
-	};
-
-	// ------------------------------------------------------------------------
-	this.stopFade = function() {
-		bBeginFade = bFadeIn = bFadeOut = false;
-	};
-
-
-
-	// ------------------------------------------------------------------------
-	// Sets
-	// ------------------------------------------------------------------------
-	/**
-	 *	@param _seconds
-	 *			length of fade in seconds 
-	 */
-	this.setFadeSeconds = function(_seconds) {
-		this.setFadeMillis( parseInt(_seconds * 1000.0) );
-	};
-	/**
-	 *	@param _millis
-	 *			length of fade in milliseconds 
-	 */
-	this.setFadeMillis = function(_millis) {
-		fadeMillis = _millis;
-		fadeMillis /= 1000;
-	};
 
 };
 
@@ -799,16 +659,16 @@ FrederickkPaper.FFade = function() {
  *	FPoint
  *
  */
-FrederickkPaper.FPoint = paper.Point.extend({
+frederickkPaper.FPoint = paper.Point.extend({
 	norm : function(startPt, stopPt) {
-		this.x = FrederickkPaper.norm(this.x, start.x, stop.x);
-		this.y = FrederickkPaper.norm(this.y, start.y, stop.y);
+		this.x = frederickkPaper.norm(this.x, start.x, stop.x);
+		this.y = frederickkPaper.norm(this.y, start.y, stop.y);
 		return this;
 	},
 
 	random : function() {
-		this.x = FrederickkPaper.random(0, view.bounds.width);
-		this.y = FrederickkPaper.random(0, view.bounds.height);
+		this.x = frederickkPaper.random(0, view.bounds.width);
+		this.y = frederickkPaper.random(0, view.bounds.height);
 		return this;
 	},
 
@@ -889,7 +749,7 @@ FrederickkPaper.FPoint = paper.Point.extend({
  *	A collection of I/O methods;
  *
  */
-FrederickkPaper.FIO = {
+frederickkPaper.FIO = {
 	/**
 	 *
 	 *	http://www.quirksmode.org/js/cookies.html
@@ -917,7 +777,7 @@ FrederickkPaper.FIO = {
 	},
 
 	deleteCookie : function(name) {
-		FrederickkPaper.FIO.saveCookie(name, '', -1);
+		frederickkPaper.FIO.saveCookie(name, '', -1);
 	}
 
 };
@@ -925,7 +785,7 @@ FrederickkPaper.FIO = {
 
 /**
  *  
- *	FStopwatch.js
+ *	FDate.js
  *	v0.1
  *  
  *	25. November 2012
@@ -937,111 +797,19 @@ FrederickkPaper.FIO = {
  *	http://kenfrederick.blogspot.com/
  *
  *
- *	FStopwatch
- *
- *	A simple stopwatch
+ *	FDate
  *
  */
-FrederickkPaper.FStopwatch = function() {
-	// ------------------------------------------------------------------------
-	// Properties
-	// ------------------------------------------------------------------------
-	// private
-	var now;
-	var then;
-	var timeInMs = 0;
-	var bStart = 0;
-
-
-
-	// ------------------------------------------------------------------------
-	// Methods
-	// ------------------------------------------------------------------------
-	this.toggle = function() {
-		if (bStart == 0) {
-			this.start();
-		}
-		else {
-			this.pause();
-		}
-	};
-
-	this.start = function() {
-		// start
-		bStart = 1;
-		then = new Date();
-		then.setTime(then.getTime() - timeInMs);
-	};
-
-	this.pause = function() {
-		// pause
-		bStart = 0;
-		now = new Date();
-		timeInMs = now.getTime() - then.getTime();
-	};
-
-	this.reset = function() {
-		bStart = 0;
-		timeInMs = 0;
-	};
-
-
-
-	// ------------------------------------------------------------------------
-	// Sets
-	// ------------------------------------------------------------------------
-	this.set = function(ms, run) {
-		timeInMs = ms;
-		(run == true) ? bStart = 0 : bStart = 1;
-
-		then = new Date();
-		then.setTime(then.getTime() - timeInMs);
-		this.toggle();
-	};
-
-
-
-	// ------------------------------------------------------------------------
-	// Gets
-	// ------------------------------------------------------------------------
-	this.get = function() {
-		if (bStart == 1)  {
-			now = new Date();
-			timeInMs = now.getTime() - then.getTime();
-		}
-		return timeInMs;
-	};
-
-	this.isRunning = function() {
-		return (bStart) ? true : false;
-	};
-
-};
-
-
-/**
- *  
- *	FTime.js
- *	v0.1
- *  
- *	25. November 2012
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
- *
- *
- *	FTime
- *
- */
-FrederickkPaper.FTime = function() {
+frederickkPaper.FTime.FDate = function() {
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
 	// public
 	this.date;
+
+	// private
+	var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+	var shortMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 
 
@@ -1056,6 +824,33 @@ FrederickkPaper.FTime = function() {
 
 
 	// public
+	this.year = function() {
+		if(this.date === undefined) this.date = new Date();
+		var year = String( this.date.getFullYear() ); 
+		return year;
+	};
+
+	/**
+	 *	@return hour
+	 *			return the current hour as string 'HH'
+	 */
+	this.month = function() {
+		if(this.date === undefined) this.date = new Date();
+		var month = String( this.date.getMonth() ); 
+		hour = addZero(month);
+		return month;
+	};
+
+	/**
+	 *	@return hour
+	 *			return the current hour as string 'HH'
+	 */
+	this.day = function() {
+		if(this.date === undefined) this.date = new Date();
+		var day = String( this.date.getDate() );
+		return day;
+	};
+
 	/**
 	 *	@return hour
 	 *			return the current hour as string 'HH'
@@ -1066,6 +861,7 @@ FrederickkPaper.FTime = function() {
 		hour = addZero(hour);
 		return hour;
 	};
+
 	/**
 	 *	@return minute
 	 *			return the current minute as string 'mm'
@@ -1076,6 +872,7 @@ FrederickkPaper.FTime = function() {
 		minute = addZero(minute);
 		return minute;
 	};
+
 	/**
 	 *	@return second
 	 *			return the current second as string 'ss'
@@ -1085,6 +882,15 @@ FrederickkPaper.FTime = function() {
 		var second = String( this.date.getSeconds() ); 
 		second = addZero(second);
 		return second;
+	};
+
+	/**
+	 *	return the current date as string "yyyyMMdd"
+	 * 
+	 *	@return date
+	 */
+	this.date = function() {
+		return this.year() + this.month() + this.day();
 	};
 
 	/**
@@ -1251,6 +1057,296 @@ FrederickkPaper.FTime = function() {
 
 /**
  *  
+ *	FStopwatch.js
+ *	v0.1
+ *  
+ *	25. November 2012
+ *
+ *	Ken Frederick
+ *	ken.frederick@gmx.de
+ *
+ *	http://cargocollective.com/kenfrederick/
+ *	http://kenfrederick.blogspot.com/
+ *
+ *
+ *	FStopwatch
+ *
+ *	A simple stopwatch
+ *
+ */
+frederickkPaper.FTime.FStopwatch = function() {
+	// ------------------------------------------------------------------------
+	// Properties
+	// ------------------------------------------------------------------------
+	// private
+	var now;
+	var then;
+	var timeInMs = 0;
+	var bStart = 0;
+
+
+
+	// ------------------------------------------------------------------------
+	// Methods
+	// ------------------------------------------------------------------------
+	this.toggle = function() {
+		if (bStart == 0) {
+			this.start();
+		}
+		else {
+			this.pause();
+		}
+	};
+
+	this.start = function() {
+		// start
+		bStart = 1;
+		then = new Date();
+		then.setTime(then.getTime() - timeInMs);
+	};
+
+	this.pause = function() {
+		// pause
+		bStart = 0;
+		now = new Date();
+		timeInMs = now.getTime() - then.getTime();
+	};
+
+	this.reset = function() {
+		bStart = 0;
+		timeInMs = 0;
+	};
+
+
+
+	// ------------------------------------------------------------------------
+	// Sets
+	// ------------------------------------------------------------------------
+	this.set = function(ms, run) {
+		timeInMs = ms;
+		(run == true) ? bStart = 0 : bStart = 1;
+
+		then = new Date();
+		then.setTime(then.getTime() - timeInMs);
+		this.toggle();
+	};
+
+
+
+	// ------------------------------------------------------------------------
+	// Gets
+	// ------------------------------------------------------------------------
+	this.get = function() {
+		if (bStart == 1)  {
+			now = new Date();
+			timeInMs = now.getTime() - then.getTime();
+		}
+		return timeInMs;
+	};
+
+	this.isRunning = function() {
+		return (bStart) ? true : false;
+	};
+
+};
+
+
+/**
+ *  
+ *	FTransition.js
+ *	v0.1
+ *  
+ *	25. November 2012
+ *
+ *	Ken Frederick
+ *	ken.frederick@gmx.de
+ *
+ *	http://cargocollective.com/kenfrederick/
+ *	http://kenfrederick.blogspot.com/
+ *  
+ *  
+ *	FTransition
+ *
+ */
+frederickkPaper.FTime.FTransition = function() {
+	// ------------------------------------------------------------------------
+	// Properties
+	// ------------------------------------------------------------------------
+	// private
+	var transMillis = 1000; // set to default of 1s OR 1000ms
+	
+	var timeStart = 0.0;
+	var timeEnd = 0.0;
+	
+	var bToggleStart = 0;
+	var bBeginTrans = false;
+	var bIn = false;
+	var bOut = false;
+	var bDone = true;
+
+	var easing = 0.05;
+	var bEase = true;
+
+	// public
+	this.delta = 1.0;
+	this.counter = -1;
+
+
+	
+	// ------------------------------------------------------------------------
+	// Methods
+	// ------------------------------------------------------------------------
+	this.toggle = function() {
+		if (bToggleStart == 0) {
+			bToggleStart = 1;
+			this.transOut();
+		}
+		else {
+			bToggleStart = 0;
+			this.transIn();
+		}
+	}
+
+	// ------------------------------------------------------------------------
+	/**
+	 *	TODO: implement easing
+	 *
+	 *	required function to keep the timing in sync
+	 *	with the application
+	 *
+	 *	@param currentTime
+	 *			the elapsed time of the application in seconds
+	 */
+	this.update = function(currentTime) {
+		if(bBeginTrans) {
+			bBeginTrans = false;
+			timeStart = currentTime;
+			if(bIn) {
+				timeEnd = frederickkPaper.roundDecimal( (currentTime + ((1.0 - this.delta) * transMillis)), 3 );
+			}
+			else {
+				timeEnd = frederickkPaper.roundDecimal( (currentTime + (this.delta*transMillis)), 3 );
+			}
+			if(timeEnd <= currentTime) {
+				if(bIn) {
+					bIn = false;
+					this.delta = 1.0;
+				}
+				else {
+					bOut = false;
+					this.delta = 0.0;
+				}
+			}
+		}
+		if(bIn) {
+			this.delta = frederickkPaper.roundDecimal( (1.0 - ((timeEnd - currentTime) / transMillis)), 3 );
+			// if(bEase) {
+			// }
+
+			if(currentTime == timeEnd) {
+				bIn = false;
+				this.delta = 1.0;
+				this.counter++;
+				return;
+			}
+		}
+		else if(bOut) {
+			this.delta = frederickkPaper.roundDecimal( ((timeEnd - currentTime) / transMillis), 3 );
+			// if(bEase) {
+			// }
+
+			if(currentTime == timeEnd) {
+				bIn = false;
+				this.delta = 0.0;
+				this.counter++;
+				return;
+			}
+		}
+	};
+
+	// ------------------------------------------------------------------------
+	this.transIn = function() {
+		if(bIn) return;
+		if(this.delta == 1.0) return;
+		bBeginTrans = true;
+		bIn = true;
+		bOut = false;
+	};
+	this.transOut = function() {
+		if(bOut) return;
+		if(this.delta == 0.0) return;
+		bBeginTrans = true;
+		bOut = true;
+		bIn = false;
+	};
+
+	// ------------------------------------------------------------------------
+	/**
+	 *	@return
+	 *			if the object is transitioning in
+	 */
+	this.isIn = function() {
+		return bIn;
+	};
+	/**
+	 *	@return
+	 *			if the object is transitioning out
+	 */
+	this.isOut = function() {
+		return bOut;
+	};
+
+	/**
+	 *	@return
+	 *			if the object has finished it's transition
+	 */
+	this.isDone = function() {
+		if(this.delta < 1.0 && this.delta > 0.0) return false
+		else return true
+	};
+
+	// ------------------------------------------------------------------------
+	this.stop = function() {
+		bBeginTrans = bIn = bOut = false;
+	};
+
+
+
+	// ------------------------------------------------------------------------
+	// Sets
+	// ------------------------------------------------------------------------
+	/**
+	 *	@param _seconds
+	 *			length of fade in seconds 
+	 */
+	this.setSeconds = function(_seconds) {
+		this.setMillis( parseInt(_seconds * 1000.0) );
+	};
+	/**
+	 *	@param _millis
+	 *			length of fade in milliseconds 
+	 */
+	this.setMillis = function(_millis) {
+		transMillis = _millis;
+		transMillis /= 1000;
+	};
+
+	/**
+	 *	@param _val
+	 *			to ease or not to ease...
+	 *	@param _easing
+	 *			(optional) degree of easing
+	 */
+	// this.setEasing = function(_val, _easeing) {
+	// 	bEase = _val;
+	// 	easing = _easeing;
+	// };
+
+};
+
+
+/**
+ *  
  *	FPath3.js
  *	v0.1
  *  
@@ -1277,7 +1373,7 @@ FrederickkPaper.FTime = function() {
 
 /**
  *	TODO: maek FPath3 an extension of paper.Item
-FrederickkPaper.F3D.FPath3 = Item.extend({
+frederickkPaper.F3D.FPath3 = Item.extend({
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
@@ -1285,7 +1381,7 @@ FrederickkPaper.F3D.FPath3 = Item.extend({
 
 });
 */
-FrederickkPaper.F3D.FPath3 = function(_scene) {
+frederickkPaper.F3D.FPath3 = function(_scene) {
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
@@ -1310,8 +1406,8 @@ FrederickkPaper.F3D.FPath3 = function(_scene) {
 	this.strokeCap;
 	this.strokeJoin;
 
-	this.rotation = new FrederickkPaper.F3D.FPoint3();
-	this.translation = new FrederickkPaper.F3D.FPoint3();
+	this.rotation = new frederickkPaper.F3D.FPoint3();
+	this.translation = new frederickkPaper.F3D.FPoint3();
 
 
 	// private
@@ -1462,7 +1558,7 @@ FrederickkPaper.F3D.FPath3 = function(_scene) {
  *	@param z
  *			z coordinate
  */
-FrederickkPaper.F3D.FPoint3 = function(_x, _y, _z) {
+frederickkPaper.F3D.FPoint3 = function(_x, _y, _z) {
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
@@ -1540,7 +1636,7 @@ FrederickkPaper.F3D.FPoint3 = function(_x, _y, _z) {
 	 *	Get a copy of this point.
 	 */
 	this.get = function() {
-		return new FrederickkPaper.F3D.FPoint3(x,y,z);
+		return new frederickkPaper.F3D.FPoint3(x,y,z);
 	};
 
 
@@ -1792,7 +1888,7 @@ FrederickkPaper.F3D.FPoint3 = function(_x, _y, _z) {
 
 
 
-FrederickkPaper.F3D.FScene3D = function() {
+frederickkPaper.F3D.FScene3D = function() {
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
@@ -2361,7 +2457,7 @@ var Matrix3D = function( n11, n12, n13, n14,
   *	TODO: make this an extension of FPath3
   *
   */
-FrederickkPaper.FShape.FBox = function(_scene) {
+frederickkPaper.FShape.FBox = function(_scene) {
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
@@ -2384,45 +2480,45 @@ FrederickkPaper.FShape.FBox = function(_scene) {
 
 
 	this.faceFRONT = [
-		new FrederickkPaper.F3D.FPoint3(-0.5, -0.5, -0.5), //corner
-		new FrederickkPaper.F3D.FPoint3( 0.5, -0.5, -0.5), //corner
-		new FrederickkPaper.F3D.FPoint3( 0.5,	0.5, -0.5), //corner
-		new FrederickkPaper.F3D.FPoint3(-0.5,	0.5, -0.5) //corner
+		new frederickkPaper.F3D.FPoint3(-0.5, -0.5, -0.5), //corner
+		new frederickkPaper.F3D.FPoint3( 0.5, -0.5, -0.5), //corner
+		new frederickkPaper.F3D.FPoint3( 0.5,	0.5, -0.5), //corner
+		new frederickkPaper.F3D.FPoint3(-0.5,	0.5, -0.5) //corner
 	];
 	
 	this.faceTOP = [
-		new FrederickkPaper.F3D.FPoint3(-0.5, -0.5,	0.5), //corner
-		new FrederickkPaper.F3D.FPoint3( 0.5, -0.5,	0.5), //corner
-		new FrederickkPaper.F3D.FPoint3( 0.5, -0.5, -0.5), //corner
-		new FrederickkPaper.F3D.FPoint3(-0.5, -0.5, -0.5) //corner
+		new frederickkPaper.F3D.FPoint3(-0.5, -0.5,	0.5), //corner
+		new frederickkPaper.F3D.FPoint3( 0.5, -0.5,	0.5), //corner
+		new frederickkPaper.F3D.FPoint3( 0.5, -0.5, -0.5), //corner
+		new frederickkPaper.F3D.FPoint3(-0.5, -0.5, -0.5) //corner
 	];
 
 	this.faceBOTTOM = [
-		new FrederickkPaper.F3D.FPoint3(-0.5, 0.5,	0.5), //corner
-		new FrederickkPaper.F3D.FPoint3( 0.5, 0.5,	0.5), //corner
-		new FrederickkPaper.F3D.FPoint3( 0.5, 0.5, -0.5), //corner
-		new FrederickkPaper.F3D.FPoint3(-0.5, 0.5, -0.5) //corner
+		new frederickkPaper.F3D.FPoint3(-0.5, 0.5,	0.5), //corner
+		new frederickkPaper.F3D.FPoint3( 0.5, 0.5,	0.5), //corner
+		new frederickkPaper.F3D.FPoint3( 0.5, 0.5, -0.5), //corner
+		new frederickkPaper.F3D.FPoint3(-0.5, 0.5, -0.5) //corner
 	];
 	
 	this.faceLEFT = [
-		new FrederickkPaper.F3D.FPoint3(-0.5, -0.5, -0.5), //corner
-		new FrederickkPaper.F3D.FPoint3(-0.5, -0.5,	0.5), //corner
-		new FrederickkPaper.F3D.FPoint3(-0.5,	0.5,	0.5), //corner
-		new FrederickkPaper.F3D.FPoint3(-0.5,	0.5, -0.5) //corner
+		new frederickkPaper.F3D.FPoint3(-0.5, -0.5, -0.5), //corner
+		new frederickkPaper.F3D.FPoint3(-0.5, -0.5,	0.5), //corner
+		new frederickkPaper.F3D.FPoint3(-0.5,	0.5,	0.5), //corner
+		new frederickkPaper.F3D.FPoint3(-0.5,	0.5, -0.5) //corner
 	];
 	
 	this.faceRIGHT = [
-		new FrederickkPaper.F3D.FPoint3( 0.5, -0.5, -0.5), //corner
-		new FrederickkPaper.F3D.FPoint3( 0.5, -0.5,	0.5), //corner
-		new FrederickkPaper.F3D.FPoint3( 0.5,	0.5,	0.5), //corner
-		new FrederickkPaper.F3D.FPoint3( 0.5,	0.5, -0.5) //corner
+		new frederickkPaper.F3D.FPoint3( 0.5, -0.5, -0.5), //corner
+		new frederickkPaper.F3D.FPoint3( 0.5, -0.5,	0.5), //corner
+		new frederickkPaper.F3D.FPoint3( 0.5,	0.5,	0.5), //corner
+		new frederickkPaper.F3D.FPoint3( 0.5,	0.5, -0.5) //corner
 	];
 	
 	this.faceBACK = [
-		new FrederickkPaper.F3D.FPoint3(-0.5, -0.5,	0.5), //corner
-		new FrederickkPaper.F3D.FPoint3( 0.5, -0.5,	0.5), //corner
-		new FrederickkPaper.F3D.FPoint3( 0.5,	0.5,	0.5), //corner
-		new FrederickkPaper.F3D.FPoint3(-0.5,	0.5,	0.5) //corner
+		new frederickkPaper.F3D.FPoint3(-0.5, -0.5,	0.5), //corner
+		new frederickkPaper.F3D.FPoint3( 0.5, -0.5,	0.5), //corner
+		new frederickkPaper.F3D.FPoint3( 0.5,	0.5,	0.5), //corner
+		new frederickkPaper.F3D.FPoint3(-0.5,	0.5,	0.5) //corner
 	];
 
 
@@ -2466,7 +2562,7 @@ FrederickkPaper.FShape.FBox = function(_scene) {
 
 
 
-	var whd = new FrederickkPaper.F3D.FPoint3(10,10,10);
+	var whd = new frederickkPaper.F3D.FPoint3(10,10,10);
 
 
 
@@ -2619,13 +2715,14 @@ FrederickkPaper.FShape.FBox = function(_scene) {
   *				the entire width of the bubble
   *	@param _height
   *				the height of the body of the bubble
+  *				OR as an array [ height of the body, length of the tag ]	
   *	@param _tagCenter
   *				'RANDOM'	randomly x-position the point
   *				'LEFT'		left align the x-position of the point
   *				'CENTER'	center align the x-position of the point
   *				'RIGHT'		right align the x-position of the point
   */
-FrederickkPaper.FShape.FBubble = function(_width, _height, _tagCenter) {
+frederickkPaper.FShape.FBubble = function(_width, _height, _tagCenter) {
 	//-----------------------------------------------------------------------------
 	// Properties
 	//-----------------------------------------------------------------------------
@@ -2636,8 +2733,8 @@ FrederickkPaper.FShape.FBubble = function(_width, _height, _tagCenter) {
 	var height;
 
 	var tagCenter = (_tagCenter != undefined) ? _tagCenter : 'RANDOM';
-	var tagLength;
-	this.tagPoint;
+	var tagLength = null;
+	var tagPoints = [];
 
 
 
@@ -2653,6 +2750,7 @@ FrederickkPaper.FShape.FBubble = function(_width, _height, _tagCenter) {
 
 
 		bubble = new paper.Path();
+		bubble.name = 'bubble';
 
 		// left
 		bubble.add( new paper.Point(0,0) );
@@ -2665,7 +2763,8 @@ FrederickkPaper.FShape.FBubble = function(_width, _height, _tagCenter) {
 
 		// middle bottom
 		// create tag space
-		var bw = FrederickkPaper.randomInt(0,width-r_unit);
+		var bw = frederickkPaper.randomInt(0,width-r_unit);
+		tagPoints[0] = new paper.Point(bw,height);
 		bubble.add( new paper.Point(bw,height) );
 
 		// create tag
@@ -2680,18 +2779,24 @@ FrederickkPaper.FShape.FBubble = function(_width, _height, _tagCenter) {
 			tx = bw+r_unit;
 		}
 		else {
-			tx = FrederickkPaper.randomInt(bw,bw+r_unit);
+			tx = frederickkPaper.randomInt(bw,bw+r_unit);
 		}
 
 		// TODO: eventually make it possible to determine the length of the tag
-		ty = height + (r_unit*4 + FrederickkPaper.random(-r_unit*0.5, r_unit*0.5));
+		if(tagLength != null) {
+			ty = height + tagLength;
+		}
+		else {
+			ty = height + (r_unit*4 + frederickkPaper.random(-r_unit*0.5, r_unit*0.5));
+		}
 
 		// this allows us to know bubble's tag point
-		this.tagPoint = new paper.Point(tx,ty);
-		bubble.add( this.tagPoint ); 
+		tagPoints[2] = new paper.Point(tx,ty);
+		bubble.add( new paper.Point(tx,ty) ); 
 
 
 		// continue bottom
+		tagPoints[1] = new paper.Point(bw+r_unit,height);
 		bubble.add( new paper.Point(bw+r_unit,height) );
 		bubble.add( new paper.Point(width,height) );
 
@@ -2699,10 +2804,11 @@ FrederickkPaper.FShape.FBubble = function(_width, _height, _tagCenter) {
 		// right
 		angle = 0;
 		through = new paper.Point(
-			height/2 + Math.cos( f.radians(angle) ) * (height),
-			height/2 + Math.sin( f.radians(angle) ) * (height)
+			height/2 + Math.cos( f.radians(angle) ) * (height/2),
+			height/2 + Math.sin( f.radians(angle) ) * (height/2)
 		);
-		bubble.arcTo(through, new paper.Point(width,0) );
+		bubble.arcTo( new paper.Point(width,0), false );
+		// bubble.arcTo(through, new paper.Point(width,0) );
 
 
 		// middle top
@@ -2716,10 +2822,17 @@ FrederickkPaper.FShape.FBubble = function(_width, _height, _tagCenter) {
 	// Sets
 	//-----------------------------------------------------------------------------
 	this.set = function(_width, _height) {
-		width = (_width != undefined) ? _width : FrederickkPaper.random(r_unit,200);
-		height = (_height != undefined) ? _height : FrederickkPaper.random(r_unit*4,200);
+		width = (_width != undefined) ? _width : frederickkPaper.random(r_unit,200);
+		if(_height.length == 2) {
+			height = _height[0];
+			tagLength = (_height[1] < r_unit) ? r_unit : _height[1];
+		}
+		else {
+			height = (_height != undefined) ? _height : frederickkPaper.random(r_unit*4,200);
+		}
 		width -= height;
 	};
+
 
 
 
@@ -2728,6 +2841,11 @@ FrederickkPaper.FShape.FBubble = function(_width, _height, _tagCenter) {
 	//-----------------------------------------------------------------------------
 	this.get = function() {
 		return bubble;
+	};
+
+	//-----------------------------------------------------------------------------
+	this.getTag = function() {
+		return tagPoints;
 	};
 
 
@@ -2760,7 +2878,7 @@ FrederickkPaper.FShape.FBubble = function(_width, _height, _tagCenter) {
  *	Create a sphere
  *
  */
-FrederickkPaper.FShape.FSphere = paper.Path.extend({
+frederickkPaper.FShape.FSphere = paper.Path.extend({
 
 });
 
@@ -2791,7 +2909,7 @@ FrederickkPaper.FShape.FSphere = paper.Path.extend({
  *	TODO: finish
  *
  */
-FrederickkPaper.FControl = function(_divId) { // #divId
+frederickkPaper.FControl = function(_divId) { // #divId
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------

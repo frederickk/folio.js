@@ -15,119 +15,146 @@
  *	FTransition
  *
  */
-FrederickkPaper.FTime.FTransition = function() {
+frederickkPaper.FTime.FTransition = function() {
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
 	// private
-	var fadeMillis = 1000; // set to default of 1s OR 1000ms
+	var transMillis = 1000; // set to default of 1s OR 1000ms
 	
-	var timeStartFade = 0.0;
-	var timeEndFade = 0.0;
+	var timeStart = 0.0;
+	var timeEnd = 0.0;
 	
-	var bBeginFade = false;
-	var bFadeIn = false;
-	var bFadeOut = false;
+	var bToggleStart = 0;
+	var bBeginTrans = false;
+	var bIn = false;
+	var bOut = false;
+	var bDone = true;
 
-	var bStart = 0;
 	var easing = 0.05;
+	var bEase = true;
 
 	// public
 	this.delta = 1.0;
+	this.counter = -1;
 
 
 	
 	// ------------------------------------------------------------------------
 	// Methods
 	// ------------------------------------------------------------------------
-	this.toggle = function(runtime) {
-		if (bStart == 0) {
-			this.fadeIn();
+	this.toggle = function() {
+		if (bToggleStart == 0) {
+			bToggleStart = 1;
+			this.transOut();
 		}
 		else {
-			this.fadeOut();
+			bToggleStart = 0;
+			this.transIn();
 		}
-		_currentTime = runtime;
-		update(_currentTime);
 	}
 
 	// ------------------------------------------------------------------------
-	var update = function(currentTime) {
-		if(bBeginFade) {
-			//console.log( 'bBeginFade' );
-
-			bBeginFade = false;
-			timeStartFade = currentTime;
-			if(bFadeIn) {
-				timeEndFade = currentTime + parseFloat((1.0 - this.delta) * fadeMillis);
+	/**
+	 *	TODO: implement easing
+	 *
+	 *	required function to keep the timing in sync
+	 *	with the application
+	 *
+	 *	@param currentTime
+	 *			the elapsed time of the application in seconds
+	 */
+	this.update = function(currentTime) {
+		if(bBeginTrans) {
+			bBeginTrans = false;
+			timeStart = currentTime;
+			if(bIn) {
+				timeEnd = frederickkPaper.roundDecimal( (currentTime + ((1.0 - this.delta) * transMillis)), 3 );
 			}
 			else {
-				timeEndFade = currentTime + parseFloat(this.delta*fadeMillis);
+				timeEnd = frederickkPaper.roundDecimal( (currentTime + (this.delta*transMillis)), 3 );
 			}
-			if(timeEndFade == currentTime) {
-				if(bFadeIn) {
-					bFadeIn = false;
+			if(timeEnd <= currentTime) {
+				if(bIn) {
+					bIn = false;
 					this.delta = 1.0;
 				}
 				else {
-					bFadeOut = false;
+					bOut = false;
 					this.delta = 0.0;
 				}
 			}
 		}
-		if(bFadeIn) {
-			//console.log( 'bFadeIn' );
+		if(bIn) {
+			this.delta = frederickkPaper.roundDecimal( (1.0 - ((timeEnd - currentTime) / transMillis)), 3 );
+			// if(bEase) {
+			// }
 
-			this.delta = 1.0 - parseFloat((timeEndFade - currentTime) / fadeMillis);
-			if(currentTime > timeEndFade) {
-				bFadeIn = false;
+			if(currentTime == timeEnd) {
+				bIn = false;
 				this.delta = 1.0;
+				this.counter++;
+				return;
 			}
 		}
-		else if(bFadeOut) {
-			//console.log( 'bFadeOut' );
+		else if(bOut) {
+			this.delta = frederickkPaper.roundDecimal( ((timeEnd - currentTime) / transMillis), 3 );
+			// if(bEase) {
+			// }
 
-			this.delta = parseFloat((timeEndFade - currentTime) / fadeMillis);
-			if(currentTime > timeEndFade) {
-				bFadeIn = false;
+			if(currentTime == timeEnd) {
+				bIn = false;
 				this.delta = 0.0;
+				this.counter++;
+				return;
 			}
 		}
-
-		// console.log( this.delta );
 	};
 
 	// ------------------------------------------------------------------------
-	this.fadeIn = function() {
-		//console.log( 'fadeIn()' );
-
-		if(bFadeIn)return;
+	this.transIn = function() {
+		if(bIn) return;
 		if(this.delta == 1.0) return;
-		bBeginFade = true;
-		bFadeIn = true;
-		bFadeOut = false;
+		bBeginTrans = true;
+		bIn = true;
+		bOut = false;
 	};
-	this.fadeOut = function() {
-		//console.log( 'fadeOut()' );
-
-		if(bFadeOut)return;
+	this.transOut = function() {
+		if(bOut) return;
 		if(this.delta == 0.0) return;
-		bBeginFade = true;
-		bFadeOut = true;
-		bFadeIn = false;
+		bBeginTrans = true;
+		bOut = true;
+		bIn = false;
 	};
 
 	// ------------------------------------------------------------------------
-	this.isFadingIn = function() {
-		return bFadeIn;
+	/**
+	 *	@return
+	 *			if the object is transitioning in
+	 */
+	this.isIn = function() {
+		return bIn;
 	};
-	this.isFadingOut = function() {
-		return bFadeOut;
+	/**
+	 *	@return
+	 *			if the object is transitioning out
+	 */
+	this.isOut = function() {
+		return bOut;
+	};
+
+	/**
+	 *	@return
+	 *			if the object has finished it's transition
+	 */
+	this.isDone = function() {
+		if(this.delta < 1.0 && this.delta > 0.0) return false
+		else return true
 	};
 
 	// ------------------------------------------------------------------------
-	this.stopFade = function() {
-		bBeginFade = bFadeIn = bFadeOut = false;
+	this.stop = function() {
+		bBeginTrans = bIn = bOut = false;
 	};
 
 
@@ -147,9 +174,20 @@ FrederickkPaper.FTime.FTransition = function() {
 	 *			length of fade in milliseconds 
 	 */
 	this.setMillis = function(_millis) {
-		fadeMillis = _millis;
-		fadeMillis /= 1000;
+		transMillis = _millis;
+		transMillis /= 1000;
 	};
+
+	/**
+	 *	@param _val
+	 *			to ease or not to ease...
+	 *	@param _easing
+	 *			(optional) degree of easing
+	 */
+	// this.setEasing = function(_val, _easeing) {
+	// 	bEase = _val;
+	// 	easing = _easeing;
+	// };
 
 };
 

@@ -1,8 +1,9 @@
 /**
  *	
- *	FrederickkPaper.js
+ *	frederickkPaper.js
  *	v0.1
- *	
+ *	https://github.com/frederickk/frederickkPaper
+ *
  *	25. November 2012
  *
  *	Ken Frederick
@@ -21,7 +22,7 @@
  *	but credit and links are given where credit is due
  *
  *	Additional information and demos can be found here
- *	http://kenfrederick.blogspot.de/2012/12/frederickkjs.html
+ *	http://kenfrederick.blogspot.de/2012/12/frederickkpaper.html
  *
  *
  *	This library is free software; you can redistribute it and/or
@@ -57,13 +58,14 @@
 
 
 // ------------------------------------------------------------------------
-var Frederickk = Frederickk || {};
+var frederickkPaper = frederickkPaper || {};
 
 
 
 (function() {
-	console.log('\nFrederickkPaper.js');
+	console.log('\nfrederickkPaper.js');
 	console.log('v.0.1a');
+	console.log('https://github.com/frederickk/frederickkPaper');
 	console.log('ken.frederick@gmx.de');
 	console.log('------------------------------------\n');
 })();

@@ -17,7 +17,7 @@
  *	A simple stopwatch
  *
  */
-FrederickkPaper.FTime.FStopwatch = function() {
+frederickkPaper.FTime.FStopwatch = function() {
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------

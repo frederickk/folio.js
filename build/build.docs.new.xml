@@ -31,7 +31,7 @@
 
 		<!-- Output info -->
 		<property name="distribution.vers" value="0.1" />
-		<property name="distribution.file" value="FrederickkPaper" />
+		<property name="distribution.file" value="frederickkPaper" />
 
 		<!-- Documentation dir -->
 		<property name="doc.dir" value="${basedir}/docs" />

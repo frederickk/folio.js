@@ -24,7 +24,7 @@
  *	TODO: finish
  *
  */
-FrederickkPaper.FControl = function(_divId) { // #divId
+frederickkPaper.FControl = function(_divId) { // #divId
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------

@@ -18,7 +18,7 @@
  *	to those found in Processing
  *
  */
-FrederickkPaper = {
+frederickkPaper = {
 	// ------------------------------------------------------------------------
  	// Namespaces
 	// ------------------------------------------------------------------------
@@ -47,7 +47,7 @@ FrederickkPaper = {
 		return (minr + Math.random() * (maxr - minr));
 	},
 	randomInt : function(minr, maxr) {
-		return parseInt( FrederickkPaper.random(minr,maxr) );
+		return parseInt( frederickkPaper.random(minr,maxr) );
 	},
 
 	/*

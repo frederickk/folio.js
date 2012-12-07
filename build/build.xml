@@ -29,7 +29,7 @@
 
 		<!-- Output dir -->
 		<property name="distribution.vers" value="0.1" />
-		<property name="distribution.file" value="FrederickkPaper" />
+		<property name="distribution.file" value="frederickkPaper" />
 
 		<!-- Build version information  -->
 		<property name="build.major" value="1" />

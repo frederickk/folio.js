@@ -17,7 +17,7 @@
  *	A collection of I/O methods;
  *
  */
-FrederickkPaper.FIO = {
+frederickkPaper.FIO = {
 	/**
 	 *
 	 *	http://www.quirksmode.org/js/cookies.html
@@ -45,7 +45,7 @@ FrederickkPaper.FIO = {
 	},
 
 	deleteCookie : function(name) {
-		FrederickkPaper.FIO.saveCookie(name, '', -1);
+		frederickkPaper.FIO.saveCookie(name, '', -1);
 	}
 
 };

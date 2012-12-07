@@ -16,6 +16,7 @@
 		<link rel="apple-touch-icon-precomposed" href="images/iphone_icon.png" />
 		<link rel="apple-touch-startup-image" href="images/iphone_startup.png" />
 		-->
+
 		
 		<title>F3D Example &#8212; 3 halbierte W&uuml;rfel</title>
 		
@@ -105,11 +106,41 @@
 			});
 
 
+
+			/**
+			 *
+			 *	Supporting Methods
+			 *
+			 */
+			$(function() {
+				// ------------------------------------------------------------------------
+				function resizeCanvas() {
+					var width = $('#container').width();
+					var height = $('#container').height();
+					
+					// set canvas width and height
+					$('#canvas').attr('width', width);
+					$('#canvas').attr('height', height)
+
+					Draw();
+				}
+
+				// ------------------------------------------------------------------------
+				var resizeTimeout;
+				$(window).resize(function() {
+					clearTimeout(resizeTimeout);
+					resizeTimeout = setTimeout(resizeCanvas, 100);
+				});
+				resizeCanvas();
+			});
+
+
+
 		</script>
 
 
 		<!-- LOAD ADDITIONAL JAVASCRIPTS -->
-		<script type="text/javascript" src="../distribution/FrederickkPaper.js"></script>
+		<script type="text/javascript" src="../distribution/frederickkPaper.js"></script>
 
 		<!-- LOAD PAPER SCRIPT -->
 		<!-- be sure that the filename and path matches your script -->
@@ -144,8 +175,6 @@
 
 		<!-- IMAGES -->
 		<div id="rasterImages">
-			<!-- any images which need to be accessed should be placed in here -->
-			<!-- http://paperjs.org/tutorials/images/working-with-rasters/ -->
 		</div>
 
 

@@ -17,7 +17,7 @@
  *	Create a sphere
  *
  */
-FrederickkPaper.FShape.FSphere = paper.Path.extend({
+frederickkPaper.FShape.FSphere = paper.Path.extend({
 
 });
 

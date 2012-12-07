@@ -24,13 +24,14 @@
   *				the entire width of the bubble
   *	@param _height
   *				the height of the body of the bubble
+  *				OR as an array [ height of the body, length of the tag ]	
   *	@param _tagCenter
   *				'RANDOM'	randomly x-position the point
   *				'LEFT'		left align the x-position of the point
   *				'CENTER'	center align the x-position of the point
   *				'RIGHT'		right align the x-position of the point
   */
-FrederickkPaper.FShape.FBubble = function(_width, _height, _tagCenter) {
+frederickkPaper.FShape.FBubble = function(_width, _height, _tagCenter) {
 	//-----------------------------------------------------------------------------
 	// Properties
 	//-----------------------------------------------------------------------------
@@ -41,8 +42,8 @@ FrederickkPaper.FShape.FBubble = function(_width, _height, _tagCenter) {
 	var height;
 
 	var tagCenter = (_tagCenter != undefined) ? _tagCenter : 'RANDOM';
-	var tagLength;
-	this.tagPoint;
+	var tagLength = null;
+	var tagPoints = [];
 
 
 
@@ -58,6 +59,7 @@ FrederickkPaper.FShape.FBubble = function(_width, _height, _tagCenter) {
 
 
 		bubble = new paper.Path();
+		bubble.name = 'bubble';
 
 		// left
 		bubble.add( new paper.Point(0,0) );
@@ -70,7 +72,8 @@ FrederickkPaper.FShape.FBubble = function(_width, _height, _tagCenter) {
 
 		// middle bottom
 		// create tag space
-		var bw = FrederickkPaper.randomInt(0,width-r_unit);
+		var bw = frederickkPaper.randomInt(0,width-r_unit);
+		tagPoints[0] = new paper.Point(bw,height);
 		bubble.add( new paper.Point(bw,height) );
 
 		// create tag
@@ -85,18 +88,24 @@ FrederickkPaper.FShape.FBubble = function(_width, _height, _tagCenter) {
 			tx = bw+r_unit;
 		}
 		else {
-			tx = FrederickkPaper.randomInt(bw,bw+r_unit);
+			tx = frederickkPaper.randomInt(bw,bw+r_unit);
 		}
 
 		// TODO: eventually make it possible to determine the length of the tag
-		ty = height + (r_unit*4 + FrederickkPaper.random(-r_unit*0.5, r_unit*0.5));
+		if(tagLength != null) {
+			ty = height + tagLength;
+		}
+		else {
+			ty = height + (r_unit*4 + frederickkPaper.random(-r_unit*0.5, r_unit*0.5));
+		}
 
 		// this allows us to know bubble's tag point
-		this.tagPoint = new paper.Point(tx,ty);
-		bubble.add( this.tagPoint ); 
+		tagPoints[2] = new paper.Point(tx,ty);
+		bubble.add( new paper.Point(tx,ty) ); 
 
 
 		// continue bottom
+		tagPoints[1] = new paper.Point(bw+r_unit,height);
 		bubble.add( new paper.Point(bw+r_unit,height) );
 		bubble.add( new paper.Point(width,height) );
 
@@ -104,10 +113,11 @@ FrederickkPaper.FShape.FBubble = function(_width, _height, _tagCenter) {
 		// right
 		angle = 0;
 		through = new paper.Point(
-			height/2 + Math.cos( f.radians(angle) ) * (height),
-			height/2 + Math.sin( f.radians(angle) ) * (height)
+			height/2 + Math.cos( f.radians(angle) ) * (height/2),
+			height/2 + Math.sin( f.radians(angle) ) * (height/2)
 		);
-		bubble.arcTo(through, new paper.Point(width,0) );
+		bubble.arcTo( new paper.Point(width,0), false );
+		// bubble.arcTo(through, new paper.Point(width,0) );
 
 
 		// middle top
@@ -121,10 +131,17 @@ FrederickkPaper.FShape.FBubble = function(_width, _height, _tagCenter) {
 	// Sets
 	//-----------------------------------------------------------------------------
 	this.set = function(_width, _height) {
-		width = (_width != undefined) ? _width : FrederickkPaper.random(r_unit,200);
-		height = (_height != undefined) ? _height : FrederickkPaper.random(r_unit*4,200);
+		width = (_width != undefined) ? _width : frederickkPaper.random(r_unit,200);
+		if(_height.length == 2) {
+			height = _height[0];
+			tagLength = (_height[1] < r_unit) ? r_unit : _height[1];
+		}
+		else {
+			height = (_height != undefined) ? _height : frederickkPaper.random(r_unit*4,200);
+		}
 		width -= height;
 	};
+
 
 
 
@@ -133,6 +150,11 @@ FrederickkPaper.FShape.FBubble = function(_width, _height, _tagCenter) {
 	//-----------------------------------------------------------------------------
 	this.get = function() {
 		return bubble;
+	};
+
+	//-----------------------------------------------------------------------------
+	this.getTag = function() {
+		return tagPoints;
 	};
 
 

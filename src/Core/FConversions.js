@@ -17,7 +17,7 @@
  *	A collection of helpful conversion ratios
  *
  */
-FrederickkPaper.FConversions = function() {
+frederickkPaper.FConversions = function() {
 	// conversions
 	this.ptToMm = 0.352777778;
 	this.mmToPt = 2.83464567;

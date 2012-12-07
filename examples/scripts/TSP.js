@@ -61,7 +61,7 @@ var CommonTangents = function(c1, c2) {
  *
  */
 
-var f = Frederickk;
+var f = frederickkPaper;
 var fcolor = new f.FColor();
 
 

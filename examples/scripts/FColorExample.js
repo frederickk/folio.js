@@ -2,7 +2,7 @@ console.log( 'FColor Example Loaded' );
 // ------------------------------------------------------------------------
 // Properties
 // ------------------------------------------------------------------------
-var f = Frederickk;
+var f = frederickkPaper;
 
 
 // dots
@@ -140,6 +140,9 @@ function updateBackground() {
 // Events
 // ------------------------------------------------------------------------
 function onResize(event) {
+	view.size = event.size;
+
+	Setup();
 };
 
 

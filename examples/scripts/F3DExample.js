@@ -17,7 +17,7 @@
 // ------------------------------------------------------------------------
 // Properties
 // ------------------------------------------------------------------------
-var f = Frederickk;
+var f = frederickkPaper;
 var f3d = f.F3D;
 var fshape = f.FShape;
 
@@ -49,23 +49,23 @@ function Setup() {
 	if(view.bounds.width < 768) size = 300;
 	else size = 600;
 
-	var billRed = new FrederickkPaper.FShape.FBillBox(scene);
+	var billRed = new frederickkPaper.FShape.FBillBox(scene);
 	billRed.setWHD(size, size, size);
 	billRed.red();
 	billRed.init(size,-size,0);
 
-	var billYellow = new FrederickkPaper.FShape.FBillBox(scene);
+	var billYellow = new frederickkPaper.FShape.FBillBox(scene);
 	billYellow.setWHD(size, size, size);
 	billYellow.yellow();
 	billYellow.init(-size,size,0);
 
-	var billBlue = new FrederickkPaper.FShape.FBillBox(scene);
+	var billBlue = new frederickkPaper.FShape.FBillBox(scene);
 	billBlue.setWHD(size, size, size);
 	billBlue.blue();
 	billBlue.init(-size,-size,0);
 
 
-	// var billGreen = new FrederickkPaper.FShape.FBillBox(scene);
+	// var billGreen = new frederickkPaper.FShape.FBillBox(scene);
 	// billGreen.setWHD(size, size, size);
 	// billGreen.fillColor = new paper.RGBColor(0.62, 0.77, 0.14);
 	// billGreen.setVertices( [9,17,7] );
@@ -122,6 +122,10 @@ function reset() {
 // Events
 // ------------------------------------------------------------------------
 function onResize(event) {
+	view.size = event.size;
+
+	reset();
+	Draw();
 };
 
 // ------------------------------------------------------------------------

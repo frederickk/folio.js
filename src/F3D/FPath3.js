@@ -26,7 +26,7 @@
 
 /**
  *	TODO: maek FPath3 an extension of paper.Item
-FrederickkPaper.F3D.FPath3 = Item.extend({
+frederickkPaper.F3D.FPath3 = Item.extend({
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
@@ -34,7 +34,7 @@ FrederickkPaper.F3D.FPath3 = Item.extend({
 
 });
 */
-FrederickkPaper.F3D.FPath3 = function(_scene) {
+frederickkPaper.F3D.FPath3 = function(_scene) {
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
@@ -59,8 +59,8 @@ FrederickkPaper.F3D.FPath3 = function(_scene) {
 	this.strokeCap;
 	this.strokeJoin;
 
-	this.rotation = new FrederickkPaper.F3D.FPoint3();
-	this.translation = new FrederickkPaper.F3D.FPoint3();
+	this.rotation = new frederickkPaper.F3D.FPoint3();
+	this.translation = new frederickkPaper.F3D.FPoint3();
 
 
 	// private
