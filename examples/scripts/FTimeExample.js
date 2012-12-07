@@ -18,6 +18,8 @@ console.log( 'FTime Example Loaded' );
 var f = frederickkPaper;
 var ftime = f.FTime;
 
+console.log( ftime );
+
 var fdate = new ftime.FDate();
 var stopwatch = new ftime.FStopwatch();
 
@@ -123,25 +125,26 @@ function Setup() {
 function Update(event) {
 
 	// get the local time
-	var now = new f.FTime();
-	local.setTime( fdate.toArray(now.now()) );
+	var now = new ftime.FDate();
+	var temp = new ftime.FDate();
+	local.setTime( temp.toArray(now.now()) );
 
 
 	// get the run time of this app
-	var runTimeStr = fdate.get( event.time*1000 );
-	running.setTime( fdate.toArray(runTimeStr) );
+	var runTimeStr = temp.get( event.time*1000 );
+	running.setTime( temp.toArray(runTimeStr) );
 	// console.log( str );
 
 
 	// get time of our stopwatch
-	var timerTimeStr = fdate.get( stopwatch.get() );
+	var timerTimeStr = temp.get( stopwatch.get() );
 	if(stopwatch.isRunning()) timeText.timer.content = timerTimeStr;
-	timer.setTime( fdate.toArray(timerTimeStr) );
+	timer.setTime( temp.toArray(timerTimeStr) );
 
 
 	var sinceSeventy = new Date();
-	var sinceSeventyStr = fdate.get( sinceSeventy.getTime() );
-	seventy.setTime( fdate.toArray(sinceSeventyStr) );
+	var sinceSeventyStr = temp.get( sinceSeventy.getTime() );
+	seventy.setTime( temp.toArray(sinceSeventyStr) );
 
 };
 
@@ -283,8 +286,6 @@ var Clock = function(_pt, _radius) {
 // ------------------------------------------------------------------------
 function onResize(event) {
 	view.size = event.size;
-
-	Setup();
 };
 
 

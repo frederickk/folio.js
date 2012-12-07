@@ -889,9 +889,9 @@ frederickkPaper.FTime.FDate = function() {
 	 * 
 	 *	@return date
 	 */
-	this.date = function() {
-		return this.year() + this.month() + this.day();
-	};
+	// this.date = function() {
+	// 	return this.year() + this.month() + this.day();
+	// };
 
 	/**
 	 *	@param format

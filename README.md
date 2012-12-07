@@ -28,10 +28,10 @@ shows the features of FTime, which is partly a wrapper for the native JavaScript
 https://dl.dropbox.com/u/7038255/frederickkjs/FTimeExample.html
 
 
-###FFade Example###
-shows how FFade can be used for timed transitions
+###FTransition Example###
+shows how FTransition can be used for timed transitions (pseudo keyframing)
 
-https://dl.dropbox.com/u/7038255/frederickkjs/FFadeExample.html
+https://dl.dropbox.com/u/7038255/frederickkjs/FTransitionExample.html
 
 
 ###FColor Example###

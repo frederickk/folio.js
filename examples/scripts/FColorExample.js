@@ -141,8 +141,6 @@ function updateBackground() {
 // ------------------------------------------------------------------------
 function onResize(event) {
 	view.size = event.size;
-
-	Setup();
 };
 
 
