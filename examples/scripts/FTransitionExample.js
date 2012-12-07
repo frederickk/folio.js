@@ -59,8 +59,15 @@ var swapColors = [];
 // ------------------------------------------------------------------------
 function Setup() {
 	var size;
-	if(view.bounds.width < 768) size = 150;
-	else size = 300;
+	var typeSize;
+	if(view.bounds.width < 768) {
+		size = 150;
+		typeSize = 45;
+	}
+	else {
+		size = 300;
+		typeSize = 21;
+	}
 
 
 	// get our images (left & right)
@@ -94,7 +101,7 @@ function Setup() {
 	Kant.text.justification = 'center';
 	Kant.text.characterStyle = {
 		font: 'Century Schoolbook',
-		fontSize: 45,
+		fontSize: typeSize,
 		fillColor: colors[1]
 	};
 	Kant.textIndex = 0;
@@ -135,11 +142,11 @@ function Setup() {
 
 	// content
 	Husserl.text = new PointText( Husserl.bubble.position );
-	Husserl.text.position.y -= (180/2);
+	Husserl.text.position.y -= ((300*0.6)/2);
 	Husserl.text.justification = 'center';
 	Husserl.text.characterStyle = {
 		font: 'Century Schoolbook',
-		fontSize: 45,
+		fontSize: typeSize,
 		fillColor: colors[0]
 	};
 	Husserl.textIndex = 0;
@@ -289,10 +296,9 @@ function reset() {
 	Kant.text.position = Kant.bubble.position;
 
 	Husserl.bubble.position = view.bounds.leftCenter;
-	Husserl.bubble.position.y += -(Husserl.bubble.bounds.height*0.25)+(250/2);
+	Husserl.bubble.position.y += -(Husserl.bubble.bounds.height*0.25)+((size*0.83)/2);
 	Husserl.text.position = Husserl.bubble.position;
 	Husserl.text.position.y -= (180/2);
-
 
 	for(var i in rasters) {
 		rasters[i].position.y = view.bounds.height-70;
