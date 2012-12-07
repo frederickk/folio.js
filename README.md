@@ -1,14 +1,9 @@
 frederickkPaper
 ============
 
-A collection of methods/functions that I find useful, as of now specifically created for application within PaperJS (http://PaperJS.org/) most of which are based on my Frederickk library for Processing (http://github.com/frederickk/frederickk)
+Over the past couple of years, I've assembled a library of functions for Scriptographer, and given the recent news, I began porting this rag-tag-collection into a slightly more library for web development. I'm calling this library FrederickkPaper. Mainly because at the moment I'm focusing on paperjs, in the future I'd like to try and make it more generic for use with other web based creative tools (ProcessingJS, et. al.). In addition to the Scriptographer specfic functions, I've also ported some of the more useful features from my Processing library Frederickk.
 
-
-At some point I plan to broaden this library to be used in combination with other JavaScript creative coding environments, such as ProcessingJS, etc.
-
-
-This library should be seen as very very alpha.
-
+For now FrederickkPaper should be seen as very very alpha.
 
 Not all of the code in here was created by me but credit and links are given where credit is due.
 
@@ -40,7 +35,7 @@ shows FColor features such as color lerping
 https://dl.dropbox.com/u/7038255/frederickkPaper/FColorExample.html
 
 
-All of these examples can be found in the above 'examples' directory. More Examples of FrederickkJS to be added as time permits.
+All of these examples can be found in the above 'examples' directory. More Examples of frederickkPaper to be added as time permits.
 
 
 

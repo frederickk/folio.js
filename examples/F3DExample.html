@@ -107,34 +107,6 @@
 
 
 
-			/**
-			 *
-			 *	Supporting Methods
-			 *
-			 */
-			$(function() {
-				// ------------------------------------------------------------------------
-				function resizeCanvas() {
-					var width = $('#container').width();
-					var height = $('#container').height();
-					
-					// set canvas width and height
-					$('#canvas').attr('width', width);
-					$('#canvas').attr('height', height)
-
-					Draw();
-				}
-
-				// ------------------------------------------------------------------------
-				var resizeTimeout;
-				$(window).resize(function() {
-					clearTimeout(resizeTimeout);
-					resizeTimeout = setTimeout(resizeCanvas, 100);
-				});
-				resizeCanvas();
-			});
-
-
 
 		</script>
 

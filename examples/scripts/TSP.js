@@ -272,7 +272,7 @@ var TSP = function() {
 			lines.strokeColor = 'white';
 			lines.strokeWidth = 2;
 			lines.fillColor = obj1.fillColor;
-			lines.fillColor.alpha = 0.1;
+			lines.fillColor.alpha = 0.2;
 
 			lines.blendMode = 'normal';
 			lines.closed = true;

@@ -113,7 +113,7 @@ function updateBackground() {
 		);
 		// kid.opacity = 0.1;
 		kid.fillColor = col;
-		kid.fillColor.alpha = 0.1;
+		kid.fillColor.alpha = 0.2;
 	}
 
 	// links
