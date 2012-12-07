@@ -19,25 +19,25 @@ Examples
 ###F3D Example — 2 halbierte Würfel###
 shows how to draw simple 3D primitives (very rudimentary)
 
-https://dl.dropbox.com/u/7038255/frederickkjs/F3DExample.html
+https://dl.dropbox.com/u/7038255/frederickkPaper/F3DExample.html
 
 
 ###FTime Example — clocks###
 shows the features of FTime, which is partly a wrapper for the native JavaScript Date() object
 
-https://dl.dropbox.com/u/7038255/frederickkjs/FTimeExample.html
+https://dl.dropbox.com/u/7038255/frederickkPaper/FTimeExample.html
 
 
 ###FTransition Example###
 shows how FTransition can be used for timed transitions (pseudo keyframing)
 
-https://dl.dropbox.com/u/7038255/frederickkjs/FTransitionExample.html
+https://dl.dropbox.com/u/7038255/frederickkPaper/FTransitionExample.html
 
 
 ###FColor Example###
 shows FColor features such as color lerping
 
-https://dl.dropbox.com/u/7038255/frederickkjs/FColorExample.html
+https://dl.dropbox.com/u/7038255/frederickkPaper/FColorExample.html
 
 
 All of these examples can be found in the above 'examples' directory. More Examples of FrederickkJS to be added as time permits.
