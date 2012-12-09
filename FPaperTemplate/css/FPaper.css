@@ -16,9 +16,10 @@
 /*	------------------------------------------------------------------------
  *	Core
  *	------------------------------------------------------------------------ */
-body,html {
+body, html {
 	margin: 0;
 	overflow: hidden;
+	-webkit-text-stroke: 1px transparent;
 }
 
 /*
@@ -99,11 +100,27 @@ a:hover {
 /*	------------------------------------------------------------------------
  *	'UI'-Elements
  *	------------------------------------------------------------------------ */ 
+#inputContainer {
+	position: absolute;
+
+	font-family: "Akzidenz-Grotesk", akzidenz grotesk, helvetica, sans-serif;
+	font-weight: bold;
+	font-size: 12px;
+	line-height: 15px;
+}
+
 input {
 	font-family: "Akzidenz-Grotesk", akzidenz grotesk, helvetica, sans-serif;
-	font-size: 18px;
-	background-color: #f1f1f1;
-	border: 6px solid #f1f1f1;
+	font-weight: bold;
+	font-size: 30px;
+	text-align:center;
+	color: rgba(255,255,255, 0.9);
+
+	width: 7em;
+
+	background-color: rgba(0,0,0, 0.0);
+	border: 0px solid rgba(0,0,0, 0.0);
+	padding: 6px 6px;
 }
 
 input.add {
@@ -139,6 +156,9 @@ input.submit {
 		visibility: hidden;
 	}
 	#manual {
+		visibility: hidden;
+	}
+	#inputContainer {
 		visibility: hidden;
 	}
 }

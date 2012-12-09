@@ -114,7 +114,8 @@ frederickkPaper = {
 	 *
 	 */
 	lerp : function(start, stop, amt) {
-		return start + (stop-start) * amt;
+		// return start + (stop-start) * amt;
+		return stop + (start-stop) * amt;
 	},
 
 
@@ -126,9 +127,8 @@ frederickkPaper = {
 	radians : function(val) {
 		return val * (Math.PI/180);
 	},
-	getAngle : function(point) {
-		var angle = Math.atan2(point.y - 0, point.x - 0);
-		return angle;
+	getAngle : function(point1, point2) {
+		return Math.atan2(point2.y - point1.y, point2.x - point1.x) * 180 / Math.PI;
 	},
 
 

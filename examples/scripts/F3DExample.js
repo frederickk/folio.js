@@ -1,6 +1,6 @@
+console.log( 'F3D Example Loaded' );
 /**
  *	F3D Example
- *	3 Halibierte Würfel
  *
  *	Ken Frederick
  *	ken.frederick@gmx.de
@@ -9,7 +9,7 @@
  *	http://kenfrederick.blogspot.com/
  *
  *	
- *	An example of creating very simple 3D objects
+ *	An example of creating a 3D field
  *
  */
 
@@ -17,20 +17,21 @@
 // ------------------------------------------------------------------------
 // Properties
 // ------------------------------------------------------------------------
+// the core frederickkPaper namespace
 var f = frederickkPaper;
-var f3d = f.F3D;
-var fshape = f.FShape;
 
+// the F3D namespace
+var f3d = f.F3D;
+
+// initiate the scene, this is how the transformations are
+// interpolated for 3D geometry to appear on the screen
 var scene = new f3d.FScene3D();
 
+// 3D path
+var path3;
 
-// values
-var bRotate = false;
-var values = {
-	rotx:	45,
-	roty:	35.3,
-	rotz:	-30
-};
+// values for rotation
+var rotation = [];
 
 
 
@@ -38,40 +39,26 @@ var values = {
 // Setup
 // ------------------------------------------------------------------------
 function Setup() {
-
 	// required setup scene
-	scene.setup(view.bounds.width, view.bounds.height, 1000, 'ORTHO');
+	// (optional parameters) width, height, focalLength, display mode
+	// 'ORTHO' is for isometric
+	// 'PERSPECTIVE' is the default mode
+	scene.setup(view.bounds.width, view.bounds.height, 1000, 'PERSPECTIVE');
 
+	// initiate the 3D path
+	path3 = new f3d.FPath3();
+	// add 3D points to this path
+	// FPoint3 takes 3 arguments (x, y, z)
+	path3.add( new f3d.FPoint3(-100,	-100,	 100) );
+	path3.add( new f3d.FPoint3( 100,	-100,	 100) );
+	path3.add( new f3d.FPoint3( 100,	-100,	-100) );
+	path3.add( new f3d.FPoint3(-100,	-100,	-100) );
+	// use FColor to give the field a random RGB color
+	path3.fillColor = new f.FColor().random();
+	path3.closed = true;
 
-	// FBillBox
-	// http://www.kettererkunst.de/kunst/kd/details.php?obnr=100039513&anummer=1
-	var size;
-	if(view.bounds.width < 768) size = 300;
-	else size = 600;
-
-	var billRed = new frederickkPaper.FShape.FBillBox(scene);
-	billRed.setWHD(size, size, size);
-	billRed.red();
-	billRed.init(size,-size,0);
-
-	var billYellow = new frederickkPaper.FShape.FBillBox(scene);
-	billYellow.setWHD(size, size, size);
-	billYellow.yellow();
-	billYellow.init(-size,size,0);
-
-	var billBlue = new frederickkPaper.FShape.FBillBox(scene);
-	billBlue.setWHD(size, size, size);
-	billBlue.blue();
-	billBlue.init(-size,-size,0);
-
-
-	// var billGreen = new frederickkPaper.FShape.FBillBox(scene);
-	// billGreen.setWHD(size, size, size);
-	// billGreen.fillColor = new paper.RGBColor(0.62, 0.77, 0.14);
-	// billGreen.setVertices( [9,17,7] );
-	// billGreen.init(-(size*3),size,0);
-
-
+	// important! the path has to be added to the scene
+	scene.addItem( path3 );
 };
 
 
@@ -80,13 +67,6 @@ function Setup() {
 // Update
 // ------------------------------------------------------------------------
 function Update(event) {
-	if(bRotate) {
-		values.rotx = 720.0 * ( (Math.sin(event.time * 2) + 1) / 30 );
-		values.roty = 720.0 * ( (Math.cos(event.time * 2) + 1) / 30 );
-		values.rotz++;
-
-		Draw();
-	}
 };
 
 
@@ -95,14 +75,16 @@ function Update(event) {
 // Main
 // ------------------------------------------------------------------------
 function Draw() {
-	// rotate
-	scene.rotateX( f.radians(values.rotx) );
-	scene.rotateY( f.radians(values.roty) );
-	scene.rotateZ( f.radians(values.rotz) );
+	// rotates all of the items in the scene
+	// TODO: be able to rotate individual items
+	scene.rotateX( f.radians(rotation[0]) );
+	scene.rotateY( f.radians(rotation[1]) );
+	scene.rotateZ( f.radians(rotation[2]) );
 
-	// draw to screen
+	// draw scene to screen
+	// the scene contains all paths (only FPath3 items) added to the scene
+	// the scene can have a scalar as well
 	scene.draw().scale(1);
-
 };
 
 
@@ -110,11 +92,6 @@ function Draw() {
 // ------------------------------------------------------------------------
 // Methods
 // ------------------------------------------------------------------------
-function reset() {
-	values.rotx = 45;
-	values.roty = 35.3;
-	values.rotz = -30;
-};
 
 
 
@@ -136,9 +113,9 @@ function onMouseMove(event) {
 };
 
 function onMouseDrag(event) {
-	values.rotx = event.point.y;
-	values.roty = event.point.x;
-	values.rotz = event.point.x - event.point.y;
+	rotation[0] = event.point.y;
+	rotation[1] = event.point.x;
+	rotation[2] = event.point.x - event.point.y;
 
 	// redraw to update scene
 	Draw();
@@ -147,18 +124,6 @@ function onMouseDrag(event) {
 
 // ------------------------------------------------------------------------
 function onKeyDown(event) {
-	if(event.key == 'space') {
-		bRotate = !bRotate;
-		values.rotx += 1;
-		values.roty += 1;
-		values.rotz += 1;
-	}
-	if(event.key == 'r') {
-		reset();
-	}
-
-	// redraw to update scene
-	Draw();
 };
 
 function onKeyUp(event) {

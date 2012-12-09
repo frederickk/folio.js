@@ -11,6 +11,11 @@ Not all of the code in here was created by me but credit and links are given whe
 Examples
 -------------
 
+All of the examples can be viewed full screen here
+
+https://dl.dropbox.com/u/7038255/frederickkPaper/index.html
+
+
 ###F3D Example — 2 halbierte Würfel###
 shows how to draw simple 3D primitives (very rudimentary)
 
@@ -23,10 +28,10 @@ shows the features of FTime, which is partly a wrapper for the native JavaScript
 https://dl.dropbox.com/u/7038255/frederickkPaper/FTimeExample.html
 
 
-###FTransition Example###
-shows how FTransition can be used for timed transitions (pseudo keyframing)
+###FStepper Example###
+shows how FStepper can be used for timed transitions (pseudo keyframing)
 
-https://dl.dropbox.com/u/7038255/frederickkPaper/FTransitionExample.html
+https://dl.dropbox.com/u/7038255/frederickkPaper/FStepperExample.html
 
 
 ###FColor Example###
@@ -244,7 +249,7 @@ A collection of methods for handling time oriented tasks
 ```javascript
 var fdate = new frederickkPaper.FTime.FDate();
 var fstopwatch = new frederickkPaper.FTime.FStopwatch();
-var ftransition = new frederickkPaper.FTime.FTransition();
+var ftransition = new frederickkPaper.FTime.FStepper();
 ```
 
 
@@ -284,21 +289,21 @@ frederickkPaper.FTime.FStopwatch().get();
 ```
 
 
-####FTransition####
+####FStepper####
 
 ```javascript
-var ftransition = new frederickkPaper.FTime.FTransition();
+var ftransition = new frederickkPaper.FTime.FStepper();
 
-frederickkPaper.FTime.FTransition().toggle();
-frederickkPaper.FTime.FTransition().update(currentTime); // required 
-frederickkPaper.FTime.FTransition().transIn();
-frederickkPaper.FTime.FTransition().transOut();
-frederickkPaper.FTime.FTransition().isIn();
-frederickkPaper.FTime.FTransition().isOut();
-frederickkPaper.FTime.FTransition().isDone();
-frederickkPaper.FTime.FTransition().stop();
-frederickkPaper.FTime.FTransition().setSeconds(_seconds);
-frederickkPaper.FTime.FTransition().setMillis(_millis);
+frederickkPaper.FTime.FStepper().toggle();
+frederickkPaper.FTime.FStepper().update(currentTime); // required 
+frederickkPaper.FTime.FStepper().stepIn();
+frederickkPaper.FTime.FStepper().stepOut();
+frederickkPaper.FTime.FStepper().isIn();
+frederickkPaper.FTime.FStepper().isOut();
+frederickkPaper.FTime.FStepper().isDone();
+frederickkPaper.FTime.FStepper().stop();
+frederickkPaper.FTime.FStepper().setSeconds(_seconds);
+frederickkPaper.FTime.FStepper().setMillis(_millis);
 ```
 
 

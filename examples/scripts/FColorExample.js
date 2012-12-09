@@ -1,33 +1,38 @@
 console.log( 'FColor Example Loaded' );
+/**
+ *	FColor Example
+ *
+ *	Ken Frederick
+ *	ken.frederick@gmx.de
+ *
+ *	http://cargocollective.com/kenfrederick/
+ *	http://kenfrederick.blogspot.com/
+ *
+ *	
+ *	A very long version of 10 PRINT CHR$(205.5+RND(1));
+ *	http://10print.org/
+ *
+ */
+
+
 // ------------------------------------------------------------------------
 // Properties
 // ------------------------------------------------------------------------
+// the core frederickkPaper namespace
 var f = frederickkPaper;
 
 
-// dots
-var dots;
-
-
-// tsp
-var RouteStep = 0;
-var tsp = new TSP();
-
-
-// background
 var background;
-var colors = {
-	start:	new f.FColor().random(),
-	end:	new f.FColor().random()
-};
+var group10;
 
+// our cross
+var cross;
 
-// hit
-var temp;
-var hitOptions = {
-	fill: true,
-	tolerance: 5
-};
+// size of pattern elements
+var size;
+
+// colors holer
+var colors = []; 
 
 
 
@@ -35,41 +40,27 @@ var hitOptions = {
 // Setup
 // ------------------------------------------------------------------------
 function Setup() {
-	// setup background
-	background = new paper.Path.Rectangle(view.bounds.topLeft, view.bounds.bottomRight);
+	// scale the size to the width of the canvas
+	size = (view.bounds.width/40)/2;
 
-	// draw dots
-	dots = new paper.Group();
+	// create our cross element
+	cross = new Cross( view.bounds.center, new paper.Size(size,size) );
 
-	var grid;
-	var size;
-	if(view.bounds.width < 768) {
-		grid = new paper.Size(
-			view.bounds.width/4,
-			view.bounds.height/4
-		);
-	}
-	else {
-		grid = new paper.Size(
-			view.bounds.width/7,
-			view.bounds.height/4
-		);
-	}
+	cross.children[0].strokeWidth = size;
+	cross.children[0].strokeCap = 'round';
 
-	for(var y=grid.height; y<view.bounds.height; y+=grid.height) {
-		for(var x=grid.width; x<view.bounds.width; x+=grid.width) {
-			
-			var pt = new f.FPoint(x,y); //.random();
-			var path = new Path.Circle(pt, f.randomInt(3,60));
-			path.fillColor = 'white';
-			// path.blendMode = 'multiply';
+	cross.children[1].strokeWidth = size;
+	cross.children[1].strokeCap = 'round';
 
-			dots.appendTop(path);
-		}
-	}
-	
-	dots.children.shuffle();
-	updateBackground();
+	// hide the cross (because we'll be cloning it in Draw())
+	cross.visible = false;
+
+	// initiate draw group
+	group10 = new paper.Group();
+
+	// initiate background
+	background = new paper.Path.Rectangle( view.bounds.topLeft, view.bounds.bottomRight );
+
 };
 
 
@@ -83,12 +74,39 @@ function Update(event) {
 
 
 // ------------------------------------------------------------------------
-// Draw
+// Main
 // ------------------------------------------------------------------------
 function Draw() {
-	tsp.calculate( dots.children, 10);
-	tsp.draw();
-	tsp.getTangents().moveBelow( dots );
+	// pull in color values from input fields
+	// uses jquery to get values
+	colors[0] = new f.FColor().HexToColor( $("#hexcolor1").val() );
+	colors[1] = new f.FColor().HexToColor( $("#hexcolor2").val() );
+
+	background.fillColor = colors[1];
+	background.bounds.size = view.bounds.size;
+
+	// a bit of hack to clear the group when redrawing
+	group10.removeChildren();
+
+	for(var y=0; y<view.bounds.height+size/2; y+=size*2) {
+		for(var x=0; x<view.bounds.width+size/2; x+=size*2) {
+			// generate a random integer between 0 and 2
+			var rand = f.randomInt(0,2);
+			// grab one lines in the cross
+			// at random of course
+			var c = cross.children[ rand ].clone();
+			// darken colors[0] to use as a secondary color
+			// a function added to paper.Color via frederickkPaper
+			(rand == 0) ? c.strokeColor = colors[0] : c.strokeColor = colors[0].clone().darken(0.3);
+			// position the line on the grid
+			c.position = new paper.Point(x+size/2,y+size/2);
+			// add to our group (which we clear each redraw)
+			group10.appendTop(c);
+		}
+	}
+
+	group10.appendBottom(background);
+
 };
 
 
@@ -96,43 +114,24 @@ function Draw() {
 // ------------------------------------------------------------------------
 // Methods
 // ------------------------------------------------------------------------
-function updateBackground() {
-	// background
-	var gradient = new Gradient([colors.start, colors.end]);
-	var gradientColor = new GradientColor(gradient, view.bounds.topLeft, view.bounds.bottomRight);
-	background.fillColor = gradientColor;
-	background.opacity = 0.1;
+/*
+ *	cross
+ */
+var Cross = function(point, size) {
+	var group = new paper.Group();
 
-	// dots
-	for(var i=0; i<dots.children.length; i++) {
-		var kid = dots.children[i];
-		var col = new f.FColor().lerpRGBColor(
-			colors.start,
-			colors.end,
-			i/dots.children.length
-		);
-		// kid.opacity = 0.1;
-		kid.fillColor = col;
-		kid.fillColor.alpha = 0.2;
-	}
+	line1 = new paper.Path.Line(
+		point.x + size.width, 
+		point.y - size.height, 
+		point.x - size.width, 
+		point.y + size.height
+	);
+	line2 = new paper.Path.Line(point.x + size.width, point.y + size.height, point.x - size.width, point.y - size.height);
 
-	// links
-	if(tsp.getTangents() != null) {
-		for(var i=0; i<tsp.getTangents().children.length; i++) {
-			var tan = tsp.getTangents().children[i];
-			var col = new f.FColor().lerpRGBColor(
-				colors.start,
-				colors.end,
-				i/dots.children.length
-			);
-			tan.fillColor = col;
-			tan.fillColor.alpha = 0.2;
-			// tan.opacity = 0.2; //(i/tsp.getTangents().children.length)-0.1;
-
-		}
-	}
-
-}
+	group.appendTop( line1 );
+	group.appendTop( line2 );
+	return group;
+};
 
 
 
@@ -143,46 +142,18 @@ function onResize(event) {
 	view.size = event.size;
 };
 
-
 // ------------------------------------------------------------------------
 function onMouseUp(event) {
+};
+
+function onMouseDown(event) {
 	Draw();
 };
 
-// ------------------------------------------------------------------------
-function onMouseDown(event) {
-	// temp = new paper.Path.Circle( event.point, 6 );
-	// dots.appendTop(temp);
-
-	var hitResult = project.hitTest(event.point, hitOptions);
-	if(hitResult) {
-		if(hitResult.item.isGroupedWith(dots.children[0]) ) {
-			temp = hitResult.item;
-			temp.fillColor = 'black';
-			temp.fillColor.alpha = 0.1;
-		}
-	}
-};
-
-// ------------------------------------------------------------------------
 function onMouseMove(event) {
-	colors.start = new HslColor((event.point.x/view.bounds.width)*360, 0.9, 0.9);
-	colors.end = new HsbColor((event.point.y/view.bounds.height)*360, 0.9, 0.9);
-
-	updateBackground();
 };
 
-// ------------------------------------------------------------------------
 function onMouseDrag(event) {
-	if (event.modifiers.shift) {
-		var x1 = temp.position.x;
-		var x2 = event.point.x;
-		var scaling = ((x1-x2)/1000)*-1;
-		temp.scale( 1+scaling );
-	}
-	else {
-		temp.position = event.point;
-	}
 };
 
 
@@ -190,6 +161,11 @@ function onMouseDrag(event) {
 function onKeyDown(event) {
 };
 
-// ------------------------------------------------------------------------
 function onKeyUp(event) {
 };
+
+
+
+
+
+

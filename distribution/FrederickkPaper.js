@@ -187,7 +187,8 @@ frederickkPaper = {
 	 *
 	 */
 	lerp : function(start, stop, amt) {
-		return start + (stop-start) * amt;
+		// return start + (stop-start) * amt;
+		return stop + (start-stop) * amt;
 	},
 
 
@@ -199,9 +200,8 @@ frederickkPaper = {
 	radians : function(val) {
 		return val * (Math.PI/180);
 	},
-	getAngle : function(point) {
-		var angle = Math.atan2(point.y - 0, point.x - 0);
-		return angle;
+	getAngle : function(point1, point2) {
+		return Math.atan2(point2.y - point1.y, point2.x - point1.x) * 180 / Math.PI;
 	},
 
 
@@ -681,10 +681,17 @@ frederickkPaper.FPoint = paper.Point.extend({
 	 *  https://bitbucket.org/postspectacular/toxiclibs/src/9d124c80e8af/src.core/toxi/geom/Vec2D.java
 	 *
 	 */
-	interpolateTo : function(v2, f) {
-		this.x += ((v2.x - this.x) * f);
-		this.y += ((v2.y - this.y) * f);
+	interpolateTo : function(p2, f) {
+		this.x += ((p2.x - this.x) * f);
+		this.y += ((p2.y - this.y) * f);
 		return this;
+	},
+
+	lerp : function(p1,p2, amt) {
+		var x = frederickkPaper.lerp(p1.x,	p2.x,	amt);
+		var y = frederickkPaper.lerp(p1.y,	p2.y,	amt);
+		
+		return new paper.Point(x,y);
 	},
 
 
@@ -725,7 +732,17 @@ frederickkPaper.FPoint = paper.Point.extend({
 	snapIso : function(scale) {
 		if(scale === null) scale = 1;
 		return this.snapGrid( new Size(32*scale,16*scale) );
+	},
+
+
+
+	// ------------------------------------------------------------------------
+	// Gets
+	// ------------------------------------------------------------------------
+	getAngle : function() {
+		return Math.atan2(this.y - 0, this.x - 0);
 	}
+
 
 });
 
@@ -750,10 +767,171 @@ frederickkPaper.FPoint = paper.Point.extend({
  *
  */
 frederickkPaper.FIO = {
+	/*
+	 *	Local Storage
+	 */
+
+	/**
+	 *	save a value using HTML5 Local Storage
+	 *	http://www.w3schools.com/html/html5_webstorage.asp
+	 *	
+	 *	@param name
+	 *				the name (key) of what we want to save
+	 *	@param value
+	 *				what we want to save
+	 */
+	saveLocal : function(name, value) {
+		if(window.localStorage) {
+			localStorage.setItem(name, String(value));
+		}
+		else {
+			console.error('localStorage not supported');
+		}
+	},
+
+	/*
+	 *	retrieve our saved value (default: as string)
+	 *
+	 *	@param name
+	 *				the name (key) of what we want to retrieve
+	 */
+	getLocal : function(name) {
+		return localStorage.getItem(name);
+	},
+
+	/*
+	 *	retrieve our saved value as an int
+	 *
+	 *	@param name
+	 *				the name (key) of what we want to retrieve
+	 */
+	getLocalInt : function(name) {
+		return parseInt( getLocal(name) );
+	},
+
+	/*
+	 *	retrieve our saved value as a float
+	 *
+	 *	@param name
+	 *				the name (key) of what we want to retrieve
+	 */
+	getLocalFloat : function(name) {
+		return parseFloat( getLocal(name) );
+	},
+
+	/*
+	 *	@return a list of all items saved in local storage
+	 *
+	 */
+	getAllLocal : function() {
+		return sessionStorage;
+
+	},
+
 	/**
 	 *
-	 *	http://www.quirksmode.org/js/cookies.html
+	 *	delete a saved value from local storage
+	 *	
+	 *	@param name
+	 *				the name (key) of what we want to delete
 	 *
+	 */
+	deleteLocal : function(name) {
+		localStorage.removeItem(name);
+	},
+
+
+
+	/*
+	 *	Session Storage
+	 */
+
+	/**
+	 *	save a value using HTML5 Session Storage
+	 *	http://www.w3schools.com/html/html5_webstorage.asp
+	 *	
+	 *	@param name
+	 *				the name (key) of what we want to save
+	 *	@param value
+	 *				what we want to save
+	 */
+	saveSession : function(name, value) {
+		if(window.sessionStorage) {
+			sessionStorage.setItem(name, String(value));
+		}
+		else {
+			console.error('sessionStorage not supported');
+		}
+	},
+
+	/*
+	 *	retrieve our saved value (default: as string)
+	 *
+	 *	@param name
+	 *				the name (key) of what we want to retrieve
+	 */
+	getSession : function(name) {
+		return sessionStorage.getItem(name);
+	},
+
+	/*
+	 *	retrieve our saved value as an int
+	 *
+	 *	@param name
+	 *				the name (key) of what we want to retrieve
+	 */
+	getSessionInt : function(name) {
+		return parseInt( getSession(name) );
+	},
+
+	/*
+	 *	retrieve our saved value as a float
+	 *
+	 *	@param name
+	 *				the name (key) of what we want to retrieve
+	 */
+	getSessionFloat : function(name) {
+		return parseFloat( getSession(name) );
+	},
+
+	/*
+	 *	@return a list of all items saved in session storage
+	 *
+	 */
+	getAllSession : function() {
+		return sessionStorage;
+
+	},
+
+	/**
+	 *
+	 *	delete a saved value from session storage
+	 *	
+	 *	@param name
+	 *				the name (key) of what we want to delete
+	 *
+	 */
+	deleteSession : function(name) {
+		sessionStorage.removeItem(name);
+	},
+
+
+
+	/*
+	 *	Cookies
+	 *	http://www.quirksmode.org/js/cookies.html
+	 */
+	
+	/**
+	 *
+	 *	save a value as a cookie
+	 *	
+	 *	@param name
+	 *				the name (key) of what we want to save
+	 *	@param value
+	 *				what we want to save
+	 *	@param days
+	 *				how many days do we want to save it for
 	 */
 	saveCookie : function(name, value, days) {
 		if (days) {
@@ -765,6 +943,13 @@ frederickkPaper.FIO = {
 		document.cookie = name + '=' + value + expires + '; path=/';
 	},
 
+	/**
+	 *
+	 *	retrieve a value from a cookie
+	 *	
+	 *	@param name
+	 *				the name (key) of what we want to retrieve
+	 */
 	openCookie : function(name) {
 		var nameEQ = name + '=';
 		var ca = document.cookie.split(';');
@@ -776,8 +961,15 @@ frederickkPaper.FIO = {
 		return null;
 	},
 
+	/**
+	 *
+	 *	delete a cookie
+	 *	
+	 *	@param name
+	 *				the name (key) of what we want to delete
+	 */
 	deleteCookie : function(name) {
-		frederickkPaper.FIO.saveCookie(name, '', -1);
+		saveCookie(name, '', -1);
 	}
 
 };
@@ -1057,6 +1249,215 @@ frederickkPaper.FTime.FDate = function() {
 
 /**
  *  
+ *	FStepper.js
+ *	v0.1
+ *  
+ *	25. November 2012
+ *
+ *	Ken Frederick
+ *	ken.frederick@gmx.de
+ *
+ *	http://cargocollective.com/kenfrederick/
+ *	http://kenfrederick.blogspot.com/
+ *  
+ *  
+ *	FStepper
+ *
+ */
+frederickkPaper.FTime.FStepper = function() {
+	// ------------------------------------------------------------------------
+	// Properties
+	// ------------------------------------------------------------------------
+	// private
+	var stepMillis = 1000; // set to default of 1s OR 1000ms
+	
+	var timeStart = 0.0;
+	var timeEnd = 0.0;
+	
+	var bToggleStart = 0;
+	var bBeginStpper = false;
+	var bIn = false;
+	var bOut = false;
+	var bDone = true;
+
+	var easing = 0.05;
+	var bEase = true;
+
+	// public
+	this.delta = 1.0;
+	this.counter = -1;
+
+
+	
+	// ------------------------------------------------------------------------
+	// Methods
+	// ------------------------------------------------------------------------
+	this.toggle = function() {
+		if (bToggleStart == 0) {
+			bToggleStart = 1;
+			this.stepOut();
+		}
+		else {
+			bToggleStart = 0;
+			this.stepIn();
+		}
+	}
+
+	// ------------------------------------------------------------------------
+	/**
+	 *	TODO: implement easing
+	 *
+	 *	required function to keep the timing in sync
+	 *	with the application
+	 *
+	 *	@param currentTime
+	 *			the elapsed time of the application in seconds
+	 */
+	this.update = function(currentTime) {
+		if(bBeginStpper) {
+			bBeginStpper = false;
+			timeStart = currentTime;
+			if(bIn) {
+				timeEnd = frederickkPaper.roundDecimal( (currentTime + ((1.0 - this.delta) * stepMillis)), 3 );
+			}
+			else {
+				timeEnd = frederickkPaper.roundDecimal( (currentTime + (this.delta*stepMillis)), 3 );
+			}
+			if(timeEnd <= currentTime) {
+				if(bIn) {
+					bIn = false;
+					this.delta = 1.0;
+				}
+				else {
+					bOut = false;
+					this.delta = 0.0;
+				}
+			}
+		}
+		if(bIn) {
+			this.delta = frederickkPaper.roundDecimal( (1.0 - ((timeEnd - currentTime) / stepMillis)), 3 );
+			// if(bEase) {
+			// }
+
+			if(currentTime == timeEnd) {
+				bIn = false;
+				this.delta = 1.0;
+				this.counter++;
+				return;
+			}
+		}
+		else if(bOut) {
+			this.delta = frederickkPaper.roundDecimal( ((timeEnd - currentTime) / stepMillis), 3 );
+			// if(bEase) {
+			// }
+
+			if(currentTime == timeEnd) {
+				bIn = false;
+				this.delta = 0.0;
+				this.counter++;
+				return;
+			}
+		}
+	};
+
+	// ------------------------------------------------------------------------
+	this.stepIn = function() {
+		if(bIn) return;
+		if(this.delta == 1.0) return;
+		bBeginStpper = true;
+		bIn = true;
+		bOut = false;
+	};
+	this.stepOut = function() {
+		if(bOut) return;
+		if(this.delta == 0.0) return;
+		bBeginStpper = true;
+		bOut = true;
+		bIn = false;
+	};
+
+	// ------------------------------------------------------------------------
+	/**
+	 *	@return
+	 *			if the object is stepping in
+	 */
+	this.isIn = function() {
+		return bIn;
+	};
+	/**
+	 *	@return
+	 *			if the object is stepping out
+	 */
+	this.isOut = function() {
+		return bOut;
+	};
+
+	/**
+	 *	@return
+	 *			if the object has finished it's stepping
+	 */
+	this.isDone = function() {
+		if(this.delta < 1.0 && this.delta > 0.0) return false;
+		else if(this.delta >= 1.0) {
+			this.delta = 1.0;
+			return true;
+		}
+		else if(this.delta <= 0.0) {
+			this.delta = 0.0;
+			return true;
+		}
+	};
+
+	// ------------------------------------------------------------------------
+	this.stop = function() {
+		bBeginStpper = bIn = bOut = false;
+	};
+
+
+
+	// ------------------------------------------------------------------------
+	// Sets
+	// ------------------------------------------------------------------------
+	/**
+	 *	@param _seconds
+	 *			length of fade in seconds 
+	 */
+	this.setSeconds = function(_seconds) {
+		this.setMillis( parseInt(_seconds * 1000.0) );
+	};
+	/**
+	 *	@param _millis
+	 *			length of fade in milliseconds 
+	 */
+	this.setMillis = function(_millis) {
+		stepMillis = _millis;
+		stepMillis /= 1000;
+	};
+
+	/**
+	 *	@param _val
+	 *			to ease or not to ease...
+	 *	@param _easing
+	 *			(optional) degree of easing
+	 */
+	// this.setEasing = function(_val, _easeing) {
+	// 	bEase = _val;
+	// 	easing = _easeing;
+	// };
+
+	// ------------------------------------------------------------------------
+	/**
+	 *	@param _val
+	 *			set a value for the delta 0.0 - 1.0
+	 */
+	this.setDelta = function(_val) {
+		this.delta = _val;
+	};
+};
+
+
+/**
+ *  
  *	FStopwatch.js
  *	v0.1
  *  
@@ -1147,200 +1548,6 @@ frederickkPaper.FTime.FStopwatch = function() {
 	this.isRunning = function() {
 		return (bStart) ? true : false;
 	};
-
-};
-
-
-/**
- *  
- *	FTransition.js
- *	v0.1
- *  
- *	25. November 2012
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
- *  
- *  
- *	FTransition
- *
- */
-frederickkPaper.FTime.FTransition = function() {
-	// ------------------------------------------------------------------------
-	// Properties
-	// ------------------------------------------------------------------------
-	// private
-	var transMillis = 1000; // set to default of 1s OR 1000ms
-	
-	var timeStart = 0.0;
-	var timeEnd = 0.0;
-	
-	var bToggleStart = 0;
-	var bBeginTrans = false;
-	var bIn = false;
-	var bOut = false;
-	var bDone = true;
-
-	var easing = 0.05;
-	var bEase = true;
-
-	// public
-	this.delta = 1.0;
-	this.counter = -1;
-
-
-	
-	// ------------------------------------------------------------------------
-	// Methods
-	// ------------------------------------------------------------------------
-	this.toggle = function() {
-		if (bToggleStart == 0) {
-			bToggleStart = 1;
-			this.transOut();
-		}
-		else {
-			bToggleStart = 0;
-			this.transIn();
-		}
-	}
-
-	// ------------------------------------------------------------------------
-	/**
-	 *	TODO: implement easing
-	 *
-	 *	required function to keep the timing in sync
-	 *	with the application
-	 *
-	 *	@param currentTime
-	 *			the elapsed time of the application in seconds
-	 */
-	this.update = function(currentTime) {
-		if(bBeginTrans) {
-			bBeginTrans = false;
-			timeStart = currentTime;
-			if(bIn) {
-				timeEnd = frederickkPaper.roundDecimal( (currentTime + ((1.0 - this.delta) * transMillis)), 3 );
-			}
-			else {
-				timeEnd = frederickkPaper.roundDecimal( (currentTime + (this.delta*transMillis)), 3 );
-			}
-			if(timeEnd <= currentTime) {
-				if(bIn) {
-					bIn = false;
-					this.delta = 1.0;
-				}
-				else {
-					bOut = false;
-					this.delta = 0.0;
-				}
-			}
-		}
-		if(bIn) {
-			this.delta = frederickkPaper.roundDecimal( (1.0 - ((timeEnd - currentTime) / transMillis)), 3 );
-			// if(bEase) {
-			// }
-
-			if(currentTime == timeEnd) {
-				bIn = false;
-				this.delta = 1.0;
-				this.counter++;
-				return;
-			}
-		}
-		else if(bOut) {
-			this.delta = frederickkPaper.roundDecimal( ((timeEnd - currentTime) / transMillis), 3 );
-			// if(bEase) {
-			// }
-
-			if(currentTime == timeEnd) {
-				bIn = false;
-				this.delta = 0.0;
-				this.counter++;
-				return;
-			}
-		}
-	};
-
-	// ------------------------------------------------------------------------
-	this.transIn = function() {
-		if(bIn) return;
-		if(this.delta == 1.0) return;
-		bBeginTrans = true;
-		bIn = true;
-		bOut = false;
-	};
-	this.transOut = function() {
-		if(bOut) return;
-		if(this.delta == 0.0) return;
-		bBeginTrans = true;
-		bOut = true;
-		bIn = false;
-	};
-
-	// ------------------------------------------------------------------------
-	/**
-	 *	@return
-	 *			if the object is transitioning in
-	 */
-	this.isIn = function() {
-		return bIn;
-	};
-	/**
-	 *	@return
-	 *			if the object is transitioning out
-	 */
-	this.isOut = function() {
-		return bOut;
-	};
-
-	/**
-	 *	@return
-	 *			if the object has finished it's transition
-	 */
-	this.isDone = function() {
-		if(this.delta < 1.0 && this.delta > 0.0) return false
-		else return true
-	};
-
-	// ------------------------------------------------------------------------
-	this.stop = function() {
-		bBeginTrans = bIn = bOut = false;
-	};
-
-
-
-	// ------------------------------------------------------------------------
-	// Sets
-	// ------------------------------------------------------------------------
-	/**
-	 *	@param _seconds
-	 *			length of fade in seconds 
-	 */
-	this.setSeconds = function(_seconds) {
-		this.setMillis( parseInt(_seconds * 1000.0) );
-	};
-	/**
-	 *	@param _millis
-	 *			length of fade in milliseconds 
-	 */
-	this.setMillis = function(_millis) {
-		transMillis = _millis;
-		transMillis /= 1000;
-	};
-
-	/**
-	 *	@param _val
-	 *			to ease or not to ease...
-	 *	@param _easing
-	 *			(optional) degree of easing
-	 */
-	// this.setEasing = function(_val, _easeing) {
-	// 	bEase = _val;
-	// 	easing = _easeing;
-	// };
 
 };
 
@@ -2860,6 +3067,130 @@ frederickkPaper.FShape.FBubble = function(_width, _height, _tagCenter) {
 
 
 /**
+ *	
+ *	FCross.js
+ *	v0.1
+ *	
+ *	25. November 2012
+ *
+ *	Ken Frederick
+ *	ken.frederick@gmx.de
+ *
+ *	http://cargocollective.com/kenfrederick/
+ *	http://kenfrederick.blogspot.com/
+ *
+ *
+ *	FCross
+ *
+ *	Create simple speech bubble forms
+ *
+ */
+
+ /**
+  *	
+  *	@param _x
+  *				center x position of cross
+  *	@param _y
+  *				center y position of cross
+  *	@param _width
+  *				the width of the cross
+  *	@param _height
+  *				the height of the cross
+  *	@param _thickness
+  *				thickness of the cross
+  *	@param _style (optional)
+  *				'SHARP'		sharp edged cross (fill)
+  *				'LINE'		simple built of lines (stroke)
+  */
+frederickkPaper.FShape.FCross = function(_x, _y, _width, _height, _thickness, _style) {
+	//-----------------------------------------------------------------------------
+	// Properties
+	//-----------------------------------------------------------------------------
+	var cross;
+
+	var x = _x;
+	var y = _y;
+	var width = _width;
+	var height = _height;
+
+	var thickness = (_thickness != undefined) ? _thickness : 1.0;
+
+	var style = (_style != undefined) ? _style : 'LINE';
+
+
+
+	//-----------------------------------------------------------------------------
+	// Methods
+	//-----------------------------------------------------------------------------
+	// private
+	var init = function() {
+		cross = new paper.Group();
+		var point = new paper.Point(x,y);
+		var size = new paper.Size(width,height);
+		var line1, line2;
+
+		if( style == 'LINE' ) {
+			line1 = new paper.Path.Line(
+				point.x + size.width, point.y - size.height, 
+				point.x - size.width, point.y + size.height
+			);
+			line1.strokeWidth = thickness;
+			line2 = new paper.Path.Line(
+				point.x + size.width, point.y + size.height, 
+				point.x - size.width, point.y - size.height
+			);
+			line2.strokeWidth = thickness;
+		}
+		else if( style == 'SHARP' ) {
+			line1 = new paper.Path();
+			line1.add( point.x + size.width, point.y - size.height );
+			line1.add( point.x + size.width, (point.y - size.height) + (thickness/2) );
+			line1.add( (point.x - size.width) + (thickness/2), point.y + size.height );
+			line1.add( point.x - size.width, point.y + size.height );
+			line1.add( point.x - size.width, (point.y + size.height) - (thickness/2) );
+			line1.add( (point.x + size.width) - (thickness/2), point.y - size.height );
+			line1.closed = true;
+
+			line2 = new paper.Path();
+			line2.add( point.x - size.width, point.y - size.height );
+			line2.add( (point.x - size.width) + (thickness/2), point.y - size.height );
+			line2.add( point.x + size.width, (point.y + size.height) - (thickness/2) );
+			line2.add( point.x + size.width, point.y + size.height );
+			line2.add( (point.x + size.width) - (thickness/2), point.y + size.height );
+			line2.add( point.x - size.width, (point.y - size.height) + (thickness/2) );
+			line2.closed = true;
+		}
+
+		cross.appendTop( line1 );
+		cross.appendTop( line2 );
+		return cross;
+	};
+
+
+	//-----------------------------------------------------------------------------
+	// Sets
+	//-----------------------------------------------------------------------------
+
+
+
+
+	//-----------------------------------------------------------------------------
+	// Gets
+	//-----------------------------------------------------------------------------
+	this.get = function() {
+		return cross;
+	};
+
+
+
+	//-----------------------------------------------------------------------------
+	// Invocation
+	//-----------------------------------------------------------------------------
+	return init();
+};
+
+
+/**
  *  
  *	FSphere.js
  *	v0.1
@@ -2970,3 +3301,50 @@ frederickkPaper.FControl = function(_divId) { // #divId
 
 
 
+
+
+// var FInputField = function() {
+
+
+// 	//-----------------------------------------------------------------------------
+// 	// events
+// 	//-----------------------------------------------------------------------------
+// 	this.keyPressed(event) {
+// 		int id = event.getID();
+// 		char key = event.getKeyChar();
+
+// 		if(FOCUS) {
+// 			if (id == KeyEvent.VK_SPACE) {
+// 				if (t.length() < 40) {
+// 					t += key;
+// 				}
+// 			}		
+// 			else if(id == KeyEvent.VK_ENTER) {
+// 				FOCUS = false;
+// 			}
+// 			else if(id == KeyEvent.VK_ESCAPE) {
+// 				FOCUS = false;
+// 			}
+// 		}
+// 	}
+
+// 	this.keyUp(event) {
+// 	}
+
+// 	this.keyDown(event) {
+// 		char key = event.getKeyChar();
+
+// 		if(FOCUS) {
+// 			if (key == KeyEvent.VK_BACK_SPACE || key == KeyEvent.VK_DELETE) {
+// 				if (t.length() > 0) {
+// 					t = t.substring(0,t.length() - 1);
+// 				}
+// 			}
+// 			else {
+// 				t += key;
+// 			}
+// 		}
+// 	}
+
+
+// };
