@@ -16,26 +16,60 @@ All of the examples can be viewed full screen here
 https://dl.dropbox.com/u/7038255/frederickkPaper/index.html
 
 
-###F3D Example — 2 halbierte Würfel###
+###F3D Examples###
+
+3 halbierte Würfel###
+
 shows how to draw simple 3D primitives (very rudimentary)
+
+https://dl.dropbox.com/u/7038255/frederickkPaper/3halbiertewuerfel.html
+
+
+Field
 
 https://dl.dropbox.com/u/7038255/frederickkPaper/F3DExample.html
 
 
-###FTime Example — clocks###
+###FTime Examples###
+
+Clocks
+
 shows the features of FTime, which is partly a wrapper for the native JavaScript Date() object
+
+https://dl.dropbox.com/u/7038255/frederickkPaper/clocks.html
+
+
+Date
 
 https://dl.dropbox.com/u/7038255/frederickkPaper/FTimeExample.html
 
 
-###FStepper Example###
+
+###FStepper Examples###
+
+The Debate
+
 shows how FStepper can be used for timed transitions (pseudo keyframing)
+
+https://dl.dropbox.com/u/7038255/frederickkPaper/thedebate.html
+
+
+Sunrise/Sunset
 
 https://dl.dropbox.com/u/7038255/frederickkPaper/FStepperExample.html
 
 
-###FColor Example###
+
+###FColor Examples###
+
+Chain-Chain-Chain
+
 shows FColor features such as color lerping
+
+https://dl.dropbox.com/u/7038255/frederickkPaper/chain-chain-chain.html
+
+
+10 PRINT CHR$(205.5+RND(1));
 
 https://dl.dropbox.com/u/7038255/frederickkPaper/FColorExample.html
 
@@ -45,7 +79,7 @@ All of these examples can be found in the above 'examples' directory. More Examp
 
 
 
-FrederickPaper Template
+FrederickPaper Template/Framework
 -------------
 
 This template was created to mimic the structure of other popular programming tools for artists/designers such as http://processing.org, http://www.openframeworks.cc/, http://libcinder.org/

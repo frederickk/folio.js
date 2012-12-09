@@ -32,7 +32,6 @@ var fstopwatch;
 var stopwatchText;
 
 
-
 // ------------------------------------------------------------------------
 // Setup
 // ------------------------------------------------------------------------
@@ -40,27 +39,25 @@ function Setup() {
 	// initiate FDate
 	fdate = new ftime.FDate();
 	// this is how we'll display the date
-	dateText = new PointText( new Point(view.bounds.width * 0.33, view.bounds.center.y) );
+	dateText = new PointText( new Point(35, view.bounds.center.y) );
 	dateText.justification = 'left';
 	dateText.characterStyle = { 
-		font: 'Helvetica',
-		fontSize: 73,
-		fillColor: 'black'
+		font: 'american-typewriter',
+		fontSize: 30,
+		fillColor: 'red'
 	};
-
 
 	// initiate FStopwatch
 	fstopwatch = new ftime.FStopwatch();
 
 	// this is how we'll display stopwatch time
-	stopwatchText = new PointText( new Point(view.bounds.width * 0.66, view.bounds.center.y) );
+	stopwatchText = new PointText( new Point(view.bounds.width-35, view.bounds.center.y) );
 	stopwatchText.justification = 'right';
 	stopwatchText.characterStyle = { 
-		font: 'Helvetica',
-		fontSize: 72,
-		fillColor: 'black'
+		font: 'american-typewriter',
+		fontSize: 30,
+		fillColor: 'red'
 	};
-
 };
 
 
@@ -87,10 +84,8 @@ function Update(event) {
 // Draw
 // ------------------------------------------------------------------------
 function Draw() {
-	// show the date
-	dateText.content = fdate.year() + ' ' + fdate.month() + ' ' + fdate.day() + '\r'; 
 	// show the time
-	dateText.content += fdate.now();
+	dateText.content = fdate.now();
 };
 
 
