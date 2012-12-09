@@ -18,7 +18,7 @@ https://dl.dropbox.com/u/7038255/frederickkPaper/index.html
 
 ###F3D Examples###
 
-3 halbierte Würfel###
+3 halbierte Würfel
 
 shows how to draw simple 3D primitives (very rudimentary)
 
