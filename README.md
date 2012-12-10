@@ -1,6 +1,8 @@
 frederickkPaper
 ============
 
+http://kenfrederick.blogspot.de/2012/12/paperjs-frederickkpaper.html
+
 Over the past couple of years, I've assembled a library of functions for Scriptographer, and given the recent news, I began porting this rag-tag-collection into a slightly more library for web development. I'm calling this library FrederickkPaper. Mainly because at the moment I'm focusing on paperjs, in the future I'd like to try and make it more generic for use with other web based creative tools (ProcessingJS, et. al.). In addition to the Scriptographer specfic functions, I've also ported some of the more useful features from my Processing library Frederickk.
 
 For now FrederickkPaper should be seen as very very alpha.

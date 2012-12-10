@@ -1,5 +1,5 @@
 <!-- 
-  -	FPaperTemplate 0.0
+  -	FPaperTemplate 0.1a
   -
   -	Ken Frederick
   -	ken.frederick@gmx.de
@@ -15,8 +15,8 @@
   -	setup required for using PaperJS within a traditional
   -	JavaScript context.
   -
-  -	By using the accompnaying scripts/FPaperTemplate.js you can
-  -	simply code everything within the FPaperTempalte.js file,
+  -	By using the accompanying scripts/FPaperTemplate.js you can
+  -	simply code everything within the FPaperTemplate.js file,
   -	all of the necessary callbacks are already implemented in this HTML
   -
   -	Feel free to rename this file and .js template file
@@ -29,17 +29,8 @@
 		<!-- META -->
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		 
-		<!-- UNCOMMENT BELOW IF CREATING A WEBAPP -->
-		<!--
-		<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-		<meta name="apple-mobile-web-app-capable" content="yes" />
-		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
 
-		<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
-		<link rel="apple-touch-icon-precomposed" size="114x114" href="images/iphone_icon@2.png" />
-		<link rel="apple-touch-icon-precomposed" href="images/iphone_icon.png" />
-		<link rel="apple-touch-startup-image" href="images/iphone_startup.png" />
-		-->
+		<link rel="shortcut icon" type="image/x-icon" href="images/stillen_favicon.ico" />
 
 		
 		<title>FPaperTemplate</title>
@@ -48,43 +39,12 @@
 		<!-- CSS -->
 		<!-- LOAD ADDITIONAL CSS sTYLESHEETS -->
 		<link href="css/FPaper.css" rel="stylesheet" type="text/css" />
-		<style type="text/css">
-		
-			body,html {
-				margin: 0;
-				overflow: hidden;
-			}
-
-			/*
-			 *	container divs for the canvas object
-			 */
-			#container {
-				width: 100%;
-				height: 100%;
-				overflow: auto;
-			}
-			#container canvas {
-				vertical-align: top;
-				display: block;
-				overflow: auto;
-			}
-
-			/*
-			 *	a div to hold raster images
-			 *	hides them from view
-			 */
-			#rasterImages {
-				visibility: hidden;
-			}
-
-
-		</style>
-		
 
 		
 		<!-- JavaScript -->
 		<!-- LOAD LIBRARIES -->
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
 
 		<!-- LOAD PAPERJS -->
 		<!-- download PaperJS from http://paperjs.org/download/ and update path -->
@@ -94,16 +54,7 @@
 			// Global Properties
 			// ------------------------------------------------------------------------
 			// global properties
-			/*
-			// UNCOMMENT BELOW IF CREATING A WEBAPP
-			var device = {
-				isiPad: null,
-				isiPhone: null,
-				isiPod: null,
-				isSafari: null,
-				isAndroid: null
-			};
-			*/
+
 
 
 			// ------------------------------------------------------------------------
@@ -177,78 +128,11 @@
 			/**
 			 *
 			 *	Supporting Methods
-			 *
+			 *	
 			 */
 			$(function() {
-				/*
-				// UNCOMMENT BELOW IF CREATING A WEBAPP
-				angle = 0; // orienation angle
-				isRotated = false;
-
-				var ios = navigator.userAgent.match(/(iPhone)|(iPod)|(iPad)/);
-				device.isiPad    = (navigator.userAgent.match(/iPad/i) != null);
-				device.isiPhone  = (navigator.userAgent.match(/iPhone/i) != null);
-				device.isiPod    = (navigator.userAgent.match(/iPod/i) != null);
-				device.isSafari  = (navigator.userAgent.match(/Safari/i) != null);
-				device.isAndroid = (navigator.userAgent.match(/Android/i) != null);
-
 				// ------------------------------------------------------------------------
-				function orientationChange() {
-					angle = window.orientation;
-
-					orientation	= 'landscape';
-					if(angle == 0 || angle == 180)	orientation	= 'portrait';
-
-					// switch (window.orientation) {
-					// 	case 0:
-					// 		break;
-					// 	case 90:
-					// 		break;
-					// 	case -90:
-					// 		break;
-					// 	case 180:
-					// 		break;
-					// 	default:
-					// 		break;
-					// }
-				}
-
-				// ------------------------------------------------------------------------
-				var otimeout;
-				window.onorientationchange = function() {
-					clearTimeout(otimeout);
-					otimeout = setTimeout(orientationChange, 50);
-				}				
-				*/
-
-				// ------------------------------------------------------------------------
-				function resizeCanvas() {
-					/*
-					// UNCOMMENT BELOW IF CREATING A WEBAPP
-					if (ios) {
-						$('#container').height($(window).height() + 60)
-					}
-					*/	
-
-					var width = $('#container').width();
-					var height = $('#container').height();
-					
-					$('#canvas').attr('width', width);
-					$('#canvas').attr('height', height)
-
-					/*
-					// UNCOMMENT BELOW IF CREATING A WEBAPP
-					// hides the WebKit url bar
-					if (ios) {
-						setTimeout(function() {
-							window.scrollTo(0, 1);
-						}, 100);	 
-					}
-					*/
-
-					Draw();
-				}
-
+				// Resize Event Handler
 				// ------------------------------------------------------------------------
 				var resizeTimeout;
 				$(window).resize(function() {
@@ -256,6 +140,7 @@
 					resizeTimeout = setTimeout(resizeCanvas, 100);
 				});
 				resizeCanvas();
+
 				
 			});
 
@@ -291,6 +176,12 @@
 
 		<div id="manual">
 			<!-- any instructions for controlling the interaction  -->
+		</div>
+
+
+		<!-- INPUTS -->
+		<div id="inputContainer">
+			<!-- any form elements which need to be accessed should be placed in here -->
 		</div>
 
 

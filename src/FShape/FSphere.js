@@ -14,7 +14,7 @@
  *
  *	FSphere
  *
- *	Create a sphere
+ *	TODO: Create a sphere
  *
  */
 frederickkPaper.FShape.FSphere = paper.Path.extend({

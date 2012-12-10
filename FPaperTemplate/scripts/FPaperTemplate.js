@@ -1,6 +1,6 @@
 console.log( 'Script Loaded' );
 /**
-*	FPaperTemplate 0.0
+*	FPaperTemplate 0.1a
 *
 *	Ken Frederick
 *	ken.frederick@gmx.de
@@ -17,7 +17,7 @@ console.log( 'Script Loaded' );
 *	with a simple template which is contextually similar
 *	to other tools.
 *
-*	By using the accompnaying FPaperTemplate.html you can
+*	By using the accompanying FPaperTemplate.html you can
 *	simply code everything within this file and all of the
 *	necessary callbacks are already implemented in the HTML
 *
