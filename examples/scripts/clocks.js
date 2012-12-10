@@ -312,7 +312,7 @@ function onMouseDrag(event) {
 
 // ------------------------------------------------------------------------
 function onKeyDown(event) {
-	if(event.key == 'space') {
+	if(event.key == 'enter') {
 		stopwatch.toggle();
 	}
 
