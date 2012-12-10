@@ -3206,7 +3206,7 @@ frederickkPaper.FShape.FCross = function(_x, _y, _width, _height, _thickness, _s
  *
  *	FSphere
  *
- *	Create a sphere
+ *	TODO: Create a sphere
  *
  */
 frederickkPaper.FShape.FSphere = paper.Path.extend({
