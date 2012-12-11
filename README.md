@@ -32,6 +32,12 @@ Field
 https://dl.dropbox.com/u/7038255/frederickkPaper/F3DExample.html
 
 
+Sphere
+
+https://dl.dropbox.com/u/7038255/frederickkPaper/FSphereExample.html
+
+
+
 ###FTime Examples###
 
 Clocks
