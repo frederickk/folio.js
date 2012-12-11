@@ -35,8 +35,8 @@ frederickkPaper.FShape.FBillBox = function(_scene) {
 
 	var BoundingBox = new frederickkPaper.FShape.FBox(_scene);
 
-	var whd     = new frederickkPaper.F3D.FPoint3();
-	var whdTemp = new frederickkPaper.F3D.FPoint3();
+	var size     = new frederickkPaper.F3D.FPoint3();
+	var sizeTemp = new frederickkPaper.F3D.FPoint3();
 // 	rotation: new frederickkPaper.F3D.FPoint3();
 
 	var bContainer = true;
@@ -172,9 +172,9 @@ frederickkPaper.FShape.FBillBox = function(_scene) {
 		for(i=0; i<verticesArr.length; i++) {
 			path.add( 
 				new frederickkPaper.F3D.FPoint3(
-					pointsMatrix[ verticesArr[i] ].x()*whd.x(),
-					pointsMatrix[ verticesArr[i] ].y()*whd.y(),
-					pointsMatrix[ verticesArr[i] ].z()*whd.z()
+					pointsMatrix[ verticesArr[i] ].x()*size.x(),
+					pointsMatrix[ verticesArr[i] ].y()*size.y(),
+					pointsMatrix[ verticesArr[i] ].z()*size.z()
 				)
 			);
 		}
@@ -208,21 +208,21 @@ frederickkPaper.FShape.FBillBox = function(_scene) {
 	// ------------------------------------------------------------------------
 	// Sets
 	// ------------------------------------------------------------------------
-	this.setWHD = function(w, h, d) {
-		if(whdTemp.x() == 0) {
-			whdTemp.set( w, h, d );
+	this.setSize = function(w, h, d) {
+		if(sizeTemp.x() == 0) {
+			sizeTemp.set( w, h, d );
 		}
-		whd.set( w, h, d );
+		size.set( w, h, d );
 
-		BoundingBox.setWHD(w,h,d);
+		BoundingBox.setSize(w,h,d);
 	};
 
 	// ------------------------------------------------------------------------
 	this.reset = function() {
 		this.setFace(0);
-		whd.x = whdTemp.x;
-		whd.y = whdTemp.y;
-		whd.z = whdTemp.z;
+		size.x = sizeTemp.x;
+		size.y = sizeTemp.y;
+		size.z = sizeTemp.z;
 	};
 
 	// ------------------------------------------------------------------------
@@ -254,8 +254,8 @@ frederickkPaper.FShape.FBillBox = function(_scene) {
 	// ------------------------------------------------------------------------
 	// Gets
 	// ------------------------------------------------------------------------
-	this.getWHD = function() {
-		return whdTemp;
+	this.getSize = function() {
+		return sizeTemp;
 	};
 
 	// ------------------------------------------------------------------------

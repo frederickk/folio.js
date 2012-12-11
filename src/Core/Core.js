@@ -240,6 +240,17 @@ frederickkPaper = {
 		b = b.replace(/ß/g,'s');
 
 		return(a == b) ? 0:(a>b) ? 1:-1;
+	},
+
+	distanceToCenter : function(a, b) {
+		var valueA = a.distanceToCenter();
+		var valueB = b.distanceToCenter();
+		var comparisonValue = 0;
+
+		if (valueA > valueB) comparisonValue = -1;
+		else if (valueA < valueB) comparisonValue = 1;
+
+		return comparisonValue;
 	}
 
 };
@@ -285,6 +296,21 @@ Array.prototype.shuffle = function() {
  *
  */
 paper.Item.inject({
+	distanceToCenter : function() {
+		var dx = this.position.x - activeDocument.activeArtboard.bounds.center.x;
+		var dy = this.position.y - activeDocument.activeArtboard.bounds.center.y;
+		var distance = (dx * dx + dy * dy) + 1;
+
+		return distance;
+	},
+
+	getRadius : function() {
+		return this.size.radius();
+		// var a = this.bounds.size.width;
+		// var b = this.bounds.size.height;
+		// return (Math.sqrt(a * a + b * b) / 2);
+	},
+
 	snapGrid : function(spacing) {
 		this.position.snapGrid(spacing);
 	},
@@ -304,6 +330,12 @@ paper.Item.inject({
 paper.Size.inject({
 	area : function() {
 		return (this.width * this.height);
+	},
+
+	radius : function() {
+		var a = this.width;
+		var b = this.height;
+		return (Math.sqrt(a * a + b * b) / 2);
 	}
 });
 

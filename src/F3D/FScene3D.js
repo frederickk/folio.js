@@ -24,8 +24,10 @@
  *
  */
 
-
-
+/**
+ *
+ *	TODO: fix Z order
+ */
 frederickkPaper.F3D.FScene3D = function() {
 	// ------------------------------------------------------------------------
 	// Properties
@@ -128,7 +130,7 @@ frederickkPaper.F3D.FScene3D = function() {
 		group.removeChildren(); // clear out in between draws
 		for(var i=0; i<items.length; i++) {
 			var paths = items[i].draw();
-			group.appendTop( paths );
+			if(paths != null) group.appendTop( paths );
 		}
 
 		// TODO: fix this scaling issue
@@ -229,6 +231,13 @@ frederickkPaper.F3D.FScene3D = function() {
 	 */
 	this.getMatrix = function() {
 		return matrix;
+	};
+
+	/**
+	 *	@return scene focal length
+	 */
+	this.getFocalLength = function() {
+		return focalLength;
 	};
 
 };

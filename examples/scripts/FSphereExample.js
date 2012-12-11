@@ -1,4 +1,4 @@
-console.log( '3 halbierte Würfel Loaded' );
+console.log( 'FSphere Example Loaded' );
 /**
  *	F3D Example
  *	3 Halibierte Würfel
@@ -24,6 +24,7 @@ var fshape = f.FShape;
 
 var scene = new f3d.FScene3D();
 
+var spheres = new Array(3);
 
 // values
 var bRotate = false;
@@ -39,38 +40,48 @@ var values = {
 // Setup
 // ------------------------------------------------------------------------
 function Setup() {
-
 	// required setup scene
 	scene.setup(view.bounds.width, view.bounds.height, 1000, 'ORTHO');
 
-
-	// FBillBox
-	// http://www.kettererkunst.de/kunst/kd/details.php?obnr=100039513&anummer=1
 	var size;
-	if(view.bounds.width < 768) size = 250;
-	else size = 600;
+	if(view.bounds.width < 768) size = 600;
+	else size = 1200;
 
-	var billRed = new frederickkPaper.FShape.FBillBox(scene);
-	billRed.setSize(size, size, size);
-	billRed.red();
-	billRed.init(size,-size,0);
+	// sphere 0
+	// wireframe
+	spheres[0] = new frederickkPaper.FShape.FSphere(scene);
+	spheres[0].setSize(size);
+	spheres[0].setLatsLongs(4,4);
+	spheres[0].noFill();
+	spheres[0].init( -size, 0,0 );
 
-	var billYellow = new frederickkPaper.FShape.FBillBox(scene);
-	billYellow.setSize(size, size, size);
-	billYellow.yellow();
-	billYellow.init(-size,size,0);
+	// sphere 1
+	// randomly colored
+	spheres[1] = new frederickkPaper.FShape.FSphere(scene);
+	spheres[1].setSize(size);
+	spheres[1].setLatsLongs(6,6);
+	spheres[1].noStroke();
 
-	var billBlue = new frederickkPaper.FShape.FBillBox(scene);
-	billBlue.setSize(size, size, size);
-	billBlue.blue();
-	billBlue.init(-size,-size,0);
+	for(var i=0; i<spheres[1].getNumFaces(); i++) {
+		spheres[1].setOpacity( i, i/spheres[1].getNumFaces() );
+		spheres[1].setFillColor( i, new f.FColor().random() );
+	}
+	spheres[1].init( 0, -size, 0 );
+
+	// sphere 2
+	// spectrum fade
+	spheres[2] = new frederickkPaper.FShape.FSphere(scene);
+	spheres[2].setSize(size);
+	spheres[2].setLatsLongs(9,9);
+	spheres[2].noStroke();
+
+	for(var i=0; i<spheres[2].getNumFaces(); i++) {
+		spheres[2].setOpacity( i, i/spheres[2].getNumFaces()*0.5 );
+		spheres[2].setFillColor( i, new paper.HSLColor( 90*i/spheres[1].getNumFaces(),0.9,0.8) );
+	}
+	spheres[2].init( 0, 0, -size );
 
 
-	// var billGreen = new frederickkPaper.FShape.FBillBox(scene);
-	// billGreen.setSize(size, size, size);
-	// billGreen.fillColor = new paper.RGBColor(0.62, 0.77, 0.14);
-	// billGreen.setVertices( [9,17,7] );
-	// billGreen.init(-(size*3),size,0);
 };
 
 
