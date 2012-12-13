@@ -20,7 +20,7 @@ console.log( 'FColor Example Loaded' );
 // ------------------------------------------------------------------------
 // the core frederickkPaper namespace
 var f = frederickkPaper;
-
+var fshape = f.FShape;
 
 var background;
 var group10;
@@ -41,16 +41,15 @@ var colors = [];
 // ------------------------------------------------------------------------
 function Setup() {
 	// scale the size to the width of the canvas
-	size = (view.bounds.width/40)/2;
+	size = (view.bounds.width/10)/2;
 
 	// create our cross element
-	cross = new Cross( view.bounds.center, new paper.Size(size,size) );
-
-	cross.children[0].strokeWidth = size;
-	cross.children[0].strokeCap = 'round';
-
-	cross.children[1].strokeWidth = size;
-	cross.children[1].strokeCap = 'round';
+	cross = new fshape.FCross( 
+		view.bounds.center.x, view.bounds.center.y,
+		size,size,
+		size,
+		'SHARP'
+	);
 
 	// hide the cross (because we'll be cloning it in Draw())
 	cross.visible = false;
@@ -97,7 +96,7 @@ function Draw() {
 			var c = cross.children[ rand ].clone();
 			// darken colors[0] to use as a secondary color
 			// a function added to paper.Color via frederickkPaper
-			(rand == 0) ? c.strokeColor = colors[0] : c.strokeColor = colors[0].clone().darken(0.3);
+			(rand == 0) ? c.fillColor = colors[0].lighten(0.03) : c.fillColor = colors[0].darken(0.03);
 			// position the line on the grid
 			c.position = new paper.Point(x+size/2,y+size/2);
 			// add to our group (which we clear each redraw)
@@ -114,24 +113,6 @@ function Draw() {
 // ------------------------------------------------------------------------
 // Methods
 // ------------------------------------------------------------------------
-/*
- *	cross
- */
-var Cross = function(point, size) {
-	var group = new paper.Group();
-
-	line1 = new paper.Path.Line(
-		point.x + size.width, 
-		point.y - size.height, 
-		point.x - size.width, 
-		point.y + size.height
-	);
-	line2 = new paper.Path.Line(point.x + size.width, point.y + size.height, point.x - size.width, point.y - size.height);
-
-	group.appendTop( line1 );
-	group.appendTop( line2 );
-	return group;
-};
 
 
 
@@ -163,7 +144,6 @@ function onKeyDown(event) {
 
 function onKeyUp(event) {
 };
-
 
 
 

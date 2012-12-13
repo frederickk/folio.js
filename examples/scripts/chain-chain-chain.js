@@ -103,7 +103,7 @@ function Update(event) {
 // Draw
 // ------------------------------------------------------------------------
 function Draw() {
-	tsp.calculate( dots.children, 10);
+	tsp.calculate( dots.children, 1000);
 	tsp.draw();
 	tsp.getTangents().moveBelow( dots );
 };
