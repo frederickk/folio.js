@@ -1,7 +1,7 @@
 /**
  *  
  *	FScene3D.js
- *	v0.1
+ *	v0.2a
  *  
  *	25. November 2012
  *
@@ -23,6 +23,8 @@
  *	modified/expanded for use in PaperJS by Ken Frederick
  *
  */
+
+
 
 /**
  *
@@ -90,7 +92,6 @@ frederickkPaper.F3D.FScene3D = function() {
 		mode = _mode != undefined ? _mode : 'PERSPECTIVE';
 		this.setMode(mode);
 
-
 		group = new paper.Group();
 	};
 
@@ -126,7 +127,8 @@ frederickkPaper.F3D.FScene3D = function() {
 			this.points2D[ i2+1 ] = y*scale+halfHeight;
 		}
 
-		
+		console.log( 'items.length\t' + items.length);
+
 		group.removeChildren(); // clear out in between draws
 		for(var i=0; i<items.length; i++) {
 			var paths = items[i].draw();
@@ -193,6 +195,7 @@ frederickkPaper.F3D.FScene3D = function() {
 	};
 
 	this.addItem = function(item) {
+		console.log( 'scene.addItem' );
 		items[items.length] = item;
 		item.addToScene(this);
 	};

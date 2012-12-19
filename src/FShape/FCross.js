@@ -1,7 +1,7 @@
 /**
  *	
  *	FCross.js
- *	v0.1
+ *	v0.2a
  *	
  *	25. November 2012
  *
@@ -14,111 +14,70 @@
  *
  *	FCross
  *
- *	Create simple speech bubble forms
+ *	Create a cross
  *
  */
 
- /**
-  *	
-  *	@param _x
-  *				center x position of cross
-  *	@param _y
-  *				center y position of cross
-  *	@param _width
-  *				the width of the cross
-  *	@param _height
-  *				the height of the cross
-  *	@param _thickness
-  *				thickness of the cross
-  *	@param _style (optional)
-  *				'SHARP'		sharp edged cross (fill)
-  *				'LINE'		simple built of lines (stroke)
-  */
-frederickkPaper.FShape.FCross = function(_x, _y, _width, _height, _thickness, _style) {
-	//-----------------------------------------------------------------------------
-	// Properties
-	//-----------------------------------------------------------------------------
-	var cross;
-
-	var x = _x;
-	var y = _y;
-	var width = _width;
-	var height = _height;
-
-	var thickness = (_thickness != undefined) ? _thickness : 1.0;
-
-	var style = (_style != undefined) ? _style : 'LINE';
 
 
+frederickkPaper.FShape.FCross = this.FCross = Path.extend({
+	 /**
+	  *	
+	  *	@param point
+	  *				position of cross
+	  *	@param size
+	  *				size [width,height] of cross
+	  *	@param _thickness
+	  *				thickness of the cross
+	  *	@param _type (optional)
+	  *				'SHARP'		sharp edged cross (fill)
+	  *				'LINE'		simple built of lines (stroke)
+	  */
+	initialize : function( point, size, _thickness, _type) {
+		(_thickness != undefined) ? _thickness : 1.0;
+		(_type != undefined) ? _type : 'LINE';
 
-	//-----------------------------------------------------------------------------
-	// Methods
-	//-----------------------------------------------------------------------------
-	// private
-	var init = function() {
-		cross = new paper.Group();
-		var point = new paper.Point(x,y);
-		var size = new paper.Size(width,height);
+		// var point = new Point(_x,_y);
+		// var size = new Size(_width,_height);
 		var line1, line2;
 
-		if( style == 'LINE' ) {
+		if( _type == 'LINE' ) {
 			line1 = new paper.Path.Line(
 				point.x + size.width, point.y - size.height, 
 				point.x - size.width, point.y + size.height
 			);
-			line1.strokeWidth = thickness;
+			line1.strokeWidth = _thickness;
 			line2 = new paper.Path.Line(
 				point.x + size.width, point.y + size.height, 
 				point.x - size.width, point.y - size.height
 			);
-			line2.strokeWidth = thickness;
+			line2.strokeWidth = _thickness;
 		}
-		else if( style == 'SHARP' ) {
-			line1 = new paper.Path();
+		else if( _type == 'SHARP' ) {
+			line1 = new Path();
 			line1.add( point.x + size.width, point.y - size.height );
-			line1.add( point.x + size.width, (point.y - size.height) + (thickness/2) );
-			line1.add( (point.x - size.width) + (thickness/2), point.y + size.height );
+			line1.add( point.x + size.width, (point.y - size.height) + (_thickness/2) );
+			line1.add( (point.x - size.width) + (_thickness/2), point.y + size.height );
 			line1.add( point.x - size.width, point.y + size.height );
-			line1.add( point.x - size.width, (point.y + size.height) - (thickness/2) );
-			line1.add( (point.x + size.width) - (thickness/2), point.y - size.height );
+			line1.add( point.x - size.width, (point.y + size.height) - (_thickness/2) );
+			line1.add( (point.x + size.width) - (_thickness/2), point.y - size.height );
 			line1.closed = true;
 
-			line2 = new paper.Path();
+			line2 = new Path();
 			line2.add( point.x - size.width, point.y - size.height );
-			line2.add( (point.x - size.width) + (thickness/2), point.y - size.height );
-			line2.add( point.x + size.width, (point.y + size.height) - (thickness/2) );
+			line2.add( (point.x - size.width) + (_thickness/2), point.y - size.height );
+			line2.add( point.x + size.width, (point.y + size.height) - (_thickness/2) );
 			line2.add( point.x + size.width, point.y + size.height );
-			line2.add( (point.x + size.width) - (thickness/2), point.y + size.height );
-			line2.add( point.x - size.width, (point.y - size.height) + (thickness/2) );
+			line2.add( (point.x + size.width) - (_thickness/2), point.y + size.height );
+			line2.add( point.x - size.width, (point.y - size.height) + (_thickness/2) );
 			line2.closed = true;
 		}
 
-		cross.appendTop( line1 );
-		cross.appendTop( line2 );
-		return cross;
-	};
+		var group = new paper.Group( line1, line2 );
+		group.name = 'cross';
+		return group;
+	}
 
-
-	//-----------------------------------------------------------------------------
-	// Sets
-	//-----------------------------------------------------------------------------
-
-
-
-
-	//-----------------------------------------------------------------------------
-	// Gets
-	//-----------------------------------------------------------------------------
-	this.get = function() {
-		return cross;
-	};
-
-
-
-	//-----------------------------------------------------------------------------
-	// Invocation
-	//-----------------------------------------------------------------------------
-	return init();
-};
+});
 
 

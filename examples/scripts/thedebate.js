@@ -24,6 +24,7 @@ var fshape = f.FShape;
 
 
 var speakers = new Array(2);
+var size;
 
 var colors = [
 	'#000000', // black
@@ -59,7 +60,6 @@ var swapColors = [];
 // Setup
 // ------------------------------------------------------------------------
 function Setup() {
-	var size;
 	var typeSize;
 	if(view.bounds.width < 768) {
 		size = 150;
@@ -72,10 +72,10 @@ function Setup() {
 
 
 	// get our images (left & right)
-	rasters[0] = new paper.Raster('kant_left');
-	rasters[1] = new paper.Raster('kant_right');
-	rasters[2] = new paper.Raster('husserl_right');
-	rasters[3] = new paper.Raster('husserl_left');
+	rasters[0] = new Raster('kant_left');
+	rasters[1] = new Raster('kant_right');
+	rasters[2] = new Raster('husserl_right');
+	rasters[3] = new Raster('husserl_left');
 
 	for(var i=0; i<rasters.length; i++) {
 		rasters[i].position.y = view.bounds.height-70;
@@ -90,12 +90,15 @@ function Setup() {
 	Kant = new Speaker('Kant');
 	Kant.image = rasters[0];
 
-	// bubble shape
-	Kant.bubble = new fshape.FBubble( f.randomInt(size,size*2), [size,(size*0.13)], 'RIGHT');
-	Kant.bubble.fillColor = colors[0];
+	var th = Math.abs(((view.bounds.rightCenter.y+(size*0.25))+size/2)-(view.bounds.height-95));
+	Kant.bubble = new fshape.FBubble( 
+		new Point(view.bounds.rightCenter.x,view.bounds.rightCenter.y+(size*0.25)),
+		new Size(f.randomInt(size*0.75,size*1.25),size),
+		new Size(size*0.13, th),
+		'RIGHT'
+	);
+ 	Kant.bubble.fillColor = colors[0];
 	Kant.bubble.strokeColor = colors[0];
-	Kant.bubble.position = view.bounds.rightCenter;
-	Kant.bubble.position.y += Kant.bubble.bounds.height*0.25;
 
 	// content
 	Kant.text = new PointText( Kant.bubble.position );
@@ -135,11 +138,15 @@ function Setup() {
 	Husserl.image = rasters[3];
 
 	// bubble shape
-	Husserl.bubble = new fshape.FBubble( f.randomInt(size,size*2), [size,size*0.9], 'LEFT');
+	var th = Math.abs(((view.bounds.leftCenter.y-(size*0.45))+size/2)-(view.bounds.height-95));
+	Husserl.bubble = new fshape.FBubble( 
+		new Point(view.bounds.leftCenter.x,view.bounds.leftCenter.y-size*0.45),
+		new Size(f.randomInt(size*0.75,size*1.25),size),
+		new Size(size*0.13, th),
+		'LEFT'
+	);
 	Husserl.bubble.fillColor = colors[1];
 	Husserl.bubble.strokeColor = colors[1];
-	Husserl.bubble.position = view.bounds.leftCenter;
-	Husserl.bubble.position.y += -(Husserl.bubble.bounds.height*0.33)+(size/2);
 
 	// content
 	Husserl.text = new PointText( Husserl.bubble.position );
@@ -301,7 +308,7 @@ function reset() {
 	Husserl.text.position = Husserl.bubble.position;
 	Husserl.text.position.y -= (180/2);
 
-	for(var i in rasters) {
+	for(var i=0; i<rasters.length; i++) {
 		rasters[i].position.y = view.bounds.height-70;
 	}
 

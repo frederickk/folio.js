@@ -5,8 +5,8 @@
 		<!-- META -->
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		
-
-		<title>FColor Example</title>
+		
+		<title>FArrow Example</title>
 		
 		
 		<!-- CSS -->
@@ -18,7 +18,7 @@
 
 
 		<!-- LOAD PAPERJS -->
-		<script type="text/javascript" src="js/paper/paper-nightly.js"></script>
+		<script type="text/javascript" src="js/paper/paper.js"></script>
 		<script>
 			// ------------------------------------------------------------------------
 			// Global Properties
@@ -34,9 +34,6 @@
 				paper.setup('canvas');
 				console.log('PaperJS is go!');
 				
-				$("#hexcolor1").val( randomHex() );
-				$("#hexcolor2").val( randomHex() );
-
 
 
 				// ------------------------------------------------------------------------
@@ -97,63 +94,16 @@
 
 
 
-			/**
-			 *
-			 *	Supporting Methods
-			 *
-			 */
-			// http://paulirish.com/2009/random-hex-color-code-snippets/
-			function randomHex() {
-				return ('#'+Math.floor(Math.random()*16777215).toString(16)).toUpperCase();
-			};
-
-			$(function() {
-
-				// ------------------------------------------------------------------------
-				function positionInputs() {
-					// deal with inputs
-					var w = $("#hexcolor1").width();
-					w += $("#hexcolor2").width();
-					$("#inputContainer").css({
-						left: view.bounds.width*0.5-(w*0.5),
-						top: view.bounds.height-106
-					});
-				};
-
-				// ------------------------------------------------------------------------
-				function resizeCanvas() {
-					var width = $('#container').width();
-					var height = $('#container').height();
-					
-					// // set canvas width and height
-					// $('#canvas').attr('width', width);
-					// $('#canvas').attr('height', height)
-
-					positionInputs();
-					Draw();
-				};
-
-				// ------------------------------------------------------------------------
-				var resizeTimeout;
-				$(window).resize(function() {
-					clearTimeout(resizeTimeout);
-					resizeTimeout = setTimeout(resizeCanvas, 100);
-				});
-				resizeCanvas();
-			});
-
-
 
 		</script>
 
 
 		<!-- LOAD ADDITIONAL JAVASCRIPTS -->
-		<!-- https://github.com/frederickk/frederickkPaper -->
 		<script type="text/javascript" src="../distribution/frederickkPaper.js"></script>
 
 		<!-- LOAD PAPER SCRIPT -->
 		<!-- be sure that the filename and path matches your script -->
-		<script type="text/javascript" src="scripts/FColorExample.js"></script>
+		<script type="text/javascript" src="scripts/FArrowExample.js"></script>
 
 
 
@@ -169,32 +119,20 @@
 
 
 		<!-- TEXT -->
-		<div id="textContainer" style="color: #ffffff;">
-			FColor Example<br/>
-			inspired by <a href="http://10print.org/" style="color: #ffffff;" target="new">10 PRINT CHR$(205.5+RND(1));</a><br />
-			<a href="http://paperjs.org/" style="color: #ffffff;" target="new">paperjs</a> experiment by <a href="http://cargocollective.com/kenfrederick" style="color: #ffffff;" target="new">kenfrederick</a>
-
-			<br/><br/>
+		<div id="textContainer">
+			FArrow Example<br/>
+			<a href="http://paperjs.org/" target="new">paperjs</a> experiment by <a href="http://cargocollective.com/kenfrederick" target="new">kenfrederick</a>
 		</div>
 
-		<div id="manual" style="color: #ffffff;">
-			<b>mouse</b> generate new pattern<br />
-			<b>input fields</b> change colors
-		</div>
-
-
-		<!-- INPUTS -->
-		<div id="inputContainer">
-			<form method="POST" name="Form">
-				<input type="text" id="hexcolor1" name="hexcolor2" onChange="Draw()" value="" style="background-color: rgba(0,0,0, 0.0); border: 0px solid rgba(0,0,0, 0.0);" />
-				<input type="text" id="hexcolor2" name="hexcolor2" onChange="Draw()" value="" style="background-color: rgba(0,0,0, 0.0); border: 0px solid rgba(0,0,0, 0.0);" />
-			</form>
+		<div id="manual">
 		</div>
 
 
 		<!-- IMAGES -->
 		<div id="rasterImages">
 		</div>
+
+
 
 		
 	</body>

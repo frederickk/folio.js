@@ -1,7 +1,7 @@
 /**
  *  
  *	FPath3.js
- *	v0.1
+ *	v0.2a
  *  
  *	25. November 2012
  *
@@ -24,16 +24,25 @@
  *
  */
 
+
+
 /**
  *	TODO: maek FPath3 an extension of paper.Item
-frederickkPaper.F3D.FPath3 = Item.extend({
+frederickkPaper.F3D.FPath3 = this.FPath3 = Path.extend({
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
 
 
+	initialize : function(_scene) {
+	
+	},
+
 });
 */
+
+
+
 frederickkPaper.F3D.FPath3 = function(_scene) {
 	// ------------------------------------------------------------------------
 	// Properties
@@ -42,7 +51,7 @@ frederickkPaper.F3D.FPath3 = function(_scene) {
 
 	// temporary until I figure out how
 	// to extend paper.Item properly
-	this.path;
+	this.path = new Path();
 
 	this.name = '';
 	this.closed = false;
@@ -88,30 +97,31 @@ frederickkPaper.F3D.FPath3 = function(_scene) {
 	 *			projected 2D path
 	 */
 	this.draw = function() {
-		var path = new paper.Path();
-		path.name = this.name;
+		this.path.remove();
+
+		this.path = new Path();
+		this.path.name = this.name;
 
 		for(var i=0; i<points3.length; i++) {
 			var pt3 = points3[i];
-			path.add( new paper.Point( pt3.x2D(), pt3.y2D() ) );
+			this.path.add( new Point( pt3.x2D(), pt3.y2D() ) );
 		}
 
 		// ! temporary see above !
-		path.opacity = this.opacity;
-		path.blendMode = this.blendMode;
-		path.visible = this.visible;
-		path.selected = this.selected;
+		this.path.opacity = this.opacity;
+		this.path.blendMode = this.blendMode;
+		this.path.visible = this.visible;
+		this.path.selected = this.selected;
 
-		path.fillColor = this.fillColor;
+		this.path.fillColor = this.fillColor;
 
-		path.strokeColor = this.strokeColor;
-		path.strokeWidth = this.strokeWidth;
-		path.strokeCap = this.strokeCap;
-		path.strokeJoin = this.strokeJoin;
+		this.path.strokeColor = this.strokeColor;
+		this.path.strokeWidth = this.strokeWidth;
+		this.path.strokeCap = this.strokeCap;
+		this.path.strokeJoin = this.strokeJoin;
 
-		path.closed = this.closed;
+		this.path.closed = this.closed;
 
-		this.path = path;
 		return this.path;
 	};
 
@@ -125,6 +135,7 @@ frederickkPaper.F3D.FPath3 = function(_scene) {
 	 *			scene to associate points with
 	 */
 	this.addToScene = function(_scene) {
+		console.log( 'path3.addToScene' );
 		for(var i=0; i<points3.length; i++) {
 			points3[i].setup(_scene);
 		}

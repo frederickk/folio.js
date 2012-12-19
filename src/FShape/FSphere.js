@@ -1,7 +1,7 @@
 /**
  *	
  *	FSphere.js
- *	v0.1
+ *	v0.2a
  *	
  *	25. November 2012
  *
@@ -15,7 +15,10 @@
  *	FSphere
  *
  *	Create simple sphere
+ *
  */
+
+
 
  /**
   *
@@ -28,6 +31,7 @@ frederickkPaper.FShape.FSphere = function(_scene) {
 	//-----------------------------------------------------------------------------
 	// public
 	this.sides = [];
+	this.vertices = [];
 
 	// temporary until I figure out how
 	// to extend paper.Item properly
@@ -49,7 +53,6 @@ frederickkPaper.FShape.FSphere = function(_scene) {
 	var lats;
 	var longs;
 
-	var vertices = [];
 
 	var facesOpacity = [];
 	var facesBlendModes = [];
@@ -257,6 +260,12 @@ frederickkPaper.FShape.FSphere = function(_scene) {
 	this.noStroke = function() {
 		facesStrokeColor = [];
 	}
+
+	// ------------------------------------------------------------------------
+	this.setVertices = function(vertice, val) {
+		if( vertice.length === undefined ) vertices[vertice] = val;
+		else vertices = vertice;
+	};
 
 	
 

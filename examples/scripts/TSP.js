@@ -1,46 +1,3 @@
-var CommonTangents = function(c1, c2) {
-	var dx = c2.position.x - c1.position.x;
-	var dy = c2.position.y - c1.position.y;
-
-	var r1 = Math.sqrt( c1.bounds.size.area() );
-	var r2 = Math.sqrt( c2.bounds.size.area() );
-
-	r1 /= 2;
-	r2 /= 2;
-
-	var dist = c1.position.getDistance( c2.position );
-
-	if (dist <= Math.abs(r2 - r1)) {
-		//	The circles are coinciding
-		//	There are no valid tangents.
-		return;
-	}
-
-	var angle1 = Math.atan2(dy, dx);
-	var angle2 = Math.acos((r1 - r2)/dist);
-
-	var pt1 = new paper.Point(
-		c1.position.x + r1 * Math.cos(angle1 + angle2),
-		c1.position.y + r1 * Math.sin(angle1 + angle2)
-	);
-	var pt2 = new paper.Point(
-		c2.position.x + r2 * Math.cos(angle1 + angle2),
-		c2.position.y + r2 * Math.sin(angle1 + angle2)
-	);
-	var pt4 = new paper.Point(
-		c1.position.x + r1 * Math.cos(angle1 - angle2),
-		c1.position.y + r1 * Math.sin(angle1 - angle2)
-	);
-	var pt3 = new paper.Point(
-		c2.position.x + r2 * Math.cos(angle1 - angle2),
-		c2.position.y + r2 * Math.sin(angle1 - angle2)
-	);
-
-	return [pt1, pt2, pt3, pt4]
-};
-
-
-// ------------------------------------------------------------------------
 /**
  *	Travelling Salesman Problem Algorithm
  *
@@ -62,6 +19,7 @@ var CommonTangents = function(c1, c2) {
  */
 
 var f = frederickkPaper;
+var fshape = f.FShape;
 var fcolor = new f.FColor();
 
 
@@ -235,49 +193,19 @@ var TSP = function() {
 		var nodesNum = this.nodeRoute.length - 1;
 
 		this.tangentGroup.removeChildren();
-		// console.log( '--clear--' );
+
 		for (var j=0; j<nodesNum; ++j) {
 			obj1 = this.items[ this.nodeRoute[j] ];
 			obj2 = this.items[ this.nodeRoute[j+1] ];
 			
-			var pts = CommonTangents(obj1, obj2);
+			var chain = new fshape.FChain( obj1, obj2 );
+			chain.strokeColor = 'white';
+			chain.strokeWidth = 2;
+			chain.fillColor = obj1.fillColor;
+			chain.fillColor.alpha = 0.2;
+			chain.blendMode = 'normal';
 
-			var lines = new paper.Path();
-			lines.add(pts[0]);
-			lines.add(pts[1]);
-
-			if( obj2.position.x > obj1.position.x ) angle = 0;
-			else if( obj2.position.y < obj1.position.y ) angle = -90;
-			else if( obj2.position.y > obj1.position.y ) angle = 90;
-			else angle = 180;
-			var tp2 = new paper.Point(
-				obj2.position.x + Math.cos( f.radians(angle) ) * (obj2.bounds.width/2),
-				obj2.position.y + Math.sin( f.radians(angle) ) * (obj2.bounds.height/2)
-			);
-			lines.arcTo(tp2, pts[2]);
-
-			lines.add(pts[2]);
-			lines.add(pts[3]);
-
-			if( obj1.position.x > obj2.position.x ) angle = 0;
-			else if( obj1.position.y < obj2.position.y ) angle = -90;
-			else if( obj1.position.y > obj2.position.y ) angle = 90;
-			else angle = 180;
-			var tp1 = new paper.Point(
-				obj1.position.x + Math.cos( f.radians(angle) ) * (obj1.bounds.width/2),
-				obj1.position.y + Math.sin( f.radians(angle) ) * (obj1.bounds.height/2)
-			);
-			lines.arcTo(tp1, pts[0]);
-
-			lines.strokeColor = 'white';
-			lines.strokeWidth = 2;
-			lines.fillColor = obj1.fillColor;
-			lines.fillColor.alpha = 0.2;
-
-			lines.blendMode = 'normal';
-			lines.closed = true;
-
-			this.tangentGroup.appendTop( lines );
+			this.tangentGroup.appendTop( chain );
 		}
 		
 	};
@@ -288,7 +216,7 @@ var TSP = function() {
 	// Gets
 	// ------------------------------------------------------------------------
 	this.getTangents = function() {
-		return this.tangentGroup;	
+		return this.tangentGroup;
 	};
 
 

@@ -1,7 +1,7 @@
 /**
  *  
  *	FStepper.js
- *	v0.1
+ *	v0.2a
  *  
  *	25. November 2012
  *
@@ -43,6 +43,11 @@ frederickkPaper.FTime.FStepper = function() {
 	// ------------------------------------------------------------------------
 	// Methods
 	// ------------------------------------------------------------------------
+	/**
+	 *	
+	 *	toggle (start/stop) the stepper
+	 *	
+	 */
 	this.toggle = function() {
 		if (bToggleStart == 0) {
 			bToggleStart = 1;
@@ -112,6 +117,11 @@ frederickkPaper.FTime.FStepper = function() {
 	};
 
 	// ------------------------------------------------------------------------
+	/**
+	 *	
+	 *	toggle stepping in (++)
+	 *	
+	 */
 	this.stepIn = function() {
 		if(bIn) return;
 		if(this.delta == 1.0) return;
@@ -119,6 +129,12 @@ frederickkPaper.FTime.FStepper = function() {
 		bIn = true;
 		bOut = false;
 	};
+
+	/**
+	 *	
+	 *	toggle stepping out (--)
+	 *	
+	 */
 	this.stepOut = function() {
 		if(bOut) return;
 		if(this.delta == 0.0) return;
@@ -129,23 +145,20 @@ frederickkPaper.FTime.FStepper = function() {
 
 	// ------------------------------------------------------------------------
 	/**
-	 *	@return
-	 *			if the object is stepping in
+	 *	@return if the object is stepping in
 	 */
 	this.isIn = function() {
 		return bIn;
 	};
 	/**
-	 *	@return
-	 *			if the object is stepping out
+	 *	@return if the object is stepping out
 	 */
 	this.isOut = function() {
 		return bOut;
 	};
 
 	/**
-	 *	@return
-	 *			if the object has finished it's stepping
+	 *	@return if the object has finished it's stepping
 	 */
 	this.isDone = function() {
 		if(this.delta < 1.0 && this.delta > 0.0) return false;
@@ -160,6 +173,11 @@ frederickkPaper.FTime.FStepper = function() {
 	};
 
 	// ------------------------------------------------------------------------
+	/**
+	 *	
+	 *	stop stepping
+	 *	
+	 */
 	this.stop = function() {
 		bBeginStpper = bIn = bOut = false;
 	};

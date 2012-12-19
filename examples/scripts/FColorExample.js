@@ -45,10 +45,7 @@ function Setup() {
 
 	// create our cross element
 	cross = new fshape.FCross( 
-		view.bounds.center.x, view.bounds.center.y,
-		size,size,
-		size,
-		'SHARP'
+		view.bounds.center, new Size(size,size), size, 'SHARP'
 	);
 
 	// hide the cross (because we'll be cloning it in Draw())
@@ -98,7 +95,7 @@ function Draw() {
 			// a function added to paper.Color via frederickkPaper
 			(rand == 0) ? c.fillColor = colors[0].lighten(0.03) : c.fillColor = colors[0].darken(0.03);
 			// position the line on the grid
-			c.position = new paper.Point(x+size/2,y+size/2);
+			c.position = new Point(x+size/2,y+size/2);
 			// add to our group (which we clear each redraw)
 			group10.appendTop(c);
 		}

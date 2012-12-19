@@ -1,7 +1,7 @@
 /**
  *  
  *	FIO.js
- *	v0.1
+ *	v0.2a
  *  
  *	25. November 2012
  *
@@ -17,6 +17,9 @@
  *	A collection of I/O methods;
  *
  */
+
+
+
 frederickkPaper.FIO = {
 	/*
 	 *	Local Storage
@@ -40,8 +43,8 @@ frederickkPaper.FIO = {
 		}
 	},
 
-	/*
-	 *	retrieve our saved value (default: as string)
+	/**
+	 *	retrieve saved value (default: as string)
 	 *
 	 *	@param name
 	 *				the name (key) of what we want to retrieve
@@ -50,8 +53,8 @@ frederickkPaper.FIO = {
 		return localStorage.getItem(name);
 	},
 
-	/*
-	 *	retrieve our saved value as an int
+	/**
+	 *	retrieve saved value as an int
 	 *
 	 *	@param name
 	 *				the name (key) of what we want to retrieve
@@ -60,8 +63,8 @@ frederickkPaper.FIO = {
 		return parseInt( getLocal(name) );
 	},
 
-	/*
-	 *	retrieve our saved value as a float
+	/**
+	 *	retrieve saved value as a float
 	 *
 	 *	@param name
 	 *				the name (key) of what we want to retrieve
@@ -80,7 +83,6 @@ frederickkPaper.FIO = {
 	},
 
 	/**
-	 *
 	 *	delete a saved value from local storage
 	 *	
 	 *	@param name
@@ -115,8 +117,8 @@ frederickkPaper.FIO = {
 		}
 	},
 
-	/*
-	 *	retrieve our saved value (default: as string)
+	/**
+	 *	retrieve saved value (default: as string)
 	 *
 	 *	@param name
 	 *				the name (key) of what we want to retrieve
@@ -125,8 +127,8 @@ frederickkPaper.FIO = {
 		return sessionStorage.getItem(name);
 	},
 
-	/*
-	 *	retrieve our saved value as an int
+	/**
+	 *	retrieve saved value as an int
 	 *
 	 *	@param name
 	 *				the name (key) of what we want to retrieve
@@ -135,8 +137,8 @@ frederickkPaper.FIO = {
 		return parseInt( getSession(name) );
 	},
 
-	/*
-	 *	retrieve our saved value as a float
+	/**
+	 *	retrieve saved value as a float
 	 *
 	 *	@param name
 	 *				the name (key) of what we want to retrieve
@@ -145,7 +147,7 @@ frederickkPaper.FIO = {
 		return parseFloat( getSession(name) );
 	},
 
-	/*
+	/**
 	 *	@return a list of all items saved in session storage
 	 *
 	 */
@@ -155,7 +157,6 @@ frederickkPaper.FIO = {
 	},
 
 	/**
-	 *
 	 *	delete a saved value from session storage
 	 *	
 	 *	@param name
@@ -174,7 +175,6 @@ frederickkPaper.FIO = {
 	 */
 	
 	/**
-	 *
 	 *	save a value as a cookie
 	 *	
 	 *	@param name
@@ -195,7 +195,6 @@ frederickkPaper.FIO = {
 	},
 
 	/**
-	 *
 	 *	retrieve a value from a cookie
 	 *	
 	 *	@param name
@@ -213,7 +212,6 @@ frederickkPaper.FIO = {
 	},
 
 	/**
-	 *
 	 *	delete a cookie
 	 *	
 	 *	@param name

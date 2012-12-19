@@ -52,14 +52,14 @@ function Setup() {
 
 	// Show the local time
 	local = new Clock( 
-		new paper.Point(
+		new Point(
 			view.bounds.width*0.15,
 			view.bounds.center.y
 		),
 		size
 	);
 	timeText.local = new PointText( 
-		new paper.Point(
+		new Point(
 			view.bounds.width*0.15,
 			view.bounds.center.y+size
 		)
@@ -75,14 +75,14 @@ function Setup() {
 
 	// show the running time
 	running = new Clock(
-		new paper.Point(
+		new Point(
 			view.bounds.width*0.38,
 			view.bounds.center.y
 		),
 		size
 	);
 	timeText.running = timeText.local.clone();
-	timeText.running.position = new paper.Point(
+	timeText.running.position = new Point(
 			view.bounds.width*0.38,
 			view.bounds.center.y+size);
 	timeText.running.content = 'Running';
@@ -90,14 +90,14 @@ function Setup() {
 
 	// show the timer time
 	timer = new Clock( 
-		new paper.Point(
+		new Point(
 			view.bounds.width*0.62,
 			view.bounds.center.y
 		),
 		size
 	);
 	timeText.timer = timeText.local.clone();
-	timeText.timer.position = new paper.Point(
+	timeText.timer.position = new Point(
 			view.bounds.width*0.62,
 			view.bounds.center.y+size);
 	timeText.timer.content = 'Timer'; //'00:00:00';
@@ -105,14 +105,14 @@ function Setup() {
 
 	// show the time since 1. January 1970
 	seventy = new Clock( 
-		new paper.Point(
+		new Point(
 			view.bounds.width*0.85,
 			view.bounds.center.y
 		),
 		size
 	);
 	timeText.seventy = timeText.local.clone();
-	timeText.seventy.position = new paper.Point(
+	timeText.seventy.position = new Point(
 			view.bounds.width*0.85,
 			view.bounds.center.y+size);
 	timeText.seventy.content = '1970';
@@ -196,21 +196,21 @@ var Clock = function(_pt, _radius) {
 
 
 	// clock hands
-	var mpt = new paper.Point(pt.x + Math.cos(this.m) * minutesRadius, pt.y + Math.sin(this.m) * minutesRadius);
+	var mpt = new Point(pt.x + Math.cos(this.m) * minutesRadius, pt.y + Math.sin(this.m) * minutesRadius);
 	var minutes = new paper.Path.Line( pt, mpt );
 	minutes.strokeColor = 'black';
 	minutes.strokeWidth = 9;
 	minutes.strokeCap = 'butt';
 	group.appendTop(minutes);
 
-	var hpt = new paper.Point(pt.x + Math.cos(this.h) * hoursRadius, pt.y + Math.sin(this.h) * hoursRadius);
+	var hpt = new Point(pt.x + Math.cos(this.h) * hoursRadius, pt.y + Math.sin(this.h) * hoursRadius);
 	var hours = new paper.Path.Line( pt, hpt );
 	hours.strokeColor = 'black';
 	hours.strokeWidth = 9;
 	hours.strokeCap = 'butt';
 	group.appendTop(hours);
 
-	var spt = new paper.Point(pt.x + Math.cos(this.s) * secondsRadius, pt.y + Math.sin(this.s) * secondsRadius);
+	var spt = new Point(pt.x + Math.cos(this.s) * secondsRadius, pt.y + Math.sin(this.s) * secondsRadius);
 	var seconds = new paper.Path.Line( pt, spt );
 	seconds.strokeColor = new paper.RGBColor(0.9, 0.26, 0.14);
 	seconds.strokeWidth = 2;
@@ -226,10 +226,10 @@ var Clock = function(_pt, _radius) {
 			var y1 = pt.y + Math.sin(f.radians(a)) * (secondsRadius-3);
 			var x2 = pt.x + Math.cos(f.radians(a)) * (secondsRadius+9);
 			var y2 = pt.y + Math.sin(f.radians(a)) * (secondsRadius+9);
-			// var tick = new paper.Path.Circle( new paper.Point(x,y), 1.5 );
+			// var tick = new paper.Path.Circle( new Point(x,y), 1.5 );
 			var tick = new paper.Path.Line(
-				new paper.Point(x1,y1),
-				new paper.Point(x2,y2)
+				new Point(x1,y1),
+				new Point(x2,y2)
 			);
 			tick.strokeColor = 'black';
 			tick.strokeWidth = 2;
@@ -242,19 +242,19 @@ var Clock = function(_pt, _radius) {
 
 	// Methods
 	this.update = function() {
-		spt = new paper.Point(
+		spt = new Point(
 			pt.x + Math.cos(this.s) * secondsRadius,
 			pt.y + Math.sin(this.s) * secondsRadius
 		);
 		seconds.segments[1].point = spt;
 
-		mpt = new paper.Point(
+		mpt = new Point(
 			pt.x + Math.cos(this.m) * minutesRadius,
 			pt.y + Math.sin(this.m) * minutesRadius
 		);
 		minutes.segments[1].point = mpt;
 
-		hpt = new paper.Point(
+		hpt = new Point(
 			pt.x + Math.cos(this.h) * hoursRadius,
 			pt.y + Math.sin(this.h) * hoursRadius
 		);

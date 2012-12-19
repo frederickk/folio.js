@@ -24,7 +24,7 @@ var fshape = f.FShape;
 
 var scene = new f3d.FScene3D();
 
-var sphere;
+var spheres = new Array(3);
 
 // values
 var bRotate = false;
@@ -49,24 +49,38 @@ function Setup() {
 
 	// sphere 0
 	// wireframe
-	sphere = new frederickkPaper.FShape.FSphere(scene);
-	sphere.setSize(size);
-	sphere.setLatsLongs(4,4);
-	// sphere.noFill();
+	spheres[0] = new frederickkPaper.FShape.FSphere(scene);
+	spheres[0].setSize(size);
+	spheres[0].setLatsLongs(4,4);
+	spheres[0].noFill();
+	spheres[0].init( -size, 0,0 );
 
-	var v3 = [];
-	for(var i=0; i<sphere.getVertices().length; i++) {
-		var fp3 = new f3d.FPoint3(
-			sphere.getVertices()[i].x() + Math.sin( f.radians(i) ),
-			sphere.getVertices()[i].y() + -Math.sin( f.radians(i) ),
-			sphere.getVertices()[i].z()
-		);
-		v3.push(fp3);
+	// sphere 1
+	// randomly colored
+	spheres[1] = new frederickkPaper.FShape.FSphere(scene);
+	spheres[1].setSize(size);
+	spheres[1].setLatsLongs(6,6);
+	spheres[1].noStroke();
+
+	for(var i=0; i<spheres[1].getNumFaces(); i++) {
+		spheres[1].setOpacity( i, i/spheres[1].getNumFaces() );
+		spheres[1].setFillColor( i, new f.FColor().random() );
 	}
-	sphere.setVertices(v3);
+	spheres[1].init( 0, -size, 0 );
 
+	// sphere 2
+	// spectrum fade
+	spheres[2] = new frederickkPaper.FShape.FSphere(scene);
+	spheres[2].setSize(size);
+	spheres[2].setLatsLongs(9,9);
+	spheres[2].noStroke();
 
-	sphere.init();
+	for(var i=0; i<spheres[2].getNumFaces(); i++) {
+		spheres[2].setOpacity( i, i/spheres[2].getNumFaces()*0.5 );
+		spheres[2].setFillColor( i, new paper.HSLColor( 90*i/spheres[1].getNumFaces(),0.9,0.8) );
+	}
+	spheres[2].init( 0, 0, -size );
+
 
 };
 
@@ -91,8 +105,6 @@ function Update(event) {
 // Main
 // ------------------------------------------------------------------------
 function Draw() {
-	// sphere.init();
-
 	// rotate
 	scene.rotateX( f.radians(values.rotx) );
 	scene.rotateY( f.radians(values.roty) );

@@ -1,7 +1,7 @@
 /**
  *  
  *	FColor.js
- *	v0.1
+ *	v0.2a
  *  
  *	25. November 2012
  *
@@ -19,6 +19,8 @@
  *	initially creation for use in Scriptographer.
  *
  */
+
+
 
 frederickkPaper.FColor = function() {
 	// ------------------------------------------------------------------------
@@ -49,9 +51,6 @@ frederickkPaper.FColor = function() {
 	this.randomRGBColor = function() {
 		return new paper.RGBColor( Math.random(),Math.random(),Math.random() );
 	};
-	this.randomCMYKColor = function() {
-		return new paper.CMYKColor( Math.random(),Math.random(),Math.random(),Math.random() );
-	};
 	this.randomGrayColor = function() {
 		return new paper.GrayColor( Math.random() );
 	};
@@ -60,6 +59,14 @@ frederickkPaper.FColor = function() {
 	};
 
 	// ------------------------------------------------------------------------
+	/**
+	 *
+	 *	@param col
+	 *			value as paper.RGBColor()
+	 *
+	 *	@return value of input color as integer
+	 *
+	 */
 	this.ColorToInt = function(col) {
 		var rgbInt;
 		try {
@@ -75,6 +82,15 @@ frederickkPaper.FColor = function() {
 		}
 		return rgbInt;
 	};
+
+	/**
+	 *
+	 *	@param RGBInt
+	 *			value as integer
+	 *
+	 *	@return value of interger as paper.RGBColor
+	 *
+	 */
 	this.IntToColor = function(RGBint) {
 		var r = (RGB>> 16) & 255;
 		var g = (RGB>> 8) & 255;
@@ -83,14 +99,13 @@ frederickkPaper.FColor = function() {
 	};
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
 	 *
 	 *	@param col
 	 *			value as paper.RGBColor()
 	 *
-	 *	@return str
-	 *			hex value of input color as string
+	 *	@return hex value of input color as string
 	 *
 	 */
 	this.ColorToHex = function(col) {
@@ -108,14 +123,23 @@ frederickkPaper.FColor = function() {
 		}
 		return str;
 	};
-	this.HexToColor = function(_hex) {
+
+	/**
+	 *
+	 *	@param hex
+	 *			value as string hex value
+	 *
+	 *	@return value of hex as paper.RGBColor
+	 *
+	 */
+	this.HexToColor = function(hex) {
 		// var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
 		// var r = parseInt(result[1], 16);
 		// var g = parseInt(result[2], 16);
 		// var b = parseInt(result[3], 16);
 
-		if( _hex.length >= 7 ) hex = _hex.split('#')[1];
-		else hex = _hex;
+		if( hex.length >= 7 ) hex = hex.split('#')[1];
+		else hex = hex;
 
 		var big= parseInt(hex, 16);
 		var r = (big>> 16) & 255;
@@ -127,7 +151,21 @@ frederickkPaper.FColor = function() {
 
 
 	// ------------------------------------------------------------------------
-	this.ByteToColor = function(r255, g255, b255, a255)  {
+	/**
+	 *
+	 *	@param r255
+	 *			red as byte value (0-255)
+	 *	@param g255
+	 *			green as byte value (0-255)
+	 *	@param b255
+	 *			blue as byte value (0-255)
+	 *	@param a255
+	 *			alpha as byte value (0-255)
+	 *
+	 *	@return paper.RGBColor
+	 *
+	 */
+	this.ByteToColor = function(r255, g255, b255, a255) {
 		var r = r255/255;
 		var g = g255/255;
 		var b = b255/255;
@@ -201,18 +239,36 @@ frederickkPaper.FColor = function() {
 };
 
 
-/**
+
+/*
  *
  *	paper.Color
  *
  */
 paper.Color.inject({
+	/**
+	 *
+	 *	@param pct
+	 *			percentage to darken color
+	 *
+	 *	@return darkened color by input percentage
+	 *
+	 */
 	darken : function(pct) {
 		this.red -= pct;
 		this.green -= pct;
 		this.blue -= pct;
 		return this;
 	},
+
+	/**
+	 *
+	 *	@param pct
+	 *			percentage to lighten color
+	 *
+	 *	@return lightened color by input percentage
+	 *
+	 */
 	lighten : function(pct) {
 		this.red += pct;
 		this.green += pct;

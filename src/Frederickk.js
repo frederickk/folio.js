@@ -1,7 +1,7 @@
 /**
  *	
  *	frederickkPaper.js
- *	v0.1
+ *	v0.2a
  *	https://github.com/frederickk/frederickkPaper
  *
  *	25. November 2012

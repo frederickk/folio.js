@@ -1,7 +1,7 @@
 /**
  *  
  *	FDate.js
- *	v0.1
+ *	v0.2a
  *  
  *	25. November 2012
  *
@@ -15,6 +15,9 @@
  *	FDate
  *
  */
+
+
+
 frederickkPaper.FTime.FDate = function() {
 	// ------------------------------------------------------------------------
 	// Properties
@@ -39,6 +42,9 @@ frederickkPaper.FTime.FDate = function() {
 
 
 	// public
+	/**
+	 *	@return return the current year as 'YYYY'
+	 */
 	this.year = function() {
 		if(this.date === undefined) this.date = new Date();
 		var year = String( this.date.getFullYear() ); 
@@ -46,8 +52,7 @@ frederickkPaper.FTime.FDate = function() {
 	};
 
 	/**
-	 *	@return hour
-	 *			return the current hour as string 'HH'
+	 *	@return return the current month as 'MM'
 	 */
 	this.month = function() {
 		if(this.date === undefined) this.date = new Date();
@@ -57,8 +62,7 @@ frederickkPaper.FTime.FDate = function() {
 	};
 
 	/**
-	 *	@return hour
-	 *			return the current hour as string 'HH'
+	 *	@return return the current day as string 'DD'
 	 */
 	this.day = function() {
 		if(this.date === undefined) this.date = new Date();
@@ -67,8 +71,7 @@ frederickkPaper.FTime.FDate = function() {
 	};
 
 	/**
-	 *	@return hour
-	 *			return the current hour as string 'HH'
+	 *	@return return the current hour as string 'HH'
 	 */
 	this.hour = function() {
 		if(this.date === undefined) this.date = new Date();
@@ -78,8 +81,7 @@ frederickkPaper.FTime.FDate = function() {
 	};
 
 	/**
-	 *	@return minute
-	 *			return the current minute as string 'mm'
+	 *	@return return the current minute as string 'mm'
 	 */
 	this.minute = function() {
 		if(this.date === undefined) this.date = new Date();
@@ -89,8 +91,7 @@ frederickkPaper.FTime.FDate = function() {
 	};
 
 	/**
-	 *	@return second
-	 *			return the current second as string 'ss'
+	 *	@return return the current second as string 'ss'
 	 */
 	this.second = function() {
 		if(this.date === undefined) this.date = new Date();

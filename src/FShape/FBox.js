@@ -1,7 +1,7 @@
 /**
  *	
  *	FBox.js
- *	v0.1
+ *	v0.2a
  *	
  *	25. November 2012
  *
@@ -17,6 +17,8 @@
  *	Create simple box
  *
  */
+
+
 
  /**
   *

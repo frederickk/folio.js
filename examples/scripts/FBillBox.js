@@ -1,7 +1,7 @@
 /**
  *	
  *	FBillBox.js
- *	v0.1
+ *	v0.2a
  *	
  *	25. November 2012
  *
@@ -18,6 +18,9 @@
  *	http://www.kettererkunst.de/kunst/kd/details.php?obnr=100039513&anummer=1
  *
  */
+
+
+
 frederickkPaper.FShape.FBillBox = function(_scene) {
 	// ------------------------------------------------------------------------
 	// Properties

@@ -1,7 +1,7 @@
 /**
  *  
  *	FControl.js
- *	v0.1
+ *	v0.2a
  *  
  *	25. November 2012
  *
@@ -18,6 +18,8 @@
  *	for use as a GUI
  *
  */
+
+
 
 /**
  *

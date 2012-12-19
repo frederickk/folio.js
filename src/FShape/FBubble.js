@@ -1,7 +1,7 @@
 /**
  *	
  *	FBubble.js
- *	v0.1
+ *	v0.2a
  *	
  *	25. November 2012
  *
@@ -14,157 +14,108 @@
  *
  *	FBubble
  *
- *	Create simple speech bubble forms
+ *	Create a simple speech bubble
  *
  */
 
- /**
-  *	
-  *	@param _width
-  *				the entire width of the bubble
-  *	@param _height
-  *				the height of the body of the bubble
-  *				OR as an array [ height of the body, length of the tag ]	
-  *	@param _tagCenter
-  *				'RANDOM'	randomly x-position the point
-  *				'LEFT'		left align the x-position of the point
-  *				'CENTER'	center align the x-position of the point
-  *				'RIGHT'		right align the x-position of the point
-  */
-frederickkPaper.FShape.FBubble = function(_width, _height, _tagCenter) {
+
+
+frederickkPaper.FShape.FBubble = this.FBubble = Path.extend({
 	//-----------------------------------------------------------------------------
 	// Properties
 	//-----------------------------------------------------------------------------
-	var bubble;
-	var r_unit = 20;
-
-	var width;
-	var height;
-
-	var tagCenter = (_tagCenter != undefined) ? _tagCenter : 'RANDOM';
-	var tagLength = null;
-	var tagPoints = [];
+	defaultTagSize: new Size(20,20),
 
 
 
 	//-----------------------------------------------------------------------------
 	// Methods
 	//-----------------------------------------------------------------------------
-	// private
-	var init = function() {
-		if(width < 10) {
-			width = 10;
-			r_unit = 10;
+	 /**
+	  *	
+	  *	@param bubblePoint
+	  *				the position of the bubble
+	  *	@param bubbleSize
+	  *				the size of the bubble
+	  *	@param _tagSize
+	  *				the size of the tag
+	  *	@param _tagPointCenter 
+	  *				(optional)
+	  *				'RANDOM'	randomly x-position the point (default)
+	  *				'LEFT'		left align the x-position of the point
+	  *				'CENTER'	center align the x-position of the point
+	  *				'RIGHT'		right align the x-position of the point
+	  */
+	initialize : function(bubblePoint, bubbleSize, _tagSize, _tagPointCenter) {
+		_tagSize = (_tagSize != undefined) ? _tagSize : defaultTagSize;
+		if(bubbleSize.width < 10) {
+			bubbleSize.width = 10;
+			_tagSize = new Size(10,10);
 		}
+		_tagPointCenter = (_tagPointCenter != undefined) ? _tagPointCenter : 'RANDOM';
 
 
-		bubble = new paper.Path();
-		bubble.name = 'bubble';
+		this.path = new Path();
+		this.path.name = 'bubble';
 
-		// left
-		bubble.add( new paper.Point(0,0) );
+		// left side of bubble
+		this.path.add( new Point(0,0) );
 		var angle = 180;
-		var through = new paper.Point(
-			height/2 + Math.cos( f.radians(angle) ) * (height),
-			height/2 + Math.sin( f.radians(angle) ) * (height)
+		var through = new Point(
+			bubbleSize.height/2 + Math.cos( f.radians(angle) ) * (bubbleSize.height),
+			bubbleSize.height/2 + Math.sin( f.radians(angle) ) * (bubbleSize.height)
 		);
-		bubble.arcTo(through, new paper.Point(0,height));
+		this.path.arcTo(through, new Point(0,bubbleSize.height));
 
 		// middle bottom
-		// create tag space
-		var bw = frederickkPaper.randomInt(0,width-r_unit);
-		tagPoints[0] = new paper.Point(bw,height);
-		bubble.add( new paper.Point(bw,height) );
+		// create tag space somewhere along the bottom of the bubble
+		var tagStart = frederickkPaper.randomInt(0,bubbleSize.width-_tagSize.width);
 
 		// create tag
+		this.path.add( new Point(tagStart,bubbleSize.height) );
+
 		var tx, ty;
-		if(tagCenter == 'LEFT') {
-			tx = bw;
+		if(_tagPointCenter == 'LEFT') {
+			tx = tagStart;
 		}
-		else if(tagCenter == 'CENTER') {
-			tx = bw + (r_unit/2);
+		else if(_tagPointCenter == 'CENTER') {
+			tx = tagStart + (_tagSize.width/2);
 		}
-		else if(tagCenter == 'RIGHT') {
-			tx = bw+r_unit;
+		else if(_tagPointCenter == 'RIGHT') {
+			tx = tagStart+_tagSize.width;
 		}
-		else {
-			tx = frederickkPaper.randomInt(bw,bw+r_unit);
-		}
-
-		// TODO: eventually make it possible to determine the length of the tag
-		if(tagLength != null) {
-			ty = height + tagLength;
-		}
-		else {
-			ty = height + (r_unit*4 + frederickkPaper.random(-r_unit*0.5, r_unit*0.5));
+		else { // if(_tagPointCenter == 'RANDOM') { 
+			tx = frederickkPaper.randomInt(tagStart,tagStart+_tagSize.width);
 		}
 
-		// this allows us to know bubble's tag point
-		tagPoints[2] = new paper.Point(tx,ty);
-		bubble.add( new paper.Point(tx,ty) ); 
-
+		// the length of the tag
+		ty = bubbleSize.height + _tagSize.height;
+		this.path.add( new Point(tx,ty) ); 
 
 		// continue bottom
-		tagPoints[1] = new paper.Point(bw+r_unit,height);
-		bubble.add( new paper.Point(bw+r_unit,height) );
-		bubble.add( new paper.Point(width,height) );
+		this.path.add( new Point(tagStart+_tagSize.width,bubbleSize.height) );
+		this.path.add( new Point(bubbleSize.width,bubbleSize.height) );
 
 
-		// right
+		// right side of bubble
 		angle = 0;
-		through = new paper.Point(
-			height/2 + Math.cos( f.radians(angle) ) * (height/2),
-			height/2 + Math.sin( f.radians(angle) ) * (height/2)
+		through = new Point(
+			bubbleSize.height/2 + Math.cos( f.radians(angle) ) * (bubbleSize.height/2),
+			bubbleSize.height/2 + Math.sin( f.radians(angle) ) * (bubbleSize.height/2)
 		);
-		bubble.arcTo( new paper.Point(width,0), false );
-		// bubble.arcTo(through, new paper.Point(width,0) );
-
+		this.path.arcTo( new Point(bubbleSize.width,0), false );
 
 		// middle top
-		// bubble.add( new paper.Point(0,0) ); // OR 
-		bubble.closed = true;
+		this.path.closed = true;
 
-	};
-	
-
-	//-----------------------------------------------------------------------------
-	// Sets
-	//-----------------------------------------------------------------------------
-	this.set = function(_width, _height) {
-		width = (_width != undefined) ? _width : frederickkPaper.random(r_unit,200);
-		if(_height.length == 2) {
-			height = _height[0];
-			tagLength = (_height[1] < r_unit) ? r_unit : _height[1];
-		}
-		else {
-			height = (_height != undefined) ? _height : frederickkPaper.random(r_unit*4,200);
-		}
-		width -= height;
-	};
+		// center the bubble
+		// compensated for the tag's length
+		this.path.position = new Point(bubblePoint.x,bubblePoint.y+(_tagSize.height/2));
+		
+		return this.path;
+	}
 
 
-
-
-	//-----------------------------------------------------------------------------
-	// Gets
-	//-----------------------------------------------------------------------------
-	this.get = function() {
-		return bubble;
-	};
-
-	//-----------------------------------------------------------------------------
-	this.getTag = function() {
-		return tagPoints;
-	};
-
-
-
-	//-----------------------------------------------------------------------------
-	// Invocation
-	//-----------------------------------------------------------------------------
-	this.set(_width, _height);
-	init();
-	return bubble;
-};
+});
 
 

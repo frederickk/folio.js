@@ -1,7 +1,7 @@
 /**
  *	
  *	frederickkPaper.js
- *	v0.1
+ *	v0.2a
  *	https://github.com/frederickk/frederickkPaper
  *
  *	25. November 2012
@@ -74,7 +74,7 @@ var frederickkPaper = frederickkPaper || {};
 /**
  *  
  *	Core.js
- *	v0.1
+ *	v0.2a
  *  
  *	25. November 2012
  *
@@ -112,6 +112,15 @@ frederickkPaper = {
 	// ------------------------------------------------------------------------
 	// Methods
 	// ------------------------------------------------------------------------
+	/**
+	 *	@param minr
+	 *				minmum range
+	 *	@param maxr
+	 *				maximum range
+	 *
+	 *	@return random number as float
+	 *
+	 */
 	random : function(minr, maxr) {
 		if(maxr === undefined) {
 			maxr = minr;
@@ -119,18 +128,34 @@ frederickkPaper = {
 		}
 		return (minr + Math.random() * (maxr - minr));
 	},
+
+	/**
+	 *	@param minr
+	 *				minmum range
+	 *	@param maxr
+	 *				maximum range
+	 *
+	 *	@return random number as integer
+	 *
+	 */
 	randomInt : function(minr, maxr) {
 		return parseInt( frederickkPaper.random(minr,maxr) );
 	},
 
-	/*
+	/**
 	 *
 	 *	http://www.siafoo.net/snippet/191
 	 *
-	 *	Returns a number between v1 and v2, including v1 but not v2.
-	 *	The bias represents the preference towards lower or higher numbers,
-	 *	as a number between 0.0 and 1.0. For example: 
-	 *	random(0, 10, bias=0.9) will return 9 much more often than 1.
+	 *	@param minr
+	 *				minmum range
+	 *	@param maxr
+	 *				maximum range
+	 *	@param bias
+	 *				bias represents the preference towards lower or higher numbers,
+	 *				as a number between 0.0 and 1.0. For example: 
+	 *				random(0, 10, bias=0.9) will return 9 much more often than 1.
+	 *
+	 *	@return a random number
 	 *
 	 */
 	randomBias : function(minr, maxr, bias) {
@@ -147,10 +172,10 @@ frederickkPaper = {
 
 
 	// ------------------------------------------------------------------------
-	clamp : function(val,min,max) {
+	clamp : function(val, min, max) {
 		return val < min ? min:val > max ? min:val;
 	},
-	norm : function(val,start,stop) {
+	norm : function(val, start, stop) {
 		return (val - start) / (stop - start);
 	},
 
@@ -180,9 +205,9 @@ frederickkPaper = {
 
 
 
-	/*
+	/**
 	 *
-	 * @param amt
+	 *	@param amt
 	 *			float: between 0.0 and 1.0
 	 *
 	 */
@@ -194,43 +219,156 @@ frederickkPaper = {
 
 
 	// ------------------------------------------------------------------------
+	/**
+	 *	
+	 *	@param val
+	 *			input value
+	 *
+	 *	@return val as degree 
+	 *
+	 */
 	degrees : function(val) {
 		return val * (180/Math.PI);
 	},
+
+	/**
+	 *	
+	 *	@param val
+	 *			input value
+	 *
+	 *	@return val as radians
+	 *
+	 */
 	radians : function(val) {
 		return val * (Math.PI/180);
 	},
+
+	/**
+	 *
+	 *	@param point1
+	 *			first point
+	 *	@param point2
+	 *			second point
+	 *
+	 *	@return vector angle in degrees
+	 *
+	 */
 	getAngle : function(point1, point2) {
 		return Math.atan2(point2.y - point1.y, point2.x - point1.x) * 180 / Math.PI;
 	},
 
-
 	// ------------------------------------------------------------------------
-	sq : function(num) {
-		return num*num;
+	/**
+	 *	get common outer tangents of two circles
+	 *
+	 *	@param arg0
+	 *				the first PathItem (Circle)
+	 *	@param arg1
+	 *				the second PathItem (Circle)
+	 *
+	 *	@return array of points
+	 *
+	 */
+	getCommonTangents : function(arg0, arg1) {
+		var dx = arg1.position.x - arg0.position.x;
+		var dy = arg1.position.y - arg0.position.y;
+
+		var r1 = Math.sqrt( arg0.bounds.size.area() );
+		var r2 = Math.sqrt( arg1.bounds.size.area() );
+
+		r1 /= 2;
+		r2 /= 2;
+
+		var dist = arg0.position.getDistance( arg1.position );
+
+		if (dist <= Math.abs(r2 - r1)) {
+			//	The circles are coinciding
+			//	There are no valid tangents.
+			return;
+		}
+
+		var angle1 = Math.atan2(dy, dx);
+		var angle2 = Math.acos((r1 - r2)/dist);
+
+		var pt1 = new Point(
+			arg0.position.x + r1 * Math.cos(angle1 + angle2),
+			arg0.position.y + r1 * Math.sin(angle1 + angle2)
+		);
+		var pt2 = new Point(
+			arg1.position.x + r2 * Math.cos(angle1 + angle2),
+			arg1.position.y + r2 * Math.sin(angle1 + angle2)
+		);
+		var pt4 = new Point(
+			arg0.position.x + r1 * Math.cos(angle1 - angle2),
+			arg0.position.y + r1 * Math.sin(angle1 - angle2)
+		);
+		var pt3 = new Point(
+			arg1.position.x + r2 * Math.cos(angle1 - angle2),
+			arg1.position.y + r2 * Math.sin(angle1 - angle2)
+		);
+
+		return [pt1, pt2, pt3, pt4]
 	},
 
 
 	// ------------------------------------------------------------------------
+	/**
+	 *	
+	 *	@param val
+	 *			input value
+	 *
+	 *	@return squared value of val
+	 *
+	 */
+	sq : function(val) {
+		return val*val;
+	},
+
+
+	// ------------------------------------------------------------------------
+	/**
+	 *	
+	 *	@param val
+	 *			input boolean value
+	 *
+	 *	@return val as integer
+	 *
+	 */
 	boolToInt : function(val) {
-		return (val) ? 1:0;
+		return (val) ? 1 : 0;
 	},
 
 
 
 	// ------------------------------------------------------------------------
+	/**
+	 *	
+	 *	@param object
+	 *			object whose type to determine
+	 *
+	 *	@return paperjs object type
+	 *
+	 */
 	getType : function(object) {
-		if (object instanceof paper.Tracing) return 'Tracing';
-		else if (object instanceof paper.TextItem) return 'TextItem';
+		if (object instanceof paper.Point) return 'Point';
+		else if (object instanceof paper.Size) return 'Size';
+		else if (object instanceof paper.Rectangle) return 'Rectangle';
+		else if (object instanceof paper.Group) return 'Group';
+		else if (object instanceof paper.PlacedItem) return 'PlacedItem';
 		else if (object instanceof paper.Raster) return 'Raster';
 		else if (object instanceof paper.PlacedSymbol) return 'PlacedSymbol';
-		else if (object instanceof paper.PlacedFile) return 'PlacedFile';
 		else if (object instanceof paper.Path) return 'Path';
 		else if (object instanceof paper.CompoundPath) return 'CompoundPath';
-		else if (object instanceof paper.Group) return 'Group';
+		else if (object instanceof paper.Symbol) return 'Symbol';
+		else if (object instanceof paper.TextItem) return 'TextItem';
 		else return 'undefined'
 	},
 
+	/**
+	 *	
+	 *	@return a path with the name that matches
+	 *
+	 */
 	findByName : function(items, name) {
 		var path;
 		for(var i=0; i<items.length; i++) {
@@ -315,6 +453,11 @@ frederickkPaper = {
 		return(a == b) ? 0:(a>b) ? 1:-1;
 	},
 
+	/**
+	 *	
+	 *	sort array by distance of object from center of canvas
+	 *
+	 */
 	distanceToCenter : function(a, b) {
 		var valueA = a.distanceToCenter();
 		var valueB = b.distanceToCenter();
@@ -336,6 +479,12 @@ frederickkPaper = {
  *
  *
  */
+
+/**
+ *	
+ *	@return maximum value within array
+ *
+ */
 Array.prototype.max = function() {
 	var max = this[0];
 	var len = this.length;
@@ -343,6 +492,12 @@ Array.prototype.max = function() {
 	for(var i=1; i<len; i++) if(this[i] > max) max = i;
 	return max;
 };
+
+/**
+ *	
+ *	@return minimum value within array
+ *
+ */
 Array.prototype.min = function() {
 	var min = this[0];
 	var len = this.length;
@@ -355,6 +510,8 @@ Array.prototype.min = function() {
  *
  *	http://jsfromhell.com/array/shuffle
  *	http://www.brain4.de/programmierecke/js/arrayShuffle.php
+ *
+ *	@return original array but with the order "shuffled"
  *
  */
 Array.prototype.shuffle = function() {
@@ -369,6 +526,11 @@ Array.prototype.shuffle = function() {
  *
  */
 paper.Item.inject({
+	/**
+	 *	
+	 *	@return distance of object from center of canvas
+	 *
+	 */
 	distanceToCenter : function() {
 		var dx = this.position.x - activeDocument.activeArtboard.bounds.center.x;
 		var dy = this.position.y - activeDocument.activeArtboard.bounds.center.y;
@@ -377,18 +539,37 @@ paper.Item.inject({
 		return distance;
 	},
 
+	/*
+	 *	
+	 *	@return radius
+	 *
+	 */
 	getRadius : function() {
 		return this.size.radius();
-		// var a = this.bounds.size.width;
-		// var b = this.bounds.size.height;
-		// return (Math.sqrt(a * a + b * b) / 2);
 	},
 
+	/**
+	 *	@param spacing
+	 *				Size()
+	 *				spacing.width  = the horizontal snapping value, width of the grid.
+	 *				spacing.height = the vertical snapping value, height of the grid.
+	 *
+	 */
 	snapGrid : function(spacing) {
-		this.position.snapGrid(spacing);
+		var pt = new frederickkPaper.FPoint().snapGrid(spacing);
+		this.position = pt;
 	},
+
+	/**
+	 *	snaps point to an isometric grid
+	 *	
+	 *	@param scale
+	 *				scale of the grid (1.0 = 32x16)
+	 *
+	 */
 	snapIso : function(scale) {
-		this.position.snapIso(scale);
+		var pt = new frederickkPaper.FPoint().snapIso(scale);
+		this.position = pt;
 	}
 });
 
@@ -401,10 +582,49 @@ paper.Item.inject({
  *
  */
 paper.Size.inject({
+	/**
+	 *	
+	 *	@return random size
+	 *
+	 */
+	/**
+	 *	@param minw
+	 *				minmum width (default: 0)
+	 *	@param maxw
+	 *				maximum width (default: view.bounds.width)
+	 *	@param minh
+	 *				minmum height (default: 0)
+	 *	@param maxh
+	 *				maximum height (default: view.bounds.height)
+	 *
+	 *	@return random size
+	 *
+	 */
+	random : function(minw, maxw, minh, maxh) {
+		minw = (minw != undefined) ? minw : 0;
+		maxw = (maxw != undefined) ? maxw : view.bounds.width;
+		minh = (minh != undefined) ? minh : 0;
+		maxh = (maxh != undefined) ? maxh : view.bounds.height;
+
+		this.width = frederickkPaper.random(minw, maxw);
+		this.height = frederickkPaper.random(minh, maxh);
+		return this;
+	},
+
+	/**
+	 *	
+	 *	@return area
+	 *
+	 */
 	area : function() {
 		return (this.width * this.height);
 	},
 
+	/**
+	 *	
+	 *	@return radius
+	 *
+	 */
 	radius : function() {
 		var a = this.width;
 		var b = this.height;
@@ -414,10 +634,21 @@ paper.Size.inject({
 
 
 
+
+/*
+ *
+ *	paper.Point
+ *	TODO: thinking about getting rid of FPoint
+ *
+ */
+paper.Point.inject({
+});
+
+
 /**
  *  
  *	FColor.js
- *	v0.1
+ *	v0.2a
  *  
  *	25. November 2012
  *
@@ -641,7 +872,7 @@ paper.Color.inject({
 /**
  *  
  *	FConversions.js
- *	v0.1
+ *	v0.2a
  *  
  *	25. November 2012
  *
@@ -677,7 +908,7 @@ frederickkPaper.FConversions = function() {
 /**
  *  
  *	FPoint.js
- *	v0.1
+ *	v0.2a
  *  
  *	25. November 2012
  *
@@ -689,6 +920,7 @@ frederickkPaper.FConversions = function() {
  *  
  *  
  *	FPoint
+ *	TODO: thinking about getting rid of FPoint
  *
  */
 frederickkPaper.FPoint = paper.Point.extend({
@@ -698,12 +930,40 @@ frederickkPaper.FPoint = paper.Point.extend({
 		return this;
 	},
 
-	random : function() {
-		this.x = frederickkPaper.random(0, view.bounds.width);
-		this.y = frederickkPaper.random(0, view.bounds.height);
+	/**
+	 *	
+	 *	@return random point
+	 *
+	 */
+	/**
+	 *	@param minx
+	 *				minmum x (default: 0)
+	 *	@param maxx
+	 *				maximum x (default: view.bounds.width)
+	 *	@param miny
+	 *				minmum y (default: 0)
+	 *	@param maxy
+	 *				maximum y (default: view.bounds.height)
+	 *
+	 *	@return random size
+	 *
+	 */
+	random : function(minx, maxx, miny, maxy) {
+		minx = (minx != undefined) ? minx : 0;
+		maxx = (maxx != undefined) ? maxx : view.bounds.width;
+		miny = (miny != undefined) ? miny : 0;
+		maxy = (maxy != undefined) ? maxy : view.bounds.height;
+
+		this.x = frederickkPaper.random(minx, maxx);
+		this.y = frederickkPaper.random(miny, maxy);
 		return this;
 	},
 
+	/**
+	 *	
+	 *	@return vector heading of point
+	 *
+	 */
 	heading : function() {
 		return -1 * (Math.atan2(-this.y, this.x));
 	},
@@ -723,7 +983,7 @@ frederickkPaper.FPoint = paper.Point.extend({
 		var x = frederickkPaper.lerp(p1.x,	p2.x,	amt);
 		var y = frederickkPaper.lerp(p1.y,	p2.y,	amt);
 		
-		return new paper.Point(x,y);
+		return new Point(x,y);
 	},
 
 
@@ -738,16 +998,23 @@ frederickkPaper.FPoint = paper.Point.extend({
 	},
 
 	// ------------------------------------------------------------------------
+	/**
+	 *	
+	 *	@return vector mag squared
+	 *
+	 */
 	magSq : function() {
 		return this.x * this.x + this.y * this.y;
 	},
 
+
+	// ------------------------------------------------------------------------
 	/**
 	 *
 	 *	http://gmc.yoyogames.com/index.php?showtopic=290349
 	 *
 	 *	@param spacing
-	 *				paper.Size()
+	 *				Size()
 	 *				spacing.width  = the horizontal snapping value, width of the grid.
 	 *				spacing.height = the vertical snapping value, height of the grid.
 	 *
@@ -761,6 +1028,14 @@ frederickkPaper.FPoint = paper.Point.extend({
 		this.y = (iy + ix)/2*spacing.height;
 		return this;
 	},
+
+	/**
+	 *	snaps point to an isometric grid
+	 *	
+	 *	@param scale
+	 *				scale of the grid (1.0 = 32x16)
+	 *
+	 */
 	snapIso : function(scale) {
 		if(scale === null) scale = 1;
 		return this.snapGrid( new Size(32*scale,16*scale) );
@@ -771,6 +1046,11 @@ frederickkPaper.FPoint = paper.Point.extend({
 	// ------------------------------------------------------------------------
 	// Gets
 	// ------------------------------------------------------------------------
+	/**
+	 *	
+	 *	@return angle of point
+	 *
+	 */
 	getAngle : function() {
 		return Math.atan2(this.y - 0, this.x - 0);
 	}
@@ -782,7 +1062,7 @@ frederickkPaper.FPoint = paper.Point.extend({
 /**
  *  
  *	FIO.js
- *	v0.1
+ *	v0.2a
  *  
  *	25. November 2012
  *
@@ -1010,7 +1290,7 @@ frederickkPaper.FIO = {
 /**
  *  
  *	FDate.js
- *	v0.1
+ *	v0.2a
  *  
  *	25. November 2012
  *
@@ -1282,7 +1562,7 @@ frederickkPaper.FTime.FDate = function() {
 /**
  *  
  *	FStepper.js
- *	v0.1
+ *	v0.2a
  *  
  *	25. November 2012
  *
@@ -1491,7 +1771,7 @@ frederickkPaper.FTime.FStepper = function() {
 /**
  *  
  *	FStopwatch.js
- *	v0.1
+ *	v0.2a
  *  
  *	25. November 2012
  *
@@ -1587,7 +1867,7 @@ frederickkPaper.FTime.FStopwatch = function() {
 /**
  *  
  *	FPath3.js
- *	v0.1
+ *	v0.2a
  *  
  *	25. November 2012
  *
@@ -1628,7 +1908,7 @@ frederickkPaper.F3D.FPath3 = function(_scene) {
 
 	// temporary until I figure out how
 	// to extend paper.Item properly
-	this.path;
+	this.path = new Path();
 
 	this.name = '';
 	this.closed = false;
@@ -1674,30 +1954,31 @@ frederickkPaper.F3D.FPath3 = function(_scene) {
 	 *			projected 2D path
 	 */
 	this.draw = function() {
-		var path = new paper.Path();
-		path.name = this.name;
+		this.path.remove();
+
+		this.path = new Path();
+		this.path.name = this.name;
 
 		for(var i=0; i<points3.length; i++) {
 			var pt3 = points3[i];
-			path.add( new paper.Point( pt3.x2D(), pt3.y2D() ) );
+			this.path.add( new Point( pt3.x2D(), pt3.y2D() ) );
 		}
 
 		// ! temporary see above !
-		path.opacity = this.opacity;
-		path.blendMode = this.blendMode;
-		path.visible = this.visible;
-		path.selected = this.selected;
+		this.path.opacity = this.opacity;
+		this.path.blendMode = this.blendMode;
+		this.path.visible = this.visible;
+		this.path.selected = this.selected;
 
-		path.fillColor = this.fillColor;
+		this.path.fillColor = this.fillColor;
 
-		path.strokeColor = this.strokeColor;
-		path.strokeWidth = this.strokeWidth;
-		path.strokeCap = this.strokeCap;
-		path.strokeJoin = this.strokeJoin;
+		this.path.strokeColor = this.strokeColor;
+		this.path.strokeWidth = this.strokeWidth;
+		this.path.strokeCap = this.strokeCap;
+		this.path.strokeJoin = this.strokeJoin;
 
-		path.closed = this.closed;
+		this.path.closed = this.closed;
 
-		this.path = path;
 		return this.path;
 	};
 
@@ -1711,6 +1992,7 @@ frederickkPaper.F3D.FPath3 = function(_scene) {
 	 *			scene to associate points with
 	 */
 	this.addToScene = function(_scene) {
+		console.log( 'path3.addToScene' );
 		for(var i=0; i<points3.length; i++) {
 			points3[i].setup(_scene);
 		}
@@ -1766,7 +2048,7 @@ frederickkPaper.F3D.FPath3 = function(_scene) {
 /**
  *  
  *	FPoint3.js
- *	v0.1
+ *	v0.2a
  *  
  *	25. November 2012
  *
@@ -1827,6 +2109,7 @@ frederickkPaper.F3D.FPoint3 = function(_x, _y, _z) {
 	 *			associated with
 	 */
 	this.setup = function(_scene) {
+		console.log( 'fpoint.setup' );
 		scene = _scene;
 
 		var index = scene.setupPoint(x, y, z);
@@ -2102,7 +2385,7 @@ frederickkPaper.F3D.FPoint3 = function(_x, _y, _z) {
 /**
  *  
  *	FScene3D.js
- *	v0.1
+ *	v0.2a
  *  
  *	25. November 2012
  *
@@ -2191,7 +2474,6 @@ frederickkPaper.F3D.FScene3D = function() {
 		mode = _mode != undefined ? _mode : 'PERSPECTIVE';
 		this.setMode(mode);
 
-
 		group = new paper.Group();
 	};
 
@@ -2227,7 +2509,8 @@ frederickkPaper.F3D.FScene3D = function() {
 			this.points2D[ i2+1 ] = y*scale+halfHeight;
 		}
 
-		
+		console.log( 'items.length\t' + items.length);
+
 		group.removeChildren(); // clear out in between draws
 		for(var i=0; i<items.length; i++) {
 			var paths = items[i].draw();
@@ -2294,6 +2577,7 @@ frederickkPaper.F3D.FScene3D = function() {
 	};
 
 	this.addItem = function(item) {
+		console.log( 'scene.addItem' );
 		items[items.length] = item;
 		item.addToScene(this);
 	};
@@ -2682,8 +2966,66 @@ var Matrix3D = function( n11, n12, n13, n14,
 
 /**
  *	
+ *	FArrow.js
+ *	v0.2a
+ *	
+ *	25. November 2012
+ *
+ *	Ken Frederick
+ *	ken.frederick@gmx.de
+ *
+ *	http://cargocollective.com/kenfrederick/
+ *	http://kenfrederick.blogspot.com/
+ *
+ *
+ *	FArrow
+ *
+ *	Create simple sphere
+ */
+
+
+
+frederickkPaper.FShape.FArrow = this.FArrow = Path.extend({
+	 /**
+	  *	
+	  *	@param headPoint
+	  *				the head of the arrow
+	  *	@param tailPoint
+	  *				the tail of the arrow
+	  *	@param arrowHeadSize
+	  *				(optional) length of the arrow head
+	  */
+	initialize : function(headPoint, tailPoint, arrowHeadSize) {
+		// the line part
+		this.path = new Path( headPoint, tailPoint );
+
+		// the arrow head
+		arrowHeadSize = (arrowHeadSize != undefined) ? arrowHeadSize : new Size(headPoint.getDistance(tailPoint)*0.381924,headPoint.getDistance(tailPoint)*0.381924);
+
+		// rotate arrow head around to correct position
+		var a = Math.atan2( headPoint.x-tailPoint.x, tailPoint.y-headPoint.y );
+
+		// slight "hack" to get strokCap correct
+		var arrowHead = [];
+		arrowHead[0] = new Path( new Point(0,0), new Point(-arrowHeadSize.width,-arrowHeadSize.height) );
+		arrowHead[1] = new Path( new Point(0,0), new Point( arrowHeadSize.width,-arrowHeadSize.height) );
+		for( var i=0; i<arrowHead.length; i++ ) {
+			arrowHead[i].rotate( 180+frederickkPaper.degrees(a), new Point(0,0) );
+			arrowHead[i].translate( headPoint );
+		}
+
+		var group = new Group( this.path, arrowHead[0], arrowHead[1] );
+		group.name = 'arrow';
+		return group;
+	}
+
+});
+
+
+/**
+ *	
  *	FBox.js
- *	v0.1
+ *	v0.2a
  *	
  *	25. November 2012
  *
@@ -2699,6 +3041,8 @@ var Matrix3D = function( n11, n12, n13, n14,
  *	Create simple box
  *
  */
+
+
 
  /**
   *
@@ -2945,7 +3289,7 @@ frederickkPaper.FShape.FBox = function(_scene) {
 /**
  *	
  *	FBubble.js
- *	v0.1
+ *	v0.2a
  *	
  *	25. November 2012
  *
@@ -2958,164 +3302,217 @@ frederickkPaper.FShape.FBox = function(_scene) {
  *
  *	FBubble
  *
- *	Create simple speech bubble forms
+ *	Create a simple speech bubble
  *
  */
 
- /**
-  *	
-  *	@param _width
-  *				the entire width of the bubble
-  *	@param _height
-  *				the height of the body of the bubble
-  *				OR as an array [ height of the body, length of the tag ]	
-  *	@param _tagCenter
-  *				'RANDOM'	randomly x-position the point
-  *				'LEFT'		left align the x-position of the point
-  *				'CENTER'	center align the x-position of the point
-  *				'RIGHT'		right align the x-position of the point
-  */
-frederickkPaper.FShape.FBubble = function(_width, _height, _tagCenter) {
+
+
+frederickkPaper.FShape.FBubble = this.FBubble = Path.extend({
 	//-----------------------------------------------------------------------------
 	// Properties
 	//-----------------------------------------------------------------------------
-	var bubble;
-	var r_unit = 20;
-
-	var width;
-	var height;
-
-	var tagCenter = (_tagCenter != undefined) ? _tagCenter : 'RANDOM';
-	var tagLength = null;
-	var tagPoints = [];
+	defaultTagSize: new Size(20,20),
 
 
 
 	//-----------------------------------------------------------------------------
 	// Methods
 	//-----------------------------------------------------------------------------
-	// private
-	var init = function() {
-		if(width < 10) {
-			width = 10;
-			r_unit = 10;
+	 /**
+	  *	
+	  *	@param bubblePoint
+	  *				the position of the bubble
+	  *	@param bubbleSize
+	  *				the size of the bubble
+	  *	@param _tagSize
+	  *				the size of the tag
+	  *	@param _tagPointCenter 
+	  *				(optional)
+	  *				'RANDOM'	randomly x-position the point (default)
+	  *				'LEFT'		left align the x-position of the point
+	  *				'CENTER'	center align the x-position of the point
+	  *				'RIGHT'		right align the x-position of the point
+	  */
+	initialize : function(bubblePoint, bubbleSize, _tagSize, _tagPointCenter) {
+		_tagSize = (_tagSize != undefined) ? _tagSize : defaultTagSize;
+		if(bubbleSize.width < 10) {
+			bubbleSize.width = 10;
+			_tagSize = new Size(10,10);
 		}
+		_tagPointCenter = (_tagPointCenter != undefined) ? _tagPointCenter : 'RANDOM';
 
 
-		bubble = new paper.Path();
-		bubble.name = 'bubble';
+		this.path = new Path();
+		this.path.name = 'bubble';
 
-		// left
-		bubble.add( new paper.Point(0,0) );
+		// left side of bubble
+		this.path.add( new Point(0,0) );
 		var angle = 180;
-		var through = new paper.Point(
-			height/2 + Math.cos( f.radians(angle) ) * (height),
-			height/2 + Math.sin( f.radians(angle) ) * (height)
+		var through = new Point(
+			bubbleSize.height/2 + Math.cos( f.radians(angle) ) * (bubbleSize.height),
+			bubbleSize.height/2 + Math.sin( f.radians(angle) ) * (bubbleSize.height)
 		);
-		bubble.arcTo(through, new paper.Point(0,height));
+		this.path.arcTo(through, new Point(0,bubbleSize.height));
 
 		// middle bottom
-		// create tag space
-		var bw = frederickkPaper.randomInt(0,width-r_unit);
-		tagPoints[0] = new paper.Point(bw,height);
-		bubble.add( new paper.Point(bw,height) );
+		// create tag space somewhere along the bottom of the bubble
+		var tagStart = frederickkPaper.randomInt(0,bubbleSize.width-_tagSize.width);
 
 		// create tag
+		this.path.add( new Point(tagStart,bubbleSize.height) );
+
 		var tx, ty;
-		if(tagCenter == 'LEFT') {
-			tx = bw;
+		if(_tagPointCenter == 'LEFT') {
+			tx = tagStart;
 		}
-		else if(tagCenter == 'CENTER') {
-			tx = bw + (r_unit/2);
+		else if(_tagPointCenter == 'CENTER') {
+			tx = tagStart + (_tagSize.width/2);
 		}
-		else if(tagCenter == 'RIGHT') {
-			tx = bw+r_unit;
+		else if(_tagPointCenter == 'RIGHT') {
+			tx = tagStart+_tagSize.width;
 		}
-		else {
-			tx = frederickkPaper.randomInt(bw,bw+r_unit);
-		}
-
-		// TODO: eventually make it possible to determine the length of the tag
-		if(tagLength != null) {
-			ty = height + tagLength;
-		}
-		else {
-			ty = height + (r_unit*4 + frederickkPaper.random(-r_unit*0.5, r_unit*0.5));
+		else { // if(_tagPointCenter == 'RANDOM') { 
+			tx = frederickkPaper.randomInt(tagStart,tagStart+_tagSize.width);
 		}
 
-		// this allows us to know bubble's tag point
-		tagPoints[2] = new paper.Point(tx,ty);
-		bubble.add( new paper.Point(tx,ty) ); 
-
+		// the length of the tag
+		ty = bubbleSize.height + _tagSize.height;
+		this.path.add( new Point(tx,ty) ); 
 
 		// continue bottom
-		tagPoints[1] = new paper.Point(bw+r_unit,height);
-		bubble.add( new paper.Point(bw+r_unit,height) );
-		bubble.add( new paper.Point(width,height) );
+		this.path.add( new Point(tagStart+_tagSize.width,bubbleSize.height) );
+		this.path.add( new Point(bubbleSize.width,bubbleSize.height) );
 
 
-		// right
+		// right side of bubble
 		angle = 0;
-		through = new paper.Point(
-			height/2 + Math.cos( f.radians(angle) ) * (height/2),
-			height/2 + Math.sin( f.radians(angle) ) * (height/2)
+		through = new Point(
+			bubbleSize.height/2 + Math.cos( f.radians(angle) ) * (bubbleSize.height/2),
+			bubbleSize.height/2 + Math.sin( f.radians(angle) ) * (bubbleSize.height/2)
 		);
-		bubble.arcTo( new paper.Point(width,0), false );
-		// bubble.arcTo(through, new paper.Point(width,0) );
-
+		this.path.arcTo( new Point(bubbleSize.width,0), false );
 
 		// middle top
-		// bubble.add( new paper.Point(0,0) ); // OR 
-		bubble.closed = true;
+		this.path.closed = true;
 
-	};
-	
+		// center the bubble
+		// compensated for the tag's length
+		this.path.position = new Point(bubblePoint.x,bubblePoint.y+(_tagSize.height/2));
+		
+		return this.path;
+	}
 
-	//-----------------------------------------------------------------------------
-	// Sets
-	//-----------------------------------------------------------------------------
-	this.set = function(_width, _height) {
-		width = (_width != undefined) ? _width : frederickkPaper.random(r_unit,200);
-		if(_height.length == 2) {
-			height = _height[0];
-			tagLength = (_height[1] < r_unit) ? r_unit : _height[1];
+
+});
+
+
+/**
+ *	
+ *	FChain.js
+ *	v0.2a
+ *	
+ *	25. November 2012
+ *
+ *	Ken Frederick
+ *	ken.frederick@gmx.de
+ *
+ *	http://cargocollective.com/kenfrederick/
+ *	http://kenfrederick.blogspot.com/
+ *
+ *
+ *	FChain
+ *
+ *	Create simple chain (a line with different endpoint sizes)
+ *
+ */
+
+
+
+frederickkPaper.FShape.FChain = this.FChain = Path.extend({
+	 /**
+	  *	
+	  *	@param arg0
+	  *				point1 The first point (endpoint1)
+	  *	@param arg1
+	  *				radius of endpoint1
+	  *	@param arg2
+	  *				point2 The second point (endpoint2)
+	  *	@param arg3
+	  *				radius of endpoint2
+	  */
+	 /**
+	  *	
+	  *	@param arg0
+	  *				PathItem (endpoint1)
+	  *	@param arg1
+	  *				PathItem (endpoint2)
+	  */
+	initialize : function(arg0, arg1, arg2, arg3) {
+		var obj1, obj2;
+
+		// check for the type of arguments being passed
+		var type = f.getType(arg0);
+		if( type == 'Point' ) {
+			obj1 = new Path.Circle( arg0, arg1 );
+			obj2 = new Path.Circle( arg2, arg3 );
+		}
+		else if( type == 'Path' ) {
+			obj1 = arg0;
+			obj2 = arg1;
 		}
 		else {
-			height = (_height != undefined) ? _height : frederickkPaper.random(r_unit*4,200);
+			return;
 		}
-		width -= height;
-	};
+
+		var tangents = frederickkPaper.getCommonTangents(obj1, obj2);
+		if( tangents != null ) {
+			// path for chain
+			this.path = new Path();
+			this.path.name = 'chain';
+
+			this.path.add( tangents[0] );
+			this.path.add( tangents[1] );
+
+			// determine position of chain around endpoint2
+			if( obj2.position.x > obj1.position.x ) angle = 0;
+			else if( obj2.position.y < obj1.position.y ) angle = -90;
+			else if( obj2.position.y > obj1.position.y ) angle = 90;
+			else angle = 180;
+			var tp2 = new Point(
+				obj2.position.x + Math.cos( frederickkPaper.radians(angle) ) * (obj2.bounds.width/2),
+				obj2.position.y + Math.sin( frederickkPaper.radians(angle) ) * (obj2.bounds.height/2)
+			);
+			this.path.arcTo(tp2, tangents[2]);
+
+			this.path.add(tangents[2]);
+			this.path.add(tangents[3]);
+
+			// determine position of chain around endpoint1
+			if( obj1.position.x > obj2.position.x ) angle = 0;
+			else if( obj1.position.y < obj2.position.y ) angle = -90;
+			else if( obj1.position.y > obj2.position.y ) angle = 90;
+			else angle = 180;
+			var tp1 = new Point(
+				obj1.position.x + Math.cos( frederickkPaper.radians(angle) ) * (obj1.bounds.width/2),
+				obj1.position.y + Math.sin( frederickkPaper.radians(angle) ) * (obj1.bounds.height/2)
+			);
+			this.path.arcTo(tp1, tangents[0]);
+			this.path.closed;
+
+			return this.path;
+		}
+
+	}
 
 
-
-
-	//-----------------------------------------------------------------------------
-	// Gets
-	//-----------------------------------------------------------------------------
-	this.get = function() {
-		return bubble;
-	};
-
-	//-----------------------------------------------------------------------------
-	this.getTag = function() {
-		return tagPoints;
-	};
-
-
-
-	//-----------------------------------------------------------------------------
-	// Invocation
-	//-----------------------------------------------------------------------------
-	this.set(_width, _height);
-	init();
-	return bubble;
-};
+});
 
 
 /**
  *	
  *	FCross.js
- *	v0.1
+ *	v0.2a
  *	
  *	25. November 2012
  *
@@ -3128,118 +3525,77 @@ frederickkPaper.FShape.FBubble = function(_width, _height, _tagCenter) {
  *
  *	FCross
  *
- *	Create simple speech bubble forms
+ *	Create a cross
  *
  */
 
- /**
-  *	
-  *	@param _x
-  *				center x position of cross
-  *	@param _y
-  *				center y position of cross
-  *	@param _width
-  *				the width of the cross
-  *	@param _height
-  *				the height of the cross
-  *	@param _thickness
-  *				thickness of the cross
-  *	@param _style (optional)
-  *				'SHARP'		sharp edged cross (fill)
-  *				'LINE'		simple built of lines (stroke)
-  */
-frederickkPaper.FShape.FCross = function(_x, _y, _width, _height, _thickness, _style) {
-	//-----------------------------------------------------------------------------
-	// Properties
-	//-----------------------------------------------------------------------------
-	var cross;
-
-	var x = _x;
-	var y = _y;
-	var width = _width;
-	var height = _height;
-
-	var thickness = (_thickness != undefined) ? _thickness : 1.0;
-
-	var style = (_style != undefined) ? _style : 'LINE';
 
 
+frederickkPaper.FShape.FCross = this.FCross = Path.extend({
+	 /**
+	  *	
+	  *	@param point
+	  *				position of cross
+	  *	@param size
+	  *				size [width,height] of cross
+	  *	@param _thickness
+	  *				thickness of the cross
+	  *	@param _type (optional)
+	  *				'SHARP'		sharp edged cross (fill)
+	  *				'LINE'		simple built of lines (stroke)
+	  */
+	initialize : function( point, size, _thickness, _type) {
+		(_thickness != undefined) ? _thickness : 1.0;
+		(_type != undefined) ? _type : 'LINE';
 
-	//-----------------------------------------------------------------------------
-	// Methods
-	//-----------------------------------------------------------------------------
-	// private
-	var init = function() {
-		cross = new paper.Group();
-		var point = new paper.Point(x,y);
-		var size = new paper.Size(width,height);
+		// var point = new Point(_x,_y);
+		// var size = new Size(_width,_height);
 		var line1, line2;
 
-		if( style == 'LINE' ) {
+		if( _type == 'LINE' ) {
 			line1 = new paper.Path.Line(
 				point.x + size.width, point.y - size.height, 
 				point.x - size.width, point.y + size.height
 			);
-			line1.strokeWidth = thickness;
+			line1.strokeWidth = _thickness;
 			line2 = new paper.Path.Line(
 				point.x + size.width, point.y + size.height, 
 				point.x - size.width, point.y - size.height
 			);
-			line2.strokeWidth = thickness;
+			line2.strokeWidth = _thickness;
 		}
-		else if( style == 'SHARP' ) {
-			line1 = new paper.Path();
+		else if( _type == 'SHARP' ) {
+			line1 = new Path();
 			line1.add( point.x + size.width, point.y - size.height );
-			line1.add( point.x + size.width, (point.y - size.height) + (thickness/2) );
-			line1.add( (point.x - size.width) + (thickness/2), point.y + size.height );
+			line1.add( point.x + size.width, (point.y - size.height) + (_thickness/2) );
+			line1.add( (point.x - size.width) + (_thickness/2), point.y + size.height );
 			line1.add( point.x - size.width, point.y + size.height );
-			line1.add( point.x - size.width, (point.y + size.height) - (thickness/2) );
-			line1.add( (point.x + size.width) - (thickness/2), point.y - size.height );
+			line1.add( point.x - size.width, (point.y + size.height) - (_thickness/2) );
+			line1.add( (point.x + size.width) - (_thickness/2), point.y - size.height );
 			line1.closed = true;
 
-			line2 = new paper.Path();
+			line2 = new Path();
 			line2.add( point.x - size.width, point.y - size.height );
-			line2.add( (point.x - size.width) + (thickness/2), point.y - size.height );
-			line2.add( point.x + size.width, (point.y + size.height) - (thickness/2) );
+			line2.add( (point.x - size.width) + (_thickness/2), point.y - size.height );
+			line2.add( point.x + size.width, (point.y + size.height) - (_thickness/2) );
 			line2.add( point.x + size.width, point.y + size.height );
-			line2.add( (point.x + size.width) - (thickness/2), point.y + size.height );
-			line2.add( point.x - size.width, (point.y - size.height) + (thickness/2) );
+			line2.add( (point.x + size.width) - (_thickness/2), point.y + size.height );
+			line2.add( point.x - size.width, (point.y - size.height) + (_thickness/2) );
 			line2.closed = true;
 		}
 
-		cross.appendTop( line1 );
-		cross.appendTop( line2 );
-		return cross;
-	};
+		var group = new paper.Group( line1, line2 );
+		group.name = 'cross';
+		return group;
+	}
 
-
-	//-----------------------------------------------------------------------------
-	// Sets
-	//-----------------------------------------------------------------------------
-
-
-
-
-	//-----------------------------------------------------------------------------
-	// Gets
-	//-----------------------------------------------------------------------------
-	this.get = function() {
-		return cross;
-	};
-
-
-
-	//-----------------------------------------------------------------------------
-	// Invocation
-	//-----------------------------------------------------------------------------
-	return init();
-};
+});
 
 
 /**
  *	
  *	FSphere.js
- *	v0.1
+ *	v0.2a
  *	
  *	25. November 2012
  *
@@ -3253,7 +3609,10 @@ frederickkPaper.FShape.FCross = function(_x, _y, _width, _height, _thickness, _s
  *	FSphere
  *
  *	Create simple sphere
+ *
  */
+
+
 
  /**
   *
@@ -3266,6 +3625,7 @@ frederickkPaper.FShape.FSphere = function(_scene) {
 	//-----------------------------------------------------------------------------
 	// public
 	this.sides = [];
+	this.vertices = [];
 
 	// temporary until I figure out how
 	// to extend paper.Item properly
@@ -3287,7 +3647,6 @@ frederickkPaper.FShape.FSphere = function(_scene) {
 	var lats;
 	var longs;
 
-	var vertices = [];
 
 	var facesOpacity = [];
 	var facesBlendModes = [];
@@ -3496,6 +3855,12 @@ frederickkPaper.FShape.FSphere = function(_scene) {
 		facesStrokeColor = [];
 	}
 
+	// ------------------------------------------------------------------------
+	this.setVertices = function(vertice, val) {
+		if( vertice.length === undefined ) vertices[vertice] = val;
+		else vertices = vertice;
+	};
+
 	
 
 	//-----------------------------------------------------------------------------
@@ -3529,7 +3894,7 @@ frederickkPaper.FShape.FSphere = function(_scene) {
 /**
  *  
  *	FControl.js
- *	v0.1
+ *	v0.2a
  *  
  *	25. November 2012
  *

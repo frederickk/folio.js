@@ -1,7 +1,7 @@
 /**
  *  
  *	FConversions.js
- *	v0.1
+ *	v0.2a
  *  
  *	25. November 2012
  *
@@ -17,6 +17,9 @@
  *	A collection of helpful conversion ratios
  *
  */
+
+
+
 frederickkPaper.FConversions = function() {
 	// conversions
 	this.ptToMm = 0.352777778;

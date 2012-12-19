@@ -1,7 +1,7 @@
 /**
  *  
  *	FPoint3.js
- *	v0.1
+ *	v0.2a
  *  
  *	25. November 2012
  *
@@ -23,6 +23,8 @@
  *	modified/expanded for use in PaperJS by Ken Frederick
  *
  */
+
+
 
 /**
  *	@param x
@@ -62,6 +64,7 @@ frederickkPaper.F3D.FPoint3 = function(_x, _y, _z) {
 	 *			associated with
 	 */
 	this.setup = function(_scene) {
+		console.log( 'fpoint.setup' );
 		scene = _scene;
 
 		var index = scene.setupPoint(x, y, z);

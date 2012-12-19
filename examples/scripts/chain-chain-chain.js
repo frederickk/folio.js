@@ -61,13 +61,13 @@ function Setup() {
 	var grid;
 	var size;
 	if(view.bounds.width < 768) {
-		grid = new paper.Size(
+		grid = new Size(
 			view.bounds.width/4,
 			view.bounds.height/4
 		);
 	}
 	else {
-		grid = new paper.Size(
+		grid = new Size(
 			view.bounds.width/7,
 			view.bounds.height/4
 		);
