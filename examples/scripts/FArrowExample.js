@@ -37,7 +37,7 @@ function Setup() {
 	// angle increment
 	increment = 360/f.randomInt(3,9);
 
-	// setup our holder group
+	// Setup our holder group
 	arrows = new Group();
 
 	for( var i=0; i<360; i+=increment ) {
@@ -104,7 +104,7 @@ function onMouseDown(event) {
 function onMouseMove(event) {
 	var num = arrows.children.length;
 	for( var i=0; i<num; i++ ) {
-		// get the old arrow
+		// Get the old arrow
 		var arrow = arrows.children[i];
 
 		var headSize = 1+120*f.norm(event.point.y, 0,view.bounds.height);

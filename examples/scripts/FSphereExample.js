@@ -18,12 +18,20 @@ console.log( 'FSphere Example Loaded' );
 // ------------------------------------------------------------------------
 // Properties
 // ------------------------------------------------------------------------
+// the core frederickkPaper namespace
 var f = frederickkPaper;
+
+// the F3D namespace
 var f3d = f.F3D;
+
+// the FShape namespace
 var fshape = f.FShape;
 
+// initiate the scene, this is how the transformations are
+// interpolated for 3D geometry to appear on the screen
 var scene = new f3d.FScene3D();
 
+// the sphere
 var sphere;
 
 // values
@@ -57,9 +65,9 @@ function Setup() {
 	var v3 = [];
 	for(var i=0; i<sphere.getVertices().length; i++) {
 		var fp3 = new f3d.FPoint3(
-			sphere.getVertices()[i].x() + Math.sin( f.radians(i) ),
-			sphere.getVertices()[i].y() + -Math.sin( f.radians(i) ),
-			sphere.getVertices()[i].z()
+			sphere.getVertices()[i].x + Math.sin( f.radians(i) ),
+			sphere.getVertices()[i].y + -Math.sin( f.radians(i) ),
+			sphere.getVertices()[i].z
 		);
 		v3.push(fp3);
 	}

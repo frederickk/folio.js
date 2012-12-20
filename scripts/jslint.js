@@ -141,7 +141,7 @@
 //     var myErrorReport = JSLINT.error_report(data);
 
 // You can request a properties report, which produces a list of the program's
-// properties in the form of a /*properties*/ declaration.
+// Properties in the form of a /*properties*/ declaration.
 
 //      var myPropertyReport = JSLINT.properties_report(JSLINT.property);
 
@@ -156,7 +156,7 @@
 
 // JSLint provides three directives. They look like slashstar comments, and
 // allow for setting options, declaring global variables, and establishing a
-// set of allowed property names.
+// Set of allowed property names.
 
 // These directives respect function scope.
 

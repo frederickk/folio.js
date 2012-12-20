@@ -22,26 +22,35 @@ frederickkPaper.FTime.FDate = function() {
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
-	// public
+	/*
+	 *	public
+	 */
 	this.date;
 
-	// private
-	var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-	var shortMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+	/*
+	 *	private
+	 */
+	var _months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+	var _shortMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 
 
 	// ------------------------------------------------------------------------
 	// Methods
 	// ------------------------------------------------------------------------
-	// private
-	var addZero = function(val) {
+	/*
+	 *	private
+	 */
+	var _addZero = function(val) {
 		if (val.length == 1) val = '0' + val;
 		return val;
 	};
 
 
-	// public
+	// ------------------------------------------------------------------------
+	/*
+	 *	public
+	 */
 	/**
 	 *	@return return the current year as 'YYYY'
 	 */
@@ -57,7 +66,7 @@ frederickkPaper.FTime.FDate = function() {
 	this.month = function() {
 		if(this.date === undefined) this.date = new Date();
 		var month = String( this.date.getMonth() ); 
-		hour = addZero(month);
+		hour = _addZero(month);
 		return month;
 	};
 
@@ -76,7 +85,7 @@ frederickkPaper.FTime.FDate = function() {
 	this.hour = function() {
 		if(this.date === undefined) this.date = new Date();
 		var hour = String( this.date.getHours() ); 
-		hour = addZero(hour);
+		hour = _addZero(hour);
 		return hour;
 	};
 
@@ -86,7 +95,7 @@ frederickkPaper.FTime.FDate = function() {
 	this.minute = function() {
 		if(this.date === undefined) this.date = new Date();
 		var minute = String( this.date.getMinutes() ); 
-		minute = addZero(minute);
+		minute = _addZero(minute);
 		return minute;
 	};
 
@@ -96,7 +105,7 @@ frederickkPaper.FTime.FDate = function() {
 	this.second = function() {
 		if(this.date === undefined) this.date = new Date();
 		var second = String( this.date.getSeconds() ); 
-		second = addZero(second);
+		second = _addZero(second);
 		return second;
 	};
 

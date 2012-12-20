@@ -71,7 +71,7 @@ function Setup() {
 	}
 
 
-	// get our images (left & right)
+	// Get our images (left & right)
 	rasters[0] = new Raster('kant_left');
 	rasters[1] = new Raster('kant_right');
 	rasters[2] = new Raster('husserl_right');

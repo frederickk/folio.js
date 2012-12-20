@@ -52,7 +52,7 @@ var hitOptions = {
 // Setup
 // ------------------------------------------------------------------------
 function Setup() {
-	// setup background
+	// Setup background
 	background = new paper.Path.Rectangle(view.bounds.topLeft, view.bounds.bottomRight);
 
 	// draw dots

@@ -128,19 +128,19 @@ function Setup() {
 // ------------------------------------------------------------------------
 function Update(event) {
 
-	// get the local time
+	// Get the local time
 	var now = new ftime.FDate();
 	var temp = new ftime.FDate();
 	local.setTime( temp.toArray(now.now()) );
 
 
-	// get the run time of this app
+	// Get the run time of this app
 	var runTimeStr = temp.get( event.time*1000 );
 	running.setTime( temp.toArray(runTimeStr) );
 	// console.log( str );
 
 
-	// get time of our stopwatch
+	// Get time of our stopwatch
 	var timerTimeStr = temp.get( stopwatch.get() );
 	if(stopwatch.isRunning()) timeText.timer.content = timerTimeStr;
 	timer.setTime( temp.toArray(timerTimeStr) );
@@ -166,8 +166,12 @@ function Draw() {
 // Methods
 // ------------------------------------------------------------------------
 var Clock = function(_pt, _radius) {
+	// ------------------------------------------------------------------------
 	// Properties
-	// public
+	// ------------------------------------------------------------------------
+	/*
+	 *	public
+	 */
 	this.s = 0;
 	this.m = 0;
 	this.h = 0;
@@ -175,7 +179,9 @@ var Clock = function(_pt, _radius) {
 	this.ticks = true;
 
 
-	// private
+	/*
+	 *	private
+	 */
 	var pt = _pt;
 	var radius = _radius;
 
@@ -240,7 +246,9 @@ var Clock = function(_pt, _radius) {
 
 
 
+	// ------------------------------------------------------------------------
 	// Methods
+	// ------------------------------------------------------------------------
 	this.update = function() {
 		spt = new Point(
 			pt.x + Math.cos(this.s) * secondsRadius,

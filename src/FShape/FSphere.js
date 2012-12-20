@@ -25,11 +25,13 @@
   *	TODO: make this an extension of FPath3
   *
   */
-frederickkPaper.FShape.FSphere = function(_scene) {
+frederickkPaper.FShape.FSphere = function(scene) {
 	//-----------------------------------------------------------------------------
-	// properties
+	// Properties
 	//-----------------------------------------------------------------------------
-	// public
+	/*
+	 *	public
+	 */
 	this.sides = [];
 	this.vertices = [];
 
@@ -43,28 +45,28 @@ frederickkPaper.FShape.FSphere = function(_scene) {
 	this.strokeCap;
 	this.strokeJoin;
 
+	/*
+	 *	private
+	 */
+	var _scene = scene;
 
-	// private
-	var scene = _scene;
+	var _radius3 = 10;
+	var _c = 0.5;
 
-	var r = 10;
-	var c = 0.5;
+	var _lats;
+	var _longs;
 
-	var lats;
-	var longs;
+	var _facesOpacity = [];
+	var _facesBlendModes = [];
 
-
-	var facesOpacity = [];
-	var facesBlendModes = [];
-
-	var facesFillColor = [];
-	var facesStrokeColor = [];
-	var facesStrokeWidth = [];
+	var _facesFillColor = [];
+	var _facesStrokeColor = [];
+	var _facesStrokeWidth = [];
 
 
 
 	//-----------------------------------------------------------------------------
-	// methods
+	// Methods
 	//-----------------------------------------------------------------------------
 	/**
 	 *  @param lats
@@ -72,99 +74,101 @@ frederickkPaper.FShape.FSphere = function(_scene) {
 	 *  @param longs
 	 *  			number of longitude segments
 	 */
-	var calculate = function(lats, longs) {
-		// calculate vertices
-		vertices = [];
-		for(var i=0; i<=lats; i++) {
-			var lat0 = (Math.PI * (-c + ( (i-1)/lats) ));
+	this._calculate = function(clats, clongs) {
+		// this._calculate this.vertices
+		this.vertices = [];
+		for(var i=0; i<=clats; i++) {
+			var lat0 = (Math.PI * (-_c + ( (i-1)/clats) ));
 			var z0   = Math.sin(lat0);
 			var zr0  = Math.cos(lat0);
 
-			var lat1 = (Math.PI * (-c + ( i/lats) ));
+			var lat1 = (Math.PI * (-_c + ( i/clats) ));
 			var z1   = Math.sin(lat1);
 			var zr1  = Math.cos(lat1);
 
-			for(var j=0; j<=longs; j++) {
-				var lng = ((Math.PI*2) * ( (j-1)/longs ));
+			for(var j=0; j<=clongs; j++) {
+				var lng = ((Math.PI*2) * ( (j-1)/clongs ));
 				var x = Math.cos(lng);
 				var y = Math.sin(lng);
 
-				vertices.push( new frederickkPaper.F3D.FPoint3( x*zr0, y*zr0, z0 ) );
-				vertices.push( new frederickkPaper.F3D.FPoint3( x*zr1, y*zr1, z1 ) );
-			} // longs
-		} // lats
+				this.vertices.push( new frederickkPaper.F3D.FPoint3( x*zr0, y*zr0, z0 ) );
+				this.vertices.push( new frederickkPaper.F3D.FPoint3( x*zr1, y*zr1, z1 ) );
+			} // _longs
+		} // _lats
 
 
-		// setup arrays
-		this.sides = new Array(vertices.length-2);
+		// Setup arrays
+		this.sides = new Array(this.vertices.length-2);
 
-		facesOpacity = new Array(vertices.length-2);
-		facesBlendModes = new Array(vertices.length-2);
-		facesFillColor = new Array(vertices.length-2);
-		facesStrokeColor = new Array(vertices.length-2);
-		facesStrokeWidth = new Array(vertices.length-2);
+		_facesOpacity = new Array(this.vertices.length-2);
+		_facesBlendModes = new Array(this.vertices.length-2);
+		_facesFillColor = new Array(this.vertices.length-2);
+		_facesStrokeColor = new Array(this.vertices.length-2);
+		_facesStrokeWidth = new Array(this.vertices.length-2);
 
-		var numVertices = vertices.length-2;
+		var numVertices = this.vertices.length-2;
 		for(var i=0; i<numVertices; i++) {
-			var v = vertices[i];
+			var v = this.vertices[i];
 			var col = new paper.HSLColor( 360*i/numVertices, 0.9, 0.7);
 
-			var depth = (v.z()/scene.getFocalLength())*100;
+			var depth = (v.z/scene.getFocalLength())*100;
 
-			facesOpacity[i] = 1.0;
-			facesBlendModes[i] = 'normal';
+			_facesOpacity[i] = 1.0;
+			_facesBlendModes[i] = 'normal';
 
-			facesFillColor[i] = col.darken( depth );
-			facesStrokeColor[i] = col.darken( depth );
-			facesStrokeWidth[i] = 1.0;
+			_facesFillColor[i] = col.darken( depth );
+			_facesStrokeColor[i] = col.darken( depth );
+			_facesStrokeWidth[i] = 1.0;
 		}
 	};
 
 
 	/**
-	 *  @param lats
-	 *  			number of latitude segments
-	 *  @param longs
-	 *  			number of longitude segments
+	 *  @param arg0
+	 *  			x translate value
+	 *  @param arg1
+	 *  			y translate value
+	 *  @param arg2
+	 *  			z translate value
 	 */
-	this.init = function(_x, _y, _z) {
-		if(lats == null) this.setLatsLongs(6,6);
+	this.init = function(arg0, arg1, arg2) {
+		if(_lats == null) this.setLatsLongs(6,6);
 
-		for(var i=0; i<vertices.length-2; i++) {
+		for(var i=0; i<this.vertices.length-2; i++) {
 			this.sides[i] = new frederickkPaper.F3D.FPath3();
 			this.sides[i].name = 'face'+i;
 
-			this.sides[i].add( new frederickkPaper.F3D.FPoint3(
-				vertices[i].x()*(r*0.5),
-				vertices[i].y()*(r*0.5),
-				vertices[i].z()*(r*0.5)
+			this.sides[i].add3( new frederickkPaper.F3D.FPoint3(
+				this.vertices[i].x*(_radius3*0.5),
+				this.vertices[i].y*(_radius3*0.5),
+				this.vertices[i].z*(_radius3*0.5)
 			));
-			this.sides[i].add( new frederickkPaper.F3D.FPoint3(
-				vertices[i+1].x()*(r*0.5),
-				vertices[i+1].y()*(r*0.5),
-				vertices[i+1].z()*(r*0.5)
+			this.sides[i].add3( new frederickkPaper.F3D.FPoint3(
+				this.vertices[i+1].x*(_radius3*0.5),
+				this.vertices[i+1].y*(_radius3*0.5),
+				this.vertices[i+1].z*(_radius3*0.5)
 			));
-			this.sides[i].add( new frederickkPaper.F3D.FPoint3(
-				vertices[i+2].x()*(r*0.5),
-				vertices[i+2].y()*(r*0.5),
-				vertices[i+2].z()*(r*0.5)
+			this.sides[i].add3( new frederickkPaper.F3D.FPoint3(
+				this.vertices[i+2].x*(_radius3*0.5),
+				this.vertices[i+2].y*(_radius3*0.5),
+				this.vertices[i+2].z*(_radius3*0.5)
 			));
 
 			// ! temporary see above !
-			this.sides[i].opacity = facesOpacity[i];
-			this.sides[i].blendMode = facesBlendModes[i];
+			this.sides[i].opacity = _facesOpacity[i];
+			this.sides[i].blendMode = _facesBlendModes[i];
 			this.sides[i].visible = this.visible;
 			this.sides[i].selected = this.selected;
 
-			this.sides[i].fillColor = facesFillColor[i];
+			this.sides[i].fillColor = _facesFillColor[i];
 
-			this.sides[i].strokeColor = facesStrokeColor[i];
-			this.sides[i].strokeWidth = facesStrokeWidth[i];
+			this.sides[i].strokeColor = _facesStrokeColor[i];
+			this.sides[i].strokeWidth = _facesStrokeWidth[i];
 			this.sides[i].strokeCap = this.strokeCap;
 			this.sides[i].strokeJoin = this.strokeJoin;
 
 			this.sides[i].closed = true;
-			this.sides[i].translate(_x,_y,_z);
+			this.sides[i].translate(arg0, arg1, arg2);
 
 			scene.addItem( this.sides[i] );
 		}
@@ -173,15 +177,15 @@ frederickkPaper.FShape.FSphere = function(_scene) {
 
 
 	//-----------------------------------------------------------------------------
-	// sets
+	// Sets
 	//-----------------------------------------------------------------------------
 	/**
 	 *  @param r
 	 *  		radius of sphere
 	 */
-	this.setSize = function(_r) {
-		r = _r;
-	}
+	this.setSize = function(radius) {
+		_radius3 = radius;
+	};
 
 	/**
 	 *  @param lats
@@ -189,10 +193,10 @@ frederickkPaper.FShape.FSphere = function(_scene) {
 	 *  @param longs
 	 *  			number of longitude segments
 	 */
-	this.setLatsLongs = function(_lats, _longs) {
-		lats = (_lats < 4) ? 4 : _lats;
-		longs = (_longs < 4) ? 4 : _longs;
-		calculate(lats, longs);
+	this.setLatsLongs = function(lats, longs) {
+		_lats = (lats < 4) ? 4 : lats;
+		_longs = (longs < 4) ? 4 : longs;
+		this._calculate(_lats, _longs);
 	};
 
 	// ------------------------------------------------------------------------
@@ -207,40 +211,40 @@ frederickkPaper.FShape.FSphere = function(_scene) {
 
 	// ------------------------------------------------------------------------
 	this.setOpacity = function(face, o) {
-		if( face.length === undefined ) facesOpacity[face] = o;
-		else facesOpacity = face;
+		if( face.length === undefined ) _facesOpacity[face] = o;
+		else _facesOpacity = face;
 	};
 
 	// ------------------------------------------------------------------------
 	this.setFillColor = function(face, col) {
-		if( face.length === undefined ) facesFillColor[face] = col;
+		if( face.length === undefined ) _facesFillColor[face] = col;
 		else {
-			// facesFillColor = face;
+			// _facesFillColor = face;
 			for(var i=0; i<face.length; i++) {
-				var v = vertices[i];
-				var depth = (v.z()/scene.getFocalLength())*100;
-				facesFillColor[i] = face.darken( depth );
+				var v = this.vertices[i];
+				var depth = (v.z/scene.getFocalLength())*100;
+				_facesFillColor[i] = face.darken( depth );
 			}
 		}
 	};
 
 	// ------------------------------------------------------------------------
 	this.setStrokeColor = function(face, col) {
-		if( face.length === undefined ) facesStrokeColor[face] = col;
+		if( face.length === undefined ) _facesStrokeColor[face] = col;
 		else {
-			// facesStrokeColor = face;
+			// _facesStrokeColor = face;
 			for(var i=0; i<face.length; i++) {
-				var v = vertices[i];
-				var depth = (v.z()/scene.getFocalLength())*100;
-				facesStrokeColor[i] = face.darken( depth );
+				var v = this.vertices[i];
+				var depth = (v.z/scene.getFocalLength())*100;
+				_facesStrokeColor[i] = face.darken( depth );
 			}
 		}
 	};
 
 	// ------------------------------------------------------------------------
 	this.setStrokeWidth = function(face, w) {
-		if( face.length === undefined ) facesStrokeWidth[face] = w;
-		else facesStrokeWidth = face;
+		if( face.length === undefined ) _facesStrokeWidth[face] = w;
+		else _facesStrokeWidth = face;
 	};
 
 	// ------------------------------------------------------------------------
@@ -255,22 +259,22 @@ frederickkPaper.FShape.FSphere = function(_scene) {
 
 	// ------------------------------------------------------------------------
 	this.noFill = function() {
-		facesFillColor = [];
+		_facesFillColor = [];
 	};
 	this.noStroke = function() {
-		facesStrokeColor = [];
-	}
+		_facesStrokeColor = [];
+	};
 
 	// ------------------------------------------------------------------------
 	this.setVertices = function(vertice, val) {
-		if( vertice.length === undefined ) vertices[vertice] = val;
-		else vertices = vertice;
+		if( vertice.length === undefined ) this.vertices[vertice] = val;
+		else this.vertices = vertice;
 	};
 
 	
 
 	//-----------------------------------------------------------------------------
-	// gets
+	// Gets
 	//-----------------------------------------------------------------------------
 	this.get = function() {
 		return this.sides;
@@ -281,17 +285,17 @@ frederickkPaper.FShape.FSphere = function(_scene) {
 
 	//-----------------------------------------------------------------------------
 	this.getNumFaces = function() {
-		return vertices.length-2;
+		return this.vertices.length-2;
 	};
 
 	//-----------------------------------------------------------------------------
 	this.getVertices = function() {
-		return vertices;
+		return this.vertices;
 	};
 
 	//-----------------------------------------------------------------------------
 	this.getSize = function() {
-		return r;
+		return _radius3;
 	};
 
 

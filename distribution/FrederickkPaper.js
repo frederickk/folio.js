@@ -1,77 +1,4 @@
 /**
- *	
- *	frederickkPaper.js
- *	v0.2a
- *	https://github.com/frederickk/frederickkPaper
- *
- *	25. November 2012
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
- *	
- *	
- *	A collection of methods/functions that i find useful
- *	specifically for application within PaperJs (http://paperjs.org/) 
- *	most of which are based on my Frederickk library for Processing
- *	(http://github.com/frederickk/frederickk)
- *
- *	Not all of the code in here was created by me
- *	but credit and links are given where credit is due
- *
- *	Additional information and demos can be found here
- *	http://kenfrederick.blogspot.de/2012/12/frederickkpaper.html
- *
- *
- *	This library is free software; you can redistribute it and/or
- *	modify it under the terms of the GNU Lesser General Public
- *	License as published by the Free Software Foundation; either
- *	version 2.1 of the License, or (at your option) any later version.
- *	
- *	http://creativecommons.org/licenses/LGPL/2.1/
- *	
- *	This library is distributed in the hope that it will be useful,
- *	but WITHOUT ANY WARRANTY; without even the implied warranty of
- *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- *	Lesser General Public License for more details.
- *	
- *	You should have received a copy of the GNU Lesser General Public
- *	License along with this library; if not, write to the Free Software
- *	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
- *	
- */
-
-
-
-// ------------------------------------------------------------------------
-/**
- *
- *	REQUIRED LIBRARIES!
- *
- *	PaperJs @ http://paperjs.org/
- *	JQuery @  http://jquery.com/download/
- *
- */
-
-
-
-// ------------------------------------------------------------------------
-var frederickkPaper = frederickkPaper || {};
-
-
-
-(function() {
-	console.log('\nfrederickkPaper.js');
-	console.log('v.0.1a');
-	console.log('https://github.com/frederickk/frederickkPaper');
-	console.log('ken.frederick@gmx.de');
-	console.log('------------------------------------\n');
-})();
-
-
-/**
  *  
  *	Core.js
  *	v0.2a
@@ -91,6 +18,9 @@ var frederickkPaper = frederickkPaper || {};
  *	to those found in Processing
  *
  */
+
+
+
 frederickkPaper = {
 	// ------------------------------------------------------------------------
  	// Namespaces
@@ -667,6 +597,8 @@ paper.Point.inject({
  *
  */
 
+
+
 frederickkPaper.FColor = function() {
 	// ------------------------------------------------------------------------
 	// Properties
@@ -677,14 +609,19 @@ frederickkPaper.FColor = function() {
 	// ------------------------------------------------------------------------
 	// Methods
 	// ------------------------------------------------------------------------
-	// private
-	var componentToHex = function(col) {
+	/*
+	 *	private
+	 */
+	var _componentToHex = function(col) {
 		var hex = c.toString(16);
 		return hex.length == 1 ? '0' + hex : hex;
 	};
 
 
-	// public
+	// ------------------------------------------------------------------------
+	/*
+	 *	public
+	 */
 	this.lerpRGBColor = function(c1,c2, amt) {
 		var r = frederickkPaper.lerp(c1.red,	c2.red,		amt);
 		var g = frederickkPaper.lerp(c1.green,	c2.green,	amt);
@@ -696,9 +633,6 @@ frederickkPaper.FColor = function() {
 	this.randomRGBColor = function() {
 		return new paper.RGBColor( Math.random(),Math.random(),Math.random() );
 	};
-	this.randomCMYKColor = function() {
-		return new paper.CMYKColor( Math.random(),Math.random(),Math.random(),Math.random() );
-	};
 	this.randomGrayColor = function() {
 		return new paper.GrayColor( Math.random() );
 	};
@@ -707,6 +641,14 @@ frederickkPaper.FColor = function() {
 	};
 
 	// ------------------------------------------------------------------------
+	/**
+	 *
+	 *	@param col
+	 *			value as paper.RGBColor()
+	 *
+	 *	@return value of input color as integer
+	 *
+	 */
 	this.ColorToInt = function(col) {
 		var rgbInt;
 		try {
@@ -722,6 +664,15 @@ frederickkPaper.FColor = function() {
 		}
 		return rgbInt;
 	};
+
+	/**
+	 *
+	 *	@param RGBInt
+	 *			value as integer
+	 *
+	 *	@return value of interger as paper.RGBColor
+	 *
+	 */
 	this.IntToColor = function(RGBint) {
 		var r = (RGB>> 16) & 255;
 		var g = (RGB>> 8) & 255;
@@ -730,14 +681,13 @@ frederickkPaper.FColor = function() {
 	};
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
 	 *
 	 *	@param col
 	 *			value as paper.RGBColor()
 	 *
-	 *	@return str
-	 *			hex value of input color as string
+	 *	@return hex value of input color as string
 	 *
 	 */
 	this.ColorToHex = function(col) {
@@ -747,7 +697,7 @@ frederickkPaper.FColor = function() {
 			r = col.red*255;
 			g = col.green*255;
 			b = col.blue*255;
-			str = '#'+ componentToHex(r) + componentToHex(g) + componentToHex(b);
+			str = '#'+ _componentToHex(r) + _componentToHex(g) + _componentToHex(b);
 		}
 		catch(err) {
 			console.log( err );
@@ -755,14 +705,23 @@ frederickkPaper.FColor = function() {
 		}
 		return str;
 	};
-	this.HexToColor = function(_hex) {
+
+	/**
+	 *
+	 *	@param hex
+	 *			value as string hex value
+	 *
+	 *	@return value of hex as paper.RGBColor
+	 *
+	 */
+	this.HexToColor = function(hex) {
 		// var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
 		// var r = parseInt(result[1], 16);
 		// var g = parseInt(result[2], 16);
 		// var b = parseInt(result[3], 16);
 
-		if( _hex.length >= 7 ) hex = _hex.split('#')[1];
-		else hex = _hex;
+		if( hex.length >= 7 ) hex = hex.split('#')[1];
+		else hex = hex;
 
 		var big= parseInt(hex, 16);
 		var r = (big>> 16) & 255;
@@ -774,7 +733,21 @@ frederickkPaper.FColor = function() {
 
 
 	// ------------------------------------------------------------------------
-	this.ByteToColor = function(r255, g255, b255, a255)  {
+	/**
+	 *
+	 *	@param r255
+	 *			red as byte value (0-255)
+	 *	@param g255
+	 *			green as byte value (0-255)
+	 *	@param b255
+	 *			blue as byte value (0-255)
+	 *	@param a255
+	 *			alpha as byte value (0-255)
+	 *
+	 *	@return paper.RGBColor
+	 *
+	 */
+	this.ByteToColor = function(r255, g255, b255, a255) {
 		var r = r255/255;
 		var g = g255/255;
 		var b = b255/255;
@@ -848,18 +821,36 @@ frederickkPaper.FColor = function() {
 };
 
 
-/**
+
+/*
  *
  *	paper.Color
  *
  */
 paper.Color.inject({
+	/**
+	 *
+	 *	@param pct
+	 *			percentage to darken color
+	 *
+	 *	@return darkened color by input percentage
+	 *
+	 */
 	darken : function(pct) {
 		this.red -= pct;
 		this.green -= pct;
 		this.blue -= pct;
 		return this;
 	},
+
+	/**
+	 *
+	 *	@param pct
+	 *			percentage to lighten color
+	 *
+	 *	@return lightened color by input percentage
+	 *
+	 */
 	lighten : function(pct) {
 		this.red += pct;
 		this.green += pct;
@@ -888,6 +879,9 @@ paper.Color.inject({
  *	A collection of helpful conversion ratios
  *
  */
+
+
+
 frederickkPaper.FConversions = function() {
 	// conversions
 	this.ptToMm = 0.352777778;
@@ -923,7 +917,13 @@ frederickkPaper.FConversions = function() {
  *	TODO: thinking about getting rid of FPoint
  *
  */
+
+
+
 frederickkPaper.FPoint = paper.Point.extend({
+	// ------------------------------------------------------------------------
+	// Methods
+	// ------------------------------------------------------------------------
 	norm : function(startPt, stopPt) {
 		this.x = frederickkPaper.norm(this.x, start.x, stop.x);
 		this.y = frederickkPaper.norm(this.y, start.y, stop.y);
@@ -1078,7 +1078,13 @@ frederickkPaper.FPoint = paper.Point.extend({
  *	A collection of I/O methods;
  *
  */
+
+
+
 frederickkPaper.FIO = {
+	// ------------------------------------------------------------------------
+	// Methods
+	// ------------------------------------------------------------------------
 	/*
 	 *	Local Storage
 	 */
@@ -1101,8 +1107,8 @@ frederickkPaper.FIO = {
 		}
 	},
 
-	/*
-	 *	retrieve our saved value (default: as string)
+	/**
+	 *	retrieve saved value (default: as string)
 	 *
 	 *	@param name
 	 *				the name (key) of what we want to retrieve
@@ -1111,8 +1117,8 @@ frederickkPaper.FIO = {
 		return localStorage.getItem(name);
 	},
 
-	/*
-	 *	retrieve our saved value as an int
+	/**
+	 *	retrieve saved value as an int
 	 *
 	 *	@param name
 	 *				the name (key) of what we want to retrieve
@@ -1121,8 +1127,8 @@ frederickkPaper.FIO = {
 		return parseInt( getLocal(name) );
 	},
 
-	/*
-	 *	retrieve our saved value as a float
+	/**
+	 *	retrieve saved value as a float
 	 *
 	 *	@param name
 	 *				the name (key) of what we want to retrieve
@@ -1141,7 +1147,6 @@ frederickkPaper.FIO = {
 	},
 
 	/**
-	 *
 	 *	delete a saved value from local storage
 	 *	
 	 *	@param name
@@ -1176,8 +1181,8 @@ frederickkPaper.FIO = {
 		}
 	},
 
-	/*
-	 *	retrieve our saved value (default: as string)
+	/**
+	 *	retrieve saved value (default: as string)
 	 *
 	 *	@param name
 	 *				the name (key) of what we want to retrieve
@@ -1186,8 +1191,8 @@ frederickkPaper.FIO = {
 		return sessionStorage.getItem(name);
 	},
 
-	/*
-	 *	retrieve our saved value as an int
+	/**
+	 *	retrieve saved value as an int
 	 *
 	 *	@param name
 	 *				the name (key) of what we want to retrieve
@@ -1196,8 +1201,8 @@ frederickkPaper.FIO = {
 		return parseInt( getSession(name) );
 	},
 
-	/*
-	 *	retrieve our saved value as a float
+	/**
+	 *	retrieve saved value as a float
 	 *
 	 *	@param name
 	 *				the name (key) of what we want to retrieve
@@ -1206,7 +1211,7 @@ frederickkPaper.FIO = {
 		return parseFloat( getSession(name) );
 	},
 
-	/*
+	/**
 	 *	@return a list of all items saved in session storage
 	 *
 	 */
@@ -1216,7 +1221,6 @@ frederickkPaper.FIO = {
 	},
 
 	/**
-	 *
 	 *	delete a saved value from session storage
 	 *	
 	 *	@param name
@@ -1235,7 +1239,6 @@ frederickkPaper.FIO = {
 	 */
 	
 	/**
-	 *
 	 *	save a value as a cookie
 	 *	
 	 *	@param name
@@ -1256,7 +1259,6 @@ frederickkPaper.FIO = {
 	},
 
 	/**
-	 *
 	 *	retrieve a value from a cookie
 	 *	
 	 *	@param name
@@ -1274,7 +1276,6 @@ frederickkPaper.FIO = {
 	},
 
 	/**
-	 *
 	 *	delete a cookie
 	 *	
 	 *	@param name
@@ -1304,30 +1305,45 @@ frederickkPaper.FIO = {
  *	FDate
  *
  */
+
+
+
 frederickkPaper.FTime.FDate = function() {
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
-	// public
+	/*
+	 *	public
+	 */
 	this.date;
 
-	// private
-	var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-	var shortMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+	/*
+	 *	private
+	 */
+	var _months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+	var _shortMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 
 
 	// ------------------------------------------------------------------------
 	// Methods
 	// ------------------------------------------------------------------------
-	// private
-	var addZero = function(val) {
+	/*
+	 *	private
+	 */
+	var _addZero = function(val) {
 		if (val.length == 1) val = '0' + val;
 		return val;
 	};
 
 
-	// public
+	// ------------------------------------------------------------------------
+	/*
+	 *	public
+	 */
+	/**
+	 *	@return return the current year as 'YYYY'
+	 */
 	this.year = function() {
 		if(this.date === undefined) this.date = new Date();
 		var year = String( this.date.getFullYear() ); 
@@ -1335,19 +1351,17 @@ frederickkPaper.FTime.FDate = function() {
 	};
 
 	/**
-	 *	@return hour
-	 *			return the current hour as string 'HH'
+	 *	@return return the current month as 'MM'
 	 */
 	this.month = function() {
 		if(this.date === undefined) this.date = new Date();
 		var month = String( this.date.getMonth() ); 
-		hour = addZero(month);
+		hour = _addZero(month);
 		return month;
 	};
 
 	/**
-	 *	@return hour
-	 *			return the current hour as string 'HH'
+	 *	@return return the current day as string 'DD'
 	 */
 	this.day = function() {
 		if(this.date === undefined) this.date = new Date();
@@ -1356,35 +1370,32 @@ frederickkPaper.FTime.FDate = function() {
 	};
 
 	/**
-	 *	@return hour
-	 *			return the current hour as string 'HH'
+	 *	@return return the current hour as string 'HH'
 	 */
 	this.hour = function() {
 		if(this.date === undefined) this.date = new Date();
 		var hour = String( this.date.getHours() ); 
-		hour = addZero(hour);
+		hour = _addZero(hour);
 		return hour;
 	};
 
 	/**
-	 *	@return minute
-	 *			return the current minute as string 'mm'
+	 *	@return return the current minute as string 'mm'
 	 */
 	this.minute = function() {
 		if(this.date === undefined) this.date = new Date();
 		var minute = String( this.date.getMinutes() ); 
-		minute = addZero(minute);
+		minute = _addZero(minute);
 		return minute;
 	};
 
 	/**
-	 *	@return second
-	 *			return the current second as string 'ss'
+	 *	@return return the current second as string 'ss'
 	 */
 	this.second = function() {
 		if(this.date === undefined) this.date = new Date();
 		var second = String( this.date.getSeconds() ); 
-		second = addZero(second);
+		second = _addZero(second);
 		return second;
 	};
 
@@ -1580,22 +1591,26 @@ frederickkPaper.FTime.FStepper = function() {
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
-	// private
-	var stepMillis = 1000; // set to default of 1s OR 1000ms
+	/*
+	 *	private
+	 */
+	var _stepMillis = 1000; // Set to default of 1s OR 1000ms
 	
-	var timeStart = 0.0;
-	var timeEnd = 0.0;
+	var _timeStart = 0.0;
+	var _timeEnd = 0.0;
 	
-	var bToggleStart = 0;
-	var bBeginStpper = false;
-	var bIn = false;
-	var bOut = false;
-	var bDone = true;
+	var _bToggleStart = 0;
+	var _bBeginStpper = false;
+	var _bIn = false;
+	var _bOut = false;
+	var _bDone = true;
 
-	var easing = 0.05;
-	var bEase = true;
+	var _easing = 0.05;
+	var _bEase = true;
 
-	// public
+	/*
+	 *	public
+	 */
 	this.delta = 1.0;
 	this.counter = -1;
 
@@ -1604,20 +1619,25 @@ frederickkPaper.FTime.FStepper = function() {
 	// ------------------------------------------------------------------------
 	// Methods
 	// ------------------------------------------------------------------------
+	/**
+	 *	
+	 *	toggle (start/stop) the stepper
+	 *	
+	 */
 	this.toggle = function() {
-		if (bToggleStart == 0) {
-			bToggleStart = 1;
+		if (_bToggleStart == 0) {
+			_bToggleStart = 1;
 			this.stepOut();
 		}
 		else {
-			bToggleStart = 0;
+			_bToggleStart = 0;
 			this.stepIn();
 		}
 	}
 
 	// ------------------------------------------------------------------------
 	/**
-	 *	TODO: implement easing
+	 *	TODO: implement _easing
 	 *
 	 *	required function to keep the timing in sync
 	 *	with the application
@@ -1626,45 +1646,45 @@ frederickkPaper.FTime.FStepper = function() {
 	 *			the elapsed time of the application in seconds
 	 */
 	this.update = function(currentTime) {
-		if(bBeginStpper) {
-			bBeginStpper = false;
-			timeStart = currentTime;
-			if(bIn) {
-				timeEnd = frederickkPaper.roundDecimal( (currentTime + ((1.0 - this.delta) * stepMillis)), 3 );
+		if(_bBeginStpper) {
+			_bBeginStpper = false;
+			_timeStart = currentTime;
+			if(_bIn) {
+				_timeEnd = frederickkPaper.roundDecimal( (currentTime + ((1.0 - this.delta) * _stepMillis)), 3 );
 			}
 			else {
-				timeEnd = frederickkPaper.roundDecimal( (currentTime + (this.delta*stepMillis)), 3 );
+				_timeEnd = frederickkPaper.roundDecimal( (currentTime + (this.delta*_stepMillis)), 3 );
 			}
-			if(timeEnd <= currentTime) {
-				if(bIn) {
-					bIn = false;
+			if(_timeEnd <= currentTime) {
+				if(_bIn) {
+					_bIn = false;
 					this.delta = 1.0;
 				}
 				else {
-					bOut = false;
+					_bOut = false;
 					this.delta = 0.0;
 				}
 			}
 		}
-		if(bIn) {
-			this.delta = frederickkPaper.roundDecimal( (1.0 - ((timeEnd - currentTime) / stepMillis)), 3 );
-			// if(bEase) {
+		if(_bIn) {
+			this.delta = frederickkPaper.roundDecimal( (1.0 - ((_timeEnd - currentTime) / _stepMillis)), 3 );
+			// if(_bEase) {
 			// }
 
-			if(currentTime == timeEnd) {
-				bIn = false;
+			if(currentTime == _timeEnd) {
+				_bIn = false;
 				this.delta = 1.0;
 				this.counter++;
 				return;
 			}
 		}
-		else if(bOut) {
-			this.delta = frederickkPaper.roundDecimal( ((timeEnd - currentTime) / stepMillis), 3 );
-			// if(bEase) {
+		else if(_bOut) {
+			this.delta = frederickkPaper.roundDecimal( ((_timeEnd - currentTime) / _stepMillis), 3 );
+			// if(_bEase) {
 			// }
 
-			if(currentTime == timeEnd) {
-				bIn = false;
+			if(currentTime == _timeEnd) {
+				_bIn = false;
 				this.delta = 0.0;
 				this.counter++;
 				return;
@@ -1673,40 +1693,48 @@ frederickkPaper.FTime.FStepper = function() {
 	};
 
 	// ------------------------------------------------------------------------
+	/**
+	 *	
+	 *	toggle stepping in (++)
+	 *	
+	 */
 	this.stepIn = function() {
-		if(bIn) return;
+		if(_bIn) return;
 		if(this.delta == 1.0) return;
-		bBeginStpper = true;
-		bIn = true;
-		bOut = false;
+		_bBeginStpper = true;
+		_bIn = true;
+		_bOut = false;
 	};
+
+	/**
+	 *	
+	 *	toggle stepping out (--)
+	 *	
+	 */
 	this.stepOut = function() {
-		if(bOut) return;
+		if(_bOut) return;
 		if(this.delta == 0.0) return;
-		bBeginStpper = true;
-		bOut = true;
-		bIn = false;
+		_bBeginStpper = true;
+		_bOut = true;
+		_bIn = false;
 	};
 
 	// ------------------------------------------------------------------------
 	/**
-	 *	@return
-	 *			if the object is stepping in
+	 *	@return if the object is stepping in
 	 */
 	this.isIn = function() {
-		return bIn;
+		return _bIn;
 	};
 	/**
-	 *	@return
-	 *			if the object is stepping out
+	 *	@return if the object is stepping out
 	 */
 	this.isOut = function() {
-		return bOut;
+		return _bOut;
 	};
 
 	/**
-	 *	@return
-	 *			if the object has finished it's stepping
+	 *	@return if the object has finished it's stepping
 	 */
 	this.isDone = function() {
 		if(this.delta < 1.0 && this.delta > 0.0) return false;
@@ -1721,8 +1749,13 @@ frederickkPaper.FTime.FStepper = function() {
 	};
 
 	// ------------------------------------------------------------------------
+	/**
+	 *	
+	 *	stop stepping
+	 *	
+	 */
 	this.stop = function() {
-		bBeginStpper = bIn = bOut = false;
+		_bBeginStpper = _bIn = _bOut = false;
 	};
 
 
@@ -1742,19 +1775,19 @@ frederickkPaper.FTime.FStepper = function() {
 	 *			length of fade in milliseconds 
 	 */
 	this.setMillis = function(_millis) {
-		stepMillis = _millis;
-		stepMillis /= 1000;
+		_stepMillis = _millis;
+		_stepMillis /= 1000;
 	};
 
 	/**
 	 *	@param _val
 	 *			to ease or not to ease...
-	 *	@param _easing
-	 *			(optional) degree of easing
+	 *	@param __easing
+	 *			(optional) degree of _easing
 	 */
 	// this.setEasing = function(_val, _easeing) {
-	// 	bEase = _val;
-	// 	easing = _easeing;
+	// 	_bEase = _val;
+	// 	_easing = _easeing;
 	// };
 
 	// ------------------------------------------------------------------------
@@ -1791,19 +1824,26 @@ frederickkPaper.FTime.FStopwatch = function() {
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
-	// private
-	var now;
-	var then;
-	var timeInMs = 0;
-	var bStart = 0;
+	/*
+	 *	private
+	 */
+	var _now;
+	var _then;
+	var _timeInMs = 0;
+	var _bStart = 0;
 
 
 
 	// ------------------------------------------------------------------------
 	// Methods
 	// ------------------------------------------------------------------------
+	/**
+	 *	
+	 *	toggle (start/stop) the stopwatch
+	 *	
+	 */
 	this.toggle = function() {
-		if (bStart == 0) {
+		if (_bStart == 0) {
 			this.start();
 		}
 		else {
@@ -1811,23 +1851,38 @@ frederickkPaper.FTime.FStopwatch = function() {
 		}
 	};
 
+	/**
+	 *	
+	 *	start the stopwatch
+	 *	
+	 */
 	this.start = function() {
 		// start
-		bStart = 1;
-		then = new Date();
-		then.setTime(then.getTime() - timeInMs);
+		_bStart = 1;
+		_then = new Date();
+		_then.setTime(_then.getTime() - _timeInMs);
 	};
 
+	/**
+	 *	
+	 *	pause the stopwatch
+	 *	
+	 */
 	this.pause = function() {
 		// pause
-		bStart = 0;
-		now = new Date();
-		timeInMs = now.getTime() - then.getTime();
+		_bStart = 0;
+		_now = new Date();
+		_timeInMs = _now.getTime() - _then.getTime();
 	};
 
+	/**
+	 *	
+	 *	reset the stopwatch
+	 *	
+	 */
 	this.reset = function() {
-		bStart = 0;
-		timeInMs = 0;
+		_bStart = 0;
+		_timeInMs = 0;
 	};
 
 
@@ -1835,12 +1890,22 @@ frederickkPaper.FTime.FStopwatch = function() {
 	// ------------------------------------------------------------------------
 	// Sets
 	// ------------------------------------------------------------------------
+	/**
+	 *	
+	 *	set the stopwatch
+	 *
+	 *	@param ms
+	 *			milliseconds to start the stopwatch with
+	 *	@param run
+	 *			whether the stopwatch should start or not
+	 *	
+	 */
 	this.set = function(ms, run) {
-		timeInMs = ms;
-		(run == true) ? bStart = 0 : bStart = 1;
+		_timeInMs = ms;
+		(run == true) ? _bStart = 0 : _bStart = 1;
 
-		then = new Date();
-		then.setTime(then.getTime() - timeInMs);
+		_then = new Date();
+		_then.setTime(_then.getTime() - _timeInMs);
 		this.toggle();
 	};
 
@@ -1849,16 +1914,26 @@ frederickkPaper.FTime.FStopwatch = function() {
 	// ------------------------------------------------------------------------
 	// Gets
 	// ------------------------------------------------------------------------
+	/**
+	 *	
+	 *	@return the time elapsed
+	 *	
+	 */
 	this.get = function() {
-		if (bStart == 1)  {
-			now = new Date();
-			timeInMs = now.getTime() - then.getTime();
+		if (_bStart == 1)  {
+			_now = new Date();
+			_timeInMs = _now.getTime() - _then.getTime();
 		}
-		return timeInMs;
+		return _timeInMs;
 	};
 
+	/**
+	 *	
+	 *	@return whether the stopwatch is running
+	 *	
+	 */
 	this.isRunning = function() {
-		return (bStart) ? true : false;
+		return (_bStart) ? true : false;
 	};
 
 };
@@ -1890,59 +1965,27 @@ frederickkPaper.FTime.FStopwatch = function() {
  *
  */
 
-/**
- *	TODO: maek FPath3 an extension of paper.Item
-frederickkPaper.F3D.FPath3 = Item.extend({
+
+
+frederickkPaper.F3D.FPath3 = this.FPath3 = Path.extend({
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
+	/*
+	 *	private
+	 */
+	_type: 'FPath3',
+	
+	// scene
+	_scene: null,
+	_matrix: null,
 
+	// 3D points array
+	_points3: null,
 
-});
-*/
-frederickkPaper.F3D.FPath3 = function(_scene) {
-	// ------------------------------------------------------------------------
-	// Properties
-	// ------------------------------------------------------------------------
-	// public
-
-	// temporary until I figure out how
-	// to extend paper.Item properly
-	this.path = new Path();
-
-	this.name = '';
-	this.closed = false;
-
-	this.opacity = 1.0;
-	this.blendMode = 'normal';
-	this.visible = true;
-	this.selected = false;
-
-	this.fillColor;
-
-	this.strokeColor;
-	this.strokeWidth = 1;
-	this.strokeCap;
-	this.strokeJoin;
-
-	this.rotation = new frederickkPaper.F3D.FPoint3();
-	this.translation = new frederickkPaper.F3D.FPoint3();
-
-
-	// private
-	var scene = _scene;
-
-	var points3 = [];
-
-	var matrix = new Matrix3D();
-
-	var rotationX = 0;
-	var rotationY = 0;
-	var rotationZ = 0;
-
-	var translationX = 0;
-	var translationY = 0;
-	var translationZ = 0;
+	// transformations
+	_rotation: null,
+	_translation: null,
 
 
 
@@ -1950,99 +1993,147 @@ frederickkPaper.F3D.FPath3 = function(_scene) {
 	// Methods
 	// ------------------------------------------------------------------------
 	/**
-	 *	@return path
-	 *			projected 2D path
+	 *
+	 *	@param scene
+	 *				the scene to attach this path to
+	 *
 	 */
-	this.draw = function() {
-		this.path.remove();
+	initialize : function(scene) {
+		this.base();
+		this._closed = false;
 
-		this.path = new Path();
-		this.path.name = this.name;
+		// setup scene
+		this._scene = scene;
 
-		for(var i=0; i<points3.length; i++) {
-			var pt3 = points3[i];
-			this.path.add( new Point( pt3.x2D(), pt3.y2D() ) );
-		}
+		// setup matrix
+		this._matrix = new Matrix3D();
 
-		// ! temporary see above !
-		this.path.opacity = this.opacity;
-		this.path.blendMode = this.blendMode;
-		this.path.visible = this.visible;
-		this.path.selected = this.selected;
+		// setup transformation
+		this._rotation = new frederickkPaper.F3D.FPoint3();
+		this._translation = new frederickkPaper.F3D.FPoint3();
 
-		this.path.fillColor = this.fillColor;
+		// setup 3D points array
+		this._points3 = [];
 
-		this.path.strokeColor = this.strokeColor;
-		this.path.strokeWidth = this.strokeWidth;
-		this.path.strokeCap = this.strokeCap;
-		this.path.strokeJoin = this.strokeJoin;
-
-		this.path.closed = this.closed;
-
-		return this.path;
-	};
-
+		this.name = 'FPath3';
+		// return this;
+	},
 
 
 	// ------------------------------------------------------------------------
 	// Sets
 	// ------------------------------------------------------------------------
 	/**
-	 *	@param _scene
+	 *	@param scene
 	 *			scene to associate points with
 	 */
-	this.addToScene = function(_scene) {
-		console.log( 'path3.addToScene' );
-		for(var i=0; i<points3.length; i++) {
-			points3[i].setup(_scene);
+	setScene : function(scene) {
+		this._scene = scene;
+		for(var i=0; i<this._points3.length; i++) {
+			this._points3[i].setup( this._scene );
 		}
-	};
+	},
 
 	/**
 	 *	@param _fpoint3
 	 *			add FPoint3 to path
 	 */
-	this.add = function(_fpoint3) {
-		points3[points3.length] = _fpoint3;
-	};
-
+	add3 : function(fpoint3) {
+		this._points3[ this._points3.length ] = fpoint3;
+	},
 
 	// ------------------------------------------------------------------------
-	this.translate = function(_x, _y, _z) {
-		translationX = _x != undefined ? _x : 0;
-		translationY = _y != undefined ? _y : 0;
-		translationZ = _z != undefined ? _z : 0;
-
-		for(var i=0; i<points3.length; i++) {
-			var pt3 = points3[i];
-			pt3.setX( (pt3.x() + translationX) );
-			pt3.setY( (pt3.y() + translationY) );
-			pt3.setZ( (pt3.z() + translationZ) );
+	/**
+	 *	@param arg0
+	 *			FPoint3 for transformation
+	 */
+	/**
+	 *	@param arg0
+	 *			x point
+	 *	@param arg1
+	 *			y point
+	 *	@param arg2
+	 *			z point
+	 */
+	translate : function(arg0, arg1, arg2) {
+		if(typeof arg0 == 'number') {
+			this._translation.x = arg0;
+			this._translation.y = arg1;
+			this._translation.z = arg2;
 		}
-	};
+		else if(typeof arg0 == 'object') { // FPoint3
+			this._translation.x = arg0.x;
+			this._translation.y = arg1.y;
+			this._translation.z = arg2.z;
+		}
+		else {
+			this._translation.x = arg0 != undefined ? arg0 : 0;
+			this._translation.y = arg1 != undefined ? arg1 : 0;
+			this._translation.z = arg2 != undefined ? arg2 : 0;
+		}
+
+		for(var i=0; i<this._points3.length; i++) {
+			var pt3 = this._points3[i];
+			pt3.setX( (pt3.x + this._translation.x) );
+			pt3.setY( (pt3.y + this._translation.y) );
+			pt3.setZ( (pt3.z + this._translation.z) );
+		}
+	},
+
+	/**
+	 *	@param val
+	 *			degree value for x axis rotation
+	 */
+	rotateX : function(val) {
+		this._rotation.x = val;
+	},
+
+	/**
+	 *	@param val
+	 *			degree value for y axis rotation
+	 */
+	rotateY : function(val) {
+		this._rotation.y = val;
+	},
+
+	/**
+	 *	@param val
+	 *			degree value for z axis rotation
+	 */
+	rotateZ : function(val) {
+		this._rotation.z = val;
+	},
 
 
 	// ------------------------------------------------------------------------
-	this.rotateX = function(val) {
-		rotationX = val;
-	};
-	this.rotateY = function(val) {
-		rotationY = val;
-	};
-	this.rotateZ = function(val) {
-		rotationZ = val;
-	};
-
-
+	// Gets
 	// ------------------------------------------------------------------------
-	// Sets
-	// ------------------------------------------------------------------------
-	this.get = function() {
-		return this.path;
-	};
+	get : function() {
+		this._segments = [];
+		for(var i=0; i<this._points3.length; i++) {
+			var pt3 = this._points3[i];
+			this.add( 
+				new Point( pt3.x2D(), pt3.y2D() )
+			);
+		}
+		return this;
+	}
 
 
-};
+
+	// // ------------------------------------------------------------------------
+	// return {
+	// 	Line: function() {
+	// 		return new Path(
+	// 			Point.read(arguments),
+	// 			Point.read(arguments)
+	// 		);
+	// 	}
+	// }
+
+	
+
+});
 
 
 /**
@@ -2071,32 +2162,39 @@ frederickkPaper.F3D.FPath3 = function(_scene) {
  *
  */
 
+
+
 /**
- *	@param x
+ *	@param arg0
  *			x coordinate
- *	@param y
+ *	@param arg1
  *			y coordinate
- *	@param z
+ *	@param arg2
  *			z coordinate
  */
-frederickkPaper.F3D.FPoint3 = function(_x, _y, _z) {
+frederickkPaper.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
-	// public
-	var x = _x != undefined ? _x : 0;
-	var y = _y != undefined ? _y : 0;
-	var z = _z != undefined ? _z : 0;
+	/*
+	 *	private
+	 */
+	var _scene = null;
+
+	var _xIndex = 0;
+	var _yIndex = 0;
+	var _zIndex = 0;
+	
+	var _xIndex2D = 0;
+	var _yIndex2D = 0;
 
 
-	// private
-	var scene = null;
-
-	var xIndex = 0;
-	var yIndex = 0;
-	var zIndex = 0;
-	var xIndex2D = 0;
-	var yIndex2D = 0;
+	/*
+	 *	public
+	 */
+	this.x = arg0 != undefined ? arg0 : 0;
+	this.y = arg1 != undefined ? arg1 : 0;
+	this.z = arg2 != undefined ? arg2 : 0;
 
 
 
@@ -2108,21 +2206,61 @@ frederickkPaper.F3D.FPoint3 = function(_x, _y, _z) {
 	 *			the scene with which the points are
 	 *			associated with
 	 */
-	this.setup = function(_scene) {
-		console.log( 'fpoint.setup' );
-		scene = _scene;
+	this.setup = function(scene) {
+		// setup scene
+		_scene = scene;
 
-		var index = scene.setupPoint(x, y, z);
-
+		var index = _scene.setupPoint(this.x, this.y, this.z);
 		var i3 = index*3;
 		var i2 = index*2;
 
-		xIndex = i3;
-		yIndex = i3+1;
-		zIndex = i3+2;
+		// 3D indicies
+		_xIndex = i3;
+		_yIndex = i3+1;
+		_zIndex = i3+2;
 
-		xIndex2D = i2;
-		yIndex2D = i2+1;
+		// 2D indicies
+		_xIndex2D = i2;
+		_yIndex2D = i2+1;
+	};
+
+
+	// ------------------------------------------------------------------------
+	/**
+	 *	
+	 *	@return random point
+	 *
+	 */
+	/**
+	 *	@param minx
+	 *				minmum x (default: 0)
+	 *	@param maxx
+	 *				maximum x (default: view.bounds.width)
+	 *	@param miny
+	 *				minmum y (default: 0)
+	 *	@param maxy
+	 *				maximum y (default: view.bounds.height)
+	 *	@param minz
+	 *				minmum z (default: 0)
+	 *	@param maxz
+	 *				maximum z (default: 1000)
+	 *
+	 *	@return random point
+	 *
+	 */
+	this.random = function(minx, maxx, miny, maxy, minz, maxz) {
+		minx = (minx != undefined) ? minx : 0;
+		maxx = (maxx != undefined) ? maxx : view.bounds.width;
+		miny = (miny != undefined) ? miny : 0;
+		maxy = (maxy != undefined) ? maxy : view.bounds.height;
+		minz = (minz != undefined) ? miny : 0;
+		maxz = (maxz != undefined) ? maxy : 1000;
+
+		this.x = frederickkPaper.random(minx, maxx);
+		this.y = frederickkPaper.random(miny, maxy);
+		this.z = frederickkPaper.random(minz, maxz);
+
+		return new frederickkPaper.F3D.FPoint3(this.x, this.y, this.z);
 	};
 
 
@@ -2130,23 +2268,41 @@ frederickkPaper.F3D.FPoint3 = function(_x, _y, _z) {
 	// ------------------------------------------------------------------------
 	// Sets
 	// ------------------------------------------------------------------------
-	this.setX = function(value) {
-		if( scene != null ) scene.points3D[xIndex] = value;
-		x = value;
+	/**
+	 *
+	 *	@param val
+	 *			set x value
+	 */
+	this.setX = function(val) {
+		if( _scene != null ) _scene.points3D[_xIndex] = val;
+		this.x = val;
 	};
-	this.setY = function(value) {
-		if( scene != null ) scene.points3D[yIndex] = value;
-		y = value;
-	};
-	this.setZ = function(value) {
-		if( scene != null ) scene.points3D[zIndex] = value;
-		z = value;
+	
+	/**
+	 *
+	 *	@param val
+	 *			set y value
+	 */
+	this.setY = function(val) {
+		if( _scene != null ) _scene.points3D[_yIndex] = val;
+		this.y = val;
 	};
 
-	this.set = function(_x, _y, _z) {
-		this.setX(_x);
-		this.setY(_y);
-		this.setZ(_z);
+	/**
+	 *
+	 *	@param val
+	 *			set z value
+	 */
+	this.setZ = function(val) {
+		if( _scene != null ) _scene.points3D[_zIndex] = val;
+		this.z = val;
+	};
+
+	// ------------------------------------------------------------------------
+	this.set = function(arg0, arg1, arg2) {
+		this.setX(arg0);
+		this.setY(arg1);
+		this.setZ(arg2);
 	};
 
 
@@ -2155,31 +2311,10 @@ frederickkPaper.F3D.FPoint3 = function(_x, _y, _z) {
 	// Gets
 	// ------------------------------------------------------------------------
 	/**
-	 *	Get a copy of this point.
+	 *	@return a copy of this point
 	 */
 	this.get = function() {
-		return new frederickkPaper.F3D.FPoint3(x,y,z);
-	};
-
-
-	// ------------------------------------------------------------------------
-	/**
-	 *	@return 3D x
-	 */
-	this.x = function() {
-		return x;
-	};
-	/**
-	 *	@return 3D y
-	 */
-	this.y = function() {
-		return y;
-	};
-	/**
-	 *	@return 3D z
-	 */
-	this.z = function() {
-		return z;
+		return new frederickkPaper.F3D.FPoint3(this.x, this.y, this.z);
 	};
 
 
@@ -2188,19 +2323,19 @@ frederickkPaper.F3D.FPoint3 = function(_x, _y, _z) {
 	 *	@return projected 2D x
 	 */
 	this.x2D = function() {
-		return scene.points2D[xIndex2D];
+		return _scene.points2D[_xIndex2D];
 	};
 
 	/**
 	 *	@return projected 2D y
 	 */
 	this.y2D = function() {
-		return scene.points2D[yIndex2D];
+		return _scene.points2D[_yIndex2D];
 	};
 
-
+	// ------------------------------------------------------------------------
 	this.getSceneIndex = function() {
-		return sceneIndex;
+		return _sceneIndex;
 	};
 
 
@@ -2211,7 +2346,7 @@ frederickkPaper.F3D.FPoint3 = function(_x, _y, _z) {
 	 *	@return the magnitude of the point
 	 */
 	this.mag = function() {
-		return Math.sqrt(x*x + y*y + z*z);
+		return Math.sqrt(this.x*this.x + this.y*this.y + this.z*this.z);
 	};
 
 
@@ -2219,42 +2354,63 @@ frederickkPaper.F3D.FPoint3 = function(_x, _y, _z) {
 	/**
 	 *	Add a point to this point
 	 *
-	 *	@param _fpoint3
-	 *			the point to be added
+	 *	@param arg0
+	 *			the FPoint3 to be added
 	 */
-	this.add = function(_fpoint3) {
-		x += _fpoint3.x();
-		y += _fpoint3.y();
-		z += _fpoint3.z();
-		this.set(x,y,z);
-	};
-	this.add = function(_x, _y, _z) {
-		x += _x;
-		y += _y;
-		z += _z;
-		this.set(x,y,z);
-
+	/**
+	 *	Add a point to this point
+	 *
+	 *	@param arg0
+	 *			the x point to be added
+	 *	@param arg1
+	 *			the y point to be added
+	 *	@param arg2
+	 *			the z point to be added
+	 */
+	this.add = function(arg0, arg1, arg2) {
+		if(typeof arg0 == 'number') {
+			this.x += arg0;
+			this.y += arg1;
+			this.z += arg2;
+		}
+		else if(typeof arg0 == 'object') { // FPoint3
+			this.x += arg0.x();
+			this.y += arg0.y();
+			this.z += arg0.z();
+		}
+		this.set(this.x, this.y, this.z);
 	};
 
 
 	// ------------------------------------------------------------------------
 	/**
-	 *	Subtract a point from this point
+	 *	Subtract a point to this point
 	 *
-	 *	@param _fpoint3
-	 *			the point to be subtracted
+	 *	@param arg0
+	 *			the FPoint3 to be subtracted
 	 */
-	this.sub = function(_fpoint3) {
-		x -= _fpoint3.x();
-		y -= _fpoint3.y();
-		z -= _fpoint3.z();
-		this.set(x,y,z);
-	};
-	this.sub = function(_x, _y, _z) {
-		x -= _x;
-		y -= _y;
-		z -= _z;
-		this.set(x,y,z);
+	/**
+	 *	Subtract a point to this point
+	 *
+	 *	@param arg0
+	 *			the x point to be subtracted
+	 *	@param arg1
+	 *			the y point to be subtracted
+	 *	@param arg2
+	 *			the z point to be subtracted
+	 */
+	this.sub = function(arg0, arg1, arg2) {
+		if(typeof arg0 == 'number') {
+			this.x -= arg0;
+			this.y -= arg1;
+			this.z -= arg2;
+		}
+		else if(typeof arg0 == 'object') { // FPoint3
+			this.x -= arg0.x();
+			this.y -= arg0.y();
+			this.z -= arg0.z();
+		}
+		this.set(this.x, this.y, this.z);
 	};
 
 
@@ -2266,10 +2422,10 @@ frederickkPaper.F3D.FPoint3 = function(_x, _y, _z) {
 	 *			the value to scale by
 	 */
 	this.scale = function(n) {
-		x *= n;
-		y *= n;
-		z *= n;
-		this.set(x,y,z);
+		this.x *= n;
+		this.y *= n;
+		this.z *= n;
+		this.set(this.x, this.y, this.z);
 	};
 
 
@@ -2277,20 +2433,31 @@ frederickkPaper.F3D.FPoint3 = function(_x, _y, _z) {
 	/**
 	 *	Multiply each element of one point by the elements of another point.
 	 *
-	 *	@param _fpoint3
-	 *			the point to multiply by
+	 *	@param arg0
+	 *			the FPoint3 to be multiplied
 	 */
-	this.mult = function(_fpoint3) {
-		x *= _fpoint3.x();
-		y *= _fpoint3.y();
-		z *= _fpoint3.z();
-		this.set(x,y,z);
-	};
-	this.mult = function(_x, _y, _z) {
-		x *= _x;
-		y *= _y;
-		z *= _z;
-		// this.set(x,y,z);
+	/**
+	 *	Multiply each element of one point by the elements of another point.
+	 *
+	 *	@param arg0
+	 *			the x point to be multiplied
+	 *	@param arg1
+	 *			the y point to be multiplied
+	 *	@param arg2
+	 *			the z point to be multiplied
+	 */
+	this.mult = function(arg0, arg1, arg2) {
+		if(typeof arg0 == 'number') {
+			this.x *= arg0;
+			this.y *= arg1;
+			this.z *= arg2;
+		}
+		else if(typeof arg0 == 'object') { // FPoint3
+			this.x *= arg0.x();
+			this.y *= arg0.y();
+			this.z *= arg0.z();
+		}
+		this.set(this.x, this.y, this.z);
 	};
 
 
@@ -2298,21 +2465,31 @@ frederickkPaper.F3D.FPoint3 = function(_x, _y, _z) {
 	/**
 	 *	Divide each element of one point by the elements of another point.
 	 *
-	 *	@param _fpoint3
-	 *			the point to multiply by
+	 *	@param arg0
+	 *			the FPoint3 to be divided
 	 */
-	this.div = function(_fpoint3) {
-		x /= _fpoint3.x();
-		y /= _fpoint3.y();
-		z /= _fpoint3.z();
-		this.set(x,y,z);
-	};
-	this.div = function(_x, _y, _z) {
-		x /= _x;
-		y /= _y;
-		z /= _z;
-		this.set(x,y,z);
-
+	/**
+	 *	Divide each element of one point by the elements of another point.
+	 *
+	 *	@param arg0
+	 *			the x point to be divided
+	 *	@param arg1
+	 *			the y point to be divided
+	 *	@param arg2
+	 *			the z point to be divided
+	 */
+	this.div = function(arg0, arg1, arg2) {
+		if(typeof arg0 == 'number') {
+			this.x /= arg0;
+			this.y /= arg1;
+			this.z /= arg2;
+		}
+		else if(typeof arg0 == 'object') { // FPoint3
+			this.x /= arg0.x();
+			this.y /= arg0.y();
+			this.z /= arg0.z();
+		}
+		this.set(this.x, this.y, this.z);
 	};
 
 
@@ -2326,9 +2503,9 @@ frederickkPaper.F3D.FPoint3 = function(_x, _y, _z) {
 	 *	@return the Euclidean distance between
 	 */
 	this.getDistance = function(_fpoint3) {
-		var dx = x - _fpoint3.x();
-		var dy = y - _fpoint3.y();
-		var dz = z - _fpoint3.z();
+		var dx = this.x - _fpoint3.x();
+		var dy = this.y - _fpoint3.y();
+		var dz = this.z - _fpoint3.z();
 		return Math.sqrt(dx*dx + dy*dy + dz*dz);
 	};
 
@@ -2366,7 +2543,7 @@ frederickkPaper.F3D.FPoint3 = function(_x, _y, _z) {
 
 	// ------------------------------------------------------------------------
 	this.toString = function() {
-		return '[ ' + x + ', ' + y + ', ' + z + ' ]';
+		return '[ ' + this.x + ', ' + this.y + ', ' + this.z + ' ]';
 	};
 
 
@@ -2374,9 +2551,8 @@ frederickkPaper.F3D.FPoint3 = function(_x, _y, _z) {
 	/**
 	 *	Return a representation of this point as an array.
 	 */
-	 
 	this.array = function() {
-		return [x, y, z];
+		return [this.x, this.y, this.z];
 	};
 
 };
@@ -2408,38 +2584,38 @@ frederickkPaper.F3D.FPoint3 = function(_x, _y, _z) {
  *
  */
 
+
+
 /**
  *
  *	TODO: fix Z order
  */
-frederickkPaper.F3D.FScene3D = function() {
+frederickkPaper.F3D.FScene3D = this.FScene3D = function() {
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
-	// private
-	var group;
+	/*
+	 *	private
+	 */
+	var _mode = 'PERSPECTIVE'; // default
+	var _matrix = null;
 
-	var mode;
-	var matrix = new Matrix3D();
+	var _half = new frederickkPaper.F3D.FSize3(0,0,0);
 
-	var halfWidth;
-	var halfHeight;
+	// transfomrations
+	var _sceneScale = 1;
+	var _rotation = new frederickkPaper.F3D.FPoint3(0,0,0);
 
-	var rotationX = 0;
-	var rotationY = 0;
-	var rotationZ = 0;
-	var sceneScale = 1;
+	// items
+	var _numPoints = 0;
+	var _itemsArr = null;
+	var _group = null;
 
-	var focalLength = 0;
-	var sceneWidth = 0;
-	var sceneHeight = 0;
+	/*
+	 *	public
+	 */
+	this.bounds = new frederickkPaper.F3D.FSize3(0,0,0);
 
-	var numPoints = 0;
-
-	var items = [];
-
-
-	// public
 	this.points3D = [];
 	this.points2D = [];
 
@@ -2449,122 +2625,140 @@ frederickkPaper.F3D.FScene3D = function() {
 	// Methods
 	// ------------------------------------------------------------------------
 	/**
-	 *	@param _width
-	 *				width of scene
- 	 *				default: view.bounds.width
-	 *	@param _height
-	 *				height of scene
- 	 *				default: view.bounds.height
-	 *	@param _focalLength
-	 *				focal length of scene
- 	 *				default: 1000
-	 *	@param _mode
-	 *				'PERSPECTIVE' objects scale to perspective
-	 *				'ORTHO' objects do not scale (isometric)
-	 *
-	 */
-	this.setup = function(_width, _height, _focalLength, _mode) {
-		focalLength = _focalLength || 1000;
-		sceneWidth  = _width || paper.view.bounds.width;
-		sceneHeight = _height || paper.view.bounds.height;
-
-		halfWidth = sceneWidth*0.5;
-		halfHeight = sceneHeight*0.5;
-
-		mode = _mode != undefined ? _mode : 'PERSPECTIVE';
-		this.setMode(mode);
-
-		group = new paper.Group();
-	};
-
-	// ------------------------------------------------------------------------
-	this.draw = function() {
-		matrix.identity();
-
-		if(mode == 'ORTHO') ortho();
-		else perspective();
-
-		matrix.scale(sceneScale, sceneScale, sceneScale);
-		matrix.rotateX(rotationX);
-		matrix.rotateY(rotationY);
-		matrix.rotateZ(rotationZ);
-		matrix.translate(0, 0, focalLength);
-
-		var transformed = matrix.transformArray(this.points3D);
-		
-		for(var i=0; i<numPoints; i++) {
-			var i3 = i*3;
-			var i2 = i*2;
-
-			// var x = this.points3D[i3];
-			// var y = this.points3D[i3+1];
-			// var z = this.points3D[i3+2];
-			var x = transformed[i3];
-			var y = transformed[i3+1];
-			var z = transformed[i3+2];
-			
-			var scale = focalLength/(z+focalLength);
-
-			this.points2D[ i2 ]   = x*scale+halfWidth;
-			this.points2D[ i2+1 ] = y*scale+halfHeight;
-		}
-
-		console.log( 'items.length\t' + items.length);
-
-		group.removeChildren(); // clear out in between draws
-		for(var i=0; i<items.length; i++) {
-			var paths = items[i].draw();
-			if(paths != null) group.appendTop( paths );
-		}
-
-		// TODO: fix this scaling issue
-		if(mode == 'ORTHO') group.scale(200);
-
-		return group;
-	};
-
-	// ------------------------------------------------------------------------
-	this.setupPoint = function(x, y, z) {
-		var returnVal = numPoints;
-
-		this.points2D[ this.points2D.length ] = 0;
-		this.points2D[ this.points2D.length ] = 0;
-
-		this.points3D[ this.points3D.length ] = x;
-		this.points3D[ this.points3D.length ] = y;
-		this.points3D[ this.points3D.length ] = z;
-
-		numPoints++;
-
-		return returnVal;
-	};
-
-
-	// ------------------------------------------------------------------------
-	/**
 	 * matrix for isometric projection
 	 *
 	 *	TODO: figure out why this has to be
 	 *	configured like this?
 	 */
-	var ortho = function() {
-		matrix.makeOrtho( 
-			-halfHeight, halfHeight,
-			halfHeight, -halfHeight,
-			-halfHeight, halfHeight
+	this._ortho = function() {
+		_matrix.makeOrtho( 
+			-_half.height, _half.height,
+			_half.height, -_half.height,
+			-_half.height, _half.height
 		);
 	};
 
 	/**
-	 * matrix for perspective projection
+	 * _perspective( for perspective projection
 	 */
-	var perspective = function() {
-		matrix.makePerspective( 
+	this._perspective = function() {
+		_matrix.makePerspective( 
 			50,
 			1,
-			focalLength,
-			focalLength*2
+			this.bounds.depth,
+			this.bounds.depth*4
 		);
+	};
+
+
+	// ------------------------------------------------------------------------
+	/**
+	 *	@param width
+	 *				width of scene
+ 	 *				default: view.bounds.width
+	 *	@param height
+	 *				height of scene
+ 	 *				default: view.bounds.height
+	 *	@param focalLength
+	 *				focal length of scene
+ 	 *				default: 1000
+	 *	@param mode
+	 *				'PERSPECTIVE' objects scale to perspective
+	 *				'ORTHO' objects do not scale (isometric)
+	 *
+	 */
+	this.setup = function(width, height, focalLength, mode) {
+		// setup point arrays
+		this.points3D = [];
+		this.points2D = [];
+
+		// setup items array
+		_itemsArr = [];
+
+		// setup matrix
+		_matrix = new Matrix3D();
+
+		// setup world
+		this.bounds.width  = width || paper.view.bounds.width;
+		this.bounds.height = height || paper.view.bounds.height;
+		this.bounds.depth = focalLength || 1000;
+
+		_half.width = this.bounds.width*0.5;
+		_half.height = this.bounds.height*0.5;
+		_half.depth = this.bounds.depth*0.5;
+
+		// set mode
+		this.setMode(mode);
+
+		// setup up group for items
+		_group = new paper.Group();
+	};
+
+	// ------------------------------------------------------------------------
+	this.draw = function() {
+		_matrix.identity();
+
+		if(_mode == 'ORTHO') this._ortho();
+		else this._perspective();
+
+		_matrix.scale(_sceneScale, _sceneScale, _sceneScale);
+		_matrix.rotateX(_rotation.x);
+		_matrix.rotateY(_rotation.y);
+		_matrix.rotateZ(_rotation.z);
+		_matrix.translate(0, 0, this.bounds.depth);
+
+		var transformed = _matrix.transformArray(this.points3D);
+		
+		for(var i=0; i<_numPoints; i++) {
+			var i3 = i*3;
+			var i2 = i*2;
+
+			// var x = this.points3D[ i3 ];
+			// var y = this.points3D[ i3+1 ];
+			// var z = this.points3D[ i3+2 ];
+			var x = transformed[ i3 ];
+			var y = transformed[ i3+1 ];
+			var z = transformed[ i3+2 ];
+			
+			var scale = this.bounds.depth/(z+this.bounds.depth);
+
+			this.points2D[ i2 ]   = x*scale+_half.width;
+			this.points2D[ i2+1 ] = y*scale+_half.height;
+		}
+
+		_group.removeChildren(); // clear out in between draws
+		for(var i=0; i<_itemsArr.length; i++) {
+			var paths = _itemsArr[i].get();
+			
+			console.log( paths._points3 );
+			if( paths.children != null ) {
+				console.log( paths.children.length );
+			}
+
+			if(paths != null) _group.appendTop( paths );
+		}
+		console.log( '---------' );
+
+		// TODO: fix this scaling issue
+		if(_mode == 'ORTHO') _group.scale(200);
+
+		return _group;
+	};
+
+	// ------------------------------------------------------------------------
+	this.setupPoint = function(arg0, arg1, arg2) {
+		var returnVal = _numPoints;
+
+		this.points2D[ this.points2D.length ] = 0;
+		this.points2D[ this.points2D.length ] = 0;
+
+		this.points3D[ this.points3D.length ] = arg0;
+		this.points3D[ this.points3D.length ] = arg1;
+		this.points3D[ this.points3D.length ] = arg2;
+
+		_numPoints++;
+
+		return returnVal;
 	};
 
 
@@ -2572,24 +2766,59 @@ frederickkPaper.F3D.FScene3D = function() {
 	// ------------------------------------------------------------------------
 	// Sets
 	// ------------------------------------------------------------------------
-	this.setMode = function(_mode) {
-		mode = _mode;
+	/**
+	 *	@param mode
+	 *				'PERSPECTIVE' objects scale to perspective
+	 *				'ORTHO' objects do not scale (isometric)
+	 */
+	this.setMode = function(mode) {
+		_mode = mode != undefined ? mode : 'PERSPECTIVE';
 	};
 
+	/**
+	 *	@param item
+	 *			an FPath3 item to add to the scene
+	 */
+	/**
+	 *	@param item
+	 *			an array of FPath3 items to add to the scene
+	 */
 	this.addItem = function(item) {
-		console.log( 'scene.addItem' );
-		items[items.length] = item;
-		item.addToScene(this);
+		if(item.length != null || item.length > 0) {
+			for(var i=0; i<item.length; i++) {
+				_itemsArr[ _itemsArr.length ] = item[i];
+				item[i].setScene(this);
+			}
+		}
+		else {
+			_itemsArr[ _itemsArr.length ] = item;
+			item.setScene(this);
+		}
 	};
 	
+	// ------------------------------------------------------------------------
+	/**
+	 *	@param val
+	 *			degree value for x axis rotation
+	 */
 	this.rotateX = function(val) {
-		rotationX = val;
+		_rotation.setX(val);
 	};
+
+	/**
+	 *	@param val
+	 *			degree value for y axis rotation
+	 */
 	this.rotateY = function(val) {
-		rotationY = val;
+		_rotation.setY(val);
 	};
+
+	/**
+	 *	@param val
+	 *			degree value for z axis rotation
+	 */
 	this.rotateZ = function(val) {
-		rotationZ = val;
+		_rotation.setZ(val);
 	};
 
 
@@ -2598,32 +2827,181 @@ frederickkPaper.F3D.FScene3D = function() {
 	// Gets
 	// ------------------------------------------------------------------------
 	/**
-	 *	@return scene path items as group 
+	 *	@return scene path items as _group 
 	 */
 	this.get = function() {
-		return group;
+		return _group;
 	};
 
 	/**
 	 *	@return scene size as array [width, height, depth]
 	 */
-	this.getSize = function() {
-		return [ sceneWidth, sceneHeight, focalLength ];
+	this.getBounds = function() {
+		return [ this.bounds.width, this.bounds.height, this.bounds.depth ];
 	};
 
 	/**
-	 *	@return scene transformation matrix
+	 *	@return scene transformation _matrix
 	 */
 	this.getMatrix = function() {
-		return matrix;
+		return _matrix;
 	};
 
 	/**
 	 *	@return scene focal length
 	 */
 	this.getFocalLength = function() {
-		return focalLength;
+		return this.bounds.depth;
 	};
+
+
+};
+
+
+/**
+ *  
+ *	FSize3.js
+ *	v0.2a
+ *  
+ *	25. November 2012
+ *
+ *	Ken Frederick
+ *	ken.frederick@gmx.de
+ *
+ *	http://cargocollective.com/kenfrederick/
+ *	http://kenfrederick.blogspot.com/
+ *  
+ *
+ *	FSize3
+ *
+ *	A barebones collection of classes for primitive 3D rendering
+ *
+ *	code inspired by
+ *	http://www.netmagazine.com/tutorials/build-your-own-html5-3d-engine
+ *	https://github.com/mrdoob/three.js/
+ *
+ *	modified/expanded for use in PaperJS by Ken Frederick
+ *
+ */
+
+
+
+/**
+ *	TODO: finish this
+ *
+ *	@param arg0
+ *			width
+ *	@param arg1
+ *			height
+ *	@param arg2
+ *			depth
+ */
+frederickkPaper.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
+	/*
+	 *	public
+	 */
+	this.width = arg0 != undefined ? arg0 : 0;
+	this.height = arg1 != undefined ? arg1 : 0;
+	this.depth = arg2 != undefined ? arg2 : 0;
+
+
+
+	// ------------------------------------------------------------------------
+	// Sets
+	// ------------------------------------------------------------------------
+	/**
+	 *
+	 *	@param val
+	 *			set width value
+	 */
+	this.setWidth = function(val) {
+		this.width = val;
+	};
+	
+	/**
+	 *
+	 *	@param val
+	 *			set height value
+	 */
+	this.setHeight = function(val) {
+		this.height = val;
+	};
+
+	/**
+	 *
+	 *	@param val
+	 *			set depth value
+	 */
+	this.setDepth = function(val) {
+		this.depth = val;
+	};
+
+	// ------------------------------------------------------------------------
+	this.set = function(arg0, arg1, arg2) {
+		this.setWidth(arg0);
+		this.setHeight(arg1);
+		this.setDepth(arg2);
+	};
+
+
+
+	// ------------------------------------------------------------------------
+	// Gets
+	// ------------------------------------------------------------------------
+	/**
+	 *	Get a copy of this size
+	 */
+	this.get = function() {
+		return new frederickkPaper.F3D.FSize3(this.width, this.height, this.depth);
+	};
+
+
+	// ------------------------------------------------------------------------
+	/**
+	 *	
+	 *	@return random size
+	 *
+	 */
+	/**
+	 *	@param minw
+	 *				minmum width (default: 0)
+	 *	@param maxw
+	 *				maximum width (default: view.bounds.width)
+	 *	@param minh
+	 *				minmum height (default: 0)
+	 *	@param maxh
+	 *				maximum height (default: view.bounds.height)
+	 *	@param mind
+	 *				minmum depth (default: 0)
+	 *	@param maxd
+	 *				maximum depth (default: 1000)
+	 *
+	 *	@return random size
+	 *
+	 */
+	this.random = function(minw, maxw, minh, maxh, mind, maxd) {
+		minw = (minw != undefined) ? minw : 0;
+		maxw = (maxw != undefined) ? maxw : view.bounds.width;
+		minh = (minh != undefined) ? minh : 0;
+		maxh = (maxh != undefined) ? maxh : view.bounds.height;
+		mind = (mind != undefined) ? mind : 0;
+		maxd = (maxd != undefined) ? maxd : 1000;
+
+		this.width = frederickkPaper.random(minw, maxw);
+		this.height = frederickkPaper.random(minh, maxh);
+		this.depth = frederickkPaper.random(mind, maxd);
+		return this;
+	};
+
+	/**
+	 *	
+	 *	@return volume
+	 *
+	 */
+	this.volume = function() {
+		return (this.width * this.height * this.depth);
+	};
+
 
 };
 
@@ -3049,12 +3427,16 @@ frederickkPaper.FShape.FArrow = this.FArrow = Path.extend({
   *	TODO: make this an extension of FPath3
   *
   */
-frederickkPaper.FShape.FBox = function(_scene) {
+frederickkPaper.FShape.FBox = function(scene) {
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
-	// public
+	/*
+	 *	public
+	 */
 	this.sides = new Array(6);
+
+	this.vertices = [];
 
 	// temporary until I figure out how
 	// to extend paper.Item properly
@@ -3065,11 +3447,6 @@ frederickkPaper.FShape.FBox = function(_scene) {
 
 	this.strokeCap;
 	this.strokeJoin;
-
-
-	// private
-	var scene = _scene;
-
 
 	this.faceFRONT = [
 		new frederickkPaper.F3D.FPoint3(-0.5, -0.5, -0.5), //corner
@@ -3114,7 +3491,12 @@ frederickkPaper.FShape.FBox = function(_scene) {
 	];
 
 
-	var faces = [
+	/*
+	 *	private
+	 */
+	var _scene = scene;
+
+	var _faces = [
 		['front',	this.faceFRONT],
 		['top',		this.faceTOP],
 		['bottom',	this.faceBOTTOM],
@@ -3123,9 +3505,8 @@ frederickkPaper.FShape.FBox = function(_scene) {
 		['back',	this.faceBACK]
 	];
 
-
-	var facesOpacity = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0];
-	var facesBlendModes = [
+	var _facesOpacity = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0];
+	var _facesBlendModes = [
 		'normal',	// FRONT
 		'normal',	// TOP
 		'normal',	// BOTTOM
@@ -3134,7 +3515,7 @@ frederickkPaper.FShape.FBox = function(_scene) {
 		'normal'	// BACK
 	];
 
-	var facesFillColor = [
+	var _facesFillColor = [
 		new paper.RGBColor(1.0, 1.0, 0,	 0.8), // FRONT
 		new paper.RGBColor(1.0, 0,	 1.0, 0.8), // TOP
 		new paper.RGBColor(0,	 0,	 1.0, 0.8), // BOTTOM
@@ -3142,7 +3523,7 @@ frederickkPaper.FShape.FBox = function(_scene) {
 		new paper.RGBColor(0,	 1.0, 1.0, 0.8), // RIGHT
 		new paper.RGBColor(0,	 1.0, 0,	 0.8)	// BACK
 	];
-	var facesStrokeColor = [
+	var _facesStrokeColor = [
 		new paper.RGBColor(1.0, 1.0, 0,	 0.8), // FRONT
 		new paper.RGBColor(1.0, 0,	 1.0, 0.8), // TOP
 		new paper.RGBColor(0,	 0,	 1.0, 0.8), // BOTTOM
@@ -3150,49 +3531,47 @@ frederickkPaper.FShape.FBox = function(_scene) {
 		new paper.RGBColor(0,	 1.0, 1.0, 0.8), // RIGHT
 		new paper.RGBColor(0,	 1.0, 0,	 0.8)	// BACK
 	];
-	var facesStrokeWidth = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0];
+	var _facesStrokeWidth = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0];
 
-
-
-	var size = new frederickkPaper.F3D.FPoint3(10,10,10);
+	var _size = new frederickkPaper.F3D.FSize3(10,10,10);
 
 
 
 	// ------------------------------------------------------------------------
 	// Methods
 	// ------------------------------------------------------------------------
-	this.init = function(_x, _y, _z) {
-		for(var i=0; i<faces.length; i++) {
+	this.init = function(arg0, arg1, arg2) {
+		for(var i=0; i<_faces.length; i++) {
 
 			this.sides[i] = new frederickkPaper.F3D.FPath3();
-			this.sides[i].name = faces[i][0];
+			this.sides[i].name = _faces[i][0];
 
-			var vertices = faces[i][1];
-			for(var j=0; j<vertices.length; j++) {
-				this.sides[i].add( new frederickkPaper.F3D.FPoint3(
-					vertices[j].x()*size.x(),
-					vertices[j].y()*size.y(),
-					vertices[j].z()*size.z()
+			this.vertices = _faces[i][1];
+			for(var j=0; j<this.vertices.length; j++) {
+				this.sides[i].add3( new frederickkPaper.F3D.FPoint3(
+					this.vertices[j].x*_size.width,
+					this.vertices[j].y*_size.height,
+					this.vertices[j].z*_size.depth
 				));
 			}
 
 			// ! temporary see above !
-			this.sides[i].opacity = facesOpacity[i];
-			this.sides[i].blendMode = facesBlendModes[i];
+			this.sides[i].opacity = _facesOpacity[i];
+			this.sides[i].blendMode = _facesBlendModes[i];
 			this.sides[i].visible = this.visible;
 			this.sides[i].selected = this.selected;
 
-			this.sides[i].fillColor = facesFillColor[i];
+			this.sides[i].fillColor = _facesFillColor[i];
 
-			this.sides[i].strokeColor = facesStrokeColor[i];
-			this.sides[i].strokeWidth = facesStrokeWidth[i];
+			this.sides[i].strokeColor = _facesStrokeColor[i];
+			this.sides[i].strokeWidth = _facesStrokeWidth[i];
 			this.sides[i].strokeCap = this.strokeCap;
 			this.sides[i].strokeJoin = this.strokeJoin;
 
 			this.sides[i].closed = true;
-			this.sides[i].translate(_x,_y,_z);
+			this.sides[i].translate(arg0, arg1, arg2);
 
-			scene.addItem( this.sides[i] );
+			_scene.addItem( this.sides[i] );
 		}
 	};
 
@@ -3201,8 +3580,8 @@ frederickkPaper.FShape.FBox = function(_scene) {
 	// ------------------------------------------------------------------------
 	// Sets
 	// ------------------------------------------------------------------------
-	this.setSize = function(_width, _height, _depth) {
-		size.set(_width, _height, _depth);
+	this.setSize = function(width, height, depth) {
+		_size.set(width, height, depth);
 	};
 
 
@@ -3218,26 +3597,26 @@ frederickkPaper.FShape.FBox = function(_scene) {
 
 	// ------------------------------------------------------------------------
 	this.setOpacity = function(face, o) {
-		if( face.length === undefined ) facesOpacity[face] = o;
-		else facesOpacity = face;
+		if( face.length === undefined ) _facesOpacity[face] = o;
+		else _facesOpacity = face;
 	};
 
 	// ------------------------------------------------------------------------
 	this.setFillColor = function(face, col) {
-		if( face.length === undefined ) facesFillColor[face] = col;
-		else facesFillColor = face;
+		if( face.length === undefined ) _facesFillColor[face] = col;
+		else _facesFillColor = face;
 	};
 
 	// ------------------------------------------------------------------------
 	this.setStrokeColor = function(face, col) {
-		if( face.length === undefined ) facesStrokeColor[face] = col;
-		else facesStrokeColor = face;
+		if( face.length === undefined ) _facesStrokeColor[face] = col;
+		else _facesStrokeColor = face;
 	};
 
 	// ------------------------------------------------------------------------
 	this.setStrokeWidth = function(face, w) {
-		if( face.length === undefined ) facesStrokeWidth[face] = w;
-		else facesStrokeWidth = face;
+		if( face.length === undefined ) _facesStrokeWidth[face] = w;
+		else _facesStrokeWidth = face;
 	};
 
 	// ------------------------------------------------------------------------
@@ -3252,10 +3631,10 @@ frederickkPaper.FShape.FBox = function(_scene) {
 
 	// ------------------------------------------------------------------------
 	this.noFill = function() {
-		facesFillColor = [];
+		_facesFillColor = [];
 	};
 	this.noStroke = function() {
-		facesStrokeColor = [];
+		_facesStrokeColor = [];
 	}
 
 
@@ -3272,12 +3651,12 @@ frederickkPaper.FShape.FBox = function(_scene) {
 
 	//-----------------------------------------------------------------------------
 	this.getNumFaces = function() {
-		return vertices.length-2;
+		return this.vertices.length-2;
 	};
 
 	// ------------------------------------------------------------------------
 	this.getSize = function() {
-		return size;
+		return _size;
 	};
 
 };
@@ -3430,6 +3809,9 @@ frederickkPaper.FShape.FBubble = this.FBubble = Path.extend({
 
 
 frederickkPaper.FShape.FChain = this.FChain = Path.extend({
+	// ------------------------------------------------------------------------
+	// Methods
+	// ------------------------------------------------------------------------
 	 /**
 	  *	
 	  *	@param arg0
@@ -3532,6 +3914,9 @@ frederickkPaper.FShape.FChain = this.FChain = Path.extend({
 
 
 frederickkPaper.FShape.FCross = this.FCross = Path.extend({
+	// ------------------------------------------------------------------------
+	// Methods
+	// ------------------------------------------------------------------------
 	 /**
 	  *	
 	  *	@param point
@@ -3619,11 +4004,13 @@ frederickkPaper.FShape.FCross = this.FCross = Path.extend({
   *	TODO: make this an extension of FPath3
   *
   */
-frederickkPaper.FShape.FSphere = function(_scene) {
+frederickkPaper.FShape.FSphere = function(scene) {
 	//-----------------------------------------------------------------------------
-	// properties
+	// Properties
 	//-----------------------------------------------------------------------------
-	// public
+	/*
+	 *	public
+	 */
 	this.sides = [];
 	this.vertices = [];
 
@@ -3637,28 +4024,28 @@ frederickkPaper.FShape.FSphere = function(_scene) {
 	this.strokeCap;
 	this.strokeJoin;
 
+	/*
+	 *	private
+	 */
+	var _scene = scene;
 
-	// private
-	var scene = _scene;
+	var _radius3 = 10;
+	var _c = 0.5;
 
-	var r = 10;
-	var c = 0.5;
+	var _lats;
+	var _longs;
 
-	var lats;
-	var longs;
+	var _facesOpacity = [];
+	var _facesBlendModes = [];
 
-
-	var facesOpacity = [];
-	var facesBlendModes = [];
-
-	var facesFillColor = [];
-	var facesStrokeColor = [];
-	var facesStrokeWidth = [];
+	var _facesFillColor = [];
+	var _facesStrokeColor = [];
+	var _facesStrokeWidth = [];
 
 
 
 	//-----------------------------------------------------------------------------
-	// methods
+	// Methods
 	//-----------------------------------------------------------------------------
 	/**
 	 *  @param lats
@@ -3666,99 +4053,101 @@ frederickkPaper.FShape.FSphere = function(_scene) {
 	 *  @param longs
 	 *  			number of longitude segments
 	 */
-	var calculate = function(lats, longs) {
-		// calculate vertices
-		vertices = [];
-		for(var i=0; i<=lats; i++) {
-			var lat0 = (Math.PI * (-c + ( (i-1)/lats) ));
+	this._calculate = function(clats, clongs) {
+		// this._calculate this.vertices
+		this.vertices = [];
+		for(var i=0; i<=clats; i++) {
+			var lat0 = (Math.PI * (-_c + ( (i-1)/clats) ));
 			var z0   = Math.sin(lat0);
 			var zr0  = Math.cos(lat0);
 
-			var lat1 = (Math.PI * (-c + ( i/lats) ));
+			var lat1 = (Math.PI * (-_c + ( i/clats) ));
 			var z1   = Math.sin(lat1);
 			var zr1  = Math.cos(lat1);
 
-			for(var j=0; j<=longs; j++) {
-				var lng = ((Math.PI*2) * ( (j-1)/longs ));
+			for(var j=0; j<=clongs; j++) {
+				var lng = ((Math.PI*2) * ( (j-1)/clongs ));
 				var x = Math.cos(lng);
 				var y = Math.sin(lng);
 
-				vertices.push( new frederickkPaper.F3D.FPoint3( x*zr0, y*zr0, z0 ) );
-				vertices.push( new frederickkPaper.F3D.FPoint3( x*zr1, y*zr1, z1 ) );
-			} // longs
-		} // lats
+				this.vertices.push( new frederickkPaper.F3D.FPoint3( x*zr0, y*zr0, z0 ) );
+				this.vertices.push( new frederickkPaper.F3D.FPoint3( x*zr1, y*zr1, z1 ) );
+			} // _longs
+		} // _lats
 
 
-		// setup arrays
-		this.sides = new Array(vertices.length-2);
+		// Setup arrays
+		this.sides = new Array(this.vertices.length-2);
 
-		facesOpacity = new Array(vertices.length-2);
-		facesBlendModes = new Array(vertices.length-2);
-		facesFillColor = new Array(vertices.length-2);
-		facesStrokeColor = new Array(vertices.length-2);
-		facesStrokeWidth = new Array(vertices.length-2);
+		_facesOpacity = new Array(this.vertices.length-2);
+		_facesBlendModes = new Array(this.vertices.length-2);
+		_facesFillColor = new Array(this.vertices.length-2);
+		_facesStrokeColor = new Array(this.vertices.length-2);
+		_facesStrokeWidth = new Array(this.vertices.length-2);
 
-		var numVertices = vertices.length-2;
+		var numVertices = this.vertices.length-2;
 		for(var i=0; i<numVertices; i++) {
-			var v = vertices[i];
+			var v = this.vertices[i];
 			var col = new paper.HSLColor( 360*i/numVertices, 0.9, 0.7);
 
-			var depth = (v.z()/scene.getFocalLength())*100;
+			var depth = (v.z/scene.getFocalLength())*100;
 
-			facesOpacity[i] = 1.0;
-			facesBlendModes[i] = 'normal';
+			_facesOpacity[i] = 1.0;
+			_facesBlendModes[i] = 'normal';
 
-			facesFillColor[i] = col.darken( depth );
-			facesStrokeColor[i] = col.darken( depth );
-			facesStrokeWidth[i] = 1.0;
+			_facesFillColor[i] = col.darken( depth );
+			_facesStrokeColor[i] = col.darken( depth );
+			_facesStrokeWidth[i] = 1.0;
 		}
 	};
 
 
 	/**
-	 *  @param lats
-	 *  			number of latitude segments
-	 *  @param longs
-	 *  			number of longitude segments
+	 *  @param arg0
+	 *  			x translate value
+	 *  @param arg1
+	 *  			y translate value
+	 *  @param arg2
+	 *  			z translate value
 	 */
-	this.init = function(_x, _y, _z) {
-		if(lats == null) this.setLatsLongs(6,6);
+	this.init = function(arg0, arg1, arg2) {
+		if(_lats == null) this.setLatsLongs(6,6);
 
-		for(var i=0; i<vertices.length-2; i++) {
+		for(var i=0; i<this.vertices.length-2; i++) {
 			this.sides[i] = new frederickkPaper.F3D.FPath3();
 			this.sides[i].name = 'face'+i;
 
-			this.sides[i].add( new frederickkPaper.F3D.FPoint3(
-				vertices[i].x()*(r*0.5),
-				vertices[i].y()*(r*0.5),
-				vertices[i].z()*(r*0.5)
+			this.sides[i].add3( new frederickkPaper.F3D.FPoint3(
+				this.vertices[i].x*(_radius3*0.5),
+				this.vertices[i].y*(_radius3*0.5),
+				this.vertices[i].z*(_radius3*0.5)
 			));
-			this.sides[i].add( new frederickkPaper.F3D.FPoint3(
-				vertices[i+1].x()*(r*0.5),
-				vertices[i+1].y()*(r*0.5),
-				vertices[i+1].z()*(r*0.5)
+			this.sides[i].add3( new frederickkPaper.F3D.FPoint3(
+				this.vertices[i+1].x*(_radius3*0.5),
+				this.vertices[i+1].y*(_radius3*0.5),
+				this.vertices[i+1].z*(_radius3*0.5)
 			));
-			this.sides[i].add( new frederickkPaper.F3D.FPoint3(
-				vertices[i+2].x()*(r*0.5),
-				vertices[i+2].y()*(r*0.5),
-				vertices[i+2].z()*(r*0.5)
+			this.sides[i].add3( new frederickkPaper.F3D.FPoint3(
+				this.vertices[i+2].x*(_radius3*0.5),
+				this.vertices[i+2].y*(_radius3*0.5),
+				this.vertices[i+2].z*(_radius3*0.5)
 			));
 
 			// ! temporary see above !
-			this.sides[i].opacity = facesOpacity[i];
-			this.sides[i].blendMode = facesBlendModes[i];
+			this.sides[i].opacity = _facesOpacity[i];
+			this.sides[i].blendMode = _facesBlendModes[i];
 			this.sides[i].visible = this.visible;
 			this.sides[i].selected = this.selected;
 
-			this.sides[i].fillColor = facesFillColor[i];
+			this.sides[i].fillColor = _facesFillColor[i];
 
-			this.sides[i].strokeColor = facesStrokeColor[i];
-			this.sides[i].strokeWidth = facesStrokeWidth[i];
+			this.sides[i].strokeColor = _facesStrokeColor[i];
+			this.sides[i].strokeWidth = _facesStrokeWidth[i];
 			this.sides[i].strokeCap = this.strokeCap;
 			this.sides[i].strokeJoin = this.strokeJoin;
 
 			this.sides[i].closed = true;
-			this.sides[i].translate(_x,_y,_z);
+			this.sides[i].translate(arg0, arg1, arg2);
 
 			scene.addItem( this.sides[i] );
 		}
@@ -3767,15 +4156,15 @@ frederickkPaper.FShape.FSphere = function(_scene) {
 
 
 	//-----------------------------------------------------------------------------
-	// sets
+	// Sets
 	//-----------------------------------------------------------------------------
 	/**
 	 *  @param r
 	 *  		radius of sphere
 	 */
-	this.setSize = function(_r) {
-		r = _r;
-	}
+	this.setSize = function(radius) {
+		_radius3 = radius;
+	};
 
 	/**
 	 *  @param lats
@@ -3783,10 +4172,10 @@ frederickkPaper.FShape.FSphere = function(_scene) {
 	 *  @param longs
 	 *  			number of longitude segments
 	 */
-	this.setLatsLongs = function(_lats, _longs) {
-		lats = (_lats < 4) ? 4 : _lats;
-		longs = (_longs < 4) ? 4 : _longs;
-		calculate(lats, longs);
+	this.setLatsLongs = function(lats, longs) {
+		_lats = (lats < 4) ? 4 : lats;
+		_longs = (longs < 4) ? 4 : longs;
+		this._calculate(_lats, _longs);
 	};
 
 	// ------------------------------------------------------------------------
@@ -3801,40 +4190,40 @@ frederickkPaper.FShape.FSphere = function(_scene) {
 
 	// ------------------------------------------------------------------------
 	this.setOpacity = function(face, o) {
-		if( face.length === undefined ) facesOpacity[face] = o;
-		else facesOpacity = face;
+		if( face.length === undefined ) _facesOpacity[face] = o;
+		else _facesOpacity = face;
 	};
 
 	// ------------------------------------------------------------------------
 	this.setFillColor = function(face, col) {
-		if( face.length === undefined ) facesFillColor[face] = col;
+		if( face.length === undefined ) _facesFillColor[face] = col;
 		else {
-			// facesFillColor = face;
+			// _facesFillColor = face;
 			for(var i=0; i<face.length; i++) {
-				var v = vertices[i];
-				var depth = (v.z()/scene.getFocalLength())*100;
-				facesFillColor[i] = face.darken( depth );
+				var v = this.vertices[i];
+				var depth = (v.z/scene.getFocalLength())*100;
+				_facesFillColor[i] = face.darken( depth );
 			}
 		}
 	};
 
 	// ------------------------------------------------------------------------
 	this.setStrokeColor = function(face, col) {
-		if( face.length === undefined ) facesStrokeColor[face] = col;
+		if( face.length === undefined ) _facesStrokeColor[face] = col;
 		else {
-			// facesStrokeColor = face;
+			// _facesStrokeColor = face;
 			for(var i=0; i<face.length; i++) {
-				var v = vertices[i];
-				var depth = (v.z()/scene.getFocalLength())*100;
-				facesStrokeColor[i] = face.darken( depth );
+				var v = this.vertices[i];
+				var depth = (v.z/scene.getFocalLength())*100;
+				_facesStrokeColor[i] = face.darken( depth );
 			}
 		}
 	};
 
 	// ------------------------------------------------------------------------
 	this.setStrokeWidth = function(face, w) {
-		if( face.length === undefined ) facesStrokeWidth[face] = w;
-		else facesStrokeWidth = face;
+		if( face.length === undefined ) _facesStrokeWidth[face] = w;
+		else _facesStrokeWidth = face;
 	};
 
 	// ------------------------------------------------------------------------
@@ -3849,22 +4238,22 @@ frederickkPaper.FShape.FSphere = function(_scene) {
 
 	// ------------------------------------------------------------------------
 	this.noFill = function() {
-		facesFillColor = [];
+		_facesFillColor = [];
 	};
 	this.noStroke = function() {
-		facesStrokeColor = [];
-	}
+		_facesStrokeColor = [];
+	};
 
 	// ------------------------------------------------------------------------
 	this.setVertices = function(vertice, val) {
-		if( vertice.length === undefined ) vertices[vertice] = val;
-		else vertices = vertice;
+		if( vertice.length === undefined ) this.vertices[vertice] = val;
+		else this.vertices = vertice;
 	};
 
 	
 
 	//-----------------------------------------------------------------------------
-	// gets
+	// Gets
 	//-----------------------------------------------------------------------------
 	this.get = function() {
 		return this.sides;
@@ -3875,17 +4264,17 @@ frederickkPaper.FShape.FSphere = function(_scene) {
 
 	//-----------------------------------------------------------------------------
 	this.getNumFaces = function() {
-		return vertices.length-2;
+		return this.vertices.length-2;
 	};
 
 	//-----------------------------------------------------------------------------
 	this.getVertices = function() {
-		return vertices;
+		return this.vertices;
 	};
 
 	//-----------------------------------------------------------------------------
 	this.getSize = function() {
-		return r;
+		return _radius3;
 	};
 
 
@@ -3912,17 +4301,21 @@ frederickkPaper.FShape.FSphere = function(_scene) {
  *
  */
 
+
+
 /**
  *
  *	TODO: finish
  *
  */
-frederickkPaper.FControl = function(_divId) { // #divId
+frederickkPaper.FControl = function(divId) { // #divId
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
-	// public
-	this.divId = _divId;
+	/*
+	 *	public
+	 */
+	this.divId = divId;
 
 
 
@@ -3984,7 +4377,7 @@ frederickkPaper.FControl = function(_divId) { // #divId
 
 
 // 	//-----------------------------------------------------------------------------
-// 	// events
+// 	// Events
 // 	//-----------------------------------------------------------------------------
 // 	this.keyPressed(event) {
 // 		int id = event.getID();

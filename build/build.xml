@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<project name="FrederickkJS" default="prod" basedir="../">
+<project name="frederickkPaper" default="prod" basedir="../">
 
 
 
-	<description>FrederickkJS ANT build file example</description>
+	<description>frederickkPaper ANT build file example</description>
 
 
 
@@ -84,6 +84,7 @@
 			<fileset dir="${src.dir.fio}" includes="*.js" />
 			<fileset dir="${src.dir.ftime}" includes="*.js" />
 			<fileset dir="${src.dir.f3d}" includes="*.js" />
+				<!-- includes="FPath3.js, FPoint3.js, FSize3.js, Matrix3D.js, FScene3D.js" /> -->
 			<fileset dir="${src.dir.fshape}" includes="*.js" />
 			<fileset dir="${src.dir.fcontrol}" includes="*.js" />
 		</concat>

@@ -19,22 +19,26 @@ frederickkPaper.FTime.FStepper = function() {
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
-	// private
-	var stepMillis = 1000; // set to default of 1s OR 1000ms
+	/*
+	 *	private
+	 */
+	var _stepMillis = 1000; // Set to default of 1s OR 1000ms
 	
-	var timeStart = 0.0;
-	var timeEnd = 0.0;
+	var _timeStart = 0.0;
+	var _timeEnd = 0.0;
 	
-	var bToggleStart = 0;
-	var bBeginStpper = false;
-	var bIn = false;
-	var bOut = false;
-	var bDone = true;
+	var _bToggleStart = 0;
+	var _bBeginStpper = false;
+	var _bIn = false;
+	var _bOut = false;
+	var _bDone = true;
 
-	var easing = 0.05;
-	var bEase = true;
+	var _easing = 0.05;
+	var _bEase = true;
 
-	// public
+	/*
+	 *	public
+	 */
 	this.delta = 1.0;
 	this.counter = -1;
 
@@ -49,19 +53,19 @@ frederickkPaper.FTime.FStepper = function() {
 	 *	
 	 */
 	this.toggle = function() {
-		if (bToggleStart == 0) {
-			bToggleStart = 1;
+		if (_bToggleStart == 0) {
+			_bToggleStart = 1;
 			this.stepOut();
 		}
 		else {
-			bToggleStart = 0;
+			_bToggleStart = 0;
 			this.stepIn();
 		}
 	}
 
 	// ------------------------------------------------------------------------
 	/**
-	 *	TODO: implement easing
+	 *	TODO: implement _easing
 	 *
 	 *	required function to keep the timing in sync
 	 *	with the application
@@ -70,45 +74,45 @@ frederickkPaper.FTime.FStepper = function() {
 	 *			the elapsed time of the application in seconds
 	 */
 	this.update = function(currentTime) {
-		if(bBeginStpper) {
-			bBeginStpper = false;
-			timeStart = currentTime;
-			if(bIn) {
-				timeEnd = frederickkPaper.roundDecimal( (currentTime + ((1.0 - this.delta) * stepMillis)), 3 );
+		if(_bBeginStpper) {
+			_bBeginStpper = false;
+			_timeStart = currentTime;
+			if(_bIn) {
+				_timeEnd = frederickkPaper.roundDecimal( (currentTime + ((1.0 - this.delta) * _stepMillis)), 3 );
 			}
 			else {
-				timeEnd = frederickkPaper.roundDecimal( (currentTime + (this.delta*stepMillis)), 3 );
+				_timeEnd = frederickkPaper.roundDecimal( (currentTime + (this.delta*_stepMillis)), 3 );
 			}
-			if(timeEnd <= currentTime) {
-				if(bIn) {
-					bIn = false;
+			if(_timeEnd <= currentTime) {
+				if(_bIn) {
+					_bIn = false;
 					this.delta = 1.0;
 				}
 				else {
-					bOut = false;
+					_bOut = false;
 					this.delta = 0.0;
 				}
 			}
 		}
-		if(bIn) {
-			this.delta = frederickkPaper.roundDecimal( (1.0 - ((timeEnd - currentTime) / stepMillis)), 3 );
-			// if(bEase) {
+		if(_bIn) {
+			this.delta = frederickkPaper.roundDecimal( (1.0 - ((_timeEnd - currentTime) / _stepMillis)), 3 );
+			// if(_bEase) {
 			// }
 
-			if(currentTime == timeEnd) {
-				bIn = false;
+			if(currentTime == _timeEnd) {
+				_bIn = false;
 				this.delta = 1.0;
 				this.counter++;
 				return;
 			}
 		}
-		else if(bOut) {
-			this.delta = frederickkPaper.roundDecimal( ((timeEnd - currentTime) / stepMillis), 3 );
-			// if(bEase) {
+		else if(_bOut) {
+			this.delta = frederickkPaper.roundDecimal( ((_timeEnd - currentTime) / _stepMillis), 3 );
+			// if(_bEase) {
 			// }
 
-			if(currentTime == timeEnd) {
-				bIn = false;
+			if(currentTime == _timeEnd) {
+				_bIn = false;
 				this.delta = 0.0;
 				this.counter++;
 				return;
@@ -123,11 +127,11 @@ frederickkPaper.FTime.FStepper = function() {
 	 *	
 	 */
 	this.stepIn = function() {
-		if(bIn) return;
+		if(_bIn) return;
 		if(this.delta == 1.0) return;
-		bBeginStpper = true;
-		bIn = true;
-		bOut = false;
+		_bBeginStpper = true;
+		_bIn = true;
+		_bOut = false;
 	};
 
 	/**
@@ -136,11 +140,11 @@ frederickkPaper.FTime.FStepper = function() {
 	 *	
 	 */
 	this.stepOut = function() {
-		if(bOut) return;
+		if(_bOut) return;
 		if(this.delta == 0.0) return;
-		bBeginStpper = true;
-		bOut = true;
-		bIn = false;
+		_bBeginStpper = true;
+		_bOut = true;
+		_bIn = false;
 	};
 
 	// ------------------------------------------------------------------------
@@ -148,13 +152,13 @@ frederickkPaper.FTime.FStepper = function() {
 	 *	@return if the object is stepping in
 	 */
 	this.isIn = function() {
-		return bIn;
+		return _bIn;
 	};
 	/**
 	 *	@return if the object is stepping out
 	 */
 	this.isOut = function() {
-		return bOut;
+		return _bOut;
 	};
 
 	/**
@@ -179,7 +183,7 @@ frederickkPaper.FTime.FStepper = function() {
 	 *	
 	 */
 	this.stop = function() {
-		bBeginStpper = bIn = bOut = false;
+		_bBeginStpper = _bIn = _bOut = false;
 	};
 
 
@@ -199,19 +203,19 @@ frederickkPaper.FTime.FStepper = function() {
 	 *			length of fade in milliseconds 
 	 */
 	this.setMillis = function(_millis) {
-		stepMillis = _millis;
-		stepMillis /= 1000;
+		_stepMillis = _millis;
+		_stepMillis /= 1000;
 	};
 
 	/**
 	 *	@param _val
 	 *			to ease or not to ease...
-	 *	@param _easing
-	 *			(optional) degree of easing
+	 *	@param __easing
+	 *			(optional) degree of _easing
 	 */
 	// this.setEasing = function(_val, _easeing) {
-	// 	bEase = _val;
-	// 	easing = _easeing;
+	// 	_bEase = _val;
+	// 	_easing = _easeing;
 	// };
 
 	// ------------------------------------------------------------------------

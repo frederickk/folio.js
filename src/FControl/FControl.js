@@ -26,12 +26,14 @@
  *	TODO: finish
  *
  */
-frederickkPaper.FControl = function(_divId) { // #divId
+frederickkPaper.FControl = function(divId) { // #divId
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
-	// public
-	this.divId = _divId;
+	/*
+	 *	public
+	 */
+	this.divId = divId;
 
 
 

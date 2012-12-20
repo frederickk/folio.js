@@ -21,11 +21,13 @@ frederickkPaper.FTime.FStopwatch = function() {
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
-	// private
-	var now;
-	var then;
-	var timeInMs = 0;
-	var bStart = 0;
+	/*
+	 *	private
+	 */
+	var _now;
+	var _then;
+	var _timeInMs = 0;
+	var _bStart = 0;
 
 
 
@@ -38,7 +40,7 @@ frederickkPaper.FTime.FStopwatch = function() {
 	 *	
 	 */
 	this.toggle = function() {
-		if (bStart == 0) {
+		if (_bStart == 0) {
 			this.start();
 		}
 		else {
@@ -53,9 +55,9 @@ frederickkPaper.FTime.FStopwatch = function() {
 	 */
 	this.start = function() {
 		// start
-		bStart = 1;
-		then = new Date();
-		then.setTime(then.getTime() - timeInMs);
+		_bStart = 1;
+		_then = new Date();
+		_then.setTime(_then.getTime() - _timeInMs);
 	};
 
 	/**
@@ -65,9 +67,9 @@ frederickkPaper.FTime.FStopwatch = function() {
 	 */
 	this.pause = function() {
 		// pause
-		bStart = 0;
-		now = new Date();
-		timeInMs = now.getTime() - then.getTime();
+		_bStart = 0;
+		_now = new Date();
+		_timeInMs = _now.getTime() - _then.getTime();
 	};
 
 	/**
@@ -76,8 +78,8 @@ frederickkPaper.FTime.FStopwatch = function() {
 	 *	
 	 */
 	this.reset = function() {
-		bStart = 0;
-		timeInMs = 0;
+		_bStart = 0;
+		_timeInMs = 0;
 	};
 
 
@@ -96,11 +98,11 @@ frederickkPaper.FTime.FStopwatch = function() {
 	 *	
 	 */
 	this.set = function(ms, run) {
-		timeInMs = ms;
-		(run == true) ? bStart = 0 : bStart = 1;
+		_timeInMs = ms;
+		(run == true) ? _bStart = 0 : _bStart = 1;
 
-		then = new Date();
-		then.setTime(then.getTime() - timeInMs);
+		_then = new Date();
+		_then.setTime(_then.getTime() - _timeInMs);
 		this.toggle();
 	};
 
@@ -115,11 +117,11 @@ frederickkPaper.FTime.FStopwatch = function() {
 	 *	
 	 */
 	this.get = function() {
-		if (bStart == 1)  {
-			now = new Date();
-			timeInMs = now.getTime() - then.getTime();
+		if (_bStart == 1)  {
+			_now = new Date();
+			_timeInMs = _now.getTime() - _then.getTime();
 		}
-		return timeInMs;
+		return _timeInMs;
 	};
 
 	/**
@@ -128,7 +130,7 @@ frederickkPaper.FTime.FStopwatch = function() {
 	 *	
 	 */
 	this.isRunning = function() {
-		return (bStart) ? true : false;
+		return (_bStart) ? true : false;
 	};
 
 };

@@ -20,6 +20,9 @@
 
 
 frederickkPaper.FPoint = paper.Point.extend({
+	// ------------------------------------------------------------------------
+	// Methods
+	// ------------------------------------------------------------------------
 	norm : function(startPt, stopPt) {
 		this.x = frederickkPaper.norm(this.x, start.x, stop.x);
 		this.y = frederickkPaper.norm(this.y, start.y, stop.y);

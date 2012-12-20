@@ -26,66 +26,25 @@
 
 
 
-/**
- *	TODO: maek FPath3 an extension of paper.Item
 frederickkPaper.F3D.FPath3 = this.FPath3 = Path.extend({
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
-
-
-	initialize : function(_scene) {
+	/*
+	 *	private
+	 */
+	_type: 'FPath3',
 	
-	},
+	// scene
+	_scene: null,
+	_matrix: null,
 
-});
-*/
+	// 3D points array
+	_points3: null,
 
-
-
-frederickkPaper.F3D.FPath3 = function(_scene) {
-	// ------------------------------------------------------------------------
-	// Properties
-	// ------------------------------------------------------------------------
-	// public
-
-	// temporary until I figure out how
-	// to extend paper.Item properly
-	this.path = new Path();
-
-	this.name = '';
-	this.closed = false;
-
-	this.opacity = 1.0;
-	this.blendMode = 'normal';
-	this.visible = true;
-	this.selected = false;
-
-	this.fillColor;
-
-	this.strokeColor;
-	this.strokeWidth = 1;
-	this.strokeCap;
-	this.strokeJoin;
-
-	this.rotation = new frederickkPaper.F3D.FPoint3();
-	this.translation = new frederickkPaper.F3D.FPoint3();
-
-
-	// private
-	var scene = _scene;
-
-	var points3 = [];
-
-	var matrix = new Matrix3D();
-
-	var rotationX = 0;
-	var rotationY = 0;
-	var rotationZ = 0;
-
-	var translationX = 0;
-	var translationY = 0;
-	var translationZ = 0;
+	// transformations
+	_rotation: null,
+	_translation: null,
 
 
 
@@ -93,98 +52,146 @@ frederickkPaper.F3D.FPath3 = function(_scene) {
 	// Methods
 	// ------------------------------------------------------------------------
 	/**
-	 *	@return path
-	 *			projected 2D path
+	 *
+	 *	@param scene
+	 *				the scene to attach this path to
+	 *
 	 */
-	this.draw = function() {
-		this.path.remove();
+	initialize : function(scene) {
+		this.base();
+		this._closed = false;
 
-		this.path = new Path();
-		this.path.name = this.name;
+		// setup scene
+		this._scene = scene;
 
-		for(var i=0; i<points3.length; i++) {
-			var pt3 = points3[i];
-			this.path.add( new Point( pt3.x2D(), pt3.y2D() ) );
-		}
+		// setup matrix
+		this._matrix = new Matrix3D();
 
-		// ! temporary see above !
-		this.path.opacity = this.opacity;
-		this.path.blendMode = this.blendMode;
-		this.path.visible = this.visible;
-		this.path.selected = this.selected;
+		// setup transformation
+		this._rotation = new frederickkPaper.F3D.FPoint3();
+		this._translation = new frederickkPaper.F3D.FPoint3();
 
-		this.path.fillColor = this.fillColor;
+		// setup 3D points array
+		this._points3 = [];
 
-		this.path.strokeColor = this.strokeColor;
-		this.path.strokeWidth = this.strokeWidth;
-		this.path.strokeCap = this.strokeCap;
-		this.path.strokeJoin = this.strokeJoin;
-
-		this.path.closed = this.closed;
-
-		return this.path;
-	};
-
+		this.name = 'FPath3';
+		// return this;
+	},
 
 
 	// ------------------------------------------------------------------------
 	// Sets
 	// ------------------------------------------------------------------------
 	/**
-	 *	@param _scene
+	 *	@param scene
 	 *			scene to associate points with
 	 */
-	this.addToScene = function(_scene) {
-		console.log( 'path3.addToScene' );
-		for(var i=0; i<points3.length; i++) {
-			points3[i].setup(_scene);
+	setScene : function(scene) {
+		this._scene = scene;
+		for(var i=0; i<this._points3.length; i++) {
+			this._points3[i].setup( this._scene );
 		}
-	};
+	},
 
 	/**
 	 *	@param _fpoint3
 	 *			add FPoint3 to path
 	 */
-	this.add = function(_fpoint3) {
-		points3[points3.length] = _fpoint3;
-	};
-
+	add3 : function(fpoint3) {
+		this._points3[ this._points3.length ] = fpoint3;
+	},
 
 	// ------------------------------------------------------------------------
-	this.translate = function(_x, _y, _z) {
-		translationX = _x != undefined ? _x : 0;
-		translationY = _y != undefined ? _y : 0;
-		translationZ = _z != undefined ? _z : 0;
-
-		for(var i=0; i<points3.length; i++) {
-			var pt3 = points3[i];
-			pt3.setX( (pt3.x() + translationX) );
-			pt3.setY( (pt3.y() + translationY) );
-			pt3.setZ( (pt3.z() + translationZ) );
+	/**
+	 *	@param arg0
+	 *			FPoint3 for transformation
+	 */
+	/**
+	 *	@param arg0
+	 *			x point
+	 *	@param arg1
+	 *			y point
+	 *	@param arg2
+	 *			z point
+	 */
+	translate : function(arg0, arg1, arg2) {
+		if(typeof arg0 == 'number') {
+			this._translation.x = arg0;
+			this._translation.y = arg1;
+			this._translation.z = arg2;
 		}
-	};
+		else if(typeof arg0 == 'object') { // FPoint3
+			this._translation.x = arg0.x;
+			this._translation.y = arg1.y;
+			this._translation.z = arg2.z;
+		}
+		else {
+			this._translation.x = arg0 != undefined ? arg0 : 0;
+			this._translation.y = arg1 != undefined ? arg1 : 0;
+			this._translation.z = arg2 != undefined ? arg2 : 0;
+		}
+
+		for(var i=0; i<this._points3.length; i++) {
+			var pt3 = this._points3[i];
+			pt3.setX( (pt3.x + this._translation.x) );
+			pt3.setY( (pt3.y + this._translation.y) );
+			pt3.setZ( (pt3.z + this._translation.z) );
+		}
+	},
+
+	/**
+	 *	@param val
+	 *			degree value for x axis rotation
+	 */
+	rotateX : function(val) {
+		this._rotation.x = val;
+	},
+
+	/**
+	 *	@param val
+	 *			degree value for y axis rotation
+	 */
+	rotateY : function(val) {
+		this._rotation.y = val;
+	},
+
+	/**
+	 *	@param val
+	 *			degree value for z axis rotation
+	 */
+	rotateZ : function(val) {
+		this._rotation.z = val;
+	},
 
 
 	// ------------------------------------------------------------------------
-	this.rotateX = function(val) {
-		rotationX = val;
-	};
-	this.rotateY = function(val) {
-		rotationY = val;
-	};
-	this.rotateZ = function(val) {
-		rotationZ = val;
-	};
-
-
+	// Gets
 	// ------------------------------------------------------------------------
-	// Sets
-	// ------------------------------------------------------------------------
-	this.get = function() {
-		return this.path;
-	};
+	get : function() {
+		this._segments = [];
+		for(var i=0; i<this._points3.length; i++) {
+			var pt3 = this._points3[i];
+			this.add( 
+				new Point( pt3.x2D(), pt3.y2D() )
+			);
+		}
+		return this;
+	}
 
 
-};
+
+	// // ------------------------------------------------------------------------
+	// return {
+	// 	Line: function() {
+	// 		return new Path(
+	// 			Point.read(arguments),
+	// 			Point.read(arguments)
+	// 		);
+	// 	}
+	// }
+
+	
+
+});
 
 

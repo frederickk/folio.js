@@ -18,10 +18,17 @@ console.log( '3 halbierte Würfel Loaded' );
 // ------------------------------------------------------------------------
 // Properties
 // ------------------------------------------------------------------------
+// the core frederickkPaper namespace
 var f = frederickkPaper;
+
+// the F3D namespace
 var f3d = f.F3D;
+
+// the FShape namespace
 var fshape = f.FShape;
 
+// initiate the scene, this is how the transformations are
+// interpolated for 3D geometry to appear on the screen
 var scene = new f3d.FScene3D();
 
 

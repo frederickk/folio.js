@@ -49,10 +49,10 @@ function Setup() {
 	path3 = new f3d.FPath3();
 	// add 3D points to this path
 	// FPoint3 takes 3 arguments (x, y, z)
-	path3.add( new f3d.FPoint3(-100,	-100,	 100) );
-	path3.add( new f3d.FPoint3( 100,	-100,	 100) );
-	path3.add( new f3d.FPoint3( 100,	-100,	-100) );
-	path3.add( new f3d.FPoint3(-100,	-100,	-100) );
+	path3.add3( new f3d.FPoint3(-100,	-100,	 100) );
+	path3.add3( new f3d.FPoint3( 100,	-100,	 100) );
+	path3.add3( new f3d.FPoint3( 100,	-100,	-100) );
+	path3.add3( new f3d.FPoint3(-100,	-100,	-100) );
 	// use FColor to give the field a random RGB color
 	path3.fillColor = new f.FColor().random();
 	path3.closed = true;

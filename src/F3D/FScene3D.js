@@ -30,34 +30,32 @@
  *
  *	TODO: fix Z order
  */
-frederickkPaper.F3D.FScene3D = function() {
+frederickkPaper.F3D.FScene3D = this.FScene3D = function() {
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
-	// private
-	var group;
+	/*
+	 *	private
+	 */
+	var _mode = 'PERSPECTIVE'; // default
+	var _matrix = null;
 
-	var mode;
-	var matrix = new Matrix3D();
+	var _half = new frederickkPaper.F3D.FSize3(0,0,0);
 
-	var halfWidth;
-	var halfHeight;
+	// transfomrations
+	var _sceneScale = 1;
+	var _rotation = new frederickkPaper.F3D.FPoint3(0,0,0);
 
-	var rotationX = 0;
-	var rotationY = 0;
-	var rotationZ = 0;
-	var sceneScale = 1;
+	// items
+	var _numPoints = 0;
+	var _itemsArr = null;
+	var _group = null;
 
-	var focalLength = 0;
-	var sceneWidth = 0;
-	var sceneHeight = 0;
+	/*
+	 *	public
+	 */
+	this.bounds = new frederickkPaper.F3D.FSize3(0,0,0);
 
-	var numPoints = 0;
-
-	var items = [];
-
-
-	// public
 	this.points3D = [];
 	this.points2D = [];
 
@@ -67,122 +65,140 @@ frederickkPaper.F3D.FScene3D = function() {
 	// Methods
 	// ------------------------------------------------------------------------
 	/**
-	 *	@param _width
-	 *				width of scene
- 	 *				default: view.bounds.width
-	 *	@param _height
-	 *				height of scene
- 	 *				default: view.bounds.height
-	 *	@param _focalLength
-	 *				focal length of scene
- 	 *				default: 1000
-	 *	@param _mode
-	 *				'PERSPECTIVE' objects scale to perspective
-	 *				'ORTHO' objects do not scale (isometric)
-	 *
-	 */
-	this.setup = function(_width, _height, _focalLength, _mode) {
-		focalLength = _focalLength || 1000;
-		sceneWidth  = _width || paper.view.bounds.width;
-		sceneHeight = _height || paper.view.bounds.height;
-
-		halfWidth = sceneWidth*0.5;
-		halfHeight = sceneHeight*0.5;
-
-		mode = _mode != undefined ? _mode : 'PERSPECTIVE';
-		this.setMode(mode);
-
-		group = new paper.Group();
-	};
-
-	// ------------------------------------------------------------------------
-	this.draw = function() {
-		matrix.identity();
-
-		if(mode == 'ORTHO') ortho();
-		else perspective();
-
-		matrix.scale(sceneScale, sceneScale, sceneScale);
-		matrix.rotateX(rotationX);
-		matrix.rotateY(rotationY);
-		matrix.rotateZ(rotationZ);
-		matrix.translate(0, 0, focalLength);
-
-		var transformed = matrix.transformArray(this.points3D);
-		
-		for(var i=0; i<numPoints; i++) {
-			var i3 = i*3;
-			var i2 = i*2;
-
-			// var x = this.points3D[i3];
-			// var y = this.points3D[i3+1];
-			// var z = this.points3D[i3+2];
-			var x = transformed[i3];
-			var y = transformed[i3+1];
-			var z = transformed[i3+2];
-			
-			var scale = focalLength/(z+focalLength);
-
-			this.points2D[ i2 ]   = x*scale+halfWidth;
-			this.points2D[ i2+1 ] = y*scale+halfHeight;
-		}
-
-		console.log( 'items.length\t' + items.length);
-
-		group.removeChildren(); // clear out in between draws
-		for(var i=0; i<items.length; i++) {
-			var paths = items[i].draw();
-			if(paths != null) group.appendTop( paths );
-		}
-
-		// TODO: fix this scaling issue
-		if(mode == 'ORTHO') group.scale(200);
-
-		return group;
-	};
-
-	// ------------------------------------------------------------------------
-	this.setupPoint = function(x, y, z) {
-		var returnVal = numPoints;
-
-		this.points2D[ this.points2D.length ] = 0;
-		this.points2D[ this.points2D.length ] = 0;
-
-		this.points3D[ this.points3D.length ] = x;
-		this.points3D[ this.points3D.length ] = y;
-		this.points3D[ this.points3D.length ] = z;
-
-		numPoints++;
-
-		return returnVal;
-	};
-
-
-	// ------------------------------------------------------------------------
-	/**
 	 * matrix for isometric projection
 	 *
 	 *	TODO: figure out why this has to be
 	 *	configured like this?
 	 */
-	var ortho = function() {
-		matrix.makeOrtho( 
-			-halfHeight, halfHeight,
-			halfHeight, -halfHeight,
-			-halfHeight, halfHeight
+	this._ortho = function() {
+		_matrix.makeOrtho( 
+			-_half.height, _half.height,
+			_half.height, -_half.height,
+			-_half.height, _half.height
 		);
 	};
 
 	/**
-	 * matrix for perspective projection
+	 * _perspective( for perspective projection
 	 */
-	var perspective = function() {
-		matrix.makePerspective( 
+	this._perspective = function() {
+		_matrix.makePerspective( 
 			50,
 			1,
-			focalLength,
-			focalLength*2
+			this.bounds.depth,
+			this.bounds.depth*4 //*2
 		);
+	};
+
+
+	// ------------------------------------------------------------------------
+	/**
+	 *	@param width
+	 *				width of scene
+ 	 *				default: view.bounds.width
+	 *	@param height
+	 *				height of scene
+ 	 *				default: view.bounds.height
+	 *	@param focalLength
+	 *				focal length of scene
+ 	 *				default: 1000
+	 *	@param mode
+	 *				'PERSPECTIVE' objects scale to perspective
+	 *				'ORTHO' objects do not scale (isometric)
+	 *
+	 */
+	this.setup = function(width, height, focalLength, mode) {
+		// setup point arrays
+		this.points3D = [];
+		this.points2D = [];
+
+		// setup items array
+		_itemsArr = [];
+
+		// setup matrix
+		_matrix = new Matrix3D();
+
+		// setup world
+		this.bounds.width  = width || paper.view.bounds.width;
+		this.bounds.height = height || paper.view.bounds.height;
+		this.bounds.depth = focalLength || 1000;
+
+		_half.width = this.bounds.width*0.5;
+		_half.height = this.bounds.height*0.5;
+		_half.depth = this.bounds.depth*0.5;
+
+		// set mode
+		this.setMode(mode);
+
+		// setup up group for items
+		_group = new paper.Group();
+	};
+
+	// ------------------------------------------------------------------------
+	this.draw = function() {
+		_matrix.identity();
+
+		if(_mode == 'ORTHO') this._ortho();
+		else this._perspective();
+
+		_matrix.scale(_sceneScale, _sceneScale, _sceneScale);
+		_matrix.rotateX(_rotation.x);
+		_matrix.rotateY(_rotation.y);
+		_matrix.rotateZ(_rotation.z);
+		_matrix.translate(0, 0, this.bounds.depth);
+
+		var transformed = _matrix.transformArray(this.points3D);
+		
+		for(var i=0; i<_numPoints; i++) {
+			var i3 = i*3;
+			var i2 = i*2;
+
+			// var x = this.points3D[ i3 ];
+			// var y = this.points3D[ i3+1 ];
+			// var z = this.points3D[ i3+2 ];
+			var x = transformed[ i3 ];
+			var y = transformed[ i3+1 ];
+			var z = transformed[ i3+2 ];
+			
+			var scale = this.bounds.depth/(z+this.bounds.depth);
+
+			this.points2D[ i2 ]   = x*scale+_half.width;
+			this.points2D[ i2+1 ] = y*scale+_half.height;
+		}
+
+		_group.removeChildren(); // clear out in between draws
+		for(var i=0; i<_itemsArr.length; i++) {
+			var paths = _itemsArr[i].get();
+			
+			console.log( paths._points3 );
+			if( paths.children != null ) {
+				console.log( paths.children.length );
+			}
+
+			if(paths != null) _group.appendTop( paths );
+		}
+		console.log( '---------' );
+
+		// TODO: fix this scaling issue
+		if(_mode == 'ORTHO') _group.scale(200);
+
+		return _group;
+	};
+
+	// ------------------------------------------------------------------------
+	this.setupPoint = function(arg0, arg1, arg2) {
+		var returnVal = _numPoints;
+
+		this.points2D[ this.points2D.length ] = 0;
+		this.points2D[ this.points2D.length ] = 0;
+
+		this.points3D[ this.points3D.length ] = arg0;
+		this.points3D[ this.points3D.length ] = arg1;
+		this.points3D[ this.points3D.length ] = arg2;
+
+		_numPoints++;
+
+		return returnVal;
 	};
 
 
@@ -190,24 +206,59 @@ frederickkPaper.F3D.FScene3D = function() {
 	// ------------------------------------------------------------------------
 	// Sets
 	// ------------------------------------------------------------------------
-	this.setMode = function(_mode) {
-		mode = _mode;
+	/**
+	 *	@param mode
+	 *				'PERSPECTIVE' objects scale to perspective
+	 *				'ORTHO' objects do not scale (isometric)
+	 */
+	this.setMode = function(mode) {
+		_mode = mode != undefined ? mode : 'PERSPECTIVE';
 	};
 
+	/**
+	 *	@param item
+	 *			an FPath3 item to add to the scene
+	 */
+	/**
+	 *	@param item
+	 *			an array of FPath3 items to add to the scene
+	 */
 	this.addItem = function(item) {
-		console.log( 'scene.addItem' );
-		items[items.length] = item;
-		item.addToScene(this);
+		if(item.length != null || item.length > 0) {
+			for(var i=0; i<item.length; i++) {
+				_itemsArr[ _itemsArr.length ] = item[i];
+				item[i].setScene(this);
+			}
+		}
+		else {
+			_itemsArr[ _itemsArr.length ] = item;
+			item.setScene(this);
+		}
 	};
 	
+	// ------------------------------------------------------------------------
+	/**
+	 *	@param val
+	 *			degree value for x axis rotation
+	 */
 	this.rotateX = function(val) {
-		rotationX = val;
+		_rotation.setX(val);
 	};
+
+	/**
+	 *	@param val
+	 *			degree value for y axis rotation
+	 */
 	this.rotateY = function(val) {
-		rotationY = val;
+		_rotation.setY(val);
 	};
+
+	/**
+	 *	@param val
+	 *			degree value for z axis rotation
+	 */
 	this.rotateZ = function(val) {
-		rotationZ = val;
+		_rotation.setZ(val);
 	};
 
 
@@ -216,32 +267,33 @@ frederickkPaper.F3D.FScene3D = function() {
 	// Gets
 	// ------------------------------------------------------------------------
 	/**
-	 *	@return scene path items as group 
+	 *	@return scene path items as _group 
 	 */
 	this.get = function() {
-		return group;
+		return _group;
 	};
 
 	/**
 	 *	@return scene size as array [width, height, depth]
 	 */
-	this.getSize = function() {
-		return [ sceneWidth, sceneHeight, focalLength ];
+	this.getBounds = function() {
+		return [ this.bounds.width, this.bounds.height, this.bounds.depth ];
 	};
 
 	/**
-	 *	@return scene transformation matrix
+	 *	@return scene transformation _matrix
 	 */
 	this.getMatrix = function() {
-		return matrix;
+		return _matrix;
 	};
 
 	/**
 	 *	@return scene focal length
 	 */
 	this.getFocalLength = function() {
-		return focalLength;
+		return this.bounds.depth;
 	};
+
 
 };
 

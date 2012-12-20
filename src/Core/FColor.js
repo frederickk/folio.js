@@ -32,14 +32,19 @@ frederickkPaper.FColor = function() {
 	// ------------------------------------------------------------------------
 	// Methods
 	// ------------------------------------------------------------------------
-	// private
-	var componentToHex = function(col) {
+	/*
+	 *	private
+	 */
+	var _componentToHex = function(col) {
 		var hex = c.toString(16);
 		return hex.length == 1 ? '0' + hex : hex;
 	};
 
 
-	// public
+	// ------------------------------------------------------------------------
+	/*
+	 *	public
+	 */
 	this.lerpRGBColor = function(c1,c2, amt) {
 		var r = frederickkPaper.lerp(c1.red,	c2.red,		amt);
 		var g = frederickkPaper.lerp(c1.green,	c2.green,	amt);
@@ -115,7 +120,7 @@ frederickkPaper.FColor = function() {
 			r = col.red*255;
 			g = col.green*255;
 			b = col.blue*255;
-			str = '#'+ componentToHex(r) + componentToHex(g) + componentToHex(b);
+			str = '#'+ _componentToHex(r) + _componentToHex(g) + _componentToHex(b);
 		}
 		catch(err) {
 			console.log( err );

@@ -27,31 +27,36 @@
 
 
 /**
- *	@param x
+ *	@param arg0
  *			x coordinate
- *	@param y
+ *	@param arg1
  *			y coordinate
- *	@param z
+ *	@param arg2
  *			z coordinate
  */
-frederickkPaper.F3D.FPoint3 = function(_x, _y, _z) {
+frederickkPaper.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
-	// public
-	var x = _x != undefined ? _x : 0;
-	var y = _y != undefined ? _y : 0;
-	var z = _z != undefined ? _z : 0;
+	/*
+	 *	private
+	 */
+	var _scene = null;
+
+	var _xIndex = 0;
+	var _yIndex = 0;
+	var _zIndex = 0;
+	
+	var _xIndex2D = 0;
+	var _yIndex2D = 0;
 
 
-	// private
-	var scene = null;
-
-	var xIndex = 0;
-	var yIndex = 0;
-	var zIndex = 0;
-	var xIndex2D = 0;
-	var yIndex2D = 0;
+	/*
+	 *	public
+	 */
+	this.x = arg0 != undefined ? arg0 : 0;
+	this.y = arg1 != undefined ? arg1 : 0;
+	this.z = arg2 != undefined ? arg2 : 0;
 
 
 
@@ -63,21 +68,61 @@ frederickkPaper.F3D.FPoint3 = function(_x, _y, _z) {
 	 *			the scene with which the points are
 	 *			associated with
 	 */
-	this.setup = function(_scene) {
-		console.log( 'fpoint.setup' );
-		scene = _scene;
+	this.setup = function(scene) {
+		// setup scene
+		_scene = scene;
 
-		var index = scene.setupPoint(x, y, z);
-
+		var index = _scene.setupPoint(this.x, this.y, this.z);
 		var i3 = index*3;
 		var i2 = index*2;
 
-		xIndex = i3;
-		yIndex = i3+1;
-		zIndex = i3+2;
+		// 3D indicies
+		_xIndex = i3;
+		_yIndex = i3+1;
+		_zIndex = i3+2;
 
-		xIndex2D = i2;
-		yIndex2D = i2+1;
+		// 2D indicies
+		_xIndex2D = i2;
+		_yIndex2D = i2+1;
+	};
+
+
+	// ------------------------------------------------------------------------
+	/**
+	 *	
+	 *	@return random point
+	 *
+	 */
+	/**
+	 *	@param minx
+	 *				minmum x (default: 0)
+	 *	@param maxx
+	 *				maximum x (default: view.bounds.width)
+	 *	@param miny
+	 *				minmum y (default: 0)
+	 *	@param maxy
+	 *				maximum y (default: view.bounds.height)
+	 *	@param minz
+	 *				minmum z (default: 0)
+	 *	@param maxz
+	 *				maximum z (default: 1000)
+	 *
+	 *	@return random point
+	 *
+	 */
+	this.random = function(minx, maxx, miny, maxy, minz, maxz) {
+		minx = (minx != undefined) ? minx : 0;
+		maxx = (maxx != undefined) ? maxx : view.bounds.width;
+		miny = (miny != undefined) ? miny : 0;
+		maxy = (maxy != undefined) ? maxy : view.bounds.height;
+		minz = (minz != undefined) ? miny : 0;
+		maxz = (maxz != undefined) ? maxy : 1000;
+
+		this.x = frederickkPaper.random(minx, maxx);
+		this.y = frederickkPaper.random(miny, maxy);
+		this.z = frederickkPaper.random(minz, maxz);
+
+		return new frederickkPaper.F3D.FPoint3(this.x, this.y, this.z);
 	};
 
 
@@ -85,23 +130,41 @@ frederickkPaper.F3D.FPoint3 = function(_x, _y, _z) {
 	// ------------------------------------------------------------------------
 	// Sets
 	// ------------------------------------------------------------------------
-	this.setX = function(value) {
-		if( scene != null ) scene.points3D[xIndex] = value;
-		x = value;
+	/**
+	 *
+	 *	@param val
+	 *			set x value
+	 */
+	this.setX = function(val) {
+		if( _scene != null ) _scene.points3D[_xIndex] = val;
+		this.x = val;
 	};
-	this.setY = function(value) {
-		if( scene != null ) scene.points3D[yIndex] = value;
-		y = value;
-	};
-	this.setZ = function(value) {
-		if( scene != null ) scene.points3D[zIndex] = value;
-		z = value;
+	
+	/**
+	 *
+	 *	@param val
+	 *			set y value
+	 */
+	this.setY = function(val) {
+		if( _scene != null ) _scene.points3D[_yIndex] = val;
+		this.y = val;
 	};
 
-	this.set = function(_x, _y, _z) {
-		this.setX(_x);
-		this.setY(_y);
-		this.setZ(_z);
+	/**
+	 *
+	 *	@param val
+	 *			set z value
+	 */
+	this.setZ = function(val) {
+		if( _scene != null ) _scene.points3D[_zIndex] = val;
+		this.z = val;
+	};
+
+	// ------------------------------------------------------------------------
+	this.set = function(arg0, arg1, arg2) {
+		this.setX(arg0);
+		this.setY(arg1);
+		this.setZ(arg2);
 	};
 
 
@@ -110,31 +173,10 @@ frederickkPaper.F3D.FPoint3 = function(_x, _y, _z) {
 	// Gets
 	// ------------------------------------------------------------------------
 	/**
-	 *	Get a copy of this point.
+	 *	@return a copy of this point
 	 */
 	this.get = function() {
-		return new frederickkPaper.F3D.FPoint3(x,y,z);
-	};
-
-
-	// ------------------------------------------------------------------------
-	/**
-	 *	@return 3D x
-	 */
-	this.x = function() {
-		return x;
-	};
-	/**
-	 *	@return 3D y
-	 */
-	this.y = function() {
-		return y;
-	};
-	/**
-	 *	@return 3D z
-	 */
-	this.z = function() {
-		return z;
+		return new frederickkPaper.F3D.FPoint3(this.x, this.y, this.z);
 	};
 
 
@@ -143,19 +185,19 @@ frederickkPaper.F3D.FPoint3 = function(_x, _y, _z) {
 	 *	@return projected 2D x
 	 */
 	this.x2D = function() {
-		return scene.points2D[xIndex2D];
+		return _scene.points2D[_xIndex2D];
 	};
 
 	/**
 	 *	@return projected 2D y
 	 */
 	this.y2D = function() {
-		return scene.points2D[yIndex2D];
+		return _scene.points2D[_yIndex2D];
 	};
 
-
+	// ------------------------------------------------------------------------
 	this.getSceneIndex = function() {
-		return sceneIndex;
+		return _sceneIndex;
 	};
 
 
@@ -166,7 +208,7 @@ frederickkPaper.F3D.FPoint3 = function(_x, _y, _z) {
 	 *	@return the magnitude of the point
 	 */
 	this.mag = function() {
-		return Math.sqrt(x*x + y*y + z*z);
+		return Math.sqrt(this.x*this.x + this.y*this.y + this.z*this.z);
 	};
 
 
@@ -174,42 +216,63 @@ frederickkPaper.F3D.FPoint3 = function(_x, _y, _z) {
 	/**
 	 *	Add a point to this point
 	 *
-	 *	@param _fpoint3
-	 *			the point to be added
+	 *	@param arg0
+	 *			the FPoint3 to be added
 	 */
-	this.add = function(_fpoint3) {
-		x += _fpoint3.x();
-		y += _fpoint3.y();
-		z += _fpoint3.z();
-		this.set(x,y,z);
-	};
-	this.add = function(_x, _y, _z) {
-		x += _x;
-		y += _y;
-		z += _z;
-		this.set(x,y,z);
-
+	/**
+	 *	Add a point to this point
+	 *
+	 *	@param arg0
+	 *			the x point to be added
+	 *	@param arg1
+	 *			the y point to be added
+	 *	@param arg2
+	 *			the z point to be added
+	 */
+	this.add = function(arg0, arg1, arg2) {
+		if(typeof arg0 == 'number') {
+			this.x += arg0;
+			this.y += arg1;
+			this.z += arg2;
+		}
+		else if(typeof arg0 == 'object') { // FPoint3
+			this.x += arg0.x();
+			this.y += arg0.y();
+			this.z += arg0.z();
+		}
+		this.set(this.x, this.y, this.z);
 	};
 
 
 	// ------------------------------------------------------------------------
 	/**
-	 *	Subtract a point from this point
+	 *	Subtract a point to this point
 	 *
-	 *	@param _fpoint3
-	 *			the point to be subtracted
+	 *	@param arg0
+	 *			the FPoint3 to be subtracted
 	 */
-	this.sub = function(_fpoint3) {
-		x -= _fpoint3.x();
-		y -= _fpoint3.y();
-		z -= _fpoint3.z();
-		this.set(x,y,z);
-	};
-	this.sub = function(_x, _y, _z) {
-		x -= _x;
-		y -= _y;
-		z -= _z;
-		this.set(x,y,z);
+	/**
+	 *	Subtract a point to this point
+	 *
+	 *	@param arg0
+	 *			the x point to be subtracted
+	 *	@param arg1
+	 *			the y point to be subtracted
+	 *	@param arg2
+	 *			the z point to be subtracted
+	 */
+	this.sub = function(arg0, arg1, arg2) {
+		if(typeof arg0 == 'number') {
+			this.x -= arg0;
+			this.y -= arg1;
+			this.z -= arg2;
+		}
+		else if(typeof arg0 == 'object') { // FPoint3
+			this.x -= arg0.x();
+			this.y -= arg0.y();
+			this.z -= arg0.z();
+		}
+		this.set(this.x, this.y, this.z);
 	};
 
 
@@ -221,10 +284,10 @@ frederickkPaper.F3D.FPoint3 = function(_x, _y, _z) {
 	 *			the value to scale by
 	 */
 	this.scale = function(n) {
-		x *= n;
-		y *= n;
-		z *= n;
-		this.set(x,y,z);
+		this.x *= n;
+		this.y *= n;
+		this.z *= n;
+		this.set(this.x, this.y, this.z);
 	};
 
 
@@ -232,20 +295,31 @@ frederickkPaper.F3D.FPoint3 = function(_x, _y, _z) {
 	/**
 	 *	Multiply each element of one point by the elements of another point.
 	 *
-	 *	@param _fpoint3
-	 *			the point to multiply by
+	 *	@param arg0
+	 *			the FPoint3 to be multiplied
 	 */
-	this.mult = function(_fpoint3) {
-		x *= _fpoint3.x();
-		y *= _fpoint3.y();
-		z *= _fpoint3.z();
-		this.set(x,y,z);
-	};
-	this.mult = function(_x, _y, _z) {
-		x *= _x;
-		y *= _y;
-		z *= _z;
-		// this.set(x,y,z);
+	/**
+	 *	Multiply each element of one point by the elements of another point.
+	 *
+	 *	@param arg0
+	 *			the x point to be multiplied
+	 *	@param arg1
+	 *			the y point to be multiplied
+	 *	@param arg2
+	 *			the z point to be multiplied
+	 */
+	this.mult = function(arg0, arg1, arg2) {
+		if(typeof arg0 == 'number') {
+			this.x *= arg0;
+			this.y *= arg1;
+			this.z *= arg2;
+		}
+		else if(typeof arg0 == 'object') { // FPoint3
+			this.x *= arg0.x();
+			this.y *= arg0.y();
+			this.z *= arg0.z();
+		}
+		this.set(this.x, this.y, this.z);
 	};
 
 
@@ -253,21 +327,31 @@ frederickkPaper.F3D.FPoint3 = function(_x, _y, _z) {
 	/**
 	 *	Divide each element of one point by the elements of another point.
 	 *
-	 *	@param _fpoint3
-	 *			the point to multiply by
+	 *	@param arg0
+	 *			the FPoint3 to be divided
 	 */
-	this.div = function(_fpoint3) {
-		x /= _fpoint3.x();
-		y /= _fpoint3.y();
-		z /= _fpoint3.z();
-		this.set(x,y,z);
-	};
-	this.div = function(_x, _y, _z) {
-		x /= _x;
-		y /= _y;
-		z /= _z;
-		this.set(x,y,z);
-
+	/**
+	 *	Divide each element of one point by the elements of another point.
+	 *
+	 *	@param arg0
+	 *			the x point to be divided
+	 *	@param arg1
+	 *			the y point to be divided
+	 *	@param arg2
+	 *			the z point to be divided
+	 */
+	this.div = function(arg0, arg1, arg2) {
+		if(typeof arg0 == 'number') {
+			this.x /= arg0;
+			this.y /= arg1;
+			this.z /= arg2;
+		}
+		else if(typeof arg0 == 'object') { // FPoint3
+			this.x /= arg0.x();
+			this.y /= arg0.y();
+			this.z /= arg0.z();
+		}
+		this.set(this.x, this.y, this.z);
 	};
 
 
@@ -281,9 +365,9 @@ frederickkPaper.F3D.FPoint3 = function(_x, _y, _z) {
 	 *	@return the Euclidean distance between
 	 */
 	this.getDistance = function(_fpoint3) {
-		var dx = x - _fpoint3.x();
-		var dy = y - _fpoint3.y();
-		var dz = z - _fpoint3.z();
+		var dx = this.x - _fpoint3.x();
+		var dy = this.y - _fpoint3.y();
+		var dz = this.z - _fpoint3.z();
 		return Math.sqrt(dx*dx + dy*dy + dz*dz);
 	};
 
@@ -321,7 +405,7 @@ frederickkPaper.F3D.FPoint3 = function(_x, _y, _z) {
 
 	// ------------------------------------------------------------------------
 	this.toString = function() {
-		return '[ ' + x + ', ' + y + ', ' + z + ' ]';
+		return '[ ' + this.x + ', ' + this.y + ', ' + this.z + ' ]';
 	};
 
 
@@ -329,9 +413,8 @@ frederickkPaper.F3D.FPoint3 = function(_x, _y, _z) {
 	/**
 	 *	Return a representation of this point as an array.
 	 */
-	 
 	this.array = function() {
-		return [x, y, z];
+		return [this.x, this.y, this.z];
 	};
 
 };

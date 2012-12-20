@@ -41,13 +41,13 @@ var background;
 // Setup
 // ------------------------------------------------------------------------
 function Setup() {
-	// setup background
+	// Setup background
 	background = new paper.Path.Rectangle( view.bounds.topLeft, view.bounds.bottomRight );
 
 
 	// initiate move FStepper
 	move = new ftime.FStepper();
-	// set the time length to 9 seconds
+	// Set the time length to 9 seconds
 	move.setSeconds( 9 );
 
 	// start point
@@ -57,7 +57,7 @@ function Setup() {
 
 	// initiate blend FStepper
 	blend = new ftime.FStepper();
-	// set the time length to 18000 milliseconds (== 18 seconds)
+	// Set the time length to 18000 milliseconds (== 18 seconds)
 	blend.setMillis( 18000 );
 
 	// swap colors
