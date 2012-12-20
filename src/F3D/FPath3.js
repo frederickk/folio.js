@@ -178,18 +178,6 @@ frederickkPaper.F3D.FPath3 = this.FPath3 = Path.extend({
 		return this;
 	}
 
-
-
-	// // ------------------------------------------------------------------------
-	// return {
-	// 	Line: function() {
-	// 		return new Path(
-	// 			Point.read(arguments),
-	// 			Point.read(arguments)
-	// 		);
-	// 	}
-	// }
-
 	
 
 });
