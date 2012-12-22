@@ -52,10 +52,10 @@ function Setup() {
 	cross.visible = false;
 
 	// initiate draw group
-	group10 = new paper.Group();
+	group10 = new Group();
 
 	// initiate background
-	background = new paper.Path.Rectangle( view.bounds.topLeft, view.bounds.bottomRight );
+	background = new Path.Rectangle( view.bounds.topLeft, view.bounds.bottomRight );
 
 };
 

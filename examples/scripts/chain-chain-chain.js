@@ -53,10 +53,10 @@ var hitOptions = {
 // ------------------------------------------------------------------------
 function Setup() {
 	// Setup background
-	background = new paper.Path.Rectangle(view.bounds.topLeft, view.bounds.bottomRight);
+	background = new Path.Rectangle(view.bounds.topLeft, view.bounds.bottomRight);
 
 	// draw dots
-	dots = new paper.Group();
+	dots = new Group();
 
 	var grid;
 	var size;
@@ -168,7 +168,7 @@ function onMouseUp(event) {
 
 // ------------------------------------------------------------------------
 function onMouseDown(event) {
-	// temp = new paper.Path.Circle( event.point, 6 );
+	// temp = new Path.Circle( event.point, 6 );
 	// dots.appendTop(temp);
 
 	var hitResult = project.hitTest(event.point, hitOptions);

@@ -21,6 +21,11 @@
 
 
 
+/**
+ *
+ *	TODO: make an extension of FPath3 || FBox
+ *
+ */
 frederickkPaper.FShape.FBillBox = function(scene) {
 	// ------------------------------------------------------------------------
 	// Properties
@@ -34,9 +39,8 @@ frederickkPaper.FShape.FBillBox = function(scene) {
 
 	var _size     = new frederickkPaper.F3D.FPoint3();
 	var _sizeTemp = new frederickkPaper.F3D.FPoint3();
-// 	rotation: new frederickkPaper.F3D.FPoint3();
 
-	var _bContainer = true;
+	var _bBoundingBox = true;
 	var _bRotation = false;
 
 	// face number
@@ -50,69 +54,69 @@ frederickkPaper.FShape.FBillBox = function(scene) {
 	var _RIGHT	= 4;
 	var _BACK	= 5;
 
-	// face points
+// face points
 	var _pointsFRONT = [
-		new frederickkPaper.F3D.FPoint3(-0.5, -0.5, -0.5), //corner
-		new frederickkPaper.F3D.FPoint3( 0.0, -0.5, -0.5),
-		new frederickkPaper.F3D.FPoint3( 0.5, -0.5, -0.5), //corner
-		new frederickkPaper.F3D.FPoint3( 0.5,	0.0, -0.5),
-		new frederickkPaper.F3D.FPoint3( 0.5,	0.5, -0.5), //corner
-		new frederickkPaper.F3D.FPoint3( 0.0,	0.5, -0.5),
-		new frederickkPaper.F3D.FPoint3(-0.5,	0.5, -0.5), //corner
-		new frederickkPaper.F3D.FPoint3(-0.5,	0.0, -0.5)
+		new frederickkPaper.F3D.FPoint3(-0.5,	-0.5,	-0.5),	// corner
+		new frederickkPaper.F3D.FPoint3( 0.0,	-0.5,	-0.5),
+		new frederickkPaper.F3D.FPoint3( 0.5,	-0.5,	-0.5),	// corner
+		new frederickkPaper.F3D.FPoint3( 0.5,	0.0,	-0.5),
+		new frederickkPaper.F3D.FPoint3( 0.5,	0.5,	-0.5),	// corner
+		new frederickkPaper.F3D.FPoint3( 0.0,	0.5,	-0.5),
+		new frederickkPaper.F3D.FPoint3(-0.5,	0.5,	-0.5),	// corner
+		new frederickkPaper.F3D.FPoint3(-0.5,	0.0,	-0.5)
 	];
 	
 	var _pointsTOP = [
-		new frederickkPaper.F3D.FPoint3(-0.5, -0.5,	0.5), //corner
-		new frederickkPaper.F3D.FPoint3( 0.0, -0.5,	0.5),
-		new frederickkPaper.F3D.FPoint3( 0.5, -0.5,	0.5), //corner
-		new frederickkPaper.F3D.FPoint3( 0.5, -0.5,	0.0),
-		new frederickkPaper.F3D.FPoint3( 0.5, -0.5, -0.5), //corner
-		new frederickkPaper.F3D.FPoint3( 0.0, -0.5, -0.5),
-		new frederickkPaper.F3D.FPoint3(-0.5, -0.5, -0.5), //corner
-		new frederickkPaper.F3D.FPoint3(-0.5, -0.5,	0.0)
+		new frederickkPaper.F3D.FPoint3(-0.5,	-0.5,	0.5),	// corner
+		new frederickkPaper.F3D.FPoint3( 0.0,	-0.5,	0.5),
+		new frederickkPaper.F3D.FPoint3( 0.5,	-0.5,	0.5),	// corner
+		new frederickkPaper.F3D.FPoint3( 0.5,	-0.5,	0.0),
+		new frederickkPaper.F3D.FPoint3( 0.5,	-0.5,	-0.5),	// corner
+		new frederickkPaper.F3D.FPoint3( 0.0,	-0.5,	-0.5),
+		new frederickkPaper.F3D.FPoint3(-0.5,	-0.5,	-0.5),	// corner
+		new frederickkPaper.F3D.FPoint3(-0.5,	-0.5,	0.0)
 	];
 
 	var _pointsBOTTOM = [
-		new frederickkPaper.F3D.FPoint3(-0.5, 0.5,	0.5), //corner
+		new frederickkPaper.F3D.FPoint3(-0.5, 0.5,	0.5),	// corner
 		new frederickkPaper.F3D.FPoint3( 0.0, 0.5,	0.5),
-		new frederickkPaper.F3D.FPoint3( 0.5, 0.5,	0.5), //corner
+		new frederickkPaper.F3D.FPoint3( 0.5, 0.5,	0.5),	// corner
 		new frederickkPaper.F3D.FPoint3( 0.5, 0.5,	0.0),
-		new frederickkPaper.F3D.FPoint3( 0.5, 0.5, -0.5), //corner
-		new frederickkPaper.F3D.FPoint3( 0.0, 0.5, -0.5),
-		new frederickkPaper.F3D.FPoint3(-0.5, 0.5, -0.5), //corner
+		new frederickkPaper.F3D.FPoint3( 0.5, 0.5,	-0.5),	// corner
+		new frederickkPaper.F3D.FPoint3( 0.0, 0.5,	-0.5),
+		new frederickkPaper.F3D.FPoint3(-0.5, 0.5,	-0.5),	// corner
 		new frederickkPaper.F3D.FPoint3(-0.5, 0.5,	0.0)
 	];
 	var _pointsLEFT = [
-		new frederickkPaper.F3D.FPoint3(-0.5, -0.5, -0.5), //corner
-		new frederickkPaper.F3D.FPoint3(-0.5, -0.5,	0.0),
-		new frederickkPaper.F3D.FPoint3(-0.5, -0.5,	0.5), //corner
+		new frederickkPaper.F3D.FPoint3(-0.5,	-0.5,	-0.5),	// corner
+		new frederickkPaper.F3D.FPoint3(-0.5,	-0.5,	0.0),
+		new frederickkPaper.F3D.FPoint3(-0.5,	-0.5,	0.5),	// corner
 		new frederickkPaper.F3D.FPoint3(-0.5,	0.0,	0.5),
-		new frederickkPaper.F3D.FPoint3(-0.5,	0.5,	0.5), //corner
+		new frederickkPaper.F3D.FPoint3(-0.5,	0.5,	0.5),	// corner
 		new frederickkPaper.F3D.FPoint3(-0.5,	0.5,	0.0),
-		new frederickkPaper.F3D.FPoint3(-0.5,	0.5, -0.5), //corner
-		new frederickkPaper.F3D.FPoint3(-0.5,	0.0, -0.5)
+		new frederickkPaper.F3D.FPoint3(-0.5,	0.5,	-0.5),	// corner
+		new frederickkPaper.F3D.FPoint3(-0.5,	0.0,	-0.5)
 	];
 	var _pointsRIGHT = [
-		new frederickkPaper.F3D.FPoint3( 0.5, -0.5, -0.5), //corner
-		new frederickkPaper.F3D.FPoint3( 0.5, -0.5,	0.0),
-		new frederickkPaper.F3D.FPoint3( 0.5, -0.5,	0.5), //corner
+		new frederickkPaper.F3D.FPoint3( 0.5,	-0.5,	-0.5),	// corner
+		new frederickkPaper.F3D.FPoint3( 0.5,	-0.5,	0.0),
+		new frederickkPaper.F3D.FPoint3( 0.5,	-0.5,	0.5),	// corner
 		new frederickkPaper.F3D.FPoint3( 0.5,	0.0,	0.5),
-		new frederickkPaper.F3D.FPoint3( 0.5,	0.5,	0.5), //corner
+		new frederickkPaper.F3D.FPoint3( 0.5,	0.5,	0.5),	// corner
 		new frederickkPaper.F3D.FPoint3( 0.5,	0.5,	0.0),
-		new frederickkPaper.F3D.FPoint3( 0.5,	0.5, -0.5), //corner
-		new frederickkPaper.F3D.FPoint3( 0.5,	0.0, -0.5),
+		new frederickkPaper.F3D.FPoint3( 0.5,	0.5,	-0.5),	// corner
+		new frederickkPaper.F3D.FPoint3( 0.5,	0.0,	-0.5),
 	];
 	var _pointsBACK = [
-		new frederickkPaper.F3D.FPoint3(-0.5, -0.5,	0.5), //corner
-		new frederickkPaper.F3D.FPoint3( 0.0, -0.5,	0.5),
-		new frederickkPaper.F3D.FPoint3( 0.5, -0.5,	0.5), //corner
+		new frederickkPaper.F3D.FPoint3(-0.5,	-0.5,	0.5),	// corner
+		new frederickkPaper.F3D.FPoint3( 0.0,	-0.5,	0.5),
+		new frederickkPaper.F3D.FPoint3( 0.5,	-0.5,	0.5),	// corner
 		new frederickkPaper.F3D.FPoint3( 0.5,	0.0,	0.5),
-		new frederickkPaper.F3D.FPoint3( 0.5,	0.5,	0.5), //corner
+		new frederickkPaper.F3D.FPoint3( 0.5,	0.5,	0.5),	// corner
 		new frederickkPaper.F3D.FPoint3( 0.0,	0.5,	0.5),
-		new frederickkPaper.F3D.FPoint3(-0.5,	0.5,	0.5), //corner
+		new frederickkPaper.F3D.FPoint3(-0.5,	0.5,	0.5),	// corner
 		new frederickkPaper.F3D.FPoint3(-0.5,	0.0,	0.5),
-	];	
+	];
 
 	// consecutive points for shapes
 	var _pointsMatrix = [
@@ -159,11 +163,15 @@ frederickkPaper.FShape.FBillBox = function(scene) {
 	// Methods
 	// ------------------------------------------------------------------------
 	/**
-	 *
-	 *	TODO: add a way to translate shapes in 3D
+	 *	@param arg0
+	 *				translate x coordinate
+	 *	@param arg1
+	 *				translate y coordinate
+	 *	@param arg2
+	 *				translate z coordinate
 	 *
 	 */
-	this.init = function(_x, _y, _z) {
+	this.init = function(arg0, arg1, arg2) {
 		if(_verticesArr === undefined || _verticesArr == null) {
 			// choose random standard bill shape
 			var r = frederickkPaper.randomInt(0,3);
@@ -187,14 +195,14 @@ frederickkPaper.FShape.FBillBox = function(scene) {
 		path.fillColor = this.fillColor;
 
 		path.strokeColor = this.strokeColor;
-		path.translate(_x,_y,_z);
+		path.translate(arg0, arg1, arg2);
 		path.closed = true;
 
 		_scene.addItem( path );
 
 		// Bounding Box
-		if(_bContainer) {
-			_boundingBox.name = '_boundingBox';
+		if(_bBoundingBox) {
+			_boundingBox.setName('Z-TOP');
 			_boundingBox.setFillColor( 
 				[null,null,null,null,null,null]
 			);
@@ -202,10 +210,9 @@ frederickkPaper.FShape.FBillBox = function(scene) {
 				['black','black','black','black','black','black']
 			);
 			_boundingBox.setStrokeWidth(
-				// [0.5, 0.5, 0.5, 0.5, 0.5, 0.5]
-				[1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+				[1.2, 1.2, 1.2, 1.2, 1.2, 1.2]
 			);
-			_boundingBox.init(_x, _y, _z);
+			_boundingBox.init(arg0, arg1, arg2);
 		}
 	};
 
@@ -214,16 +221,28 @@ frederickkPaper.FShape.FBillBox = function(scene) {
 	// ------------------------------------------------------------------------
 	// Sets
 	// ------------------------------------------------------------------------
-	this.setSize = function(w, h, d) {
+	/**
+	 *	@param width
+	 *			width of box
+	 *	@param height
+	 *			height of box
+	 *	@param depth
+	 *			depth of box
+	 */
+	this.setSize = function(width, height, depth) {
 		if(_sizeTemp.x == 0) {
-			_sizeTemp.set( w, h, d );
+			_sizeTemp.set( width, height, depth );
 		}
-		_size.set( w, h, d );
-
-		_boundingBox.setSize(w,h,d);
+		_size.set( width, height, depth );
+		_boundingBox.setSize(width, height, depth);
 	};
 
 	// ------------------------------------------------------------------------
+	/**
+	 *
+	 *	reset view and size of boxes (not implemented)
+	 *
+	 */
 	this.reset = function() {
 		this.setFace(0);
 		_size.x = _sizeTemp.x;
@@ -232,24 +251,49 @@ frederickkPaper.FShape.FBillBox = function(scene) {
 	};
 
 	// ------------------------------------------------------------------------
-	this.setVertices = function(__verticesArr) {
-		_verticesArr = __verticesArr;
+	/**
+	 *	@param verticesArr
+	 *			set vertices and order to create shapes
+	 *			example: verticesArr = [8,9,10,11];
+	 *			creates a diamond shape (yellow())
+	 */
+	this.setVertices = function(verticesArr) {
+		_verticesArr = verticesArr;
 	};
 
 	// ------------------------------------------------------------------------
-	this.showContainer = function(val) {
-		_bContainer = val;
+	/**
+	 *	@param bVal
+	 *			visibility of bounding box
+	 */
+	this.showBoundingBox = function(bVal) {
+		_bBoundingBox = bVal;
 	};
 
 	// ------------------------------------------------------------------------
+	/**
+	 *
+	 *	create default red shape (rectangle)
+	 *
+	 */
 	this.red = function() {
 		this.fillColor = new paper.RGBColor(0.9, 0.26, 0.14),
 		_verticesArr = [2,14,18,6];
 	};
+	/**
+	 *
+	 *	create default yellow shape (diamond)
+	 *
+	 */
 	this.yellow = function() {
 		this.fillColor = new paper.RGBColor(0.99, 0.84, 0)
 		_verticesArr = [8,9,10,11];
 	};
+	/**
+	 *
+	 *	create default blue shape (hexagon)
+	 *
+	 */
 	this.blue = function() {
 		this.fillColor = new paper.RGBColor(0.04, 0.5, 0.74),
 		_verticesArr = [1,9,15,17,11,7];
@@ -260,14 +304,31 @@ frederickkPaper.FShape.FBillBox = function(scene) {
 	// ------------------------------------------------------------------------
 	// Gets
 	// ------------------------------------------------------------------------
+	this.get = function() {
+
+	};
+
+	/**
+	 *
+	 *	@return FSize3 dimensions of box
+	 *
+	 */
 	this.getSize = function() {
 		return _sizeTemp;
 	};
 
 	// ------------------------------------------------------------------------
-	this.get_boundingBox = function() {
+	/**
+	 *
+	 *	@return FSize3 dimensions of bounding box
+	 *
+	 */
+	this.getBoundingBox = function() {
 		return _boundingBox;
 	};
 
 
 };
+
+
+

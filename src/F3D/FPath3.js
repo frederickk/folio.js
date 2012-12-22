@@ -40,11 +40,16 @@ frederickkPaper.F3D.FPath3 = this.FPath3 = Path.extend({
 	_matrix: null,
 
 	// 3D points array
-	_points3: null,
+	_fpoints3: null,
 
 	// transformations
 	_rotation: null,
 	_translation: null,
+
+	/*
+	 *	public
+	 */
+	position3: null,
 
 
 
@@ -61,6 +66,8 @@ frederickkPaper.F3D.FPath3 = this.FPath3 = Path.extend({
 		this.base();
 		this._closed = false;
 
+		this.position3 = new frederickkPaper.F3D.FPoint3();
+
 		// setup scene
 		this._scene = scene;
 
@@ -72,11 +79,12 @@ frederickkPaper.F3D.FPath3 = this.FPath3 = Path.extend({
 		this._translation = new frederickkPaper.F3D.FPoint3();
 
 		// setup 3D points array
-		this._points3 = [];
+		this._fpoints3 = [];
 
 		this.name = 'FPath3';
 		// return this;
 	},
+
 
 
 	// ------------------------------------------------------------------------
@@ -87,9 +95,11 @@ frederickkPaper.F3D.FPath3 = this.FPath3 = Path.extend({
 	 *			scene to associate points with
 	 */
 	setScene : function(scene) {
+		// the scene
 		this._scene = scene;
-		for(var i=0; i<this._points3.length; i++) {
-			this._points3[i].setup( this._scene );
+
+		for(var i=0; i<this._fpoints3.length; i++) {
+			this._fpoints3[i].setup( this._scene );
 		}
 	},
 
@@ -98,7 +108,7 @@ frederickkPaper.F3D.FPath3 = this.FPath3 = Path.extend({
 	 *			add FPoint3 to path
 	 */
 	add3 : function(fpoint3) {
-		this._points3[ this._points3.length ] = fpoint3;
+		this._fpoints3[ this._fpoints3.length ] = fpoint3;
 	},
 
 	// ------------------------------------------------------------------------
@@ -131,8 +141,8 @@ frederickkPaper.F3D.FPath3 = this.FPath3 = Path.extend({
 			this._translation.z = arg2 != undefined ? arg2 : 0;
 		}
 
-		for(var i=0; i<this._points3.length; i++) {
-			var pt3 = this._points3[i];
+		for(var i=0; i<this._fpoints3.length; i++) {
+			var pt3 = this._fpoints3[i];
 			pt3.setX( (pt3.x + this._translation.x) );
 			pt3.setY( (pt3.y + this._translation.y) );
 			pt3.setZ( (pt3.z + this._translation.z) );
@@ -168,17 +178,31 @@ frederickkPaper.F3D.FPath3 = this.FPath3 = Path.extend({
 	// Gets
 	// ------------------------------------------------------------------------
 	get : function() {
+		// clear segments
 		this._segments = [];
-		for(var i=0; i<this._points3.length; i++) {
-			var pt3 = this._points3[i];
+
+		// push points into 2D path
+		for(var i=0; i<this._fpoints3.length; i++) {
+			var pt3 = this._fpoints3[i];
 			this.add( 
 				new Point( pt3.x2D(), pt3.y2D() )
 			);
 		}
-		return this;
-	}
 
-	
+		// determine average z depth of path
+		var minz = this._fpoints3[0].z;
+		var maxz = this._fpoints3[this._fpoints3.length-1].z;
+		var diff = maxz-minz;
+
+		// set position3
+		this.position3.set(
+			this.position.x,
+			this.position.y,
+			diff
+		);
+
+		return this;
+	},
 
 });
 

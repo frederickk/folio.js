@@ -45,12 +45,12 @@ frederickkPaper.FShape.FCross = this.FCross = Path.extend({
 		var line1, line2;
 
 		if( _type == 'LINE' ) {
-			line1 = new paper.Path.Line(
+			line1 = new Path.Line(
 				point.x + size.width, point.y - size.height, 
 				point.x - size.width, point.y + size.height
 			);
 			line1.strokeWidth = _thickness;
-			line2 = new paper.Path.Line(
+			line2 = new Path.Line(
 				point.x + size.width, point.y + size.height, 
 				point.x - size.width, point.y - size.height
 			);
@@ -76,7 +76,7 @@ frederickkPaper.FShape.FCross = this.FCross = Path.extend({
 			line2.closed = true;
 		}
 
-		var group = new paper.Group( line1, line2 );
+		var group = new Group( line1, line2 );
 		group.name = 'cross';
 		return group;
 	}

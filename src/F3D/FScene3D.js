@@ -28,7 +28,9 @@
 
 /**
  *
- *	TODO: fix Z order
+ *	TODO:	leave as is and accept or redo entire engine
+ *			possibly look into using three.js as the engine	
+ *
  */
 frederickkPaper.F3D.FScene3D = this.FScene3D = function() {
 	// ------------------------------------------------------------------------
@@ -48,8 +50,9 @@ frederickkPaper.F3D.FScene3D = this.FScene3D = function() {
 
 	// items
 	var _numPoints = 0;
-	var _itemsArr = null;
-	var _group = null;
+	var _fpath3Arr = null;
+	var _groupBot = null;
+	var _groupTop = null;
 
 	/*
 	 *	public
@@ -83,10 +86,10 @@ frederickkPaper.F3D.FScene3D = this.FScene3D = function() {
 	 */
 	this._perspective = function() {
 		_matrix.makePerspective( 
-			50,
+			66,
 			1,
-			this.bounds.depth,
-			this.bounds.depth*4 //*2
+			this.bounds.depth/2,
+			this.bounds.depth*2
 		);
 	};
 
@@ -113,7 +116,7 @@ frederickkPaper.F3D.FScene3D = this.FScene3D = function() {
 		this.points2D = [];
 
 		// setup items array
-		_itemsArr = [];
+		_fpath3Arr = [];
 
 		// setup matrix
 		_matrix = new Matrix3D();
@@ -131,31 +134,41 @@ frederickkPaper.F3D.FScene3D = this.FScene3D = function() {
 		this.setMode(mode);
 
 		// setup up group for items
-		_group = new paper.Group();
+		_groupBot = new Group();
+		_groupTop = new Group();
 	};
 
 	// ------------------------------------------------------------------------
+	/**
+	 *	draws FPath3 objects
+	 *
+	 *	@return group of FPath3 objects
+	 *
+	 */
 	this.draw = function() {
+		// transformation matrix
 		_matrix.identity();
 
+		// set perspective mode
 		if(_mode == 'ORTHO') this._ortho();
 		else this._perspective();
 
+		// implement transformations
 		_matrix.scale(_sceneScale, _sceneScale, _sceneScale);
-		_matrix.rotateX(_rotation.x);
-		_matrix.rotateY(_rotation.y);
-		_matrix.rotateZ(_rotation.z);
+		_matrix.rotateX( _rotation.x );
+		_matrix.rotateY( _rotation.y );
+		_matrix.rotateZ( _rotation.z );
 		_matrix.translate(0, 0, this.bounds.depth);
 
+		// transformed points
 		var transformed = _matrix.transformArray(this.points3D);
-		
+
+		// cycle through transformed 3D points
+		// pull out screen 2D points
 		for(var i=0; i<_numPoints; i++) {
 			var i3 = i*3;
 			var i2 = i*2;
 
-			// var x = this.points3D[ i3 ];
-			// var y = this.points3D[ i3+1 ];
-			// var z = this.points3D[ i3+2 ];
 			var x = transformed[ i3 ];
 			var y = transformed[ i3+1 ];
 			var z = transformed[ i3+2 ];
@@ -166,26 +179,61 @@ frederickkPaper.F3D.FScene3D = this.FScene3D = function() {
 			this.points2D[ i2+1 ] = y*scale+_half.height;
 		}
 
-		_group.removeChildren(); // clear out in between draws
-		for(var i=0; i<_itemsArr.length; i++) {
-			var paths = _itemsArr[i].get();
-			
-			console.log( paths._points3 );
-			if( paths.children != null ) {
-				console.log( paths.children.length );
-			}
+		// determine depth order of items
+		// very very hacky and rudimentary
+		var tindex = 0;
+		var depthArr = []; // temp array to correlate transformed points to items
+		for(var i=0; i<_fpath3Arr.length; i++) {
+			var fpath3 = _fpath3Arr[i];
 
-			if(paths != null) _group.appendTop( paths );
+			var avgz = this.averageZ( 
+				transformed,
+				tindex,
+				tindex+(fpath3._fpoints3.length*3)
+			);
+
+			var temp = {
+				index: i,
+				z: avgz
+			};
+			depthArr.push(temp);
+
+			tindex += (fpath3._fpoints3.length*3)-1;
 		}
-		console.log( '---------' );
+		depthArr.sort(compare);
+
+		// put the object into the group based on their z depth
+		_groupBot.removeChildren(); // clear out in between draws
+		_groupTop.removeChildren(); // clear out in between draws
+		for(var i=0; i<depthArr.length; i++) {
+			var path = _fpath3Arr[ depthArr[i].index ].get();
+			
+			if(path.name == 'Z-TOP') _groupTop.appendTop( path );
+			else if(path != null) _groupBot.appendBottom( path );
+		}
 
 		// TODO: fix this scaling issue
-		if(_mode == 'ORTHO') _group.scale(200);
+		if(_mode == 'ORTHO') {
+			_groupTop.scale(200, _groupBot.position);
+			_groupBot.scale(200, _groupBot.position);
+		}
 
-		return _group;
+		return _groupBot;
 	};
 
+
 	// ------------------------------------------------------------------------
+	/**
+	 *	@param arg0
+	 *				x coordinate
+	 *	@param arg1
+	 *				y coordinate
+	 *	@param arg2
+	 *				z coordinate
+	 *
+	 *	@return total number of points added to scene
+	 *
+	 */
 	this.setupPoint = function(arg0, arg1, arg2) {
 		var returnVal = _numPoints;
 
@@ -199,6 +247,41 @@ frederickkPaper.F3D.FScene3D = this.FScene3D = function() {
 		_numPoints++;
 
 		return returnVal;
+	};
+
+	// ------------------------------------------------------------------------
+	/**
+	 *	@param pointsArr
+	 *				the array of points x[0], y[1], z[2]
+	 *	@param start
+	 *				start position in array
+	 *	@param stop
+	 *				stop position in array
+	 *
+	 *	@return average value of z
+	 *
+	 */
+ 	this.averageZ = function(pointsArr, start, stop) {
+		var avgz = 0;
+		for(var i=start; i<stop; i+=2) {
+			// console.log( 'x\t' + pointsArr[i] );
+			// console.log( 'y\t' + pointsArr[i+1] );
+			// console.log( 'z\t' + pointsArr[i+2] );
+			avgz += pointsArr[i+2];
+		}
+		var num = (stop-start)/3;
+		return avgz/num;
+	};
+
+	/**
+	 *
+	 *	comparator to sort object by z value
+	 *
+	 */
+ 	function compare(a,b) {
+		if (a.z < b.z) return -1;
+		if (a.z > b.z) return 1;
+		return 0;
 	};
 
 
@@ -224,14 +307,14 @@ frederickkPaper.F3D.FScene3D = this.FScene3D = function() {
 	 *			an array of FPath3 items to add to the scene
 	 */
 	this.addItem = function(item) {
-		if(item.length != null || item.length > 0) {
+		if(item.length > 0) {
 			for(var i=0; i<item.length; i++) {
-				_itemsArr[ _itemsArr.length ] = item[i];
+				_fpath3Arr[ _fpath3Arr.length ] = item[i];
 				item[i].setScene(this);
 			}
 		}
 		else {
-			_itemsArr[ _itemsArr.length ] = item;
+			_fpath3Arr[ _fpath3Arr.length ] = item;
 			item.setScene(this);
 		}
 	};
@@ -267,31 +350,48 @@ frederickkPaper.F3D.FScene3D = this.FScene3D = function() {
 	// Gets
 	// ------------------------------------------------------------------------
 	/**
-	 *	@return scene path items as _group 
+	 *
+	 *	@return scene path items as _groupBot 
+	 *
 	 */
 	this.get = function() {
-		return _group;
+		return _groupBot;
 	};
 
 	/**
+	 *
 	 *	@return scene size as array [width, height, depth]
+	 *
 	 */
 	this.getBounds = function() {
 		return [ this.bounds.width, this.bounds.height, this.bounds.depth ];
 	};
 
 	/**
+	 *
 	 *	@return scene transformation _matrix
+	 *
 	 */
 	this.getMatrix = function() {
 		return _matrix;
 	};
 
 	/**
-	 *	@return scene focal length
+	 *
+	 *	@return scene focal length (depth)
+	 *
 	 */
 	this.getFocalLength = function() {
 		return this.bounds.depth;
+	};
+
+	/**
+	 *
+	 *	@return scene scale
+	 *
+	 */
+	this.getScale = function() {
+		return _sceneScale;
 	};
 
 

@@ -32,6 +32,12 @@ var fshape = f.FShape;
 var scene = new f3d.FScene3D();
 
 
+// Bill Shapes
+var billRed;
+var billYellow;
+var billBlue;
+var billGreen;
+
 // values
 var bRotate = false;
 var values = {
@@ -39,7 +45,7 @@ var values = {
 	roty:	35.3,
 	rotz:	-30
 };
-
+var bBoundingBox = true;
 
 
 // ------------------------------------------------------------------------
@@ -57,27 +63,26 @@ function Setup() {
 	if(view.bounds.width < 768) size = 250;
 	else size = 600;
 
-	var billRed = new frederickkPaper.FShape.FBillBox(scene);
+	billRed = new frederickkPaper.FShape.FBillBox(scene);
 	billRed.setSize(size, size, size);
 	billRed.red();
 	billRed.init(size,-size,0);
 
-	var billYellow = new frederickkPaper.FShape.FBillBox(scene);
+	billYellow = new frederickkPaper.FShape.FBillBox(scene);
 	billYellow.setSize(size, size, size);
 	billYellow.yellow();
 	billYellow.init(-size,size,0);
 
-	var billBlue = new frederickkPaper.FShape.FBillBox(scene);
+	billBlue = new frederickkPaper.FShape.FBillBox(scene);
 	billBlue.setSize(size, size, size);
 	billBlue.blue();
 	billBlue.init(-size,-size,0);
 
-
-	// var billGreen = new frederickkPaper.FShape.FBillBox(scene);
+	// billGreen = new frederickkPaper.FShape.FBillBox(scene);
 	// billGreen.setSize(size, size, size);
 	// billGreen.fillColor = new paper.RGBColor(0.62, 0.77, 0.14);
 	// billGreen.setVertices( [9,17,7] );
-	// billGreen.init(-(size*3),size,0);
+	// billGreen.init((size),size,0);
 };
 
 
@@ -87,9 +92,9 @@ function Setup() {
 // ------------------------------------------------------------------------
 function Update(event) {
 	if(bRotate) {
-		values.rotx = 720.0 * ( (Math.sin(event.time * 2) + 1) / 30 );
-		values.roty = 720.0 * ( (Math.cos(event.time * 2) + 1) / 30 );
-		values.rotz++;
+		values.rotx = 720.0 * ( (Math.sin(event.time * 2) + 1) / 15);
+		values.roty++;
+		values.rotz = 360.0 * ( (Math.cos(event.time * 2) + 1) / -30 );
 
 		Draw();
 	}
@@ -101,6 +106,10 @@ function Update(event) {
 // Main
 // ------------------------------------------------------------------------
 function Draw() {
+	billRed.showBoundingBox(bBoundingBox);
+	billYellow.showBoundingBox(bBoundingBox);
+	billBlue.showBoundingBox(bBoundingBox);
+
 	// rotate
 	scene.rotateX( f.radians(values.rotx) );
 	scene.rotateY( f.radians(values.roty) );
@@ -161,6 +170,9 @@ function onKeyDown(event) {
 	}
 	if(event.key == 'r') {
 		reset();
+	}
+	if(event.key == 'space') {
+		bBoundingBox = !bBoundingBox;
 	}
 
 	// redraw to update scene

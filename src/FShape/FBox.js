@@ -46,47 +46,48 @@ frederickkPaper.FShape.FBox = function(scene) {
 	this.strokeCap;
 	this.strokeJoin;
 
-	this.faceFRONT = [
-		new frederickkPaper.F3D.FPoint3(-0.5, -0.5, -0.5), //corner
-		new frederickkPaper.F3D.FPoint3( 0.5, -0.5, -0.5), //corner
-		new frederickkPaper.F3D.FPoint3( 0.5,	0.5, -0.5), //corner
-		new frederickkPaper.F3D.FPoint3(-0.5,	0.5, -0.5) //corner
+this.faceFRONT = [
+		new frederickkPaper.F3D.FPoint3(-0.5, -0.5, -0.5),	// corner
+		new frederickkPaper.F3D.FPoint3( 0.5, -0.5, -0.5),	// corner
+		new frederickkPaper.F3D.FPoint3( 0.5,	0.5, -0.5),	// corner
+		new frederickkPaper.F3D.FPoint3(-0.5,	0.5, -0.5)	// corner
 	];
-	
+
 	this.faceTOP = [
-		new frederickkPaper.F3D.FPoint3(-0.5, -0.5,	0.5), //corner
-		new frederickkPaper.F3D.FPoint3( 0.5, -0.5,	0.5), //corner
-		new frederickkPaper.F3D.FPoint3( 0.5, -0.5, -0.5), //corner
-		new frederickkPaper.F3D.FPoint3(-0.5, -0.5, -0.5) //corner
+		new frederickkPaper.F3D.FPoint3(-0.5, -0.5,	0.5),	// corner
+		new frederickkPaper.F3D.FPoint3( 0.5, -0.5,	0.5),	// corner
+		new frederickkPaper.F3D.FPoint3( 0.5, -0.5, -0.5),	// corner
+		new frederickkPaper.F3D.FPoint3(-0.5, -0.5, -0.5)	// corner
 	];
 
 	this.faceBOTTOM = [
-		new frederickkPaper.F3D.FPoint3(-0.5, 0.5,	0.5), //corner
-		new frederickkPaper.F3D.FPoint3( 0.5, 0.5,	0.5), //corner
-		new frederickkPaper.F3D.FPoint3( 0.5, 0.5, -0.5), //corner
-		new frederickkPaper.F3D.FPoint3(-0.5, 0.5, -0.5) //corner
+		new frederickkPaper.F3D.FPoint3(-0.5, 0.5,	0.5),	// corner
+		new frederickkPaper.F3D.FPoint3( 0.5, 0.5,	0.5),	// corner
+		new frederickkPaper.F3D.FPoint3( 0.5, 0.5, -0.5),	// corner
+		new frederickkPaper.F3D.FPoint3(-0.5, 0.5, -0.5)	// corner
 	];
-	
+
 	this.faceLEFT = [
-		new frederickkPaper.F3D.FPoint3(-0.5, -0.5, -0.5), //corner
-		new frederickkPaper.F3D.FPoint3(-0.5, -0.5,	0.5), //corner
-		new frederickkPaper.F3D.FPoint3(-0.5,	0.5,	0.5), //corner
-		new frederickkPaper.F3D.FPoint3(-0.5,	0.5, -0.5) //corner
+		new frederickkPaper.F3D.FPoint3(-0.5, -0.5, -0.5),	// corner
+		new frederickkPaper.F3D.FPoint3(-0.5, -0.5,	0.5),	// corner
+		new frederickkPaper.F3D.FPoint3(-0.5,	0.5,	0.5),	// corner
+		new frederickkPaper.F3D.FPoint3(-0.5,	0.5, -0.5)	// corner
 	];
-	
+
 	this.faceRIGHT = [
-		new frederickkPaper.F3D.FPoint3( 0.5, -0.5, -0.5), //corner
-		new frederickkPaper.F3D.FPoint3( 0.5, -0.5,	0.5), //corner
-		new frederickkPaper.F3D.FPoint3( 0.5,	0.5,	0.5), //corner
-		new frederickkPaper.F3D.FPoint3( 0.5,	0.5, -0.5) //corner
+		new frederickkPaper.F3D.FPoint3( 0.5, -0.5, -0.5),	// corner
+		new frederickkPaper.F3D.FPoint3( 0.5, -0.5,	0.5),	// corner
+		new frederickkPaper.F3D.FPoint3( 0.5,	0.5,	0.5),	// corner
+		new frederickkPaper.F3D.FPoint3( 0.5,	0.5, -0.5)	// corner
 	];
-	
+
 	this.faceBACK = [
-		new frederickkPaper.F3D.FPoint3(-0.5, -0.5,	0.5), //corner
-		new frederickkPaper.F3D.FPoint3( 0.5, -0.5,	0.5), //corner
-		new frederickkPaper.F3D.FPoint3( 0.5,	0.5,	0.5), //corner
-		new frederickkPaper.F3D.FPoint3(-0.5,	0.5,	0.5) //corner
+		new frederickkPaper.F3D.FPoint3(-0.5, -0.5,	0.5),	// corner
+		new frederickkPaper.F3D.FPoint3( 0.5, -0.5,	0.5),	// corner
+		new frederickkPaper.F3D.FPoint3( 0.5,	0.5,	0.5),	// corner
+		new frederickkPaper.F3D.FPoint3(-0.5,	0.5,	0.5)	// corner
 	];
+
 
 
 	/*
@@ -114,20 +115,20 @@ frederickkPaper.FShape.FBox = function(scene) {
 	];
 
 	var _facesFillColor = [
-		new paper.RGBColor(1.0, 1.0, 0,	 0.8), // FRONT
-		new paper.RGBColor(1.0, 0,	 1.0, 0.8), // TOP
-		new paper.RGBColor(0,	 0,	 1.0, 0.8), // BOTTOM
-		new paper.RGBColor(1.0, 0,	 0,	 0.8), // LEFT
-		new paper.RGBColor(0,	 1.0, 1.0, 0.8), // RIGHT
-		new paper.RGBColor(0,	 1.0, 0,	 0.8)	// BACK
+		new paper.RGBColor(1.0, 1.0, 0.0, 0.8), // FRONT
+		new paper.RGBColor(1.0, 0.0, 1.0, 0.8), // TOP
+		new paper.RGBColor(0.0, 0.0, 1.0, 0.8), // BOTTOM
+		new paper.RGBColor(1.0, 0.0, 0.0, 0.8), // LEFT
+		new paper.RGBColor(0.0, 1.0, 1.0, 0.8), // RIGHT
+		new paper.RGBColor(0.0, 1.0, 0.0, 0.8)	// BACK
 	];
 	var _facesStrokeColor = [
-		new paper.RGBColor(1.0, 1.0, 0,	 0.8), // FRONT
-		new paper.RGBColor(1.0, 0,	 1.0, 0.8), // TOP
-		new paper.RGBColor(0,	 0,	 1.0, 0.8), // BOTTOM
-		new paper.RGBColor(1.0, 0,	 0,	 0.8), // LEFT
-		new paper.RGBColor(0,	 1.0, 1.0, 0.8), // RIGHT
-		new paper.RGBColor(0,	 1.0, 0,	 0.8)	// BACK
+		new paper.RGBColor(1.0, 1.0, 0.0, 0.8), // FRONT
+		new paper.RGBColor(1.0, 0.0, 1.0, 0.8), // TOP
+		new paper.RGBColor(0.0, 0.0, 1.0, 0.8), // BOTTOM
+		new paper.RGBColor(1.0, 0.0, 0.0, 0.8), // LEFT
+		new paper.RGBColor(0.0, 1.0, 1.0, 0.8), // RIGHT
+		new paper.RGBColor(0.0, 1.0, 0.0, 0.8)	// BACK
 	];
 	var _facesStrokeWidth = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0];
 
@@ -138,6 +139,15 @@ frederickkPaper.FShape.FBox = function(scene) {
 	// ------------------------------------------------------------------------
 	// Methods
 	// ------------------------------------------------------------------------
+	/**
+	 *	@param arg0
+	 *				translate x coordinate
+	 *	@param arg1
+	 *				translate y coordinate
+	 *	@param arg2
+	 *				translate z coordinate
+	 *
+	 */
 	this.init = function(arg0, arg1, arg2) {
 		for(var i=0; i<_faces.length; i++) {
 
@@ -147,9 +157,9 @@ frederickkPaper.FShape.FBox = function(scene) {
 			this.vertices = _faces[i][1];
 			for(var j=0; j<this.vertices.length; j++) {
 				this.sides[i].add3( new frederickkPaper.F3D.FPoint3(
-					this.vertices[j].x*_size.width,
-					this.vertices[j].y*_size.height,
-					this.vertices[j].z*_size.depth
+					this.vertices[j].x * _size.width,
+					this.vertices[j].y * _size.height,
+					this.vertices[j].z * _size.depth
 				));
 			}
 
@@ -178,59 +188,150 @@ frederickkPaper.FShape.FBox = function(scene) {
 	// ------------------------------------------------------------------------
 	// Sets
 	// ------------------------------------------------------------------------
+	/**
+	 *
+	 *	all sets need to be called before .init()
+	 *
+	 */
+
+	/**
+	 *	@param name
+	 *			name of the box (affects all faces)
+	 */
+	this.setName = function(name) {
+		for(var i=0; i<_faces.length; i++) {
+			_faces[i][0] = name;
+		}
+	};
+
+	// ------------------------------------------------------------------------
+	/**
+	 *	@param width
+	 *			width of box
+	 *	@param height
+	 *			height of box
+	 *	@param depth
+	 *			depth of box
+	 */
 	this.setSize = function(width, height, depth) {
 		_size.set(width, height, depth);
 	};
 
-
 	// ------------------------------------------------------------------------
-	this.setVisible = function(val) {
-		this.visible = val;
+	/**
+	 *	@param bVal
+	 *			visibility of box (affects all faces)
+	 */
+	this.setVisible = function(bVal) {
+		this.visible = bVal;
 	};
 
 	// ------------------------------------------------------------------------
-	this.setSelected = function(val) {
-		this.selected = val;
+	/**
+	 *	@param bVal
+	 *			selected of box (affects all faces)
+	 */
+	this.setSelected = function(bVal) {
+		this.selected = bVal;
 	};
 
 	// ------------------------------------------------------------------------
+	/**
+	 *	@param face
+	 *			opacity of box (affects all faces)
+	 */
+	/**
+	 *	@param face
+	 *			specific face
+	 *	@param o
+	 *			opacity value of face
+	 */
 	this.setOpacity = function(face, o) {
 		if( face.length === undefined ) _facesOpacity[face] = o;
 		else _facesOpacity = face;
 	};
 
 	// ------------------------------------------------------------------------
-	this.setFillColor = function(face, col) {
+	/**
+	 *	@param face
+	 *			fill color of box (affects all faces)
+	 */
+	/**
+	 *	@param face
+	 *			specific face
+	 *	@param col
+	 *			fill color value of face (paper.RGBColor())
+	 */
+	 this.setFillColor = function(face, col) {
 		if( face.length === undefined ) _facesFillColor[face] = col;
 		else _facesFillColor = face;
 	};
 
 	// ------------------------------------------------------------------------
+	/**
+	 *	@param face
+	 *			stroke color of box (affects all faces)
+	 */
+	/**
+	 *	@param face
+	 *			specific face
+	 *	@param col
+	 *			stroke color value of face (paper.RGBColor())
+	 */
 	this.setStrokeColor = function(face, col) {
 		if( face.length === undefined ) _facesStrokeColor[face] = col;
 		else _facesStrokeColor = face;
 	};
 
 	// ------------------------------------------------------------------------
+	/**
+	 *	@param face
+	 *			stroke width of box (affects all faces)
+	 */
+	/**
+	 *	@param face
+	 *			specific face
+	 *	@param w
+	 *			stroke width
+	 */
 	this.setStrokeWidth = function(face, w) {
 		if( face.length === undefined ) _facesStrokeWidth[face] = w;
 		else _facesStrokeWidth = face;
 	};
 
 	// ------------------------------------------------------------------------
+	/**
+	 *	@param cap
+	 *			stroke cap of box (affects all faces)
+	 */
 	this.setStrokeCap = function(cap) {
 		this.strokeCap = cap;
 	};
 
 	// ------------------------------------------------------------------------
+	/**
+	 *	@param join
+	 *			stroke join of box (affects all faces)
+	 */
 	this.setStrokeJoin = function(join) {
 		this.strokeJoin = join;
 	};
 
 	// ------------------------------------------------------------------------
+	/**
+	 *
+	 *	clear fill of box
+	 *
+	 */
 	this.noFill = function() {
 		_facesFillColor = [];
 	};
+
+	/**
+	 *
+	 *	clear stroke of box
+	 *
+	 */
 	this.noStroke = function() {
 		_facesStrokeColor = [];
 	}
@@ -240,19 +341,42 @@ frederickkPaper.FShape.FBox = function(scene) {
 	// ------------------------------------------------------------------------
 	// Gets
 	// ------------------------------------------------------------------------
+	/**
+	 *
+	 *	@return array of FPath3 (faces)
+	 *
+	 */
 	this.get = function() {
 		return this.sides;
 	};
+
+	/**
+	 *	@param index
+	 *			face index number
+	 *
+	 *	@return FPath3
+	 *
+	 */
 	this.get = function(index) {
 		return this.sides[index];
 	};
 
 	//-----------------------------------------------------------------------------
+	/**
+	 *
+	 *	@return number of faces
+	 *
+	 */
 	this.getNumFaces = function() {
 		return this.vertices.length-2;
 	};
 
 	// ------------------------------------------------------------------------
+	/**
+	 *
+	 *	@return FSize3 dimensions of box
+	 *
+	 */
 	this.getSize = function() {
 		return _size;
 	};

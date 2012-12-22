@@ -283,7 +283,7 @@ frederickkPaper = {
 		if (object instanceof paper.Point) return 'Point';
 		else if (object instanceof paper.Size) return 'Size';
 		else if (object instanceof paper.Rectangle) return 'Rectangle';
-		else if (object instanceof paper.Group) return 'Group';
+		else if (object instanceof Group) return 'Group';
 		else if (object instanceof paper.PlacedItem) return 'PlacedItem';
 		else if (object instanceof paper.Raster) return 'Raster';
 		else if (object instanceof paper.PlacedSymbol) return 'PlacedSymbol';

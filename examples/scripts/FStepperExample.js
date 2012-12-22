@@ -42,7 +42,7 @@ var background;
 // ------------------------------------------------------------------------
 function Setup() {
 	// Setup background
-	background = new paper.Path.Rectangle( view.bounds.topLeft, view.bounds.bottomRight );
+	background = new Path.Rectangle( view.bounds.topLeft, view.bounds.bottomRight );
 
 
 	// initiate move FStepper

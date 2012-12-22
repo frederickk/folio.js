@@ -27,8 +27,8 @@ var f3d = f.F3D;
 // interpolated for 3D geometry to appear on the screen
 var scene = new f3d.FScene3D();
 
-// 3D path
-var path3;
+// FPath3 paths
+var path3 = [];
 
 // values for rotation
 var rotation = [];
@@ -45,19 +45,41 @@ function Setup() {
 	// 'PERSPECTIVE' is the default mode
 	scene.setup(view.bounds.width, view.bounds.height, 1000, 'PERSPECTIVE');
 
+
+	// top 
 	// initiate the 3D path
-	path3 = new f3d.FPath3();
+	path3[0] = new f3d.FPath3();
 	// add 3D points to this path
 	// FPoint3 takes 3 arguments (x, y, z)
-	path3.add3( new f3d.FPoint3(-100,	-100,	 100) );
-	path3.add3( new f3d.FPoint3( 100,	-100,	 100) );
-	path3.add3( new f3d.FPoint3( 100,	-100,	-100) );
-	path3.add3( new f3d.FPoint3(-100,	-100,	-100) );
+	path3[0].add3( new f3d.FPoint3(-100,	-100,	 100) );
+	path3[0].add3( new f3d.FPoint3( 100,	-100,	 100) );
+	path3[0].add3( new f3d.FPoint3( 100,	-100,	-100) );
+	path3[0].add3( new f3d.FPoint3(-100,	-100,	-100) );
 	// use FColor to give the field a random RGB color
-	path3.fillColor = new f.FColor().random();
-	path3.closed = true;
+	path3[0].fillColor = new f.FColor().random();
+	path3[0].closed = true;
 
-	// important! the path has to be added to the scene
+	// middle
+	path3[1] = new f3d.FPath3();
+	path3[1].add3( new f3d.FPoint3(-100,	0,	 100) );
+	path3[1].add3( new f3d.FPoint3( 100,	0,	 100) );
+	path3[1].add3( new f3d.FPoint3( 100,	0,	-100) );
+	path3[1].add3( new f3d.FPoint3(-100,	0,	-100) );
+	path3[1].fillColor = new f.FColor().random();
+	path3[1].closed = true;
+
+	// bottom
+	path3[2] = new f3d.FPath3();
+	path3[2].add3( new f3d.FPoint3(-100,	100,	 100) );
+	path3[2].add3( new f3d.FPoint3( 100,	100,	 100) );
+	path3[2].add3( new f3d.FPoint3( 100,	100,	-100) );
+	path3[2].add3( new f3d.FPoint3(-100,	100,	-100) );
+	path3[2].fillColor = new f.FColor().random();
+	path3[2].closed = true;
+
+
+	// important! FPath3 has to be added to the scene
+	// either as an array or individually
 	scene.addItem( path3 );
 };
 

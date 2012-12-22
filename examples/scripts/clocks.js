@@ -194,7 +194,7 @@ var Clock = function(_pt, _radius) {
 	
 
 	// clock face
-	var face = new paper.Path.Circle(pt, clockRadius);
+	var face = new Path.Circle(pt, clockRadius);
 	face.fillColor = null; //'white';
 	face.strokeColor = 'black';
 	face.strokeWidth = 9;
@@ -203,21 +203,21 @@ var Clock = function(_pt, _radius) {
 
 	// clock hands
 	var mpt = new Point(pt.x + Math.cos(this.m) * minutesRadius, pt.y + Math.sin(this.m) * minutesRadius);
-	var minutes = new paper.Path.Line( pt, mpt );
+	var minutes = new Path.Line( pt, mpt );
 	minutes.strokeColor = 'black';
 	minutes.strokeWidth = 9;
 	minutes.strokeCap = 'butt';
 	group.appendTop(minutes);
 
 	var hpt = new Point(pt.x + Math.cos(this.h) * hoursRadius, pt.y + Math.sin(this.h) * hoursRadius);
-	var hours = new paper.Path.Line( pt, hpt );
+	var hours = new Path.Line( pt, hpt );
 	hours.strokeColor = 'black';
 	hours.strokeWidth = 9;
 	hours.strokeCap = 'butt';
 	group.appendTop(hours);
 
 	var spt = new Point(pt.x + Math.cos(this.s) * secondsRadius, pt.y + Math.sin(this.s) * secondsRadius);
-	var seconds = new paper.Path.Line( pt, spt );
+	var seconds = new Path.Line( pt, spt );
 	seconds.strokeColor = new paper.RGBColor(0.9, 0.26, 0.14);
 	seconds.strokeWidth = 2;
 	seconds.strokeCap = 'round';
@@ -232,8 +232,8 @@ var Clock = function(_pt, _radius) {
 			var y1 = pt.y + Math.sin(f.radians(a)) * (secondsRadius-3);
 			var x2 = pt.x + Math.cos(f.radians(a)) * (secondsRadius+9);
 			var y2 = pt.y + Math.sin(f.radians(a)) * (secondsRadius+9);
-			// var tick = new paper.Path.Circle( new Point(x,y), 1.5 );
-			var tick = new paper.Path.Line(
+			// var tick = new Path.Circle( new Point(x,y), 1.5 );
+			var tick = new Path.Line(
 				new Point(x1,y1),
 				new Point(x2,y2)
 			);

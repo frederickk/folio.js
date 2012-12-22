@@ -40,7 +40,7 @@ var TSP = function() {
 	// ------------------------------------------------------------------------
 	this.calculate = function(_items, _iterate) {
 		// this.nodeRoute = [];
-		this.tangentGroup = new paper.Group();
+		this.tangentGroup = new Group();
 		this.items = _items;
 
 		var temp;
