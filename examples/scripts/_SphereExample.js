@@ -1,3 +1,4 @@
+
 console.log( 'FSphere Example Loaded' );
 /**
  *	F3D Example
@@ -31,8 +32,8 @@ var fshape = f.FShape;
 // interpolated for 3D geometry to appear on the screen
 var scene = new f3d.FScene3D();
 
-// spheres
-var spheres = [];
+// the sphere
+var sphere;
 
 // values
 var bRotate = false;
@@ -57,26 +58,24 @@ function Setup() {
 
 	// sphere 0
 	// wireframe
-	spheres[0] = new frederickkPaper.FShape.FSphere(scene);
-	spheres[0].setSize(size);
-	spheres[0].setLatsLongs(4,4);
-	spheres[0].noFill();
-	spheres[0].init( -size, 0,0 );
+	sphere = new frederickkPaper.FShape.FSphere(scene);
+	sphere.setSize(size);
+	sphere.setLatsLongs(4,4);
+	// sphere.noFill();
 
-	// sphere 1
-	// spectrum fade
-	spheres[1] = new frederickkPaper.FShape.FSphere(scene);
-	spheres[1].setSize(size);
-	spheres[1].setLatsLongs(9,9);
-	spheres[1].noStroke();
-
-	var r = f.random(0,180);
-	for(var i=0; i<spheres[1].getNumFaces(); i++) {
-		spheres[1].setOpacity( i, i/spheres[1].getNumFaces()*0.5 );
-		spheres[1].setFillColor( i, new paper.HSLColor( r*i/spheres[1].getNumFaces(),0.9,0.8) );
+	var v3 = [];
+	for(var i=0; i<sphere.getVertices().length; i++) {
+		var fp3 = new f3d.FPoint3(
+			sphere.getVertices()[i].x + Math.sin( f.radians(i) ),
+			sphere.getVertices()[i].y + -Math.sin( f.radians(i) ),
+			sphere.getVertices()[i].z
+		);
+		v3.push(fp3);
 	}
-	spheres[1].init( size, 0, 0 );
+	sphere.setVertices(v3);
 
+
+	sphere.init();
 
 };
 
@@ -87,8 +86,10 @@ function Setup() {
 // ------------------------------------------------------------------------
 function Update(event) {
 	if(bRotate) {
-		values.rotx++;
-		values.roty++;
+		values.rotx = 720.0 * ( (Math.sin(event.time * 2) + 1) / 30 );
+		values.roty = 720.0 * ( (Math.cos(event.time * 2) + 1) / 30 );
+		values.rotz++;
+
 		Draw();
 	}
 };
@@ -99,6 +100,8 @@ function Update(event) {
 // Main
 // ------------------------------------------------------------------------
 function Draw() {
+	// sphere.init();
+
 	// rotate
 	scene.rotateX( f.radians(values.rotx) );
 	scene.rotateY( f.radians(values.roty) );
