@@ -116,9 +116,19 @@ frederickkPaper = {
 
 
 	// ------------------------------------------------------------------------
-	roundDecimal : function(orig, deci) {
+	/**
+	 *	
+	 *	@param val
+	 *			number
+	 *	@param deci
+	 *			number of decimal places
+	 *
+	 *	@return float value with desired decimal places
+	 *
+	 */
+ 	roundDecimal : function(val, deci) {
 		var multi = Math.pow(10,deci);
-		return Math.round(orig * multi)/multi;
+		return Math.round(val * multi)/multi;
 	},
 
 
@@ -342,6 +352,7 @@ frederickkPaper = {
 	},
 
 
+
 	// ------------------------------------------------------------------------
 	// Arrays
 	// ------------------------------------------------------------------------
@@ -412,27 +423,39 @@ frederickkPaper = {
 
 /**
  *	
+ *	@param start
+ *				start position in array
+ *	@param stop
+ *				stop position in array
+ *
  *	@return maximum value within array
  *
  */
-Array.prototype.max = function() {
-	var max = this[0];
-	var len = this.length;
-	//for(var i=1; i<len; i++) if(this[i] > max) max = this[i];
-	for(var i=1; i<len; i++) if(this[i] > max) max = i;
+Array.prototype.max = function(start, stop) {
+	var _start = (start != undefined) ? start : 0;
+	var _stop = (stop != undefined) ? stop : this.length;
+	var max = this[_start];
+
+	for(var i=(_start+1); i<_stop; i++) if(this[i] > max) max = i;
 	return max;
 };
 
 /**
  *	
+ *	@param start
+ *				start position in array
+ *	@param stop
+ *				stop position in array
+ *
  *	@return minimum value within array
  *
  */
-Array.prototype.min = function() {
-	var min = this[0];
-	var len = this.length;
-	//for (var i=1; i<len; i++) if(this[i] < min) min = this[i];
-	for (var i=1; i<len; i++) if(this[i] < min) min = i;
+Array.prototype.min = function(start, stop) {
+	var _start = (start != undefined) ? start : 0;
+	var _stop = (stop != undefined) ? stop : this.length;
+	var min = this[_start];
+
+	for (var i=(_start+1); i<_stop; i++) if(this[i] < min) min = i;
 	return min;
 };
 

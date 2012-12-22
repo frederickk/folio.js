@@ -103,13 +103,15 @@ var Matrix3D = function( n11, n12, n13, n14,
 	};
 
 	// ------------------------------------------------------------------------
-	this.createBox = function(scalex, scaley, scalez, rotationx, rotationy, rotationz, tx, ty, tz) {
+	this.createBox = function(	scalex, scaley, scalez, 
+								rotationx, rotationy, rotationz,
+								tx, ty, tz ) {
 		this.identity();
-		if (rotationx != 0) this.rotateX(rotationx);
-		if (rotationy != 0) this.rotateY(rotationy);
-		if (rotationz != 0) this.rotateZ(rotationz);
-		if (scalex != 1 || scaley != 1 || scalez != 1) this.scale(scalex, scaley, scalez);
-		if (tx != 0 || ty != 0 || tz != 0) this.translate(tx, ty, tz);
+		if (rotationx != 0) this.rotateX( rotationx );
+		if (rotationy != 0) this.rotateY( rotationy );
+		if (rotationz != 0) this.rotateZ( rotationz );
+		if (scalex != 1 || scaley != 1 || scalez != 1) this.scale( scalex, scaley, scalez );
+		if (tx != 0 || ty != 0 || tz != 0) this.translate( tx, ty, tz );
 	};
 
 
@@ -124,7 +126,9 @@ var Matrix3D = function( n11, n12, n13, n14,
 
 	// ------------------------------------------------------------------------
 	/**
+	 *
 	 *	Rotation
+	 *
 	 */
 	this.rotateX = function(angle) {
 		var sin = Math.sin(angle);
@@ -233,23 +237,42 @@ var Matrix3D = function( n11, n12, n13, n14,
 
 	this.transformArray = function(arr) {
 		var rVal=[];
-
 		var numPoints=arr.length/3;
 	
 		for(var i=0; i<numPoints; i++) {
-			var i3=i*3;
-			var x=arr[i3];
-			var y=arr[i3+1];
-			var z=arr[i3+2];
+			var i3 = i*3;
+			var x = arr[i3];
+			var y = arr[i3+1];
+			var z = arr[i3+2];
 		
-			rVal[i3]=this.n11*x+this.n21*y+this.n31*z+this.n41;
-			rVal[i3+1]=this.n12*x+this.n22*y+this.n32*z+this.n42;
-			rVal[i3+2]=this.n13*x+this.n23*y+this.n33*z+this.n43;
+			rVal[i3]   = this.n11 * x + this.n21 * y + this.n31 * z + this.n41;
+			rVal[i3+1] = this.n12 * x + this.n22 * y + this.n32 * z + this.n42;
+			rVal[i3+2] = this.n13 * x + this.n23 * y + this.n33 * z + this.n43;
 		}
-	
 		return rVal;
 	};
 
+
+	// ------------------------------------------------------------------------
+	/**
+	 *	Position
+	 */
+	this.getPosition = function() {
+		return [ this.n12, this.n13, this.n14 ];
+	};
+
+	/**
+	 *
+	 *	@param fpoint3
+	 *				FPoint3 xyz
+	 *
+	 */
+	this.setPosition = function(fpoint3) {
+		this.n12 = fpoint3.x;
+		this.n13 = fpoint3.y;
+		this.n14 = fpoint3.z;
+		return this;
+	},
 
 	/**
 	 *

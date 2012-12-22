@@ -188,9 +188,19 @@ frederickkPaper = {
 
 
 	// ------------------------------------------------------------------------
-	roundDecimal : function(orig, deci) {
+	/**
+	 *	
+	 *	@param val
+	 *			number
+	 *	@param deci
+	 *			number of decimal places
+	 *
+	 *	@return float value with desired decimal places
+	 *
+	 */
+ 	roundDecimal : function(val, deci) {
 		var multi = Math.pow(10,deci);
-		return Math.round(orig * multi)/multi;
+		return Math.round(val * multi)/multi;
 	},
 
 
@@ -414,6 +424,7 @@ frederickkPaper = {
 	},
 
 
+
 	// ------------------------------------------------------------------------
 	// Arrays
 	// ------------------------------------------------------------------------
@@ -484,27 +495,39 @@ frederickkPaper = {
 
 /**
  *	
+ *	@param start
+ *				start position in array
+ *	@param stop
+ *				stop position in array
+ *
  *	@return maximum value within array
  *
  */
-Array.prototype.max = function() {
-	var max = this[0];
-	var len = this.length;
-	//for(var i=1; i<len; i++) if(this[i] > max) max = this[i];
-	for(var i=1; i<len; i++) if(this[i] > max) max = i;
+Array.prototype.max = function(start, stop) {
+	var _start = (start != undefined) ? start : 0;
+	var _stop = (stop != undefined) ? stop : this.length;
+	var max = this[_start];
+
+	for(var i=(_start+1); i<_stop; i++) if(this[i] > max) max = i;
 	return max;
 };
 
 /**
  *	
+ *	@param start
+ *				start position in array
+ *	@param stop
+ *				stop position in array
+ *
  *	@return minimum value within array
  *
  */
-Array.prototype.min = function() {
-	var min = this[0];
-	var len = this.length;
-	//for (var i=1; i<len; i++) if(this[i] < min) min = this[i];
-	for (var i=1; i<len; i++) if(this[i] < min) min = i;
+Array.prototype.min = function(start, stop) {
+	var _start = (start != undefined) ? start : 0;
+	var _stop = (stop != undefined) ? stop : this.length;
+	var min = this[_start];
+
+	for (var i=(_start+1); i<_stop; i++) if(this[i] < min) min = i;
 	return min;
 };
 
@@ -2013,6 +2036,40 @@ frederickkPaper.FTime.FStopwatch = function() {
 
 /**
  *  
+ *	FPath3.Constructors.js
+ *	v0.2a
+ *  
+ *	25. November 2012
+ *
+ *	Ken Frederick
+ *	ken.frederick@gmx.de
+ *
+ *	http://cargocollective.com/kenfrederick/
+ *	http://kenfrederick.blogspot.com/
+ *  
+ *
+ *	3D Path Shape Constructors
+ *
+ *	A barebones collection of primitive shapes for 3D rendering
+ *
+ *	code inspired by
+ *	http://www.netmagazine.com/tutorials/build-your-own-html5-3d-engine
+ *	https://github.com/mrdoob/three.js/
+ *
+ *	modified/expanded for use in PaperJS by Ken Frederick
+ *
+ */
+
+
+
+// FPath3.inject({ statics: new function() {
+
+
+// }});
+
+
+/**
+ *  
  *	FPath3.js
  *	v0.2a
  *  
@@ -2187,6 +2244,7 @@ frederickkPaper.F3D.FPath3 = this.FPath3 = Path.extend({
 	},
 
 
+
 	// ------------------------------------------------------------------------
 	// Gets
 	// ------------------------------------------------------------------------
@@ -2201,19 +2259,6 @@ frederickkPaper.F3D.FPath3 = this.FPath3 = Path.extend({
 				new Point( pt3.x2D(), pt3.y2D() )
 			);
 		}
-
-		// determine average z depth of path
-		var minz = this._fpoints3[0].z;
-		var maxz = this._fpoints3[this._fpoints3.length-1].z;
-		var diff = maxz-minz;
-
-		// set position3
-		this.position3.set(
-			this.position.x,
-			this.position.y,
-			diff
-		);
-
 		return this;
 	},
 
@@ -2712,28 +2757,31 @@ frederickkPaper.F3D.FScene3D = this.FScene3D = function() {
 	// Methods
 	// ------------------------------------------------------------------------
 	/**
-	 * matrix for isometric projection
+	 *	matrix for isometric projection
 	 *
 	 *	TODO: figure out why this has to be
 	 *	configured like this?
 	 */
 	this._ortho = function() {
 		_matrix.makeOrtho( 
-			-_half.height, _half.height,
-			_half.height, -_half.height,
-			-_half.height, _half.height
+			-_half.height,	// left
+			_half.height,	// right
+			_half.height,	// top
+			-_half.height,	// bottom
+			-_half.height,	// near
+			_half.height	// far
 		);
 	};
 
 	/**
-	 * _perspective( for perspective projection
+	 *	_perspective( for perspective projection
 	 */
 	this._perspective = function() {
 		_matrix.makePerspective( 
-			66,
-			1,
-			this.bounds.depth/2,
-			this.bounds.depth*2
+			50,		// fov
+			0.5 * this.bounds.width/this.bounds.height,	// aspect
+			_half.depth,		// near
+			this.bounds.depth*2	// far
 		);
 	};
 
@@ -2824,7 +2872,7 @@ frederickkPaper.F3D.FScene3D = this.FScene3D = function() {
 		}
 
 		// determine depth order of items
-		// very very hacky and rudimentary
+		// very crude and rudimentary
 		var tindex = 0;
 		var depthArr = []; // temp array to correlate transformed points to items
 		for(var i=0; i<_fpath3Arr.length; i++) {
@@ -2853,7 +2901,8 @@ frederickkPaper.F3D.FScene3D = this.FScene3D = function() {
 			var path = _fpath3Arr[ depthArr[i].index ].get();
 			
 			if(path.name == 'Z-TOP') _groupTop.appendTop( path );
-			else if(path != null) _groupBot.appendBottom( path );
+			else if(path.name == 'Z-BOTTOM') _groupBot.appendTop( path );
+			else if(path != null) _groupBot.appendTop( path );
 		}
 
 		// TODO: fix this scaling issue
@@ -2862,7 +2911,7 @@ frederickkPaper.F3D.FScene3D = this.FScene3D = function() {
 			_groupBot.scale(200, _groupBot.position);
 		}
 
-		return _groupBot;
+		return new Group( _groupBot,_groupTop );
 	};
 
 
@@ -2908,10 +2957,10 @@ frederickkPaper.F3D.FScene3D = this.FScene3D = function() {
  	this.averageZ = function(pointsArr, start, stop) {
 		var avgz = 0;
 		for(var i=start; i<stop; i+=2) {
-			// console.log( 'x\t' + pointsArr[i] );
-			// console.log( 'y\t' + pointsArr[i+1] );
-			// console.log( 'z\t' + pointsArr[i+2] );
-			avgz += pointsArr[i+2];
+		// 	// console.log( 'x\t' + pointsArr[i] );
+		// 	// console.log( 'y\t' + pointsArr[i+1] );
+		// 	// console.log( 'z\t' + pointsArr[i+2] );
+			avgz += parseInt( pointsArr[i+2] );
 		}
 		var num = (stop-start)/3;
 		return avgz/num;
@@ -3295,13 +3344,15 @@ var Matrix3D = function( n11, n12, n13, n14,
 	};
 
 	// ------------------------------------------------------------------------
-	this.createBox = function(scalex, scaley, scalez, rotationx, rotationy, rotationz, tx, ty, tz) {
+	this.createBox = function(	scalex, scaley, scalez, 
+								rotationx, rotationy, rotationz,
+								tx, ty, tz ) {
 		this.identity();
-		if (rotationx != 0) this.rotateX(rotationx);
-		if (rotationy != 0) this.rotateY(rotationy);
-		if (rotationz != 0) this.rotateZ(rotationz);
-		if (scalex != 1 || scaley != 1 || scalez != 1) this.scale(scalex, scaley, scalez);
-		if (tx != 0 || ty != 0 || tz != 0) this.translate(tx, ty, tz);
+		if (rotationx != 0) this.rotateX( rotationx );
+		if (rotationy != 0) this.rotateY( rotationy );
+		if (rotationz != 0) this.rotateZ( rotationz );
+		if (scalex != 1 || scaley != 1 || scalez != 1) this.scale( scalex, scaley, scalez );
+		if (tx != 0 || ty != 0 || tz != 0) this.translate( tx, ty, tz );
 	};
 
 
@@ -3316,7 +3367,9 @@ var Matrix3D = function( n11, n12, n13, n14,
 
 	// ------------------------------------------------------------------------
 	/**
+	 *
 	 *	Rotation
+	 *
 	 */
 	this.rotateX = function(angle) {
 		var sin = Math.sin(angle);
@@ -3425,23 +3478,42 @@ var Matrix3D = function( n11, n12, n13, n14,
 
 	this.transformArray = function(arr) {
 		var rVal=[];
-
 		var numPoints=arr.length/3;
 	
 		for(var i=0; i<numPoints; i++) {
-			var i3=i*3;
-			var x=arr[i3];
-			var y=arr[i3+1];
-			var z=arr[i3+2];
+			var i3 = i*3;
+			var x = arr[i3];
+			var y = arr[i3+1];
+			var z = arr[i3+2];
 		
-			rVal[i3]=this.n11*x+this.n21*y+this.n31*z+this.n41;
-			rVal[i3+1]=this.n12*x+this.n22*y+this.n32*z+this.n42;
-			rVal[i3+2]=this.n13*x+this.n23*y+this.n33*z+this.n43;
+			rVal[i3]   = this.n11 * x + this.n21 * y + this.n31 * z + this.n41;
+			rVal[i3+1] = this.n12 * x + this.n22 * y + this.n32 * z + this.n42;
+			rVal[i3+2] = this.n13 * x + this.n23 * y + this.n33 * z + this.n43;
 		}
-	
 		return rVal;
 	};
 
+
+	// ------------------------------------------------------------------------
+	/**
+	 *	Position
+	 */
+	this.getPosition = function() {
+		return [ this.n12, this.n13, this.n14 ];
+	};
+
+	/**
+	 *
+	 *	@param fpoint3
+	 *				FPoint3 xyz
+	 *
+	 */
+	this.setPosition = function(fpoint3) {
+		this.n12 = fpoint3.x;
+		this.n13 = fpoint3.y;
+		this.n14 = fpoint3.z;
+		return this;
+	},
 
 	/**
 	 *

@@ -92,9 +92,9 @@ function Setup() {
 // ------------------------------------------------------------------------
 function Update(event) {
 	if(bRotate) {
-		values.rotx = 720.0 * ( (Math.sin(event.time * 2) + 1) / 15);
+		values.rotx++;
 		values.roty++;
-		values.rotz = 360.0 * ( (Math.cos(event.time * 2) + 1) / -30 );
+		values.rotz++;
 
 		Draw();
 	}
@@ -106,18 +106,16 @@ function Update(event) {
 // Main
 // ------------------------------------------------------------------------
 function Draw() {
-	billRed.showBoundingBox(bBoundingBox);
-	billYellow.showBoundingBox(bBoundingBox);
-	billBlue.showBoundingBox(bBoundingBox);
-
-	// rotate
+	// rotates all of the items in the scene
+	// TODO: be able to rotate individual items
 	scene.rotateX( f.radians(values.rotx) );
 	scene.rotateY( f.radians(values.roty) );
 	scene.rotateZ( f.radians(values.rotz) );
 
-	// draw to screen
+	// draw scene to screen
+	// the scene contains all paths (only FPath3 items) added to the scene
+	// the scene can have a scalar as well
 	scene.draw().scale(1);
-
 };
 
 

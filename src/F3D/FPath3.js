@@ -174,6 +174,7 @@ frederickkPaper.F3D.FPath3 = this.FPath3 = Path.extend({
 	},
 
 
+
 	// ------------------------------------------------------------------------
 	// Gets
 	// ------------------------------------------------------------------------
@@ -188,19 +189,6 @@ frederickkPaper.F3D.FPath3 = this.FPath3 = Path.extend({
 				new Point( pt3.x2D(), pt3.y2D() )
 			);
 		}
-
-		// determine average z depth of path
-		var minz = this._fpoints3[0].z;
-		var maxz = this._fpoints3[this._fpoints3.length-1].z;
-		var diff = maxz-minz;
-
-		// set position3
-		this.position3.set(
-			this.position.x,
-			this.position.y,
-			diff
-		);
-
 		return this;
 	},
 

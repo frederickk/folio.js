@@ -68,28 +68,31 @@ frederickkPaper.F3D.FScene3D = this.FScene3D = function() {
 	// Methods
 	// ------------------------------------------------------------------------
 	/**
-	 * matrix for isometric projection
+	 *	matrix for isometric projection
 	 *
 	 *	TODO: figure out why this has to be
 	 *	configured like this?
 	 */
 	this._ortho = function() {
 		_matrix.makeOrtho( 
-			-_half.height, _half.height,
-			_half.height, -_half.height,
-			-_half.height, _half.height
+			-_half.height,	// left
+			_half.height,	// right
+			_half.height,	// top
+			-_half.height,	// bottom
+			-_half.height,	// near
+			_half.height	// far
 		);
 	};
 
 	/**
-	 * _perspective( for perspective projection
+	 *	_perspective( for perspective projection
 	 */
 	this._perspective = function() {
 		_matrix.makePerspective( 
-			66,
-			1,
-			this.bounds.depth/2,
-			this.bounds.depth*2
+			50,		// fov
+			0.5 * this.bounds.width/this.bounds.height,	// aspect
+			_half.depth,		// near
+			this.bounds.depth*2	// far
 		);
 	};
 
@@ -180,7 +183,7 @@ frederickkPaper.F3D.FScene3D = this.FScene3D = function() {
 		}
 
 		// determine depth order of items
-		// very very hacky and rudimentary
+		// very crude and rudimentary
 		var tindex = 0;
 		var depthArr = []; // temp array to correlate transformed points to items
 		for(var i=0; i<_fpath3Arr.length; i++) {
@@ -209,7 +212,8 @@ frederickkPaper.F3D.FScene3D = this.FScene3D = function() {
 			var path = _fpath3Arr[ depthArr[i].index ].get();
 			
 			if(path.name == 'Z-TOP') _groupTop.appendTop( path );
-			else if(path != null) _groupBot.appendBottom( path );
+			else if(path.name == 'Z-BOTTOM') _groupBot.appendTop( path );
+			else if(path != null) _groupBot.appendTop( path );
 		}
 
 		// TODO: fix this scaling issue
@@ -218,7 +222,7 @@ frederickkPaper.F3D.FScene3D = this.FScene3D = function() {
 			_groupBot.scale(200, _groupBot.position);
 		}
 
-		return _groupBot;
+		return new Group( _groupBot,_groupTop );
 	};
 
 
@@ -264,10 +268,10 @@ frederickkPaper.F3D.FScene3D = this.FScene3D = function() {
  	this.averageZ = function(pointsArr, start, stop) {
 		var avgz = 0;
 		for(var i=start; i<stop; i+=2) {
-			// console.log( 'x\t' + pointsArr[i] );
-			// console.log( 'y\t' + pointsArr[i+1] );
-			// console.log( 'z\t' + pointsArr[i+2] );
-			avgz += pointsArr[i+2];
+		// 	// console.log( 'x\t' + pointsArr[i] );
+		// 	// console.log( 'y\t' + pointsArr[i+1] );
+		// 	// console.log( 'z\t' + pointsArr[i+2] );
+			avgz += parseInt( pointsArr[i+2] );
 		}
 		var num = (stop-start)/3;
 		return avgz/num;

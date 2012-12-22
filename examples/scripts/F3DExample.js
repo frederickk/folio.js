@@ -31,7 +31,12 @@ var scene = new f3d.FScene3D();
 var path3 = [];
 
 // values for rotation
-var rotation = [];
+var bRotate = false;
+var values = {
+	rotx:	0,
+	roty:	0,
+	rotz:	0
+};
 
 
 
@@ -89,6 +94,13 @@ function Setup() {
 // Update
 // ------------------------------------------------------------------------
 function Update(event) {
+	if(bRotate) {
+		values.rotx = 720.0 * ( (Math.sin(event.time * 2) + 1) / 15);
+		values.roty++;
+		values.rotz = 360.0 * ( (Math.cos(event.time * 2) + 1) / -30 );
+
+		Draw();
+	}
 };
 
 
@@ -99,9 +111,9 @@ function Update(event) {
 function Draw() {
 	// rotates all of the items in the scene
 	// TODO: be able to rotate individual items
-	scene.rotateX( f.radians(rotation[0]) );
-	scene.rotateY( f.radians(rotation[1]) );
-	scene.rotateZ( f.radians(rotation[2]) );
+	scene.rotateX( f.radians(values.rotx) );
+	scene.rotateY( f.radians(values.roty) );
+	scene.rotateZ( f.radians(values.rotz) );
 
 	// draw scene to screen
 	// the scene contains all paths (only FPath3 items) added to the scene
@@ -135,9 +147,9 @@ function onMouseMove(event) {
 };
 
 function onMouseDrag(event) {
-	rotation[0] = event.point.y;
-	rotation[1] = event.point.x;
-	rotation[2] = event.point.x - event.point.y;
+	values.rotx = event.point.y;
+	values.roty = event.point.x;
+	// values.rotz = event.point.x - event.point.y;
 
 	// redraw to update scene
 	Draw();
@@ -146,6 +158,12 @@ function onMouseDrag(event) {
 
 // ------------------------------------------------------------------------
 function onKeyDown(event) {
+	if(event.key == 'enter') {
+		bRotate = !bRotate;
+		values.rotx += 1;
+		values.roty += 1;
+		values.rotz += 1;
+	}
 };
 
 function onKeyUp(event) {
