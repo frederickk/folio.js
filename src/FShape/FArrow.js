@@ -1,9 +1,9 @@
 /**
  *	
  *	FArrow.js
- *	v0.2a
+ *	v0.3a
  *	
- *	25. November 2012
+ *	16. February 2013
  *
  *	Ken Frederick
  *	ken.frederick@gmx.de
@@ -13,44 +13,25 @@
  *
  *
  *	FArrow
- *
- *	Create simple sphere
+ *	Create simple arrow
  */
 
 
-
+/**
+ *
+ *	depreciating FShape namespace
+ *
+ *	@example
+ *	var headPoint = new paper.Point( 9,9 );
+ *	var tailPoint = new paper.Point( 90,90 );
+ *	var arrowHeadSize = new paper.Size( 18,18 );
+ *	var farrow = new paper.Path.FArrow( headPoint, tailPoint, arrowHeadSize );
+ *
+ */
 frederickkPaper.FShape.FArrow = this.FArrow = Path.extend({
-	 /**
-	  *	
-	  *	@param headPoint
-	  *				the head of the arrow
-	  *	@param tailPoint
-	  *				the tail of the arrow
-	  *	@param arrowHeadSize
-	  *				(optional) length of the arrow head
-	  */
-	initialize : function(headPoint, tailPoint, arrowHeadSize) {
-		// the line part
-		this.path = new Path( headPoint, tailPoint );
 
-		// the arrow head
-		arrowHeadSize = (arrowHeadSize != undefined) ? arrowHeadSize : new Size(headPoint.getDistance(tailPoint)*0.381924,headPoint.getDistance(tailPoint)*0.381924);
-
-		// rotate arrow head around to correct position
-		var a = Math.atan2( headPoint.x-tailPoint.x, tailPoint.y-headPoint.y );
-
-		// slight "hack" to get strokCap correct
-		var arrowHead = [];
-		arrowHead[0] = new Path( new Point(0,0), new Point(-arrowHeadSize.width,-arrowHeadSize.height) );
-		arrowHead[1] = new Path( new Point(0,0), new Point( arrowHeadSize.width,-arrowHeadSize.height) );
-		for( var i=0; i<arrowHead.length; i++ ) {
-			arrowHead[i].rotate( 180+frederickkPaper.degrees(a), new Point(0,0) );
-			arrowHead[i].translate( headPoint );
-		}
-
-		var group = new Group( this.path, arrowHead[0], arrowHead[1] );
-		group.name = 'arrow';
-		return group;
+	initialize : function( headPoint, tailPoint, arrowHeadSize ) {
+		return new paper.Path.FArrow( headPoint, tailPoint, arrowHeadSize );
 	}
 
 });

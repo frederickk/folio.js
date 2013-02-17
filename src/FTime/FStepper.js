@@ -15,6 +15,8 @@
  *	FStepper
  *
  */
+
+
 frederickkPaper.FTime.FStepper = function() {
 	// ------------------------------------------------------------------------
 	// Properties

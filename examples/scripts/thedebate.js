@@ -20,7 +20,10 @@ console.log( 'The Debate Loaded' );
 // ------------------------------------------------------------------------
 var f = frederickkPaper;
 var ftime = f.FTime;
-var fshape = f.FShape;
+
+// depreciating FShape namespace
+// no longer necessary use paper.Path
+//var fshape = f.FShape;
 
 
 var speakers = new Array(2);
@@ -91,7 +94,7 @@ function Setup() {
 	Kant.image = rasters[0];
 
 	var th = Math.abs(((view.bounds.rightCenter.y+(size*0.25))+size/2)-(view.bounds.height-95));
-	Kant.bubble = new fshape.FBubble( 
+	Kant.bubble = new Path.FBubble( 
 		new Point(view.bounds.rightCenter.x,view.bounds.rightCenter.y+(size*0.25)),
 		new Size(f.randomInt(size*0.75,size*1.25),size),
 		new Size(size*0.13, th),
@@ -139,7 +142,7 @@ function Setup() {
 
 	// bubble shape
 	var th = Math.abs(((view.bounds.leftCenter.y-(size*0.45))+size/2)-(view.bounds.height-95));
-	Husserl.bubble = new fshape.FBubble( 
+	Husserl.bubble = new Path.FBubble( 
 		new Point(view.bounds.leftCenter.x,view.bounds.leftCenter.y-size*0.45),
 		new Size(f.randomInt(size*0.75,size*1.25),size),
 		new Size(size*0.13, th),

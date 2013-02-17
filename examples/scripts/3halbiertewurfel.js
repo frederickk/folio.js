@@ -80,7 +80,7 @@ function Setup() {
 
 	// billGreen = new frederickkPaper.FShape.FBillBox(scene);
 	// billGreen.setSize(size, size, size);
-	// billGreen.fillColor = new paper.RGBColor(0.62, 0.77, 0.14);
+	// billGreen.fillColor = new RgbColor(0.62, 0.77, 0.14);
 	// billGreen.setVertices( [9,17,7] );
 	// billGreen.init((size),size,0);
 };

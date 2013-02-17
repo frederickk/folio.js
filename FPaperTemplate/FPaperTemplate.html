@@ -1,5 +1,5 @@
 <!-- 
-  -	FPaperTemplate 0.1a
+  -	FPaperTemplate 0.3a
   -
   -	Ken Frederick
   -	ken.frederick@gmx.de
@@ -132,7 +132,19 @@
 			 */
 			$(function() {
 				// ------------------------------------------------------------------------
-				// Resize Event Handler
+				function resizeCanvas() {
+					var width = $('#container').width();
+					var height = $('#container').height();
+					
+					// set canvas width and height
+					$('#canvas').attr('width', width);
+					$('#canvas').attr('height', height)
+
+					Draw();
+					view.draw(); // draw the screen
+
+				};
+
 				// ------------------------------------------------------------------------
 				var resizeTimeout;
 				$(window).resize(function() {
@@ -140,8 +152,6 @@
 					resizeTimeout = setTimeout(resizeCanvas, 100);
 				});
 				resizeCanvas();
-
-				
 			});
 
 
@@ -180,6 +190,10 @@
 
 
 		<!-- INPUTS -->
+		<div id="inputLabelContainer">
+			<!-- any labels for form elemenst -->
+		</div>
+
 		<div id="inputContainer">
 			<!-- any form elements which need to be accessed should be placed in here -->
 		</div>

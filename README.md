@@ -1,13 +1,26 @@
 frederickkPaper
 ============
 
-http://kenfrederick.blogspot.de/2012/12/paperjs-frederickkpaper.html
+http://kenfrederick.blogspot.de/2012/12/paperjs-frederickkpaper.html *updated*
+
+
+- 16. February 2013
+0.3a
+
+I've updated the library to work more directly with (and more like) native paper.js. I've cleaned out some unnecessary namespaces such as FPoint, FColor, and FShape (except for 3D shapes). Once the frederickkPaper library is loaded, all of those features that were once include as part of those namespsaces, are now directly injected into paper.js
+
+Massive TODO is update the 3D aspect, the depth indexing is terrible and the classes themselves are inefficient.
+
+
+- 25. November 2012
+0.2a
 
 Over the past couple of years, I've assembled a library of functions for Scriptographer, and given the recent news, I began porting this rag-tag-collection into a slightly more library for web development. I'm calling this library FrederickkPaper. Mainly because at the moment I'm focusing on paperjs, in the future I'd like to try and make it more generic for use with other web based creative tools (ProcessingJS, et. al.). In addition to the Scriptographer specfic functions, I've also ported some of the more useful features from my Processing library Frederickk.
 
 For now FrederickkPaper should be seen as very very alpha.
 
 Not all of the code in here was created by me but credit and links are given where credit is due.
+
 
 
 Examples
@@ -47,10 +60,6 @@ shows the features of FTime, which is partly a wrapper for the native JavaScript
 https://dl.dropbox.com/u/7038255/frederickkPaper/clocks.html
 
 
-Date
-
-https://dl.dropbox.com/u/7038255/frederickkPaper/FTimeExample.html
-
 
 
 ###FStepper Examples###
@@ -70,19 +79,51 @@ https://dl.dropbox.com/u/7038255/frederickkPaper/FStepperExample.html
 
 ###FColor Examples###
 
+FColor Example (new)
+
+shows added Color features such as color lerping
+
+https://dl.dropbox.com/u/7038255/frederickkPaper/FColorExample.html
+
+
 Chain-Chain-Chain
 
-shows FColor features such as color lerping
+the connected travelling salesman
 
 https://dl.dropbox.com/u/7038255/frederickkPaper/chain-chain-chain.html
 
 
 10 PRINT CHR$(205.5+RND(1));
 
-https://dl.dropbox.com/u/7038255/frederickkPaper/FColorExample.html
+https://dl.dropbox.com/u/7038255/frederickkPaper/10print.html
+
+
+
+###FShape Examples###
+
+FArrow Example
+
+draw arrows
+
+https://dl.dropbox.com/u/7038255/frederickkPaper/FArrowExample.html
+
+
+FDrop Example (new)
+
+draw (tear)drops
+
+https://dl.dropbox.com/u/7038255/frederickkPaper/FDropExample.html
+
+
+FTriangle Example (new)
+
+draw triangles (and get their various center points - incomplete)
+
+https://dl.dropbox.com/u/7038255/frederickkPaper/FTriangle.html
 
 
 All of these examples can be found in the above 'examples' directory. More Examples of frederickkPaper to be added as time permits.
+
 
 
 
@@ -138,8 +179,9 @@ var ftime = fpaper.FTime;
 Features
 -------------
 
+Documenting javascript isn't as easy as I had hoped (if anyone has suggestions please share) so I've updated the comments and added examples in the code, much in the same manner as paper.js itself
 
-Here's an incomplete overview of what some of these classes in frederickkPaper are. A more complete API will follow as time and interest allows. At some point, I'll compile this into real documentation until then...
+Here's an incomplete overview of what some of these classes in frederickkPaper are. A more complete API will follow as time and interest allows.
 
 
 ### Frederickk (core) ###
@@ -164,6 +206,8 @@ frederickkPaper.sq(num);
 frederickkPaper.boolToInt(val);
 frederickkPaper.getType(object);
 frederickkPaper.findByName(items, name);
+
+paper.EPSILON;
 ```
 
 
@@ -188,18 +232,82 @@ Array.shuffle();
 ```
 
 
-paper.Item extensions
+paper.Point extensions
 
 ```javascript
-paper.Item.snapGrid(spacing);
-paper.Item.snapIso(scale);
+paper.Point.norm(startPt, stopPt);
+paper.Point.random();
+paper.Point.heading();
+
+paper.Point.interpolateTo(v2, f);
+paper.Point.lerp( startPt, endPt, amt );
+paper.Point.limit(lim);
+paper.Point.magSq();
+
+paper.Point.snapGrid(spacing);
+paper.Point.snapIso(scale);
+
+paper.Point.getAngle();
 ```
+
 
 
 paper.Size extensions
 
 ```javascript
+paper.Size.random();
 paper.Size.area();
+paper.Size.radius();
+```
+
+
+
+paper.Color extensions
+
+Expands paper.Color some of these may be redundant to the PaperJS api, that's due to the legacy of the library's initial creation for use in Scriptographer.
+
+
+```javascript
+paper.Color.darken(pct);
+paper.Color.lighten(pct);
+
+paper.Color.lerp(c1,c2, amt);
+paper.GrayColor.random();
+paper.RgbColor.random();
+paper.HslColor.random();
+paper.HsbColor.random();
+paper.Color.colorToInt(col);
+paper.Color.integer(RGBint);
+paper.Color.colorToHex(col);
+paper.Color.hex(hex);
+paper.Color.bytes(r255, g255, b255, a255);
+```
+
+
+
+paper.Item extensions
+
+```javascript
+paper.Item.distanceToCenter();
+
+paper.Item.snapGrid(spacing);
+paper.Item.snapIso(scale);
+```
+
+
+
+paper.Path.extensions
+
+```javascript
+paper.Path.FArrow();
+paper.Path.FBubble();
+paper.Path.FChain();
+paper.Path.FCross();
+paper.Path.FDrop();
+
+paper.Path.FTriangle();
+paper.Path.FTriangle.getCircumCircle();
+paper.Path.FTriangle.getCentroid();
 ```
 
 
@@ -224,54 +332,6 @@ frederickkPaper.FConversions.piToPt;
 ```
 
 
-### FColor ###
-Expands paper.Color some of these may be redundant to the PaperJS api, that's due to the legacy of the library's initial creation for use in Scriptographer.
-
-```javascript
-var fcolor = new frederickkPaper.FColor();
-
-frederickkPaper.FColor().lerpCMYKColor(c1,c2, amt);
-frederickkPaper.FColor().lerpRGBColor(c1,c2, amt);
-frederickkPaper.FColor().random();
-frederickkPaper.FColor().randomRGBColor();
-frederickkPaper.FColor().randomCMYKColor();
-frederickkPaper.FColor().randomGrayColor();
-frederickkPaper.FColor().ColorToInt(col);
-frederickkPaper.FColor().IntToColor(RGBint);
-frederickkPaper.FColor().ColorToHex(col);
-frederickkPaper.FColor().HexToColor(hex);
-frederickkPaper.FColor().ByteToColor(r255, g255, b255, a255);
-```
-
-
-paper.Color extensions
-
-```javascript
-paper.Color.darken(pct);
-paper.Color.lighten(pct);
-```
-
-
-
-### FPoint ###
-Expands paper.Point some of these may be redundant to the PaperJS api, that's due to the legacy of the library's initial creation for use in Scriptographer.
-
-```javascript
-var fpoint = new frederickkPaper.FPoint();
-
-frederickkPaper.FPoint().norm(startPt, stopPt);
-frederickkPaper.FPoint().random();
-frederickkPaper.FPoint().heading();
-
-frederickkPaper.FPoint().interpolateTo(v2, f);
-frederickkPaper.FPoint().limit(lim);
-frederickkPaper.FPoint().magSq();
-
-frederickkPaper.FPoint().snapGrid(spacing);
-frederickkPaper.FPoint().snapIso(scale);
-```
-
-
 
 ### FIO ###
 A collection of tools for handling files/cookies
@@ -279,10 +339,25 @@ A collection of tools for handling files/cookies
 ```javascript
 var fio = frederickkPaper.FIO;
 
+frederickkPaper.FIO.saveLocal(name, value);
+frederickkPaper.FIO.getLocal(name);
+frederickkPaper.FIO.getLocalInt(name);
+frederickkPaper.FIO.getLocalFloat(name);
+frederickkPaper.FIO.getAllLocal();
+frederickkPaper.FIO.deleteLocal(name);
+
+frederickkPaper.FIO.saveSession(name, value);
+frederickkPaper.FIO.getSession(name);
+frederickkPaper.FIO.getSessionInt(name);
+frederickkPaper.FIO.getSessionFloat(name);
+frederickkPaper.FIO.getAllSession();
+frederickkPaper.FIO.deleteSession();
+
 frederickkPaper.FIO.saveCookie(name, value, days);
 frederickkPaper.FIO.openCookie(name);
 frederickkPaper.FIO.deleteCookie(name);
 ```
+
 
 
 ### FTime ###

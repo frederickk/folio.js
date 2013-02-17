@@ -13,11 +13,9 @@
  *
  *
  *	FSphere
- *
  *	Create simple sphere
  *
  */
-
 
 
  /**
@@ -109,7 +107,7 @@ frederickkPaper.FShape.FSphere = function(scene) {
 		var numVertices = this.vertices.length-2;
 		for(var i=0; i<numVertices; i++) {
 			var v = this.vertices[i];
-			var col = new paper.HSLColor( 360*i/numVertices, 0.9, 0.7);
+			var col = new HslColor( 360*i/numVertices, 0.9, 0.7);
 
 			var depth = (v.z/scene.getFocalLength())*100;
 

@@ -61,7 +61,7 @@ function Setup() {
 	path3[0].add3( new f3d.FPoint3( 100,	-100,	-100) );
 	path3[0].add3( new f3d.FPoint3(-100,	-100,	-100) );
 	// use FColor to give the field a random RGB color
-	path3[0].fillColor = new f.FColor().random();
+	path3[0].fillColor = new RgbColor().random();
 	path3[0].closed = true;
 
 	// middle
@@ -70,7 +70,7 @@ function Setup() {
 	path3[1].add3( new f3d.FPoint3( 100,	0,	 100) );
 	path3[1].add3( new f3d.FPoint3( 100,	0,	-100) );
 	path3[1].add3( new f3d.FPoint3(-100,	0,	-100) );
-	path3[1].fillColor = new f.FColor().random();
+	path3[1].fillColor = new RgbColor().random();
 	path3[1].closed = true;
 
 	// bottom
@@ -79,7 +79,7 @@ function Setup() {
 	path3[2].add3( new f3d.FPoint3( 100,	100,	 100) );
 	path3[2].add3( new f3d.FPoint3( 100,	100,	-100) );
 	path3[2].add3( new f3d.FPoint3(-100,	100,	-100) );
-	path3[2].fillColor = new f.FColor().random();
+	path3[2].fillColor = new RgbColor().random();
 	path3[2].closed = true;
 
 

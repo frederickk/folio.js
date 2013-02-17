@@ -19,8 +19,13 @@
  */
 
 var f = frederickkPaper;
-var fshape = f.FShape;
-var fcolor = new f.FColor();
+
+// depreciating FShape namespace
+// no longer necessary use paper.Path
+//var fshape = f.FShape;
+
+// depreciating FColor namespace
+// var fcolor = new f.FColor();
 
 
 var TSP = function() { 
@@ -198,7 +203,7 @@ var TSP = function() {
 			obj1 = this.items[ this.nodeRoute[j] ];
 			obj2 = this.items[ this.nodeRoute[j+1] ];
 			
-			var chain = new fshape.FChain( obj1, obj2 );
+			var chain = new Path.FChain( obj1, obj2 );
 			chain.strokeColor = 'white';
 			chain.strokeWidth = 2;
 			chain.fillColor = obj1.fillColor;

@@ -13,10 +13,11 @@
  *
  *
  *	FStopwatch
- *
  *	A simple stopwatch
  *
  */
+
+
 frederickkPaper.FTime.FStopwatch = function() {
 	// ------------------------------------------------------------------------
 	// Properties

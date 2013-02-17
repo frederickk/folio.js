@@ -17,7 +17,6 @@
  */
 
 
-
 frederickkPaper.FTime.FDate = function() {
 	// ------------------------------------------------------------------------
 	// Properties

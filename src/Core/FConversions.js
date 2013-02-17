@@ -13,11 +13,9 @@
  *  
  *  
  *	FConversions
- *
  *	A collection of helpful conversion ratios
  *
  */
-
 
 
 frederickkPaper.FConversions = function() {

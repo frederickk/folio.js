@@ -13,7 +13,6 @@
  *
  *
  *	FControl
- *
  *	A collection of methods for adding HTML form elements
  *	for use as a GUI
  *
@@ -21,7 +20,7 @@
 
 
 
-/**
+/*
  *
  *	TODO: finish
  *

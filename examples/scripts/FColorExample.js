@@ -9,9 +9,6 @@ console.log( 'FColor Example Loaded' );
  *	http://kenfrederick.blogspot.com/
  *
  *	
- *	A very long version of 10 PRINT CHR$(205.5+RND(1));
- *	http://10print.org/
- *
  */
 
 
@@ -20,42 +17,79 @@ console.log( 'FColor Example Loaded' );
 // ------------------------------------------------------------------------
 // the core frederickkPaper namespace
 var f = frederickkPaper;
-var fshape = f.FShape;
 
-var background;
-var group10;
+// depreciating FColor namespace
+// no longer necessary use paper.RgbColor() or GrayColor() or etc.
+//var fcolor = f.FColor
 
-// our cross
-var cross;
+var dots;
+var dotsSize;
 
-// size of pattern elements
-var size;
-
-// colors holer
-var colors = []; 
-
+var colors;
 
 
 // ------------------------------------------------------------------------
 // Setup
 // ------------------------------------------------------------------------
 function Setup() {
-	// scale the size to the width of the canvas
-	size = (view.bounds.width/10)/2;
 
-	// create our cross element
-	cross = new fshape.FCross( 
-		view.bounds.center, new Size(size,size), size, 'SHARP'
-	);
+	colors = [
+		// individualize colors
+		// first row
+		new GrayColor().random( [0.3,0.6] ),
+		new RgbColor().random(),
+		new HslColor().random( [45,90], [0.7,0.9], [0.7,0.9] ),
+		new HsbColor().random( [90,120], [0.7,0.9], [0.7,0.9] ),
+		new RgbColor( 0, 1.0, 0.7 ),
+		new RgbColor( 0, 0.7, 1.0 ),
 
-	// hide the cross (because we'll be cloning it in Draw())
-	cross.visible = false;
+		// second row
+		null, null, null, null, null, null,
 
-	// initiate draw group
-	group10 = new Group();
+		// third row
+		null, null, null, null, null, null,
 
-	// initiate background
-	background = new Path.Rectangle( view.bounds.topLeft, view.bounds.bottomRight );
+		// fourth row
+		new RgbColor( 0 ),
+		new RgbColor().hex( '#'+randomHex() ),
+		new RgbColor().integer( parseInt(randomHex()) ),
+		new RgbColor().bytes( Math.random()*255, Math.random()*255, Math.random()*255 ),
+		null,
+		null
+	];
+
+	// second row
+	// (lerped between first and fourth row)
+	colors[6] = colors[0].lerp( colors[18], 0.66 );
+	colors[7] = colors[1].lerp( colors[19], 0.66 );
+	colors[8] = colors[2].lerp( colors[20], 0.66 );
+	colors[9] = colors[3].lerp( colors[21], 0.66 );
+	// darkened
+	colors[10] = colors[4].clone().darken( 0.33 );
+	// lightned
+	colors[11] = colors[5].clone().lighten( 0.33 );
+
+	// third row
+	// (lerped between first and fourth row)
+	colors[12] = colors[0].lerp( colors[18], 0.33 );
+	colors[13] = colors[1].lerp( colors[19], 0.33 );
+	colors[14] = colors[2].lerp( colors[20], 0.33 );
+	colors[15] = colors[3].lerp( colors[21], 0.33 );
+	// darkened
+	colors[16] = colors[4].clone().darken( 0.66 );
+	// lightned
+	colors[17] = colors[5].clone().lighten( 0.66 );
+
+	// fourth row
+	// darkened
+	colors[22] = colors[4].clone().darken( 0.9 );
+	// lightned
+	colors[23] = colors[5].clone().lighten( 0.9 );
+
+
+	// create dot group
+	dots = new Group();
+	dotsSize = view.bounds.height/4;
 
 };
 
@@ -73,35 +107,28 @@ function Update(event) {
 // Main
 // ------------------------------------------------------------------------
 function Draw() {
-	// pull in color values from input fields
-	// uses jquery to get values
-	colors[0] = new f.FColor().HexToColor( $("#hexcolor1").val() );
-	colors[1] = new f.FColor().HexToColor( $("#hexcolor2").val() );
+	dots.removeChildren();
 
-	background.fillColor = colors[1];
-	background.bounds.size = view.bounds.size;
+	// draw dots
+	var index = 0;
+	var margin = 21;
 
-	// a bit of hack to clear the group when redrawing
-	group10.removeChildren();
+	for(var y=0; y<4; y++) {
+		for(var x=0; x<6; x++) {
+			// setup grid
+			var pt = new Point(
+				f.map( x, 0,5, margin*6,view.bounds.width-margin*6),
+				f.map( y, 0,3, margin*6,view.bounds.height-margin*6)
+			);		
 
-	for(var y=0; y<view.bounds.height+size/2; y+=size*2) {
-		for(var x=0; x<view.bounds.width+size/2; x+=size*2) {
-			// generate a random integer between 0 and 2
-			var rand = f.randomInt(0,2);
-			// grab one lines in the cross
-			// at random of course
-			var c = cross.children[ rand ].clone();
-			// darken colors[0] to use as a secondary color
-			// a function added to paper.Color via frederickkPaper
-			(rand == 0) ? c.fillColor = colors[0].lighten(0.03) : c.fillColor = colors[0].darken(0.03);
-			// position the line on the grid
-			c.position = new Point(x+size/2,y+size/2);
-			// add to our group (which we clear each redraw)
-			group10.appendTop(c);
+			// draw dot
+			var dot = new Path.Circle( pt, dotsSize );
+			dot.fillColor = colors[index];
+			dots.appendTop( dot );
+
+			index++;
 		}
-	}
-
-	group10.appendBottom(background);
+	} 
 
 };
 
@@ -110,6 +137,9 @@ function Draw() {
 // ------------------------------------------------------------------------
 // Methods
 // ------------------------------------------------------------------------
+function randomHex() {
+	return ((1<<24)*Math.random()|0).toString(16);
+};
 
 
 
@@ -125,13 +155,14 @@ function onMouseUp(event) {
 };
 
 function onMouseDown(event) {
-	Draw();
 };
 
 function onMouseMove(event) {
 };
 
 function onMouseDrag(event) {
+	dotsSize = (event.point.x*event.point.y)/view.bounds.width;
+	Draw();
 };
 
 

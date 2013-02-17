@@ -13,11 +13,9 @@
  *
  *
  *	FIO
- *
  *	A collection of I/O methods;
  *
  */
-
 
 
 frederickkPaper.FIO = {

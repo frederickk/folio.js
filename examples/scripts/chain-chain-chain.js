@@ -34,8 +34,8 @@ var tsp = new TSP();
 // background
 var background;
 var colors = {
-	start:	new f.FColor().random(),
-	end:	new f.FColor().random()
+	start:	new RgbColor().random(),
+	end:	new RgbColor().random()
 };
 
 
@@ -76,7 +76,7 @@ function Setup() {
 	for(var y=grid.height; y<view.bounds.height; y+=grid.height) {
 		for(var x=grid.width; x<view.bounds.width; x+=grid.width) {
 			
-			var pt = new f.FPoint(x,y); //.random();
+			var pt = new Point(x,y); //.random();
 			var path = new Path.Circle(pt, f.randomInt(3,60));
 			path.fillColor = 'white';
 			// path.blendMode = 'multiply';
@@ -123,8 +123,7 @@ function updateBackground() {
 	// dots
 	for(var i=0; i<dots.children.length; i++) {
 		var kid = dots.children[i];
-		var col = new f.FColor().lerpRGBColor(
-			colors.start,
+		var col = colors.start.lerp(
 			colors.end,
 			i/dots.children.length
 		);
@@ -137,8 +136,7 @@ function updateBackground() {
 	if(tsp.getTangents() != null) {
 		for(var i=0; i<tsp.getTangents().children.length; i++) {
 			var tan = tsp.getTangents().children[i];
-			var col = new f.FColor().lerpRGBColor(
-				colors.start,
+			var col = colors.start.lerp(
 				colors.end,
 				i/dots.children.length
 			);

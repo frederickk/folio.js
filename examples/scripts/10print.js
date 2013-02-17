@@ -1,6 +1,6 @@
-console.log( 'FArrow Example Loaded' );
+console.log( 'FColor Example Loaded' );
 /**
- *	FArrow Example
+ *	FColor Example
  *
  *	Ken Frederick
  *	ken.frederick@gmx.de
@@ -9,7 +9,8 @@ console.log( 'FArrow Example Loaded' );
  *	http://kenfrederick.blogspot.com/
  *
  *	
- *	An example of creating an arrow
+ *	A very long version of 10 PRINT CHR$(205.5+RND(1));
+ *	http://10print.org/
  *
  */
 
@@ -24,10 +25,17 @@ var f = frederickkPaper;
 // no longer necessary use paper.Path
 //var fshape = f.FShape;
 
-var increment;
-var arrows;
+var background;
+var group10;
 
-var points = [];
+// our cross
+var cross;
+
+// size of pattern elements
+var size;
+
+// colors holder
+var colors = []; 
 
 
 
@@ -35,33 +43,23 @@ var points = [];
 // Setup
 // ------------------------------------------------------------------------
 function Setup() {
-	// angle increment
-	increment = 360/f.randomInt(3,9);
+	// scale the size to the width of the canvas
+	size = (view.bounds.width/10)/2;
 
-	// Setup our holder group
-	arrows = new Group();
+	// create our cross element
+	cross = new Path.FCross( 
+		view.bounds.center, new Size(size,size), size, 'SHARP'
+	);
 
-	for( var i=0; i<360; i+=increment ) {
-		// create tail points
-		var r = new Size(
-			f.random(30, view.bounds.width/3),
-			f.random(30, view.bounds.height/3)
-		);
-		var tailPoint = new Point( 
-			view.bounds.center.x + ( r.width * Math.cos( f.radians(i) ) ), 
-			view.bounds.center.y + ( r.height * Math.sin( f.radians(i) ) )
-		);
-		points.push(tailPoint);
+	// hide the cross (because we'll be cloning it in Draw())
+	cross.visible = false;
 
-		// create arrow 
-		var arrow = Path.FArrow( 
-			view.bounds.center,
-			tailPoint,
-			new Size(20,20)
-		);
-		arrow.strokeCap = 'round';
-		arrows.appendTop( arrow );
-	}
+	// initiate draw group
+	group10 = new Group();
+
+	// initiate background
+	background = new Path.Rectangle( view.bounds.topLeft, view.bounds.bottomRight );
+
 };
 
 
@@ -78,6 +76,36 @@ function Update(event) {
 // Main
 // ------------------------------------------------------------------------
 function Draw() {
+	// pull in color values from input fields
+	// uses jquery to get values
+	colors[0] = new RgbColor().hex( $("#hexcolor1").val() );
+	colors[1] = new RgbColor().hex( $("#hexcolor2").val() );
+
+	background.fillColor = colors[1];
+	background.bounds.size = view.bounds.size;
+
+	// a bit of hack to clear the group when redrawing
+	group10.removeChildren();
+
+	for(var y=0; y<view.bounds.height+size/2; y+=size*2) {
+		for(var x=0; x<view.bounds.width+size/2; x+=size*2) {
+			// generate a random integer between 0 and 2
+			var rand = f.randomInt(0,2);
+			// grab one lines in the cross
+			// at random of course
+			var c = cross.children[ rand ].clone();
+			// darken colors[0] to use as a secondary color
+			// a function added to paper.Color via frederickkPaper
+			(rand == 0) ? c.fillColor = colors[0].lighten(0.03) : c.fillColor = colors[0].darken(0.03);
+			// position the line on the grid
+			c.position = new Point(x+size/2,y+size/2);
+			// add to our group (which we clear each redraw)
+			group10.appendTop(c);
+		}
+	}
+
+	group10.appendBottom(background);
+
 };
 
 
@@ -100,36 +128,10 @@ function onMouseUp(event) {
 };
 
 function onMouseDown(event) {
+	Draw();
 };
 
 function onMouseMove(event) {
-	var num = arrows.children.length;
-	for( var i=0; i<num; i++ ) {
-		// Get the old arrow
-		var arrow = arrows.children[i];
-
-		var headSize = 1+120*f.norm(event.point.y, 0,view.bounds.height);
-		var headPoint = new Point( 
-			event.point.x + ( headSize*3 * Math.cos( f.radians( 360*f.norm(i, 0,num) ) ) ), 
-			event.point.y + ( headSize*3 * Math.sin( f.radians( 360*f.norm(i, 0,num) ) ) )
-		);
-
-		// create a new arrow
-		var arrowNew = new Path.FArrow( 
-			headPoint,
-			points[i],
-			new Size(headSize,headSize)
-		);
-		arrowNew.strokeWidth = 3;
-		arrowNew.strokeColor = 'black';
-		arrowNew.strokeCap = arrow.strokeCap;
-
-		// remove the old arrow
-		arrow.remove();
-
-		// add the new arrow
-		arrows.appendBottom( arrowNew );
-	}
 };
 
 function onMouseDrag(event) {
@@ -142,14 +144,6 @@ function onKeyDown(event) {
 
 function onKeyUp(event) {
 };
-
-
-
-
-
-
-
-		
 
 
 

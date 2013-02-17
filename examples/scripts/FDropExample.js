@@ -1,6 +1,6 @@
-console.log( 'FArrow Example Loaded' );
+console.log( 'FDrop Example Loaded' );
 /**
- *	FArrow Example
+ *	FDrop Example
  *
  *	Ken Frederick
  *	ken.frederick@gmx.de
@@ -9,9 +9,10 @@ console.log( 'FArrow Example Loaded' );
  *	http://kenfrederick.blogspot.com/
  *
  *	
- *	An example of creating an arrow
+ *	An example of FDrop
  *
  */
+
 
 
 // ------------------------------------------------------------------------
@@ -24,10 +25,11 @@ var f = frederickkPaper;
 // no longer necessary use paper.Path
 //var fshape = f.FShape;
 
-var increment;
-var arrows;
+var group;
 
-var points = [];
+var drop;
+var scale = 0.001;
+var lastScale = 1.0;
 
 
 
@@ -35,33 +37,42 @@ var points = [];
 // Setup
 // ------------------------------------------------------------------------
 function Setup() {
-	// angle increment
-	increment = 360/f.randomInt(3,9);
+	group = new Group();
 
-	// Setup our holder group
-	arrows = new Group();
+	// create pipe
+	var holeCenter = new Point( view.bounds.center.x,view.bounds.center.y-112 );
+	var pipe = new Path.FChain(
+		new Path.Circle(
+			holeCenter,
+			12
+		),
+		new Path.Circle(
+			new Point( holeCenter.x,holeCenter.y-27 ),
+			6
+		)
+	);
+	pipe.fillColor = new RgbColor( 1.0, 1.0, 1.0 );
+	pipe.strokeColor = new RgbColor( 1.0, 1.0, 1.0 );
+	pipe.strokeWidth = 6;
+	group.appendTop( pipe );
 
-	for( var i=0; i<360; i+=increment ) {
-		// create tail points
-		var r = new Size(
-			f.random(30, view.bounds.width/3),
-			f.random(30, view.bounds.height/3)
-		);
-		var tailPoint = new Point( 
-			view.bounds.center.x + ( r.width * Math.cos( f.radians(i) ) ), 
-			view.bounds.center.y + ( r.height * Math.sin( f.radians(i) ) )
-		);
-		points.push(tailPoint);
+	var hole = new Path.Circle(
+		holeCenter,
+		12
+	);
+	hole.fillColor = new RgbColor( 0.0, 0.0, 0.0 );
+	group.appendTop( hole );
 
-		// create arrow 
-		var arrow = Path.FArrow( 
-			view.bounds.center,
-			tailPoint,
-			new Size(20,20)
-		);
-		arrow.strokeCap = 'round';
-		arrows.appendTop( arrow );
-	}
+
+	// create FDrop
+	drop = new Path.FDrop(
+		view.bounds.center,
+		100
+	);
+	// drop.bounds.topCenter = holeCenter;
+	drop.fillColor = new RgbColor( 1.0, 1.0, 1.0 );
+	group.appendTop( drop );
+
 };
 
 
@@ -70,14 +81,16 @@ function Setup() {
 // Update
 // ------------------------------------------------------------------------
 function Update(event) {
+	animateDrip(event);
 };
 
 
 
 // ------------------------------------------------------------------------
-// Main
+// Draw
 // ------------------------------------------------------------------------
 function Draw() {
+	group.position = view.bounds.center;
 };
 
 
@@ -85,6 +98,20 @@ function Draw() {
 // ------------------------------------------------------------------------
 // Methods
 // ------------------------------------------------------------------------
+function animateDrip(event) {
+	if( scale < 1.0 ) {
+		scale += 0.01;
+	}
+	else {
+		scale = 1.0 + ((Math.sin(event.time * 2) + 1) / 30);
+	}
+
+	drop.scale(
+		scale / lastScale,
+		drop.bounds.topCenter
+	);
+	lastScale = scale;
+};
 
 
 
@@ -95,6 +122,7 @@ function onResize(event) {
 	view.size = event.size;
 };
 
+
 // ------------------------------------------------------------------------
 function onMouseUp(event) {
 };
@@ -103,33 +131,6 @@ function onMouseDown(event) {
 };
 
 function onMouseMove(event) {
-	var num = arrows.children.length;
-	for( var i=0; i<num; i++ ) {
-		// Get the old arrow
-		var arrow = arrows.children[i];
-
-		var headSize = 1+120*f.norm(event.point.y, 0,view.bounds.height);
-		var headPoint = new Point( 
-			event.point.x + ( headSize*3 * Math.cos( f.radians( 360*f.norm(i, 0,num) ) ) ), 
-			event.point.y + ( headSize*3 * Math.sin( f.radians( 360*f.norm(i, 0,num) ) ) )
-		);
-
-		// create a new arrow
-		var arrowNew = new Path.FArrow( 
-			headPoint,
-			points[i],
-			new Size(headSize,headSize)
-		);
-		arrowNew.strokeWidth = 3;
-		arrowNew.strokeColor = 'black';
-		arrowNew.strokeCap = arrow.strokeCap;
-
-		// remove the old arrow
-		arrow.remove();
-
-		// add the new arrow
-		arrows.appendBottom( arrowNew );
-	}
 };
 
 function onMouseDrag(event) {
@@ -142,16 +143,3 @@ function onKeyDown(event) {
 
 function onKeyUp(event) {
 };
-
-
-
-
-
-
-
-		
-
-
-
-
-

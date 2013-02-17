@@ -13,11 +13,9 @@
  *
  *
  *	FBox
- *
  *	Create simple box
  *
  */
-
 
 
  /**
@@ -115,20 +113,20 @@ this.faceFRONT = [
 	];
 
 	var _facesFillColor = [
-		new paper.RGBColor(1.0, 1.0, 0.0, 0.8), // FRONT
-		new paper.RGBColor(1.0, 0.0, 1.0, 0.8), // TOP
-		new paper.RGBColor(0.0, 0.0, 1.0, 0.8), // BOTTOM
-		new paper.RGBColor(1.0, 0.0, 0.0, 0.8), // LEFT
-		new paper.RGBColor(0.0, 1.0, 1.0, 0.8), // RIGHT
-		new paper.RGBColor(0.0, 1.0, 0.0, 0.8)	// BACK
+		new RgbColor(1.0, 1.0, 0.0, 0.8), // FRONT
+		new RgbColor(1.0, 0.0, 1.0, 0.8), // TOP
+		new RgbColor(0.0, 0.0, 1.0, 0.8), // BOTTOM
+		new RgbColor(1.0, 0.0, 0.0, 0.8), // LEFT
+		new RgbColor(0.0, 1.0, 1.0, 0.8), // RIGHT
+		new RgbColor(0.0, 1.0, 0.0, 0.8)	// BACK
 	];
 	var _facesStrokeColor = [
-		new paper.RGBColor(1.0, 1.0, 0.0, 0.8), // FRONT
-		new paper.RGBColor(1.0, 0.0, 1.0, 0.8), // TOP
-		new paper.RGBColor(0.0, 0.0, 1.0, 0.8), // BOTTOM
-		new paper.RGBColor(1.0, 0.0, 0.0, 0.8), // LEFT
-		new paper.RGBColor(0.0, 1.0, 1.0, 0.8), // RIGHT
-		new paper.RGBColor(0.0, 1.0, 0.0, 0.8)	// BACK
+		new RgbColor(1.0, 1.0, 0.0, 0.8), // FRONT
+		new RgbColor(1.0, 0.0, 1.0, 0.8), // TOP
+		new RgbColor(0.0, 0.0, 1.0, 0.8), // BOTTOM
+		new RgbColor(1.0, 0.0, 0.0, 0.8), // LEFT
+		new RgbColor(0.0, 1.0, 1.0, 0.8), // RIGHT
+		new RgbColor(0.0, 1.0, 0.0, 0.8)	// BACK
 	];
 	var _facesStrokeWidth = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0];
 
@@ -260,7 +258,7 @@ this.faceFRONT = [
 	 *	@param face
 	 *			specific face
 	 *	@param col
-	 *			fill color value of face (paper.RGBColor())
+	 *			fill color value of face (RgbColor())
 	 */
 	 this.setFillColor = function(face, col) {
 		if( face.length === undefined ) _facesFillColor[face] = col;
@@ -276,7 +274,7 @@ this.faceFRONT = [
 	 *	@param face
 	 *			specific face
 	 *	@param col
-	 *			stroke color value of face (paper.RGBColor())
+	 *			stroke color value of face (RgbColor())
 	 */
 	this.setStrokeColor = function(face, col) {
 		if( face.length === undefined ) _facesStrokeColor[face] = col;

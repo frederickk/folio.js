@@ -22,8 +22,6 @@ console.log( 'Clocks Loaded' );
 var f = frederickkPaper;
 var ftime = f.FTime;
 
-console.log( ftime );
-
 var fdate = new ftime.FDate();
 var stopwatch = new ftime.FStopwatch();
 
@@ -218,7 +216,7 @@ var Clock = function(_pt, _radius) {
 
 	var spt = new Point(pt.x + Math.cos(this.s) * secondsRadius, pt.y + Math.sin(this.s) * secondsRadius);
 	var seconds = new Path.Line( pt, spt );
-	seconds.strokeColor = new paper.RGBColor(0.9, 0.26, 0.14);
+	seconds.strokeColor = new RgbColor(0.9, 0.26, 0.14);
 	seconds.strokeWidth = 2;
 	seconds.strokeCap = 'round';
 	group.appendTop(seconds);

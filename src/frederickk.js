@@ -1,10 +1,10 @@
 /**
  *	
  *	frederickkPaper.js
- *	v0.2q
+ *	v0.3a
  *	https://github.com/frederickk/frederickkPaper
  *
- *	25. November 2012
+ *	16. February 2013
  *
  *	Ken Frederick
  *	ken.frederick@gmx.de
@@ -64,7 +64,7 @@ var frederickkPaper = frederickkPaper || {};
 
 (function() {
 	console.log('\nfrederickkPaper.js');
-	console.log('v.0.2a');
+	console.log('v.0.3a');
 	console.log('https://github.com/frederickk/frederickkPaper');
 	console.log('ken.frederick@gmx.de');
 	console.log('------------------------------------\n');

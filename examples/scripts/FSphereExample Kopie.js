@@ -77,7 +77,7 @@ function Setup() {
 
 	for(var i=0; i<spheres[2].getNumFaces(); i++) {
 		spheres[2].setOpacity( i, i/spheres[2].getNumFaces()*0.5 );
-		spheres[2].setFillColor( i, new paper.HSLColor( 90*i/spheres[1].getNumFaces(),0.9,0.8) );
+		spheres[2].setFillColor( i, new HslColor( 90*i/spheres[1].getNumFaces(),0.9,0.8) );
 	}
 	spheres[2].init( 0, 0, -size );
 

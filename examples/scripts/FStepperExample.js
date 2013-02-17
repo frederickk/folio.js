@@ -61,12 +61,12 @@ function Setup() {
 	blend.setMillis( 18000 );
 
 	// swap colors
-	colors[0] = new paper.RGBColor(95/255, 56/255, 102/255);
-	colors[1] = new paper.RGBColor(241/255, 93/255, 94/255);
+	colors[0] = new RgbColor(95/255, 56/255, 102/255);
+	colors[1] = new RgbColor(241/255, 93/255, 94/255);
 
 	// this is the ball we'll animate with the stepper
 	ball = new Path.Circle( points[0], 60 );
-	ball.fillColor = new paper.RGBColor(1.0, 1.0, 1.0);
+	ball.fillColor = new RgbColor(1.0, 1.0, 1.0);
 
 	// start the FSteppers
 	move.toggle();
@@ -111,21 +111,20 @@ function Draw() {
 
 	// in order to animate the ball, we'll lerp from
 	// point1 to point2
-	var pos = new f.FPoint().lerp(
-		points[0],
+	var pos = points[0].lerp(
 		points[1],
 		move.delta
 	);
-	// move the ball in an arc
+
+	// move the ball on an arc
 	pos.x *= Math.cos(move.delta);
 	pos.y *= -Math.sin(move.delta)*2;
 	ball.position = pos;
 	ball.translate( 0, view.bounds.height );
 
 	// blend the colors from one to the other
-	var col = new f.FColor().lerpRGBColor(
-		new paper.RGBColor(1.0, 1.0, 1.0),
-		colors[0],
+	var col = colors[0].lerp(
+		new RgbColor(1.0, 1.0, 1.0),
 		blend.delta
 	);
 	ball.fillColor = col;

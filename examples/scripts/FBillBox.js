@@ -277,7 +277,7 @@ frederickkPaper.FShape.FBillBox = function(scene) {
 	 *
 	 */
 	this.red = function() {
-		this.fillColor = new paper.RGBColor(0.9, 0.26, 0.14),
+		this.fillColor = new RgbColor(0.9, 0.26, 0.14),
 		_verticesArr = [2,14,18,6];
 	};
 	/**
@@ -286,7 +286,7 @@ frederickkPaper.FShape.FBillBox = function(scene) {
 	 *
 	 */
 	this.yellow = function() {
-		this.fillColor = new paper.RGBColor(0.99, 0.84, 0)
+		this.fillColor = new RgbColor(0.99, 0.84, 0)
 		_verticesArr = [8,9,10,11];
 	};
 	/**
@@ -295,7 +295,7 @@ frederickkPaper.FShape.FBillBox = function(scene) {
 	 *
 	 */
 	this.blue = function() {
-		this.fillColor = new paper.RGBColor(0.04, 0.5, 0.74),
+		this.fillColor = new RgbColor(0.04, 0.5, 0.74),
 		_verticesArr = [1,9,15,17,11,7];
 	};
 

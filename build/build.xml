@@ -85,7 +85,10 @@
 			<fileset dir="${src.dir.ftime}" includes="*.js" />
 			<fileset dir="${src.dir.f3d}" includes="*.js" />
 				<!-- includes="FPath3.js, FPoint3.js, FSize3.js, Matrix3D.js, FScene3D.js" /> -->
-			<fileset dir="${src.dir.fshape}" includes="*.js" />
+
+			<fileset dir="${src.dir.fshape}" includes="FShape.js" />
+			<fileset dir="${src.dir.fshape}" includes="*.js" excludes="FShape.js" />
+
 			<fileset dir="${src.dir.fcontrol}" includes="*.js" />
 		</concat>
 		<echo>Finished</echo>
