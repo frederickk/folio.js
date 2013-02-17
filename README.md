@@ -171,7 +171,6 @@ var fpaper = frederickkPaper;
 // you can use additional shortcuts for namespaces
 var f3d = fpaper.F3D;
 var fio = fpaper.FIO;
-var fshape = fpaper.FShape;
 var ftime = fpaper.FTime;
 ```
 
