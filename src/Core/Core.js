@@ -24,10 +24,10 @@ frederickkPaper = {
  	// Namespaces
 	// ------------------------------------------------------------------------
  	//FControl: {}, 
+ 	FTime: {},
  	FIO: {},
  	F3D: {},
  	FShape: {},
- 	FTime: {},
 
 
 
@@ -41,9 +41,9 @@ frederickkPaper = {
 	// Methods
 	// ------------------------------------------------------------------------
 	/**
-	 *	@param minr
+	 *	@param {Number} minr
 	 *				minmum range
-	 *	@param maxr
+	 *	@param {Number} maxr
 	 *				maximum range
 	 *
 	 *	@return random number as float
@@ -58,32 +58,32 @@ frederickkPaper = {
 	},
 
 	/**
-	 *	@param minr
+	 *	@param {Number} minr
 	 *				minmum range
-	 *	@param maxr
+	 *	@param {Number} maxr
 	 *				maximum range
 	 *
 	 *	@return random number as integer
 	 *
 	 */
 	randomInt: function(minr, maxr) {
-		return parseInt( frederickkPaper.random(minr,maxr) );
+		return parseInt( random(minr,maxr) );
 	},
 
 	/**
 	 *
 	 *	http://www.siafoo.net/snippet/191
 	 *
-	 *	@param minr
+	 *	@param {Number} minr
 	 *				minmum range
-	 *	@param maxr
+	 *	@param {Number} maxr
 	 *				maximum range
-	 *	@param bias
+	 *	@param {Number} bias
 	 *				bias represents the preference towards lower or higher numbers,
 	 *				as a number between 0.0 and 1.0. For example: 
 	 *				random(0, 10, bias=0.9) will return 9 much more often than 1.
 	 *
-	 *	@return a random number
+	 *	@return a random, albeit biased, number
 	 *
 	 */
 	randomBias: function(minr, maxr, bias) {
@@ -100,15 +100,56 @@ frederickkPaper = {
 
 
 	// ------------------------------------------------------------------------
+	/**
+	 *
+	 *	@param {Number} val
+	 *				the value to constrain
+	 *	@param {Number} min
+	 *				minimum limit
+	 *	@param {Number} max
+	 *				maximum limit
+	 *
+	 *	@return original value that is not less than the minimum and no greater than the maximum
+	 *
+	 */
 	clamp: function(val, min, max) {
 		return val < min ? min:val > max ? min:val;
 	},
+
+	/**
+	 *
+	 *	@param {Number} val
+	 *				the incoming value to be converted
+	 *	@param {Number} start
+	 *				lower bound of the value's current range
+	 *	@param {Number} stop
+	 *				upper bound of the value's current range
+	 *
+	 *	@return float value between 0.0 and 1.0
+	 *
+	 */
 	norm: function(val, start, stop) {
 		return (val - start) / (stop - start);
 	},
 
-	map: function(value, istart, istop, ostart, ostop) {
-		return ostart + (ostop - ostart) * ((value - istart) / (istop - istart));
+	/**
+	 *
+	 *	@param {Number} val
+	 *				the incoming value to be converted
+	 *	@param {Number} istart
+	 *				lower bound of the value's current range
+	 *	@param {Number} istop
+	 *				upper bound of the value's current range
+	 *	@param {Number} ostart
+	 *				lower bound of the value's target range
+	 *	@param {Number} ostop
+	 *				upper bound of the value's target range
+	 *
+	 *	@return re-mapped value
+	 *
+	 */
+	map: function(val, istart, istop, ostart, ostop) {
+		return ostart + (ostop - ostart) * ((val - istart) / (istop - istart));
 	},
 
 
@@ -116,50 +157,60 @@ frederickkPaper = {
 	// ------------------------------------------------------------------------
 	/**
 	 *	
-	 *	@param val
+	 *	@param {Number} val
 	 *			number
-	 *	@param deci
+	 *	@param {Number} deci
 	 *			number of decimal places
 	 *
 	 *	@return float value with desired decimal places
 	 *
 	 */
- 	roundDecimal: function(val, deci) {
+	roundDecimal: function(val, deci) {
 		var multi = Math.pow(10,deci);
 		return Math.round(val * multi)/multi;
 	},
-
 
 	/**
 	 *
 	 *	snap from:
 	 *	http://stackoverflow.com/questions/4507784/snap-to-grid-functionality-using-javascript
 	 *
+	 *	@param {Number} val
+	 *			value to snap
+	 *	@param {Number} snapInc
+	 *			increment to snap value to
+	 *	@param {Function} roundFunction
+	 *			(optiona) rounding function
+	 *
+	 *	@return snapped value
+	 *
 	 */
-	snap: function(value, gridSize, roundFunction) {
+	snap: function(val, snapInc, roundFunction) {
 		if (roundFunction === undefined) roundFunction = Math.round;
-		return gridSize * roundFunction(value / gridSize);
+		return snapInc * roundFunction(val / snapInc);
 	},
-
-
 
 	/**
 	 *
+	 *	@param {Number} start
+	 *			fitst value
+	 *	@param {Number} stop
+	 *			second value
 	 *	@param {Number} amt
 	 *			float: between 0.0 and 1.0
+	 *
+	 *	@return value between start and stop
 	 *
 	 */
 	lerp: function(start, stop, amt) {
 		// return start + (stop-start) * amt;
 		return stop + (start-stop) * amt;
-	},
-
-
+	};
 
 	// ------------------------------------------------------------------------
 	/**
 	 *	
-	 *	@param val
+	 *	@param {Number} val
 	 *			input value
 	 *
 	 *	@return val as degree 
@@ -171,7 +222,7 @@ frederickkPaper = {
 
 	/**
 	 *	
-	 *	@param val
+	 *	@param {Number} val
 	 *			input value
 	 *
 	 *	@return val as radians
@@ -183,9 +234,9 @@ frederickkPaper = {
 
 	/**
 	 *
-	 *	@param point1
+	 *	@param {Point} point1
 	 *			first point
-	 *	@param point2
+	 *	@param {Point} point2
 	 *			second point
 	 *
 	 *	@return vector angle in degrees
@@ -193,16 +244,28 @@ frederickkPaper = {
 	 */
 	getAngle: function(point1, point2) {
 		return Math.atan2(point2.y - point1.y, point2.x - point1.x) * 180 / Math.PI;
+	}.
+
+	/**
+	 *
+	 *	@param {Size} slope
+	 *			slope is expressed as rise (x) over run (y)
+	 *
+	 *	@return angle in degrees
+	 *
+	 */
+	getSlopeAngle: function(slope) {
+		return Math.atan( slope.width/slope.height ) * 180 / Math.PI;
 	},
 
 	// ------------------------------------------------------------------------
 	/**
-	 *	get common outer tangents of two circles
+	 *	get common outer tangents of two circles (only works with circles!)
 	 *
-	 *	@param arg0
-	 *				the first PathItem (Circle)
-	 *	@param arg1
-	 *				the second PathItem (Circle)
+	 *	@param {Path.Circle} arg0
+	 *				the first Circle
+	 *	@param {Path.Circle} arg1
+	 *				the second Circle
 	 *
 	 *	@return array of points
 	 *
@@ -248,11 +311,27 @@ frederickkPaper = {
 		return [pt1, pt2, pt3, pt4]
 	},
 
+	/**
+	 *	get common outer tangents of two curves
+	 *
+	 *	@param arg0
+	 *				the first Curve
+	 *	@param arg1
+	 *				the second Curve
+	 *
+	 *	@return array of points
+	 *
+	 */
+	 // TODO:
+	// getCommonTangents: function(arg0, arg1) {
+
+	// },
+
 
 	// ------------------------------------------------------------------------
 	/**
 	 *	
-	 *	@param val
+	 *	@param {NumbeR} val
 	 *			input value
 	 *
 	 *	@return squared value of val
@@ -262,11 +341,10 @@ frederickkPaper = {
 		return val*val;
 	},
 
-
 	// ------------------------------------------------------------------------
 	/**
 	 *	
-	 *	@param val
+	 *	@param {Number} val
 	 *			input boolean value
 	 *
 	 *	@return val as integer
@@ -276,15 +354,13 @@ frederickkPaper = {
 		return (val) ? 1 : 0;
 	},
 
-
-
 	// ------------------------------------------------------------------------
 	/**
 	 *	
-	 *	@param object
+	 *	@param {Object} object
 	 *			object whose type to determine
 	 *
-	 *	@return paperjs object type
+	 *	@return string of PaperJs object type
 	 *
 	 */
 	getType: function(object) {
@@ -304,6 +380,11 @@ frederickkPaper = {
 
 	/**
 	 *	
+	 *	@param {Array} items
+	 *			Array of items to go through
+	 *	@param {String} name
+	 *			name of Item to find
+	 *
 	 *	@return a path with the name that matches
 	 *
 	 */
@@ -318,22 +399,50 @@ frederickkPaper = {
 
 
 
-
 	// ------------------------------------------------------------------------
 	// Strings
 	// ------------------------------------------------------------------------
+	/**
+	 *	
+	 *	@param {TextItem} textObj
+	 *				Path.TextItem
+	 *
+	 *	@return string content which will will fit within the bounds of the input TextItem
+	 *
+	 */
 	trimToFit: function(textObj) {
 		var visibleContent = textObj.visibleRange.content;
 		textObj.content = trim(visibleContent);
 		return textObj;
 	},
 
+	/**
+	 *	
+	 *	trims white space from right (end) of String
+	 *
+	 *	@param {String} str
+	 *			input String
+	 *
+	 *	@return trimmed input String
+	 *
+	 */
 	rtrim: function(str) {
 		for (var i=str.length-1; str.charAt(i) ==' '; i--) {
 			str = str.substring(0, i);
 		}
 		return str;
 	},
+
+	/**
+	 *	
+	 *	trims all white space from String
+	 *	
+	 *	@param {String} str
+	 *			input string
+	 *
+	 *	@return string of PaperJs object type
+	 *
+	 */
 	trim: function(str) {
 		str = str.replace(/(^\s*)|(\s*$)/gi,"");
 		str = str.replace(/[ ]{2,}/gi," ");
@@ -341,6 +450,16 @@ frederickkPaper = {
 		return str;
 	},
 
+	/**
+	 *	
+	 *	converts String to Boolean value
+	 *	
+	 *	@param {String} str
+	 *			input string
+	 *
+	 *	@return Boolean value
+	 *
+	 */
 	strToBool: function(str){
 		switch(str.toLowerCase()){
 			case "true": case "yes": case "1": return true;
@@ -354,6 +473,59 @@ frederickkPaper = {
 	// ------------------------------------------------------------------------
 	// Arrays
 	// ------------------------------------------------------------------------
+	/**
+	 *	
+	 *	@param {Array} arr1
+	 *				Array of Numbers
+	 *
+	 *	@return {Number} median value
+	 *
+	 */
+	median: function(arr) {
+		var median = 0;
+		arr.sort();
+		if (arr.length % 2 === 0) {
+			median = (arr[arr.length / 2 - 1] + arr[arr.length / 2]) / 2;
+		}
+		else {
+			median = arr[(arr.length - 1) / 2];
+		}
+		return median;
+	},
+
+	/**
+	 *	
+	 *	@param {Array} arr
+	 *				Array of Objects
+	 *
+	 *	@return {Object} unique element
+	 *
+	 */
+	unique: function(arr) {
+		var u = [];
+		o:for(var i=0, n=arr.length; i<n; i++) {
+			for(var x=0, y=u.length; x<y; x++) {
+				if(u[x] == arr[i]) {
+					continue o;
+				}
+			}
+			u[u.length] = arr[i];
+		}
+		return u;
+	},
+
+	/**
+	 *	
+	 *	merges (then shuffles) two Arrays
+	 *	
+	 *	@param {Array} arr1
+	 *				Array object 1
+	 *	@param {Array} arr2
+	 *				Array object 2
+	 *
+	 *	@return new merged Array object
+	 *
+	 */
 	merge: function(arr1, arr2) {
 		var output = arr1.concat(arr2);
 		output.shuffle();
@@ -363,6 +535,8 @@ frederickkPaper = {
 
 	// ------------------------------------------------------------------------
 	/**
+	 *
+	 *	sory Array in alphabetical order
 	 *
 	 *	http://www.brain4.de/programmierecke/js/arraySort.php
 	 *
@@ -389,7 +563,7 @@ frederickkPaper = {
 		b = b.replace(/ü/g,'u');
 		b = b.replace(/ß/g,'s');
 
-		return(a == b) ? 0:(a>b) ? 1:-1;
+		return(a == b) ? 0 : (a>b) ? 1 : -1;
 	},
 
 	/**
@@ -421,9 +595,9 @@ frederickkPaper = {
 
 /**
  *	
- *	@param start
+ *	@param {Number} start
  *				start position in array
- *	@param stop
+ *	@param {Number} stop
  *				stop position in array
  *
  *	@return maximum value within array
@@ -440,9 +614,9 @@ Array.prototype.max = function(start, stop) {
 
 /**
  *	
- *	@param start
+ *	@param {Number} start
  *				start position in array
- *	@param stop
+ *	@param {Number} stop
  *				stop position in array
  *
  *	@return minimum value within array
@@ -473,7 +647,7 @@ Array.prototype.shuffle = function() {
 
 /*
  *
- *	paper (core)
+ *	Global Scope (Paper.js core)
  *
  */
 paper.inject({
@@ -482,6 +656,33 @@ paper.inject({
 	//-----------------------------------------------------------------------------
 	// constants
 	EPSILON: 1.0e-6,
+
+
+
+	//-----------------------------------------------------------------------------
+	// Methods
+	//-----------------------------------------------------------------------------
+	/**
+	 *	Java style println output
+	 *
+	 *	@param {Object} obj
+	 *				any Javascript Object
+	 */
+	println: function(obj) {
+		console.log( obj );
+		console.log( '\n' );
+	},
+
+	/**
+	 *	Java style print output
+	 *
+	 *	@param {Object} obj
+	 *				any Javascript Object
+	 */
+	print: function(obj) {
+		console.log( obj );
+	}
+
 });
 
 
@@ -730,30 +931,66 @@ paper.Color.inject({
 	 *
 	 *	@param {Number} pct
 	 *			percentage to darken color
+	 *	@param {Boolean} isNew
+	 *			(option) if true a new Color is returned
 	 *
 	 *	@return {Color} darkened Color by input percentage
 	 *
 	 */
-	darken: function(pct) {
-		this.red -= pct;
-		this.green -= pct;
-		this.blue -= pct;
-		return this;
+	darken: function(pct, isNew) {
+		isNew = (isNew == undefined) ? false : isNew;
+		if( !isNew ) {
+			this.red -= pct;
+			this.red = clamp(this.red, 0.0,1.0);
+
+			this.green -= pct;
+			this.green = clamp(this.green, 0.0,1.0);
+
+			this.blue -= pct;
+			this.blue = clamp(this.blue, 0.0,1.0);
+
+			return this;
+		}
+		else {
+			var r = clamp(this.red - pct, 0.0,1.0);
+			var g = clamp(this.green - pct, 0.0,1.0);
+			var b = clamp(this.blue - pct, 0.0,1.0);
+
+			return new RGBColor(r,g,b);
+		}
 	},
 
 	/**
 	 *
 	 *	@param {Number} pct
 	 *			percentage to lighten color
+	 *	@param {Boolean} isNew
+	 *			(option) if true a new Color is returned
 	 *
 	 *	@return {Color} lightened Color by input percentage
 	 *
 	 */
-	lighten: function(pct) {
-		this.red += pct;
-		this.green += pct;
-		this.blue += pct;
-		return this;
+	lighten: function(pct, isNew) {
+		isNew = (isNew == undefined) ? false : isNew;
+		if( !isNew ) {
+			this.red += pct;
+			this.red = clamp(this.red, 0.0,1.0);
+
+			this.green += pct;
+			this.green = clamp(this.green, 0.0,1.0);
+
+			this.blue += pct;
+			this.blue = clamp(this.blue, 0.0,1.0);
+
+			return this;
+		}
+		else {
+			var r = clamp(this.red + pct, 0.0,1.0);
+			var g = clamp(this.green + pct, 0.0,1.0);
+			var b = clamp(this.blue + pct, 0.0,1.0);
+
+			return new RGBColor(r,g,b);
+		}
 	},
 
 
@@ -872,6 +1109,14 @@ paper.Color.inject({
 
 
 	// ------------------------------------------------------------------------
+	/**
+	 *
+	 *	@param {Number} component
+	 *						input value to convert
+	 *
+	 *	@return {String} hex value of input color as string
+	 *
+	 */
 	componentToHex: function( component ) {
 		var hex = component.toString(16);
 		return hex.length == 1 ? '0' + hex : hex;
@@ -990,7 +1235,7 @@ paper.Color.inject({
 
 });
 
-GrayColor.inject({
+paper.GrayColor.inject({
 	/**
 	 *
 	 *	@param {Array} arg0

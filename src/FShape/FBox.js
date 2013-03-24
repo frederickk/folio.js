@@ -44,7 +44,7 @@ frederickkPaper.FShape.FBox = function(scene) {
 	this.strokeCap;
 	this.strokeJoin;
 
-this.faceFRONT = [
+	this.faceFRONT = [
 		new frederickkPaper.F3D.FPoint3(-0.5, -0.5, -0.5),	// corner
 		new frederickkPaper.F3D.FPoint3( 0.5, -0.5, -0.5),	// corner
 		new frederickkPaper.F3D.FPoint3( 0.5,	0.5, -0.5),	// corner

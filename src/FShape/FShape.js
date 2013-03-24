@@ -443,8 +443,8 @@ paper.Path.inject({
 				path.add( new Point(0,0) );
 				var angle = 180;
 				var through = new Point(
-					bubbleSize.height/2 + Math.cos( f.radians(angle) ) * (bubbleSize.height),
-					bubbleSize.height/2 + Math.sin( f.radians(angle) ) * (bubbleSize.height)
+					bubbleSize.height/2 + Math.cos( frederickkPaper.radians(angle) ) * (bubbleSize.height),
+					bubbleSize.height/2 + Math.sin( frederickkPaper.radians(angle) ) * (bubbleSize.height)
 				);
 				path.arcTo(through, new Point(0,bubbleSize.height));
 
@@ -481,8 +481,8 @@ paper.Path.inject({
 				// right side of bubble
 				angle = 0;
 				through = new Point(
-					bubbleSize.height/2 + Math.cos( f.radians(angle) ) * (bubbleSize.height/2),
-					bubbleSize.height/2 + Math.sin( f.radians(angle) ) * (bubbleSize.height/2)
+					bubbleSize.height/2 + Math.cos( frederickkPaper.radians(angle) ) * (bubbleSize.height/2),
+					bubbleSize.height/2 + Math.sin( frederickkPaper.radians(angle) ) * (bubbleSize.height/2)
 				);
 				path.arcTo( new Point(bubbleSize.width,0), false );
 
@@ -535,7 +535,7 @@ paper.Path.inject({
 				var obj1, obj2;
 
 				// check for the type of arguments being passed
-				var type = f.getType(arg0);
+				var type = frederickkPaper.getType(arg0);
 				if( type == 'Point' ) {
 					obj1 = new Path.Circle( arg0, arg1 );
 					obj2 = new Path.Circle( arg2, arg3 );
@@ -726,7 +726,7 @@ paper.Path.inject({
 
 				// check for the type of arguments being passed
 				// default scale is from center (position)
-				var type = f.getType(arg1);
+				var type = frederickkPaper.getType(arg1);
 				if( type == 'Size' ) {
 					path.scale( arg1.width, arg1.height );
 				}
