@@ -74,8 +74,9 @@ paper.Item.inject({
 	 *
 	 */
 	snapGrid: function(spacing) {
-		var pt = new frederickkPaper.FPoint().snapGrid(spacing);
-		this.position = pt;
+		// var pt = new frederickkPaper.FPoint().snapGrid(spacing);
+		// this.position = pt;
+		this.position.snapGrid(spacing);
 	},
 
 	/**
@@ -86,9 +87,25 @@ paper.Item.inject({
 	 *
 	 */
 	snapIso: function(scale) {
-		var pt = new frederickkPaper.FPoint().snapIso(scale);
-		this.position = pt;
+		// var pt = new frederickkPaper.FPoint().snapIso(scale);
+		// this.position = pt;
+		this.position.snapIso(scale);
+	},
+
+	//-----------------------------------------------------------------------------
+	/**
+	 *	converts an CompoundPath into a Group otherwise returns original Item
+	 *	
+	 */
+	toGroup: function() {
+		if (frederickkPaper.getType(this) == 'CompoundPath') {
+			return new Group( this.children );
+		}
+		else {
+			return this;
+		}
 	}
+
 });
 
 

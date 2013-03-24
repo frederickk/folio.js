@@ -175,6 +175,61 @@ var ftime = fpaper.FTime;
 ```
 
 
+Scriptogrpaher Bonus
+-------------
+
+As I mentioned this library started out as a rag-tag collection of code snippets for use in Scriptograher, so I've put a bit of effort into and cleaned up frederickkPaper for user in Scriptographer as frederickkScript. 
+
+The feature set is "slightly" different, but main ones are there. you can find the script, within the distribution folder.
+
+- distribution/frederickkScript.js
+- distribution/frederickkScript.min.js
+
+Simply drop it in to the same folder as your other Scriptographer scripts and add the following lines any script you want to use the library in:
+
+```javascript
+include('../libraries/frederickkScript/frederickkScript.js');
+
+// load frederickkScript
+var f = frederickkScript;
+```
+
+Also, as ridiculous as it seems, I've made the animation ability in Scriptographer much more like paper.js. The reason is two fold; 1/ why not have animated clocks or physics simulations (https://vimeo.com/27951113) in illustrator 2/ sometimes prototyping an idea for paper.js is faster using Scriptographer. To take advantage of this, include the frederickkScript library (as indicated above) and this:
+
+```javascript
+function Update(event) {
+	// add whatever you want to be animated
+};
+
+// add this to the very bottom of your script
+var frameRate = 12; // default frameRate is 12 FPS
+// 
+Animate(
+	true, // true if you want to animate the Update() function
+	frameRate // the framerate
+);
+```
+
+
+
+
+Building
+-------------
+
+```
+$cd build/
+$ant -buildfile build.xml
+```
+
+
+Compiled files appear in the distribution folder in two flavors
+
+
+- frederickkPaper.js
+- frederickkPaper-min.js
+
+
+
 Features
 -------------
 
@@ -446,23 +501,4 @@ var fpath3 = new frederickkPaper.F3D.FPath3();
 ```javascript
 var fscene3d = new frederickkPaper.F3D.FScene3D();
 ```
-
-
-
-Building
--------------
-
-```
-$cd build/
-$ant -buildfile build.xml
-```
-
-
-Compiled files appear in the distribution folder in two flavors
-
-
-- frederickkPaper.js
-- frederickkPaper-min.js
-
-
 
