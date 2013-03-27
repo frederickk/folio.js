@@ -18,19 +18,19 @@
  */
 
 
-frederickkPaper.FConversions = function() {
+frederickkPaper.FConversions = {
 	// conversions
-	this.ptToMm = 0.352777778;
-	this.mmToPt = 2.83464567;
+	ptToMm: 0.352777778,
+	mmToPt: 2.83464567,
 
-	this.ptToCm = 0.0352777778;
-	this.CmToPt = 28.3464567;
+	ptToCm: 0.0352777778,
+	CmToPt: 28.3464567,
 
-	this.ptToIn = 0.0138888889;
-	this.inToPt = 72;
+	ptToIn: 0.0138888889,
+	inToPt: 72,
 
-	this.ptToPi = 0.0833333333;
-	this.piToPt = 12;
+	ptToPi: 0.0833333333,
+	piToPt: 12
 
 };
 

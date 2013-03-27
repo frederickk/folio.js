@@ -5,12 +5,12 @@
 		<!-- META -->
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		
-
-		<title>FStepper Example</title>
+		
+		<title>FColor Example &#8212; Spectrum</title>
 		
 		
 		<!-- CSS -->
-		<link href="../FPaperTemplate/css/FPaper.css" rel="stylesheet" type="text/css" />
+		<link href="css/FPaper.css" rel="stylesheet" type="text/css" />
 
 		
 		<!-- JavaScript -->
@@ -99,17 +99,20 @@
 			 *	Supporting Methods
 			 *
 			 */
+			// http://paulirish.com/2009/random-hex-color-code-snippets/
 			$(function() {
 				// ------------------------------------------------------------------------
 				function resizeCanvas() {
 					var width = $('#container').width();
 					var height = $('#container').height();
 					
-					// Set canvas width and height
+					// set canvas width and height
 					$('#canvas').attr('width', width);
 					$('#canvas').attr('height', height)
 
 					Draw();
+					view.draw(); // draw the screen
+
 				};
 
 				// ------------------------------------------------------------------------
@@ -127,11 +130,12 @@
 
 
 		<!-- LOAD ADDITIONAL JAVASCRIPTS -->
+		<!-- https://github.com/frederickk/frederickkPaper -->
 		<script type="text/javascript" src="../distribution/frederickkPaper.js"></script>
 
-		<!-- LOAD SCRIPT -->
+		<!-- LOAD PAPER SCRIPT -->
 		<!-- be sure that the filename and path matches your script -->
-		<script type="text/javascript" src="scripts/FStepperExample.js"></script>
+		<script type="text/javascript" src="scripts/spectrum.js"></script>
 
 
 
@@ -147,19 +151,27 @@
 
 
 		<!-- TEXT -->
-		<div id="textContainer">
-			FStepper Example<br/>
-			<a href="http://paperjs.org/" target="new">paperjs</a> experiment by <a href="http://cargocollective.com/kenfrederick" target="new">kenfrederick</a>
+		<div id="textContainer" style="color: #ffffff;">
+			Spectrum<br/>
+			<a href="http://paperjs.org/" style="color: #ffffff;" target="new">paperjs</a> experiment by <a href="http://cargocollective.com/kenfrederick" style="color: #ffffff;" target="new">kenfrederick</a>
 		</div>
 
 		<div id="manual">
-			<b>any key</b> swap colors
+		</div>
+
+
+		<!-- INPUTS -->
+		<div id="inputLabelContainer">
+		</div>
+
+		<div id="inputContainer">
 		</div>
 
 
 		<!-- IMAGES -->
 		<div id="rasterImages">
 		</div>
+
 
 		
 	</body>

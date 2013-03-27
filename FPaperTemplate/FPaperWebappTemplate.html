@@ -59,7 +59,7 @@
 		
 		
 		<!-- CSS -->
-		<!-- LOAD ADDITIONAL CSS sTYLESHEETS -->
+		<!-- LOAD ADDITIONAL CSS STYLESHEETS -->
 		<link href="css/FPaper.css" rel="stylesheet" type="text/css" />
 
 		
@@ -113,39 +113,39 @@
 				// ------------------------------------------------------------------------
 				view.onFrame = function(event) {
 					Update(event);
-				}
+				};
 				
 				view.onResize = function(event) {
 					onResize(event);
-				}
+				};
 
 				// ------------------------------------------------------------------------
 				var tool = new Tool();
 				tool.onMouseUp = function(event) {
 					onMouseUp(event);
-				}
+				};
 				
 				tool.onMouseDown = function(event) {
 					onMouseDown(event);
-				}
+				};
 				
 				tool.onMouseMove = function(event) {
 					onMouseMove(event);
-				}
+				};
 				
 				tool.onMouseDrag = function(event) {
 					onMouseDrag(event);
-				}
+				};
 
 
 				// ------------------------------------------------------------------------
 				tool.onKeyDown = function(event) {
 					onKeyDown(event);
-				}
+				};
 
 				tool.onKeyUp = function(event) {
 					onKeyUp(event);
-				}
+				};
 				
 				
 				// ------------------------------------------------------------------------
@@ -182,7 +182,7 @@
 				if (window.orientation == 0) {
 					angle = 0;
 				}
-			}
+			};
 
 			// ------------------------------------------------------------------------
 			function resizeCanvas() {
