@@ -3,6 +3,15 @@ frederickkPaper
 
 http://kenfrederick.blogspot.de/2012/12/paperjs-frederickkpaper.html *updated*
 
+- 29. March 2013
+0.35a
+
+Cleaned out lots of unnecessary files, at some point I'm planning on getting rid of the "Core" of this library and adding it directly to my forked version of PaperJs itself. 
+
+Added new examples, Extruder and Lissajous.
+
+Optimized and fixed the JQuery calls when resizing the window, now the canvas and PaperJs get's resized as intended.
+
 
 - 16. February 2013
 0.3a
