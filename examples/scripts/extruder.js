@@ -18,11 +18,12 @@ console.log( 'Extruder Loaded' );
 // ------------------------------------------------------------------------
 // Properties
 // ------------------------------------------------------------------------
+// the core frederickkPaper namespace
 var f = frederickkPaper;
 
 // document properties
-var sel;
-var palette;
+var svg;
+var type;
 
 // extrusion
 var extrusionsGroup;
@@ -35,15 +36,12 @@ var bDrawn = false;
 
 // values
 var values = {
-	colorExtrude1: new RgbColor( 0, 1.0, 0.7 ),
+	colorExtrude1: null,
 	bDarkened: false,
 	darkenColorPct: 20,
-	colorExtrude2: new RgbColor( 1.0, 0.0, 0.7 ), //.darken(0.2),
 
-	angle: 30,
-	distance: 240,
-
-	bUniteExtrusion: false
+	angle: null,
+	distance: null
 };
 
 // components
@@ -81,50 +79,7 @@ var components = {
 		increment: 1
 	},
 
-	sRule: { 
-		type: 'ruler',
-		fullSize: true,
-	},
 
-
-	/*
-	 *	additional
-	 */
-	bUniteExtrusion: {
-		type: 'checkbox',
-		label: 'Unite Extrusion'
-	},
-
-	oRule: { 
-		type: 'ruler',
-		fullSize: true,
-	},
-
-
-	/*
-	 *	actions
-	 */
-	redefine: { 
-		type: 'button', 
-		value: 'Redefine Selection',
-		fullSize: true,
-		onClick: function() {
-			// sel = activeDocument.getItems({
-			// 	type: Item,
-			// 	selected: true
-			// });
-			// var alert = new Dialog.alert('Selection Updated', 'Extrusion will be applied to these ' + sel.length + ' selected items.');
-		}
-	},
-
-	go: { 
-		type: 'button', 
-		value: 'Go! Go! Go!',
-		fullSize: true,
-		onClick: function() {
-			Draw();
-		}
-	},
 	
 };
 
@@ -137,15 +92,13 @@ function Setup() {
 	// setup group for extrusion
 	extrusionsGroup = new Group();
 
-	// define selected items
-	// sel = activeDocument.getItems({
-	// 	type: Item,
-	// 	selected: true
-	// });
+	// import svg
+	svg = project.importSvg(document.getElementById('svg'));
+	// re-position svg
+	svg.position = new Point( view.bounds.width/2-svg.bounds.width/2, view.bounds.height/2-svg.bounds.height/2 );
 
-
-	// open palette
-	// palette = new Palette('Extrude 0.0', components, values);
+	// define type as children of svg
+	type = new Group( svg.children );
 
 };
 
@@ -163,13 +116,18 @@ function Update(event) {
 // Draw
 // ------------------------------------------------------------------------
 function Draw() {
+	// get values from interface components
+	values.colorExtrude1 = new RgbColor().hex( $('#colorExtrude1').val() );
+	values.angle = $('#angle').val();
+	values.distance = $('#distance').val();
+
 
 	// calculate late extrusion length
 	// the first item selected is chosen
 	// as the benchmark item
 	var extrudeAngle;
 	if( !bDrawn ) {
-		extrudeAngle = angleToSlope(sel[0].position, values.angle, values.distance);
+		extrudeAngle = angleToSlope(type.children[0].position, values.angle, values.distance);
 	}
 
 	// darken color by amount
@@ -183,16 +141,11 @@ function Draw() {
 	// extrusionsGroup = new Group();
 
 	// draw the extrusion
-	for( var i=0; i<sel.length; i++ ) {
-		var obj = sel[i];
-
-		// if the selected item is live type
-		// it has to be outlined
-		// let's clone it first
-		if( f.getType(obj) == 'TextItem' ) {
-			console.log( 'Outlining TextItem' );
-			obj = obj.clone().createOutline();
-		}
+	for( var i=0; i<type.children.length; i++ ) {
+		var obj = type.children[i];
+		obj.fillColor = new RgbColor( 0.0, 0.0, 0.0 );
+		obj.strokeColor = new RgbColor( 0.0, 0.0, 0.0 );
+		obj.strokeWidth = 2;
 
 		// setup group for extruded faces
 		var extrusion;
@@ -240,7 +193,17 @@ function Draw() {
 			extrusionsGroup.appendBottom( extrusion );
 		}
 
+		// hide original object
+		obj.fillColor = null
+		obj.strokeColor = null
+
 	}
+
+	// center the type
+	extrusionsGroup.position = new Point(
+		view.bounds.width/2,
+		view.bounds.height/2
+	);
 
 	// assume extrusion was defined
 	// by mouse and reset
@@ -273,7 +236,7 @@ function extrude(item, slope, color) {
 
 	// pull the points for drawing the 
 	// extrusion sides
-	var holder1 = item.clone();
+	var holder1 = item; //.clone();
 	holder1.strokeColor = new RgbColor( 1.0, 0.0, 1.0 );
 
 	// copy of the item
@@ -290,59 +253,35 @@ function extrude(item, slope, color) {
 		// the path for the extruded face 
 		var path = new Path();
 
-		if( curve1.isLinear() ) {
-			// this works for linear paths only
-			path.add( curve1.point2  );
-			path.add( curve1.point1 );
-			path.add( curve2.point1 );
-			path.add( curve2.point2 );
+		var uniteGroup = new Group();
+		var step = 2;
 
-			path.closed = true;
-			path.strokeColor = null;
+		// iterate through curve with getLocation()
+		// create a series of path items similar
+		// to QuadStrip
+		for ( var j=0; j<=curve1.length; j+=step ) {
+			var opt1 = curve1.getLocationAt(j).point;
+			var opt2 = curve1.getLocationAt(j+step).point;
+
+			var copt1 = curve2.getLocationAt(j).point;
+			var copt2 = curve2.getLocationAt(j+step).point;
+
+			var unitePath = new Path();
+			unitePath.add( new Segment( opt1 ) );
+			unitePath.add( new Segment( opt2 ) );
+			unitePath.add( new Segment( copt2 ) );
+			unitePath.add( new Segment( copt1 ) );
+			unitePath.closed = true;
+
+			unitePath.strokeColor = values.colorExtrude1;
+			unitePath.strokeWidth = step;
+
+			// add to unite group
+			uniteGroup.appendBottom( unitePath );
 		}
-		else {
-			// bootleg work around... for now
-			var uniteGroup = new Group();
-			var step = 2;
-
-			// iterate through curve with getLocation()
-			// create a series of path items similar
-			// to QuadStrip
-			for ( var j=0; j<=curve1.length; j+=step ) {
-				var opt1 = curve1.getLocation(j).point;
-				var opt2 = curve1.getLocation(j+step).point;
-
-				var copt1 = curve2.getLocation(j).point;
-				var copt2 = curve2.getLocation(j+step).point;
-
-				var unitePath = new Path();
-				unitePath.add( new Segment( opt1 ) );
-				unitePath.add( new Segment( opt2 ) );
-				unitePath.add( new Segment( copt2 ) );
-				unitePath.add( new Segment( copt1 ) );
-				unitePath.closed = true;
-
-				// add to unite group
-				uniteGroup.appendBottom( unitePath );
-			}
-			// and now... the bootleg part
-			// unite all unitePaths the unite Pathfinder
-			path = new Pathfinder.unite( uniteGroup.children );
-
-		}
-
-		// TODO: darken every other face
-		// have to work out the stacking order
-		// if( cc % 2 == 0 ) {
-			path.fillColor = color;
-		// }
-		// else {
-		// 	darken += 0.1;
-		// 	path.fillColor = color.darken( values.darkenColorPct, true );
-		// }
 
 		// add to extrusion group
-		extrusion.appendBottom( path );
+		extrusion.appendBottom( uniteGroup );
 	}				
 
 	// clean-up
@@ -372,18 +311,24 @@ function extrude(item, slope, color) {
 function recursiveExtrude(item, slope, color) {
 	var recursiveGroup = new Group();
 
-	for( var c=item.children.length-1; c>=0; c-- ) {
-		var child = item.children[c].clone();
-		var temp;
-		if( child.hasChildren() ) {
-			temp = recursiveExtrude( child, slope, color );
+	var temp;
+	if(item.hasChildren()) {
+		for( var c=item.children.length-1; c>=0; c-- ) {
+			var child = item.children[c];//.clone();
+			if( child.hasChildren() ) {
+				temp = recursiveExtrude( child, slope, color );
+			}
+			else {
+				temp = extrude( child, slope, color );
+				child.remove();
+			}
+			recursiveGroup.appendTop( temp );
 		}
-		else {
-			temp = extrude( child, slope, color );
-			child.remove();
-		}
-		recursiveGroup.appendTop( temp );
 	}
+	else {
+		temp = extrude( item, slope, color );
+	}
+	recursiveGroup.appendTop( temp );
 
 	return recursiveGroup;
 };
@@ -446,42 +391,43 @@ function onMouseUp(event) {
 };
 
 // ------------------------------------------------------------------------
-// function onMouseDown(event) {
-// 	if( clicks[0] && clicks[1] ) {
-// 		clicks = [false, false];
-// 		clickPts = [];
-// 		slopeLine.remove();
-// 	}
-// 	else if( !clicks[0] ) {
-// 		clickPts[0] = event.point;
-// 		clicks[0] = true;
-// 	}
-// 	else if( clicks[0] ) {
-// 		clickPts[1] = event.point;
-// 		clicks[1] = true;
+function onMouseDown(event) {
+	// if( clicks[0] && clicks[1] ) {
+	// 	clicks = [false, false];
+	// 	clickPts = [];
+	// 	slopeLine.remove();
+	// }
+	// else if( !clicks[0] ) {
+	// 	clickPts[0] = event.point;
+	// 	clicks[0] = true;
+	// }
+	// else if( clicks[0] ) {
+	// 	clickPts[1] = event.point;
+	// 	clicks[1] = true;
 
-// 		slopeLine = new Path();
-// 		slopeLine.add( new Segment(clickPts[0]) );
-// 		slopeLine.add( new Segment(clickPts[1]) );
-// 		slopeLine.strokeColor = values.colorExtrude1;
-// 		slopeLine.strokeWidth = 6;
+	// 	slopeLine = new Path();
+	// 	slopeLine.add( new Segment(clickPts[0]) );
+	// 	slopeLine.add( new Segment(clickPts[1]) );
+	// 	slopeLine.strokeColor = values.colorExtrude1;
+	// 	slopeLine.strokeWidth = 6;
 
-// 		// clicks = [false, false, false];
+	// 	// clicks = [false, false, false];
 
-// 		// calculate angle and distance
-// 		var angle = slopeToAngle( slopeLine.bounds );
-// 		var distance = slopeLine.segments[0].point.getDistance( slopeLine.segments[1].point );
+	// 	// calculate angle and distance
+	// 	var angle = slopeToAngle( slopeLine.bounds );
+	// 	var distance = slopeLine.segments[0].point.getDistance( slopeLine.segments[1].point );
 	
-// 		// push to components
-// 		values.angle = (degrees( angle ));
-// 		values.distance = distance;
+	// 	// push to components
+	// 	values.angle = ( f.degrees( angle ) );
+	// 	values.distance = distance;
 
-// 		// extrusion slope as 
-// 		// drawn by mouse
-// 		bDrawn = true;
-// 	}
+	// 	// extrusion slope as 
+	// 	// drawn by mouse
+	// 	bDrawn = true;
+
+	// }
 	
-// };
+};
 
 // ------------------------------------------------------------------------
 function onMouseMove(event) {

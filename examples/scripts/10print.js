@@ -1,6 +1,6 @@
-console.log( 'FColor Example Loaded' );
+console.log( '10 PRINT CHR$(205.5+RND(1)); Loaded' );
 /**
- *	FColor Example
+ *	10 PRINT CHR$(205.5+RND(1));
  *
  *	Ken Frederick
  *	ken.frederick@gmx.de

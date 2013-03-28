@@ -67,7 +67,7 @@ frederickkPaper = {
 	 *
 	 */
 	randomInt: function(minr, maxr) {
-		return parseInt( random(minr,maxr) );
+		return parseInt( frederickkPaper.random(minr,maxr) );
 	},
 
 	/**
@@ -712,20 +712,23 @@ paper.Point.inject({
 		return this;
 	},
 
-	/**
-	 *	@param {Array} arg0
-	 *				random range of x [0,view.bounds.width]
-	 *	@param {Array} arg1
-	 *				random range of y [0,view.bounds.height]
-	 *
-	 *	@return {Point} random Point
-	 *
-	 */
-	random: function( arg0, arg1 ) {
-		this.x = (arg0 != undefined) ? frederickkPaper.random(arg0[0],arg0[1]) : Math.random()*view.bounds.width;
-		this.y = (arg1 != undefined) ? frederickkPaper.random(arg1[0],arg1[1]) : Math.random()*view.bounds.height;
-		return this;
-	},
+	// /**
+	//  *
+	//  *	already a part of PaperJs Point http://paperjs.org/reference/point#
+	//  *
+	//  *	@param {Array} arg0
+	//  *				random range of x [0,view.bounds.width]
+	//  *	@param {Array} arg1
+	//  *				random range of y [0,view.bounds.height]
+	//  *
+	//  *	@return {Point} random Point
+	//  *
+	//  */
+	// random: function( arg0, arg1 ) {
+	// 	this.x = (arg0 != undefined) ? frederickkPaper.random(arg0[0],arg0[1]) : Math.random()*view.bounds.width;
+	// 	this.y = (arg1 != undefined) ? frederickkPaper.random(arg1[0],arg1[1]) : Math.random()*view.bounds.height;
+	// 	return this;
+	// },
 
 	/**
 	 *	
@@ -942,22 +945,22 @@ paper.Color.inject({
 		isNew = (isNew == undefined) ? false : isNew;
 		if( !isNew ) {
 			this.red -= pct;
-			this.red = clamp(this.red, 0.0,1.0);
+			this.red = frederickkPaper.clamp(this.red, 0.0,1.0);
 
 			this.green -= pct;
-			this.green = clamp(this.green, 0.0,1.0);
+			this.green = frederickkPaper.clamp(this.green, 0.0,1.0);
 
 			this.blue -= pct;
-			this.blue = clamp(this.blue, 0.0,1.0);
+			this.blue = frederickkPaper.clamp(this.blue, 0.0,1.0);
 
 			return this;
 		}
 		else {
-			var r = clamp(this.red - pct, 0.0,1.0);
-			var g = clamp(this.green - pct, 0.0,1.0);
-			var b = clamp(this.blue - pct, 0.0,1.0);
+			var r = frederickkPaper.clamp(this.red - pct, 0.0,1.0);
+			var g = frederickkPaper.clamp(this.green - pct, 0.0,1.0);
+			var b = frederickkPaper.clamp(this.blue - pct, 0.0,1.0);
 
-			return new RGBColor(r,g,b);
+			return new RgbColor(r,g,b);
 		}
 	},
 
@@ -975,22 +978,22 @@ paper.Color.inject({
 		isNew = (isNew == undefined) ? false : isNew;
 		if( !isNew ) {
 			this.red += pct;
-			this.red = clamp(this.red, 0.0,1.0);
+			this.red = frederickkPaper.clamp(this.red, 0.0,1.0);
 
 			this.green += pct;
-			this.green = clamp(this.green, 0.0,1.0);
+			this.green = frederickkPaper.clamp(this.green, 0.0,1.0);
 
 			this.blue += pct;
-			this.blue = clamp(this.blue, 0.0,1.0);
+			this.blue = frederickkPaper.clamp(this.blue, 0.0,1.0);
 
 			return this;
 		}
 		else {
-			var r = clamp(this.red + pct, 0.0,1.0);
-			var g = clamp(this.green + pct, 0.0,1.0);
-			var b = clamp(this.blue + pct, 0.0,1.0);
+			var r = frederickkPaper.clamp(this.red + pct, 0.0,1.0);
+			var g = frederickkPaper.clamp(this.green + pct, 0.0,1.0);
+			var b = frederickkPaper.clamp(this.blue + pct, 0.0,1.0);
 
-			return new RGBColor(r,g,b);
+			return new RgbColor(r,g,b);
 		}
 	},
 

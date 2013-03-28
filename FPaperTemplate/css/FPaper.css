@@ -13,6 +13,56 @@
 */
 
 
+
+/*	------------------------------------------------------------------------
+ *	Properties
+ *	------------------------------------------------------------------------ */
+
+/*
+ *	alignment classes
+ */
+.left {
+	text-align: left;
+}
+.center {
+	text-align: center;
+}
+.right {
+	text-align: right;
+}
+
+
+/*
+ *	color classes
+ */
+.black {
+	color: rgba(35, 35, 0, 0.6);
+}
+.white {
+	color: rgba(255, 255, 255, 0.9);
+}
+
+.blackBackground {
+	background-color: rgba(35, 35, 0, 0.15);
+	border: 0px solid rgba(35, 35, 0, 0.2);
+
+	-moz-box-shadow: 0px 1px 0px rgba(35, 35, 0, 0.3);
+	-webkit-box-shadow: 0px 1px 0px rgba(35, 35, 0, 0.3);
+	box-shadow: 0px 1px 0px rgba(35, 35, 0, 0.3);
+} 
+.whiteBackground {
+	background-color: rgba(255, 255, 255, 0.20);
+	border: 0px solid rgba(255, 255, 255, 0.25);
+
+	-moz-box-shadow: 0px 1px 0px rgba(35, 35, 0, 0.15);
+	-webkit-box-shadow: 0px 1px 0px rgba(35, 35, 0, 0.15);
+	box-shadow: 0px 1px 0px rgba(35, 35, 0, 0.15);
+} 
+
+
+
+
+
 /*	------------------------------------------------------------------------
  *	Core
  *	------------------------------------------------------------------------ */
@@ -20,6 +70,11 @@ body, html {
 	margin: 0;
 	overflow: hidden;
 	-webkit-text-stroke: 1px transparent;
+
+	font-family: "Akzidenz-Grotesk", akzidenz grotesk, helvetica, sans-serif;
+	font-weight: bold;
+	font-size: 12px;
+	line-height: 15px;
 }
 
 /*
@@ -50,10 +105,6 @@ body, html {
 	z-index: 200;
 
 	/* my personal faves */
-	font-family: "Akzidenz-Grotesk", akzidenz grotesk, helvetica, sans-serif;
-	font-weight: bold;
-	font-size: 12px;
-	line-height: 15px;
 }
 
 #manual {
@@ -66,11 +117,10 @@ body, html {
 	white-space: nowrap;
 	z-index: 200;
 
+	font-weight: normal;
+
 	/* my personal faves */
-	font-family: "Akzidenz-Grotesk", akzidenz grotesk, helvetica, sans-serif;
-	font-size: 12px;
-	line-height: 15px;
-	color: rgba(0,0,0, 0.6);
+	/*color: rgba(0,0,0, 0.6);*/
 }
 
 /*
@@ -102,11 +152,17 @@ a:hover {
  *	------------------------------------------------------------------------ */ 
 #inputContainer {
 	position: absolute;
+	bottom: 17px;
+	width: 100%;
+	text-align:center;
 
-	font-family: "Akzidenz-Grotesk", akzidenz grotesk, helvetica, sans-serif;
-	font-weight: bold;
-	font-size: 12px;
-	line-height: 15px;
+}
+
+.inputComponent {
+	position: relative;
+	display: inline-block;
+
+	padding: 0px 6px 0px 6px;
 }
 
 input {
@@ -114,13 +170,12 @@ input {
 	font-weight: bold;
 	font-size: 30px;
 	text-align:center;
-	color: rgba(255,255,255, 0.9);
 
-	/*width: 7em;*/
+	width: 100%;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
 
-	/*background-color: rgba(0,0,0, 0.0);*/
-	/*border: 0px solid rgba(0,0,0, 0.0);*/
-	/*padding: 6px 6px;*/
 }
 
 input.add {

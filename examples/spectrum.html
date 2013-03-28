@@ -10,7 +10,7 @@
 		
 		
 		<!-- CSS -->
-		<link href="css/FPaper.css" rel="stylesheet" type="text/css" />
+		<link href="../FPaperTemplate/css/FPaper.css" rel="stylesheet" type="text/css" />
 
 		
 		<!-- JavaScript -->
@@ -88,8 +88,7 @@
 				
 				
 				// ------------------------------------------------------------------------
-				view.draw(); // draw the screen
-
+				// view.draw(); // draw the screen
 			});
 
 
@@ -99,31 +98,31 @@
 			 *	Supporting Methods
 			 *
 			 */
-			// http://paulirish.com/2009/random-hex-color-code-snippets/
 			$(function() {
+
 				// ------------------------------------------------------------------------
 				function resizeCanvas() {
 					var width = $('#container').width();
 					var height = $('#container').height();
 					
-					// set canvas width and height
+					// Set canvas width and height
 					$('#canvas').attr('width', width);
-					$('#canvas').attr('height', height)
+					$('#canvas').attr('height', height);
 
+					// to avoid duplication
+					// clear all objects from all layers
+					for( var i=0; i<project.layers.length; i++ ) {
+						project.layers[i].removeChildren();
+					}
+
+					// re-initiate the script again
+					Setup();
 					Draw();
-					view.draw(); // draw the screen
-
 				};
 
 				// ------------------------------------------------------------------------
-				var resizeTimeout;
-				$(window).resize(function() {
-					clearTimeout(resizeTimeout);
-					resizeTimeout = setTimeout(resizeCanvas, 100);
-				});
-				resizeCanvas();
+				$(window).resize(resizeCanvas);
 			});
-
 
 
 		</script>
@@ -146,24 +145,21 @@
 
 		<!-- CANVAS -->
 		<div id="container">
-			<canvas resize="true" id="canvas"></canvas>
+			<canvas id="canvas" resize></canvas>
 		</div>
 
 
 		<!-- TEXT -->
-		<div id="textContainer" style="color: #ffffff;">
+		<div id="textContainer" class="white">
 			Spectrum<br/>
-			<a href="http://paperjs.org/" style="color: #ffffff;" target="new">paperjs</a> experiment by <a href="http://cargocollective.com/kenfrederick" style="color: #ffffff;" target="new">kenfrederick</a>
+			<a href="http://paperjs.org/" class="white" target="new">paperjs</a> experiment by <a href="http://cargocollective.com/kenfrederick" class="white" target="new">kenfrederick</a>
 		</div>
 
-		<div id="manual">
+		<div id="manual" class="black">
 		</div>
 
 
 		<!-- INPUTS -->
-		<div id="inputLabelContainer">
-		</div>
-
 		<div id="inputContainer">
 		</div>
 

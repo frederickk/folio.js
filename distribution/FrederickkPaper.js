@@ -139,7 +139,7 @@ frederickkPaper = {
 	 *
 	 */
 	randomInt: function(minr, maxr) {
-		return parseInt( random(minr,maxr) );
+		return parseInt( frederickkPaper.random(minr,maxr) );
 	},
 
 	/**
@@ -784,20 +784,23 @@ paper.Point.inject({
 		return this;
 	},
 
-	/**
-	 *	@param {Array} arg0
-	 *				random range of x [0,view.bounds.width]
-	 *	@param {Array} arg1
-	 *				random range of y [0,view.bounds.height]
-	 *
-	 *	@return {Point} random Point
-	 *
-	 */
-	random: function( arg0, arg1 ) {
-		this.x = (arg0 != undefined) ? frederickkPaper.random(arg0[0],arg0[1]) : Math.random()*view.bounds.width;
-		this.y = (arg1 != undefined) ? frederickkPaper.random(arg1[0],arg1[1]) : Math.random()*view.bounds.height;
-		return this;
-	},
+	// /**
+	//  *
+	//  *	already a part of PaperJs Point http://paperjs.org/reference/point#
+	//  *
+	//  *	@param {Array} arg0
+	//  *				random range of x [0,view.bounds.width]
+	//  *	@param {Array} arg1
+	//  *				random range of y [0,view.bounds.height]
+	//  *
+	//  *	@return {Point} random Point
+	//  *
+	//  */
+	// random: function( arg0, arg1 ) {
+	// 	this.x = (arg0 != undefined) ? frederickkPaper.random(arg0[0],arg0[1]) : Math.random()*view.bounds.width;
+	// 	this.y = (arg1 != undefined) ? frederickkPaper.random(arg1[0],arg1[1]) : Math.random()*view.bounds.height;
+	// 	return this;
+	// },
 
 	/**
 	 *	
@@ -1014,22 +1017,22 @@ paper.Color.inject({
 		isNew = (isNew == undefined) ? false : isNew;
 		if( !isNew ) {
 			this.red -= pct;
-			this.red = clamp(this.red, 0.0,1.0);
+			this.red = frederickkPaper.clamp(this.red, 0.0,1.0);
 
 			this.green -= pct;
-			this.green = clamp(this.green, 0.0,1.0);
+			this.green = frederickkPaper.clamp(this.green, 0.0,1.0);
 
 			this.blue -= pct;
-			this.blue = clamp(this.blue, 0.0,1.0);
+			this.blue = frederickkPaper.clamp(this.blue, 0.0,1.0);
 
 			return this;
 		}
 		else {
-			var r = clamp(this.red - pct, 0.0,1.0);
-			var g = clamp(this.green - pct, 0.0,1.0);
-			var b = clamp(this.blue - pct, 0.0,1.0);
+			var r = frederickkPaper.clamp(this.red - pct, 0.0,1.0);
+			var g = frederickkPaper.clamp(this.green - pct, 0.0,1.0);
+			var b = frederickkPaper.clamp(this.blue - pct, 0.0,1.0);
 
-			return new RGBColor(r,g,b);
+			return new RgbColor(r,g,b);
 		}
 	},
 
@@ -1047,22 +1050,22 @@ paper.Color.inject({
 		isNew = (isNew == undefined) ? false : isNew;
 		if( !isNew ) {
 			this.red += pct;
-			this.red = clamp(this.red, 0.0,1.0);
+			this.red = frederickkPaper.clamp(this.red, 0.0,1.0);
 
 			this.green += pct;
-			this.green = clamp(this.green, 0.0,1.0);
+			this.green = frederickkPaper.clamp(this.green, 0.0,1.0);
 
 			this.blue += pct;
-			this.blue = clamp(this.blue, 0.0,1.0);
+			this.blue = frederickkPaper.clamp(this.blue, 0.0,1.0);
 
 			return this;
 		}
 		else {
-			var r = clamp(this.red + pct, 0.0,1.0);
-			var g = clamp(this.green + pct, 0.0,1.0);
-			var b = clamp(this.blue + pct, 0.0,1.0);
+			var r = frederickkPaper.clamp(this.red + pct, 0.0,1.0);
+			var g = frederickkPaper.clamp(this.green + pct, 0.0,1.0);
+			var b = frederickkPaper.clamp(this.blue + pct, 0.0,1.0);
 
-			return new RGBColor(r,g,b);
+			return new RgbColor(r,g,b);
 		}
 	},
 
@@ -1401,79 +1404,6 @@ paper.HsbColor.inject({
 
 /**
  *  
- *	FColor.js
- *	v0.2a
- *  
- *	16. February 2013
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
- *  
- *  
- *	FColor
- *
- */
-
-
-/**
- *
- *	depreciating FColor namespace
- *
- */
-frederickkPaper.FColor = function() {
-	// ------------------------------------------------------------------------
-	// Methods
-	// ------------------------------------------------------------------------
-	this.lerp = function(arg0, arg1, arg2) {
-		return arg0.lerp( arg1, arg2 );
-	};
-	this.randomRGBColor = function() {
-		return new RgbColor().random();
-	};
-	this.randomGrayColor = function() {
-		return new new GrayColor().random();
-	};
-
-
-	// ------------------------------------------------------------------------
-	var componentToHex = function( component ) {
-		return Color().componentToHex( component );
-	};
-
-	this.colorToHex = function(col) {
-		return col.colorToHex();
-	};
-
-	this.hex = function(hex) {
-		return new RgbColor().hexToColor(hex);
-	};
-
-
-	// ------------------------------------------------------------------------
-	this.colorToInt = function(col) {
-		return col.colorToInt();
-	};
-
-	this.integer = function(RgbInt) {
-		return new RgbColor().intToColor();
-	};
-
-
-	// ------------------------------------------------------------------------
-	this.bytes = function(arg0, arg1, arg2, arg3) {
-		return new RgbColor().bytes(arg0, arg1, arg2, arg3);
-	};
-
-
-};
-
-
-
-/**
- *  
  *	FConversions.js
  *	v0.2a
  *  
@@ -1507,166 +1437,6 @@ frederickkPaper.FConversions = {
 	piToPt: 12
 
 };
-
-
-/**
- *  
- *	FPoint.js
- *	v0.2a
- *  
- *	25. November 2012
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
- *  
- *  
- *	FPoint
- *	TODO: thinking about getting rid of FPoint
- *
- */
-
-
-
-frederickkPaper.FPoint = paper.Point.extend({
-	// ------------------------------------------------------------------------
-	// Methods
-	// ------------------------------------------------------------------------
-	norm : function(startPt, stopPt) {
-		this.x = frederickkPaper.norm(this.x, start.x, stop.x);
-		this.y = frederickkPaper.norm(this.y, start.y, stop.y);
-		return this;
-	},
-
-	/**
-	 *	
-	 *	@return random point
-	 *
-	 */
-	/**
-	 *	@param minx
-	 *				minmum x (default: 0)
-	 *	@param maxx
-	 *				maximum x (default: view.bounds.width)
-	 *	@param miny
-	 *				minmum y (default: 0)
-	 *	@param maxy
-	 *				maximum y (default: view.bounds.height)
-	 *
-	 *	@return random size
-	 *
-	 */
-	random : function(minx, maxx, miny, maxy) {
-		minx = (minx != undefined) ? minx : 0;
-		maxx = (maxx != undefined) ? maxx : view.bounds.width;
-		miny = (miny != undefined) ? miny : 0;
-		maxy = (maxy != undefined) ? maxy : view.bounds.height;
-
-		this.x = frederickkPaper.random(minx, maxx);
-		this.y = frederickkPaper.random(miny, maxy);
-		return this;
-	},
-
-	/**
-	 *	
-	 *	@return vector heading of point
-	 *
-	 */
-	heading : function() {
-		return -1 * (Math.atan2(-this.y, this.x));
-	},
-
-	/**
-	 *
-	 *  https://bitbucket.org/postspectacular/toxiclibs/src/9d124c80e8af/src.core/toxi/geom/Vec2D.java
-	 *
-	 */
-	interpolateTo : function(p2, f) {
-		this.x += ((p2.x - this.x) * f);
-		this.y += ((p2.y - this.y) * f);
-		return this;
-	},
-
-	lerp : function(p1,p2, amt) {
-		var x = frederickkPaper.lerp(p1.x,	p2.x,	amt);
-		var y = frederickkPaper.lerp(p1.y,	p2.y,	amt);
-		
-		return new Point(x,y);
-	},
-
-
-	// ------------------------------------------------------------------------
-	limit : function(lim) {
-		if (this.magSq() > lim * lim) {
-			this.normalize();
-			this.mult * lim;
-			return this;
-		}
-		return this;
-	},
-
-	// ------------------------------------------------------------------------
-	/**
-	 *	
-	 *	@return vector mag squared
-	 *
-	 */
-	magSq : function() {
-		return this.x * this.x + this.y * this.y;
-	},
-
-
-	// ------------------------------------------------------------------------
-	/**
-	 *
-	 *	http://gmc.yoyogames.com/index.php?showtopic=290349
-	 *
-	 *	@param spacing
-	 *				Size()
-	 *				spacing.width  = the horizontal snapping value, width of the grid.
-	 *				spacing.height = the vertical snapping value, height of the grid.
-	 *
-	 */
-	snapGrid : function(spacing) {
-		var ix, iy;
-		ix = Math.round(this.y/spacing.height - this.x/spacing.width);
-		iy = Math.round(this.y/spacing.height + this.x/spacing.width);
-
-		this.x = (iy - ix)/2*spacing.width;
-		this.y = (iy + ix)/2*spacing.height;
-		return this;
-	},
-
-	/**
-	 *	snaps point to an isometric grid
-	 *	
-	 *	@param scale
-	 *				scale of the grid (1.0 = 32x16)
-	 *
-	 */
-	snapIso : function(scale) {
-		if(scale === null) scale = 1;
-		return this.snapGrid( new Size(32*scale,16*scale) );
-	},
-
-
-
-	// ------------------------------------------------------------------------
-	// Gets
-	// ------------------------------------------------------------------------
-	/**
-	 *	
-	 *	@return angle of point
-	 *
-	 */
-	getAngle : function() {
-		return Math.atan2(this.y - 0, this.x - 0);
-	}
-
-
-});
 
 
 /**
@@ -2547,40 +2317,6 @@ frederickkPaper.FTime.FStopwatch = function() {
 	};
 
 };
-
-
-/**
- *  
- *	FPath3.Constructors.js
- *	v0.2a
- *  
- *	25. November 2012
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
- *  
- *
- *	3D Path Shape Constructors
- *
- *	A barebones collection of primitive shapes for 3D rendering
- *
- *	code inspired by
- *	http://www.netmagazine.com/tutorials/build-your-own-html5-3d-engine
- *	https://github.com/mrdoob/three.js/
- *
- *	modified/expanded for use in PaperJS by Ken Frederick
- *
- */
-
-
-
-// FPath3.inject({ statics: new function() {
-
-
-// }});
 
 
 /**
@@ -4906,45 +4642,6 @@ paper.Path.inject({
 
 /**
  *	
- *	FArrow.js
- *	v0.3a
- *	
- *	16. February 2013
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
- *
- *
- *	FArrow
- *	Create simple arrow
- */
-
-
-/**
- *
- *	depreciating FShape namespace
- *
- *	@example
- *	var headPoint = new paper.Point( 9,9 );
- *	var tailPoint = new paper.Point( 90,90 );
- *	var arrowHeadSize = new paper.Size( 18,18 );
- *	var farrow = new paper.Path.FArrow( headPoint, tailPoint, arrowHeadSize );
- *
- */
-frederickkPaper.FShape.FArrow = this.FArrow = Path.extend({
-
-	initialize : function( headPoint, tailPoint, arrowHeadSize ) {
-		return new paper.Path.FArrow( headPoint, tailPoint, arrowHeadSize );
-	}
-
-});
-
-
-/**
- *	
  *	FBox.js
  *	v0.2a
  *	
@@ -5332,178 +5029,6 @@ frederickkPaper.FShape.FBox = function(scene) {
 
 /**
  *	
- *	FBubble.js
- *	v0.3a
- *	
- *	16. February 2013
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
- *
- *
- *	FBubble
- *	Create a simple speech bubble
- *
- */
-
-
-/**
- *
- *	depreciating FShape namespace
- *
- *	@example
- *	var bubblePoint = new paper.Point( 45,45 );
- *	var bubbleSize = new paper.Size( 90,60 );
- *	var bubbleTagSize = new paper.Size( 9,9 );
- *	var bubbleTagCenter = 'CENTER';
- *	var b = new paper.Path.FBubble( bubblePoint, bubbleSize, bubbleTagSize, bubbleTagCenter );
- *
- */
-frederickkPaper.FShape.FBubble = this.FBubble = Path.extend({
-
-	initialize : function(bubblePoint, bubbleSize, bubbleTagSize, bubbleTagCenter) {
-		return new paper.Path.FBubble(bubblePoint, bubbleSize, bubbleTagSize, bubbleTagCenter);
-	}
-
-});
-
-
-/**
- *	
- *	FChain.js
- *	v0.3a
- *	
- *	16. February 2013
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
- *
- *
- *	FChain
- *	Create simple chain (a line with different endpoint sizes)
- *
- */
-
-
-/**
- *
- *	depreciating FShape namespace
- *
- *	@example
- *	var point1 = new paper.Point( 9,9 );
- *	var radius1 = 9;
- *	var point2 = new paper.Point( 90,90 );
- *	var radius2 = 90;
- *	var fchain = new paper.Path.FChain( point1, radius1, point2, radius2 );
- *
- *
- *	@example
- *	var path1 = new paper.Path.Circle( new Point(9,9), 9 );
- *	var path2 = new paper.Path.Circle( new Point(90,90), 90 );
- *	var fchain = new paper.Path.FChain( path1, path2 );
- *
- */
-frederickkPaper.FShape.FChain = this.FChain = Path.extend({
-
-	initialize : function( arg0, arg1, arg2, arg3 ) {
-		return new paper.Path.FChain( arg0, arg1, arg2, arg3 );
-	}
-
-});
-
-
-/**
- *	
- *	FCross.js
- *	v0.3a
- *	
- *	16. February 2013
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
- *
- *
- *	FCross
- *	Create a cross
- *
- */
-
-
-/**
- *
- *	depreciating FShape namespace
- *
- *	@example
- *	var centerPoint = new paper.Point( 45,45 );
- *	var size = new paper.Size( 45,45 );
- *	var strokeWidth = 18;
- *	var crossType = 'LINE';
- *	var fcross = new paper.Path.FCross( centerPoint, size, strokeWidth, crossType );
- *
- */
-frederickkPaper.FShape.FCross = this.FCross = Path.extend({
-
-	initialize : function( centerPoint, size, strokeWidth, crossType ) {
-		return new paper.Path.FCross( centerPoint, size, strokeWidth, crossType );
-	}
-
-});
-
-
-/**
- *	
- *	FDrop.js
- *	v0.3a
- *	
- *	16. February 2013
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
- *
- *
- *	FDrop
- *	Create a (tear)drop
- *
- */
-
-
-/**
- *
- *	depreciating FShape namespace
- *
- *	@example
- *	var centerPoint = new paper.Point( 45,45 );
- *	var scale = 45;
- *	var fdrop = new paper.Path.FDrop( centerPoint, scale );
- *
- *
- *	@example
- *	var centerPoint = new paper.Point( 45,45 );
- *	var scale = new paper.Size( 30,61.8 );
- *	var fdrop = new paper.Path.FDrop( centerPoint, scale );
- *
- */
-frederickkPaper.FShape.FDrop = this.FDrop = Path.extend({
-
-	initialize : function( centerPoint, arg1 ) {
- 		return new paper.Path.FDrop( centerPoint, arg1 );
-	}
-
-});
-/**
- *	
  *	FSphere.js
  *	v0.2a
  *	
@@ -5803,45 +5328,6 @@ frederickkPaper.FShape.FSphere = function(scene) {
 
 
 };
-/**
- *	
- *	FTriangle.js
- *	v0.3a
- *	
- *	16. February 2013
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
- *
- *
- *	FTriangle
- *	Create a triangle
- *
- */
-
-
-
-/**
- *
- *	depreciating FShape namespace
- *
- *	@example
- *	var p1 = new paper.Point( 9,9 );
- *	var p2 = new paper.Point( 90,45 );
- *	var p3 = new paper.Point( 45,90 ); 
- *	var ftriangle = new paper.Path.FTriangle( p1, p2, p3 );
- *
- */
-frederickkPaper.FShape.FTriangle = this.FTriangle = Path.extend({
-
-	initialize : function( p1, p2, p3 ) {
- 		return new paper.Path.FTriangle( p1, p2, p3 );
-	}
-
-});
 /**
  *  
  *	FControl.js

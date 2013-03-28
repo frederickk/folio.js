@@ -18,6 +18,7 @@
  *
  */
 
+// the core frederickkPaper namespace
 var f = frederickkPaper;
 
 // depreciating FShape namespace

@@ -175,7 +175,7 @@ var ftime = fpaper.FTime;
 ```
 
 
-Scriptogrpaher Bonus
+Scriptographer Bonus
 -------------
 
 As I mentioned this library started out as a rag-tag collection of code snippets for use in Scriptograher, so I've put a bit of effort into and cleaned up frederickkPaper for user in Scriptographer as frederickkScript. 

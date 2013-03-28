@@ -51,9 +51,9 @@ function Setup() {
 	move.setSeconds( 9 );
 
 	// start point
-	points[0] = view.bounds.topLeft;
+	points[0] = new Point(view.bounds.width,view.bounds.height);
 	// end point
-	points[1] = view.bounds.bottomRight;
+	points[1] = new Point(0,0);
 
 	// initiate blend FStepper
 	blend = new ftime.FStepper();

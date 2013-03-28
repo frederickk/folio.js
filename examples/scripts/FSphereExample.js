@@ -29,7 +29,7 @@ var fshape = f.FShape;
 
 // initiate the scene, this is how the transformations are
 // interpolated for 3D geometry to appear on the screen
-var scene = new f3d.FScene3D();
+var scene;
 
 // spheres
 var spheres = [];
@@ -49,6 +49,7 @@ var values = {
 // ------------------------------------------------------------------------
 function Setup() {
 	// required setup scene
+	scene = new f3d.FScene3D();
 	scene.setup(view.bounds.width, view.bounds.height, 1000, 'ORTHO');
 
 	var size;

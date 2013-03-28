@@ -19,7 +19,9 @@ console.log( 'Clocks Loaded' );
 // ------------------------------------------------------------------------
 // Properties
 // ------------------------------------------------------------------------
+// the core frederickkPaper namespace
 var f = frederickkPaper;
+
 var ftime = f.FTime;
 
 var fdate = new ftime.FDate();

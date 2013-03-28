@@ -88,8 +88,7 @@
 				
 				
 				// ------------------------------------------------------------------------
-				view.draw(); // draw the screen
-
+				// view.draw(); // draw the screen
 			});
 
 
@@ -100,35 +99,37 @@
 			 *
 			 */
 			$(function() {
+
 				// ------------------------------------------------------------------------
 				function resizeCanvas() {
 					var width = $('#container').width();
 					var height = $('#container').height();
 					
-					// set canvas width and height
+					// Set canvas width and height
 					$('#canvas').attr('width', width);
-					$('#canvas').attr('height', height)
+					$('#canvas').attr('height', height);
 
+					// to avoid duplication
+					// clear all objects from all layers
+					for( var i=0; i<project.layers.length; i++ ) {
+						project.layers[i].removeChildren();
+					}
+
+					// re-initiate the script again
+					Setup();
 					Draw();
-					view.draw(); // draw the screen
-
-				}
+				};
 
 				// ------------------------------------------------------------------------
-				var resizeTimeout;
-				$(window).resize(function() {
-					clearTimeout(resizeTimeout);
-					resizeTimeout = setTimeout(resizeCanvas, 100);
-				});
-				resizeCanvas();
+				$(window).resize(resizeCanvas);
 			});
-
 
 
 		</script>
 
 
 		<!-- LOAD ADDITIONAL JAVASCRIPTS -->
+		<!-- https://github.com/frederickk/frederickkPaper -->
 		<script type="text/javascript" src="../distribution/frederickkPaper.js"></script>
 
 		<!-- LOAD PAPER SCRIPT -->
@@ -154,15 +155,12 @@
 			<a href="http://paperjs.org/" target="new">paperjs</a> experiment by <a href="http://cargocollective.com/kenfrederick" target="new">kenfrederick</a>
 		</div>
 
-		<div id="manual">
+		<div id="manual" class="black">
 			<b>mouse</b> move points
 		</div>
 
 
 		<!-- INPUTS -->
-		<div id="inputLabelContainer">
-		</div>
-
 		<div id="inputContainer">
 		</div>
 

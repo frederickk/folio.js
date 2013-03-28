@@ -18,7 +18,9 @@ console.log( 'The Debate Loaded' );
 // ------------------------------------------------------------------------
 // Properties
 // ------------------------------------------------------------------------
+// the core frederickkPaper namespace
 var f = frederickkPaper;
+
 var ftime = f.FTime;
 
 // depreciating FShape namespace

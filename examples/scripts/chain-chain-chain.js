@@ -19,17 +19,15 @@ console.log( 'Chain-Chain-Chain Loaded' );
 // ------------------------------------------------------------------------
 // Properties
 // ------------------------------------------------------------------------
+// the core frederickkPaper namespace
 var f = frederickkPaper;
-
 
 // dots
 var dots;
 
-
 // tsp
 var RouteStep = 0;
 var tsp = new TSP();
-
 
 // background
 var background;
@@ -37,7 +35,6 @@ var colors = {
 	start:	new RgbColor().random(),
 	end:	new RgbColor().random()
 };
-
 
 // hit
 var temp;

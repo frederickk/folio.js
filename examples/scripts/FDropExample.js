@@ -100,7 +100,7 @@ function Draw() {
 // ------------------------------------------------------------------------
 function animateDrip(event) {
 	if( scale < 1.0 ) {
-		scale += 0.01;
+		scale += 0.02;
 	}
 	else {
 		scale = 1.0 + ((Math.sin(event.time * 2) + 1) / 30);

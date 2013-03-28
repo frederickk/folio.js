@@ -25,7 +25,7 @@ var f3d = f.F3D;
 
 // initiate the scene, this is how the transformations are
 // interpolated for 3D geometry to appear on the screen
-var scene = new f3d.FScene3D();
+var scene;
 
 // FPath3 paths
 var path3 = [];
@@ -48,6 +48,7 @@ function Setup() {
 	// (optional parameters) width, height, focalLength, display mode
 	// 'ORTHO' is for isometric
 	// 'PERSPECTIVE' is the default mode
+	scene = new f3d.FScene3D();
 	scene.setup(view.bounds.width, view.bounds.height, 1000, 'PERSPECTIVE');
 
 

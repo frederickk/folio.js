@@ -20,7 +20,6 @@ console.log( 'Spectrum Loaded' );
 // the core frederickkPaper namespace
 var f = frederickkPaper;
 
-
 // the gradient
 var spectrum;
 var path;

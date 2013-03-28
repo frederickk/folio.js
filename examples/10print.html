@@ -91,8 +91,7 @@
 				
 				
 				// ------------------------------------------------------------------------
-				view.draw(); // draw the screen
-
+				// view.draw(); // draw the screen
 			});
 
 
@@ -110,38 +109,28 @@
 			$(function() {
 
 				// ------------------------------------------------------------------------
-				function positionInputs() {
-					// deal with inputs
-					var w = $("#hexcolor1").width();
-					w += $("#hexcolor2").width();
-					$("#inputContainer").css({
-						left: view.bounds.width*0.5-(w*0.5),
-						top: view.bounds.height-106
-					});
-				};
-
-				// ------------------------------------------------------------------------
 				function resizeCanvas() {
 					var width = $('#container').width();
 					var height = $('#container').height();
 					
-					// // Set canvas width and height
-					// $('#canvas').attr('width', width);
-					// $('#canvas').attr('height', height)
+					// Set canvas width and height
+					$('#canvas').attr('width', width);
+					$('#canvas').attr('height', height);
 
-					positionInputs();
+					// to avoid duplication
+					// clear all objects from all layers
+					for( var i=0; i<project.layers.length; i++ ) {
+						project.layers[i].removeChildren();
+					}
+
+					// re-initiate the script again
+					Setup();
 					Draw();
 				};
 
 				// ------------------------------------------------------------------------
-				var resizeTimeout;
-				$(window).resize(function() {
-					clearTimeout(resizeTimeout);
-					resizeTimeout = setTimeout(resizeCanvas, 100);
-				});
-				resizeCanvas();
+				$(window).resize(resizeCanvas);
 			});
-
 
 
 		</script>
@@ -169,24 +158,29 @@
 
 
 		<!-- TEXT -->
-		<div id="textContainer" style="color: #ffffff;">
-			<a href="http://10print.org/" style="color: #ffffff;" target="new">10 PRINT CHR$(205.5+RND(1));</a><br />
-			<a href="http://paperjs.org/" style="color: #ffffff;" target="new">paperjs</a> experiment by <a href="http://cargocollective.com/kenfrederick" style="color: #ffffff;" target="new">kenfrederick</a>
-
-			<br/><br/>
+		<div id="textContainer" class="white">
+			<a href="http://10print.org/" class="white" target="new">10 PRINT CHR$(205.5+RND(1));</a><br />
+			<a href="http://paperjs.org/" class="white" target="new">paperjs</a> experiment by <a href="http://cargocollective.com/kenfrederick" class="white" target="new">kenfrederick</a>
 		</div>
 
-		<div id="manual" style="color: #ffffff;">
+		<div id="manual" class="white">
 			<b>mouse</b> generate new pattern<br />
 			<b>input fields</b> change colors
 		</div>
 
-
 		<!-- INPUTS -->
-		<div id="inputContainer">
+		<div id="inputContainer" style="left: 35px;">
 			<form method="POST" name="Form">
-				<input type="text" id="hexcolor1" name="hexcolor2" onChange="Draw()" value="" style="background-color: rgba(0,0,0, 0.0); border: 0px solid rgba(0,0,0, 0.0);" />
-				<input type="text" id="hexcolor2" name="hexcolor2" onChange="Draw()" value="" style="background-color: rgba(0,0,0, 0.0); border: 0px solid rgba(0,0,0, 0.0);" />
+
+				<div class="inputComponent" style="width: 300px;">
+					<div class="left white"><b>Pattern</b></div>
+					<input type="text" id="hexcolor1" name="hexcolor1" onChange="Draw()" value="" class="whiteBackground white" />
+				</div>
+
+				<div class="inputComponent" style="width: 300px;">
+					<div class="left white"><b>Background</b></div>
+					<input type="text" id="hexcolor2" name="hexcolor2" onChange="Draw()" value="" class="whiteBackground white" />
+				</div>
 			</form>
 		</div>
 

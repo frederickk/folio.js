@@ -88,11 +88,41 @@
 				
 				
 				// ------------------------------------------------------------------------
-				view.draw(); // draw the screen
-
+				// view.draw(); // draw the screen
 			});
 
 
+
+			/**
+			 *
+			 *	Supporting Methods
+			 *
+			 */
+			$(function() {
+
+				// ------------------------------------------------------------------------
+				function resizeCanvas() {
+					var width = $('#container').width();
+					var height = $('#container').height();
+					
+					// Set canvas width and height
+					$('#canvas').attr('width', width);
+					$('#canvas').attr('height', height);
+
+					// to avoid duplication
+					// clear all objects from all layers
+					for( var i=0; i<project.layers.length; i++ ) {
+						project.layers[i].removeChildren();
+					}
+
+					// re-initiate the script again
+					Setup();
+					Draw();
+				};
+
+				// ------------------------------------------------------------------------
+				$(window).resize(resizeCanvas);
+			});
 
 
 		</script>
@@ -125,7 +155,7 @@
 			<a href="http://paperjs.org/" target="new">paperjs</a> experiment by <a href="http://cargocollective.com/kenfrederick" target="new">kenfrederick</a>
 		</div>
 
-		<div id="manual">
+		<div id="manual" class="black">
 			<b>mouse</b> rotate in space<br/>
 			<b>enter</b> start animaton<br/>
 			<b>r</b> reset to start position
