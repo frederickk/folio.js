@@ -37,7 +37,7 @@ Examples
 
 All of the examples can be viewed full screen here
 
-https://dl.dropbox.com/u/7038255/frederickkPaper/index.html
+http://is.gd/frederickkpaper
 
 
 ###F3D Examples###
