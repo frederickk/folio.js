@@ -23,7 +23,7 @@
     }
   ],
   "dependencies": {
-    "paperjs": "https://github.com/paperjs/paper.js"
+    "paper.js": "git://github.com/paperjs/paper.js.git"
   },
   "ignore": [
     "**/.*",

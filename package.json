@@ -23,7 +23,7 @@
 	],
 	"dependencies": {
 		"canvas": ">= 0.7.0",
-		"paperjs": "https://github.com/paperjs/paper.js"
+	    "paper.js": "git://github.com/paperjs/paper.js.git"
 	},
 	"repository": {
 		"type": "git",
