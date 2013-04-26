@@ -37,7 +37,7 @@ Examples
 
 All of the examples can be viewed full screen here
 
-http://is.gd/frederickkpaper
+http://kennethfrederick.de/frederickkPaper/
 
 
 ###F3D Examples###
@@ -46,17 +46,17 @@ http://is.gd/frederickkpaper
 
 shows how to draw simple 3D primitives (very rudimentary)
 
-https://dl.dropbox.com/u/7038255/frederickkPaper/3halbiertewuerfel.html
+http://kennethfrederick.de/frederickkPaper/3halbiertewuerfel.html
 
 
 Field
 
-https://dl.dropbox.com/u/7038255/frederickkPaper/F3DExample.html
+http://kennethfrederick.de/frederickkPaper/F3DExample.html
 
 
 Sphere
 
-https://dl.dropbox.com/u/7038255/frederickkPaper/FSphereExample.html
+http://kennethfrederick.de/frederickkPaper/FSphereExample.html
 
 
 
@@ -66,7 +66,7 @@ Clocks
 
 shows the features of FTime, which is partly a wrapper for the native JavaScript Date() object
 
-https://dl.dropbox.com/u/7038255/frederickkPaper/clocks.html
+http://kennethfrederick.de/frederickkPaper/clocks.html
 
 
 
@@ -77,12 +77,12 @@ The Debate
 
 shows how FStepper can be used for timed transitions (pseudo keyframing)
 
-https://dl.dropbox.com/u/7038255/frederickkPaper/thedebate.html
+http://kennethfrederick.de/frederickkPaper/thedebate.html
 
 
 Sunrise/Sunset
 
-https://dl.dropbox.com/u/7038255/frederickkPaper/FStepperExample.html
+http://kennethfrederick.de/frederickkPaper/FStepperExample.html
 
 
 
@@ -92,19 +92,19 @@ FColor Example (new)
 
 shows added Color features such as color lerping
 
-https://dl.dropbox.com/u/7038255/frederickkPaper/FColorExample.html
+http://kennethfrederick.de/frederickkPaper/FColorExample.html
 
 
 Chain-Chain-Chain
 
 the connected travelling salesman
 
-https://dl.dropbox.com/u/7038255/frederickkPaper/chain-chain-chain.html
+http://kennethfrederick.de/frederickkPaper/chain-chain-chain.html
 
 
 10 PRINT CHR$(205.5+RND(1));
 
-https://dl.dropbox.com/u/7038255/frederickkPaper/10print.html
+http://kennethfrederick.de/frederickkPaper/10print.html
 
 
 
@@ -114,21 +114,21 @@ FArrow Example
 
 draw arrows
 
-https://dl.dropbox.com/u/7038255/frederickkPaper/FArrowExample.html
+http://kennethfrederick.de/frederickkPaper/FArrowExample.html
 
 
 FDrop Example (new)
 
 draw (tear)drops
 
-https://dl.dropbox.com/u/7038255/frederickkPaper/FDropExample.html
+http://kennethfrederick.de/frederickkPaper/FDropExample.html
 
 
 FTriangle Example (new)
 
 draw triangles (and get their various center points - incomplete)
 
-https://dl.dropbox.com/u/7038255/frederickkPaper/FTriangle.html
+http://kennethfrederick.de/frederickkPaper/FTriangle.html
 
 
 All of these examples can be found in the above 'examples' directory. More Examples of frederickkPaper to be added as time permits.
