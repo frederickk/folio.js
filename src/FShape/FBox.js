@@ -8,8 +8,8 @@
  *	Ken Frederick
  *	ken.frederick@gmx.de
  *
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
  *
  *
  *	FBox
@@ -113,20 +113,20 @@ frederickkPaper.FShape.FBox = function(scene) {
 	];
 
 	var _facesFillColor = [
-		new RgbColor(1.0, 1.0, 0.0, 0.8), // FRONT
-		new RgbColor(1.0, 0.0, 1.0, 0.8), // TOP
-		new RgbColor(0.0, 0.0, 1.0, 0.8), // BOTTOM
-		new RgbColor(1.0, 0.0, 0.0, 0.8), // LEFT
-		new RgbColor(0.0, 1.0, 1.0, 0.8), // RIGHT
-		new RgbColor(0.0, 1.0, 0.0, 0.8)	// BACK
+		new Color(1.0, 1.0, 0.0, 0.8), // FRONT
+		new Color(1.0, 0.0, 1.0, 0.8), // TOP
+		new Color(0.0, 0.0, 1.0, 0.8), // BOTTOM
+		new Color(1.0, 0.0, 0.0, 0.8), // LEFT
+		new Color(0.0, 1.0, 1.0, 0.8), // RIGHT
+		new Color(0.0, 1.0, 0.0, 0.8)	// BACK
 	];
 	var _facesStrokeColor = [
-		new RgbColor(1.0, 1.0, 0.0, 0.8), // FRONT
-		new RgbColor(1.0, 0.0, 1.0, 0.8), // TOP
-		new RgbColor(0.0, 0.0, 1.0, 0.8), // BOTTOM
-		new RgbColor(1.0, 0.0, 0.0, 0.8), // LEFT
-		new RgbColor(0.0, 1.0, 1.0, 0.8), // RIGHT
-		new RgbColor(0.0, 1.0, 0.0, 0.8)	// BACK
+		new Color(1.0, 1.0, 0.0, 0.8), // FRONT
+		new Color(1.0, 0.0, 1.0, 0.8), // TOP
+		new Color(0.0, 0.0, 1.0, 0.8), // BOTTOM
+		new Color(1.0, 0.0, 0.0, 0.8), // LEFT
+		new Color(0.0, 1.0, 1.0, 0.8), // RIGHT
+		new Color(0.0, 1.0, 0.0, 0.8)	// BACK
 	];
 	var _facesStrokeWidth = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0];
 
@@ -258,7 +258,7 @@ frederickkPaper.FShape.FBox = function(scene) {
 	 *	@param face
 	 *			specific face
 	 *	@param col
-	 *			fill color value of face (RgbColor())
+	 *			fill color value of face (Color())
 	 */
 	 this.setFillColor = function(face, col) {
 		if( face.length === undefined ) _facesFillColor[face] = col;
@@ -274,7 +274,7 @@ frederickkPaper.FShape.FBox = function(scene) {
 	 *	@param face
 	 *			specific face
 	 *	@param col
-	 *			stroke color value of face (RgbColor())
+	 *			stroke color value of face (Color())
 	 */
 	this.setStrokeColor = function(face, col) {
 		if( face.length === undefined ) _facesStrokeColor[face] = col;

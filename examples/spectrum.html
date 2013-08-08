@@ -13,119 +13,13 @@
 		<link href="../FPaperTemplate/css/FPaper.css" rel="stylesheet" type="text/css" />
 
 		
-		<!-- JavaScript -->
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+		<!-- JAVASCRIPT -->
+		<script src="js/jquery/jquery.min.js"></script>
 
 
 		<!-- LOAD PAPERJS -->
-		<script type="text/javascript" src="js/paper/paper.js"></script>
-		<script>
-			// ------------------------------------------------------------------------
-			// Global Properties
-			// ------------------------------------------------------------------------
+		<script type="text/javascript" src="js/paper/paper-core.min.js"></script>
 
-
-
-			// ------------------------------------------------------------------------
-			// Global Methods
-			// ------------------------------------------------------------------------
-			paper.install(window);
-			$(document).ready(function(){
-				paper.setup('canvas');
-				console.log('PaperJS is go!');
-				
-
-
-				// ------------------------------------------------------------------------
-				// PaperJS Methods
-				// ------------------------------------------------------------------------
-				Setup();
-
-
-				// ------------------------------------------------------------------------
-				Draw();
-
-				
-				
-				// ------------------------------------------------------------------------
-				// PaperJS Events
-				// ------------------------------------------------------------------------
-				view.onFrame = function(event) {
-					Update(event);
-				};
-				
-				view.onResize = function(event) {
-					onResize(event);
-				};
-
-				// ------------------------------------------------------------------------
-				var tool = new Tool();
-				tool.onMouseUp = function(event) {
-					onMouseUp(event);
-				};
-				
-				tool.onMouseDown = function(event) {
-					onMouseDown(event);
-				};
-				
-				tool.onMouseMove = function(event) {
-					onMouseMove(event);
-				};
-				
-				tool.onMouseDrag = function(event) {
-					onMouseDrag(event);
-				};
-
-
-				// ------------------------------------------------------------------------
-				tool.onKeyDown = function(event) {
-					onKeyDown(event);
-				};
-
-				tool.onKeyUp = function(event) {
-					onKeyUp(event);
-				};
-				
-				
-				// ------------------------------------------------------------------------
-				// view.draw(); // draw the screen
-			});
-
-
-
-			/**
-			 *
-			 *	Supporting Methods
-			 *
-			 */
-			$(function() {
-
-				// ------------------------------------------------------------------------
-				function resizeCanvas() {
-					var width = $('#container').width();
-					var height = $('#container').height();
-					
-					// Set canvas width and height
-					$('#canvas').attr('width', width);
-					$('#canvas').attr('height', height);
-
-					// to avoid duplication
-					// clear all objects from all layers
-					for( var i=0; i<project.layers.length; i++ ) {
-						project.layers[i].removeChildren();
-					}
-
-					// re-initiate the script again
-					Setup();
-					Draw();
-				};
-
-				// ------------------------------------------------------------------------
-				$(window).resize(resizeCanvas);
-			});
-
-
-		</script>
 
 
 		<!-- LOAD ADDITIONAL JAVASCRIPTS -->
@@ -151,8 +45,8 @@
 
 		<!-- TEXT -->
 		<div id="textContainer" class="white">
-			Spectrum<br/>
-			<a href="http://paperjs.org/" class="white" target="new">paperjs</a> experiment by <a href="http://cargocollective.com/kenfrederick" class="white" target="new">kenfrederick</a>
+			Spectrum<br />
+			<a href="http://paperjs.org/" class="white" target="new">paperjs</a> experiment by <a href="http://kennnethfrederick.de/" class="white" target="new">kenfrederick</a>
 		</div>
 
 		<div id="manual" class="black">

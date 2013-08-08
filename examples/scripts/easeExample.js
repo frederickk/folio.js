@@ -1,17 +1,19 @@
-console.log( 'FTime Example Loaded' );
+console.log( 'Ease Loaded' );
 /**
- *	FTime Example 0.0
+ *	Ease Example 0.0
+ *	Easing
  *
  *	Ken Frederick
  *	ken.frederick@gmx.de
- *
+ * 
  *	http://kennethfrederick.de/
  *	http://blog.kennethfrederick.de/
  *
  *	
- *	Date & Time & Stopwatch
+ *	An example of the easing methods
  *
  */
+
 
 
 // ------------------------------------------------------------------------
@@ -20,44 +22,16 @@ console.log( 'FTime Example Loaded' );
 // the core frederickkPaper namespace
 var f = frederickkPaper;
 
-// the FTime namespace
 var ftime = f.FTime;
+var ease = new ftime.Ease();
 
-// Date & Time
-var fdate;
-var dateText;
-
-// Stopwatch timer
-var fstopwatch;
-var stopwatchText;
 
 
 // ------------------------------------------------------------------------
 // Setup
 // ------------------------------------------------------------------------
 function Setup() {
-	// initiate FDate
-	fdate = new ftime.FDate();
-	// this is how we'll display the date
-	dateText = new PointText( new Point(35, view.bounds.center.y) );
-	dateText.justification = 'left';
-	dateText.characterStyle = { 
-		font: 'american-typewriter',
-		fontSize: 30,
-		fillColor: 'red'
-	};
 
-	// initiate FStopwatch
-	fstopwatch = new ftime.FStopwatch();
-
-	// this is how we'll display stopwatch time
-	stopwatchText = new PointText( new Point(view.bounds.width-35, view.bounds.center.y) );
-	stopwatchText.justification = 'right';
-	stopwatchText.characterStyle = { 
-		font: 'american-typewriter',
-		fontSize: 30,
-		fillColor: 'red'
-	};
 };
 
 
@@ -66,16 +40,6 @@ function Setup() {
 // Update
 // ------------------------------------------------------------------------
 function Update(event) {
-	// reinitiate FDate to keep the time up-to-date
-	fdate = new ftime.FDate();
-
-	// a temp holder to convert our stopwatch time
-	var temp = new ftime.FDate();
-	// show the time of our stopwatch
-	stopwatchText.content = temp.get( fstopwatch.get() );
-
-	// redraw to update scene
-	Draw();
 };
 
 
@@ -84,10 +48,63 @@ function Update(event) {
 // Draw
 // ------------------------------------------------------------------------
 function Draw() {
-	// show the time
-	dateText.content = fdate.now();
-};
 
+	var EasingTests = new Group();
+
+	var origin = new Point( 0,0 );
+
+	for( var f in ease ) {
+		if( f !== 'spline') {
+			var group = new Group();
+			var path = new Path;
+
+			for( var i=0; i<10; i++ ) {
+				var e = ease[f]( i/10 );
+				var center = new Point(
+					origin.x + e*195,
+					origin.y + (i/10)*e*45
+				);
+
+				// point marker
+				var marker = new Path.Circle( center, 3 );
+				marker.fillColor = new Color( 1.0, 0.2, 0.0 );
+				marker.strokeColor = null;
+				group.appendTop( marker );
+
+				// path
+				path.add( center );
+			}
+
+			path.strokeColor = new Color( 0.0, 0.0, 0.0 );
+			path.strokeWidth = 1.5;
+			path.fillColor = null;
+			group.appendBottom( path );
+
+			// text
+			var text = new PointText( new Point(origin.x, origin.y-12) );
+			text.content = f;
+			text.characterStyle.fontSize = 12;
+			group.appendTop( text );
+
+
+			// adjust origin for placement
+			if( origin.y < view.bounds.height-195 ) { //activeDocument.activeArtboard.bounds.height ) {
+				origin.y += 72;
+			}
+			else {
+				origin.y = 0;
+				origin.x += 216;
+			}
+
+			EasingTests.appendTop( group );
+		}
+	}
+
+
+	// place test in center of document
+	EasingTests.position = view.bounds.center;
+
+};
 
 
 
@@ -125,10 +142,6 @@ function onMouseDrag(event) {
 
 // ------------------------------------------------------------------------
 function onKeyDown(event) {
-	// start/stop the stopwatch by pressing enter
-	if(event.key == 'enter') {
-		fstopwatch.toggle();
-	}
 };
 
 // ------------------------------------------------------------------------

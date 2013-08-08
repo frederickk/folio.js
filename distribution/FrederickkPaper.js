@@ -1,7 +1,7 @@
-/**
+/*!
  *	
  *	frederickkPaper.js
- *	v0.35a
+ *	v.0.4
  *	https://github.com/frederickk/frederickkPaper
  *
  *	16. February 2013
@@ -9,8 +9,8 @@
  *	Ken Frederick
  *	ken.frederick@gmx.de
  *
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
  *	
  *	
  *	A collection of methods/functions that i find useful
@@ -34,59 +34,239 @@
  *	
  *	This library is distributed in the hope that it will be useful,
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
- *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the GNU
  *	Lesser General Public License for more details.
  *	
  *	You should have received a copy of the GNU Lesser General Public
  *	License along with this library; if not, write to the Free Software
- *	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ *	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA	02110-1301	USA
  *	
  */
 
 
 
 // ------------------------------------------------------------------------
-/**
+/*!
  *
  *	REQUIRED LIBRARIES!
  *
  *	PaperJs @ http://paperjs.org/
- *	JQuery @  http://jquery.com/download/
+ *	JQuery @	http://jquery.com/download/
  *
  */
 
 
 
 // ------------------------------------------------------------------------
-var frederickkPaper = frederickkPaper || {};
+var frederickkPaper = frederickkPaper || {
+
+/*#*/ // include('Core/Core.js');
+/*#*/ // include('Core/FConversions.js');
+
+/*#*/ // include('F3D/FMatrix3D.js');
+/*#*/ // include('F3D/F3D.js');
+/*#*/ // include('F3D/FPath3.js');
+/*#*/ // include('F3D/FPoint3.js');
+/*#*/ // include('F3D/FSize3.js');
+/*#*/ // include('F3D/FScene3D.js');
+
+/*#*/ // include('FShape/FShape.js');
+/*#*/ // include('FShape/FBox.js');
+/*#*/ // include('FShape/FSphere.js');
+
+/*#*/ // include('FIO/FIO.js');
+
+/*#*/ // include('FTime/FTime.js');
+/*#*/ // include('FTime/FDate.js');
+/*#*/ // include('FTime/FStopwatch.js');
+/*#*/ // include('FTime/FStepper.js');
+
+};
+
+
+/*
+ *
+ *	Initialize Structure
+ *
+ */
+// (function() {
+	// console.log('\nfrederickkPaper.js');
+	// console.log('v.0.4a');
+	// console.log('https://github.com/frederickk/frederickkPaper');
+	// console.log('ken.frederick@gmx.de');
+	// console.log('------------------------------------\n');
+
+
+	// create methods
+	// drawing
+	var Setup = function(){};
+	var Draw = function(){};
+	var Update = function(event){};
+
+	var Animate = function(object){};
+	var AnimateClear = function(){};
+
+	// events
+	// mouse
+	var onMouseUp = function(event){};
+	var onMouseDown = function(event){};
+	var onMouseMove = function(event){};
+	var onMouseDrag = function(event){};
+
+	// keyboard
+	var onKeyDown = function(event){};
+	var onKeyUp = function(event){};
+
+
+	// install Paper.js into window
+	paper.install(window);
+
+
+	// once the DOM is ready, setup Paper.js
+	window.onload = function() {
+ 		paper.setup('canvas');
+		console.log('Paper.js is go!');
+		
+
+
+		// ------------------------------------------------------------------------
+		// Methods
+		// ------------------------------------------------------------------------
+		Setup();
+
+
+		Draw();
+
+
+		// ------------------------------------------------------------------------
+		var AnimationGroup = new Group();
+		AnimationGroup.name = '__AnimationGroup';
+
+		function Animate(object, order) {
+			// object must be a valid paper.js item
+			// default is to add object to top
+			if( order === 'bottom' ) AnimationGroup.appendBottom( object );
+			else AnimationGroup.appendTop( object );
+		};
+		function AnimateClear() {
+			if( project.activeLayer.children['__AnimationGroup'] ) {
+				project.activeLayer.children['__AnimationGroup'].remove();
+			}
+		};
+
+		
+
+		// ------------------------------------------------------------------------
+		// Events
+		// ------------------------------------------------------------------------
+		view.onFrame = function(event) {
+			// TODO: 	add a method which clears an "animation group" each frame
+			Update(event);
+			AnimateClear();
+		};
+		
+		view.onResize = function(event) {
+			onResize(event);
+		};
+
+		// ------------------------------------------------------------------------
+		var tool = new Tool();
+		tool.onMouseUp = function(event) {
+			onMouseUp(event);
+		};
+		
+		tool.onMouseDown = function(event) {
+			onMouseDown(event);
+		};
+		
+		tool.onMouseMove = function(event) {
+			onMouseMove(event);
+		};
+		
+		tool.onMouseDrag = function(event) {
+			onMouseDrag(event);
+		};
+
+
+		// ------------------------------------------------------------------------
+		tool.onKeyDown = function(event) {
+			onKeyDown(event);
+		};
+
+		tool.onKeyUp = function(event) {
+			onKeyUp(event);
+		};
+		
+		
+		// ------------------------------------------------------------------------
+		view.draw(); // draw the screen
 
 
 
-(function() {
-	console.log('\nfrederickkPaper.js');
-	console.log('v.0.35a');
-	console.log('https://github.com/frederickk/frederickkPaper');
-	console.log('ken.frederick@gmx.de');
-	console.log('------------------------------------\n');
-})();
+		/**
+		 *
+		 *	Supporting Methods
+		 *	
+		 */
+		// ------------------------------------------------------------------------
+		function resizeCanvas() {
+			// var width = window.innerWidth;
+			// var height = window.innerHeight;
+			
+			// set canvas width and height
+			var canvas = document.getElementById('canvas');
+			var parent = canvas.parentNode;
+			if (canvas.getContext) {  
+				// canvas.width = width;
+				// canvas.height = height;
+				canvas.width = parent.offsetWidth;
+				canvas.height = parent.offsetHeight;
+			}
 
-/**
+			// clear out view
+			for( var i=0; i<projects.length; i++ ) {
+				for( var j=0; j<projects[i].layers.length; j++ ) {
+					var layer = projects[i].layers[j];
+					console.log( 'removing' );
+					layer.removeChildren();
+				}
+			}
+
+			// re-initiate setup
+			Setup();
+			// re-initiate draw
+			Draw();
+
+			// make sure view does its draw
+			view.draw();
+		};
+
+		// ------------------------------------------------------------------------
+		var resizeTimeout;
+		$(window).resize(function() {
+			clearTimeout(resizeTimeout);
+			resizeTimeout = setTimeout(resizeCanvas, 100);
+		});
+		resizeCanvas();
+
+	};
+
+// })();
+ /**
  *  
  *	Core.js
- *	v0.35a
+ *	v0.4a
  *  
- *	16. February 2013
+ *	15. May 2013
  *
  *	Ken Frederick
  *	ken.frederick@gmx.de
  *
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
  *  
  *  
  *	Core Methods
- *	A collection mathematical operations, similar
- *	to those found in Processing
  *
  */
 
@@ -95,7 +275,6 @@ frederickkPaper = {
 	// ------------------------------------------------------------------------
  	// Namespaces
 	// ------------------------------------------------------------------------
- 	//FControl: {}, 
  	FTime: {},
  	FIO: {},
  	F3D: {},
@@ -104,44 +283,8 @@ frederickkPaper = {
 
 
 	// ------------------------------------------------------------------------
-	// Properties
-	// ------------------------------------------------------------------------
-
-
-
-	// ------------------------------------------------------------------------
 	// Methods
 	// ------------------------------------------------------------------------
-	/**
-	 *	@param {Number} minr
-	 *				minmum range
-	 *	@param {Number} maxr
-	 *				maximum range
-	 *
-	 *	@return random number as float
-	 *
-	 */
-	random: function(minr, maxr) {
-		if(maxr === undefined) {
-			maxr = minr;
-			minr = 0;
-		}
-		return (minr + Math.random() * (maxr - minr));
-	},
-
-	/**
-	 *	@param {Number} minr
-	 *				minmum range
-	 *	@param {Number} maxr
-	 *				maximum range
-	 *
-	 *	@return random number as integer
-	 *
-	 */
-	randomInt: function(minr, maxr) {
-		return parseInt( frederickkPaper.random(minr,maxr) );
-	},
-
 	/**
 	 *
 	 *	http://www.siafoo.net/snippet/191
@@ -169,142 +312,7 @@ frederickkPaper = {
 		return Math.pow( Math.random(),n ) * (maxr-minr) + minr;
 	},
 
-
-
 	// ------------------------------------------------------------------------
-	/**
-	 *
-	 *	@param {Number} val
-	 *				the value to constrain
-	 *	@param {Number} min
-	 *				minimum limit
-	 *	@param {Number} max
-	 *				maximum limit
-	 *
-	 *	@return original value that is not less than the minimum and no greater than the maximum
-	 *
-	 */
-	clamp: function(val, min, max) {
-		return val < min ? min:val > max ? min:val;
-	},
-
-	/**
-	 *
-	 *	@param {Number} val
-	 *				the incoming value to be converted
-	 *	@param {Number} start
-	 *				lower bound of the value's current range
-	 *	@param {Number} stop
-	 *				upper bound of the value's current range
-	 *
-	 *	@return float value between 0.0 and 1.0
-	 *
-	 */
-	norm: function(val, start, stop) {
-		return (val - start) / (stop - start);
-	},
-
-	/**
-	 *
-	 *	@param {Number} val
-	 *				the incoming value to be converted
-	 *	@param {Number} istart
-	 *				lower bound of the value's current range
-	 *	@param {Number} istop
-	 *				upper bound of the value's current range
-	 *	@param {Number} ostart
-	 *				lower bound of the value's target range
-	 *	@param {Number} ostop
-	 *				upper bound of the value's target range
-	 *
-	 *	@return re-mapped value
-	 *
-	 */
-	map: function(val, istart, istop, ostart, ostop) {
-		return ostart + (ostop - ostart) * ((val - istart) / (istop - istart));
-	},
-
-
-
-	// ------------------------------------------------------------------------
-	/**
-	 *	
-	 *	@param {Number} val
-	 *			number
-	 *	@param {Number} deci
-	 *			number of decimal places
-	 *
-	 *	@return float value with desired decimal places
-	 *
-	 */
-	roundDecimal: function(val, deci) {
-		var multi = Math.pow(10,deci);
-		return Math.round(val * multi)/multi;
-	},
-
-	/**
-	 *
-	 *	snap from:
-	 *	http://stackoverflow.com/questions/4507784/snap-to-grid-functionality-using-javascript
-	 *
-	 *	@param {Number} val
-	 *			value to snap
-	 *	@param {Number} snapInc
-	 *			increment to snap value to
-	 *	@param {Function} roundFunction
-	 *			(optiona) rounding function
-	 *
-	 *	@return snapped value
-	 *
-	 */
-	snap: function(val, snapInc, roundFunction) {
-		if (roundFunction === undefined) roundFunction = Math.round;
-		return snapInc * roundFunction(val / snapInc);
-	},
-
-	/**
-	 *
-	 *	@param {Number} start
-	 *			fitst value
-	 *	@param {Number} stop
-	 *			second value
-	 *	@param {Number} amt
-	 *			float: between 0.0 and 1.0
-	 *
-	 *	@return value between start and stop
-	 *
-	 */
-	lerp: function(start, stop, amt) {
-		return start + (stop-start) * amt;
-		// return stop + (start-stop) * amt;
-	},
-
-
-	// ------------------------------------------------------------------------
-	/**
-	 *	
-	 *	@param {Number} val
-	 *			input value
-	 *
-	 *	@return val as degree 
-	 *
-	 */
-	degrees: function(val) {
-		return val * (180/Math.PI);
-	},
-
-	/**
-	 *	
-	 *	@param {Number} val
-	 *			input value
-	 *
-	 *	@return val as radians
-	 *
-	 */
-	radians: function(val) {
-		return val * (Math.PI/180);
-	},
-
 	/**
 	 *
 	 *	@param {Point} point1
@@ -404,19 +412,6 @@ frederickkPaper = {
 	// ------------------------------------------------------------------------
 	/**
 	 *	
-	 *	@param {NumbeR} val
-	 *			input value
-	 *
-	 *	@return squared value of val
-	 *
-	 */
-	sq: function(val) {
-		return val*val;
-	},
-
-	// ------------------------------------------------------------------------
-	/**
-	 *	
 	 *	@param {Number} val
 	 *			input boolean value
 	 *
@@ -470,11 +465,33 @@ frederickkPaper = {
 		return path;
 	},
 
+	/**
+	 *	
+	 *	@param {Array} items
+	 *			Array of items to go through
+	 *	@param {Number} name
+	 *			name of Item to find
+	 *
+	 *	@return a path with the id that matches
+	 *
+	 */
+	findById: function(items, id) {
+		var path;
+		for(var i=0; i<items.length; i++) {
+			var item = items[i];		
+			if(item.id == id) path = item; // break;
+		}
+		return path;
+	},
 
 
-	// ------------------------------------------------------------------------
-	// Strings
-	// ------------------------------------------------------------------------
+
+	/*	------------------------------------------------------------------------
+	 *
+	 *	Strings
+	 *
+	 *	------------------------------------------------------------------------/
+
 	/**
 	 *	
 	 *	@param {TextItem} textObj
@@ -543,9 +560,12 @@ frederickkPaper = {
 
 
 
-	// ------------------------------------------------------------------------
-	// Arrays
-	// ------------------------------------------------------------------------
+	/*	------------------------------------------------------------------------
+	 *
+	 *	Arrays
+	 *
+	 *	------------------------------------------------------------------------/
+
 	/**
 	 *	
 	 *	@param {Array} arr1
@@ -646,7 +666,9 @@ frederickkPaper = {
 	 */
 	distanceToCenter: function(a, b) {
 		var valueA = a.distanceToCenter();
+		console.log( valueA );
 		var valueB = b.distanceToCenter();
+		console.log( valueB );
 		var comparisonValue = 0;
 
 		if (valueA > valueB) comparisonValue = -1;
@@ -656,15 +678,6 @@ frederickkPaper = {
 	}
 
 };
-
-
-
-/*
- *
- *	Arrays
- *
- *
- */
 
 /**
  *	
@@ -716,6 +729,23 @@ Array.prototype.shuffle = function() {
 	for (var j, x, i = this.length; i; j = parseInt(Math.random() * i), x = this[--i], this[i] = this[j], this[j] = x);
 };
 
+/**
+ *
+ *	http://stackoverflow.com/questions/9229645/remove-duplicates-from-javascript-array
+ *
+ *	@return original array without duplicates
+ *
+ */
+Array.prototype.removeDuplicates = function() {
+	return this.reduce(function(accum, cur) { 
+		if (accum.indexOf(cur) === -1) accum.push(cur); 
+		return accum; 
+	}, [] );
+};
+
+
+
+
 
 
 /*
@@ -723,13 +753,8 @@ Array.prototype.shuffle = function() {
  *	Global Scope (Paper.js core)
  *
  */
-paper.inject({
-	//-----------------------------------------------------------------------------
-	// Properties
-	//-----------------------------------------------------------------------------
-	// constants
-	EPSILON: 1.0e-6,
-
+PaperScope.inject({
+	enumerable: true,
 
 
 	//-----------------------------------------------------------------------------
@@ -760,6 +785,9 @@ paper.inject({
 
 
 
+
+
+
 /*
  *
  *	paper.Point
@@ -768,125 +796,6 @@ paper.inject({
 paper.Point.inject({
 	// ------------------------------------------------------------------------
 	// Methods
-	// ------------------------------------------------------------------------
-	/**
-	 *	@param {Point} startPoint
-	 *				start Point
-	 *	@param {Point} stopPoint
-	 *				stop Point
-	 *
-	 *	@return {Point} normalized Point
-	 *
-	 */
-	norm: function(startPoint, stopPoint) {
-		this.x = frederickkPaper.norm(this.x, start.x, stop.x);
-		this.y = frederickkPaper.norm(this.y, start.y, stop.y);
-		return this;
-	},
-
-	// /**
-	//  *
-	//  *	already a part of PaperJs Point http://paperjs.org/reference/point#
-	//  *
-	//  *	@param {Array} arg0
-	//  *				random range of x [0,view.bounds.width]
-	//  *	@param {Array} arg1
-	//  *				random range of y [0,view.bounds.height]
-	//  *
-	//  *	@return {Point} random Point
-	//  *
-	//  */
-	// random: function( arg0, arg1 ) {
-	// 	this.x = (arg0 != undefined) ? frederickkPaper.random(arg0[0],arg0[1]) : Math.random()*view.bounds.width;
-	// 	this.y = (arg1 != undefined) ? frederickkPaper.random(arg1[0],arg1[1]) : Math.random()*view.bounds.height;
-	// 	return this;
-	// },
-
-	/**
-	 *	
-	 *	@return {Point} vector heading of Point
-	 *
-	 */
-	heading: function() {
-		return -1 * (Math.atan2(-this.y, this.x));
-	},
-
-	/**
-	 *
-	 *  https://bitbucket.org/postspectacular/toxiclibs/src/9d124c80e8af/src.core/toxi/geom/Vec2D.java
-	 *	
-	 *	@return {Point} interpolated Point
-	 *
-	 */
-	interpolateTo: function(p2, f) {
-		this.x += ((p2.x - this.x) * f);
-		this.y += ((p2.y - this.y) * f);
-		return this;
-	},
-
-	/**
-	 *
-	 *	@param {Point} arg0
-	 *			start Point
-	 *	@param {Point} arg1
-	 *			end Point
-	 *	@param {Number} arg2
-	 *			float: between 0.0 and 1.0
-	 *
-	 *	@return {Point} lerped Point
-	 *
-	 */
-	/**
-	 *
-	 *	@param {Color} arg1
-	 *			end Point
-	 *	@param {Number} arg2
-	 *			float: between 0.0 and 1.0
-	 *
-	 *	@return {Point} lerped Point
-	 *
-	 */
-	lerp: function( arg0, arg1, arg2 ) {
-		var x,y;
-		if(typeof arg1 === 'number') {
-			x = frederickkPaper.lerp(this.x,	arg0.x,	arg1);
-			y = frederickkPaper.lerp(this.y,	arg0.y,	arg1);
-		}
-		else {
-			x = frederickkPaper.lerp(arg0.x,	arg1.x,	arg2);
-			y = frederickkPaper.lerp(arg0.y,	arg1.y,	arg2);
-		}
-		return new Point(x,y);
-	},
-
-
-	// ------------------------------------------------------------------------
-	/**
-	 *	
-	 *	@return {Point} limit Point
-	 *
-	 */
-	limit: function(lim) {
-		if (this.magSq() > lim * lim) {
-			this.normalize();
-			this.mult * lim;
-			return this;
-		}
-		return this;
-	},
-
-
-	// ------------------------------------------------------------------------
-	/**
-	 *	
-	 *	@return {Point} vector mag squared
-	 *
-	 */
-	magSq: function() {
-		return this.x * this.x + this.y * this.y;
-	},
-
-
 	// ------------------------------------------------------------------------
 	/**
 	 *
@@ -923,74 +832,10 @@ paper.Point.inject({
 		return this.snapGrid( new Size(32*scale,16*scale) );
 	},
 
-
-
-	// ------------------------------------------------------------------------
-	// Gets
-	// ------------------------------------------------------------------------
-	/**
-	 *	
-	 *	@return {Number} angle of point
-	 *
-	 */
-	getAngle: function() {
-		return Math.atan2(this.y - 0, this.x - 0);
-	}
-
 });
 
 
 
-/*
- *
- *	paper.Size
- *
- */
-paper.Size.inject({
-	/**
-	 *	@param minw
-	 *				minmum width (default: 0)
-	 *	@param maxw
-	 *				maximum width (default: view.bounds.width)
-	 *	@param minh
-	 *				minmum height (default: 0)
-	 *	@param maxh
-	 *				maximum height (default: view.bounds.height)
-	 *
-	 *	@return {Size} random size
-	 *
-	 */
-	random: function(minw, maxw, minh, maxh) {
-		minw = (minw != undefined) ? minw : 0;
-		maxw = (maxw != undefined) ? maxw : view.bounds.width;
-		minh = (minh != undefined) ? minh : 0;
-		maxh = (maxh != undefined) ? maxh : view.bounds.height;
-
-		this.width = frederickkPaper.random(minw, maxw);
-		this.height = frederickkPaper.random(minh, maxh);
-		return this;
-	},
-
-	/**
-	 *	
-	 *	@return {Number} area
-	 *
-	 */
-	area: function() {
-		return (this.width * this.height);
-	},
-
-	/**
-	 *	
-	 *	@return {Number} radius
-	 *
-	 */
-	radius: function() {
-		var a = this.width;
-		var b = this.height;
-		return (Math.sqrt(a * a + b * b) / 2);
-	}
-});
 
 
 
@@ -1000,190 +845,6 @@ paper.Size.inject({
  *
  */
 paper.Color.inject({
-	// ------------------------------------------------------------------------
-	// Methods
-	// ------------------------------------------------------------------------
-	/**
-	 *
-	 *	@param {Number} pct
-	 *			percentage to darken color
-	 *	@param {Boolean} isNew
-	 *			(option) if true a new Color is returned
-	 *
-	 *	@return {Color} darkened Color by input percentage
-	 *
-	 */
-	darken: function(pct, isNew) {
-		isNew = (isNew == undefined) ? false : isNew;
-		if( !isNew ) {
-			this.red -= pct;
-			this.red = frederickkPaper.clamp(this.red, 0.0,1.0);
-
-			this.green -= pct;
-			this.green = frederickkPaper.clamp(this.green, 0.0,1.0);
-
-			this.blue -= pct;
-			this.blue = frederickkPaper.clamp(this.blue, 0.0,1.0);
-
-			return this;
-		}
-		else {
-			var r = frederickkPaper.clamp(this.red - pct, 0.0,1.0);
-			var g = frederickkPaper.clamp(this.green - pct, 0.0,1.0);
-			var b = frederickkPaper.clamp(this.blue - pct, 0.0,1.0);
-
-			return new RgbColor(r,g,b);
-		}
-	},
-
-	/**
-	 *
-	 *	@param {Number} pct
-	 *			percentage to lighten color
-	 *	@param {Boolean} isNew
-	 *			(option) if true a new Color is returned
-	 *
-	 *	@return {Color} lightened Color by input percentage
-	 *
-	 */
-	lighten: function(pct, isNew) {
-		isNew = (isNew == undefined) ? false : isNew;
-		if( !isNew ) {
-			this.red += pct;
-			this.red = frederickkPaper.clamp(this.red, 0.0,1.0);
-
-			this.green += pct;
-			this.green = frederickkPaper.clamp(this.green, 0.0,1.0);
-
-			this.blue += pct;
-			this.blue = frederickkPaper.clamp(this.blue, 0.0,1.0);
-
-			return this;
-		}
-		else {
-			var r = frederickkPaper.clamp(this.red + pct, 0.0,1.0);
-			var g = frederickkPaper.clamp(this.green + pct, 0.0,1.0);
-			var b = frederickkPaper.clamp(this.blue + pct, 0.0,1.0);
-
-			return new RgbColor(r,g,b);
-		}
-	},
-
-
-	// ------------------------------------------------------------------------
-	/**
-	 *
-	 *	@param {Color} arg0
-	 *			start color
-	 *	@param {Color} arg1
-	 *			end color
-	 *	@param {Number} arg2
-	 *			float: between 0.0 and 1.0
-	 *
-	 *	@return {Color} lerped color
-	 *
-	 *	@example
-	 *	var color1 = new RgbColor( 0.0, 1.0, 0.7 );
-	 *	var color2 = new RgbColor( 0.0, 0.7, 1.0 );
-	 *	var lerpColor = new RgbColor().lerpColor( color1, color2, 0.5 );
-	 *
-	 */
-	/**
-	 *
-	 *	@param {Color} arg1
-	 *			end color
-	 *	@param {Number} arg2
-	 *			float: between 0.0 and 1.0
-	 *
-	 *	@return {Color} lerped color
-	 *
-	 *	@example
-	 *	var color1 = new RgbColor( 0.0, 1.0, 0.7 );
-	 *	var color2 = new RgbColor( 0.0, 0.7, 1.0 );
-	 *	var lerpColor = color1.lerpColor( color2, 0.5 );
-	 *
-	 */
-	/*
-	 *	TODO: move this to individual Color classes?
-	 */
-	lerp: function( arg0, arg1, arg2 ) {
-		var r,g,b, h,s,l, a;
-
-		if( arg0.getType() == 'gray' || this.getType() == 'gray' ) {
-			if(typeof arg1 === 'number') {
-				g = frederickkPaper.lerp(this.gray,		arg0.gray,	arg1);
-				a = frederickkPaper.lerp(this.alpha,	arg0.alpha,	arg1);
-			}
-			else {
-				g = frederickkPaper.lerp(arg0.gray,		arg1.gray,	arg2);
-				a = frederickkPaper.lerp(arg0.alpha,	arg1.alpha,	arg2);
-			}
-			// this.gray = g;
-			// this.alpha = a;
-			return new GrayColor( g,a );
-		}
-		else if( arg0.getType() == 'rgb' || this.getType() == 'rgb' ) {
-			if(typeof arg1 === 'number') {
-				r = frederickkPaper.lerp(this.red,		arg0.red,	arg1);
-				g = frederickkPaper.lerp(this.green,	arg0.green,	arg1);
-				b = frederickkPaper.lerp(this.blue,		arg0.blue,	arg1);
-				a = frederickkPaper.lerp(this.alpha,	arg0.alpha,	arg1);
-			}
-			else {
-				r = frederickkPaper.lerp(arg0.red,		arg1.red,	arg2);
-				g = frederickkPaper.lerp(arg0.green,	arg1.green,	arg2);
-				b = frederickkPaper.lerp(arg0.blue,		arg1.blue,	arg2);
-				a = frederickkPaper.lerp(arg0.alpha,	arg1.alpha,	arg2);
-			}
-			// this.red = r;
-			// this.green = g;
-			// this.blue = b;
-			// this.alpha = a;
-			return new RgbColor( r,g,b,a );
-		}
-		else if( arg0.getType() == 'hsl' || this.getType() == 'hsl' ) {
-			if(typeof arg1 === 'number') {
-				h = frederickkPaper.lerp(this.hue,			arg0.hue,		arg1);
-				s = frederickkPaper.lerp(this.saturation,	arg0.saturation,arg1);
-				l = frederickkPaper.lerp(this.lightness,	arg0.lightness,	arg1);
-				a = frederickkPaper.lerp(this.alpha,		arg0.alpha,		arg1);
-			}
-			else {
-				h = frederickkPaper.lerp(arg0.hue,			arg1.hue,		arg2);
-				s = frederickkPaper.lerp(arg0.saturation,	arg1.saturation,arg2);
-				l = frederickkPaper.lerp(arg0.lightness,	arg1.lightness,	arg2);
-				a = frederickkPaper.lerp(arg0.alpha,		arg1.alpha,		arg2);
-			}
-			// this.hue = h;
-			// this.saturation = s;
-			// this.lightness = l;
-			// this.alpha = a;
-			return new HslColor( h,s,l,a );
-		}
-		else if( arg0.getType() == 'hsb' || this.getType() == 'hsb' ) {
-			if(typeof arg1 === 'number') {
-				h = frederickkPaper.lerp(this.hue,			arg0.hue,			arg1);
-				s = frederickkPaper.lerp(this.saturation,	arg0.saturation,	arg1);
-				b = frederickkPaper.lerp(this.brightness,	arg0.brightness,	arg1);
-				a = frederickkPaper.lerp(this.alpha,		arg0.alpha,			arg1);
-			}
-			else {
-				h = frederickkPaper.lerp(arg0.hue,			arg1.hue,			arg2);
-				s = frederickkPaper.lerp(arg0.saturation,	arg1.saturation,	arg2);
-				b = frederickkPaper.lerp(arg0.brightness,	arg1.brightness,	arg2);
-				a = frederickkPaper.lerp(arg0.alpha,		arg1.alpha,			arg2);
-			}
-			// this.hue = h;
-			// this.saturation = s;
-			// this.brightness = b;
-			// this.alpha = a;
-			return new HsbColor( h,s,b,a );
-		}
-
-		// return this;
-	},
-
-
 	// ------------------------------------------------------------------------
 	/**
 	 *
@@ -1221,32 +882,6 @@ paper.Color.inject({
 		}
 		return str;
 	},
-
-	/**
-	 *
-	 *	@param {String} hex
-	 *			value as string hex value (i.e. '#00b2ff')
-	 *
-	 *	@return {Color} value of hex as Color
-	 *
-	 */
-	hex: function(hex) {
-		// var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-		// var r = parseInt(result[1], 16);
-		// var g = parseInt(result[2], 16);
-		// var b = parseInt(result[3], 16);
-
-		if( hex.length >= 7 ) hex = hex.split('#')[1];
-		else hex = hex;
-
-		var big = parseInt(hex, 16);
-		this.red = ((big>> 16) & 255)/255;
-		this.green = ((big>> 8) & 255)/255;
-		this.blue = (big& 255)/255;
-
-		return this;
-	},
-
 
 	// ------------------------------------------------------------------------
 	/**
@@ -1311,134 +946,6 @@ paper.Color.inject({
 
 });
 
-paper.GrayColor.inject({
-	/**
-	 *
-	 *	@param {Array} arg0
-	 *			random range of gray [0.0,1.0]
-	 *	@param {Array} arg1
-	 *			random range of alpha [0.0,1.0]
-	 *
-	 *	@return {Color} random GrayColor()
-	 *
-	 */
-	random: function( arg0, arg1 ) {
-		this.gray = (arg0 != undefined) ? frederickkPaper.random(arg0[0],arg0[1]) : Math.random();
-		this.alpha = (arg1 != undefined) ? frederickkPaper.random(arg1[0],arg1[1]) : Math.random();
-		return this;
-	}
-});
-
-paper.RgbColor.inject({
-	/**
-	 *
-	 *	@param {Array} arg0
-	 *			random range of red [0.0,1.0]
-	 *	@param {Array} arg1
-	 *			random range of green [0.0,1.0]
-	 *	@param {Array} arg2
-	 *			random range of blue [0.0,1.0]
-	 *	@param {Array} arg3
-	 *			random range of alpha [0.0,1.0]
-	 *
-	 *	@return {Color} random RgbColor()
-	 *
-	 */
-	random: function( arg0, arg1, arg2, arg3 ) {
-		this.red = Math.random();
-		this.green = Math.random();
-		this.blue = Math.random();
-		this.alpha = (arg3 != undefined) ? frederickkPaper.random(arg3[0],arg3[1]) : Math.random();
-		return this;
-	}
-});
-
-paper.HslColor.inject({
-	/**
-	 *
-	 *	@param {Array} arg0
-	 *			random range of hue [0,360]
-	 *	@param {Array} arg1
-	 *			random range of saturation [0.0,1.0]
-	 *	@param {Array} arg1
-	 *			random range of lightness [0.0,1.0]
-	 *	@param {Array} arg3
-	 *			random range of alpha [0.0,1.0]
-	 *
-	 *	@return {Color} random HslColor()
-	 *
-	 */
-	random: function( arg0, arg1, arg2, arg3 ) {
-		this.hue = (arg0 != undefined) ? frederickkPaper.random(arg0[0],arg0[1]) : Math.random()*360;
-		this.saturation = (arg1 != undefined) ? frederickkPaper.random(arg1[0],arg2[1]) : Math.random();
-		this.lightness = (arg2 != undefined) ? frederickkPaper.random(arg1[0],arg2[1]) : Math.random();
-		this.alpha = (arg3 != undefined) ? frederickkPaper.random(arg3[0],arg3[1]) : Math.random();
-		return this;
-	}
-});
-
-paper.HsbColor.inject({
-	/**
-	 *
-	 *	@param {Array} arg0
-	 *			random range of hue [0,360]
-	 *	@param {Array} arg1
-	 *			random range of saturation [0.0,1.0]
-	 *	@param {Array} arg2
-	 *			random range of brightness [0.0,1.0]
-	 *	@param {Array} arg3
-	 *			random range of alpha [0.0,1.0]
-	 *
-	 *	@return {Color} random HsbColor()
-	 *
-	 */
-	random: function( arg0, arg1, arg2, arg3 ) {
-		this.hue = (arg0 != undefined) ? frederickkPaper.random(arg0[0],arg0[1]) : Math.random()*360;
-		this.saturation = (arg1 != undefined) ? frederickkPaper.random(arg1[0],arg2[1]) : Math.random();
-		this.brightness = (arg2 != undefined) ? frederickkPaper.random(arg1[0],arg2[1]) : Math.random();
-		this.alpha = (arg3 != undefined) ? frederickkPaper.random(arg3[0],arg3[1]) : Math.random();
-		return this;
-	}
-});
-
-
-/**
- *  
- *	FConversions.js
- *	v0.2a
- *  
- *	25. November 2012
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
- *  
- *  
- *	FConversions
- *	A collection of helpful conversion ratios
- *
- */
-
-
-frederickkPaper.FConversions = {
-	// conversions
-	ptToMm: 0.352777778,
-	mmToPt: 2.83464567,
-
-	ptToCm: 0.0352777778,
-	CmToPt: 28.3464567,
-
-	ptToIn: 0.0138888889,
-	inToPt: 72,
-
-	ptToPi: 0.0833333333,
-	piToPt: 12
-
-};
-
-
 /**
  *  
  *	FIO.js
@@ -1449,8 +956,8 @@ frederickkPaper.FConversions = {
  *	Ken Frederick
  *	ken.frederick@gmx.de
  *
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
  *
  *
  *	FIO
@@ -1668,6 +1175,260 @@ frederickkPaper.FIO = {
 
 /**
  *  
+ *	Core.js
+ *	v0.4a
+ *  
+ *	15. May 2013
+ *
+ *	Ken Frederick
+ *	ken.frederick@gmx.de
+ *
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
+ *  
+ *  
+ *	Core Methods
+ *
+ */
+
+
+frederickkPaper.FTime = {
+	// ------------------------------------------------------------------------
+ 	// Namespaces
+	// ------------------------------------------------------------------------
+	// Time/Timing Support
+ 	FDate: {},
+ 	FStopwatch: {},
+ 	
+ 	// Animation Support
+ 	FStepper: {},
+ 	Ease: {}
+
+
+	// ------------------------------------------------------------------------
+ 	// Methods
+	// ------------------------------------------------------------------------
+
+
+};
+
+/**
+ *	
+ *	Easing.js
+ *	
+ *	Easing Functions
+ *	originally inspired from http://gizma.com/easing/
+ *	https://gist.github.com/gre/1650294
+ *	
+ *	KeySpline Function
+ *	use bezier curve for transition easing function
+ *	as inspired from Firefox's nsSMILKeySpline.cpp
+ *	https://gist.github.com/gre/1926947#file-keyspline-js
+ *	http://greweb.me/2012/02/bezier-curve-based-easing-functions-from-concept-to-implementation/
+ *	
+ *	Copyright (c) 2012
+ *	
+ *	Gaetan Renaudeau
+ *	renaudeau.gaetan@gmail.com
+ *
+ *	
+ *	modified and augemented for usage with Paper.js
+ *
+ *	7. August 2013
+ *
+ *	Ken Frederick
+ *	ken.frederick@gmx.de
+ *
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
+ *
+ *
+ *	
+ *	MIT License
+ *
+ *	Permission is hereby granted, free of charge, to any person obtaining a
+ *	copy of this software and associated documentation files (the "Software"),
+ *	to deal in the Software without restriction, including without limitation
+ *	the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ *	and/or sell copies of the Software, and to permit persons to whom the
+ *	Software is furnished to do so, subject to the following conditions:
+ *	
+ *	The above copyright notice and this permission notice shall be included in
+ *	all copies or substantial portions of the Software.
+ *	
+ *	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ *	THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ *	FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+ *	DEALINGS IN THE SOFTWARE.
+ */
+
+
+frederickkPaper.FTime.Ease = function() {
+	/**
+	 * 
+	 * values of classic easing functions, similar to CSS
+	 * 
+	 */
+	var splineValues = {
+		ease:		[ 0.25, 0.1, 0.25, 1.0 ], 
+		linear:		[ 0.00, 0.0, 1.00, 1.0 ],
+		// in:			[ 0.42, 0.0, 1.00, 1.0 ],
+		out:		[ 0.00, 0.0, 0.58, 1.0 ],
+		inOut:		[ 0.42, 0.0, 0.58, 1.0 ]
+	};
+
+
+	/**
+	 * 
+	 *	use bezier curve for transition easing function
+	 *	
+	 *	@param {Array} arg0
+	 *					an array (4) of normalized X,Y values [ x1, y1, x2, y2 ] 
+	 *	
+	 *	@example
+	 *	var spline = new KeySpline(0.25, 0.1, 0.25, 1.0)
+	 *	spline.get(t) // returns the normalized easing value | t must be in [0, 1] range
+	 *	
+	 */
+	/**
+	 * 
+	 *	use bezier curve for transition easing function
+	 *	
+	 *	@param {Point} arg0
+	 *					Point 1
+	 *	@param {Point} arg1
+	 *					Point 2
+	 *	
+	 *	@example
+	 *	var spline = new KeySpline(
+	 *		new Point( 80, 80 ),
+	 *		new Point( 10, 45 )
+	 *	);
+	 *	spline.get(t) // returns the normalized easing value | t must be in [0, 1] range
+	 *	
+	 */
+	function KeySpline(arg0, arg1) {
+		var values;
+		if (arg0 instanceof Array) {
+			values = arg0;
+		}
+		else {
+			arg0 = arg0.normalize();
+			arg1 = arg1.normalize();
+			values = [arg0.x, arg0.y, arg1.x, arg1.y];
+		}
+
+		function A(arg0, arg1) { return 1.0 - 3.0 * arg1 + 3.0 * arg0; };
+		function B(arg0, arg1) { return 3.0 * arg1 - 6.0 * arg0; };
+		function C(arg0) { return 3.0 * arg0; };
+	 
+
+		//
+		// TODO: push these to be global?
+		// 
+		/**
+		 *	@param {Number} t
+		 *				 	a float from 0.0 - 1.0
+		 *	@param {Number} arg0
+		 *					x1 or y1
+		 *	@param {Number} arg1
+		 *					x2 or y2
+		 *					
+		 *	@return x(t)
+		 *	
+		 */
+		function CalcBezier(t, arg0, arg1) {
+			return ((A(arg0, arg1)*t + B(arg0, arg1))*t + C(arg0))*t;
+		};
+	 
+		/**
+		 *	@param {Number} t
+		 *				 	a float from 0.0 - 1.0
+		 *	@param {Number} arg0
+		 *					x1 or y1
+		 *	@param {Number} arg1
+		 *					x2 or y2
+		 *					
+		 *	@return dx/dt
+		 *	
+		 */
+		function GetSlope(t, arg0, arg1) {
+			return 3.0 * A(arg0, arg1)*t*t + 2.0 * B(arg0, arg1) * t + C(arg0);
+		};
+	 
+		function GetTForX(t) {
+			// Newton raphson iteration
+			var aGuessT = t;
+			for (var i = 0; i < 4; ++i) {
+				var currentSlope = GetSlope(aGuessT, values[0], values[2]);
+				if (currentSlope == 0.0) return aGuessT;
+				var currentX = CalcBezier(aGuessT, values[0], values[2]) - t;
+				aGuessT -= currentX / currentSlope;
+			}
+			return aGuessT;
+		};
+
+
+		function get(t) {
+			// normalize();
+			if (values[0] == values[1] && values[2] == values[3]) return t; // linear
+			return CalcBezier(GetTForX(t), values[1], values[3]);
+		};
+
+
+		return {
+			get: get
+		};
+
+	};
+
+
+	// public
+	return {
+		/**
+		 *	see http://easings.net/de for visual examples
+		 *	of each spline method
+		 */
+		linear: function(t) { return t },
+
+		inQuad: function(t) { return t*t },
+		outQuad: function(t) { return t*(2-t) },
+		inOutQuad: function(t) { return t<.5 ? 2*t*t : -1+(4-2*t)*t },
+
+		inCubic: function(t) { return t*t*t },
+		outCubic: function(t) { return (--t)*t*t+1 },
+		inOutCubic: function(t) { return t<.5 ? 4*t*t*t : (t-1)*(2*t-2)*(2*t-2)+1 },
+
+		inQuart: function(t) { return t*t*t*t },
+		outQuart: function(t) { return 1-(--t)*t*t*t },
+		inOutQuart: function(t) { return t<.5 ? 8*t*t*t*t : 1-8*(--t)*t*t*t },
+
+		inQuint: function(t) { return t*t*t*t*t },
+		outQuint: function(t) { return 1+(--t)*t*t*t*t },
+		inOutQuint: function(t) { return t<.5 ? 16*t*t*t*t*t : 1+16*(--t)*t*t*t*t },
+
+		inSine: function(t) { return -1*Math.cos(t*(Math.PI/2))+1 },
+		outSine: function(t) { return 1*Math.sin(t*(Math.PI/2)) },
+		inOutSine: function(t) { return -0.5*(Math.cos(Math.PI*t)-1) },
+
+		inExpo: function(t) { return 1*Math.pow(2, 10*(t-1)) },
+		outExpo: function(t) { return 1*(-Math.pow(2, -10*t)+1 ) },
+		inOutExpo: function(t) { t /= 0.5; if (t < 1) return 0.5 * Math.pow(2, 10*(t-1)); t--; return 0.5 * (-Math.pow(2, -10*t)+2); },
+
+		inCirc: function(t) { return -1*(Math.sqrt(1-t*t)-1) },
+		outCirc: function(t) { t--; return 1*Math.sqrt(1-t*t); },
+		inOutCirc: function(t) { t /= 0.5; if(t<1) { return -0.5*(Math.sqrt(1-t*t)-1); }else{ t-=2; return 0.5*(Math.sqrt(1-t*t)+1); } },
+
+
+		spline: KeySpline
+		// values: splineValues 
+	};
+
+};/**
+ *  
  *	FDate.js
  *	v0.2a
  *  
@@ -1676,8 +1437,8 @@ frederickkPaper.FIO = {
  *	Ken Frederick
  *	ken.frederick@gmx.de
  *
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
  *
  *
  *	FDate
@@ -1957,8 +1718,8 @@ frederickkPaper.FTime.FDate = function() {
  *	Ken Frederick
  *	ken.frederick@gmx.de
  *
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
  *  
  *  
  *	FStepper
@@ -2016,7 +1777,7 @@ frederickkPaper.FTime.FStepper = function() {
 
 	// ------------------------------------------------------------------------
 	/**
-	 *	TODO: implement _easing
+	 *	TODO: implement ability to add _easing functions
 	 *
 	 *	required function to keep the timing in sync
 	 *	with the application
@@ -2029,10 +1790,10 @@ frederickkPaper.FTime.FStepper = function() {
 			_bBeginStpper = false;
 			_timeStart = currentTime;
 			if(_bIn) {
-				_timeEnd = frederickkPaper.roundDecimal( (currentTime + ((1.0 - this.delta) * _stepMillis)), 3 );
+				_timeEnd = paper.roundDecimal( (currentTime + ((1.0 - this.delta) * _stepMillis)), 3 );
 			}
 			else {
-				_timeEnd = frederickkPaper.roundDecimal( (currentTime + (this.delta*_stepMillis)), 3 );
+				_timeEnd = paper.roundDecimal( (currentTime + (this.delta*_stepMillis)), 3 );
 			}
 			if(_timeEnd <= currentTime) {
 				if(_bIn) {
@@ -2046,7 +1807,7 @@ frederickkPaper.FTime.FStepper = function() {
 			}
 		}
 		if(_bIn) {
-			this.delta = frederickkPaper.roundDecimal( (1.0 - ((_timeEnd - currentTime) / _stepMillis)), 3 );
+			this.delta = paper.roundDecimal( (1.0 - ((_timeEnd - currentTime) / _stepMillis)), 3 );
 			// if(_bEase) {
 			// }
 
@@ -2058,7 +1819,7 @@ frederickkPaper.FTime.FStepper = function() {
 			}
 		}
 		else if(_bOut) {
-			this.delta = frederickkPaper.roundDecimal( ((_timeEnd - currentTime) / _stepMillis), 3 );
+			this.delta = paper.roundDecimal( ((_timeEnd - currentTime) / _stepMillis), 3 );
 			// if(_bEase) {
 			// }
 
@@ -2117,11 +1878,11 @@ frederickkPaper.FTime.FStepper = function() {
 	 */
 	this.isDone = function() {
 		if(this.delta < 1.0 && this.delta > 0.0) return false;
-		else if(this.delta >= 1.0) {
+		else if(this.delta > 1.0) {
 			this.delta = 1.0;
 			return true;
 		}
-		else if(this.delta <= 0.0) {
+		else if(this.delta < 0.0) {
 			this.delta = 0.0;
 			return true;
 		}
@@ -2190,8 +1951,8 @@ frederickkPaper.FTime.FStepper = function() {
  *	Ken Frederick
  *	ken.frederick@gmx.de
  *
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
  *
  *
  *	FStopwatch
@@ -2329,8 +2090,8 @@ frederickkPaper.FTime.FStopwatch = function() {
  *	Ken Frederick
  *	ken.frederick@gmx.de
  *
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
  *  
  *
  *	3D Path Class
@@ -2341,7 +2102,7 @@ frederickkPaper.FTime.FStopwatch = function() {
  *	http://www.netmagazine.com/tutorials/build-your-own-html5-3d-engine
  *	https://github.com/mrdoob/three.js/
  *
- *	modified/expanded for use in PaperJS by Ken Frederick
+ *	modified/expanded for use in Paper.js by Ken Frederick
  *
  */
 
@@ -2526,8 +2287,8 @@ frederickkPaper.F3D.FPath3 = this.FPath3 = Path.extend({
  *	Ken Frederick
  *	ken.frederick@gmx.de
  *
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
  *  
  *
  *	FPoint3
@@ -2538,7 +2299,7 @@ frederickkPaper.F3D.FPath3 = this.FPath3 = Path.extend({
  *	http://www.netmagazine.com/tutorials/build-your-own-html5-3d-engine
  *	https://github.com/mrdoob/three.js/
  *
- *	modified/expanded for use in PaperJS by Ken Frederick
+ *	modified/expanded for use in Paper.js by Ken Frederick
  *
  */
 
@@ -2636,9 +2397,9 @@ frederickkPaper.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 		minz = (minz != undefined) ? miny : 0;
 		maxz = (maxz != undefined) ? maxy : 1000;
 
-		this.x = frederickkPaper.random(minx, maxx);
-		this.y = frederickkPaper.random(miny, maxy);
-		this.z = frederickkPaper.random(minz, maxz);
+		this.x = paper.random(minx, maxx);
+		this.y = paper.random(miny, maxy);
+		this.z = paper.random(minz, maxz);
 
 		return new frederickkPaper.F3D.FPoint3(this.x, this.y, this.z);
 	};
@@ -2948,8 +2709,8 @@ frederickkPaper.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
  *	Ken Frederick
  *	ken.frederick@gmx.de
  *
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
  *  
  *  
  *	3D Scene Class
@@ -2960,7 +2721,7 @@ frederickkPaper.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
  *	http://www.netmagazine.com/tutorials/build-your-own-html5-3d-engine
  *	https://github.com/mrdoob/three.js/
  *
- *	modified/expanded for use in PaperJS by Ken Frederick
+ *	modified/expanded for use in Paper.js by Ken Frederick
  *
  */
 
@@ -3352,8 +3113,8 @@ frederickkPaper.F3D.FScene3D = this.FScene3D = function() {
  *	Ken Frederick
  *	ken.frederick@gmx.de
  *
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
  *  
  *
  *	FSize3
@@ -3364,7 +3125,7 @@ frederickkPaper.F3D.FScene3D = this.FScene3D = function() {
  *	http://www.netmagazine.com/tutorials/build-your-own-html5-3d-engine
  *	https://github.com/mrdoob/three.js/
  *
- *	modified/expanded for use in PaperJS by Ken Frederick
+ *	modified/expanded for use in Paper.js by Ken Frederick
  *
  */
 
@@ -3471,9 +3232,9 @@ frederickkPaper.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
 		mind = (mind != undefined) ? mind : 0;
 		maxd = (maxd != undefined) ? maxd : 1000;
 
-		this.width = frederickkPaper.random(minw, maxw);
-		this.height = frederickkPaper.random(minh, maxh);
-		this.depth = frederickkPaper.random(mind, maxd);
+		this.width = paper.random(minw, maxw);
+		this.height = paper.random(minh, maxh);
+		this.depth = paper.random(mind, maxd);
 		return this;
 	};
 
@@ -3507,8 +3268,8 @@ frederickkPaper.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
  *	Ken Frederick
  *	ken.frederick@gmx.de
  *
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
  *
  *
  *	modification 
@@ -3852,15 +3613,15 @@ var Matrix3D = function( n11, n12, n13, n14,
 /**
  *	
  *	FShape.js
- *	v0.35a
+ *	v.0.4
  *	
  *	16. February 2013
  *
  *	Ken Frederick
  *	ken.frederick@gmx.de
  *
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
  *
  *
  *	FShape
@@ -3888,36 +3649,8 @@ var Matrix3D = function( n11, n12, n13, n14,
  */
 paper.Item.inject({
 	//-----------------------------------------------------------------------------
-	// Properties
-	//-----------------------------------------------------------------------------
-	radius: 0,
-	innerRadius: 0,
-
-
-
-	//-----------------------------------------------------------------------------
 	// Methods
 	//-----------------------------------------------------------------------------
-	/**
-	 *	
-	 *	@return {Number} distance of object from center of canvas
-	 *
-	 */
-	distanceToCenter: function() {
-		var dx = this.position.x - view.bounds.center.x;
-		var dy = this.position.y - view.bounds.center.y;
-		return (dx * dx + dy * dy) + 1;
-	},
-
-	/*
-	 *	
-	 *	@return {Number} radius
-	 *
-	 */
-	// getRadius: function() {
-	// 	// return this.size.radius();
-	// },
-
 	/**
 	 *	@param {Size} spacing
 	 *				spacing.width  = the horizontal snapping value, width of the grid.
@@ -3925,7 +3658,6 @@ paper.Item.inject({
 	 *
 	 */
 	snapGrid: function(spacing) {
-		// var pt = new frederickkPaper.FPoint().snapGrid(spacing);
 		// this.position = pt;
 		this.position.snapGrid(spacing);
 	},
@@ -3938,7 +3670,6 @@ paper.Item.inject({
 	 *
 	 */
 	snapIso: function(scale) {
-		// var pt = new frederickkPaper.FPoint().snapIso(scale);
 		// this.position = pt;
 		this.position.snapIso(scale);
 	},
@@ -4019,15 +3750,6 @@ paper.Path.inject({
 	// 	}
 	// },
 
-	/**
-	 *	http://www.ssicom.org/js/x974780.htm
-	 */
-	sec : function(val) {
-	   return 1/Math.cos(val);
-	},
-
-
-
 	//-----------------------------------------------------------------------------
 	/*
 	 *
@@ -4036,64 +3758,7 @@ paper.Path.inject({
 	 *
 	 */
 
-	/**
-	 *	http://www.exaflop.org/docs/cgafaq/cga1.html
-	 */
-	getCircumCircle : function() {
-		if( this.segments.length == 3 ) {
-			var p1 = this.segments[0].point;
-			var p2 = this.segments[1].point;
-			var p3 = this.segments[2].point;
 
-			var A = p2.x - p1.x; 
-			var B = p2.y - p1.y; 
-			var C = p3.x - p1.x; 
-			var D = p3.y - p1.y; 
-
-			var E = A*(p1.x + p2.x) + B*(p1.y + p2.y); 
-			var F = C*(p1.x + p3.x) + D*(p1.y + p3.y); 
-
-			var G = 2.0*(A*(p3.y - p2.y)-B*(p3.x - p2.x)); 
-			
-			var circumCenter;
-			var dx, dy;
-
-			if( Math.abs(G) < paper.EPSILON ) {
-				// Collinear - find extremes and use the midpoint
-
-				function max3( a, b, c ) { return ( a >= b && a >= c ) ? a : ( b >= a && b >= c ) ? b : c; }
-				function min3( a, b, c ) { return ( a <= b && a <= c ) ? a : ( b <= a && b <= c ) ? b : c; }
-
-				var minx = min3( p1.x, p2.x, p3.x );
-				var miny = min3( p1.y, p2.y, p3.y );
-				var maxx = max3( p1.x, p2.x, p3.x );
-				var maxy = max3( p1.y, p2.y, p3.y );
-
-				circumCenter = new Point( ( minx + maxx ) / 2, ( miny + maxy ) / 2 );
-
-				dx = circumCenter.x - minx;
-				dy = circumCenter.y - miny;
-			
-			}
-			else {
-				var cx = (D*E - B*F) / G; 
-				var cy = (A*F - C*E) / G;
-
-				circumCenter = new Point( cx, cy );
-
-				dx = circumCenter.x - p1.x;
-				dy = circumCenter.y - p1.y;
-			}
-
-			this.radius = Math.sqrt( (dx * dx + dy * dy) );
-
-			return circumCenter;
-		}
-		else {
-			console.error( 'Not Path.FTriangle' );
-			return null;
-		}
-	},
 
 	// TODO: currently implementation returns false point
 	// getInCircle : function() {
@@ -4125,23 +3790,6 @@ paper.Path.inject({
 	// 	}
 	// },
 
-	getCentroid : function() {
-		// vertices
-		if( this.segments.length == 3 ) {
-			var p1 = this.segments[0].point;
-			var p2 = this.segments[1].point;
-			var p3 = this.segments[2].point;
-
-			return new Point(
-				(p1.x + p2.x + p3.x)/3,
-				(p1.y + p2.y + p3.y)/3
-			);
-		}
-		else {
-			console.error( 'Not Path.FTriangle' );
-			return null;
-		}
-	},
 
 	// TODO: currently implementation returns false point
 	// getOrthocenter : function() {
@@ -4260,7 +3908,7 @@ paper.Path.inject({
 				arrowHead[0] = new Path( new Point(0,0), new Point(-arrowHeadSize.width,-arrowHeadSize.height) );
 				arrowHead[1] = new Path( new Point(0,0), new Point( arrowHeadSize.width,-arrowHeadSize.height) );
 				for( var i=0; i<arrowHead.length; i++ ) {
-					arrowHead[i].rotate( 180+frederickkPaper.degrees(a), new Point(0,0) );
+					arrowHead[i].rotate( 180+paper.degrees(a), new Point(0,0) );
 					arrowHead[i].translate( headPoint );
 				}
 
@@ -4311,14 +3959,14 @@ paper.Path.inject({
 				path.add( new Point(0,0) );
 				var angle = 180;
 				var through = new Point(
-					bubbleSize.height/2 + Math.cos( frederickkPaper.radians(angle) ) * (bubbleSize.height),
-					bubbleSize.height/2 + Math.sin( frederickkPaper.radians(angle) ) * (bubbleSize.height)
+					bubbleSize.height/2 + Math.cos( paper.radians(angle) ) * (bubbleSize.height),
+					bubbleSize.height/2 + Math.sin( paper.radians(angle) ) * (bubbleSize.height)
 				);
 				path.arcTo(through, new Point(0,bubbleSize.height));
 
 				// middle bottom
 				// create tag space somewhere along the bottom of the bubble
-				var tagStart = frederickkPaper.randomInt(0,bubbleSize.width-bubbleTagSize.width);
+				var tagStart = paper.randomInt(0,bubbleSize.width-bubbleTagSize.width);
 
 				// create tag
 				path.add( new Point(tagStart,bubbleSize.height) );
@@ -4334,7 +3982,7 @@ paper.Path.inject({
 					tx = tagStart+bubbleTagSize.width;
 				}
 				else { // if(bubbleTagCenter == 'RANDOM') { 
-					tx = frederickkPaper.randomInt(tagStart,tagStart+bubbleTagSize.width);
+					tx = paper.randomInt(tagStart,tagStart+bubbleTagSize.width);
 				}
 
 				// the length of the tag
@@ -4349,8 +3997,8 @@ paper.Path.inject({
 				// right side of bubble
 				angle = 0;
 				through = new Point(
-					bubbleSize.height/2 + Math.cos( frederickkPaper.radians(angle) ) * (bubbleSize.height/2),
-					bubbleSize.height/2 + Math.sin( frederickkPaper.radians(angle) ) * (bubbleSize.height/2)
+					bubbleSize.height/2 + Math.cos( paper.radians(angle) ) * (bubbleSize.height/2),
+					bubbleSize.height/2 + Math.sin( paper.radians(angle) ) * (bubbleSize.height/2)
 				);
 				path.arcTo( new Point(bubbleSize.width,0), false );
 
@@ -4431,8 +4079,8 @@ paper.Path.inject({
 					else if( obj2.position.y > obj1.position.y ) angle = 90;
 					else angle = 180;
 					var tp2 = new Point(
-						obj2.position.x + Math.cos( frederickkPaper.radians(angle) ) * (obj2.bounds.width/2),
-						obj2.position.y + Math.sin( frederickkPaper.radians(angle) ) * (obj2.bounds.height/2)
+						obj2.position.x + Math.cos( paper.radians(angle) ) * (obj2.bounds.width/2),
+						obj2.position.y + Math.sin( paper.radians(angle) ) * (obj2.bounds.height/2)
 					);
 					path.arcTo(tp2, tangents[2]);
 
@@ -4445,8 +4093,8 @@ paper.Path.inject({
 					else if( obj1.position.y > obj2.position.y ) angle = 90;
 					else angle = 180;
 					var tp1 = new Point(
-						obj1.position.x + Math.cos( frederickkPaper.radians(angle) ) * (obj1.bounds.width/2),
-						obj1.position.y + Math.sin( frederickkPaper.radians(angle) ) * (obj1.bounds.height/2)
+						obj1.position.x + Math.cos( paper.radians(angle) ) * (obj1.bounds.width/2),
+						obj1.position.y + Math.sin( paper.radians(angle) ) * (obj1.bounds.height/2)
 					);
 					path.arcTo(tp1, tangents[0]);
 					path.closed;
@@ -4650,8 +4298,8 @@ paper.Path.inject({
  *	Ken Frederick
  *	ken.frederick@gmx.de
  *
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
  *
  *
  *	FBox
@@ -4755,20 +4403,20 @@ frederickkPaper.FShape.FBox = function(scene) {
 	];
 
 	var _facesFillColor = [
-		new RgbColor(1.0, 1.0, 0.0, 0.8), // FRONT
-		new RgbColor(1.0, 0.0, 1.0, 0.8), // TOP
-		new RgbColor(0.0, 0.0, 1.0, 0.8), // BOTTOM
-		new RgbColor(1.0, 0.0, 0.0, 0.8), // LEFT
-		new RgbColor(0.0, 1.0, 1.0, 0.8), // RIGHT
-		new RgbColor(0.0, 1.0, 0.0, 0.8)	// BACK
+		new Color(1.0, 1.0, 0.0, 0.8), // FRONT
+		new Color(1.0, 0.0, 1.0, 0.8), // TOP
+		new Color(0.0, 0.0, 1.0, 0.8), // BOTTOM
+		new Color(1.0, 0.0, 0.0, 0.8), // LEFT
+		new Color(0.0, 1.0, 1.0, 0.8), // RIGHT
+		new Color(0.0, 1.0, 0.0, 0.8)	// BACK
 	];
 	var _facesStrokeColor = [
-		new RgbColor(1.0, 1.0, 0.0, 0.8), // FRONT
-		new RgbColor(1.0, 0.0, 1.0, 0.8), // TOP
-		new RgbColor(0.0, 0.0, 1.0, 0.8), // BOTTOM
-		new RgbColor(1.0, 0.0, 0.0, 0.8), // LEFT
-		new RgbColor(0.0, 1.0, 1.0, 0.8), // RIGHT
-		new RgbColor(0.0, 1.0, 0.0, 0.8)	// BACK
+		new Color(1.0, 1.0, 0.0, 0.8), // FRONT
+		new Color(1.0, 0.0, 1.0, 0.8), // TOP
+		new Color(0.0, 0.0, 1.0, 0.8), // BOTTOM
+		new Color(1.0, 0.0, 0.0, 0.8), // LEFT
+		new Color(0.0, 1.0, 1.0, 0.8), // RIGHT
+		new Color(0.0, 1.0, 0.0, 0.8)	// BACK
 	];
 	var _facesStrokeWidth = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0];
 
@@ -4900,7 +4548,7 @@ frederickkPaper.FShape.FBox = function(scene) {
 	 *	@param face
 	 *			specific face
 	 *	@param col
-	 *			fill color value of face (RgbColor())
+	 *			fill color value of face (Color())
 	 */
 	 this.setFillColor = function(face, col) {
 		if( face.length === undefined ) _facesFillColor[face] = col;
@@ -4916,7 +4564,7 @@ frederickkPaper.FShape.FBox = function(scene) {
 	 *	@param face
 	 *			specific face
 	 *	@param col
-	 *			stroke color value of face (RgbColor())
+	 *			stroke color value of face (Color())
 	 */
 	this.setStrokeColor = function(face, col) {
 		if( face.length === undefined ) _facesStrokeColor[face] = col;
@@ -5037,8 +4685,8 @@ frederickkPaper.FShape.FBox = function(scene) {
  *	Ken Frederick
  *	ken.frederick@gmx.de
  *
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
  *
  *
  *	FSphere
@@ -5328,140 +4976,3 @@ frederickkPaper.FShape.FSphere = function(scene) {
 
 
 };
-/**
- *  
- *	FControl.js
- *	v0.2a
- *  
- *	25. November 2012
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
- *
- *
- *	FControl
- *	A collection of methods for adding HTML form elements
- *	for use as a GUI
- *
- */
-
-
-
-/*
- *
- *	TODO: finish
- *
- */
-frederickkPaper.FControl = function(divId) { // #divId
-	// ------------------------------------------------------------------------
-	// Properties
-	// ------------------------------------------------------------------------
-	/*
-	 *	public
-	 */
-	this.divId = divId;
-
-
-
-	// ------------------------------------------------------------------------
-	// Methods
-	// ------------------------------------------------------------------------
-	/**
-	 *	@param name
-	 *			name of element
-	 *	@param value
-	 *			true or false
-	 */
-	this.addCheck = function(name, value) {
-		var input = document.createElement('input');
-		input.setAttribute('type', 'chackbox');
-		input.setAttribute('value', value);
-		input.setAttribute('name', name);
-
-		// here is where x and y coords could be added
-		var newdiv = document.createElement('div');
-		newdiv.appendChild(input);
-
-		var div = document.getElementById( this.divId );
-		div.appendChild(newdiv);
-	};
-
-	/**
-	 *	@param name
-	 *			name of element
-	 *	@param value
-	 *			?
-	 */
-	this.addInput = function(name, value) {
-		var input = document.createElement('input');
-		input.setAttribute('type', 'text');
-		input.setAttribute('className', 'txt');
-		input.setAttribute('value', value);
-		input.setAttribute('name', name);
-
-		// here is where x and y coords could be added
-		var newdiv = document.createElement('div');
-		newdiv.appendChild(input);
-
-		var div = document.getElementById( this.divId );
-		div.appendChild(newdiv);
-	};
-
-
-};
-
-
-
-
-
-
-
-
-// var FInputField = function() {
-
-
-// 	//-----------------------------------------------------------------------------
-// 	// Events
-// 	//-----------------------------------------------------------------------------
-// 	this.keyPressed(event) {
-// 		int id = event.getID();
-// 		char key = event.getKeyChar();
-
-// 		if(FOCUS) {
-// 			if (id == KeyEvent.VK_SPACE) {
-// 				if (t.length() < 40) {
-// 					t += key;
-// 				}
-// 			}		
-// 			else if(id == KeyEvent.VK_ENTER) {
-// 				FOCUS = false;
-// 			}
-// 			else if(id == KeyEvent.VK_ESCAPE) {
-// 				FOCUS = false;
-// 			}
-// 		}
-// 	}
-
-// 	this.keyUp(event) {
-// 	}
-
-// 	this.keyDown(event) {
-// 		char key = event.getKeyChar();
-
-// 		if(FOCUS) {
-// 			if (key == KeyEvent.VK_BACK_SPACE || key == KeyEvent.VK_DELETE) {
-// 				if (t.length() > 0) {
-// 					t = t.substring(0,t.length() - 1);
-// 				}
-// 			}
-// 			else {
-// 				t += key;
-// 			}
-// 		}
-// 	}
-
-
-// };

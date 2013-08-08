@@ -5,8 +5,8 @@ console.log( 'Extruder Loaded' );
  *	Ken Frederick
  *	ken.frederick@gmx.de
  * 
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
  *
  *	
  *	simple extrusion of path shapes
@@ -93,7 +93,7 @@ function Setup() {
 	extrusionsGroup = new Group();
 
 	// import svg
-	svg = project.importSvg(document.getElementById('svg'));
+	svg = project.importSVG(document.getElementById('svg'));
 	// re-position svg
 	svg.position = new Point( view.bounds.width/2-svg.bounds.width/2, view.bounds.height/2-svg.bounds.height/2 );
 
@@ -117,7 +117,7 @@ function Update(event) {
 // ------------------------------------------------------------------------
 function Draw() {
 	// get values from interface components
-	values.colorExtrude1 = new RgbColor().hex( $('#colorExtrude1').val() );
+	values.colorExtrude1 = new Color( $('#colorExtrude1').val() );
 	values.angle = $('#angle').val();
 	values.distance = $('#distance').val();
 
@@ -143,8 +143,8 @@ function Draw() {
 	// draw the extrusion
 	for( var i=0; i<type.children.length; i++ ) {
 		var obj = type.children[i];
-		obj.fillColor = new RgbColor( 0.0, 0.0, 0.0 );
-		obj.strokeColor = new RgbColor( 0.0, 0.0, 0.0 );
+		obj.fillColor = new Color( 0.0, 0.0, 0.0 );
+		obj.strokeColor = new Color( 0.0, 0.0, 0.0 );
 		obj.strokeWidth = 2;
 
 		// setup group for extruded faces
@@ -237,11 +237,11 @@ function extrude(item, slope, color) {
 	// pull the points for drawing the 
 	// extrusion sides
 	var holder1 = item; //.clone();
-	holder1.strokeColor = new RgbColor( 1.0, 0.0, 1.0 );
+	holder1.strokeColor = new Color( 1.0, 0.0, 1.0 );
 
 	// copy of the item
 	var holder2 = holder1.clone();
-	holder2.strokeColor = new RgbColor( 0.7, 0, 1.0 );
+	holder2.strokeColor = new Color( 0.7, 0, 1.0 );
 	holder2.translate( new Point(slope.width,slope.height) );
 
 	// iterate through curves of holder1
@@ -348,7 +348,7 @@ function angleAsPoints(center, angle, radius) {
 	)
 	// // debug
 	// var line = new Path.Line( pt1, pt2 );
-	// line.strokeColor = new RgbColor(0,0,0);
+	// line.strokeColor = new Color(0,0,0);
 
 	return [pt1, pt2];
 };
@@ -360,8 +360,8 @@ function angleToSlope(center, angle, distance) {
 	// this is my bootleg work-around
 	var pt1 = center;
 	var pt2 = new Point(
-		pt1.x + distance*Math.cos( f.radians(angle) ),
-		pt1.y + distance*Math.sin( f.radians(angle) )
+		pt1.x + distance*Math.cos( radians(angle) ),
+		pt1.y + distance*Math.sin( radians(angle) )
 	);
 
 	var slope = new Size(

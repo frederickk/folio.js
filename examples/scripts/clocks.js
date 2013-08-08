@@ -6,8 +6,8 @@ console.log( 'Clocks Loaded' );
  *	Ken Frederick
  *	ken.frederick@gmx.de
  * 
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
  *
  *	
  *	An example of multiple closk that would Edward R. Murrow proud
@@ -218,7 +218,7 @@ var Clock = function(_pt, _radius) {
 
 	var spt = new Point(pt.x + Math.cos(this.s) * secondsRadius, pt.y + Math.sin(this.s) * secondsRadius);
 	var seconds = new Path.Line( pt, spt );
-	seconds.strokeColor = new RgbColor(0.9, 0.26, 0.14);
+	seconds.strokeColor = new Color(0.9, 0.26, 0.14);
 	seconds.strokeWidth = 2;
 	seconds.strokeCap = 'round';
 	group.appendTop(seconds);
@@ -228,10 +228,10 @@ var Clock = function(_pt, _radius) {
 	if(this.ticks) {
 		var groupTicks = new Group();
 		for (var a=0; a<360; a+=30) {
-			var x1 = pt.x + Math.cos(f.radians(a)) * (secondsRadius-3);
-			var y1 = pt.y + Math.sin(f.radians(a)) * (secondsRadius-3);
-			var x2 = pt.x + Math.cos(f.radians(a)) * (secondsRadius+9);
-			var y2 = pt.y + Math.sin(f.radians(a)) * (secondsRadius+9);
+			var x1 = pt.x + Math.cos(radians(a)) * (secondsRadius-3);
+			var y1 = pt.y + Math.sin(radians(a)) * (secondsRadius-3);
+			var x2 = pt.x + Math.cos(radians(a)) * (secondsRadius+9);
+			var y2 = pt.y + Math.sin(radians(a)) * (secondsRadius+9);
 			// var tick = new Path.Circle( new Point(x,y), 1.5 );
 			var tick = new Path.Line(
 				new Point(x1,y1),
@@ -276,10 +276,10 @@ var Clock = function(_pt, _radius) {
 	this.setTime = function(time) {
 		// Angles for Math.sin() and Math.cos() start at 3 o'clock;
 		// subtract (Math.PI*0.5) to make them start at the top
-		this.s = f.map(time[2], 0, 60, 0, (Math.PI*2)) - (Math.PI*0.5);
-		this.m = f.map(time[1], 0, 60, 0, (Math.PI*2)) - (Math.PI*0.5);
+		this.s = map(time[2], 0, 60, 0, (Math.PI*2)) - (Math.PI*0.5);
+		this.m = map(time[1], 0, 60, 0, (Math.PI*2)) - (Math.PI*0.5);
 		var hour = (time[0] > 12) ? (time[0]-12) : time[0];
-		this.h = f.map( Math.abs(hour), 0, 12, 0, (Math.PI*2)) - (Math.PI*0.5);
+		this.h = map( Math.abs(hour), 0, 12, 0, (Math.PI*2)) - (Math.PI*0.5);
 
 		// update hands
 		this.update();

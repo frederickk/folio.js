@@ -8,8 +8,8 @@
  *	Ken Frederick
  *	ken.frederick@gmx.de
  *
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
  *  
  *  
  *	3D Scene Class
@@ -20,7 +20,7 @@
  *	http://www.netmagazine.com/tutorials/build-your-own-html5-3d-engine
  *	https://github.com/mrdoob/three.js/
  *
- *	modified/expanded for use in PaperJS by Ken Frederick
+ *	modified/expanded for use in Paper.js by Ken Frederick
  *
  */
 

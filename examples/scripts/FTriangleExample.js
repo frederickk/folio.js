@@ -5,8 +5,8 @@ console.log( 'FTriangle Example Loaded' );
  *	Ken Frederick
  *	ken.frederick@gmx.de
  *
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
  *
  *	
  *	An example of FTriangle
@@ -73,7 +73,7 @@ function Draw() {
 
 
 	// triangle
-	triangle.fillColor = new RgbColor( 0.98, 0.98, 0.98 );
+	triangle.fillColor = new Color( 0.98, 0.98, 0.98 );
 	triangles.appendTop(triangle);
 
 
@@ -84,29 +84,29 @@ function Draw() {
 	 */
 	// triangle centroid
 	var p = new Path.Circle( triangle.position, 6 );
-	p.fillColor = new RgbColor( 0.0, 0.0, 0.0 );
+	p.fillColor = new Color( 0.0, 0.0, 0.0 );
 	triangles.appendTop(p);
 
 	// triangle centroid
 	var c = new Path.Circle( triangle.getCentroid(), 6 );
-	c.fillColor = new RgbColor( 1.0, 0.0, 0.0 );
+	c.fillColor = new Color( 1.0, 0.0, 0.0 );
 	triangles.appendTop(c);
 
 
 	// triangle orthocenter
 	// var oc = new Path.Circle( triangle.getOrthocenter(), 6 );
-	// oc.fillColor = new RgbColor( 1.0, 0.0, 0.7 );
+	// oc.fillColor = new Color( 1.0, 0.0, 0.7 );
 	// triangles.appendTop(oc);
 
 	
 	// triangle Circumcenter
-	var cc = new Path.Circle( triangle.getCircumCircle(), 6 );
-	cc.fillColor = new RgbColor( 0.0, 1.0, 0.7 );
+	var cc = new Path.Circle( triangle.getCircumcircle(), 6 );
+	cc.fillColor = new Color( 0.0, 1.0, 0.7 );
 	triangles.appendTop(cc);
 
 	// triangle CircumCircle radius
-	var r = new Path.Circle( triangle.getCircumCircle(), triangle.radius );
-	r.fillColor = new RgbColor( 0.0, 1.0, 0.7 );
+	var r = new Path.Circle( triangle.getCircumcircle(), triangle.radius );
+	r.fillColor = new Color( 0.0, 1.0, 0.7 );
 	triangles.appendBottom(r);
 
 };

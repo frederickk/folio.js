@@ -1,7 +1,7 @@
-/**
+/*!
  *	
  *	frederickkPaper.js
- *	v0.35a
+ *	v.0.4
  *	https://github.com/frederickk/frederickkPaper
  *
  *	16. February 2013
@@ -9,8 +9,8 @@
  *	Ken Frederick
  *	ken.frederick@gmx.de
  *
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
  *	
  *	
  *	A collection of methods/functions that i find useful
@@ -34,39 +34,221 @@
  *	
  *	This library is distributed in the hope that it will be useful,
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
- *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the GNU
  *	Lesser General Public License for more details.
  *	
  *	You should have received a copy of the GNU Lesser General Public
  *	License along with this library; if not, write to the Free Software
- *	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ *	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA	02110-1301	USA
  *	
  */
 
 
 
 // ------------------------------------------------------------------------
-/**
+/*!
  *
  *	REQUIRED LIBRARIES!
  *
  *	PaperJs @ http://paperjs.org/
- *	JQuery @  http://jquery.com/download/
+ *	JQuery @	http://jquery.com/download/
  *
  */
 
 
 
 // ------------------------------------------------------------------------
-var frederickkPaper = frederickkPaper || {};
+var frederickkPaper = frederickkPaper || {
+
+/*#*/ // include('Core/Core.js');
+/*#*/ // include('Core/FConversions.js');
+
+/*#*/ // include('F3D/FMatrix3D.js');
+/*#*/ // include('F3D/F3D.js');
+/*#*/ // include('F3D/FPath3.js');
+/*#*/ // include('F3D/FPoint3.js');
+/*#*/ // include('F3D/FSize3.js');
+/*#*/ // include('F3D/FScene3D.js');
+
+/*#*/ // include('FShape/FShape.js');
+/*#*/ // include('FShape/FBox.js');
+/*#*/ // include('FShape/FSphere.js');
+
+/*#*/ // include('FIO/FIO.js');
+
+/*#*/ // include('FTime/FTime.js');
+/*#*/ // include('FTime/FDate.js');
+/*#*/ // include('FTime/FStopwatch.js');
+/*#*/ // include('FTime/FStepper.js');
+
+};
+
+
+/*
+ *
+ *	Initialize Structure
+ *
+ */
+// (function() {
+	// console.log('\nfrederickkPaper.js');
+	// console.log('v.0.4a');
+	// console.log('https://github.com/frederickk/frederickkPaper');
+	// console.log('ken.frederick@gmx.de');
+	// console.log('------------------------------------\n');
+
+
+	// create methods
+	// drawing
+	var Setup = function(){};
+	var Draw = function(){};
+	var Update = function(event){};
+
+	var Animate = function(object){};
+	var AnimateClear = function(){};
+
+	// events
+	// mouse
+	var onMouseUp = function(event){};
+	var onMouseDown = function(event){};
+	var onMouseMove = function(event){};
+	var onMouseDrag = function(event){};
+
+	// keyboard
+	var onKeyDown = function(event){};
+	var onKeyUp = function(event){};
+
+
+	// install Paper.js into window
+	paper.install(window);
+
+
+	// once the DOM is ready, setup Paper.js
+	window.onload = function() {
+ 		paper.setup('canvas');
+		console.log('Paper.js is go!');
+		
+
+
+		// ------------------------------------------------------------------------
+		// Methods
+		// ------------------------------------------------------------------------
+		Setup();
+
+
+		Draw();
+
+
+		// ------------------------------------------------------------------------
+		var AnimationGroup = new Group();
+		AnimationGroup.name = '__AnimationGroup';
+
+		function Animate(object, order) {
+			// object must be a valid paper.js item
+			// default is to add object to top
+			if( order === 'bottom' ) AnimationGroup.appendBottom( object );
+			else AnimationGroup.appendTop( object );
+		};
+		function AnimateClear() {
+			if( project.activeLayer.children['__AnimationGroup'] ) {
+				project.activeLayer.children['__AnimationGroup'].remove();
+			}
+		};
+
+		
+
+		// ------------------------------------------------------------------------
+		// Events
+		// ------------------------------------------------------------------------
+		view.onFrame = function(event) {
+			// TODO: 	add a method which clears an "animation group" each frame
+			Update(event);
+			AnimateClear();
+		};
+		
+		view.onResize = function(event) {
+			onResize(event);
+		};
+
+		// ------------------------------------------------------------------------
+		var tool = new Tool();
+		tool.onMouseUp = function(event) {
+			onMouseUp(event);
+		};
+		
+		tool.onMouseDown = function(event) {
+			onMouseDown(event);
+		};
+		
+		tool.onMouseMove = function(event) {
+			onMouseMove(event);
+		};
+		
+		tool.onMouseDrag = function(event) {
+			onMouseDrag(event);
+		};
+
+
+		// ------------------------------------------------------------------------
+		tool.onKeyDown = function(event) {
+			onKeyDown(event);
+		};
+
+		tool.onKeyUp = function(event) {
+			onKeyUp(event);
+		};
+		
+		
+		// ------------------------------------------------------------------------
+		view.draw(); // draw the screen
 
 
 
-(function() {
-	console.log('\nfrederickkPaper.js');
-	console.log('v.0.35a');
-	console.log('https://github.com/frederickk/frederickkPaper');
-	console.log('ken.frederick@gmx.de');
-	console.log('------------------------------------\n');
-})();
+		/**
+		 *
+		 *	Supporting Methods
+		 *	
+		 */
+		// ------------------------------------------------------------------------
+		function resizeCanvas() {
+			// var width = window.innerWidth;
+			// var height = window.innerHeight;
+			
+			// set canvas width and height
+			var canvas = document.getElementById('canvas');
+			var parent = canvas.parentNode;
+			if (canvas.getContext) {  
+				// canvas.width = width;
+				// canvas.height = height;
+				canvas.width = parent.offsetWidth;
+				canvas.height = parent.offsetHeight;
+			}
 
+			// clear out view
+			for( var i=0; i<projects.length; i++ ) {
+				for( var j=0; j<projects[i].layers.length; j++ ) {
+					var layer = projects[i].layers[j];
+					console.log( 'removing' );
+					layer.removeChildren();
+				}
+			}
+
+			// re-initiate setup
+			Setup();
+			// re-initiate draw
+			Draw();
+
+			// make sure view does its draw
+			view.draw();
+		};
+
+		// ------------------------------------------------------------------------
+		var resizeTimeout;
+		$(window).resize(function() {
+			clearTimeout(resizeTimeout);
+			resizeTimeout = setTimeout(resizeCanvas, 100);
+		});
+		resizeCanvas();
+
+	};
+
+// })();

@@ -3,20 +3,26 @@ frederickkPaper
 
 http://kenfrederick.blogspot.de/2012/12/paperjs-frederickkpaper.html *updated*
 
+- 31. July 2013
+0.4
+
+Finally pushed most of the core elements of this library into my unsupported fork of Paper.js (https://github.com/frederickk/Paper.js). This is makes the most sense to me, so that this library can be a bit more focused. In the meantime that means that this library **ONLY WORKS** WITH my Paper.js fork
+
+
 - 29. March 2013
 0.35a
 
-Cleaned out lots of unnecessary files, at some point I'm planning on getting rid of the "Core" of this library and adding it directly to my forked version of PaperJs itself. 
+Cleaned out lots of unnecessary files, at some point I'm planning on getting rid of the "Core" of this library and adding it directly to my forked version of Paper.js itself. 
 
 Added new examples, Extruder and Lissajous.
 
-Optimized and fixed the JQuery calls when resizing the window, now the canvas and PaperJs get's resized as intended.
+Optimized and fixed the JQuery calls when resizing the window, now the canvas and Paper.js get's resized as intended.
 
 
 - 16. February 2013
 0.3a
 
-I've updated the library to work more directly with (and more like) native paper.js. I've cleaned out some unnecessary namespaces such as FPoint, FColor, and FShape (except for 3D shapes). Once the frederickkPaper library is loaded, all of those features that were once include as part of those namespsaces, are now directly injected into paper.js
+I've updated the library to work more directly with (and more like) native Paper.js. I've cleaned out some unnecessary namespaces such as FPoint, FColor, and FShape (except for 3D shapes). Once the frederickkPaper library is loaded, all of those features that were once include as part of those namespsaces, are now directly injected into Paper.js
 
 Massive TODO is update the 3D aspect, the depth indexing is terrible and the classes themselves are inefficient.
 
@@ -24,7 +30,7 @@ Massive TODO is update the 3D aspect, the depth indexing is terrible and the cla
 - 25. November 2012
 0.2a
 
-Over the past couple of years, I've assembled a library of functions for Scriptographer, and given the recent news, I began porting this rag-tag-collection into a slightly more library for web development. I'm calling this library FrederickkPaper. Mainly because at the moment I'm focusing on paperjs, in the future I'd like to try and make it more generic for use with other web based creative tools (ProcessingJS, et. al.). In addition to the Scriptographer specfic functions, I've also ported some of the more useful features from my Processing library Frederickk.
+Over the past couple of years, I've assembled a library of functions for Scriptographer, and given the recent news, I began porting this rag-tag-collection into a slightly more library for web development. I'm calling this library FrederickkPaper. Mainly because at the moment I'm focusing on Paper.js, in the future I'd like to try and make it more generic for use with other web based creative tools (ProcessingJS, et. al.). In addition to the Scriptographer specfic functions, I've also ported some of the more useful features from my Processing library Frederickk.
 
 For now FrederickkPaper should be seen as very very alpha.
 
@@ -142,11 +148,11 @@ FrederickPaper Template/Framework
 
 This template was created to mimic the structure of other popular programming tools for artists/designers such as http://processing.org, http://www.openframeworks.cc/, http://libcinder.org/
 
-The idea is to make getting PaperJS up and running quicker with a simple template which is contextually similar to these other tools.
+The idea is to make getting Paper.js up and running quicker with a simple template which is contextually similar to these other tools.
 
 By using the accompanying FPaperTemplate.html you can simply code everything within this file and all of the necessary (most common) callbacks are already implemented within the HTML
 
-This template takes advantage of PaperJS directly connected to the DOM http://PaperJS.org/tutorials/getting-started/using-javascript-directly/, so that JavaScript variables created in the HTML can be accessed here and visa versa. I've already done the "hard work" for you within the HTML so that you can focus on editing and creating the script file /scrips/FPaperTemplate.js
+This template takes advantage of Paper.js directly connected to the DOM http://Paper.js.org/tutorials/getting-started/using-javascript-directly/, so that JavaScript variables created in the HTML can be accessed here and visa versa. I've already done the "hard work" for you within the HTML so that you can focus on editing and creating the script file /scrips/FPaperTemplate.js
 
 When using the template and/or renaming it be sure to uppdate corresponding names in FPaperTemplate.html
 
@@ -155,7 +161,7 @@ I recommend a file structure as such:
 
 /scripts/
 
-	*** holder for all PaperJS scripts ***
+	*** holder for all Paper.js scripts ***
 
 	FPaperTemplate.js (rename as desired)
 
@@ -203,7 +209,7 @@ include('../libraries/frederickkScript/frederickkScript.js');
 var f = frederickkScript;
 ```
 
-Also, as ridiculous as it seems, I've made the animation ability in Scriptographer much more like paper.js. The reason is two fold; 1/ why not have animated clocks or physics simulations (https://vimeo.com/27951113) in illustrator 2/ sometimes prototyping an idea for paper.js is faster using Scriptographer. To take advantage of this, include the frederickkScript library (as indicated above) and this:
+Also, as ridiculous as it seems, I've made the animation ability in Scriptographer much more like Paper.js. The reason is two fold; 1/ why not have animated clocks or physics simulations (https://vimeo.com/27951113) in illustrator 2/ sometimes prototyping an idea for Paper.js is faster using Scriptographer. To take advantage of this, include the frederickkScript library (as indicated above) and this:
 
 ```javascript
 function Update(event) {
@@ -242,7 +248,7 @@ Compiled files appear in the distribution folder in two flavors
 Features
 -------------
 
-Documenting javascript isn't as easy as I had hoped (if anyone has suggestions please share) so I've updated the comments and added examples in the code, much in the same manner as paper.js itself
+Documenting javascript isn't as easy as I had hoped (if anyone has suggestions please share) so I've updated the comments and added examples in the code, much in the same manner as Paper.js itself
 
 Here's an incomplete overview of what some of these classes in frederickkPaper are. A more complete API will follow as time and interest allows.
 
@@ -327,7 +333,7 @@ paper.Size.radius();
 
 paper.Color extensions
 
-Expands paper.Color some of these may be redundant to the PaperJS api, that's due to the legacy of the library's initial creation for use in Scriptographer.
+Expands paper.Color some of these may be redundant to the Paper.js api, that's due to the legacy of the library's initial creation for use in Scriptographer.
 
 
 ```javascript
@@ -336,7 +342,7 @@ paper.Color.lighten(pct);
 
 paper.Color.lerp(c1,c2, amt);
 paper.GrayColor.random();
-paper.RgbColor.random();
+paper.Color.random();
 paper.HslColor.random();
 paper.HsbColor.random();
 paper.Color.colorToInt(col);
@@ -369,7 +375,7 @@ paper.Path.FCross();
 paper.Path.FDrop();
 
 paper.Path.FTriangle();
-paper.Path.FTriangle.getCircumCircle();
+paper.Path.FTriangle.getCircumcircle();
 paper.Path.FTriangle.getCentroid();
 ```
 

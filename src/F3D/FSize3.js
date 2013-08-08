@@ -8,8 +8,8 @@
  *	Ken Frederick
  *	ken.frederick@gmx.de
  *
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
  *  
  *
  *	FSize3
@@ -20,7 +20,7 @@
  *	http://www.netmagazine.com/tutorials/build-your-own-html5-3d-engine
  *	https://github.com/mrdoob/three.js/
  *
- *	modified/expanded for use in PaperJS by Ken Frederick
+ *	modified/expanded for use in Paper.js by Ken Frederick
  *
  */
 
@@ -127,9 +127,9 @@ frederickkPaper.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
 		mind = (mind != undefined) ? mind : 0;
 		maxd = (maxd != undefined) ? maxd : 1000;
 
-		this.width = frederickkPaper.random(minw, maxw);
-		this.height = frederickkPaper.random(minh, maxh);
-		this.depth = frederickkPaper.random(mind, maxd);
+		this.width = paper.random(minw, maxw);
+		this.height = paper.random(minh, maxh);
+		this.depth = paper.random(mind, maxd);
 		return this;
 	};
 

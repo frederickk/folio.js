@@ -5,8 +5,8 @@ console.log( 'F3D Example Loaded' );
  *	Ken Frederick
  *	ken.frederick@gmx.de
  *
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
  *
  *	
  *	An example of creating a 3D field
@@ -62,7 +62,7 @@ function Setup() {
 	path3[0].add3( new f3d.FPoint3( 100,	-100,	-100) );
 	path3[0].add3( new f3d.FPoint3(-100,	-100,	-100) );
 	// use FColor to give the field a random RGB color
-	path3[0].fillColor = new RgbColor().random();
+	path3[0].fillColor = new Color().random();
 	path3[0].closed = true;
 
 	// middle
@@ -71,7 +71,7 @@ function Setup() {
 	path3[1].add3( new f3d.FPoint3( 100,	0,	 100) );
 	path3[1].add3( new f3d.FPoint3( 100,	0,	-100) );
 	path3[1].add3( new f3d.FPoint3(-100,	0,	-100) );
-	path3[1].fillColor = new RgbColor().random();
+	path3[1].fillColor = new Color().random();
 	path3[1].closed = true;
 
 	// bottom
@@ -80,7 +80,7 @@ function Setup() {
 	path3[2].add3( new f3d.FPoint3( 100,	100,	 100) );
 	path3[2].add3( new f3d.FPoint3( 100,	100,	-100) );
 	path3[2].add3( new f3d.FPoint3(-100,	100,	-100) );
-	path3[2].fillColor = new RgbColor().random();
+	path3[2].fillColor = new Color().random();
 	path3[2].closed = true;
 
 

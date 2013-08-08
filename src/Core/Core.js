@@ -1,20 +1,18 @@
-/**
+ /**
  *  
  *	Core.js
- *	v0.35a
+ *	v0.4a
  *  
- *	16. February 2013
+ *	15. May 2013
  *
  *	Ken Frederick
  *	ken.frederick@gmx.de
  *
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
  *  
  *  
  *	Core Methods
- *	A collection mathematical operations, similar
- *	to those found in Processing
  *
  */
 
@@ -23,7 +21,6 @@ frederickkPaper = {
 	// ------------------------------------------------------------------------
  	// Namespaces
 	// ------------------------------------------------------------------------
- 	//FControl: {}, 
  	FTime: {},
  	FIO: {},
  	F3D: {},
@@ -32,44 +29,8 @@ frederickkPaper = {
 
 
 	// ------------------------------------------------------------------------
-	// Properties
-	// ------------------------------------------------------------------------
-
-
-
-	// ------------------------------------------------------------------------
 	// Methods
 	// ------------------------------------------------------------------------
-	/**
-	 *	@param {Number} minr
-	 *				minmum range
-	 *	@param {Number} maxr
-	 *				maximum range
-	 *
-	 *	@return random number as float
-	 *
-	 */
-	random: function(minr, maxr) {
-		if(maxr === undefined) {
-			maxr = minr;
-			minr = 0;
-		}
-		return (minr + Math.random() * (maxr - minr));
-	},
-
-	/**
-	 *	@param {Number} minr
-	 *				minmum range
-	 *	@param {Number} maxr
-	 *				maximum range
-	 *
-	 *	@return random number as integer
-	 *
-	 */
-	randomInt: function(minr, maxr) {
-		return parseInt( frederickkPaper.random(minr,maxr) );
-	},
-
 	/**
 	 *
 	 *	http://www.siafoo.net/snippet/191
@@ -97,142 +58,7 @@ frederickkPaper = {
 		return Math.pow( Math.random(),n ) * (maxr-minr) + minr;
 	},
 
-
-
 	// ------------------------------------------------------------------------
-	/**
-	 *
-	 *	@param {Number} val
-	 *				the value to constrain
-	 *	@param {Number} min
-	 *				minimum limit
-	 *	@param {Number} max
-	 *				maximum limit
-	 *
-	 *	@return original value that is not less than the minimum and no greater than the maximum
-	 *
-	 */
-	clamp: function(val, min, max) {
-		return val < min ? min:val > max ? min:val;
-	},
-
-	/**
-	 *
-	 *	@param {Number} val
-	 *				the incoming value to be converted
-	 *	@param {Number} start
-	 *				lower bound of the value's current range
-	 *	@param {Number} stop
-	 *				upper bound of the value's current range
-	 *
-	 *	@return float value between 0.0 and 1.0
-	 *
-	 */
-	norm: function(val, start, stop) {
-		return (val - start) / (stop - start);
-	},
-
-	/**
-	 *
-	 *	@param {Number} val
-	 *				the incoming value to be converted
-	 *	@param {Number} istart
-	 *				lower bound of the value's current range
-	 *	@param {Number} istop
-	 *				upper bound of the value's current range
-	 *	@param {Number} ostart
-	 *				lower bound of the value's target range
-	 *	@param {Number} ostop
-	 *				upper bound of the value's target range
-	 *
-	 *	@return re-mapped value
-	 *
-	 */
-	map: function(val, istart, istop, ostart, ostop) {
-		return ostart + (ostop - ostart) * ((val - istart) / (istop - istart));
-	},
-
-
-
-	// ------------------------------------------------------------------------
-	/**
-	 *	
-	 *	@param {Number} val
-	 *			number
-	 *	@param {Number} deci
-	 *			number of decimal places
-	 *
-	 *	@return float value with desired decimal places
-	 *
-	 */
-	roundDecimal: function(val, deci) {
-		var multi = Math.pow(10,deci);
-		return Math.round(val * multi)/multi;
-	},
-
-	/**
-	 *
-	 *	snap from:
-	 *	http://stackoverflow.com/questions/4507784/snap-to-grid-functionality-using-javascript
-	 *
-	 *	@param {Number} val
-	 *			value to snap
-	 *	@param {Number} snapInc
-	 *			increment to snap value to
-	 *	@param {Function} roundFunction
-	 *			(optiona) rounding function
-	 *
-	 *	@return snapped value
-	 *
-	 */
-	snap: function(val, snapInc, roundFunction) {
-		if (roundFunction === undefined) roundFunction = Math.round;
-		return snapInc * roundFunction(val / snapInc);
-	},
-
-	/**
-	 *
-	 *	@param {Number} start
-	 *			fitst value
-	 *	@param {Number} stop
-	 *			second value
-	 *	@param {Number} amt
-	 *			float: between 0.0 and 1.0
-	 *
-	 *	@return value between start and stop
-	 *
-	 */
-	lerp: function(start, stop, amt) {
-		return start + (stop-start) * amt;
-		// return stop + (start-stop) * amt;
-	},
-
-
-	// ------------------------------------------------------------------------
-	/**
-	 *	
-	 *	@param {Number} val
-	 *			input value
-	 *
-	 *	@return val as degree 
-	 *
-	 */
-	degrees: function(val) {
-		return val * (180/Math.PI);
-	},
-
-	/**
-	 *	
-	 *	@param {Number} val
-	 *			input value
-	 *
-	 *	@return val as radians
-	 *
-	 */
-	radians: function(val) {
-		return val * (Math.PI/180);
-	},
-
 	/**
 	 *
 	 *	@param {Point} point1
@@ -332,19 +158,6 @@ frederickkPaper = {
 	// ------------------------------------------------------------------------
 	/**
 	 *	
-	 *	@param {NumbeR} val
-	 *			input value
-	 *
-	 *	@return squared value of val
-	 *
-	 */
-	sq: function(val) {
-		return val*val;
-	},
-
-	// ------------------------------------------------------------------------
-	/**
-	 *	
 	 *	@param {Number} val
 	 *			input boolean value
 	 *
@@ -398,11 +211,33 @@ frederickkPaper = {
 		return path;
 	},
 
+	/**
+	 *	
+	 *	@param {Array} items
+	 *			Array of items to go through
+	 *	@param {Number} name
+	 *			name of Item to find
+	 *
+	 *	@return a path with the id that matches
+	 *
+	 */
+	findById: function(items, id) {
+		var path;
+		for(var i=0; i<items.length; i++) {
+			var item = items[i];		
+			if(item.id == id) path = item; // break;
+		}
+		return path;
+	},
 
 
-	// ------------------------------------------------------------------------
-	// Strings
-	// ------------------------------------------------------------------------
+
+	/*	------------------------------------------------------------------------
+	 *
+	 *	Strings
+	 *
+	 *	------------------------------------------------------------------------/
+
 	/**
 	 *	
 	 *	@param {TextItem} textObj
@@ -471,9 +306,12 @@ frederickkPaper = {
 
 
 
-	// ------------------------------------------------------------------------
-	// Arrays
-	// ------------------------------------------------------------------------
+	/*	------------------------------------------------------------------------
+	 *
+	 *	Arrays
+	 *
+	 *	------------------------------------------------------------------------/
+
 	/**
 	 *	
 	 *	@param {Array} arr1
@@ -574,7 +412,9 @@ frederickkPaper = {
 	 */
 	distanceToCenter: function(a, b) {
 		var valueA = a.distanceToCenter();
+		console.log( valueA );
 		var valueB = b.distanceToCenter();
+		console.log( valueB );
 		var comparisonValue = 0;
 
 		if (valueA > valueB) comparisonValue = -1;
@@ -584,15 +424,6 @@ frederickkPaper = {
 	}
 
 };
-
-
-
-/*
- *
- *	Arrays
- *
- *
- */
 
 /**
  *	
@@ -644,6 +475,23 @@ Array.prototype.shuffle = function() {
 	for (var j, x, i = this.length; i; j = parseInt(Math.random() * i), x = this[--i], this[i] = this[j], this[j] = x);
 };
 
+/**
+ *
+ *	http://stackoverflow.com/questions/9229645/remove-duplicates-from-javascript-array
+ *
+ *	@return original array without duplicates
+ *
+ */
+Array.prototype.removeDuplicates = function() {
+	return this.reduce(function(accum, cur) { 
+		if (accum.indexOf(cur) === -1) accum.push(cur); 
+		return accum; 
+	}, [] );
+};
+
+
+
+
 
 
 /*
@@ -651,13 +499,8 @@ Array.prototype.shuffle = function() {
  *	Global Scope (Paper.js core)
  *
  */
-paper.inject({
-	//-----------------------------------------------------------------------------
-	// Properties
-	//-----------------------------------------------------------------------------
-	// constants
-	EPSILON: 1.0e-6,
-
+PaperScope.inject({
+	enumerable: true,
 
 
 	//-----------------------------------------------------------------------------
@@ -688,6 +531,9 @@ paper.inject({
 
 
 
+
+
+
 /*
  *
  *	paper.Point
@@ -696,125 +542,6 @@ paper.inject({
 paper.Point.inject({
 	// ------------------------------------------------------------------------
 	// Methods
-	// ------------------------------------------------------------------------
-	/**
-	 *	@param {Point} startPoint
-	 *				start Point
-	 *	@param {Point} stopPoint
-	 *				stop Point
-	 *
-	 *	@return {Point} normalized Point
-	 *
-	 */
-	norm: function(startPoint, stopPoint) {
-		this.x = frederickkPaper.norm(this.x, start.x, stop.x);
-		this.y = frederickkPaper.norm(this.y, start.y, stop.y);
-		return this;
-	},
-
-	// /**
-	//  *
-	//  *	already a part of PaperJs Point http://paperjs.org/reference/point#
-	//  *
-	//  *	@param {Array} arg0
-	//  *				random range of x [0,view.bounds.width]
-	//  *	@param {Array} arg1
-	//  *				random range of y [0,view.bounds.height]
-	//  *
-	//  *	@return {Point} random Point
-	//  *
-	//  */
-	// random: function( arg0, arg1 ) {
-	// 	this.x = (arg0 != undefined) ? frederickkPaper.random(arg0[0],arg0[1]) : Math.random()*view.bounds.width;
-	// 	this.y = (arg1 != undefined) ? frederickkPaper.random(arg1[0],arg1[1]) : Math.random()*view.bounds.height;
-	// 	return this;
-	// },
-
-	/**
-	 *	
-	 *	@return {Point} vector heading of Point
-	 *
-	 */
-	heading: function() {
-		return -1 * (Math.atan2(-this.y, this.x));
-	},
-
-	/**
-	 *
-	 *  https://bitbucket.org/postspectacular/toxiclibs/src/9d124c80e8af/src.core/toxi/geom/Vec2D.java
-	 *	
-	 *	@return {Point} interpolated Point
-	 *
-	 */
-	interpolateTo: function(p2, f) {
-		this.x += ((p2.x - this.x) * f);
-		this.y += ((p2.y - this.y) * f);
-		return this;
-	},
-
-	/**
-	 *
-	 *	@param {Point} arg0
-	 *			start Point
-	 *	@param {Point} arg1
-	 *			end Point
-	 *	@param {Number} arg2
-	 *			float: between 0.0 and 1.0
-	 *
-	 *	@return {Point} lerped Point
-	 *
-	 */
-	/**
-	 *
-	 *	@param {Color} arg1
-	 *			end Point
-	 *	@param {Number} arg2
-	 *			float: between 0.0 and 1.0
-	 *
-	 *	@return {Point} lerped Point
-	 *
-	 */
-	lerp: function( arg0, arg1, arg2 ) {
-		var x,y;
-		if(typeof arg1 === 'number') {
-			x = frederickkPaper.lerp(this.x,	arg0.x,	arg1);
-			y = frederickkPaper.lerp(this.y,	arg0.y,	arg1);
-		}
-		else {
-			x = frederickkPaper.lerp(arg0.x,	arg1.x,	arg2);
-			y = frederickkPaper.lerp(arg0.y,	arg1.y,	arg2);
-		}
-		return new Point(x,y);
-	},
-
-
-	// ------------------------------------------------------------------------
-	/**
-	 *	
-	 *	@return {Point} limit Point
-	 *
-	 */
-	limit: function(lim) {
-		if (this.magSq() > lim * lim) {
-			this.normalize();
-			this.mult * lim;
-			return this;
-		}
-		return this;
-	},
-
-
-	// ------------------------------------------------------------------------
-	/**
-	 *	
-	 *	@return {Point} vector mag squared
-	 *
-	 */
-	magSq: function() {
-		return this.x * this.x + this.y * this.y;
-	},
-
-
 	// ------------------------------------------------------------------------
 	/**
 	 *
@@ -851,74 +578,10 @@ paper.Point.inject({
 		return this.snapGrid( new Size(32*scale,16*scale) );
 	},
 
-
-
-	// ------------------------------------------------------------------------
-	// Gets
-	// ------------------------------------------------------------------------
-	/**
-	 *	
-	 *	@return {Number} angle of point
-	 *
-	 */
-	getAngle: function() {
-		return Math.atan2(this.y - 0, this.x - 0);
-	}
-
 });
 
 
 
-/*
- *
- *	paper.Size
- *
- */
-paper.Size.inject({
-	/**
-	 *	@param minw
-	 *				minmum width (default: 0)
-	 *	@param maxw
-	 *				maximum width (default: view.bounds.width)
-	 *	@param minh
-	 *				minmum height (default: 0)
-	 *	@param maxh
-	 *				maximum height (default: view.bounds.height)
-	 *
-	 *	@return {Size} random size
-	 *
-	 */
-	random: function(minw, maxw, minh, maxh) {
-		minw = (minw != undefined) ? minw : 0;
-		maxw = (maxw != undefined) ? maxw : view.bounds.width;
-		minh = (minh != undefined) ? minh : 0;
-		maxh = (maxh != undefined) ? maxh : view.bounds.height;
-
-		this.width = frederickkPaper.random(minw, maxw);
-		this.height = frederickkPaper.random(minh, maxh);
-		return this;
-	},
-
-	/**
-	 *	
-	 *	@return {Number} area
-	 *
-	 */
-	area: function() {
-		return (this.width * this.height);
-	},
-
-	/**
-	 *	
-	 *	@return {Number} radius
-	 *
-	 */
-	radius: function() {
-		var a = this.width;
-		var b = this.height;
-		return (Math.sqrt(a * a + b * b) / 2);
-	}
-});
 
 
 
@@ -928,190 +591,6 @@ paper.Size.inject({
  *
  */
 paper.Color.inject({
-	// ------------------------------------------------------------------------
-	// Methods
-	// ------------------------------------------------------------------------
-	/**
-	 *
-	 *	@param {Number} pct
-	 *			percentage to darken color
-	 *	@param {Boolean} isNew
-	 *			(option) if true a new Color is returned
-	 *
-	 *	@return {Color} darkened Color by input percentage
-	 *
-	 */
-	darken: function(pct, isNew) {
-		isNew = (isNew == undefined) ? false : isNew;
-		if( !isNew ) {
-			this.red -= pct;
-			this.red = frederickkPaper.clamp(this.red, 0.0,1.0);
-
-			this.green -= pct;
-			this.green = frederickkPaper.clamp(this.green, 0.0,1.0);
-
-			this.blue -= pct;
-			this.blue = frederickkPaper.clamp(this.blue, 0.0,1.0);
-
-			return this;
-		}
-		else {
-			var r = frederickkPaper.clamp(this.red - pct, 0.0,1.0);
-			var g = frederickkPaper.clamp(this.green - pct, 0.0,1.0);
-			var b = frederickkPaper.clamp(this.blue - pct, 0.0,1.0);
-
-			return new RgbColor(r,g,b);
-		}
-	},
-
-	/**
-	 *
-	 *	@param {Number} pct
-	 *			percentage to lighten color
-	 *	@param {Boolean} isNew
-	 *			(option) if true a new Color is returned
-	 *
-	 *	@return {Color} lightened Color by input percentage
-	 *
-	 */
-	lighten: function(pct, isNew) {
-		isNew = (isNew == undefined) ? false : isNew;
-		if( !isNew ) {
-			this.red += pct;
-			this.red = frederickkPaper.clamp(this.red, 0.0,1.0);
-
-			this.green += pct;
-			this.green = frederickkPaper.clamp(this.green, 0.0,1.0);
-
-			this.blue += pct;
-			this.blue = frederickkPaper.clamp(this.blue, 0.0,1.0);
-
-			return this;
-		}
-		else {
-			var r = frederickkPaper.clamp(this.red + pct, 0.0,1.0);
-			var g = frederickkPaper.clamp(this.green + pct, 0.0,1.0);
-			var b = frederickkPaper.clamp(this.blue + pct, 0.0,1.0);
-
-			return new RgbColor(r,g,b);
-		}
-	},
-
-
-	// ------------------------------------------------------------------------
-	/**
-	 *
-	 *	@param {Color} arg0
-	 *			start color
-	 *	@param {Color} arg1
-	 *			end color
-	 *	@param {Number} arg2
-	 *			float: between 0.0 and 1.0
-	 *
-	 *	@return {Color} lerped color
-	 *
-	 *	@example
-	 *	var color1 = new RgbColor( 0.0, 1.0, 0.7 );
-	 *	var color2 = new RgbColor( 0.0, 0.7, 1.0 );
-	 *	var lerpColor = new RgbColor().lerpColor( color1, color2, 0.5 );
-	 *
-	 */
-	/**
-	 *
-	 *	@param {Color} arg1
-	 *			end color
-	 *	@param {Number} arg2
-	 *			float: between 0.0 and 1.0
-	 *
-	 *	@return {Color} lerped color
-	 *
-	 *	@example
-	 *	var color1 = new RgbColor( 0.0, 1.0, 0.7 );
-	 *	var color2 = new RgbColor( 0.0, 0.7, 1.0 );
-	 *	var lerpColor = color1.lerpColor( color2, 0.5 );
-	 *
-	 */
-	/*
-	 *	TODO: move this to individual Color classes?
-	 */
-	lerp: function( arg0, arg1, arg2 ) {
-		var r,g,b, h,s,l, a;
-
-		if( arg0.getType() == 'gray' || this.getType() == 'gray' ) {
-			if(typeof arg1 === 'number') {
-				g = frederickkPaper.lerp(this.gray,		arg0.gray,	arg1);
-				a = frederickkPaper.lerp(this.alpha,	arg0.alpha,	arg1);
-			}
-			else {
-				g = frederickkPaper.lerp(arg0.gray,		arg1.gray,	arg2);
-				a = frederickkPaper.lerp(arg0.alpha,	arg1.alpha,	arg2);
-			}
-			// this.gray = g;
-			// this.alpha = a;
-			return new GrayColor( g,a );
-		}
-		else if( arg0.getType() == 'rgb' || this.getType() == 'rgb' ) {
-			if(typeof arg1 === 'number') {
-				r = frederickkPaper.lerp(this.red,		arg0.red,	arg1);
-				g = frederickkPaper.lerp(this.green,	arg0.green,	arg1);
-				b = frederickkPaper.lerp(this.blue,		arg0.blue,	arg1);
-				a = frederickkPaper.lerp(this.alpha,	arg0.alpha,	arg1);
-			}
-			else {
-				r = frederickkPaper.lerp(arg0.red,		arg1.red,	arg2);
-				g = frederickkPaper.lerp(arg0.green,	arg1.green,	arg2);
-				b = frederickkPaper.lerp(arg0.blue,		arg1.blue,	arg2);
-				a = frederickkPaper.lerp(arg0.alpha,	arg1.alpha,	arg2);
-			}
-			// this.red = r;
-			// this.green = g;
-			// this.blue = b;
-			// this.alpha = a;
-			return new RgbColor( r,g,b,a );
-		}
-		else if( arg0.getType() == 'hsl' || this.getType() == 'hsl' ) {
-			if(typeof arg1 === 'number') {
-				h = frederickkPaper.lerp(this.hue,			arg0.hue,		arg1);
-				s = frederickkPaper.lerp(this.saturation,	arg0.saturation,arg1);
-				l = frederickkPaper.lerp(this.lightness,	arg0.lightness,	arg1);
-				a = frederickkPaper.lerp(this.alpha,		arg0.alpha,		arg1);
-			}
-			else {
-				h = frederickkPaper.lerp(arg0.hue,			arg1.hue,		arg2);
-				s = frederickkPaper.lerp(arg0.saturation,	arg1.saturation,arg2);
-				l = frederickkPaper.lerp(arg0.lightness,	arg1.lightness,	arg2);
-				a = frederickkPaper.lerp(arg0.alpha,		arg1.alpha,		arg2);
-			}
-			// this.hue = h;
-			// this.saturation = s;
-			// this.lightness = l;
-			// this.alpha = a;
-			return new HslColor( h,s,l,a );
-		}
-		else if( arg0.getType() == 'hsb' || this.getType() == 'hsb' ) {
-			if(typeof arg1 === 'number') {
-				h = frederickkPaper.lerp(this.hue,			arg0.hue,			arg1);
-				s = frederickkPaper.lerp(this.saturation,	arg0.saturation,	arg1);
-				b = frederickkPaper.lerp(this.brightness,	arg0.brightness,	arg1);
-				a = frederickkPaper.lerp(this.alpha,		arg0.alpha,			arg1);
-			}
-			else {
-				h = frederickkPaper.lerp(arg0.hue,			arg1.hue,			arg2);
-				s = frederickkPaper.lerp(arg0.saturation,	arg1.saturation,	arg2);
-				b = frederickkPaper.lerp(arg0.brightness,	arg1.brightness,	arg2);
-				a = frederickkPaper.lerp(arg0.alpha,		arg1.alpha,			arg2);
-			}
-			// this.hue = h;
-			// this.saturation = s;
-			// this.brightness = b;
-			// this.alpha = a;
-			return new HsbColor( h,s,b,a );
-		}
-
-		// return this;
-	},
-
-
 	// ------------------------------------------------------------------------
 	/**
 	 *
@@ -1149,32 +628,6 @@ paper.Color.inject({
 		}
 		return str;
 	},
-
-	/**
-	 *
-	 *	@param {String} hex
-	 *			value as string hex value (i.e. '#00b2ff')
-	 *
-	 *	@return {Color} value of hex as Color
-	 *
-	 */
-	hex: function(hex) {
-		// var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-		// var r = parseInt(result[1], 16);
-		// var g = parseInt(result[2], 16);
-		// var b = parseInt(result[3], 16);
-
-		if( hex.length >= 7 ) hex = hex.split('#')[1];
-		else hex = hex;
-
-		var big = parseInt(hex, 16);
-		this.red = ((big>> 16) & 255)/255;
-		this.green = ((big>> 8) & 255)/255;
-		this.blue = (big& 255)/255;
-
-		return this;
-	},
-
 
 	// ------------------------------------------------------------------------
 	/**
@@ -1238,95 +691,4 @@ paper.Color.inject({
 	}
 
 });
-
-paper.GrayColor.inject({
-	/**
-	 *
-	 *	@param {Array} arg0
-	 *			random range of gray [0.0,1.0]
-	 *	@param {Array} arg1
-	 *			random range of alpha [0.0,1.0]
-	 *
-	 *	@return {Color} random GrayColor()
-	 *
-	 */
-	random: function( arg0, arg1 ) {
-		this.gray = (arg0 != undefined) ? frederickkPaper.random(arg0[0],arg0[1]) : Math.random();
-		this.alpha = (arg1 != undefined) ? frederickkPaper.random(arg1[0],arg1[1]) : Math.random();
-		return this;
-	}
-});
-
-paper.RgbColor.inject({
-	/**
-	 *
-	 *	@param {Array} arg0
-	 *			random range of red [0.0,1.0]
-	 *	@param {Array} arg1
-	 *			random range of green [0.0,1.0]
-	 *	@param {Array} arg2
-	 *			random range of blue [0.0,1.0]
-	 *	@param {Array} arg3
-	 *			random range of alpha [0.0,1.0]
-	 *
-	 *	@return {Color} random RgbColor()
-	 *
-	 */
-	random: function( arg0, arg1, arg2, arg3 ) {
-		this.red = Math.random();
-		this.green = Math.random();
-		this.blue = Math.random();
-		this.alpha = (arg3 != undefined) ? frederickkPaper.random(arg3[0],arg3[1]) : Math.random();
-		return this;
-	}
-});
-
-paper.HslColor.inject({
-	/**
-	 *
-	 *	@param {Array} arg0
-	 *			random range of hue [0,360]
-	 *	@param {Array} arg1
-	 *			random range of saturation [0.0,1.0]
-	 *	@param {Array} arg1
-	 *			random range of lightness [0.0,1.0]
-	 *	@param {Array} arg3
-	 *			random range of alpha [0.0,1.0]
-	 *
-	 *	@return {Color} random HslColor()
-	 *
-	 */
-	random: function( arg0, arg1, arg2, arg3 ) {
-		this.hue = (arg0 != undefined) ? frederickkPaper.random(arg0[0],arg0[1]) : Math.random()*360;
-		this.saturation = (arg1 != undefined) ? frederickkPaper.random(arg1[0],arg2[1]) : Math.random();
-		this.lightness = (arg2 != undefined) ? frederickkPaper.random(arg1[0],arg2[1]) : Math.random();
-		this.alpha = (arg3 != undefined) ? frederickkPaper.random(arg3[0],arg3[1]) : Math.random();
-		return this;
-	}
-});
-
-paper.HsbColor.inject({
-	/**
-	 *
-	 *	@param {Array} arg0
-	 *			random range of hue [0,360]
-	 *	@param {Array} arg1
-	 *			random range of saturation [0.0,1.0]
-	 *	@param {Array} arg2
-	 *			random range of brightness [0.0,1.0]
-	 *	@param {Array} arg3
-	 *			random range of alpha [0.0,1.0]
-	 *
-	 *	@return {Color} random HsbColor()
-	 *
-	 */
-	random: function( arg0, arg1, arg2, arg3 ) {
-		this.hue = (arg0 != undefined) ? frederickkPaper.random(arg0[0],arg0[1]) : Math.random()*360;
-		this.saturation = (arg1 != undefined) ? frederickkPaper.random(arg1[0],arg2[1]) : Math.random();
-		this.brightness = (arg2 != undefined) ? frederickkPaper.random(arg1[0],arg2[1]) : Math.random();
-		this.alpha = (arg3 != undefined) ? frederickkPaper.random(arg3[0],arg3[1]) : Math.random();
-		return this;
-	}
-});
-
 

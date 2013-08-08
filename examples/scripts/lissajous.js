@@ -5,8 +5,8 @@ console.log( 'Lissajous Loaded' );
  *	Ken Frederick
  *	ken.frederick@gmx.de
  *
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
  *
  */
 
@@ -130,8 +130,8 @@ function setParameters() {
 	values.widthEnd = parseFloat( $('#widthEnd').val() );
 
 	// set colors
-	values.colSta = new RgbColor().hex( $('#colSta').val() );
-	values.colEnd = new RgbColor().hex( $('#colEnd').val() );
+	values.colSta = new Color( $('#colSta').val() );
+	values.colEnd = new Color( $('#colEnd').val() );
 
 	// set opacity
 	values.opacSta = parseFloat( $('#opacSta').val() );

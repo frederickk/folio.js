@@ -8,8 +8,8 @@
  *	Ken Frederick
  *	ken.frederick@gmx.de
  *
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
  *  
  *
  *	FPoint3
@@ -20,7 +20,7 @@
  *	http://www.netmagazine.com/tutorials/build-your-own-html5-3d-engine
  *	https://github.com/mrdoob/three.js/
  *
- *	modified/expanded for use in PaperJS by Ken Frederick
+ *	modified/expanded for use in Paper.js by Ken Frederick
  *
  */
 
@@ -118,9 +118,9 @@ frederickkPaper.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 		minz = (minz != undefined) ? miny : 0;
 		maxz = (maxz != undefined) ? maxy : 1000;
 
-		this.x = frederickkPaper.random(minx, maxx);
-		this.y = frederickkPaper.random(miny, maxy);
-		this.z = frederickkPaper.random(minz, maxz);
+		this.x = paper.random(minx, maxx);
+		this.y = paper.random(miny, maxy);
+		this.z = paper.random(minz, maxz);
 
 		return new frederickkPaper.F3D.FPoint3(this.x, this.y, this.z);
 	};

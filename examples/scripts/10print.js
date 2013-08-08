@@ -5,8 +5,8 @@ console.log( '10 PRINT CHR$(205.5+RND(1)); Loaded' );
  *	Ken Frederick
  *	ken.frederick@gmx.de
  *
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
  *
  *	
  *	A very long version of 10 PRINT CHR$(205.5+RND(1));
@@ -78,8 +78,8 @@ function Update(event) {
 function Draw() {
 	// pull in color values from input fields
 	// uses jquery to get values
-	colors[0] = new RgbColor().hex( $("#hexcolor1").val() );
-	colors[1] = new RgbColor().hex( $("#hexcolor2").val() );
+	colors[0] = new Color().hex( $("#hexcolor1").val() );
+	colors[1] = new Color().hex( $("#hexcolor2").val() );
 
 	background.fillColor = colors[1];
 	background.bounds.size = view.bounds.size;

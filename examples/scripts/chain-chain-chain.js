@@ -6,8 +6,8 @@ console.log( 'Chain-Chain-Chain Loaded' );
  *	Ken Frederick
  *	ken.frederick@gmx.de
  *
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
  *
  *	
  *	An example lerping colors and connecting dots
@@ -32,8 +32,8 @@ var tsp = new TSP();
 // background
 var background;
 var colors = {
-	start:	new RgbColor().random(),
-	end:	new RgbColor().random()
+	start:	new Color().random(),
+	end:	new Color().random()
 };
 
 // hit

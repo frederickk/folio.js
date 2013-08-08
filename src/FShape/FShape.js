@@ -1,15 +1,15 @@
 /**
  *	
  *	FShape.js
- *	v0.35a
+ *	v.0.4
  *	
  *	16. February 2013
  *
  *	Ken Frederick
  *	ken.frederick@gmx.de
  *
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
  *
  *
  *	FShape
@@ -37,36 +37,8 @@
  */
 paper.Item.inject({
 	//-----------------------------------------------------------------------------
-	// Properties
-	//-----------------------------------------------------------------------------
-	radius: 0,
-	innerRadius: 0,
-
-
-
-	//-----------------------------------------------------------------------------
 	// Methods
 	//-----------------------------------------------------------------------------
-	/**
-	 *	
-	 *	@return {Number} distance of object from center of canvas
-	 *
-	 */
-	distanceToCenter: function() {
-		var dx = this.position.x - view.bounds.center.x;
-		var dy = this.position.y - view.bounds.center.y;
-		return (dx * dx + dy * dy) + 1;
-	},
-
-	/*
-	 *	
-	 *	@return {Number} radius
-	 *
-	 */
-	// getRadius: function() {
-	// 	// return this.size.radius();
-	// },
-
 	/**
 	 *	@param {Size} spacing
 	 *				spacing.width  = the horizontal snapping value, width of the grid.
@@ -74,7 +46,6 @@ paper.Item.inject({
 	 *
 	 */
 	snapGrid: function(spacing) {
-		// var pt = new frederickkPaper.FPoint().snapGrid(spacing);
 		// this.position = pt;
 		this.position.snapGrid(spacing);
 	},
@@ -87,7 +58,6 @@ paper.Item.inject({
 	 *
 	 */
 	snapIso: function(scale) {
-		// var pt = new frederickkPaper.FPoint().snapIso(scale);
 		// this.position = pt;
 		this.position.snapIso(scale);
 	},
@@ -168,15 +138,6 @@ paper.Path.inject({
 	// 	}
 	// },
 
-	/**
-	 *	http://www.ssicom.org/js/x974780.htm
-	 */
-	sec : function(val) {
-	   return 1/Math.cos(val);
-	},
-
-
-
 	//-----------------------------------------------------------------------------
 	/*
 	 *
@@ -185,64 +146,7 @@ paper.Path.inject({
 	 *
 	 */
 
-	/**
-	 *	http://www.exaflop.org/docs/cgafaq/cga1.html
-	 */
-	getCircumCircle : function() {
-		if( this.segments.length == 3 ) {
-			var p1 = this.segments[0].point;
-			var p2 = this.segments[1].point;
-			var p3 = this.segments[2].point;
 
-			var A = p2.x - p1.x; 
-			var B = p2.y - p1.y; 
-			var C = p3.x - p1.x; 
-			var D = p3.y - p1.y; 
-
-			var E = A*(p1.x + p2.x) + B*(p1.y + p2.y); 
-			var F = C*(p1.x + p3.x) + D*(p1.y + p3.y); 
-
-			var G = 2.0*(A*(p3.y - p2.y)-B*(p3.x - p2.x)); 
-			
-			var circumCenter;
-			var dx, dy;
-
-			if( Math.abs(G) < paper.EPSILON ) {
-				// Collinear - find extremes and use the midpoint
-
-				function max3( a, b, c ) { return ( a >= b && a >= c ) ? a : ( b >= a && b >= c ) ? b : c; }
-				function min3( a, b, c ) { return ( a <= b && a <= c ) ? a : ( b <= a && b <= c ) ? b : c; }
-
-				var minx = min3( p1.x, p2.x, p3.x );
-				var miny = min3( p1.y, p2.y, p3.y );
-				var maxx = max3( p1.x, p2.x, p3.x );
-				var maxy = max3( p1.y, p2.y, p3.y );
-
-				circumCenter = new Point( ( minx + maxx ) / 2, ( miny + maxy ) / 2 );
-
-				dx = circumCenter.x - minx;
-				dy = circumCenter.y - miny;
-			
-			}
-			else {
-				var cx = (D*E - B*F) / G; 
-				var cy = (A*F - C*E) / G;
-
-				circumCenter = new Point( cx, cy );
-
-				dx = circumCenter.x - p1.x;
-				dy = circumCenter.y - p1.y;
-			}
-
-			this.radius = Math.sqrt( (dx * dx + dy * dy) );
-
-			return circumCenter;
-		}
-		else {
-			console.error( 'Not Path.FTriangle' );
-			return null;
-		}
-	},
 
 	// TODO: currently implementation returns false point
 	// getInCircle : function() {
@@ -274,23 +178,6 @@ paper.Path.inject({
 	// 	}
 	// },
 
-	getCentroid : function() {
-		// vertices
-		if( this.segments.length == 3 ) {
-			var p1 = this.segments[0].point;
-			var p2 = this.segments[1].point;
-			var p3 = this.segments[2].point;
-
-			return new Point(
-				(p1.x + p2.x + p3.x)/3,
-				(p1.y + p2.y + p3.y)/3
-			);
-		}
-		else {
-			console.error( 'Not Path.FTriangle' );
-			return null;
-		}
-	},
 
 	// TODO: currently implementation returns false point
 	// getOrthocenter : function() {
@@ -409,7 +296,7 @@ paper.Path.inject({
 				arrowHead[0] = new Path( new Point(0,0), new Point(-arrowHeadSize.width,-arrowHeadSize.height) );
 				arrowHead[1] = new Path( new Point(0,0), new Point( arrowHeadSize.width,-arrowHeadSize.height) );
 				for( var i=0; i<arrowHead.length; i++ ) {
-					arrowHead[i].rotate( 180+frederickkPaper.degrees(a), new Point(0,0) );
+					arrowHead[i].rotate( 180+paper.degrees(a), new Point(0,0) );
 					arrowHead[i].translate( headPoint );
 				}
 
@@ -460,14 +347,14 @@ paper.Path.inject({
 				path.add( new Point(0,0) );
 				var angle = 180;
 				var through = new Point(
-					bubbleSize.height/2 + Math.cos( frederickkPaper.radians(angle) ) * (bubbleSize.height),
-					bubbleSize.height/2 + Math.sin( frederickkPaper.radians(angle) ) * (bubbleSize.height)
+					bubbleSize.height/2 + Math.cos( paper.radians(angle) ) * (bubbleSize.height),
+					bubbleSize.height/2 + Math.sin( paper.radians(angle) ) * (bubbleSize.height)
 				);
 				path.arcTo(through, new Point(0,bubbleSize.height));
 
 				// middle bottom
 				// create tag space somewhere along the bottom of the bubble
-				var tagStart = frederickkPaper.randomInt(0,bubbleSize.width-bubbleTagSize.width);
+				var tagStart = paper.randomInt(0,bubbleSize.width-bubbleTagSize.width);
 
 				// create tag
 				path.add( new Point(tagStart,bubbleSize.height) );
@@ -483,7 +370,7 @@ paper.Path.inject({
 					tx = tagStart+bubbleTagSize.width;
 				}
 				else { // if(bubbleTagCenter == 'RANDOM') { 
-					tx = frederickkPaper.randomInt(tagStart,tagStart+bubbleTagSize.width);
+					tx = paper.randomInt(tagStart,tagStart+bubbleTagSize.width);
 				}
 
 				// the length of the tag
@@ -498,8 +385,8 @@ paper.Path.inject({
 				// right side of bubble
 				angle = 0;
 				through = new Point(
-					bubbleSize.height/2 + Math.cos( frederickkPaper.radians(angle) ) * (bubbleSize.height/2),
-					bubbleSize.height/2 + Math.sin( frederickkPaper.radians(angle) ) * (bubbleSize.height/2)
+					bubbleSize.height/2 + Math.cos( paper.radians(angle) ) * (bubbleSize.height/2),
+					bubbleSize.height/2 + Math.sin( paper.radians(angle) ) * (bubbleSize.height/2)
 				);
 				path.arcTo( new Point(bubbleSize.width,0), false );
 
@@ -580,8 +467,8 @@ paper.Path.inject({
 					else if( obj2.position.y > obj1.position.y ) angle = 90;
 					else angle = 180;
 					var tp2 = new Point(
-						obj2.position.x + Math.cos( frederickkPaper.radians(angle) ) * (obj2.bounds.width/2),
-						obj2.position.y + Math.sin( frederickkPaper.radians(angle) ) * (obj2.bounds.height/2)
+						obj2.position.x + Math.cos( paper.radians(angle) ) * (obj2.bounds.width/2),
+						obj2.position.y + Math.sin( paper.radians(angle) ) * (obj2.bounds.height/2)
 					);
 					path.arcTo(tp2, tangents[2]);
 
@@ -594,8 +481,8 @@ paper.Path.inject({
 					else if( obj1.position.y > obj2.position.y ) angle = 90;
 					else angle = 180;
 					var tp1 = new Point(
-						obj1.position.x + Math.cos( frederickkPaper.radians(angle) ) * (obj1.bounds.width/2),
-						obj1.position.y + Math.sin( frederickkPaper.radians(angle) ) * (obj1.bounds.height/2)
+						obj1.position.x + Math.cos( paper.radians(angle) ) * (obj1.bounds.width/2),
+						obj1.position.y + Math.sin( paper.radians(angle) ) * (obj1.bounds.height/2)
 					);
 					path.arcTo(tp1, tangents[0]);
 					path.closed;

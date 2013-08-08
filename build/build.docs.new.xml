@@ -24,7 +24,6 @@
 		<property name="src.dir.ftime" value="${basedir}/src/FTime/" />
 		<property name="src.dir.f3d" value="${basedir}/src/F3D/" />
 		<property name="src.dir.fshape" value="${basedir}/src/FShape/" />
-		<property name="src.dir.fcontrol" value="${basedir}/src/FControl/" />
 
 		<!-- Output dir -->
 		<property name="distribution.dir" value="${basedir}/distribution" />

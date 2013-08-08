@@ -5,8 +5,8 @@ console.log( 'FDrop Example Loaded' );
  *	Ken Frederick
  *	ken.frederick@gmx.de
  *
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
  *
  *	
  *	An example of FDrop
@@ -51,8 +51,8 @@ function Setup() {
 			6
 		)
 	);
-	pipe.fillColor = new RgbColor( 1.0, 1.0, 1.0 );
-	pipe.strokeColor = new RgbColor( 1.0, 1.0, 1.0 );
+	pipe.fillColor = new Color( 1.0, 1.0, 1.0 );
+	pipe.strokeColor = new Color( 1.0, 1.0, 1.0 );
 	pipe.strokeWidth = 6;
 	group.appendTop( pipe );
 
@@ -60,7 +60,7 @@ function Setup() {
 		holeCenter,
 		12
 	);
-	hole.fillColor = new RgbColor( 0.0, 0.0, 0.0 );
+	hole.fillColor = new Color( 0.0, 0.0, 0.0 );
 	group.appendTop( hole );
 
 
@@ -70,7 +70,7 @@ function Setup() {
 		100
 	);
 	// drop.bounds.topCenter = holeCenter;
-	drop.fillColor = new RgbColor( 1.0, 1.0, 1.0 );
+	drop.fillColor = new Color( 1.0, 1.0, 1.0 );
 	group.appendTop( drop );
 
 };

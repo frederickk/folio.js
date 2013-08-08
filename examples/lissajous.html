@@ -13,142 +13,37 @@
 		<link href="../FPaperTemplate/css/FPaper.css" rel="stylesheet" type="text/css" />
 
 		
-		<!-- JavaScript -->
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+		<!-- JAVASCRIPT -->
+		<script src="js/jquery/jquery.min.js"></script>
 
 
 		<!-- LOAD PAPERJS -->
-		<script type="text/javascript" src="js/paper/paper-nightly.js"></script>
+		<script type="text/javascript" src="js/paper/paper-core.min.js"></script>
 		<script>
-			// ------------------------------------------------------------------------
-			// Global Properties
-			// ------------------------------------------------------------------------
-
-
-
-			// ------------------------------------------------------------------------
-			// Global Methods
-			// ------------------------------------------------------------------------
-			paper.install(window);
-			$(document).ready(function(){
-				paper.setup('canvas');
-				console.log('PaperJS is go!');
-				
-				$('#periodAngle').val( parseInt(Math.random()*360) );
-
-				$('#frequencyX').val( frederickkPaper.randomInt(25,41.5) );
-				$('#frequencyY').val( frederickkPaper.randomInt(1,25) );
-
-				$('#widthSta').val( 1 );
-				$('#widthEnd').val( frederickkPaper.randomInt(1,30) );
-
-				$('#colSta').val( randomHex() ); //'#00ffb2' );
-				$('#colEnd').val( randomHex() ); //'#ff00b2' );
-
-				$('#opacSta').val( frederickkPaper.roundDecimal( frederickkPaper.random(1,61.8),2 ) );
-				$('#opacEnd').val( 61.8 );
-
-
-
-				// ------------------------------------------------------------------------
-				// PaperJS Methods
-				// ------------------------------------------------------------------------
-				Setup();
-
-
-				// ------------------------------------------------------------------------
-				Draw();
-
-				
-				
-				// ------------------------------------------------------------------------
-				// PaperJS Events
-				// ------------------------------------------------------------------------
-				view.onFrame = function(event) {
-					Update(event);
-				};
-				
-				view.onResize = function(event) {
-					onResize(event);
-				};
-
-				// ------------------------------------------------------------------------
-				var tool = new Tool();
-				tool.onMouseUp = function(event) {
-					onMouseUp(event);
-				};
-				
-				tool.onMouseDown = function(event) {
-					onMouseDown(event);
-				};
-				
-				tool.onMouseMove = function(event) {
-					onMouseMove(event);
-				};
-				
-				tool.onMouseDrag = function(event) {
-					onMouseDrag(event);
-				};
-
-
-				// ------------------------------------------------------------------------
-				tool.onKeyDown = function(event) {
-					onKeyDown(event);
-				};
-
-				tool.onKeyUp = function(event) {
-					onKeyUp(event);
-				};
-				
-				
-				// ------------------------------------------------------------------------
-				// view.draw(); // draw the screen
-			});
-
-
-
-			/**
-			 *
-			 *	Supporting Methods
-			 *
-			 */
 			// http://paulirish.com/2009/random-hex-color-code-snippets/
 			function randomHex() {
 				return ('#'+Math.floor(Math.random()*16777215).toString(16)).toUpperCase();
 			};
 
 			$(function() {
+				$('#periodAngle').val( parseInt(Math.random()*360) );
 
-				// ------------------------------------------------------------------------
-				function resizeCanvas() {
-					var width = $('#container').width();
-					var height = $('#container').height();
-					
-					// Set canvas width and height
-					$('#canvas').attr('width', width);
-					$('#canvas').attr('height', height);
+				$('#frequencyX').val( randomInt(25,41.5) );
+				$('#frequencyY').val( randomInt(1,25) );
 
-					// to avoid duplication
-					// clear all objects from all layers
-					for( var i=0; i<project.layers.length; i++ ) {
-						project.layers[i].removeChildren();
-					}
+				$('#widthSta').val( 1 );
+				$('#widthEnd').val( randomInt(1,30) );
 
-					// re-initiate the script again
-					Setup();
-					Draw();
-				};
+				$('#colSta').val( randomHex() ); //'#00ffb2' );
+				$('#colEnd').val( randomHex() ); //'#ff00b2' );
 
-				// ------------------------------------------------------------------------
-				$(window).resize(resizeCanvas);
+				$('#opacSta').val( roundDecimal( random(1,61.8),2 ) );
+				$('#opacEnd').val( 61.8 );
 			});
-
-
 		</script>
 
 
 		<!-- LOAD ADDITIONAL JAVASCRIPTS -->
-		<!-- https://github.com/frederickk/frederickkPaper -->
 		<!-- https://github.com/frederickk/frederickkPaper -->
 		<script type="text/javascript" src="../distribution/frederickkPaper.js"></script>
 
@@ -171,8 +66,8 @@
 
 		<!-- TEXT -->
 		<div id="textContainer">
-			Lissajous<br/>
-			<a href="http://paperjs.org/" target="new">paperjs</a> experiment by <a href="http://cargocollective.com/kenfrederick" target="new">kenfrederick</a>
+			Lissajous<br />
+			<a href="http://paperjs.org/" target="new">paperjs</a> experiment by <a href="http://kennnethfrederick.de/" target="new">kenfrederick</a>
 		</div>
 
 		<div id="manual" class="black">

@@ -5,8 +5,8 @@ console.log( 'FStepper Example Loaded' );
  *	Ken Frederick
  *	ken.frederick@gmx.de
  *
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
  *
  *	
  *	An example of lerping points, sunrise, sunset
@@ -44,7 +44,6 @@ function Setup() {
 	// Setup background
 	background = new Path.Rectangle( view.bounds.topLeft, view.bounds.bottomRight );
 
-
 	// initiate move FStepper
 	move = new ftime.FStepper();
 	// Set the time length to 9 seconds
@@ -61,12 +60,12 @@ function Setup() {
 	blend.setMillis( 18000 );
 
 	// swap colors
-	colors[0] = new RgbColor(95/255, 56/255, 102/255);
-	colors[1] = new RgbColor(241/255, 93/255, 94/255);
+	colors[0] = new Color(95/255, 56/255, 102/255);
+	colors[1] = new Color(241/255, 93/255, 94/255);
 
 	// this is the ball we'll animate with the stepper
 	ball = new Path.Circle( points[0], 60 );
-	ball.fillColor = new RgbColor(1.0, 1.0, 1.0);
+	ball.fillColor = new Color(1.0, 1.0, 1.0);
 
 	// start the FSteppers
 	move.toggle();
@@ -111,9 +110,13 @@ function Draw() {
 
 	// in order to animate the ball, we'll lerp from
 	// point1 to point2
-	var pos = points[0].lerp(
-		points[1],
-		move.delta
+	// var pos = points[0].lerp(
+	// 	points[1],
+	// 	move.delta
+	// );
+	var pos = new Point(
+		lerp( points[0].x, points[1].x, move.delta ),
+		lerp( points[0].y, points[1].y, move.delta )
 	);
 
 	// move the ball on an arc
@@ -124,7 +127,7 @@ function Draw() {
 
 	// blend the colors from one to the other
 	var col = colors[0].lerp(
-		new RgbColor(1.0, 1.0, 1.0),
+		new Color(1.0, 1.0, 1.0),
 		blend.delta
 	);
 	ball.fillColor = col;

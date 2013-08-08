@@ -6,8 +6,8 @@ console.log( 'The Debate Loaded' );
  *	Ken Frederick
  *	ken.frederick@gmx.de
  *
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
  *
  *	
  *	A unending philosophical debate amongst the heavyweights
@@ -98,7 +98,7 @@ function Setup() {
 	var th = Math.abs(((view.bounds.rightCenter.y+(size*0.25))+size/2)-(view.bounds.height-95));
 	Kant.bubble = new Path.FBubble( 
 		new Point(view.bounds.rightCenter.x,view.bounds.rightCenter.y+(size*0.25)),
-		new Size(f.randomInt(size*0.75,size*1.25),size),
+		new Size(randomInt(size*0.75,size*1.25),size),
 		new Size(size*0.13, th),
 		'RIGHT'
 	);
@@ -117,7 +117,7 @@ function Setup() {
 
 	// text
 	Kant.paragraph = kantText.match( /[^\.!\?]+[\.!\?]+/g );
-	Kant.content = Kant.paragraph[ f.randomInt(0,Kant.paragraph.length) ];
+	Kant.content = Kant.paragraph[ randomInt(0,Kant.paragraph.length) ];
 
 	// FStepper
 	// based on sentence length
@@ -146,7 +146,7 @@ function Setup() {
 	var th = Math.abs(((view.bounds.leftCenter.y-(size*0.45))+size/2)-(view.bounds.height-95));
 	Husserl.bubble = new Path.FBubble( 
 		new Point(view.bounds.leftCenter.x,view.bounds.leftCenter.y-size*0.45),
-		new Size(f.randomInt(size*0.75,size*1.25),size),
+		new Size(randomInt(size*0.75,size*1.25),size),
 		new Size(size*0.13, th),
 		'LEFT'
 	);
@@ -166,7 +166,7 @@ function Setup() {
 
 	// text
 	Husserl.paragraph = husserlText.match( /[^\.!\?]+[\.!\?]+/g );
-	Husserl.content = Husserl.paragraph[ f.randomInt(0,Husserl.paragraph.length) ];
+	Husserl.content = Husserl.paragraph[ randomInt(0,Husserl.paragraph.length) ];
 
 	// FStepper
 	// based on sentence length
@@ -187,7 +187,7 @@ function Setup() {
 
 
 	// Let's see who starts the 'debate'
-	if( f.randomInt(0,2) == 1 ) {
+	if( randomInt(0,2) == 1 ) {
 		Kant.move.toggle();
 		Kant.bubble.moveAbove( Husserl.bubble );
 		Kant.text.moveAbove( Kant.bubble );
@@ -218,7 +218,7 @@ function Update(event) {
 		var j = ((i-1) < 0) ? speakers.length-1 : 0;
 		if(s.move.isDone()) {
 			s.move.toggle();
-			s.content = s.paragraph[ f.randomInt(0,s.paragraph.length) ];
+			s.content = s.paragraph[ randomInt(0,s.paragraph.length) ];
 
 			var index = (i == 0) ? 0 : 2;
 			if(s.move.isOut()) {
@@ -275,14 +275,14 @@ function Draw() {
 		// bubble
 		var x;
 		if(i % 2 == 0) {
-			x = frederickkPaper.lerp(
+			x = lerp(
 				view.bounds.leftCenter.x + s.bubble.bounds.width*0.66,
 				view.bounds.rightCenter.x - s.bubble.bounds.width*0.66, 
 				s.move.delta
 			);
 		}
 		else {
-			x = frederickkPaper.lerp(
+			x = lerp(
 				view.bounds.rightCenter.x - s.bubble.bounds.width*0.66,
 				view.bounds.leftCenter.x + s.bubble.bounds.width*0.66, 
 				s.move.delta

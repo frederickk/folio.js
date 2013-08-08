@@ -6,8 +6,8 @@ console.log( '3 halbierte Würfel Loaded' );
  *	Ken Frederick
  *	ken.frederick@gmx.de
  *
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
  *
  *	
  *	An example of creating some Max Bill inspired objects
@@ -81,7 +81,7 @@ function Setup() {
 
 	// billGreen = new frederickkPaper.FShape.FBillBox(scene);
 	// billGreen.setSize(size, size, size);
-	// billGreen.fillColor = new RgbColor(0.62, 0.77, 0.14);
+	// billGreen.fillColor = new Color(0.62, 0.77, 0.14);
 	// billGreen.setVertices( [9,17,7] );
 	// billGreen.init((size),size,0);
 };

@@ -8,13 +8,13 @@
  *	http://www.evilmadscientist.com/go/stipple
  *  
  *  
- *	Modified/Simplified for PaperJS
+ *	Modified/Simplified for Paper.js
  *  
  *	Ken Frederick
  *	ken.frederick@gmx.de
  *
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
  *
  */
 

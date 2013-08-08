@@ -5,8 +5,8 @@ console.log( 'Spectrum Loaded' );
  *	Ken Frederick
  *	ken.frederick@gmx.de
  *
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
  *
  *	
  *	An exmaple of blending colors using Color.lerp
@@ -26,10 +26,10 @@ var path;
 
 // colors
 var spectrumColors = [
-  new RgbColor( 115/255, 233/255, 255/255 ),
-  new RgbColor(   0/255, 255/255, 178/255 ),
-  new RgbColor( 144/255,  39/255, 142/255 ),
-  new RgbColor( 255/255,  70/255, 100/255 )
+  new Color( 115/255, 233/255, 255/255 ),
+  new Color(   0/255, 255/255, 178/255 ),
+  new Color( 144/255,  39/255, 142/255 ),
+  new Color( 255/255,  70/255, 100/255 )
 ];
 
 // colors holder
@@ -86,13 +86,13 @@ function Update(event) {
 function Draw() {
 
 	// update colors
-	colors[0] = new RgbColor().lerp(
+	colors[0] = new Color().lerp(
 		spectrumColors[ index % 4 ],
 		spectrumColors[ (index+1) % 4 ],
 		delta
 	);
 
-	colors[1] = new RgbColor().lerp(
+	colors[1] = new Color().lerp(
 		spectrumColors[ (index+1) % 4 ],
 		spectrumColors[ (index+2) % 4 ],
 		delta
