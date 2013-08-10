@@ -1,7 +1,7 @@
 Folio.js
 ============
-The missing tweezers, toothpick, and corkscrew for Paper.js
--------------
+### The missing tweezers, toothpick, and corkscrew for Paper.js ###
+
 
 
 Folio.js is a library for Paper.js http://paperjs.org/. Folio.js serves as a collection of functions for supporting animations, rudimentary 3D, additional Path items and lastly a structured framework/chain of operations similar to that of Processing, OpenFrameworks, Cinder, et. al. 
@@ -78,6 +78,7 @@ As I mentioned Folio.js is also available for use in Scriptographer as.
 The feature set is "slightly" different, this sou can find the script, within the distribution folder.
 
 ```/distribution/scriptographer.folio.js```
+
 ```/distribution/scriptographer.folio.min.js```
 
 Simply drop it in to the same folder as your other Scriptographer scripts and add the following lines any script you want to use the library in:
@@ -121,6 +122,7 @@ Compiled files appear in the distribution folder in two flavors
 
 
 ```paper.folio.js```
+
 ```paper.folio.min.js```
 
 
