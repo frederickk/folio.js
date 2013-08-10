@@ -17,8 +17,8 @@ console.log( 'Spectrum Loaded' );
 // ------------------------------------------------------------------------
 // Properties
 // ------------------------------------------------------------------------
-// the core frederickkPaper namespace
-var f = frederickkPaper;
+// the core folio namespace
+var f = folio;
 
 // the gradient
 var spectrum;

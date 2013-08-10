@@ -1,7 +1,7 @@
 /**
  *  
  *	FStopwatch.js
- *	v0.2a
+ *	v0.5
  *  
  *	25. November 2012
  *
@@ -18,7 +18,7 @@
  */
 
 
-frederickkPaper.FTime.FStopwatch = function() {
+folio.FTime.FStopwatch = function() {
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------

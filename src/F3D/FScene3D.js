@@ -1,7 +1,7 @@
 /**
  *  
  *	FScene3D.js
- *	v0.2a
+ *	v0.5
  *  
  *	25. November 2012
  *
@@ -16,7 +16,7 @@
  *
  *	A barebones collection of classes for primitive 3D rendering
  *
- *	code mostly taken from
+ *	code inspired by
  *	http://www.netmagazine.com/tutorials/build-your-own-html5-3d-engine
  *	https://github.com/mrdoob/three.js/
  *
@@ -32,7 +32,7 @@
  *			possibly look into using three.js as the engine	
  *
  */
-frederickkPaper.F3D.FScene3D = this.FScene3D = function() {
+folio.F3D.FScene3D = this.FScene3D = function() {
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
@@ -42,11 +42,11 @@ frederickkPaper.F3D.FScene3D = this.FScene3D = function() {
 	var _mode = 'PERSPECTIVE'; // default
 	var _matrix = null;
 
-	var _half = new frederickkPaper.F3D.FSize3(0,0,0);
+	var _half = new folio.F3D.FSize3(0,0,0);
 
 	// transfomrations
 	var _sceneScale = 1;
-	var _rotation = new frederickkPaper.F3D.FPoint3(0,0,0);
+	var _rotation = new folio.F3D.FPoint3(0,0,0);
 
 	// items
 	var _numPoints = 0;
@@ -57,7 +57,7 @@ frederickkPaper.F3D.FScene3D = this.FScene3D = function() {
 	/*
 	 *	public
 	 */
-	this.bounds = new frederickkPaper.F3D.FSize3(0,0,0);
+	this.bounds = new folio.F3D.FSize3(0,0,0);
 
 	this.points3D = [];
 	this.points2D = [];

@@ -18,21 +18,18 @@ console.log( 'FSphere Example Loaded' );
 // ------------------------------------------------------------------------
 // Properties
 // ------------------------------------------------------------------------
-// the core frederickkPaper namespace
-var f = frederickkPaper;
+// the core folio namespace
+var f = folio;
 
 // the F3D namespace
 var f3d = f.F3D;
-
-// the FShape namespace
-var fshape = f.FShape;
 
 // initiate the scene, this is how the transformations are
 // interpolated for 3D geometry to appear on the screen
 var scene;
 
 // spheres
-var spheres = [];
+var sphere;
 
 // values
 var bRotate = false;
@@ -52,32 +49,42 @@ function Setup() {
 	scene = new f3d.FScene3D();
 	scene.setup(view.bounds.width, view.bounds.height, 1000, 'ORTHO');
 
-	var size;
-	if(view.bounds.width < 768) size = 600;
-	else size = 1200;
 
-	// sphere 0
-	// wireframe
-	spheres[0] = new frederickkPaper.FShape.FSphere(scene);
-	spheres[0].setSize(size);
-	spheres[0].setLatsLongs(4,4);
-	spheres[0].noFill();
-	spheres[0].init( -size, 0,0 );
+	// sphere
+	var radius = 900;
+	sphere = new f3d.FPath3.FSphere(
+		scene,
+		new f3d.FPoint3( 0,0,-100 ),
+		radius,
+		[9,9]
+	);
+	sphere.strokeColor = null;
 
-	// sphere 1
-	// spectrum fade
-	spheres[1] = new frederickkPaper.FShape.FSphere(scene);
-	spheres[1].setSize(size);
-	spheres[1].setLatsLongs(9,9);
-	spheres[1].noStroke();
-
-	var r = f.random(0,180);
-	for(var i=0; i<spheres[1].getNumFaces(); i++) {
-		spheres[1].setOpacity( i, i/spheres[1].getNumFaces()*0.5 );
-		spheres[1].setFillColor( i, new HslColor( r*i/spheres[1].getNumFaces(),0.9,0.8) );
+	var r = random(0,360);
+	var facesNum = sphere.children.length;
+	for(var i=0; i<facesNum; i++) {
+		var face = sphere.children[i];
+		face.opacity = i/facesNum*0.5;
+		face.fillColor = new HslColor( r*i/facesNum, 0.9, 0.8);
 	}
-	spheres[1].init( size, 0, 0 );
 
+
+	// background
+	var background = new Path.Rectangle(
+		new Point( 0,0 ),
+		view.bounds.size
+	);
+	background.fillColor = {
+		gradient: {
+			stops: [
+				[ new HslColor( r*0.0, 0.9, 0.8), 0.0 ],
+				[ new HslColor( r*1.0, 0.9, 0.8), 1.0 ]
+			],
+		},
+		origin: background.point,
+		destination: background.bounds.bottomLeft
+	};
+	background.opacity = 0.9
 
 };
 
@@ -101,9 +108,9 @@ function Update(event) {
 // ------------------------------------------------------------------------
 function Draw() {
 	// rotate
-	scene.rotateX( f.radians(values.rotx) );
-	scene.rotateY( f.radians(values.roty) );
-	scene.rotateZ( f.radians(values.rotz) );
+	scene.rotateX( radians(values.rotx) );
+	scene.rotateY( radians(values.roty) );
+	scene.rotateZ( radians(values.rotz) );
 
 	// draw to screen
 	scene.draw().scale(1);

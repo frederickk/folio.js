@@ -1,0 +1,108 @@
+<!-- 
+  -	Folio Template 0.5
+  -
+  -	Ken Frederick
+  -	ken.frederick@gmx.de
+  -
+  -	http://kennethfrederick.de/
+  -	http://blog.kennethfrederick.de/
+  -
+  -
+  -	This template was created to streamline the creation
+  -	of Paper.js sketches for use on the interwebs.
+  -	
+  -	This template is designed so that there is very little
+  -	setup required for using Paper.js within a traditional
+  -	JavaScript context.
+  -
+  -	By using the accompanying scripts/FolioTemplate.js you can
+  -	simply code everything within the FolioTemplate.js file,
+  -	all of the necessary callbacks are already implemented in this HTML
+  -
+  -	Feel free to rename this file and .js template file
+  -
+  -->
+
+<!doctype html>
+<!--[if lt IE 7]>			<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>				<html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>				<html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js"> <!--<![endif]-->
+	<head>
+		<!-- META -->
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="description" content="">
+
+
+
+		<title>Folio.js Webapp Template</title>
+		
+		
+
+		<!-- CSS -->
+		<!-- LOAD ADDITIONAL CSS STYLESHEETS -->
+		<link href="css/Folio.css" rel="stylesheet" type="text/css" />
+
+		
+
+		<!-- JAVASCRIPT -->
+		<!-- LOAD LIBRARIES -->
+		<script src="js/jquery/jquery.min.js"></script>
+
+
+
+		<!-- LOAD PAPERJS -->
+		<!-- download Paper.js from http://paperjs.org/download/ and update path -->
+		<script type="text/javascript" src="path/to/paper.js"></script>
+		<!-- https://github.com/frederickk/folio.js -->
+		<script type="text/javascript" src="../distribution/paper.folio.js"></script>
+
+
+
+		<!-- LOAD PAPER SCRIPT -->
+		<!-- be sure that the filename and path matches your script -->
+		<script type="text/javascript" src="scripts/FolioTemplate.js"></script>
+
+
+
+		<meta http-equiv="x-dns-prefetch-control" content="off"/>
+	</head>
+	<body>
+
+
+		<!-- CANVAS -->
+		<div id="container">
+			<canvas resize="true" id="canvas"></canvas>
+		</div>
+
+
+		<!-- TEXT -->
+		<div id="textContainer">
+			<!-- any text/description  -->
+		</div>
+
+		<div id="manual" class="black">
+			<!-- any instructions for controlling the interaction  -->
+		</div>
+
+
+		<!-- INPUTS -->
+		<div id="inputLabelContainer">
+			<!-- any labels for form elemenst -->
+		</div>
+
+		<div id="inputContainer">
+			<!-- any form elements which need to be accessed should be placed in here -->
+		</div>
+
+
+		<!-- IMAGES -->
+		<div id="rasterImages">
+			<!-- any images which need to be accessed should be placed in here -->
+			<!-- http://paperjs.org/tutorials/images/working-with-rasters/ -->
+		</div>
+
+		
+	</body>
+</html>

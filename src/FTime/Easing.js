@@ -1,6 +1,7 @@
 /**
  *	
  *	Easing.js
+ *	v0.5
  *	
  *	Easing Functions
  *	originally inspired from http://gizma.com/easing/
@@ -52,7 +53,7 @@
  */
 
 
-frederickkPaper.FTime.Ease = function() {
+folio.FTime.Ease = function() {
 	/**
 	 * 
 	 * values of classic easing functions, similar to CSS

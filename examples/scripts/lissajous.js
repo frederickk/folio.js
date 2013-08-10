@@ -14,8 +14,8 @@ console.log( 'Lissajous Loaded' );
 // ------------------------------------------------------------------------
 // Properties
 // ------------------------------------------------------------------------
-// the core frederickkPaper namespace
-var f = frederickkPaper;
+// the core folio namespace
+var f = folio;
 
 // lissajous
 var lb;

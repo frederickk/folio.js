@@ -1,7 +1,7 @@
 /**
  *  
  *	FPath3.js
- *	v0.2a
+ *	v0.5
  *  
  *	25. November 2012
  *
@@ -26,30 +26,24 @@
 
 
 
-frederickkPaper.F3D.FPath3 = this.FPath3 = Path.extend({
+folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
-	/*
-	 *	private
-	 */
-	_type: 'FPath3',
-	
-	// scene
-	_scene: null,
-	_matrix: null,
+	_class: 'FPath3',
+	_serializeFields: {
+		segments: [],
+		closed: false,
 
-	// 3D points array
-	_fpoints3: null,
-
-	// transformations
-	_rotation: null,
-	_translation: null,
-
-	/*
-	 *	public
-	 */
-	position3: null,
+		// F3D
+		scene: null,
+		matrix: null,
+		size: null,
+		position3: null,
+		fpoints3: [],
+		rotation: null,
+		translation: null
+	},
 
 
 
@@ -62,27 +56,28 @@ frederickkPaper.F3D.FPath3 = this.FPath3 = Path.extend({
 	 *				the scene to attach this path to
 	 *
 	 */
-	initialize : function(scene) {
-		this.base();
+	initialize: function FPath3(scene) {
 		this._closed = false;
+		this._segments = [];
 
-		this.position3 = new frederickkPaper.F3D.FPoint3();
-
-		// setup scene
 		this._scene = scene;
-
-		// setup matrix
 		this._matrix = new Matrix3D();
-
-		// setup transformation
-		this._rotation = new frederickkPaper.F3D.FPoint3();
-		this._translation = new frederickkPaper.F3D.FPoint3();
+		this._size = new folio.F3D.FSize3();
+		this._position3 = new folio.F3D.FPoint3();
 
 		// setup 3D points array
 		this._fpoints3 = [];
 
+		// setup transformation
+		this._rotation = new folio.F3D.FPoint3();
+		this._translation = new folio.F3D.FPoint3();
+
+		// set generic name
 		this.name = 'FPath3';
-		// return this;
+
+		Path.call(this);
+
+		this._initialize();
 	},
 
 
@@ -94,7 +89,7 @@ frederickkPaper.F3D.FPath3 = this.FPath3 = Path.extend({
 	 *	@param scene
 	 *			scene to associate points with
 	 */
-	setScene : function(scene) {
+	setScene: function(scene) {
 		// the scene
 		this._scene = scene;
 
@@ -107,9 +102,14 @@ frederickkPaper.F3D.FPath3 = this.FPath3 = Path.extend({
 	 *	@param _fpoint3
 	 *			add FPoint3 to path
 	 */
-	add3 : function(fpoint3) {
+	add3: function(fpoint3) {
 		this._fpoints3[ this._fpoints3.length ] = fpoint3;
 	},
+
+
+	// setSegments: function(segments) {
+	// }
+
 
 	// ------------------------------------------------------------------------
 	/**
@@ -124,7 +124,7 @@ frederickkPaper.F3D.FPath3 = this.FPath3 = Path.extend({
 	 *	@param arg2
 	 *			z point
 	 */
-	translate : function(arg0, arg1, arg2) {
+	translate: function(arg0, arg1, arg2) {
 		if(typeof arg0 == 'number') {
 			this._translation.x = arg0;
 			this._translation.y = arg1;
@@ -132,13 +132,19 @@ frederickkPaper.F3D.FPath3 = this.FPath3 = Path.extend({
 		}
 		else if(typeof arg0 == 'object') { // FPoint3
 			this._translation.x = arg0.x;
-			this._translation.y = arg1.y;
-			this._translation.z = arg2.z;
+			this._translation.y = arg0.y;
+			this._translation.z = arg0.z;
 		}
 		else {
-			this._translation.x = arg0 != undefined ? arg0 : 0;
-			this._translation.y = arg1 != undefined ? arg1 : 0;
-			this._translation.z = arg2 != undefined ? arg2 : 0;
+			this._translation.x = (arg0 != undefined)
+				? arg0
+				: 0;
+			this._translation.y = (arg1 != undefined)
+				? arg1
+				: 0;
+			this._translation.z = (arg2 != undefined)
+				? arg2
+				: 0;
 		}
 
 		for(var i=0; i<this._fpoints3.length; i++) {
@@ -153,7 +159,7 @@ frederickkPaper.F3D.FPath3 = this.FPath3 = Path.extend({
 	 *	@param val
 	 *			degree value for x axis rotation
 	 */
-	rotateX : function(val) {
+	rotateX:  function(val) {
 		this._rotation.x = val;
 	},
 
@@ -161,7 +167,7 @@ frederickkPaper.F3D.FPath3 = this.FPath3 = Path.extend({
 	 *	@param val
 	 *			degree value for y axis rotation
 	 */
-	rotateY : function(val) {
+	rotateY:  function(val) {
 		this._rotation.y = val;
 	},
 
@@ -169,7 +175,7 @@ frederickkPaper.F3D.FPath3 = this.FPath3 = Path.extend({
 	 *	@param val
 	 *			degree value for z axis rotation
 	 */
-	rotateZ : function(val) {
+	rotateZ:  function(val) {
 		this._rotation.z = val;
 	},
 
@@ -178,7 +184,7 @@ frederickkPaper.F3D.FPath3 = this.FPath3 = Path.extend({
 	// ------------------------------------------------------------------------
 	// Gets
 	// ------------------------------------------------------------------------
-	get : function() {
+	get: function() {
 		// clear segments
 		this._segments = [];
 
@@ -192,6 +198,18 @@ frederickkPaper.F3D.FPath3 = this.FPath3 = Path.extend({
 		return this;
 	},
 
+
+// }, new function() { // Scope for drawing
+
+// 	return {
+// 		_draw: function(ctx, param) {
+// 		},
+// 	};
+
+// }, {
+
+// statics: {
+
+// }
+	
 });
-
-

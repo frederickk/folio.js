@@ -18,12 +18,8 @@ console.log( '10 PRINT CHR$(205.5+RND(1)); Loaded' );
 // ------------------------------------------------------------------------
 // Properties
 // ------------------------------------------------------------------------
-// the core frederickkPaper namespace
-var f = frederickkPaper;
-
-// depreciating FShape namespace
-// no longer necessary use paper.Path
-//var fshape = f.FShape;
+// the core folio namespace
+var f = folio;
 
 var background;
 var group10;
@@ -78,8 +74,8 @@ function Update(event) {
 function Draw() {
 	// pull in color values from input fields
 	// uses jquery to get values
-	colors[0] = new Color().hex( $("#hexcolor1").val() );
-	colors[1] = new Color().hex( $("#hexcolor2").val() );
+	colors[0] = new Color( $("#hexcolor1").val() );
+	colors[1] = new Color( $("#hexcolor2").val() );
 
 	background.fillColor = colors[1];
 	background.bounds.size = view.bounds.size;
@@ -90,13 +86,16 @@ function Draw() {
 	for(var y=0; y<view.bounds.height+size/2; y+=size*2) {
 		for(var x=0; x<view.bounds.width+size/2; x+=size*2) {
 			// generate a random integer between 0 and 2
-			var rand = f.randomInt(0,2);
+			var rand = randomInt(0,2);
 			// grab one lines in the cross
 			// at random of course
 			var c = cross.children[ rand ].clone();
 			// darken colors[0] to use as a secondary color
-			// a function added to paper.Color via frederickkPaper
-			(rand == 0) ? c.fillColor = colors[0].lighten(0.03) : c.fillColor = colors[0].darken(0.03);
+			// (rand == 0) 
+				// ? c.fillColor = 0.03 //colors[0].lighten(0.03)
+				// : c.fillColor = 0.03; //colors[0].lighten(-0.03);
+			c.fillColor = colors[0];
+				
 			// position the line on the grid
 			c.position = new Point(x+size/2,y+size/2);
 			// add to our group (which we clear each redraw)

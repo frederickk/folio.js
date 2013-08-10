@@ -1,7 +1,7 @@
 /**
  *  
  *	FSize3.js
- *	v0.2a
+ *	v0.5
  *  
  *	25. November 2012
  *
@@ -36,7 +36,7 @@
  *	@param arg2
  *			depth
  */
-frederickkPaper.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
+folio.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
 	/*
 	 *	public
 	 */
@@ -92,7 +92,7 @@ frederickkPaper.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
 	 *	Get a copy of this size
 	 */
 	this.get = function() {
-		return new frederickkPaper.F3D.FSize3(this.width, this.height, this.depth);
+		return new folio.F3D.FSize3(this.width, this.height, this.depth);
 	};
 
 

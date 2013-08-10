@@ -15,8 +15,8 @@ console.log( 'FColor Example Loaded' );
 // ------------------------------------------------------------------------
 // Properties
 // ------------------------------------------------------------------------
-// the core frederickkPaper namespace
-var f = frederickkPaper;
+// the core folio namespace
+var f = folio;
 
 // depreciating FColor namespace
 // no longer necessary use paper.Color() or GrayColor() or etc.

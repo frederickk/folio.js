@@ -18,14 +18,10 @@ console.log( 'The Debate Loaded' );
 // ------------------------------------------------------------------------
 // Properties
 // ------------------------------------------------------------------------
-// the core frederickkPaper namespace
-var f = frederickkPaper;
+// the core folio namespace
+var f = folio;
 
 var ftime = f.FTime;
-
-// depreciating FShape namespace
-// no longer necessary use paper.Path
-//var fshape = f.FShape;
 
 
 var speakers = new Array(2);

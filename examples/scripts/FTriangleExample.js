@@ -18,12 +18,8 @@ console.log( 'FTriangle Example Loaded' );
 // ------------------------------------------------------------------------
 // Properties
 // ------------------------------------------------------------------------
-// the core frederickkPaper namespace
-var f = frederickkPaper;
-
-// depreciating FShape namespace
-// no longer necessary use paper.Path
-//var fshape = f.FShape;
+// the core folio namespace
+var f = folio;
 
 var triangle;
 var triangles;

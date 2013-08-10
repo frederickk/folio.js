@@ -1,7 +1,7 @@
 /**
  *  
  *	FPoint3.js
- *	v0.2a
+ *	v0.5
  *  
  *	25. November 2012
  *
@@ -34,7 +34,7 @@
  *	@param arg2
  *			z coordinate
  */
-frederickkPaper.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
+folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
@@ -122,7 +122,7 @@ frederickkPaper.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 		this.y = paper.random(miny, maxy);
 		this.z = paper.random(minz, maxz);
 
-		return new frederickkPaper.F3D.FPoint3(this.x, this.y, this.z);
+		return new folio.F3D.FPoint3(this.x, this.y, this.z);
 	};
 
 
@@ -176,7 +176,7 @@ frederickkPaper.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 	 *	@return a copy of this point
 	 */
 	this.get = function() {
-		return new frederickkPaper.F3D.FPoint3(this.x, this.y, this.z);
+		return new folio.F3D.FPoint3(this.x, this.y, this.z);
 	};
 
 

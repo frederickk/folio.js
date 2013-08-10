@@ -18,8 +18,8 @@ console.log( 'FStepper Example Loaded' );
 // ------------------------------------------------------------------------
 // Properties
 // ------------------------------------------------------------------------
-// the core frederickkPaper namespace
-var f = frederickkPaper;
+// the core folio namespace
+var f = folio;
 
 // the FTime namespace
 var ftime = f.FTime;

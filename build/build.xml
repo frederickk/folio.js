@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<project name="frederickkPaper" default="prod" basedir="../">
+<project name="folio.js" default="prod" basedir="./">
 
 
 
-	<description>frederickkPaper ANT build file example</description>
+	<description>Folio.js ANT build file</description>
 
 
 
@@ -16,19 +16,18 @@
         <property name="js.jar" value="${basedir}/scripts/rhino/js.jar"/>
 		
 		<!-- Source JS dir -->
-		<property name="src.dir" value="${basedir}/src" />
-		<property name="src.dir.core" value="${basedir}/src/Core/" />
-		<property name="src.dir.fio" value="${basedir}/src/FIO/" />
-		<property name="src.dir.ftime" value="${basedir}/src/FTime/" />
-		<property name="src.dir.f3d" value="${basedir}/src/F3D/" />
-		<property name="src.dir.fshape" value="${basedir}/src/FShape/" />
+		<property name="src.dir" value="${basedir}/../src" />
+		<property name="src.dir.core" value="${basedir}/../src/Core/" />
+		<property name="src.dir.fio" value="${basedir}/../src/FIO/" />
+		<property name="src.dir.ftime" value="${basedir}/../src/FTime/" />
+		<property name="src.dir.f3d" value="${basedir}/../src/F3D/" />
 
 		<!-- Output dir -->
-		<property name="distribution.dir" value="${basedir}/distribution" />
+		<property name="distribution.dir" value="${basedir}/../distribution/" />
 
 		<!-- Output dir -->
-		<property name="distribution.vers" value="0.1" />
-		<property name="distribution.file" value="frederickkPaper" />
+		<property name="distribution.vers" value="0.5" />
+		<property name="distribution.file" value="paper.folio" />
 
 		<!-- Build version information  -->
 		<property name="build.major" value="1" />
@@ -80,16 +79,15 @@
 			<fileset dir="${src.dir}" includes="*.js" />
 				<!-- excludes="first.js, second.js" /> -->
 			<fileset dir="${src.dir.core}" includes="*.js" />
+
 			<fileset dir="${src.dir.fio}" includes="*.js" />
 
 			<fileset dir="${src.dir.ftime}" includes="FTime.js" />
 			<fileset dir="${src.dir.ftime}" includes="*.js" excludes="FTime.js" />
 		
-			<fileset dir="${src.dir.f3d}" includes="*.js" />
-				<!-- includes="FPath3.js, FPoint3.js, FSize3.js, Matrix3D.js, FScene3D.js" /> -->
+			<fileset dir="${src.dir.f3d}" includes="Matrix3D.js" />
+			<fileset dir="${src.dir.f3d}" includes="*.js" excludes="Matrix3D.js" />
 
-			<fileset dir="${src.dir.fshape}" includes="FShape.js" />
-			<fileset dir="${src.dir.fshape}" includes="*.js" excludes="FShape.js" />
 		</concat>
 		<echo>Finished</echo>
 	</target>

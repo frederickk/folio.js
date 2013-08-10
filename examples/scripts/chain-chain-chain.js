@@ -19,8 +19,8 @@ console.log( 'Chain-Chain-Chain Loaded' );
 // ------------------------------------------------------------------------
 // Properties
 // ------------------------------------------------------------------------
-// the core frederickkPaper namespace
-var f = frederickkPaper;
+// the core folio namespace
+var f = folio;
 
 // dots
 var dots;
@@ -31,10 +31,7 @@ var tsp = new TSP();
 
 // background
 var background;
-var colors = {
-	start:	new Color().random(),
-	end:	new Color().random()
-};
+var colors;
 
 // hit
 var temp;
@@ -51,6 +48,11 @@ var hitOptions = {
 function Setup() {
 	// Setup background
 	background = new Path.Rectangle(view.bounds.topLeft, view.bounds.bottomRight);
+
+	colors = {
+		start:	new Color( random(0,1),random(0,1),random(0,1) ),
+		end:	new Color( random(0,1),random(0,1),random(0,1) )
+	};
 
 	// draw dots
 	dots = new Group();
@@ -74,7 +76,7 @@ function Setup() {
 		for(var x=grid.width; x<view.bounds.width; x+=grid.width) {
 			
 			var pt = new Point(x,y); //.random();
-			var path = new Path.Circle(pt, f.randomInt(3,60));
+			var path = new Path.Circle(pt, randomInt(3,60));
 			path.fillColor = 'white';
 			// path.blendMode = 'multiply';
 

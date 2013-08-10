@@ -17,8 +17,8 @@ console.log( 'F3D Example Loaded' );
 // ------------------------------------------------------------------------
 // Properties
 // ------------------------------------------------------------------------
-// the core frederickkPaper namespace
-var f = frederickkPaper;
+// the core folio namespace
+var f = folio;
 
 // the F3D namespace
 var f3d = f.F3D;
@@ -62,7 +62,7 @@ function Setup() {
 	path3[0].add3( new f3d.FPoint3( 100,	-100,	-100) );
 	path3[0].add3( new f3d.FPoint3(-100,	-100,	-100) );
 	// use FColor to give the field a random RGB color
-	path3[0].fillColor = new Color().random();
+	path3[0].fillColor = new Color( random(0.0,1.0), random(0.0,1.0), random(0.0,1.0) );
 	path3[0].closed = true;
 
 	// middle
@@ -71,7 +71,7 @@ function Setup() {
 	path3[1].add3( new f3d.FPoint3( 100,	0,	 100) );
 	path3[1].add3( new f3d.FPoint3( 100,	0,	-100) );
 	path3[1].add3( new f3d.FPoint3(-100,	0,	-100) );
-	path3[1].fillColor = new Color().random();
+	path3[1].fillColor = new Color( random(0.0,1.0), random(0.0,1.0), random(0.0,1.0) );
 	path3[1].closed = true;
 
 	// bottom
@@ -80,7 +80,7 @@ function Setup() {
 	path3[2].add3( new f3d.FPoint3( 100,	100,	 100) );
 	path3[2].add3( new f3d.FPoint3( 100,	100,	-100) );
 	path3[2].add3( new f3d.FPoint3(-100,	100,	-100) );
-	path3[2].fillColor = new Color().random();
+	path3[2].fillColor = new Color( random(0.0,1.0), random(0.0,1.0), random(0.0,1.0) );
 	path3[2].closed = true;
 
 
@@ -112,9 +112,9 @@ function Update(event) {
 function Draw() {
 	// rotates all of the items in the scene
 	// TODO: be able to rotate individual items
-	scene.rotateX( f.radians(values.rotx) );
-	scene.rotateY( f.radians(values.roty) );
-	scene.rotateZ( f.radians(values.rotz) );
+	scene.rotateX( radians(values.rotx) );
+	scene.rotateY( radians(values.roty) );
+	scene.rotateZ( radians(values.rotz) );
 
 	// draw scene to screen
 	// the scene contains all paths (only FPath3 items) added to the scene

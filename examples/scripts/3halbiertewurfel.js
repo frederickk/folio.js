@@ -18,19 +18,16 @@ console.log( '3 halbierte Würfel Loaded' );
 // ------------------------------------------------------------------------
 // Properties
 // ------------------------------------------------------------------------
-// the core frederickkPaper namespace
-var f = frederickkPaper;
+// the core folio namespace
+var f = folio;
 
 // the F3D namespace
 var f3d = f.F3D;
 
-// the FShape namespace
-var fshape = f.FShape;
 
 // initiate the scene, this is how the transformations are
 // interpolated for 3D geometry to appear on the screen
 var scene;
-
 
 // Bill Shapes
 var billRed;
@@ -58,32 +55,41 @@ function Setup() {
 	scene.setup(view.bounds.width, view.bounds.height, 1000, 'ORTHO');
 
 
+
 	// FBillBox
 	// http://www.kettererkunst.de/kunst/kd/details.php?obnr=100039513&anummer=1
 	var size;
 	if(view.bounds.width < 768) size = 250;
 	else size = 600;
 
-	billRed = new frederickkPaper.FShape.FBillBox(scene);
-	billRed.setSize(size, size, size);
-	billRed.red();
-	billRed.init(size,-size,0);
 
-	billYellow = new frederickkPaper.FShape.FBillBox(scene);
-	billYellow.setSize(size, size, size);
-	billYellow.yellow();
-	billYellow.init(-size,size,0);
+	billRed = new BillRed(
+		scene,
+		new f3d.FPoint3(size,-size,0),
+		new f3d.FSize3(size, size, size)
+	);
 
-	billBlue = new frederickkPaper.FShape.FBillBox(scene);
-	billBlue.setSize(size, size, size);
-	billBlue.blue();
-	billBlue.init(-size,-size,0);
+	billYellow = new BillYellow(
+		scene,
+		new f3d.FPoint3(-size,size,0),
+		new f3d.FSize3(size, size, size)
+	);
 
-	// billGreen = new frederickkPaper.FShape.FBillBox(scene);
-	// billGreen.setSize(size, size, size);
+	billBlue = new BillBlue(
+		scene,
+		new f3d.FPoint3(-size,-size,0),
+		new f3d.FSize3(size, size, size)
+	);
+
+	// billGreen = new f3d.FPath3.BillBox(
+	// 	scene,
+	// 	new f3d.FPoint3(size,size,0),
+	// 	new f3d.FSize3(size, size, size),
+	// 	[9,17,7]
+	// );
 	// billGreen.fillColor = new Color(0.62, 0.77, 0.14);
-	// billGreen.setVertices( [9,17,7] );
-	// billGreen.init((size),size,0);
+
+
 };
 
 
@@ -109,9 +115,9 @@ function Update(event) {
 function Draw() {
 	// rotates all of the items in the scene
 	// TODO: be able to rotate individual items
-	scene.rotateX( f.radians(values.rotx) );
-	scene.rotateY( f.radians(values.roty) );
-	scene.rotateZ( f.radians(values.rotz) );
+	scene.rotateX( radians(values.rotx) );
+	scene.rotateY( radians(values.roty) );
+	scene.rotateZ( radians(values.rotz) );
 
 	// draw scene to screen
 	// the scene contains all paths (only FPath3 items) added to the scene
@@ -169,9 +175,6 @@ function onKeyDown(event) {
 	}
 	if(event.key == 'r') {
 		reset();
-	}
-	if(event.key == 'space') {
-		bBoundingBox = !bBoundingBox;
 	}
 
 	// redraw to update scene

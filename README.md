@@ -1,176 +1,54 @@
-frederickkPaper
+Folio.js
 ============
-
-http://kenfrederick.blogspot.de/2012/12/paperjs-frederickkpaper.html *updated*
-
-- 31. July 2013
-0.4
-
-Finally pushed most of the core elements of this library into my unsupported fork of Paper.js (https://github.com/frederickk/Paper.js). This is makes the most sense to me, so that this library can be a bit more focused. In the meantime that means that this library **ONLY WORKS** WITH my Paper.js fork
+The missing tweezers, toothpick, and corkscrew for Paper.js
+-------------
 
 
-- 29. March 2013
-0.35a
+Folio.js is a library for Paper.js http://paperjs.org/. Folio.js serves as a collection of functions for supporting animations, rudimentary 3D, additional Path items and lastly a structured framework/chain of operations similar to that of Processing, OpenFrameworks, Cinder, et. al. 
 
-Cleaned out lots of unnecessary files, at some point I'm planning on getting rid of the "Core" of this library and adding it directly to my forked version of Paper.js itself. 
+Not all of the code used in Folio.js was created by me but credit and links are given where credit is due.
 
-Added new examples, Extruder and Lissajous.
+Folio.js exists also as a library for use with Scriptographer. See below for more details.
 
-Optimized and fixed the JQuery calls when resizing the window, now the canvas and Paper.js get's resized as intended.
-
-
-- 16. February 2013
-0.3a
-
-I've updated the library to work more directly with (and more like) native Paper.js. I've cleaned out some unnecessary namespaces such as FPoint, FColor, and FShape (except for 3D shapes). Once the frederickkPaper library is loaded, all of those features that were once include as part of those namespsaces, are now directly injected into Paper.js
-
-Massive TODO is update the 3D aspect, the depth indexing is terrible and the classes themselves are inefficient.
+Additional details and explanation can be found at 
+http://kenfrederick.blogspot.de/2012/12/paperjs-frederickkpaper.html
 
 
-- 25. November 2012
-0.2a
 
-Over the past couple of years, I've assembled a library of functions for Scriptographer, and given the recent news, I began porting this rag-tag-collection into a slightly more library for web development. I'm calling this library FrederickkPaper. Mainly because at the moment I'm focusing on Paper.js, in the future I'd like to try and make it more generic for use with other web based creative tools (ProcessingJS, et. al.). In addition to the Scriptographer specfic functions, I've also ported some of the more useful features from my Processing library Frederickk.
 
-For now FrederickkPaper should be seen as very very alpha.
+Folio Template & Framework
+-------------
 
-Not all of the code in here was created by me but credit and links are given where credit is due.
+The Folio template takes advantage of injecting Paper.js directly into the DOM http://Paper.js.org/tutorials/getting-started/using-javascript-directly/. This enables the possibility of sharing JavaScript variables created in the HTML directly with Paper.js and visa versa. 
+
+Within ```/FolioTemplate``` are a number of files to be found ```/FolioTemplate.html``` (and ```/FolioWebappTemplate.html```). In addition to the HTML files is a script template file ```/scripts/scripts/FolioTemplate.js``` This includes all of the chain of operations methods ```Setup()```, ```Update()```, and ```Draw()``` as well as hooks for Mouse and Keyboard interactions.
+
+The template makes getting Paper.js up and running quicker. When using the template and/or renaming it be sure to uppdate all corresponding filenames.
+
+I recommend a file structure as such:
+
+
+```/scripts/```
+
+	*** holder for all Paper.js scripts ***
+
+	FolioTemplate.js (rename as desired)
+
+```/js/```
+
+	*** additional JavaScript libraries ***
+
+
+FolioTemplate.html (rename as desired)
 
 
 
 Examples
 -------------
 
-All of the examples can be viewed full screen here
+http://kennethfrederick.de/folio.js/
 
-http://kennethfrederick.de/frederickkPaper/
-
-
-###F3D Examples###
-
-3 halbierte Würfel
-
-shows how to draw simple 3D primitives (very rudimentary)
-
-http://kennethfrederick.de/frederickkPaper/3halbiertewuerfel.html
-
-
-Field
-
-http://kennethfrederick.de/frederickkPaper/F3DExample.html
-
-
-Sphere
-
-http://kennethfrederick.de/frederickkPaper/FSphereExample.html
-
-
-
-###FTime Examples###
-
-Clocks
-
-shows the features of FTime, which is partly a wrapper for the native JavaScript Date() object
-
-http://kennethfrederick.de/frederickkPaper/clocks.html
-
-
-
-
-###FStepper Examples###
-
-The Debate
-
-shows how FStepper can be used for timed transitions (pseudo keyframing)
-
-http://kennethfrederick.de/frederickkPaper/thedebate.html
-
-
-Sunrise/Sunset
-
-http://kennethfrederick.de/frederickkPaper/FStepperExample.html
-
-
-
-###FColor Examples###
-
-FColor Example (new)
-
-shows added Color features such as color lerping
-
-http://kennethfrederick.de/frederickkPaper/FColorExample.html
-
-
-Chain-Chain-Chain
-
-the connected travelling salesman
-
-http://kennethfrederick.de/frederickkPaper/chain-chain-chain.html
-
-
-10 PRINT CHR$(205.5+RND(1));
-
-http://kennethfrederick.de/frederickkPaper/10print.html
-
-
-
-###FShape Examples###
-
-FArrow Example
-
-draw arrows
-
-http://kennethfrederick.de/frederickkPaper/FArrowExample.html
-
-
-FDrop Example (new)
-
-draw (tear)drops
-
-http://kennethfrederick.de/frederickkPaper/FDropExample.html
-
-
-FTriangle Example (new)
-
-draw triangles (and get their various center points - incomplete)
-
-http://kennethfrederick.de/frederickkPaper/FTriangle.html
-
-
-All of these examples can be found in the above 'examples' directory. More Examples of frederickkPaper to be added as time permits.
-
-
-
-
-
-FrederickPaper Template/Framework
--------------
-
-This template was created to mimic the structure of other popular programming tools for artists/designers such as http://processing.org, http://www.openframeworks.cc/, http://libcinder.org/
-
-The idea is to make getting Paper.js up and running quicker with a simple template which is contextually similar to these other tools.
-
-By using the accompanying FPaperTemplate.html you can simply code everything within this file and all of the necessary (most common) callbacks are already implemented within the HTML
-
-This template takes advantage of Paper.js directly connected to the DOM http://Paper.js.org/tutorials/getting-started/using-javascript-directly/, so that JavaScript variables created in the HTML can be accessed here and visa versa. I've already done the "hard work" for you within the HTML so that you can focus on editing and creating the script file /scrips/FPaperTemplate.js
-
-When using the template and/or renaming it be sure to uppdate corresponding names in FPaperTemplate.html
-
-I recommend a file structure as such:
-
-
-/scripts/
-
-	*** holder for all Paper.js scripts ***
-
-	FPaperTemplate.js (rename as desired)
-
-/js/
-
-	*** additional JavaScript libraries ***
-
-
-FPaperTemplate.html (rename as desired)
+All of these examples can be found in the above ```/examples``` directory. More Examples of Folio to be added as time permits.
 
 
 
@@ -180,36 +58,38 @@ Usage
 
 ```javascript
 // create a shortcut to the namespace if you wish
-var fpaper = frederickkPaper;
+var f = folio;
 
 // to access other features quickly
 // you can use additional shortcuts for namespaces
-var f3d = fpaper.F3D;
-var fio = fpaper.FIO;
-var ftime = fpaper.FTime;
+var f3d = f.F3D;
+var fio = f.FIO;
+var ftime = f.FTime;
 ```
+
+See documentation ```/distribution/docs``` for API specifics.
 
 
 Scriptographer Bonus
 -------------
 
-As I mentioned this library started out as a rag-tag collection of code snippets for use in Scriptograher, so I've put a bit of effort into and cleaned up frederickkPaper for user in Scriptographer as frederickkScript. 
+As I mentioned Folio.js is also available for use in Scriptographer as.
 
-The feature set is "slightly" different, but main ones are there. you can find the script, within the distribution folder.
+The feature set is "slightly" different, this sou can find the script, within the distribution folder.
 
-- distribution/frederickkScript.js
-- distribution/frederickkScript.min.js
+```/distribution/scriptographer.folio.js```
+```/distribution/scriptographer.folio.min.js```
 
 Simply drop it in to the same folder as your other Scriptographer scripts and add the following lines any script you want to use the library in:
 
 ```javascript
-include('../libraries/frederickkScript/frederickkScript.js');
+include('../libraries/folio.js/scriptographer.folio.js');
 
 // load frederickkScript
-var f = frederickkScript;
+var f = folio;
 ```
 
-Also, as ridiculous as it seems, I've made the animation ability in Scriptographer much more like Paper.js. The reason is two fold; 1/ why not have animated clocks or physics simulations (https://vimeo.com/27951113) in illustrator 2/ sometimes prototyping an idea for Paper.js is faster using Scriptographer. To take advantage of this, include the frederickkScript library (as indicated above) and this:
+As ridiculous as it seems, I've ported over support for animations within Scriptographer. The reason is two fold; 1/ why not have animated clocks or physics simulations (https://vimeo.com/27951113) in illustrator 2/ prototyping an idea for Paper.js can sometimes be faster using Scriptographer.
 
 ```javascript
 function Update(event) {
@@ -232,288 +112,70 @@ Building
 -------------
 
 ```
-$cd build/
-$ant -buildfile build.xml
+$ cd build/
+$ ./build.sh
 ```
 
 
 Compiled files appear in the distribution folder in two flavors
 
 
-- frederickkPaper.js
-- frederickkPaper-min.js
+```paper.folio.js```
+```paper.folio.min.js```
 
 
+Documentation can also be built
 
-Features
--------------
-
-Documenting javascript isn't as easy as I had hoped (if anyone has suggestions please share) so I've updated the comments and added examples in the code, much in the same manner as Paper.js itself
-
-Here's an incomplete overview of what some of these classes in frederickkPaper are. A more complete API will follow as time and interest allows.
-
-
-### Frederickk (core) ###
-A collection math, String, and Array operations, similar to those found in Processing
-
-
-Math functions
-
-```javascript
-frederickkPaper.random(minr, maxr);
-frederickkPaper.randomBias(minr, maxr, bias);
-frederickkPaper.clamp(val,min,max);
-frederickkPaper.norm(val,start,stop);
-frederickkPaper.map(value, istart, istop, ostart, ostop);
-frederickkPaper.roundDecimal(orig, deci);
-frederickkPaper.snap(value, gridSize, roundFunction);
-frederickkPaper.lerp(start, stop, amt);
-frederickkPaper.degrees(val);
-frederickkPaper.radians(val);
-frederickkPaper.getAngle(point);
-frederickkPaper.sq(num);
-frederickkPaper.boolToInt(val);
-frederickkPaper.getType(object);
-frederickkPaper.findByName(items, name);
-
-paper.EPSILON;
+```
+$ cd build/
+$ ./docs.sh
 ```
 
+docs are located in ```distribution/docs```
 
-String functions
 
-```javascript
-frederickkPaper.trimToFit(textObj);
-frederickkPaper.rtrim(str);
-frederickkPaper.trim(str);
-frederickkPaper.strToBoll(str);
-```
 
 
-Array functions
+Change Log
+--------------
 
-```javascript
-frederickkPaper.merge(arr1, arr2);
-frederickkPaper.alphabetical(a, b); // sorting
-Array.max();
-Array.min();
-Array.shuffle();
-```
+- 9. August 2013
+0.5
 
+Renamed to "folio.js" and implemented documentation creating (same as Paper.js)
 
-paper.Point extensions
 
-```javascript
-paper.Point.norm(startPt, stopPt);
-paper.Point.random();
-paper.Point.heading();
+- 31. July 2013
+0.4
 
-paper.Point.interpolateTo(v2, f);
-paper.Point.lerp( startPt, endPt, amt );
-paper.Point.limit(lim);
-paper.Point.magSq();
+Finally pushed most of the core elements of this library into my unsupported fork of Paper.js (https://github.com/frederickk/Paper.js). This is makes the most sense to me, so that this library can be a bit more focused. In the meantime that means that this library **ONLY WORKS** WITH my Paper.js fork
 
-paper.Point.snapGrid(spacing);
-paper.Point.snapIso(scale);
 
-paper.Point.getAngle();
-```
+- 29. March 2013
+0.35a
 
+Cleaned out lots of unnecessary files, at some point I'm planning on getting rid of the "Core" of this library and adding it directly to my forked version of Paper.js itself. 
 
+Added new examples, Extruder and Lissajous.
 
-paper.Size extensions
+Optimized and fixed the JQuery calls when resizing the window, now the canvas and Paper.js get's resized as intended.
 
-```javascript
-paper.Size.random();
-paper.Size.area();
-paper.Size.radius();
-```
 
+- 16. February 2013
+0.3a
 
+I've updated the library to work more directly with (and more like) native Paper.js. I've cleaned out some unnecessary namespaces such as FPoint, FColor, and FPath (except for 3D shapes). Once the Folio library is loaded, all of those features that were once include as part of those namespsaces, are now directly injected into Paper.js
 
-paper.Color extensions
+Massive TODO is update the 3D aspect, the depth indexing is terrible and the classes themselves are inefficient.
 
-Expands paper.Color some of these may be redundant to the Paper.js api, that's due to the legacy of the library's initial creation for use in Scriptographer.
 
+- 25. November 2012
+0.2a
 
-```javascript
-paper.Color.darken(pct);
-paper.Color.lighten(pct);
+Over the past couple of years, I've assembled a library of functions for Scriptographer, and given the recent news, I began porting this rag-tag-collection into a slightly more library for web development. I'm calling this library FrederickkPaper. Mainly because at the moment I'm focusing on Paper.js, in the future I'd like to try and make it more generic for use with other web based creative tools (ProcessingJS, et. al.). In addition to the Scriptographer specfic functions, I've also ported some of the more useful features from my Processing library Frederickk.
 
-paper.Color.lerp(c1,c2, amt);
-paper.GrayColor.random();
-paper.Color.random();
-paper.HslColor.random();
-paper.HsbColor.random();
-paper.Color.colorToInt(col);
-paper.Color.integer(RGBint);
-paper.Color.colorToHex(col);
-paper.Color.hex(hex);
-paper.Color.bytes(r255, g255, b255, a255);
-```
+For now FrederickkPaper should be seen as very very alpha.
 
+Not all of the code in here was created by me but credit and links are given where credit is due.
 
-
-paper.Item extensions
-
-```javascript
-paper.Item.distanceToCenter();
-
-paper.Item.snapGrid(spacing);
-paper.Item.snapIso(scale);
-```
-
-
-
-paper.Path.extensions
-
-```javascript
-paper.Path.FArrow();
-paper.Path.FBubble();
-paper.Path.FChain();
-paper.Path.FCross();
-paper.Path.FDrop();
-
-paper.Path.FTriangle();
-paper.Path.FTriangle.getCircumcircle();
-paper.Path.FTriangle.getCentroid();
-```
-
-
-
-### FConversions ###
-A collection of helpful conversion ratios
-
-```javascript
-var conversions = new frederickkPaper.FConversions();
-
-frederickkPaper.FConversions.ptToMm;
-frederickkPaper.FConversions.mmToPt;
-
-frederickkPaper.FConversions.ptToCm;
-frederickkPaper.FConversions.CmToPt;
-
-frederickkPaper.FConversions.ptToIn;
-frederickkPaper.FConversions.inToPt;
-
-frederickkPaper.FConversions.ptToPi;
-frederickkPaper.FConversions.piToPt;
-```
-
-
-
-### FIO ###
-A collection of tools for handling files/cookies
-
-```javascript
-var fio = frederickkPaper.FIO;
-
-frederickkPaper.FIO.saveLocal(name, value);
-frederickkPaper.FIO.getLocal(name);
-frederickkPaper.FIO.getLocalInt(name);
-frederickkPaper.FIO.getLocalFloat(name);
-frederickkPaper.FIO.getAllLocal();
-frederickkPaper.FIO.deleteLocal(name);
-
-frederickkPaper.FIO.saveSession(name, value);
-frederickkPaper.FIO.getSession(name);
-frederickkPaper.FIO.getSessionInt(name);
-frederickkPaper.FIO.getSessionFloat(name);
-frederickkPaper.FIO.getAllSession();
-frederickkPaper.FIO.deleteSession();
-
-frederickkPaper.FIO.saveCookie(name, value, days);
-frederickkPaper.FIO.openCookie(name);
-frederickkPaper.FIO.deleteCookie(name);
-```
-
-
-
-### FTime ###
-A collection of methods for handling time oriented tasks
-
-```javascript
-var fdate = new frederickkPaper.FTime.FDate();
-var fstopwatch = new frederickkPaper.FTime.FStopwatch();
-var ftransition = new frederickkPaper.FTime.FStepper();
-```
-
-
-####FDate####
-
-```javascript
-var ftime = new frederickkPaper.FTime.FDate();
-
-frederickkPaper.FTime.FDate().year();
-frederickkPaper.FTime.FDate().month();
-frederickkPaper.FTime.FDate().day();
-frederickkPaper.FTime.FDate().hour();
-frederickkPaper.FTime.FDate().minute();
-frederickkPaper.FTime.FDate().second();
-frederickkPaper.FTime.FDate().now(format);
-frederickkPaper.FTime.FDate().nowMilliseconds();
-frederickkPaper.FTime.FDate().add(_d, _h, _m, _s);
-frederickkPaper.FTime.FDate().sub(_d, _h, _m, _s);
-frederickkPaper.FTime.FDate().set(_d, _h, _m, _s);
-frederickkPaper.FTime.FDate().get(ms, format);
-frederickkPaper.FTime.FDate().toMillsecond(_h, _m, _s);
-frederickkPaper.FTime.FDate().toArray(strHMS);
-```
-
-
-####FStopwatch####
-
-```javascript
-var fstopwatch = new frederickkPaper.FTime.FStopwatch();
-
-frederickkPaper.FTime.FStopwatch().toggle();
-frederickkPaper.FTime.FStopwatch().start();
-frederickkPaper.FTime.FStopwatch().pause();
-frederickkPaper.FTime.FStopwatch().reset();
-frederickkPaper.FTime.FStopwatch().set(ms, run);
-frederickkPaper.FTime.FStopwatch().get();
-```
-
-
-####FStepper####
-
-```javascript
-var ftransition = new frederickkPaper.FTime.FStepper();
-
-frederickkPaper.FTime.FStepper().toggle();
-frederickkPaper.FTime.FStepper().update(currentTime); // required 
-frederickkPaper.FTime.FStepper().stepIn();
-frederickkPaper.FTime.FStepper().stepOut();
-frederickkPaper.FTime.FStepper().isIn();
-frederickkPaper.FTime.FStepper().isOut();
-frederickkPaper.FTime.FStepper().isDone();
-frederickkPaper.FTime.FStepper().stop();
-frederickkPaper.FTime.FStepper().setSeconds(_seconds);
-frederickkPaper.FTime.FStepper().setMillis(_millis);
-```
-
-
-### F3D ###
-A barebones collection of classes for primitive 3D rendering, very much a work in progress
-
-
-####FPoint3####
-
-```javascript
-var fpoint3 = new frederickkPaper.F3D.FPoint3(_x, _y, _z);
-```
-
-
-####FPath3####
-
-```javascript
-var fpath3 = new frederickkPaper.F3D.FPath3();
-```
-
-
-####FScene3####
-
-```javascript
-var fscene3d = new frederickkPaper.F3D.FScene3D();
-```
 

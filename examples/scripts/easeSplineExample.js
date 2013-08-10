@@ -19,8 +19,8 @@ console.log( 'Ease Spline Loaded' );
 // ------------------------------------------------------------------------
 // Properties
 // ------------------------------------------------------------------------
-// the core frederickkPaper namespace
-var f = frederickkPaper;
+// the core folio namespace
+var f = folio;
 
 var ftime = f.FTime;
 

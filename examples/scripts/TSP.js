@@ -18,15 +18,6 @@
  *
  */
 
-// the core frederickkPaper namespace
-var f = frederickkPaper;
-
-// depreciating FShape namespace
-// no longer necessary use paper.Path
-//var fshape = f.FShape;
-
-// depreciating FColor namespace
-// var fcolor = new f.FColor();
 
 
 var TSP = function() { 
@@ -134,8 +125,8 @@ var TSP = function() {
 			// 1000 tests per frame; you can edit this number.
 			for(var i=0; i<_iterate; ++i) {
 			
-				var indexA = Math.floor( f.random(0, nodesNum) );
-				var indexB = Math.floor( f.random(0, nodesNum) );
+				var indexA = Math.floor( random(0, nodesNum) );
+				var indexB = Math.floor( random(0, nodesNum) );
 
 				// console.log('indexA', indexA);
 				// console.log('indexB', indexB);
@@ -211,7 +202,9 @@ var TSP = function() {
 			chain.fillColor.alpha = 0.2;
 			chain.blendMode = 'normal';
 
-			this.tangentGroup.appendTop( chain );
+			console.log( chain );
+
+			// this.tangentGroup.appendTop( chain );
 		}
 		
 	};
