@@ -151,7 +151,7 @@ function Draw() {
 			density.fillColor = null;
 		}
 		else {
-			density.strokeColor = null;
+			density.strokeColor = 'white';
 			density.fillColor = new Color( rgbColors[r] );
 		}
 
