@@ -21,6 +21,7 @@
 		<property name="src.dir.fio" value="${basedir}/../src/FIO/" />
 		<property name="src.dir.ftime" value="${basedir}/../src/FTime/" />
 		<property name="src.dir.f3d" value="${basedir}/../src/F3D/" />
+		<property name="src.dir.libs" value="${basedir}/../src/Libraries/" />
 
 		<!-- Output dir -->
 		<property name="distribution.dir" value="${basedir}/../distribution/" />
@@ -52,7 +53,7 @@
 		<!-- <mkdir dir="${distribution.dir}/js" /> -->
 		
 		<!-- Log the distribution timestamps to file -->
-		<echo file="${distribution.dir}/timestamp.txt" append="false">Build Date: ${TODAY}</echo>
+		<echo file="${distribution.dir}/${TODAY}.txt" append="false">Build Date: ${TODAY}</echo>
 	</target>
 
 
@@ -88,6 +89,7 @@
 			<fileset dir="${src.dir.f3d}" includes="Matrix3D.js" />
 			<fileset dir="${src.dir.f3d}" includes="*.js" excludes="Matrix3D.js" />
 
+			<fileset dir="${src.dir.libs}" includes="*.js" />
 		</concat>
 		<echo>Finished</echo>
 	</target>

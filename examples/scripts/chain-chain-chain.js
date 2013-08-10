@@ -25,16 +25,15 @@ var f = folio;
 // dots
 var dots;
 
-// tsp
-var RouteStep = 0;
-var tsp = new TSP();
+// tsp 
+var routePath;
 
 // background
 var background;
 var colors;
 
 // hit
-var temp;
+var hitPath;
 var hitOptions = {
 	fill: true,
 	tolerance: 5
@@ -46,17 +45,7 @@ var hitOptions = {
 // Setup
 // ------------------------------------------------------------------------
 function Setup() {
-	// Setup background
-	background = new Path.Rectangle(view.bounds.topLeft, view.bounds.bottomRight);
-
-	colors = {
-		start:	new Color( random(0,1),random(0,1),random(0,1) ),
-		end:	new Color( random(0,1),random(0,1),random(0,1) )
-	};
-
-	// draw dots
-	dots = new Group();
-
+	// calculate grid
 	var grid;
 	var size;
 	if(view.bounds.width < 768) {
@@ -72,20 +61,36 @@ function Setup() {
 		);
 	}
 
+
+	// calculate colors
+	colors = {
+		start:	new Color( random(0,1),random(0,1),random(0,1) ),
+		end:	new Color( random(0,1),random(0,1),random(0,1) )
+	};
+
+
+	// Setup background
+	background = new Path.Rectangle(view.bounds.topLeft, view.bounds.bottomRight);
+	updateBackground();
+
+	// create the grid of dots
+	dots = new Group();
 	for(var y=grid.height; y<view.bounds.height; y+=grid.height) {
 		for(var x=grid.width; x<view.bounds.width; x+=grid.width) {
-			
-			var pt = new Point(x,y); //.random();
-			var path = new Path.Circle(pt, randomInt(3,60));
-			path.fillColor = 'white';
-			// path.blendMode = 'multiply';
-
-			dots.appendTop(path);
+			var dot = new Path.Circle(
+				new Point(x,y),
+				randomInt(3,60)
+			);
+			dot.name = 'dot';
+			dots.appendTop(dot);
 		}
 	}
-	
 	dots.children.shuffle();
-	updateBackground();
+	updateDots();
+
+
+	// create route path group
+	routePath = new Group();
 };
 
 
@@ -102,9 +107,29 @@ function Update(event) {
 // Draw
 // ------------------------------------------------------------------------
 function Draw() {
-	tsp.calculate( dots.children, 1000);
-	tsp.draw();
-	tsp.getTangents().moveBelow( dots );
+	// remove the old path
+	routePath.remove();
+
+	// calculate our salesmen's route
+	var tsp = new TSP( dots.children, 2000 );
+
+	// draw the route
+	routePath = new Group();
+	for (var j=0; j<tsp.route.length-1; ++j) {
+		var chain = new Path.FChain( 
+			dots.children[ tsp.route[j] ],
+			dots.children[ tsp.route[j+1] ]
+		);
+		chain.strokeColor = 'white';
+		chain.strokeWidth = 2;
+		chain.fillColor = dots.children[ tsp.route[j] ].fillColor;
+		chain.fillColor.alpha = 0.2;
+		// chain.blendMode = 'normal';
+
+		routePath.appendTop( chain );
+	}
+	routePath.moveBelow( dots );
+
 };
 
 
@@ -118,35 +143,22 @@ function updateBackground() {
 	var gradientColor = new GradientColor(gradient, view.bounds.topLeft, view.bounds.bottomRight);
 	background.fillColor = gradientColor;
 	background.opacity = 0.2;
+};
 
+function updateDots() {
 	// dots
 	for(var i=0; i<dots.children.length; i++) {
-		var kid = dots.children[i];
+		var dot = dots.children[i];
 		var col = colors.start.lerp(
 			colors.end,
 			i/dots.children.length
 		);
-		// kid.opacity = 0.1;
-		kid.fillColor = col;
-		kid.fillColor.alpha = 0.2;
+		dot.fillColor = col;
+		dot.fillColor.alpha = 0.6;
+		dot.strokeColor = 'white';
+		dot.strokeWidth = 2;
 	}
-
-	// links
-	if(tsp.getTangents() != null) {
-		for(var i=0; i<tsp.getTangents().children.length; i++) {
-			var tan = tsp.getTangents().children[i];
-			var col = colors.start.lerp(
-				colors.end,
-				i/dots.children.length
-			);
-			tan.fillColor = col;
-			tan.fillColor.alpha = 0.2;
-			// tan.opacity = 0.2; //(i/tsp.getTangents().children.length)-0.1;
-
-		}
-	}
-
-}
+};
 
 
 
@@ -165,38 +177,51 @@ function onMouseUp(event) {
 
 // ------------------------------------------------------------------------
 function onMouseDown(event) {
-	// temp = new Path.Circle( event.point, 6 );
-	// dots.appendTop(temp);
-
 	var hitResult = project.hitTest(event.point, hitOptions);
-	if(hitResult) {
-		if(hitResult.item.isGroupedWith(dots.children[0]) ) {
-			temp = hitResult.item;
-			temp.fillColor = 'black';
-			temp.fillColor.alpha = 0.1;
+
+	if (hitResult) {
+		if (hitResult.item.name == 'dot') {
+			hitPath = hitResult.item;
 		}
 	}
 };
 
 // ------------------------------------------------------------------------
 function onMouseMove(event) {
-	colors.start = new HslColor((event.point.x/view.bounds.width)*360, 0.9, 0.9);
-	colors.end = new HsbColor((event.point.y/view.bounds.height)*360, 0.9, 0.9);
+	var hitResult = project.hitTest(event.point, hitOptions);
+	project.activeLayer.selected = false;
+	if (hitResult && hitResult.item && hitResult.item.name == 'dot') {
+		hitResult.item.selected = true;
+	}
+
+	colors.start = new HslColor(
+		(event.point.x/view.bounds.width)*360,
+		0.9, 0.9
+	);
+	colors.end = new HsbColor(
+		(event.point.y/view.bounds.height)*360,
+		0.9, 0.9
+	);
 
 	updateBackground();
+	updateDots();
 };
 
 // ------------------------------------------------------------------------
 function onMouseDrag(event) {
-	if (event.modifiers.shift) {
-		var x1 = temp.position.x;
-		var x2 = event.point.x;
-		var scaling = ((x1-x2)/1000)*-1;
-		temp.scale( 1+scaling );
+	if (hitPath) {
+		if (event.modifiers.shift) {
+			var x1 = hitPath.position.x;
+			var x2 = event.point.x;
+			var scaling = ((x1-x2)/1000)*-1;
+			hitPath.scale( 1+scaling );
+		}
+		else {
+			hitPath.position = event.point;
+		}
+		Draw();
 	}
-	else {
-		temp.position = event.point;
-	}
+
 };
 
 

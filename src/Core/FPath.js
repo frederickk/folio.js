@@ -443,20 +443,15 @@ paper.Path.inject({
 					obj1 = new Path.Circle( arg0, arg1 );
 					obj2 = new Path.Circle( arg2, arg3 );
 				}
-				else if( arg0.type == 'Path' ) {
+				else {
 					obj1 = arg0;
 					obj2 = arg1;
 				}
-				else {
-					return;
-				}
 
 				var tangents = folio.getCommonTangents(obj1, obj2);
+				var path = new Path();
 				if( tangents != null ) {
-					// path for chain
-					var path = new Path();
 					path.name = 'chain';
-
 					path.add( tangents[0] );
 					path.add( tangents[1] );
 
@@ -485,9 +480,8 @@ paper.Path.inject({
 					);
 					path.arcTo(tp1, tangents[0]);
 					path.closed;
-
-					return path;
 				}
+				return path;
 
 			},
 
