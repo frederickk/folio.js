@@ -1,0 +1,116 @@
+
+<!-- DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" -->
+<html>
+	<head>
+		<!-- META -->
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		
+
+		<title>Extruder</title>
+		
+		
+		<!-- CSS -->
+		<link href="../FolioTemplate/css/Folio.css" rel="stylesheet" type="text/css" />
+
+		
+		<!-- JAVASCRIPT -->
+		<script src="js/jquery/jquery.min.js"></script>
+
+
+		<!-- LOAD PAPERJS -->
+		<script type="text/javascript" src="js/paper/paper-core.min.js"></script>
+		<script>
+			$(function() {
+				$('#colorExtrude1').val( '#ffffff' );
+				$('#angle').val( parseInt(Math.random()*180) );
+				$('#distance').val( parseInt(Math.random()*300) );
+			});
+		</script>
+
+
+
+		<!-- LOAD ADDITIONAL JAVASCRIPTS -->
+		<!-- https://github.com/frederickk/folio.js -->
+		<script type="text/javascript" src="../distribution/paper.folio.js"></script>
+
+		<!-- LOAD PAPER SCRIPT -->
+		<!-- be sure that the filename and path matches your script -->
+		<script type="text/javascript" src="scripts/extruder.js"></script>
+
+
+
+		<meta http-equiv="x-dns-prefetch-control" content="off"/>
+	</head>
+	<body>
+
+
+		<!-- CANVAS -->
+		<div id="container">
+			<canvas resize="true" id="canvas" style="background-color: #00ffb1;"></canvas>
+		</div>
+
+
+		<!-- TEXT -->
+		<div id="textContainer">
+			Extruder<br />
+			<a href="http://paperjs.org/" target="new">paperjs</a> experiment by <a href="http://kennnethfrederick.de/" target="new">kenfrederick</a>
+		</div>
+
+		<div id="manual" class="black">
+			<!-- TODO: fix mouse -->
+			<!-- b>mouse</b> draw angle and distance -->
+		</div>
+
+
+		<!-- INPUTS -->
+		<div id="inputContainer">
+			<form method="POST" name="Form">
+				<div class="inputComponent" style="width: 300px;">
+					<div class="left black"><b>Color</b></div>
+					<input type="text" id="colorExtrude1" name="colorExtrude1" onChange="Draw()" value="" class="blackBackground white" />
+				</div>
+
+				<div class="inputComponent" style="width: 150px;">
+					<div class="left black"><b>Angle</b></div>
+					<input type="text" id="angle" name="angle" onChange="Draw()" value="" class="blackBackground white" />
+				</div>
+
+				<div class="inputComponent" style="width: 150px;">
+					<div class="left black"><b>Distance</b></div>
+					<input type="text" id="distance" name="distance" onChange="Draw()" value="" class="blackBackground white" />
+				</div>
+			</form>
+		</div>
+
+
+		<!-- IMAGES -->
+		<div id="rasterImages">
+			<!-- loading SVG files doesn't seem to work yet -->
+			<!-- <embed src="circle1.svg" type="image/svg+xml" id="svg" /> -->
+			<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="600px" height="168px" id="svg">
+				<g>
+					<path d="M17.147,45.24c0,45.973-35.786,80.625-83.578,80.625c-47.79,0-83.568-34.652-83.568-80.625
+						c0-45.747,35.778-80.399,83.568-80.399C-18.637-35.159,17.147-0.737,17.147,45.24z M-109.013,45.24
+						c0,23.557,19.033,42.582,42.582,42.582c23.56,0,42.582-19.025,42.582-42.582c0-23.331-19.022-42.354-42.582-42.354
+						C-89.98,2.887-109.013,21.909-109.013,45.24z"/>
+					<path d="M38.76,120.432V-30.631h36.238v151.062H38.76z"/>
+					<path d="M138.226-21.577c0,11.324-9.063,20.386-20.388,20.386c-11.322,0-20.386-9.063-20.386-20.386s9.063-20.378,20.386-20.378
+						C129.163-41.955,138.226-32.899,138.226-21.577z M135.958,120.432H99.72V17.833h36.238V120.432z"/>
+					<path d="M213.451,70.383l24.916-52.548h40.543l-53.455,102.601h-24.232L148.22,17.835h40.768L213.451,70.383z"/>
+					<path d="M329.937-21.577c0,11.324-9.062,20.386-20.387,20.386c-11.322,0-20.387-9.063-20.387-20.386s9.062-20.378,20.385-20.378
+						C320.875-41.955,329.937-32.899,329.937-21.577z M327.667,120.432h-36.238V17.833h36.238V120.432z"/>
+					<path d="M449.781,120.432h-32.393l-0.9-12.676c-16.305,19.021-60.703,21.281-66.816-9.064
+						c-7.469-37.824,43.266-48.697,68.854-38.959c-3.393-26.722-31.48-19.252-49.83-12.457l-6.785-23.328
+						c17.885-7.7,38.947-12.681,57.064-7.248C441.167,23.273,450,47.506,450,69.701L449.781,120.432z M389.761,77.85
+						c-4.986,2.039-9.062,8.16-5.209,13.363c7.701,9.746,33.066,2.498,33.066-10.41V77.85C409.466,75.592,397.683,74.459,389.761,77.85z
+						"/>
+				</g>
+			</svg>
+
+
+
+		</div>
+
+		
+	</body>
+</html>
