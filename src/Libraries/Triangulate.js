@@ -26,9 +26,6 @@
  *	
  */
 
-console.log('Triangulation library');
-
-
 /**
  *	@example
  *	var triangulate = new Triangulate( points );
@@ -68,7 +65,8 @@ var EPSILON = 1.0e-6;
  *	@param p3
  *				third Point of Triangle
  */
-var Triangle = function( p1, p2, p3 ) {
+// TODO: remove this and rely on Path.Triangle
+folio.Triangle = function( p1, p2, p3 ) {
 	//-----------------------------------------------------------------------------
 	// Properties
 	//-----------------------------------------------------------------------------
@@ -154,9 +152,9 @@ var Triangle = function( p1, p2, p3 ) {
 	 */
 	function distances() {
 		var distances = [];
-		distances[0] = new Edge(_p1, _p2);
-		distances[1] = new Edge(_p1, _p3);
-		distances[2] = new Edge(_p3, _p2);
+		distances[0] = new folio.Edge(_p1, _p2);
+		distances[1] = new folio.Edge(_p1, _p3);
+		distances[2] = new folio.Edge(_p3, _p2);
 
 		distances.sort();
 		return distances;
@@ -247,7 +245,7 @@ var Triangle = function( p1, p2, p3 ) {
  *	@param p2
  *				second Point of Edge
  */
-var Edge = function( p1, p2 ) {
+folio.Edge = function( p1, p2 ) {
 	//-----------------------------------------------------------------------------
 	// Properties
 	//-----------------------------------------------------------------------------
@@ -305,7 +303,7 @@ var Edge = function( p1, p2 ) {
  *			input vertices (Points)
  *
  */
-var Triangulate = function( points ) {
+folio.Triangulate = function( points ) {
 	//-----------------------------------------------------------------------------
 	// Properties
 	//-----------------------------------------------------------------------------
@@ -373,7 +371,7 @@ var Triangulate = function( points ) {
 			// The super triangle coordinates are added to the end of the
 			// vertex list. The super triangle is the first triangle in
 			// the triangle list.
-			var superTriangle = new Triangle(
+			var superTriangle = new folio.Triangle(
 				new Point( xmid - 2.0 * dmax, ymid - dmax ),
 				new Point( xmid, ymid + 2.0 * dmax ),
 				new Point( xmid + 2.0 * dmax, ymid - dmax )
@@ -406,9 +404,9 @@ var Triangulate = function( points ) {
 						complete.add(t);
 					}
 					if(inside) {
-						edges.push( new Edge(t.p1, t.p2) );
-						edges.push( new Edge(t.p2, t.p3) );
-						edges.push( new Edge(t.p3, t.p1) );
+						edges.push( new folio.Edge(t.p1, t.p2) );
+						edges.push( new folio.Edge(t.p2, t.p3) );
+						edges.push( new folio.Edge(t.p3, t.p1) );
 						_triangles.splice(j, 1);
 					}
 				}
@@ -459,7 +457,7 @@ var Triangulate = function( points ) {
 						if( p == _pointsNew[k] ) p.name = '__new';
 						else p.name = null;
 					}
-					_triangles.push( new Triangle(e.p1, e.p2, p) );
+					_triangles.push( new folio.Triangle(e.p1, e.p2, p) );
 				}
 
 			}
@@ -706,7 +704,7 @@ var Triangulate = function( points ) {
 		// check for duplicate points
 		_points = uniquePoints( _points );
 
-		console.log( _pointsNew );
+		// console.log( _pointsNew );
 		// create (new) triangulation
 		init();
 	};

@@ -94,7 +94,7 @@ body, html {
 /*
  *	container div for text (season to taste)
  */
-#textContainer {
+.textContainer {
 	position: absolute;
 	top: 70px;
 	left: 35px;
@@ -103,7 +103,6 @@ body, html {
 	padding: 0px;
 	white-space: nowrap;
 	z-index: 200;
-
 	/* my personal faves */
 }
 
