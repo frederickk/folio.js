@@ -3,7 +3,7 @@
  *	FBillBox.js
  *	v0.2a
  *	
- *	25. November 2012
+ *	11. August 2013
  *
  *	Ken Frederick
  *	ken.frederick@gmx.de

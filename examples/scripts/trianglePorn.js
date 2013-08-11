@@ -5,7 +5,7 @@ console.log( 'Triangle Porn' );
  *	Ken Frederick
  *	ken.frederick@gmx.de
  *
- *	http://cargocollective.com/kenfrederick/
+ *	http://kennethfrederick.de/
  *	http://blog.kennethfrederick.de/
  *
  *	
@@ -81,7 +81,7 @@ function Setup() {
 
 
 	// create triangulation
-	triangulation = new f.Triangulate( points );
+	triangulation = new f.FTriangulate( points );
 	compareArea = triangulation.getTriangles(0).getArea(); //view.bounds.width*view.bounds.height;
 
 	// Setup our holder group

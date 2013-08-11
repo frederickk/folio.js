@@ -111,7 +111,7 @@ function Draw() {
 	routePath.remove();
 
 	// calculate our salesmen's route
-	var tsp = new f.TSP( dots.children, 2000 );
+	var tsp = new f.FRoute( dots.children, 2000 );
 
 	// draw the route
 	routePath = new Group();

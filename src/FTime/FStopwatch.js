@@ -3,7 +3,7 @@
  *	FStopwatch.js
  *	v0.5
  *  
- *	25. November 2012
+ *	11. August 2013
  *
  *	Ken Frederick
  *	ken.frederick@gmx.de

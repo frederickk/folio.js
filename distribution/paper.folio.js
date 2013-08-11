@@ -4,7 +4,7 @@
  *	v0.5
  *	https://github.com/frederickk/folio.js
  *
- *	16. February 2013
+ *	11. August 2013
  *
  *	Ken Frederick
  *	ken.frederick@gmx.de
@@ -931,7 +931,7 @@ paper.Color.inject({
  *	FPath.js
  *	v0.5
  *	
- *	16. February 2013
+ *	11. August 2013
  *
  *	Ken Frederick
  *	ken.frederick@gmx.de
@@ -1602,7 +1602,7 @@ paper.Path.inject({
  *	FIO.js
  *	v0.5
  *  
- *	25. November 2012
+ *	11. August 2013
  *
  *	Ken Frederick
  *	ken.frederick@gmx.de
@@ -2084,7 +2084,7 @@ folio.FTime.Ease = function() {
  *	FDate.js
  *	v0.5
  *  
- *	25. November 2012
+ *	11. August 2013
  *
  *	Ken Frederick
  *	ken.frederick@gmx.de
@@ -2365,7 +2365,7 @@ folio.FTime.FDate = function() {
  *	FStepper.js
  *	v0.5
  *  
- *	25. November 2012
+ *	11. August 2013
  *
  *	Ken Frederick
  *	ken.frederick@gmx.de
@@ -2598,7 +2598,7 @@ folio.FTime.FStepper = function() {
  *	FStopwatch.js
  *	v0.5
  *  
- *	25. November 2012
+ *	11. August 2013
  *
  *	Ken Frederick
  *	ken.frederick@gmx.de
@@ -3139,7 +3139,7 @@ folio.F3D = {
  *	FPath3.js
  *	v0.5
  *  
- *	25. November 2012
+ *	11. August 2013
  *
  *	Ken Frederick
  *	ken.frederick@gmx.de
@@ -3354,7 +3354,7 @@ folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
  *	FPath3Constuctors.js
  *	v0.5
  *  
- *	25. November 2012
+ *	11. August 2013
  *
  *	Ken Frederick
  *	ken.frederick@gmx.de
@@ -3578,7 +3578,7 @@ folio.F3D.FPath3.inject({
  *	FPoint3.js
  *	v0.5
  *  
- *	25. November 2012
+ *	11. August 2013
  *
  *	Ken Frederick
  *	ken.frederick@gmx.de
@@ -4000,7 +4000,7 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
  *	FScene3D.js
  *	v0.5
  *  
- *	25. November 2012
+ *	11. August 2013
  *
  *	Ken Frederick
  *	ken.frederick@gmx.de
@@ -4404,7 +4404,7 @@ folio.F3D.FScene3D = this.FScene3D = function() {
  *	FSize3.js
  *	v0.5
  *  
- *	25. November 2012
+ *	11. August 2013
  *
  *	Ken Frederick
  *	ken.frederick@gmx.de
@@ -4576,7 +4576,7 @@ folio.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
  *
  *	@example
  */
-folio.TSP = function(items, iterations) { 
+folio.FRoute = function(items, iterations) { 
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
@@ -4772,7 +4772,7 @@ folio.TSP = function(items, iterations) {
  *
  *	Ken Frederick
  *
- *	http://cargocollective.com/kenfrederick/
+ *	http://kennethfrederick.de/
  *	http://blog.kennethfrederick.de/
  *
  *
@@ -4788,7 +4788,7 @@ folio.TSP = function(items, iterations) {
 
 /**
  *	@example
- *	var triangulate = new Triangulate( points );
+ *	var triangulate = new FTriangulate( points );
  *
  *	// draw faces
  *	for( var i=0; i<triangulate.length; i++ ) {
@@ -4912,9 +4912,9 @@ folio.Triangle = function( p1, p2, p3 ) {
 	 */
 	function distances() {
 		var distances = [];
-		distances[0] = new folio.Edge(_p1, _p2);
-		distances[1] = new folio.Edge(_p1, _p3);
-		distances[2] = new folio.Edge(_p3, _p2);
+		distances[0] = new Edge(_p1, _p2);
+		distances[1] = new Edge(_p1, _p3);
+		distances[2] = new Edge(_p3, _p2);
 
 		distances.sort();
 		return distances;
@@ -4997,79 +4997,87 @@ folio.Triangle = function( p1, p2, p3 ) {
 
 
 
-/**
- *	Edge
- *	
- *	@param p1
- *				first Point of Edge
- *	@param p2
- *				second Point of Edge
- */
-folio.Edge = function( p1, p2 ) {
-	//-----------------------------------------------------------------------------
-	// Properties
-	//-----------------------------------------------------------------------------
-	var _p1 = p1;
-	var _p2 = p2;
-	var _dist = _p1.getDistance(_p2);
 
-
-
-	//-----------------------------------------------------------------------------
-	// Methods
-	//-----------------------------------------------------------------------------
-	/**
-	 *	sorts edge by shortest to longest
-	 *	
-	 *	@param o
-	 *				Edge to compare against
-	 */
-	function compareTo(other) {
-		return _dist < other.dist ? -1 : _dist > other.dist ? 1 : 0;
-	};
-
-
-
-	//-----------------------------------------------------------------------------
-	// Gets
-	//-----------------------------------------------------------------------------
-	/**
-	 *	 @return
-	 *	  		the points of the edge as a Point array 
-	 */
-	function get() {
-		var points = [_p1, _p2];
-		return points;
-	};
-
-
-	//-----------------------------------------------------------------------------
-	return {
-		p1: _p1,
-		p2: _p2,
-		dist: _dist,
-
-		getPoints: get
-	};
-
-};
 
 
 
 /**
- *	Triangulate
+ *	FTriangulate
  *	
  *	@param points
  *			input vertices (Points)
  *
  */
-folio.Triangulate = function( points ) {
+folio.FTriangulate = function( points ) {
 	//-----------------------------------------------------------------------------
 	// Properties
 	//-----------------------------------------------------------------------------
 	var _triangles;
 	var _points = points;
 	var _pointsNew = [];
+
+
+
+	//-----------------------------------------------------------------------------
+	// Classes
+	//-----------------------------------------------------------------------------
+	/**
+	 *	Edge
+	 *	TODO: replace with paper.Segment
+	 *	
+	 *	@param p1
+	 *				first Point of Edge
+	 *	@param p2
+	 *				second Point of Edge
+	 */
+	var Edge = function( p1, p2 ) {
+		//-----------------------------------------------------------------------------
+		// Properties
+		//-----------------------------------------------------------------------------
+		var _p1 = p1;
+		var _p2 = p2;
+		var _dist = _p1.getDistance(_p2);
+
+
+
+		//-----------------------------------------------------------------------------
+		// Methods
+		//-----------------------------------------------------------------------------
+		/**
+		 *	sorts edge by shortest to longest
+		 *	
+		 *	@param o
+		 *				Edge to compare against
+		 */
+		function compareTo(other) {
+			return _dist < other.dist ? -1 : _dist > other.dist ? 1 : 0;
+		};
+
+
+
+		//-----------------------------------------------------------------------------
+		// Gets
+		//-----------------------------------------------------------------------------
+		/**
+		 *	 @return
+		 *	  		the points of the edge as a Point array 
+		 */
+		function get() {
+			var points = [_p1, _p2];
+			return points;
+		};
+
+
+		//-----------------------------------------------------------------------------
+		return {
+			p1: _p1,
+			p2: _p2,
+			dist: _dist,
+
+			getPoints: get
+		};
+
+	};
 
 
 
@@ -5164,9 +5172,9 @@ folio.Triangulate = function( points ) {
 						complete.add(t);
 					}
 					if(inside) {
-						edges.push( new folio.Edge(t.p1, t.p2) );
-						edges.push( new folio.Edge(t.p2, t.p3) );
-						edges.push( new folio.Edge(t.p3, t.p1) );
+						edges.push( new Edge(t.p1, t.p2) );
+						edges.push( new Edge(t.p2, t.p3) );
+						edges.push( new Edge(t.p3, t.p1) );
 						_triangles.splice(j, 1);
 					}
 				}
@@ -5535,8 +5543,18 @@ folio.Triangulate = function( points ) {
 /**
  *
  *	HashSet
+ *	Phùng Văn Huy
+ *	huyphungvan@gmail.com
  *
  *	http://code.huypv.net/2010/04/hashset-implementation-in-javascript.html
+ *	
+ *
+ *	Modifications
+ *
+ *	Ken Frederick
+ *
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
  *
  */
 var HashSet = function() {
