@@ -112,7 +112,9 @@ include('../libraries/folio.js/scriptographer.folio.js');
 var f = folio;
 ```
 
-As ridiculous as it seems, I've ported over support for animations within Scriptographer. The reason is two fold; 1/ why not have animated clocks or physics simulations (https://vimeo.com/27951113) in illustrator 2/ prototyping an idea for Paper.js can sometimes be faster using Scriptographer.
+As ridiculous as it seems, I've ported over support for animations within Scriptographer. The reason is two fold:
+- 1/ why not have animated clocks or physics simulations (https://vimeo.com/27951113) in illustrator 
+- 2/ prototyping an idea for Paper.js can sometimes be faster using Scriptographer.
 
 ```javascript
 function Update(event) {
