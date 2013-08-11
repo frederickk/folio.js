@@ -28,13 +28,17 @@ The template makes getting Paper.js up and running quicker. When using the templ
 I recommend a file structure as such:
 
 
-```scripts/```
+```
+scripts/
+```
 
 	*** holder for all Paper.js scripts ***
 
 	FolioTemplate.js (rename as desired)
 
-```js/```
+```
+js/
+```
 
 	*** additional JavaScript libraries ***
 
