@@ -61,16 +61,47 @@ var ftime = f.FTime;
 See documentation ```/distribution/docs``` for API specifics.
 
 
+
+
+
+Building
+-------------
+
+```shell
+$ cd build/
+$ ./build.sh
+```
+
+
+Compiled files appear in the distribution folder in two flavors
+
+
+	paper.folio.js
+
+	paper.folio.min.js
+
+
+Documentation can also be built
+
+```shell
+$ cd build/
+$ ./docs.sh
+```
+
+docs are located in ```distribution/docs```
+
+
+
 Scriptographer Bonus
 -------------
 
 As I mentioned Folio.js is also available for use in Scriptographer as.
 
-The feature set is "slightly" different, this sou can find the script, within the distribution folder.
+The feature set is "slightly" different, you can find the script, within the distribution folder.
 
-```/distribution/scriptographer.folio.js```
+	/distribution/scriptographer.folio.js
 
-```/distribution/scriptographer.folio.min.js```
+	/distribution/scriptographer.folio.min.js
 
 Simply drop it in to the same folder as your other Scriptographer scripts and add the following lines any script you want to use the library in:
 
@@ -97,34 +128,12 @@ Animate(
 );
 ```
 
+To build the scriptographer version of Folio:
 
-
-
-Building
--------------
-
-```
+```shell
 $ cd build/
-$ ./build.sh
+$ ./build.sh Scriptographer
 ```
-
-
-Compiled files appear in the distribution folder in two flavors
-
-
-```paper.folio.js```
-
-```paper.folio.min.js```
-
-
-Documentation can also be built
-
-```
-$ cd build/
-$ ./docs.sh
-```
-
-docs are located in ```distribution/docs```
 
 
 
