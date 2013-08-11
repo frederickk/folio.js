@@ -27,24 +27,11 @@ The template makes getting Paper.js up and running quicker. When using the templ
 
 I recommend a file structure as such:
 
-
-```
-scripts/
-```
-
-	*** holder for all Paper.js scripts ***
-
-	FolioTemplate.js (rename as desired)
-
-```
-js/
-```
-
-	*** additional JavaScript libraries ***
-
-
-FolioTemplate.html (rename as desired)
-
+	/root/ FolioTemplate.html
+	└── scripts/FolioTemplate.js
+		└── // any additional Paper.js scripts
+	└── js/
+		└── // additional JavaScript libraries JQuery, Angular, etc.
 
 
 Examples
