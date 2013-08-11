@@ -21,7 +21,7 @@
 		<property name="src.dir.fio" value="${basedir}/../src/FIO/" />
 		<property name="src.dir.ftime" value="${basedir}/../src/FTime/" />
 		<property name="src.dir.f3d" value="${basedir}/../src/F3D/" />
-		<property name="src.dir.libs" value="${basedir}/../src/Libraries/" />
+		<property name="src.dir.libs" value="${basedir}/../src/Additional/" />
 
 		<!-- Output dir -->
 		<property name="distribution.dir" value="${basedir}/../distribution/" />
