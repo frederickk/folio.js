@@ -1,28 +1,29 @@
-/**
+/*!
  *	
- *	frederickkScript.js
- *	v0.1a
- *	https://github.com/frederickk/frederickkPaper
+ *	folio.js
+ *	v0.5
+ *	https://github.com/frederickk/folio.js
  *
- *	20. March 2013
+ *	11. August 2013
  *
  *	Ken Frederick
  *	ken.frederick@gmx.de
  *
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
  *	
  *	
- *	A collection of methods/functions that i find useful
- *	specifically for application within Scriptogapher which have
- *	been lifted from my library for PaperJs (http://paperjs.org/) 
- *	most of which are based on my Frederickk library for Processing
- *	(http://github.com/frederickk/frederickk)
+ *	Folio.js is a library for Paper.js http://paperjs.org/. Folio.js
+ *	serves as a collection of functions for supporting animations,
+ *	rudimentary 3D, additional Path items and lastly a structured
+ *	framework/chain of operations similar to that of Processing,
+ *	OpenFrameworks, Cinder, et. al. 
  *
  *	Not all of the code in here was created by me
  *	but credit and links are given where credit is due
  *
  *	Additional information and demos can be found here
+ *	http://kennethfrederick.de/folio.js/
  *	http://kenfrederick.blogspot.de/2012/12/frederickkpaper.html
  *
  *
@@ -35,25 +36,14 @@
  *	
  *	This library is distributed in the hope that it will be useful,
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
- *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the GNU
  *	Lesser General Public License for more details.
  *	
  *	You should have received a copy of the GNU Lesser General Public
  *	License along with this library; if not, write to the Free Software
- *	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ *	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA	02110-1301	USA
  *	
  */
-
-
-
-// ------------------------------------------------------------------------
-// (function() {
-// 	console.log('\nfrederickkScript.js');
-// 	console.log('v.0.1a');
-// 	console.log('https://github.com/frederickk/frederickkPaper');
-// 	console.log('ken.frederick@gmx.de');
-// 	console.log('------------------------------------');
-// })();
 
 
 
@@ -75,36 +65,146 @@ var view = artboard;
  */
 var raster;
 
+/*
+ *	shim for using same code base for
+ *	both versions of folio.js
+ */
+var paper = PaperScope = global;
 
 
 
 /**
- *  
- *	Core Methods
- *	A collection mathematical operations, similar
- *	to those found in Processing
+ *	Note from the Scriptographer.org Team
+ *	
+ *	In Scriptographer 2.9, we switched to a top-down coordinate system and
+ *	degrees for angle units as an easier alternative to radians.
+ *	
+ *	For backward compatibility we offer the possibility to still use the old
+ *	bottom-up coordinate system and radians for angle units, by setting the two
+ *	values bellow. Read more about this transition on our website:
+ *	http://scriptographer.org/news/version-2.9.064-arrived/
+ */
+
+script.coordinateSystem = 'top-down';
+script.angleUnits = 'degrees';
+
+
+
+/*
+ *
+ *	Scriptographer Global Scope
+ *
+ * 	The following are components that I have included within my
+ * 	unsupported fork of Paper.js, which are not available natively
+ * 	within Scriptogpraher
+ * 
  *
  */
-frederickkScript = {
-	// ------------------------------------------------------------------------
- 	// Namespaces
-	// ------------------------------------------------------------------------
- 	FTime: {},
- 	FIO: {},
- 	F3D: {},
+// Script.inject({
+global.inject({
+	enumerable: true,
 
 
 
-	// ------------------------------------------------------------------------
+	/**
+	 *
+	 *	These are specific methods for the
+	 *	Scriptographer version of folio.js
+	 * 
+	 */
+
+	//-----------------------------------------------------------------------------
 	// Properties
-	// ------------------------------------------------------------------------
+	//-----------------------------------------------------------------------------
+	// constants
+	EPSILON: 1.0e-6,
+
+	// have to keep frameRate low... because well...
+	// it's illustrator, don't be greedy
+	// formula:
+	// 1/12 = 0.08333 (fps -> seconds)
+	// 0.08333 * 1000 = 83.33 (seconds -> ms)
+	FRAMERATE: 12, // 500 == 2 ms
+
+	// event holder for animations events
+	// mimics PaperJs
+	_event: { 
+		count: 0, // number of frames
+		time: 0.0,  // seconds elapsed
+		delta: 0.0  // difference since last frame
+	},
 
 
 
-
-	// ------------------------------------------------------------------------
+	//-----------------------------------------------------------------------------
 	// Methods
-	// ------------------------------------------------------------------------
+	//-----------------------------------------------------------------------------
+	/**
+	 *	@param {Object} obj
+	 *				any Javascript Object
+	 */
+	println: function(obj) {
+		console.log( obj );
+		console.log( '\n' );
+	},
+
+
+	//-----------------------------------------------------------------------------
+	/*
+	 *	animation function that mimics PaperJs
+	 */
+	/**
+	 *	@param {Boolean} isOn
+	 *				true if we want to use animations
+	 *	@param {Number} frameRate
+	 *				the frame rate for the animatons default is 12
+	 */
+	Animate: function(isOn, frameRate) {
+		frameRate = (frameRate === undefined) ? FRAMERATE : frameRate;
+		var interval = parseInt((1/frameRate)*1000);
+
+		if( isOn ) {
+			var updater = setInterval( function() { 
+				onFrame(interval, Update)
+				}, interval
+			);
+		}
+	},
+
+	/**
+	 *	@param {Number} interval
+	 *				how often in MS to fire event - defaul: 83
+	 */
+	onFrame: function(interval, func) {
+		interval = (interval === undefined) ? 2 : interval;
+
+		_event.count++;
+		_event.time += (interval * 0.001);
+		_event.delta -= _event.time;
+
+		// this clears the exceptions
+		// from being printed in the console
+		try {
+			func(_event);
+		}
+		catch(err) {}
+
+		_event.delta = _event.time;
+	},
+
+
+
+	//-----------------------------------------------------------------------------
+	/**
+	 * 	@name Calculation
+	 *
+	 * 	@class A collection of global mathematical operations, similar
+	 * 	to those found in Processing/OpenFrameworks/etc.
+	 *
+	 *	@example paper.map( ... ) OR if using with JavaScript directly map( ... )
+	 *
+	 */
+
 	/**
 	 *	@param {Number} minr
 	 *				minmum range
@@ -113,6 +213,9 @@ frederickkScript = {
 	 *
 	 *	@return random number as float
 	 *
+	 *	@example
+	 * 	var rand = Calculation.random(30, 90);
+	 *	
 	 */
 	random: function(minr, maxr) {
 		if(maxr === undefined) {
@@ -130,38 +233,13 @@ frederickkScript = {
 	 *
 	 *	@return random number as integer
 	 *
+	 *	@example
+	 * 	var randInt = Calculation.randomInt(30, 90);
+	 *	
 	 */
 	randomInt: function(minr, maxr) {
-		return parseInt( frederickkScript.random(minr,maxr) );
+		return parseInt( this.random(minr,maxr) );
 	},
-
-	/**
-	 *
-	 *	http://www.siafoo.net/snippet/191
-	 *
-	 *	@param {Number} minr
-	 *				minmum range
-	 *	@param {Number} maxr
-	 *				maximum range
-	 *	@param {Number} bias
-	 *				bias represents the preference towards lower or higher numbers,
-	 *				as a number between 0.0 and 1.0. For example: 
-	 *				frederickkScript.random(0, 10, bias=0.9) will return 9 much more often than 1.
-	 *
-	 *	@return a random, albeit biased, number
-	 *
-	 */
-	randomBias: function(minr, maxr, bias) {
-		var _map = new Array(90.0, 9.00, 4.00, 2.33, 1.50, 1.00, 0.66, 0.43, 0.25, 0.11, 0.01);
-		bias = Math.max(0, Math.min(bias, 1)) * 10;
-
-		var i = parseInt(Math.floor(bias))
-		var n = _map[i]
-		if(bias < 10) n += (_map[i+1]-n) * (bias-i);
-
-		return Math.pow( Math.random(),n ) * (maxr-minr) + minr;
-	},
-
 
 
 	// ------------------------------------------------------------------------
@@ -176,9 +254,12 @@ frederickkScript = {
 	 *
 	 *	@return original value that is not less than the minimum and no greater than the maximum
 	 *
+	 *	@example
+	 * 	var clamped = Calculation.clamp(120, 0, 90); // 90
+	 *	
 	 */
 	clamp: function(val, min, max) {
-		return val < min ? min:val > max ? min:val;
+		return (val < min) ? min : ((val > max) ? max : val);
 	},
 
 	/**
@@ -192,6 +273,9 @@ frederickkScript = {
 	 *
 	 *	@return float value between 0.0 and 1.0
 	 *
+	 *	@example
+	 * 	var normed = Calculation.norm(45, 0, 90); // 0.5
+	 *	
 	 */
 	norm: function(val, start, stop) {
 		return (val - start) / (stop - start);
@@ -212,11 +296,13 @@ frederickkScript = {
 	 *
 	 *	@return re-mapped value
 	 *
+	 *	@example
+	 * 	var mapped = Calculation.map(180, 0, 360, 0.0, 2.0); // 1
+	 *	
 	 */
 	map: function(val, istart, istop, ostart, ostop) {
 		return ostart + (ostop - ostart) * ((val - istart) / (istop - istart));
 	},
-
 
 
 	// ------------------------------------------------------------------------
@@ -229,6 +315,9 @@ frederickkScript = {
 	 *
 	 *	@return float value with desired decimal places
 	 *
+	 *	@example
+	 * 	var rounded = Calculation.roundDecimal(0.586, 2); // 0.59
+	 *	
 	 */
 	roundDecimal: function(val, deci) {
 		var multi = Math.pow(10,deci);
@@ -249,10 +338,13 @@ frederickkScript = {
 	 *
 	 *	@return snapped value
 	 *
+	 *	@example
+	 * 	var snapped = Calculation.snap(0.66, 0.2); // 0.6
+	 *	
 	 */
 	snap: function(val, snapInc, roundFunction) {
 		if (roundFunction === undefined) roundFunction = Math.round;
-		return snapInc * roundFunction(val / snapInc);
+		return this.roundDecimal( snapInc * roundFunction(val / snapInc), 2 );
 	},
 
 	/**
@@ -261,16 +353,19 @@ frederickkScript = {
 	 *			fitst value
 	 *	@param {Number} stop
 	 *			second value
-	 *	@param {Number} amt
+	 *	@param {Number} val
 	 *			float: between 0.0 and 1.0
 	 *
 	 *	@return value between start and stop
 	 *
+	 *	@example
+	 * 	var lerped = Calculation.lerp(0, 100, 0.5); // 50
+	 *	
 	 */
-	lerp: function(start, stop, amt) {
-		// return start + (stop-start) * amt;
-		return stop + (start-stop) * amt;
+	lerp: function(start, stop, val) {
+		return start + (stop-start) * val;
 	},
+
 
 	// ------------------------------------------------------------------------
 	/**
@@ -280,6 +375,9 @@ frederickkScript = {
 	 *
 	 *	@return val as degree 
 	 *
+	 *	@example
+	 * 	var deg = Calculation.degrees(Math.PI); // 180
+	 *	
 	 */
 	degrees: function(val) {
 		return val * (180/Math.PI);
@@ -292,11 +390,376 @@ frederickkScript = {
 	 *
 	 *	@return val as radians
 	 *
+	 *	@example
+	 * 	var rad = Calculation.radians(180); // Math.PI
+	 *	
 	 */
 	radians: function(val) {
 		return val * (Math.PI/180);
 	},
 
+	// ------------------------------------------------------------------------
+	/**
+	 *
+	 *	Calculate secants
+	 *
+	 *	http://www.ssicom.org/js/x974780.htm
+	 *
+	 *	@param {Number} val
+	 *			input value
+	 *
+	 *	@example
+	 * 	var s = Calculation.sec(180);
+	 *	
+	 */
+	sec: function(val) {
+		return 1/Math.cos(val);
+	},
+
+	/**
+	 *
+	 *	Calculate cosecants
+	 *
+	 *	http://www.ssicom.org/js/x974284.htm
+	 *
+	 *	@param {Number} val
+	 *			input value
+	 *
+	 *	@example
+	 * 	var cs = Calculation.cosec(180);
+	 *	
+	 */
+	cosec: function(val) {
+		return 1/Math.sin(val);
+	},
+
+	// ------------------------------------------------------------------------
+	/**
+	 *	
+	 *	@param {Number} val
+	 *			input value
+	 *
+	 *	@return squared value of val
+	 *
+	 *	@example
+	 * 	var squared = Calculation.sq(30); // 900
+	 *	
+	 */
+	sq: function(val) {
+		return val*val;
+	},
+
+	// ------------------------------------------------------------------------
+	/**
+	 *	
+	 *	@param {Point} point
+	 *			input point
+	 *
+	 *	@return slope ratio
+	 *
+	 */
+	slope: function(point) {
+	}
+
+
+});
+
+
+
+/**
+ * 	@name Conversions
+ *
+ * 	@class A collection of helpful conversion ratios from and to pixels (or points)
+ *
+ */
+var Conversions = new function() {
+
+	return {
+		// millimeters
+		PIXEL_TO_MM: 0.352777778,
+		MM_TO_PIXEL: 2.83464567,
+
+		// centimeters
+		PIXEL_TO_CM: 0.0352777778,
+		CM_TO_PIXEL: 28.3464567,
+
+		// inches
+		PIXEL_TO_INCH: 0.0138888889,
+		INCH_TO_PIXEL: 72,
+
+		// picas
+		PIXEL_TO_PICA: 0.0833333333,
+		PICA_TO_PIXEL: 12
+	};
+
+};
+
+
+
+/*
+ *
+ *	paper.Point
+ *
+ */
+paper.Point.inject({
+
+	/**
+	 *
+	 *  https://bitbucket.org/postspectacular/toxiclibs/src/9d124c80e8af/src.core/toxi/geom/Vec2D.java
+	 *	
+	 *	@param {Point} toPoint
+	 *			interpolates the point towards a given target point
+	 *	@param {Number} amt
+	 *			(0.0 - 1.0) interpolation factor
+	 *	@return {Point} interpolated Point
+	 *
+	 *	@example
+	 *	var point = new Point(0, 0);
+	 *	var toPoint = new Point(100, 100);
+	 *	point.interpolateTo(toPoint, 0.5); // {x: 50, y: 50}
+	 *
+	 */
+	interpolateTo: function(toPoint, amt) {
+		this.x += ((toPoint.x - this.x) * amt);
+		this.y += ((toPoint.y - this.y) * amt);
+		return this;
+	},
+
+	/**
+	 *
+	 *	@param {Point} arg0
+	 *			ending Point
+	 *	@param {Number} arg1
+	 *			(0.0 - 1.0) lerp factor
+	 *
+	 *	@return {Point} new lerped Point
+	 *
+	 *	@example
+	 *	var point = new Point(0, 30);
+	 *	var end = new Point(360, 90);
+	 *
+	 *	point.lerp( end, 0.5 );
+	 *	console.log( lerp ); // { x: 180, y: 60 }
+	 *
+	 */
+	/**
+	 *
+	 *	@param {Point} arg0
+	 *			starting Point
+	 *	@param {Point} arg1
+	 *			ending Point
+	 *	@param {Number} arg2
+	 *			(0.0 - 1.0) lerp factor
+	 *
+	 *	@return {Point} new lerped Point
+	 *
+	 *	@example
+	 *	var start = new Point(0, 30);
+	 *	var end = new Point(360, 90);
+	 *	var lerp = new Point.lerp( start, end, 0.5 );
+	 *	console.log( lerp ); // { x: 180, y: 60 }
+	 *
+	 */
+	lerp: function( arg0, arg1, arg2 ) {
+		if(typeof arg1 === 'number') {
+			// hmm... duplicate of interpolateTo( ... )
+			// this.x = paper.lerp(this.x, arg0.x, arg1);
+			// this.y = paper.lerp(this.y, arg0.y, arg1);
+			// return this;
+			return new Point(
+				paper.lerp(this.x, arg0.x, arg1),
+				paper.lerp(this.y, arg0.y, arg1)
+			);
+		}
+		else {
+			// return new lerped point from two points
+			return new Point(
+				paper.lerp(arg0.x, arg1.x, arg2),
+				paper.lerp(arg0.y, arg1.y, arg2)
+			);
+		}
+	},
+
+	/**
+	 *	{@grouptitle Distance & Length}
+	 *
+	 *	Returns the distance between the point and the center of the canvas
+	 *
+	 *	@return {Number}
+	 *
+	 */
+	getDistanceToCenter: function() {
+		// var dx = this.x - view.bounds.center.x;
+		// var dy = this.y - view.bounds.center.y;
+		// return (dx * dx + dy * dy) + 1;
+		return this.getDistance( view.bounds.center );
+	},
+
+
+	/**
+	 *	Normalize a point between two other points (start and end).
+	 *
+	 *	@param {Point} start
+	 *				start Point
+	 *	@param {Point} stop
+	 *				stop Point
+	 *
+	 *	@return {Point} normalized Point
+	 *
+	 *	@example
+	 *	var point = new Point(30, 270);
+	 *	var start = new Point(90, 180);
+	 *	var stop = new Point(180, 360);
+	 *	point.norm(start, stop); // { x: -0.66667, y: 0.5 }')
+	 *
+	 */
+	norm: function(start, stop) {
+		this.x = paper.norm(this.x, start.x, stop.x);
+		this.y = paper.norm(this.y, start.y, stop.y);
+		return this;
+	},
+
+	// /**
+	//  *	
+	//  *	@return {Point} limit Point
+	//  *
+	//  */
+	// limit: function(lim) {
+	// 	if (this.magSq() > lim * lim) {
+	// 		this.normalize();
+	// 		this.mult * lim;
+	// 		return this;
+	// 	}
+	// 	return this;
+	// },
+
+	/**
+	 *	
+	 *	Returns the heading angle (radians) of a point
+	 *
+	 *	@return {Number} vector heading of Point
+	 *
+	 *	@example
+	 * 	var point = new Point(0, 90);
+	 *	var result = point.getHeading();
+	 *	console.log( paper.degrees(result) ); // 90
+	 *
+	 */
+	getHeading: function() {
+		console.log( 'getHeading' );
+		return -1 * (Math.atan2(-this.y, this.x));
+	},
+	
+	/**
+	 *	{@grouptitle Vector Math Functions}
+	 *
+	 *	@return {Number} vector mag squared
+	 *
+	 *	@example
+	 *	var point = new Point(0, 90);
+	 *	var result = point.magSq();
+	 *	console.log(result); // 8100
+	 *
+	 */
+	magSq: function() {
+		return this.x * this.x + this.y * this.y;
+	}
+
+
+});
+
+
+
+/*
+ *
+ *	paper.Size
+ *
+ */
+paper.Size.inject({
+
+	/**
+	 *	
+	 *	@return {Number} area
+	 *
+	 *	@example
+	 *	var size = new Size(10, 20);
+	 *	var a = size.area(); // 200
+	 *
+	 */
+	area: function() {
+		return (this.width * this.height);
+	},
+
+	/**
+	 *	
+	 *	@return {Number} circumscribed radius
+	 *
+	 *	@example
+	 * 	var size = new Size(10, 20);
+	 *	var r = size.radius(); // 11.180339887498949
+	 *
+	 */
+	radius: function() {
+		var a = this.width;
+		var b = this.height;
+		return (Math.sqrt(a * a + b * b) / 2);
+	},
+
+	/**
+	 *	
+	 *	@return {Number} circumscribed diameter
+	 *
+	 *	@example
+	 * 	var size = new Size(10, 20);
+	 *	var d = size.diameter(); // 22.3606797749979
+	 *
+	 */
+	diameter: function() {
+		var a = this.width;
+		var b = this.height;
+		return (Math.sqrt(a * a + b * b));
+	}
+
+});
+
+
+
+// ------------------------------------------------------------------------
+var folio = folio || {};
+
+ /**
+ *  
+ *	Core.js
+ *	v0.5
+ *  
+ *	15. May 2013
+ *
+ *	Ken Frederick
+ *	ken.frederick@gmx.de
+ *
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
+ *  
+ *  
+ *	Core Methods
+ *
+ */
+
+
+folio = {
+	// ------------------------------------------------------------------------
+ 	// Namespaces
+	// ------------------------------------------------------------------------
+ 	FTime: {},
+ 	FIO: {},
+ 	F3D: {},
+ 	FPath: {},
+
+
+
+	// ------------------------------------------------------------------------
+	// Methods
+	// ------------------------------------------------------------------------
 	/**
 	 *
 	 *	@param {Point} point1
@@ -396,19 +859,6 @@ frederickkScript = {
 	// ------------------------------------------------------------------------
 	/**
 	 *	
-	 *	@param {NumbeR} val
-	 *			input value
-	 *
-	 *	@return squared value of val
-	 *
-	 */
-	sq: function(val) {
-		return val*val;
-	},
-
-	// ------------------------------------------------------------------------
-	/**
-	 *	
 	 *	@param {Number} val
 	 *			input boolean value
 	 *
@@ -425,22 +875,27 @@ frederickkScript = {
 	 *	@param {Object} object
 	 *			object whose type to determine
 	 *
-	 *	@return string of Scriptographer object type
+	 *	@return string of PaperJs object type
 	 *
 	 */
 	getType: function(object) {
-		if (object instanceof Point) return 'Point';
-		else if (object instanceof Size) return 'Size';
-		else if (object instanceof Rectangle) return 'Rectangle';
-		else if (object instanceof Group) return 'Group';
-		// else if (object instanceof PlacedItem) return 'PlacedItem';
-		else if (object instanceof Raster) return 'Raster';
-		// else if (object instanceof PlacedSymbol) return 'PlacedSymbol';
-		else if (object instanceof Path) return 'Path';
-		else if (object instanceof CompoundPath) return 'CompoundPath';
-		else if (object instanceof Symbol) return 'Symbol';
-		else if (object instanceof TextItem) return 'TextItem';
-		else return 'undefined'
+		if( typeof object == 'object' ) {
+			if (object instanceof paper.Point) return 'Point';
+			else if (object instanceof paper.Size) return 'Size';
+			else if (object instanceof paper.Rectangle) return 'Rectangle';
+			else if (object instanceof Group) return 'Group';
+			else if (object instanceof paper.PlacedItem) return 'PlacedItem';
+			else if (object instanceof paper.Raster) return 'Raster';
+			else if (object instanceof paper.PlacedSymbol) return 'PlacedSymbol';
+			else if (object instanceof paper.Path) return 'Path';
+			else if (object instanceof paper.CompoundPath) return 'CompoundPath';
+			else if (object instanceof paper.Symbol) return 'Symbol';
+			else if (object instanceof paper.TextItem) return 'TextItem';
+			else return 'undefined'
+		}
+		else {
+			return typeof object;
+		}
 	},
 
 	/**
@@ -462,150 +917,32 @@ frederickkScript = {
 		return path;
 	},
 
-
-
-
-	// ------------------------------------------------------------------------
-	// Strings
-	// ------------------------------------------------------------------------
 	/**
 	 *	
-	 *	@param {TextItem} textObj
-	 *				Path.TextItem
+	 *	@param {Array} items
+	 *			Array of items to go through
+	 *	@param {Number} name
+	 *			name of Item to find
 	 *
-	 *	@return string content which will will fit within the bounds of the input TextItem
-	 *
-	 */
-	trimToFit: function(textObj) {
-		var visibleContent = textObj.visibleRange.content;
-		textObj.content = trim(visibleContent);
-		return textObj;
-	},
-
-	/**
-	 *	
-	 *	trims white space from right (end) of String
-	 *
-	 *	@param {String} str
-	 *			input String
-	 *
-	 *	@return trimmed input String
+	 *	@return a path with the id that matches
 	 *
 	 */
-	rtrim: function(str) {
-		for (var i=str.length-1; str.charAt(i) ==' '; i--) {
-			str = str.substring(0, i);
+	findById: function(items, id) {
+		var path;
+		for(var i=0; i<items.length; i++) {
+			var item = items[i];		
+			if(item.id == id) path = item; // break;
 		}
-		return str;
+		return path;
 	},
-
-	/**
-	 *	
-	 *	trims all white space from String
-	 *	
-	 *	@param {String} str
-	 *			input string
-	 *
-	 *	@return string of PaperJs object type
-	 *
-	 */
-	trim: function(str) {
-		str = str.replace(/(^\s*)|(\s*$)/gi,"");
-		str = str.replace(/[ ]{2,}/gi," ");
-		str = str.replace(/\n /,"\n");
-		return str;
-	},
-
-	/**
-	 *	
-	 *	converts String to Boolean value
-	 *	
-	 *	@param {String} str
-	 *			input string
-	 *
-	 *	@return Boolean value
-	 *
-	 */
-	strToBool: function(str){
-		switch(str.toLowerCase()){
-			case "true": case "yes": case "1": return true;
-			case "false": case "no": case "0": case null: return false;
-			default: return Boolean(str);
-		}
-	},
-
-
 
 
 
 
 	// ------------------------------------------------------------------------
-	// Arrays
-	// ------------------------------------------------------------------------
-	/**
-	 *	
-	 *	@param {Array} arr1
-	 *				Array of Numbers
-	 *
-	 *	@return {Number} median value
-	 *
-	 */
-	median: function(arr) {
-		var median = 0;
-		arr.sort();
-		if (arr.length % 2 === 0) {
-			median = (arr[arr.length / 2 - 1] + arr[arr.length / 2]) / 2;
-		}
-		else {
-			median = arr[(arr.length - 1) / 2];
-		}
-		return median;
-	},
-
-	/**
-	 *	
-	 *	@param {Array} arr
-	 *				Array of Objects
-	 *
-	 *	@return {Object} unique element
-	 *
-	 */
-	unique: function(arr) {
-		var u = [];
-		o:for(var i=0, n=arr.length; i<n; i++) {
-			for(var x=0, y=u.length; x<y; x++) {
-				if(u[x] == arr[i]) {
-					continue o;
-				}
-			}
-			u[u.length] = arr[i];
-		}
-		return u;
-	},
-
-	/**
-	 *	
-	 *	merges (then shuffles) two Arrays
-	 *	
-	 *	@param {Array} arr1
-	 *				Array object 1
-	 *	@param {Array} arr2
-	 *				Array object 2
-	 *
-	 *	@return new merged Array object
-	 *
-	 */
-	merge: function(arr1, arr2) {
-		var output = arr1.concat(arr2);
-		output.shuffle();
-		return output;
-	},
-
-
-	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	sory Array in alphabetical order
+	 *	sort Array in alphabetical order
 	 *
 	 *	http://www.brain4.de/programmierecke/js/arraySort.php
 	 *
@@ -632,7 +969,7 @@ frederickkScript = {
 		b = b.replace(/ü/g,'u');
 		b = b.replace(/ß/g,'s');
 
-		return(a == b) ? 0:(a>b) ? 1:-1;
+		return(a == b) ? 0 : (a>b) ? 1 : -1;
 	},
 
 	/**
@@ -642,7 +979,9 @@ frederickkScript = {
 	 */
 	distanceToCenter: function(a, b) {
 		var valueA = a.distanceToCenter();
+		console.log( valueA );
 		var valueB = b.distanceToCenter();
+		console.log( valueB );
 		var comparisonValue = 0;
 
 		if (valueA > valueB) comparisonValue = -1;
@@ -655,14 +994,120 @@ frederickkScript = {
 
 
 
+
+
+
+/*	------------------------------------------------------------------------
+ *
+ *	Strings
+ *
+ *	------------------------------------------------------------------------/
+
+/**
+ *	
+ *	trims white space from right (end) of String
+ *
+ *	@return trimmed input String
+ *
+ */
+String.prototype.rtrim = function() {
+	for (var i=str.length-1; str.charAt(i) ==' '; i--) {
+		str = str.substring(0, i);
+	}
+	return str;
+};
+
+/**
+ *	
+ *	trims all white space from String
+ *	
+ *	@return string of PaperJs object type
+ *
+ */
+String.prototype.trim = function() {
+	str = str.replace(/(^\s*)|(\s*$)/gi,"");
+	str = str.replace(/[ ]{2,}/gi," ");
+	str = str.replace(/\n /,"\n");
+	return str;
+};
+
+/**
+ *	
+ *	converts String to Boolean value
+ *	
+ *	@return Boolean value
+ *
+ */
+String.prototype.toBool = function() {
+	switch(this.toLowerCase()) {
+		case "true": case "yes": case "1": return true;
+		case "false": case "no": case "0": case null: return false;
+		default: return Boolean(this);
+	}
+};
+
+
+
+
+
+
 /*
  *
- *	Arrays
- *
+ *	Array
  *
  */
 
-// ------------------------------------------------------------------------
+/**
+ *	
+ *	@return {Number} median value
+ *
+ */
+Array.prototype.median = function() {
+	var median = 0;
+	this.sort();
+	if (this.length % 2 === 0) {
+		median = (this[this.length / 2 - 1] + this[this.length / 2]) / 2;
+	}
+	else {
+		median = this[(this.length - 1) / 2];
+	}
+	return median;
+};
+
+/**
+ *	
+ *	@return {Object} unique element
+ *
+ */
+Array.prototype.unique = function() {
+	var u = [];
+	o:for(var i=0, n=this.length; i<n; i++) {
+		for(var x=0, y=u.length; x<y; x++) {
+			if(u[x] == this[i]) {
+				continue o;
+			}
+		}
+		u[u.length] = this[i];
+	}
+	return u;
+};
+
+/**
+ *	
+ *	merges (then shuffles) two Arrays
+ *	
+ *	@param {Array} arr2
+ *				Array object 2
+ *
+ *	@return new merged Array object
+ *
+ */
+Array.prototype.merge = function(arr) {
+	var output = this.concat(arr);
+	output.shuffle();
+	return output;
+};
+
 /**
  *	
  *	@param {Number} start
@@ -674,11 +1119,15 @@ frederickkScript = {
  *
  */
 Array.prototype.max = function(start, stop) {
-	var _start = (start != undefined) ? start : 0;
-	var _stop = (stop != undefined) ? stop : this.length;
-	var max = this[_start];
+	start = (start != undefined) 
+		? start
+		: 0;
+	stop = (stop != undefined)
+		? stop
+		: this.length;
+	var max = this[start];
 
-	for(var i=(_start+1); i<_stop; i++) if(this[i] > max) max = i;
+	for(var i=(start+1); i<stop; i++) if(this[i] > max) max = i;
 	return max;
 };
 
@@ -693,11 +1142,15 @@ Array.prototype.max = function(start, stop) {
  *
  */
 Array.prototype.min = function(start, stop) {
-	var _start = (start != undefined) ? start : 0;
-	var _stop = (stop != undefined) ? stop : this.length;
-	var min = this[_start];
+	start = (start != undefined)
+		? start
+		: 0;
+	stop = (stop != undefined)
+		? stop
+		: this.length;
+	var min = this[start];
 
-	for (var i=(_start+1); i<_stop; i++) if(this[i] < min) min = i;
+	for (var i=(start+1); i<stop; i++) if(this[i] < min) min = i;
 	return min;
 };
 
@@ -713,42 +1166,40 @@ Array.prototype.shuffle = function() {
 	for (var j, x, i = this.length; i; j = parseInt(Math.random() * i), x = this[--i], this[i] = this[j], this[j] = x);
 };
 
+/**
+ *
+ *	http://stackoverflow.com/questions/9229645/remove-duplicates-from-javascript-array
+ *
+ *	@return original array without duplicates
+ *
+ */
+Array.prototype.removeDuplicates = function() {
+	return this.reduce(function(accum, cur) { 
+		if (accum.indexOf(cur) === -1) accum.push(cur); 
+		return accum; 
+	}, [] );
+};
+
+
+
+
 
 
 /*
  *
- *	Global Scope
+ *	Global Scope (Paper.js core)
  *
  */
-// Script.inject({
-global.inject({
-	//-----------------------------------------------------------------------------
-	// Properties
-	//-----------------------------------------------------------------------------
-	// constants
-	EPSILON: 1.0e-6,
-
-	// have to keep frameRate low... because well...
-	// it's illustrator, don't be greedy
-	// formula:
-	// 1/12 = 0.08333 (fps -> seconds)
-	// 0.08333 * 1000 = 83.33 (seconds -> ms)
-	FRAMERATE: 12, // 500 == 2 ms
-
-	// event holder for animations events
-	// mimics PaperJs
-	_event: { 
-		count: 0, // number of frames
-		time: 0.0,  // seconds elapsed
-		delta: 0.0  // difference since last frame
-	},
-
+PaperScope.inject({
+	enumerable: true,
 
 
 	//-----------------------------------------------------------------------------
 	// Methods
 	//-----------------------------------------------------------------------------
 	/**
+	 *	Java style println output
+	 *
 	 *	@param {Object} obj
 	 *				any Javascript Object
 	 */
@@ -758,479 +1209,124 @@ global.inject({
 	},
 
 
-	//-----------------------------------------------------------------------------
-	/*
-	 *	animation function that mimics PaperJs
-	 */
-	/**
-	 *	@param {Boolean} isOn
-	 *				true if we want to use animations
-	 *	@param {Number} frameRate
-	 *				the frame rate for the animatons default is 12
-	 */
-	Animate: function(isOn, frameRate) {
-		frameRate = (frameRate === undefined) ? FRAMERATE : frameRate;
-		var interval = parseInt((1/frameRate)*1000);
-
-		if( isOn ) {
-			var updater = setInterval( function() { 
-				onFrame(interval, Update)
-				}, interval
-			);
-		}
-	},
 
 	/**
-	 *	@param {Number} interval
-	 *				how often in MS to fire event - defaul: 83
+	 *
+	 *	http://www.siafoo.net/snippet/191
+	 *
+	 *	@param {Number} minr
+	 *				minmum range
+	 *	@param {Number} maxr
+	 *				maximum range
+	 *	@param {Number} bias
+	 *				bias represents the preference towards lower or higher numbers,
+	 *				as a number between 0.0 and 1.0. For example: 
+	 *				random(0, 10, bias=0.9) will return 9 much more often than 1.
+	 *
+	 *	@return a random, albeit biased, number
+	 *
 	 */
-	onFrame: function(interval, func) {
-		interval = (interval === undefined) ? 2 : interval;
+	randomBias: function(minr, maxr, bias) {
+		var _map = new Array(90.0, 9.00, 4.00, 2.33, 1.50, 1.00, 0.66, 0.43, 0.25, 0.11, 0.01);
+		bias = Math.max(0, Math.min(bias, 1)) * 10;
 
-		_event.count++;
-		_event.time += (interval * 0.001);
-		_event.delta -= _event.time;
+		var i = parseInt(Math.floor(bias))
+		var n = _map[i]
+		if(bias < 10) n += (_map[i+1]-n) * (bias-i);
 
-		// this clears the exceptions
-		// from being printed in the console
-		try {
-			func(_event);
-		}
-		catch(err) {}
-
-		_event.delta = _event.time;
+		return Math.pow( Math.random(),n ) * (maxr-minr) + minr;
 	}
+
 
 });
 
 
 
+
+
+
 /*
  *
- *	Point
+ *	paper.Point
  *
  */
-Point.inject({
+paper.Point.inject({
 	// ------------------------------------------------------------------------
-	// Methods
+	// Properties
 	// ------------------------------------------------------------------------
-	/**
-	 *	@param {Point} startPoint
-	 *				start Point
-	 *	@param {Point} stopPoint
-	 *				stop Point
-	 *
-	 *	@return {Point} normalized Point
-	 *
-	 */
-	norm: function(startPoint, stopPoint) {
-		this.x = frederickkScript.norm(this.x, start.x, stop.x);
-		this.y = frederickkScript.norm(this.y, start.y, stop.y);
-		return this;
-	},
+	name: null,
+	data: {},
 
-	/**
-	 *	@param {Array} arg0
-	 *				random range of x [0,artboard.bounds.width]
-	 *	@param {Array} arg1
-	 *				random range of y [0,artboard.bounds.height]
-	 *
-	 *	@return {Point} random Point
-	 *
-	 */
-	random: function( arg0, arg1 ) {
-		this.x = (arg0 != undefined) ? frederickkScript.random(arg0[0],arg0[1]) : Math.random()*artboard.bounds.width;
-		this.y = (arg1 != undefined) ? frederickkScript.random(arg1[0],arg1[1]) : Math.random()*artboard.bounds.height;
-		return this;
-	},
-
-	/**
-	 *	
-	 *	@return {Point} vector heading of Point
-	 *
-	 */
-	heading: function() {
-		return -1 * (Math.atan2(-this.y, this.x));
-	},
-
-	/**
-	 *
-	 *  https://bitbucket.org/postspectacular/toxiclibs/src/9d124c80e8af/src.core/toxi/geom/Vec2D.java
-	 *	
-	 *	@return {Point} interpolated Point
-	 *
-	 */
-	interpolateTo: function(p2, f) {
-		this.x += ((p2.x - this.x) * f);
-		this.y += ((p2.y - this.y) * f);
-		return this;
-	},
-
-	/**
-	 *
-	 *	@param {Point} arg0
-	 *			start Point
-	 *	@param {Point} arg1
-	 *			end Point
-	 *	@param {Number} arg2
-	 *			float: between 0.0 and 1.0
-	 *
-	 *	@return {Point} lerped Point
-	 *
-	 */
-	/**
-	 *
-	 *	@param {Color} arg1
-	 *			end Point
-	 *	@param {Number} arg2
-	 *			float: between 0.0 and 1.0
-	 *
-	 *	@return {Point} lerped Point
-	 *
-	 */
-	lerp: function( arg0, arg1, arg2 ) {
-		var x,y;
-		if(typeof arg1 === 'number') {
-			x = frederickkScript.lerp(this.x,	arg0.x,	arg1);
-			y = frederickkScript.lerp(this.y,	arg0.y,	arg1);
-		}
-		else {
-			x = frederickkScript.lerp(arg0.x,	arg1.x,	arg2);
-			y = frederickkScript.lerp(arg0.y,	arg1.y,	arg2);
-		}
-		return new Point(x,y);
-	},
 
 
 	// ------------------------------------------------------------------------
-	/**
-	 *	
-	 *	@return {Point} limit Point
-	 *
-	 */
-	limit: function(lim) {
-		if (this.magSq() > lim * lim) {
-			this.normalize();
-			this.mult * lim;
-			return this;
-		}
-		return this;
-	},
-
-
-	// ------------------------------------------------------------------------
-	/**
-	 *	
-	 *	@return {Point} vector mag squared
-	 *
-	 */
-	magSq: function() {
-		return this.x * this.x + this.y * this.y;
-	},
-
-
+	// Methods
 	// ------------------------------------------------------------------------
 	/**
 	 *
 	 *	http://gmc.yoyogames.com/index.php?showtopic=290349
 	 *
 	 *	@param {Size} spacing
-	 *				spacing.width  = the horizontal snapping value, width of the grid.
-	 *				spacing.height = the vertical snapping value, height of the grid.
-	 *
+	 *				scale.width  = x scale of the grid.
+	 *				scale.height = y scale of the grid.
+	 *	@param {Object} options
+	 *				{ grid: true }
+	 *				{ isometric: true }
+	 *				
 	 *	@return {Point} snapped Point
 	 *
 	 */
-	snapGrid: function(spacing) {
-		var ix, iy;
-		ix = Math.round(this.y/spacing.height - this.x/spacing.width);
-		iy = Math.round(this.y/spacing.height + this.x/spacing.width);
-
-		this.x = (iy - ix)/2*spacing.width;
-		this.y = (iy + ix)/2*spacing.height;
-		
-		return this;
-	},
-
 	/**
 	 *	snaps point to an isometric grid
 	 *	
 	 *	@param {Number} scale
-	 *				scale of the grid (1.0 = 32x16)
+	 *				scale of the grid
+	 *	@param {Object} options
+	 *				{ grid: true }
+	 *				{ isometric: true }
 	 *
-	 *	@return {Point} snapped isometric Point
-	 *
-	 */
-	snapIso: function(scale) {
-		if(scale === null) scale = 1;
-		return this.snapGrid( new Size(32*scale,16*scale) );
-	},
-
-
-
-	// ------------------------------------------------------------------------
-	// Gets
-	// ------------------------------------------------------------------------
-	/**
-	 *	
-	 *	@return {Number} angle of point as radians
+	 *	@return {Point} snapped Point
 	 *
 	 */
-	getAngle: function() {
-		return Math.atan2(this.y - 0, this.x - 0);
-	}
+	snap: function(scale, options) {
+		options = (options != undefined)
+			? options
+			: { grid: true, isometric: false };
+		scale = (scale.type == 'Size') 
+			? scale
+			: new Size(scale,scale);
 
-});
+		var ix, iy;
+		if (optons.isometric === true) {
+			ix = Math.round(this.y/(16*scale.height) - this.x/(32*scale.width));
+			iy = Math.round(this.y/(16*scale.height) + this.x/(16*scale.width));
+			this.x = (iy - ix)/2*(32*scale.width);
+			this.y = (iy + ix)/2*(16*scale.height);
+		}
+		else {
+			ix = Math.round(this.y/scale.height - this.x/scale.width);
+			iy = Math.round(this.y/scale.height + this.x/scale.width);
+			this.x = (iy - ix)/2*scale.width;
+			this.y = (iy + ix)/2*scale.height;
+		}
 
-
-
-/*
- *
- *	Size
- *
- */
-Size.inject({
-	/**
-	 *	@param minw
-	 *				minmum width (default: 0)
-	 *	@param maxw
-	 *				maximum width (default: artboard.bounds.width)
-	 *	@param minh
-	 *				minmum height (default: 0)
-	 *	@param maxh
-	 *				maximum height (default: artboard.bounds.height)
-	 *
-	 *	@return {Size} random size
-	 *
-	 */
-	random: function(minw, maxw, minh, maxh) {
-		minw = (minw != undefined) ? minw : 0;
-		maxw = (maxw != undefined) ? maxw : artboard.bounds.width;
-		minh = (minh != undefined) ? minh : 0;
-		maxh = (maxh != undefined) ? maxh : artboard.bounds.height;
-
-		this.width = frederickkScript.random(minw, maxw);
-		this.height = frederickkScript.random(minh, maxh);
 		return this;
-	},
-
-	/**
-	 *	
-	 *	@return {Number} area
-	 *
-	 */
-	area: function() {
-		return (this.width * this.height);
-	},
-
-	// ------------------------------------------------------------------------
-	/**
-	 *	
-	 *	@return {Number} outer radius
-	 *
-	 */
-	outerRadius: function() {
-		var a = this.width / 2;
-		var b = this.height / 2;
-		return (Math.sqrt(a * a + b * b));
 	}
-
 
 
 });
 
 
 
+
+
+
 /*
  *
- *	Color
+ *	paper.Color
  *
  */
-Color.inject({
-	// ------------------------------------------------------------------------
-	// Methods
-	// ------------------------------------------------------------------------
-	/**
-	 *
-	 *	@param {Number} pct
-	 *			percentage to darken color
-	 *	@param {Boolean} isNew
-	 *			(option) if true a new Color is returned
-	 *
-	 *	@return {Color} darkened Color by input percentage
-	 *
-	 */
-	darken: function(pct, isNew) {
-		isNew = (isNew == undefined) ? false : isNew;
-		if( !isNew ) {
-			this.red -= pct;
-			this.red = clamp(this.red, 0.0,1.0);
-
-			this.green -= pct;
-			this.green = clamp(this.green, 0.0,1.0);
-
-			this.blue -= pct;
-			this.blue = clamp(this.blue, 0.0,1.0);
-
-			return this;
-		}
-		else {
-			var r = clamp(this.red - pct, 0.0,1.0);
-			var g = clamp(this.green - pct, 0.0,1.0);
-			var b = clamp(this.blue - pct, 0.0,1.0);
-
-			return new RGBColor(r,g,b);
-		}
-	},
-
-	/**
-	 *
-	 *	@param {Number} pct
-	 *			percentage to lighten color
-	 *	@param {Boolean} isNew
-	 *			(option) if true a new Color is returned
-	 *
-	 *	@return {Color} lightened Color by input percentage
-	 *
-	 */
-	lighten: function(pct, isNew) {
-		isNew = (isNew == undefined) ? false : isNew;
-		if( !isNew ) {
-			this.red += pct;
-			this.red = clamp(this.red, 0.0,1.0);
-
-			this.green += pct;
-			this.green = clamp(this.green, 0.0,1.0);
-
-			this.blue += pct;
-			this.blue = clamp(this.blue, 0.0,1.0);
-
-			return this;
-		}
-		else {
-			var r = clamp(this.red + pct, 0.0,1.0);
-			var g = clamp(this.green + pct, 0.0,1.0);
-			var b = clamp(this.blue + pct, 0.0,1.0);
-
-			return new RGBColor(r,g,b);
-		}
-	},
-
-
-	// ------------------------------------------------------------------------
-	/**
-	 *
-	 *	@param {Color} arg0
-	 *			start color
-	 *	@param {Color} arg1
-	 *			end color
-	 *	@param {Number} arg2
-	 *			float: between 0.0 and 1.0
-	 *
-	 *	@return {Color} lerped color
-	 *
-	 *	@example
-	 *	var color1 = new RGBColor( 0.0, 1.0, 0.7 );
-	 *	var color2 = new RGBColor( 0.0, 0.7, 1.0 );
-	 *	var lerpColor = new RGBColor().lerpColor( color1, color2, 0.5 );
-	 *
-	 */
-	/**
-	 *
-	 *	@param {Color} arg1
-	 *			end color
-	 *	@param {Number} arg2
-	 *			float: between 0.0 and 1.0
-	 *
-	 *	@return {Color} lerped color
-	 *
-	 *	@example
-	 *	var color1 = new RGBColor( 0.0, 1.0, 0.7 );
-	 *	var color2 = new RGBColor( 0.0, 0.7, 1.0 );
-	 *	var lerpColor = color1.lerpColor( color2, 0.5 );
-	 *
-	 */
-	/*
-	 *	TODO: move this to individual Color classes?
-	 */
-	lerp: function( arg0, arg1, arg2 ) {
-		var r,g,b, h,s,l, a;
-
-		if( arg0.type == 'gray' || this.type == 'gray' ) {
-			if(typeof arg1 === 'number') {
-				g = frederickkScript.lerp(this.gray,		arg0.gray,	arg1);
-				a = frederickkScript.lerp(this.alpha,	arg0.alpha,	arg1);
-			}
-			else {
-				g = frederickkScript.lerp(arg0.gray,		arg1.gray,	arg2);
-				a = frederickkScript.lerp(arg0.alpha,	arg1.alpha,	arg2);
-			}
-			// this.gray = g;
-			// this.alpha = a;
-			return new GrayColor( g,a );
-		}
-		else if( arg0.type == 'rgb' || this.type == 'rgb' ) {
-			if(typeof arg1 === 'number') {
-				r = frederickkScript.lerp(this.red,		arg0.red,	arg1);
-				g = frederickkScript.lerp(this.green,	arg0.green,	arg1);
-				b = frederickkScript.lerp(this.blue,		arg0.blue,	arg1);
-				a = frederickkScript.lerp(this.alpha,	arg0.alpha,	arg1);
-			}
-			else {
-				r = frederickkScript.lerp(arg0.red,		arg1.red,	arg2);
-				g = frederickkScript.lerp(arg0.green,	arg1.green,	arg2);
-				b = frederickkScript.lerp(arg0.blue,		arg1.blue,	arg2);
-				a = frederickkScript.lerp(arg0.alpha,	arg1.alpha,	arg2);
-			}
-			// this.red = r;
-			// this.green = g;
-			// this.blue = b;
-			// this.alpha = a;
-			return new RGBColor( r,g,b,a );
-		}
-		// else if( arg0.type == 'hsl' || this.type == 'hsl' ) {
-		// 	if(typeof arg1 === 'number') {
-		// 		h = frederickkScript.lerp(this.hue,			arg0.hue,		arg1);
-		// 		s = frederickkScript.lerp(this.saturation,	arg0.saturation,arg1);
-		// 		l = frederickkScript.lerp(this.lightness,	arg0.lightness,	arg1);
-		// 		a = frederickkScript.lerp(this.alpha,		arg0.alpha,		arg1);
-		// 	}
-		// 	else {
-		// 		h = frederickkScript.lerp(arg0.hue,			arg1.hue,		arg2);
-		// 		s = frederickkScript.lerp(arg0.saturation,	arg1.saturation,arg2);
-		// 		l = frederickkScript.lerp(arg0.lightness,	arg1.lightness,	arg2);
-		// 		a = frederickkScript.lerp(arg0.alpha,		arg1.alpha,		arg2);
-		// 	}
-		// 	// this.hue = h;
-		// 	// this.saturation = s;
-		// 	// this.lightness = l;
-		// 	// this.alpha = a;
-		// 	return new HslColor( h,s,l,a );
-		// }
-		// else if( arg0.type == 'hsb' || this.type == 'hsb' ) {
-		// 	if(typeof arg1 === 'number') {
-		// 		h = frederickkScript.lerp(this.hue,			arg0.hue,			arg1);
-		// 		s = frederickkScript.lerp(this.saturation,	arg0.saturation,	arg1);
-		// 		b = frederickkScript.lerp(this.brightness,	arg0.brightness,	arg1);
-		// 		a = frederickkScript.lerp(this.alpha,		arg0.alpha,			arg1);
-		// 	}
-		// 	else {
-		// 		h = frederickkScript.lerp(arg0.hue,			arg1.hue,			arg2);
-		// 		s = frederickkScript.lerp(arg0.saturation,	arg1.saturation,	arg2);
-		// 		b = frederickkScript.lerp(arg0.brightness,	arg1.brightness,	arg2);
-		// 		a = frederickkScript.lerp(arg0.alpha,		arg1.alpha,			arg2);
-		// 	}
-		// 	// this.hue = h;
-		// 	// this.saturation = s;
-		// 	// this.brightness = b;
-		// 	// this.alpha = a;
-		// 	return new HsbColor( h,s,b,a );
-		// }
-
-		// return this;
-	},
-
-
+paper.Color.inject({
 	// ------------------------------------------------------------------------
 	/**
 	 *
@@ -1268,32 +1364,6 @@ Color.inject({
 		}
 		return str;
 	},
-
-	/**
-	 *
-	 *	@param {String} hex
-	 *			value as string hex value (i.e. '#00b2ff')
-	 *
-	 *	@return {Color} value of hex as Color
-	 *
-	 */
-	hex: function(hex) {
-		// var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-		// var r = parseInt(result[1], 16);
-		// var g = parseInt(result[2], 16);
-		// var b = parseInt(result[3], 16);
-
-		if( hex.length >= 7 ) hex = hex.split('#')[1];
-		else hex = hex;
-
-		var big = parseInt(hex, 16);
-		this.red = ((big>> 16) & 255)/255;
-		this.green = ((big>> 8) & 255)/255;
-		this.blue = (big& 255)/255;
-
-		return this;
-	},
-
 
 	// ------------------------------------------------------------------------
 	/**
@@ -1358,309 +1428,1201 @@ Color.inject({
 
 });
 
-GrayColor.inject({
-	/**
-	 *
-	 *	@param {Array} arg0
-	 *			random range of gray [0.0,1.0]
-	 *	@param {Array} arg1
-	 *			random range of alpha [0.0,1.0]
-	 *
-	 *	@return {Color} random GrayColor()
-	 *
-	 */
-	random: function( arg0, arg1 ) {
-		this.gray = (arg0 != undefined) ? frederickkScript.random(arg0[0],arg0[1]) : Math.random();
-		this.alpha = (arg1 != undefined) ? frederickkScript.random(arg1[0],arg1[1]) : Math.random();
-		return this;
-	}
-});
-
-RGBColor.inject({
-	/**
-	 *
-	 *	@param {Array} arg0
-	 *			random range of red [0.0,1.0]
-	 *	@param {Array} arg1
-	 *			random range of green [0.0,1.0]
-	 *	@param {Array} arg2
-	 *			random range of blue [0.0,1.0]
-	 *	@param {Array} arg3
-	 *			random range of alpha [0.0,1.0]
-	 *
-	 *	@return {Color} random RGBColor()
-	 *
-	 */
-	random: function( arg0, arg1, arg2, arg3 ) {
-		this.red = Math.random();
-		this.green = Math.random();
-		this.blue = Math.random();
-		this.alpha = (arg3 != undefined) ? frederickkScript.random(arg3[0],arg3[1]) : Math.random();
-		return this;
-	}
-});
 
 
-// ------------------------------------------------------------------------
+
 /*
- *	bringing in HSB and HSL colors from PaperJs
  *
- *	https://github.com/paperjs/paper.js/blob/master/src/color/Color.js
- */
-// For hsb-rgb conversion, used to lookup the right parameters 
-// in the values array.
-var hsbIndices = [
-	[0, 3, 1], // 0
-	[2, 0, 1], // 1
-	[1, 0, 3], // 2
-	[1, 2, 0], // 3
-	[3, 1, 0], // 4
-	[0, 1, 2]  // 5
-];
-
-/**
+ *	paper.TextItem
  *
- *	@param {Number} hue
- *				the hue of the color as a value in degrees between 0 and 360.
- *	@param {Number} saturation
- *				the saturation of the color as a value between 0 and 1
- *	@param {Number} brightness
- *				the brightness of the color as a value between 0 and 1
- *	@param {Number} alpha
- *				(optional) the alpha of the color as a value between 0 and 1
  */
-var HSBColor = function(hue, saturation, brightness, alpha) {
-	// these mean nothing
-	// because RGBColor is returned
-	// TODO: actually inject HSLColor into Color
-	this.type = 'hsb';
-	this.hue = hue;
-	this.saturation = saturation;
-	this.brightness = brightness;
-	this.alpha = (alpha === undefined) ? 1.0 : alpha;
-
-	var h = (this.hue / 60) % 6, // Scale to 0..6
-		s = this.saturation,
-		b = this.brightness,
-		i = Math.floor(h), // 0..5
-		f = h - i,
-		i = hsbIndices[i],
-		v = [
-			b,						// b, index 0
-			b * (1 - s),			// p, index 1
-			b * (1 - s * f),		// q, index 2
-			b * (1 - s * (1 - f))	// t, index 3
-		];
-	return new RGBColor(v[i[0]], v[i[1]], v[i[2]], this.alpha);
-};
-
-/**
- *
- *	@param {Number} hue
- *				the hue of the color as a value in degrees between 0 and 360.
- *	@param {Number} saturation
- *				the saturation of the color as a value between 0 and 1
- *	@param {Number} lightness
- *				the lightness of the color as a value between 0 and 1
- *	@param {Number} alpha
- *				(optional) the alpha of the color as a value between 0 and 1
- */
-var HSLColor = function(hue, saturation, lightness, alpha) {
-	// these mean nothing
-	// because RGBColor is returned
-	// TODO: actually inject HSLColor into Color
-	this.type = 'hsl';
-	this.hue = hue;
-	this.saturation = saturation;
-	this.lightness = lightness;
-	this.alpha = (alpha === undefined) ? 1.0 : alpha;
-
-	var s = this.saturation,
-		h = this.hue / 360,
-		l = this.lightness;
-	if (s == 0)
-		return new RGBColor(l, l, l, this.alpha);
-	var t3s = [ h + 1 / 3, h, h - 1 / 3 ],
-		t2 = l < 0.5 ? l * (1 + s) : l + s - l * s,
-		t1 = 2 * l - t2,
-		c = [];
-	for (var i = 0; i < 3; i++) {
-		var t3 = t3s[i];
-		if (t3 < 0) t3 += 1;
-		if (t3 > 1) t3 -= 1;
-		c[i] = 6 * t3 < 1
-			? t1 + (t2 - t1) * 6 * t3
-			: 2 * t3 < 1
-				? t2
-				: 3 * t3 < 2
-					? t1 + (t2 - t1) * ((2 / 3) - t3) * 6
-					: t1;
+paper.TextItem.inject({
+	// ------------------------------------------------------------------------
+	/**
+	 *	
+	 *	@return string content which will will fit within the bounds of the TextItem
+	 *
+	 */
+	trimToFit: function() {
+		var visibleContent = this.visibleRange.content.trim();
+		this.content = visibleContent;
+		return this;
 	}
-	return new RGBColor(c[0], c[1], c[2], this.alpha);
-};
 
-// TODO:
-//
-// HslColor.inject({
-// 	/**
-// 	 *
-// 	 *	@param {Array} arg0
-// 	 *			random range of hue [0,360]
-// 	 *	@param {Array} arg1
-// 	 *			random range of saturation [0.0,1.0]
-// 	 *	@param {Array} arg1
-// 	 *			random range of lightness [0.0,1.0]
-// 	 *	@param {Array} arg3
-// 	 *			random range of alpha [0.0,1.0]
-// 	 *
-// 	 *	@return {Color} random HslColor()
-// 	 *
-// 	 */
-// 	random: function( arg0, arg1, arg2, arg3 ) {
-// 		this.hue = (arg0 != undefined) ? frederickkScript.random(arg0[0],arg0[1]) : Math.random()*360;
-// 		this.saturation = (arg1 != undefined) ? frederickkScript.random(arg1[0],arg2[1]) : Math.random();
-// 		this.lightness = (arg2 != undefined) ? frederickkScript.random(arg1[0],arg2[1]) : Math.random();
-// 		this.alpha = (arg3 != undefined) ? frederickkScript.random(arg3[0],arg3[1]) : Math.random();
-// 		return this;
-// 	}
-// });
-
-// HsbColor.inject({
-// 	/**
-// 	 *
-// 	 *	@param {Array} arg0
-// 	 *			random range of hue [0,360]
-// 	 *	@param {Array} arg1
-// 	 *			random range of saturation [0.0,1.0]
-// 	 *	@param {Array} arg2
-// 	 *			random range of brightness [0.0,1.0]
-// 	 *	@param {Array} arg3
-// 	 *			random range of alpha [0.0,1.0]
-// 	 *
-// 	 *	@return {Color} random HsbColor()
-// 	 *
-// 	 */
-// 	random: function( arg0, arg1, arg2, arg3 ) {
-// 		this.hue = (arg0 != undefined) ? frederickkScript.random(arg0[0],arg0[1]) : Math.random()*360;
-// 		this.saturation = (arg1 != undefined) ? frederickkScript.random(arg1[0],arg2[1]) : Math.random();
-// 		this.brightness = (arg2 != undefined) ? frederickkScript.random(arg1[0],arg2[1]) : Math.random();
-// 		this.alpha = (arg3 != undefined) ? frederickkScript.random(arg3[0],arg3[1]) : Math.random();
-// 		return this;
-// 	}
-// });
-
-// ------------------------------------------------------------------------
+});
 /**
+ *	
+ *	FPath.js
+ *	v0.5
+ *	
+ *	11. August 2013
  *
- *	@param {String} hex
- *			value as string hex value (i.e. '#00b2ff')
+ *	Ken Frederick
+ *	ken.frederick@gmx.de
  *
- *	@return {Color} value of hex as Color
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
+ *
+ *
+ *	FPath
+ *	A collection of shapes for paper.Path
+ *	and methods for paper.Item
+ *
+ *	I'm assuming that injecting all of the shapes into
+ *	paper.Path is not only cleaner but more efficient
+ *	and therefore faster
+ *
+ *	FArrow
+ *	FBubble
+ *	FChain
+ *	FCross
+ *	FDrop
+ *	FTriangle
  *
  */
-var HexColor = function(str) {
-	return new RGBColor(0,0,0).hex(str);
-};
 
 
-
-/**
- *  
- *  
- *	FConversions
- *	A collection of helpful conversion ratios
+/*
+ *
+ *	paper.Item
  *
  */
-frederickkScript.FConversions = {
-	// conversions
-	ptToMm: 0.352777778,
-	mmToPt: 2.83464567,
+paper.Item.inject({
+	//-----------------------------------------------------------------------------
+	// Methods
+	//-----------------------------------------------------------------------------
+	/**
+	 *	@param {Size} spacing
+	 *				spacing.width  = the horizontal snapping value, width of the grid.
+	 *				spacing.height = the vertical snapping value, height of the grid.
+	 *
+	 */
+	snapGrid: function(spacing) {
+		// this.position = pt;
+		this.position.snapGrid(spacing);
+	},
 
-	ptToCm: 0.0352777778,
-	CmToPt: 28.3464567,
+	/**
+	 *	snaps point to an isometric grid
+	 *	
+	 *	@param {Number} scale
+	 *				scale of the grid (1.0 = 32x16)
+	 *
+	 */
+	snapIso: function(scale) {
+		// this.position = pt;
+		this.position.snapIso(scale);
+	},
 
-	ptToIn: 0.0138888889,
-	inToPt: 72,
+	//-----------------------------------------------------------------------------
+	/**
+	 *	converts an CompoundPath into a Group otherwise returns original Item
+	 *	
+	 */
+	toGroup: function() {
+		if (folio.getType(this) == 'CompoundPath') {
+			return new Group( this.children );
+		}
+		else {
+			return this;
+		}
+	}
 
-	ptToPi: 0.0833333333,
-	piToPt: 12
-
-};
+});
 
 
+
+paper.Path.inject({ 
+	//-----------------------------------------------------------------------------
+	// Methods
+	//-----------------------------------------------------------------------------
+	/*
+	 *
+	 *	Additional Math Methods
+	 *	TODO: fix bugs (downright false) math methods
+	 *
+	 */
+
+	/**
+	 *	@param b
+	 *			array of barycentric coordinates
+	 */		
+	// TODO: currently implementation returns false point
+	// toCartesian : function(bary) {
+	// 	if( this.segments.length == 3 ) {
+	// 		var p1 = this.segments[0].point;
+	// 		var p2 = this.segments[1].point;
+	// 		var p3 = this.segments[2].point;
+
+	// 		// side lengths
+	// 		var a = p1.getDistance(p2);
+	// 		var b = p2.getDistance(p3);
+	// 		var c = p3.getDistance(p1);
+
+	// 		// var area = 0.5 * (p1.x * (p2.y - p3.y) +
+	// 		// 				  p2.x * (p3.y - p1.y) +
+	// 		// 				  p3.x * (p1.y - p2.y));
+
+	// 		// var r = 2 * area / (a + b + c);
+	// 		// var k = 2 * area / (a*bary[0] + b*bary[1] + c*bary[2]);
+
+	// 		// var angleC = Math.acos((a*a + b*b - c*c) / (2*a*b));
+
+	// 		// var cosC = Math.cos( angleC );
+	// 		// var sinC = Math.sin( angleC );
+
+	// 		// var x =	(k*bary[1] - r + (k*bary[0] - r)*cosC) / sinC;
+	// 		// var y =	k*bary[0] - r;
+
+	// 		// return new Point(
+	// 		// 	x + this.getIncenter().x,
+	// 		// 	y + this.getIncenter().y
+	// 		// );
+
+	// 		return new Point(
+	// 			bary[0] * p1.x + bary[1] * p2.x + bary[2] * p3.x,
+	// 			bary[0] * p1.x + bary[1] * p2.x + bary[2] * p3.x
+	// 		);
+	// 	}
+	// 	else {
+	// 		console.error( 'Not Path.FTriangle' );
+	// 		return null;
+	// 	}
+	// },
+
+	//-----------------------------------------------------------------------------
+	/*
+	 *
+	 *	FTriangle Center Methods
+	 *	TODO: finish adding center methods
+	 *
+	 */
+
+
+
+	// TODO: currently implementation returns false point
+	// getInCircle : function() {
+	// 	// vertices
+	// 	if( this.segments.length == 3 ) {
+	// 		var p1 = this.segments[0].point;
+	// 		var p2 = this.segments[1].point;
+	// 		var p3 = this.segments[2].point;
+
+	// 		// side lengths
+	// 		var a = p1.getDistance(p2);
+	// 		var b = p2.getDistance(p3);
+	// 		var c = p3.getDistance(p1);
+
+	// 		var incenter = this.toCartesian( [1.0, 1.0, 1.0] );
+
+	// 		var area = 0.5 * (p1.x * (p2.y - p3.y) +
+	// 						  p2.x * (p3.y - p1.y) +
+	// 						  p3.x * (p1.y - p2.y));
+
+	// 		var semiperimeter = 0.5 * (a + b + c);
+
+	// 		this.innerRadius = (area / semiperimeter);
+	// 		return incenter;
+	// 	}
+	// 	else {
+	// 		console.error( 'Not Path.FTriangle' );
+	// 		return null;
+	// 	}
+	// },
+
+
+	// TODO: currently implementation returns false point
+	// getOrthocenter : function() {
+	// 	// vertices
+	// 	if( this.segments.length == 3 ) {
+	// 		var p1 = this.segments[0].point;
+	// 		var p2 = this.segments[1].point;
+	// 		var p3 = this.segments[2].point;
+
+	// 		// side lengths
+	// 		var a = p1.getDistance(p2);
+	// 		var b = p2.getDistance(p3);
+	// 		var c = p3.getDistance(p1);
+
+	// 		var bary = [
+	// 			this.sec(a),
+	// 			this.sec(b),
+	// 			this.sec(c)
+	// 		];
+	// 		return this.toCartesian(bary);
+	// 	}
+	// 	else {
+	// 		console.error( 'Not Path.FTriangle' );
+	// 		return null;
+	// 	}
+	// },
+
+	// TODO: currently implementation returns false point
+	// getIncenter : function() {
+	// 	// vertices
+	// 	if( this.segments.length == 3 ) {
+	// 		var p1 = this.segments[0].point;
+	// 		var p2 = this.segments[1].point;
+	// 		var p3 = this.segments[2].point;
+
+	// 		// side lengths
+	// 		var a = p1.getDistance(p2);
+	// 		var b = p2.getDistance(p3);
+	// 		var c = p3.getDistance(p1);
+
+	// 		var circum = a + b + c;
+
+	// 		return new Point(
+	// 			(a* p1.x + b * p2.x + c * p3.x) / circum,
+	// 			(a * p1.y + b * p2.y + c * p3.y) / circum
+	// 		);
+	// 	}
+	// 	else {
+	// 		console.error( 'Not Path.FTriangle' );
+	// 		return null;
+	// 	}
+	// },
+
+	// TODO: currently implementation returns false point
+	// getSchifflerPoint : function() {
+	// 	// vertices
+	// 	if( this.segments.length == 3 ) {
+	// 		var p1 = this.segments[0].point;
+	// 		var p2 = this.segments[1].point;
+	// 		var p3 = this.segments[2].point;
+
+	// 		// side lengths
+	// 		var a = p1.getDistance(p2);
+	// 		var b = p2.getDistance(p3);
+	// 		var c = p3.getDistance(p1);
+
+	// 		var bary = [
+	// 			1/(Math.cos(b) + Math.cos(c)),
+	// 			1/(Math.cos(c) + Math.cos(a)),
+	// 			1/(Math.cos(a) + Math.cos(b))
+	// 		];
+	// 		return this.toCartesian(bary, p1,p2,p3);
+	// 	}
+	// 	else {
+	// 		console.error( 'Not Path.FTriangle' );
+	// 		return null;
+	// 	}
+	// },
+
+
+
+	//-----------------------------------------------------------------------------
+	statics: new function() {
+		return {
+			/**
+			 *	
+			 *	FArrow
+			 *	Create simple arrow
+			 *
+			 *	@param {Point} headPoint
+			 *				the head of the arrow
+			 *	@param {Point} tailPoint
+			 *				the tail of the arrow
+			 *	@param {Size} arrowHeadSize
+			 *				(optional) length of the arrow head
+			 *
+			 *	@example
+			 *	var headPoint = new paper.Point( 9,9 );
+			 *	var tailPoint = new paper.Point( 90,90 );
+			 *	var arrowHeadSize = new paper.Size( 18,18 );
+			 *	var farrow = new paper.Path.FArrow( headPoint, tailPoint, arrowHeadSize );
+			 *
+			 */
+			FArrow: function( headPoint, tailPoint, arrowHeadSize ) {
+				// the line part
+				var path = new Path.Line( headPoint, tailPoint );
+
+				// the arrow head
+				arrowHeadSize = (arrowHeadSize != undefined) ? arrowHeadSize : new Size(headPoint.getDistance(tailPoint)*0.381924,headPoint.getDistance(tailPoint)*0.381924);
+
+				// rotate arrow head around to correct position
+				var a = Math.atan2( headPoint.x-tailPoint.x, tailPoint.y-headPoint.y );
+
+				// slight "hack" to get strokCap correct
+				var arrowHead = [];
+				arrowHead[0] = new Path.Line( new Point(0,0), new Point(-arrowHeadSize.width,-arrowHeadSize.height) );
+				arrowHead[1] = new Path.Line( new Point(0,0), new Point( arrowHeadSize.width,-arrowHeadSize.height) );
+				for( var i=0; i<arrowHead.length; i++ ) {
+					arrowHead[i].rotate( 180+paper.degrees(a), new Point(0,0) );
+					arrowHead[i].translate( headPoint );
+				}
+
+				var group = new Group([ path, arrowHead[0], arrowHead[1] ]);
+				group.name = 'arrow';
+				return group;
+			},
+
+
+			/**
+			 *	
+			 *	FBubble
+			 *	Create a simple speech bubble
+			 *
+			 *	@param {Point} bubblePoint
+			 *				the position of the bubble
+			 *	@param {Size} bubbleSize
+			 *				the size of the bubble
+			 *	@param {Size} bubbleTagSize
+			 *				the size of the tag
+			 *	@param {String} bubbleTagCenter 
+			 *				(optional)
+			 *				'RANDOM'	randomly x-position the point (default)
+			 *				'LEFT'		left align the x-position of the point
+			 *				'CENTER'	center align the x-position of the point
+			 *				'RIGHT'		right align the x-position of the point
+			 *
+			 *	@example
+			 *	var bubblePoint = new paper.Point( 45,45 );
+			 *	var bubbleSize = new paper.Size( 90,60 );
+			 *	var bubbleTagSize = new paper.Size( 9,9 );
+			 *	var bubbleTagCenter = 'CENTER';
+			 *	var b = new paper.Path.FBubble( bubblePoint, bubbleSize, bubbleTagSize, bubbleTagCenter );
+			 *
+			 */
+			FBubble: function(bubblePoint, bubbleSize, bubbleTagSize, bubbleTagCenter) {
+				var path = new Path();
+				path.name = 'bubble';
+
+				bubbleTagSize = (bubbleTagSize != undefined) ? bubbleTagSize : defaultFBubbleTagSize;
+				if(bubbleSize.width < 10) {
+					bubbleSize.width = 10;
+					bubbleTagSize = new Size(10,10);
+				}
+				bubbleTagCenter = (bubbleTagCenter != undefined) ? bubbleTagCenter : 'RANDOM';
+
+				// left side of bubble
+				path.add( new Point(0,0) );
+				var angle = 180;
+				var through = new Point(
+					bubbleSize.height/2 + Math.cos( paper.radians(angle) ) * (bubbleSize.height),
+					bubbleSize.height/2 + Math.sin( paper.radians(angle) ) * (bubbleSize.height)
+				);
+				path.arcTo(through, new Point(0,bubbleSize.height));
+
+				// middle bottom
+				// create tag space somewhere along the bottom of the bubble
+				var tagStart = paper.randomInt(0,bubbleSize.width-bubbleTagSize.width);
+
+				// create tag
+				path.add( new Point(tagStart,bubbleSize.height) );
+
+				var tx, ty;
+				if(bubbleTagCenter == 'LEFT') {
+					tx = tagStart;
+				}
+				else if(bubbleTagCenter == 'CENTER') {
+					tx = tagStart + (bubbleTagSize.width/2);
+				}
+				else if(bubbleTagCenter == 'RIGHT') {
+					tx = tagStart+bubbleTagSize.width;
+				}
+				else { // if(bubbleTagCenter == 'RANDOM') { 
+					tx = paper.randomInt(tagStart,tagStart+bubbleTagSize.width);
+				}
+
+				// the length of the tag
+				ty = bubbleSize.height + bubbleTagSize.height;
+				path.add( new Point(tx,ty) ); 
+
+				// continue bottom
+				path.add( new Point(tagStart+bubbleTagSize.width,bubbleSize.height) );
+				path.add( new Point(bubbleSize.width,bubbleSize.height) );
+
+
+				// right side of bubble
+				angle = 0;
+				through = new Point(
+					bubbleSize.height/2 + Math.cos( paper.radians(angle) ) * (bubbleSize.height/2),
+					bubbleSize.height/2 + Math.sin( paper.radians(angle) ) * (bubbleSize.height/2)
+				);
+				path.arcTo( new Point(bubbleSize.width,0), false );
+
+				// middle top
+				path.closed = true;
+
+				// center the bubble
+				// compensated for the tag's length
+				path.position = new Point(bubblePoint.x,bubblePoint.y+(bubbleTagSize.height/2));
+				
+				return path;
+			},
+
+
+			/**
+			 *	FChain
+			 *	Create simple chain (a line with different endpoint sizes)
+			 *	
+			 *	@param {Point} arg0
+			 *				point1 The first point (endpoint1)
+			 *	@param {Number} arg1
+			 *				radius of endpoint1
+			 *	@param {Point} arg2
+			 *				point2 The second point (endpoint2)
+			 *	@param {Number} arg3
+			 *				radius of endpoint2
+			 *
+			 *	@example
+			 *	var point1 = new paper.Point( 9,9 );
+			 *	var radius1 = 9;
+			 *	var point2 = new paper.Point( 90,90 );
+			 *	var radius2 = 90;
+			 *	var fchain = new paper.Path.FChain( point1, radius1, point2, radius2 );
+			 *
+			 */
+			/**
+			 *	
+			 *	@param {Path} arg0
+			 *				PathItem (endpoint1)
+			 *	@param {Path} arg1
+			 *				PathItem (endpoint2)
+			 *
+			 *	@example
+			 *	var path1 = new paper.Path.Circle( new Point(9,9), 9 );
+			 *	var path2 = new paper.Path.Circle( new Point(90,90), 90 );
+			 *	var fchain = new paper.Path.FChain( path1, path2 );
+			 *
+			 */
+			FChain: function(arg0, arg1, arg2, arg3) {
+				var obj1, obj2;
+
+				// check for the type of arguments being passed
+				if( arg0.type == 'Point' ) {
+					obj1 = new Path.Circle( arg0, arg1 );
+					obj2 = new Path.Circle( arg2, arg3 );
+				}
+				else {
+					obj1 = arg0;
+					obj2 = arg1;
+				}
+
+				var tangents = folio.getCommonTangents(obj1, obj2);
+				var path = new Path();
+				if( tangents != null ) {
+					path.name = 'chain';
+					path.add( tangents[0] );
+					path.add( tangents[1] );
+
+					// determine position of chain around endpoint2
+					if( obj2.position.x > obj1.position.x ) angle = 0;
+					else if( obj2.position.y < obj1.position.y ) angle = -90;
+					else if( obj2.position.y > obj1.position.y ) angle = 90;
+					else angle = 180;
+					var tp2 = new Point(
+						obj2.position.x + Math.cos( paper.radians(angle) ) * (obj2.bounds.width/2),
+						obj2.position.y + Math.sin( paper.radians(angle) ) * (obj2.bounds.height/2)
+					);
+					path.arcTo(tp2, tangents[2]);
+
+					path.add(tangents[2]);
+					path.add(tangents[3]);
+
+					// determine position of chain around endpoint1
+					if( obj1.position.x > obj2.position.x ) angle = 0;
+					else if( obj1.position.y < obj2.position.y ) angle = -90;
+					else if( obj1.position.y > obj2.position.y ) angle = 90;
+					else angle = 180;
+					var tp1 = new Point(
+						obj1.position.x + Math.cos( paper.radians(angle) ) * (obj1.bounds.width/2),
+						obj1.position.y + Math.sin( paper.radians(angle) ) * (obj1.bounds.height/2)
+					);
+					path.arcTo(tp1, tangents[0]);
+					path.closed;
+				}
+				return path;
+
+			},
+
+
+			/**
+			 *
+			 *	FCross
+			 *	Create a cross
+			 *	
+			 *	@param {Point} centerPoint
+			 *				position of cross
+			 *	@param {Size} size
+			 *				size [width,height] of cross
+			 *	@param {Number} strokeWidth
+			 *				thickness of the cross
+			 *	@param {String} crossType (optional)
+			 *				'SHARP'		sharp edged cross (fill)
+			 *				'LINE'		simple built of lines (stroke)
+			 *
+			 *	@example
+			 *	var centerPoint = new paper.Point( 45,45 );
+			 *	var size = new paper.Size( 45,45 );
+			 *	var strokeWidth = 18;
+			 *	var crossType = 'LINE';
+			 *	var fcross = new paper.Path.FCross( centerPoint, size, strokeWidth, crossType );
+			 *
+			 */
+			FCross: function( centerPoint, size, strokeWidth, crossType ) {
+				(strokeWidth != undefined) ? strokeWidth : 1.0;
+				(crossType != undefined) ? crossType : 'LINE';
+
+				// var centerPoint = new Point(_x,_y);
+				// var size = new Size(_width,_height);
+				var line1, line2;
+
+				if( crossType == 'LINE' ) {
+					line1 = new Path.Line(
+						centerPoint.x + size.width, centerPoint.y - size.height, 
+						centerPoint.x - size.width, centerPoint.y + size.height
+					);
+					line1.strokeWidth = strokeWidth;
+					line2 = new Path.Line(
+						centerPoint.x + size.width, centerPoint.y + size.height, 
+						centerPoint.x - size.width, centerPoint.y - size.height
+					);
+					line2.strokeWidth = strokeWidth;
+				}
+				else if( crossType == 'SHARP' ) {
+					line1 = new Path();
+					line1.add( new Point( centerPoint.x + size.width, centerPoint.y - size.height ) );
+					line1.add( new Point( centerPoint.x + size.width, (centerPoint.y - size.height) + (strokeWidth/2) ) );
+					line1.add( new Point( (centerPoint.x - size.width) + (strokeWidth/2), centerPoint.y + size.height ) );
+					line1.add( new Point( centerPoint.x - size.width, centerPoint.y + size.height ) );
+					line1.add( new Point( centerPoint.x - size.width, (centerPoint.y + size.height) - (strokeWidth/2) ) );
+					line1.add( new Point( (centerPoint.x + size.width) - (strokeWidth/2), centerPoint.y - size.height ) );
+					line1.closed = true;
+
+					line2 = new Path();
+					line2.add( new Point( centerPoint.x - size.width, centerPoint.y - size.height ) );
+					line2.add( new Point( (centerPoint.x - size.width) + (strokeWidth/2), centerPoint.y - size.height ) );
+					line2.add( new Point( centerPoint.x + size.width, (centerPoint.y + size.height) - (strokeWidth/2) ) );
+					line2.add( new Point( centerPoint.x + size.width, centerPoint.y + size.height ) );
+					line2.add( new Point( (centerPoint.x + size.width) - (strokeWidth/2), centerPoint.y + size.height ) );
+					line2.add( new Point( centerPoint.x - size.width, (centerPoint.y - size.height) + (strokeWidth/2) ) );
+					line2.closed = true;
+				}
+
+				var group = new Group([ line1, line2 ]);
+				group.name = 'cross';
+				return group;
+			},
+
+
+			/**
+			 *	FDrop
+			 *	Create a (tear)drop
+			 *
+			 *	@param {Point} centerPoint
+			 *				position of cross
+			 *	@param {Number} arg1
+			 *				scale drop, maintains intended proportion
+			 *
+			 *	@example
+			 *	var centerPoint = new paper.Point( 45,45 );
+			 *	var scale = 45;
+			 *	var fdrop = new paper.Path.FDrop( centerPoint, scale );
+			 *
+			 */
+			/**
+			 *	
+			 *	@param {Point} centerPoint
+			 *				position of cross
+			 *	@param {Size} arg1
+			 *				scale drop, custom proportion
+			 *
+			 *	@example
+			 *	var centerPoint = new paper.Point( 45,45 );
+			 *	var scale = new paper.Size( 30,61.8 );
+			 *	var fdrop = new paper.Path.FDrop( centerPoint, scale );
+			 *
+			 */
+			FDrop: function( centerPoint, arg1 ) {
+				var path = new Path();
+				path.name = 'drop';
+
+				// segments added from top counter-clockwise
+				path.add( new Segment(
+					new Point( -0.01, 0.01 ),
+					new Point( 0, -0.0055078 ),
+					new Point( 0, 0.643042 )
+				) );
+				path.add( new Segment(
+					new Point( -0.65, 1.6381104 ),
+					new Point( 0, -0.6109619 ),
+					new Point( 0, 0.3694434 )
+				) );
+				path.add( new Segment(
+					new Point( 0, 2.31 ),
+					new Point( -0.3578369, 0 ),
+					new Point( 0.3578369, 0 )
+				) );
+				path.add( new Segment(
+					new Point( 0.65, 1.6381104 ),
+					new Point( 0, 0.3694434 ),
+					new Point( 0, -0.6109619 )
+				) );
+				path.add( new Segment(
+					new Point( 0.01, 0.01 ),
+					new Point( 0, 0.643042 ),
+					new Point( 0, -0.0055078 )
+				) );
+				path.add( new Segment(
+					new Point( 0, -0 ),
+					new Point( 0.0055078, 0 ),
+					new Point( -0.0055078, 0 )
+				) );
+				path.closed = true;
+				path.position = centerPoint;
+
+				// check for the type of arguments being passed
+				// default scale is from center (position)
+				var type = folio.getType(arg1);
+				if( type == 'Size' ) {
+					path.scale( arg1.width, arg1.height );
+				}
+				else {
+					path.scale( arg1 );
+				}
+
+				return path;
+			},
+
+
+			/**
+			 *	FTriangle
+			 *	Create a triangle
+			 *
+			 *	@param {Point} p1
+			 *				first point of triangle
+			 *	@param {Point} p2
+			 *				second point of triangle
+			 *	@param {Point} p3
+			 *				third point of triangle
+			 *
+			 *	@example
+			 *	var p1 = new paper.Point( 9,9 );
+			 *	var p2 = new paper.Point( 90,45 );
+			 *	var p3 = new paper.Point( 45,90 ); 
+			 *	var ftriangle = new paper.Path.FTriangle( p1, p2, p3 );
+			 *
+			 */
+			FTriangle: function( p1, p2, p3 ) {
+				var path = new Path();
+				path.add(p1);
+				path.add(p2);
+				path.add(p3);
+				path.closed = true;
+				path.name = 'triangle';
+
+				return path;
+			}
+		}; // end return
+
+
+	} // end statics:
+});
 
 /**
  *  
+ *	FIO.js
+ *	v0.5
+ *  
+ *	11. August 2013
+ *
+ *	Ken Frederick
+ *	ken.frederick@gmx.de
+ *
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
+ *
  *
  *	FIO
  *	A collection of I/O methods;
  *
- *	Jürg Lehni
- *	http://scriptographer.org/forum/help/save-array-data-to-external-file/?pos=0#Post-3279
- *
  */
-frederickkScript.FIO = {
+
+
+folio.FIO = {
 	// ------------------------------------------------------------------------
 	// Methods
 	// ------------------------------------------------------------------------
-	/**
-	 *	@param str
-	 *				the String of information to save (JSON encoded)
-	 *	@param fname
-	 *				the name of the file to save to
+	/*
+	 *	Local Storage
 	 */
-	saveFile: function(str, fname) {
-		var file = new File(script.file.parent, fname);
-		if (file.exists()) file.remove();
-		file.open();
-		file.write( Json.encode(str) );
-		file.close();
+
+	/**
+	 *	save a value using HTML5 Local Storage
+	 *	http://www.w3schools.com/html/html5_webstorage.asp
+	 *	
+	 *	@param name
+	 *				the name (key) of what we want to save
+	 *	@param value
+	 *				what we want to save
+	 */
+	saveLocal : function(name, value) {
+		if(window.localStorage) {
+			localStorage.setItem(name, String(value));
+		}
+		else {
+			console.error('localStorage not supported');
+		}
 	},
 
 	/**
-	 *	@param fname
-	 *				the name of the file to open
+	 *	retrieve saved value (default: as string)
+	 *
+	 *	@param name
+	 *				the name (key) of what we want to retrieve
 	 */
-	openFile: function(fname) {
-		var file = new File(script.file.parent, fname);
-		file.open();
-		var data = Json.decode( file.readAll() );
-		file.close();
-		
-		return data;
+	getLocal : function(name) {
+		return localStorage.getItem(name);
 	},
 
 	/**
-	 *	@param fname
-	 *				the name of the file to delete
+	 *	retrieve saved value as an int
+	 *
+	 *	@param name
+	 *				the name (key) of what we want to retrieve
 	 */
-	deleteFile: function(fname) {
-		var file = new File(script.file.parent, fname);
-		// If file exists, we need to remove it first in order to overwrite its content.
-		if (file.exists()) file.remove();
+	getLocalInt : function(name) {
+		return parseInt( getLocal(name) );
 	},
 
 	/**
-	 *	@param fname
-	 *				the name of the file to verify exists
+	 *	retrieve saved value as a float
+	 *
+	 *	@param name
+	 *				the name (key) of what we want to retrieve
 	 */
-	checkFile: function(fname) {
-		var file = new File(script.file.parent, fname);
-		if (file.exists()) return true;
-		else return false
+	getLocalFloat : function(name) {
+		return parseFloat( getLocal(name) );
+	},
+
+	/*
+	 *	@return a list of all items saved in local storage
+	 *
+	 */
+	getAllLocal : function() {
+		return sessionStorage;
+
+	},
+
+	/**
+	 *	delete a saved value from local storage
+	 *	
+	 *	@param name
+	 *				the name (key) of what we want to delete
+	 *
+	 */
+	deleteLocal : function(name) {
+		localStorage.removeItem(name);
+	},
+
+
+
+	/*
+	 *	Session Storage
+	 */
+
+	/**
+	 *	save a value using HTML5 Session Storage
+	 *	http://www.w3schools.com/html/html5_webstorage.asp
+	 *	
+	 *	@param name
+	 *				the name (key) of what we want to save
+	 *	@param value
+	 *				what we want to save
+	 */
+	saveSession : function(name, value) {
+		if(window.sessionStorage) {
+			sessionStorage.setItem(name, String(value));
+		}
+		else {
+			console.error('sessionStorage not supported');
+		}
+	},
+
+	/**
+	 *	retrieve saved value (default: as string)
+	 *
+	 *	@param name
+	 *				the name (key) of what we want to retrieve
+	 */
+	getSession : function(name) {
+		return sessionStorage.getItem(name);
+	},
+
+	/**
+	 *	retrieve saved value as an int
+	 *
+	 *	@param name
+	 *				the name (key) of what we want to retrieve
+	 */
+	getSessionInt : function(name) {
+		return parseInt( getSession(name) );
+	},
+
+	/**
+	 *	retrieve saved value as a float
+	 *
+	 *	@param name
+	 *				the name (key) of what we want to retrieve
+	 */
+	getSessionFloat : function(name) {
+		return parseFloat( getSession(name) );
+	},
+
+	/**
+	 *	@return a list of all items saved in session storage
+	 *
+	 */
+	getAllSession : function() {
+		return sessionStorage;
+
+	},
+
+	/**
+	 *	delete a saved value from session storage
+	 *	
+	 *	@param name
+	 *				the name (key) of what we want to delete
+	 *
+	 */
+	deleteSession : function(name) {
+		sessionStorage.removeItem(name);
+	},
+
+
+
+	/*
+	 *	Cookies
+	 *	http://www.quirksmode.org/js/cookies.html
+	 */
+	
+	/**
+	 *	save a value as a cookie
+	 *	
+	 *	@param name
+	 *				the name (key) of what we want to save
+	 *	@param value
+	 *				what we want to save
+	 *	@param days
+	 *				how many days do we want to save it for
+	 */
+	saveCookie : function(name, value, days) {
+		if (days) {
+			var date = new Date();
+			date.setTime(date.getTime() + (days*24*60*60*1000));
+			var expires = '; expires=' + date.toGMTString();
+		}
+		else var expires = '';
+		document.cookie = name + '=' + value + expires + '; path=/';
+	},
+
+	/**
+	 *	retrieve a value from a cookie
+	 *	
+	 *	@param name
+	 *				the name (key) of what we want to retrieve
+	 */
+	openCookie : function(name) {
+		var nameEQ = name + '=';
+		var ca = document.cookie.split(';');
+		for(var i=0;i < ca.length;i++) {
+			var c = ca[i];
+			while (c.charAt(0)==' ') c = c.substring(1,c.length);
+			if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+		}
+		return null;
+	},
+
+	/**
+	 *	delete a cookie
+	 *	
+	 *	@param name
+	 *				the name (key) of what we want to delete
+	 */
+	deleteCookie : function(name) {
+		saveCookie(name, '', -1);
 	}
 
 };
 
 
-
 /**
  *  
+ *	Core.js
+ *	v0.5
+ *  
+ *	15. May 2013
+ *
+ *	Ken Frederick
+ *	ken.frederick@gmx.de
+ *
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
+ *  
+ *  
+ *	Core Methods
+ *
+ */
+
+
+folio.FTime = {
+	// ------------------------------------------------------------------------
+ 	// Namespaces
+	// ------------------------------------------------------------------------
+	// Time/Timing Support
+ 	FDate: {},
+ 	FStopwatch: {},
+ 	
+ 	// Animation Support
+ 	FStepper: {},
+ 	Ease: {}
+
+
+	// ------------------------------------------------------------------------
+ 	// Methods
+	// ------------------------------------------------------------------------
+
+
+};
+
+/**
+ *	
+ *	Easing.js
+ *	v0.5
+ *	
+ *	Easing Functions
+ *	originally inspired from http://gizma.com/easing/
+ *	https://gist.github.com/gre/1650294
+ *	
+ *	KeySpline Function
+ *	use bezier curve for transition easing function
+ *	as inspired from Firefox's nsSMILKeySpline.cpp
+ *	https://gist.github.com/gre/1926947#file-keyspline-js
+ *	http://greweb.me/2012/02/bezier-curve-based-easing-functions-from-concept-to-implementation/
+ *	
+ *	Copyright (c) 2012
+ *	
+ *	Gaetan Renaudeau
+ *	renaudeau.gaetan@gmail.com
+ *
+ *	
+ *	modified and augemented for usage with Paper.js
+ *
+ *	7. August 2013
+ *
+ *	Ken Frederick
+ *	ken.frederick@gmx.de
+ *
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
+ *
+ *
+ *	
+ *	MIT License
+ *
+ *	Permission is hereby granted, free of charge, to any person obtaining a
+ *	copy of this software and associated documentation files (the "Software"),
+ *	to deal in the Software without restriction, including without limitation
+ *	the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ *	and/or sell copies of the Software, and to permit persons to whom the
+ *	Software is furnished to do so, subject to the following conditions:
+ *	
+ *	The above copyright notice and this permission notice shall be included in
+ *	all copies or substantial portions of the Software.
+ *	
+ *	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ *	THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ *	FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+ *	DEALINGS IN THE SOFTWARE.
+ */
+
+
+folio.FTime.Ease = function() {
+	/**
+	 * 
+	 * values of classic easing functions, similar to CSS
+	 * 
+	 */
+	var splineValues = {
+		ease:		[ 0.25, 0.1, 0.25, 1.0 ], 
+		linear:		[ 0.00, 0.0, 1.00, 1.0 ],
+		// in:			[ 0.42, 0.0, 1.00, 1.0 ],
+		out:		[ 0.00, 0.0, 0.58, 1.0 ],
+		inOut:		[ 0.42, 0.0, 0.58, 1.0 ]
+	};
+
+
+	/**
+	 * 
+	 *	use bezier curve for transition easing function
+	 *	
+	 *	@param {Array} arg0
+	 *					an array (4) of normalized X,Y values [ x1, y1, x2, y2 ] 
+	 *	
+	 *	@example
+	 *	var spline = new KeySpline(0.25, 0.1, 0.25, 1.0)
+	 *	spline.get(t) // returns the normalized easing value | t must be in [0, 1] range
+	 *	
+	 */
+	/**
+	 * 
+	 *	use bezier curve for transition easing function
+	 *	
+	 *	@param {Point} arg0
+	 *					Point 1
+	 *	@param {Point} arg1
+	 *					Point 2
+	 *	
+	 *	@example
+	 *	var spline = new KeySpline(
+	 *		new Point( 80, 80 ),
+	 *		new Point( 10, 45 )
+	 *	);
+	 *	spline.get(t) // returns the normalized easing value | t must be in [0, 1] range
+	 *	
+	 */
+	function KeySpline(arg0, arg1) {
+		var values;
+		if (arg0 instanceof Array) {
+			values = arg0;
+		}
+		else {
+			arg0 = arg0.normalize();
+			arg1 = arg1.normalize();
+			values = [arg0.x, arg0.y, arg1.x, arg1.y];
+		}
+
+		function A(arg0, arg1) { return 1.0 - 3.0 * arg1 + 3.0 * arg0; };
+		function B(arg0, arg1) { return 3.0 * arg1 - 6.0 * arg0; };
+		function C(arg0) { return 3.0 * arg0; };
+	 
+
+		//
+		// TODO: push these to be global?
+		// 
+		/**
+		 *	@param {Number} t
+		 *				 	a float from 0.0 - 1.0
+		 *	@param {Number} arg0
+		 *					x1 or y1
+		 *	@param {Number} arg1
+		 *					x2 or y2
+		 *					
+		 *	@return x(t)
+		 *	
+		 */
+		function CalcBezier(t, arg0, arg1) {
+			return ((A(arg0, arg1)*t + B(arg0, arg1))*t + C(arg0))*t;
+		};
+	 
+		/**
+		 *	@param {Number} t
+		 *				 	a float from 0.0 - 1.0
+		 *	@param {Number} arg0
+		 *					x1 or y1
+		 *	@param {Number} arg1
+		 *					x2 or y2
+		 *					
+		 *	@return dx/dt
+		 *	
+		 */
+		function GetSlope(t, arg0, arg1) {
+			return 3.0 * A(arg0, arg1)*t*t + 2.0 * B(arg0, arg1) * t + C(arg0);
+		};
+	 
+		function GetTForX(t) {
+			// Newton raphson iteration
+			var aGuessT = t;
+			for (var i = 0; i < 4; ++i) {
+				var currentSlope = GetSlope(aGuessT, values[0], values[2]);
+				if (currentSlope == 0.0) return aGuessT;
+				var currentX = CalcBezier(aGuessT, values[0], values[2]) - t;
+				aGuessT -= currentX / currentSlope;
+			}
+			return aGuessT;
+		};
+
+
+		function get(t) {
+			// normalize();
+			if (values[0] == values[1] && values[2] == values[3]) return t; // linear
+			return CalcBezier(GetTForX(t), values[1], values[3]);
+		};
+
+
+		return {
+			get: get
+		};
+
+	};
+
+
+	// public
+	return {
+		/**
+		 *	see http://easings.net/de for visual examples
+		 *	of each spline method
+		 */
+		linear: function(t) { return t },
+
+		inQuad: function(t) { return t*t },
+		outQuad: function(t) { return t*(2-t) },
+		inOutQuad: function(t) { return t<.5 ? 2*t*t : -1+(4-2*t)*t },
+
+		inCubic: function(t) { return t*t*t },
+		outCubic: function(t) { return (--t)*t*t+1 },
+		inOutCubic: function(t) { return t<.5 ? 4*t*t*t : (t-1)*(2*t-2)*(2*t-2)+1 },
+
+		inQuart: function(t) { return t*t*t*t },
+		outQuart: function(t) { return 1-(--t)*t*t*t },
+		inOutQuart: function(t) { return t<.5 ? 8*t*t*t*t : 1-8*(--t)*t*t*t },
+
+		inQuint: function(t) { return t*t*t*t*t },
+		outQuint: function(t) { return 1+(--t)*t*t*t*t },
+		inOutQuint: function(t) { return t<.5 ? 16*t*t*t*t*t : 1+16*(--t)*t*t*t*t },
+
+		inSine: function(t) { return -1*Math.cos(t*(Math.PI/2))+1 },
+		outSine: function(t) { return 1*Math.sin(t*(Math.PI/2)) },
+		inOutSine: function(t) { return -0.5*(Math.cos(Math.PI*t)-1) },
+
+		inExpo: function(t) { return 1*Math.pow(2, 10*(t-1)) },
+		outExpo: function(t) { return 1*(-Math.pow(2, -10*t)+1 ) },
+		inOutExpo: function(t) { t /= 0.5; if (t < 1) return 0.5 * Math.pow(2, 10*(t-1)); t--; return 0.5 * (-Math.pow(2, -10*t)+2); },
+
+		inCirc: function(t) { return -1*(Math.sqrt(1-t*t)-1) },
+		outCirc: function(t) { t--; return 1*Math.sqrt(1-t*t); },
+		inOutCirc: function(t) { t /= 0.5; if(t<1) { return -0.5*(Math.sqrt(1-t*t)-1); }else{ t-=2; return 0.5*(Math.sqrt(1-t*t)+1); } },
+
+
+		spline: KeySpline
+		// values: splineValues 
+	};
+
+};/**
+ *  
+ *	FDate.js
+ *	v0.5
+ *  
+ *	11. August 2013
+ *
+ *	Ken Frederick
+ *	ken.frederick@gmx.de
+ *
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
+ *
  *
  *	FDate
  *
  */
-frederickkScript.FTime.FDate = function() {
+
+
+folio.FTime.FDate = function() {
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
@@ -1922,14 +2884,26 @@ frederickkScript.FTime.FDate = function() {
 };
 
 
-
 /**
+ *  
+ *	FStepper.js
+ *	v0.5
+ *  
+ *	11. August 2013
+ *
+ *	Ken Frederick
+ *	ken.frederick@gmx.de
+ *
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
  *  
  *  
  *	FStepper
  *
  */
-frederickkScript.FTime.FStepper = function() {
+
+
+folio.FTime.FStepper = function() {
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
@@ -1979,7 +2953,7 @@ frederickkScript.FTime.FStepper = function() {
 
 	// ------------------------------------------------------------------------
 	/**
-	 *	TODO: implement _easing
+	 *	TODO: implement ability to add _easing functions
 	 *
 	 *	required function to keep the timing in sync
 	 *	with the application
@@ -1992,10 +2966,10 @@ frederickkScript.FTime.FStepper = function() {
 			_bBeginStpper = false;
 			_timeStart = currentTime;
 			if(_bIn) {
-				_timeEnd = frederickkScript.roundDecimal( (currentTime + ((1.0 - this.delta) * _stepMillis)), 3 );
+				_timeEnd = paper.roundDecimal( (currentTime + ((1.0 - this.delta) * _stepMillis)), 3 );
 			}
 			else {
-				_timeEnd = frederickkScript.roundDecimal( (currentTime + (this.delta*_stepMillis)), 3 );
+				_timeEnd = paper.roundDecimal( (currentTime + (this.delta*_stepMillis)), 3 );
 			}
 			if(_timeEnd <= currentTime) {
 				if(_bIn) {
@@ -2009,7 +2983,7 @@ frederickkScript.FTime.FStepper = function() {
 			}
 		}
 		if(_bIn) {
-			this.delta = frederickkScript.roundDecimal( (1.0 - ((_timeEnd - currentTime) / _stepMillis)), 3 );
+			this.delta = paper.roundDecimal( (1.0 - ((_timeEnd - currentTime) / _stepMillis)), 3 );
 			// if(_bEase) {
 			// }
 
@@ -2021,7 +2995,7 @@ frederickkScript.FTime.FStepper = function() {
 			}
 		}
 		else if(_bOut) {
-			this.delta = frederickkScript.roundDecimal( ((_timeEnd - currentTime) / _stepMillis), 3 );
+			this.delta = paper.roundDecimal( ((_timeEnd - currentTime) / _stepMillis), 3 );
 			// if(_bEase) {
 			// }
 
@@ -2080,11 +3054,11 @@ frederickkScript.FTime.FStepper = function() {
 	 */
 	this.isDone = function() {
 		if(this.delta < 1.0 && this.delta > 0.0) return false;
-		else if(this.delta >= 1.0) {
+		else if(this.delta > 1.0) {
 			this.delta = 1.0;
 			return true;
 		}
-		else if(this.delta <= 0.0) {
+		else if(this.delta < 0.0) {
 			this.delta = 0.0;
 			return true;
 		}
@@ -2143,15 +3117,27 @@ frederickkScript.FTime.FStepper = function() {
 };
 
 
-
 /**
  *  
+ *	FStopwatch.js
+ *	v0.5
+ *  
+ *	11. August 2013
+ *
+ *	Ken Frederick
+ *	ken.frederick@gmx.de
+ *
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
+ *
  *
  *	FStopwatch
  *	A simple stopwatch
  *
  */
-frederickkScript.FTime.FStopwatch = function() {
+
+
+folio.FTime.FStopwatch = function() {
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
@@ -2270,3045 +3256,1070 @@ frederickkScript.FTime.FStopwatch = function() {
 };
 
 
-
-// /**
-//  *  
-//  *	3D Path Shape Constructors
-//  *
-//  *	A barebones collection of primitive shapes for 3D rendering
-//  *
-//  *	code inspired by
-//  *	http://www.netmagazine.com/tutorials/build-your-own-html5-3d-engine
-//  *	https://github.com/mrdoob/three.js/
-//  *
-//  *	modified/expanded for use in PaperJS by Ken Frederick
-//  *
-//  */
-// // FPath3.inject({ statics: new function() {
-
-
-// // }});
-
-
-// /**
-//  *  
-//  *	3D Path Class
-//  *
-//  *	A barebones collection of classes for primitive 3D rendering
-//  *
-//  *	code inspired by
-//  *	http://www.netmagazine.com/tutorials/build-your-own-html5-3d-engine
-//  *	https://github.com/mrdoob/three.js/
-//  *
-//  *	modified/expanded for use in PaperJS by Ken Frederick
-//  *
-//  */
-// var F3D.FPath3 = this.FPath3 = Path.extend({
-// 	// ------------------------------------------------------------------------
-// 	// Properties
-// 	// ------------------------------------------------------------------------
-// 	/*
-// 	 *	private
-// 	 */
-// 	_type: 'FPath3',
-	
-// 	// scene
-// 	_scene: null,
-// 	_matrix: null,
-
-// 	// 3D points array
-// 	_fpoints3: null,
-
-// 	// transformations
-// 	_rotation: null,
-// 	_translation: null,
-
-// 	/*
-// 	 *	public
-// 	 */
-// 	position3: null,
-
-
-
-// 	// ------------------------------------------------------------------------
-// 	// Methods
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *
-// 	 *	@param scene
-// 	 *				the scene to attach this path to
-// 	 *
-// 	 */
-// 	initialize : function(scene) {
-// 		this.base();
-// 		this._closed = false;
-
-// 		this.position3 = new F3D.FPoint3();
-
-// 		// setup scene
-// 		this._scene = scene;
-
-// 		// setup matrix
-// 		this._matrix = new Matrix3D();
-
-// 		// setup transformation
-// 		this._rotation = new F3D.FPoint3();
-// 		this._translation = new F3D.FPoint3();
-
-// 		// setup 3D points array
-// 		this._fpoints3 = [];
-
-// 		this.name = 'FPath3';
-// 		// return this;
-// 	},
-
-
-
-// 	// ------------------------------------------------------------------------
-// 	// Sets
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	@param scene
-// 	 *			scene to associate points with
-// 	 */
-// 	setScene : function(scene) {
-// 		// the scene
-// 		this._scene = scene;
-
-// 		for(var i=0; i<this._fpoints3.length; i++) {
-// 			this._fpoints3[i].setup( this._scene );
-// 		}
-// 	},
-
-// 	/**
-// 	 *	@param _fpoint3
-// 	 *			add FPoint3 to path
-// 	 */
-// 	add3 : function(fpoint3) {
-// 		this._fpoints3[ this._fpoints3.length ] = fpoint3;
-// 	},
-
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	@param arg0
-// 	 *			FPoint3 for transformation
-// 	 */
-// 	/**
-// 	 *	@param arg0
-// 	 *			x point
-// 	 *	@param arg1
-// 	 *			y point
-// 	 *	@param arg2
-// 	 *			z point
-// 	 */
-// 	translate : function(arg0, arg1, arg2) {
-// 		if(typeof arg0 == 'number') {
-// 			this._translation.x = arg0;
-// 			this._translation.y = arg1;
-// 			this._translation.z = arg2;
-// 		}
-// 		else if(typeof arg0 == 'object') { // FPoint3
-// 			this._translation.x = arg0.x;
-// 			this._translation.y = arg1.y;
-// 			this._translation.z = arg2.z;
-// 		}
-// 		else {
-// 			this._translation.x = arg0 != undefined ? arg0 : 0;
-// 			this._translation.y = arg1 != undefined ? arg1 : 0;
-// 			this._translation.z = arg2 != undefined ? arg2 : 0;
-// 		}
-
-// 		for(var i=0; i<this._fpoints3.length; i++) {
-// 			var pt3 = this._fpoints3[i];
-// 			pt3.setX( (pt3.x + this._translation.x) );
-// 			pt3.setY( (pt3.y + this._translation.y) );
-// 			pt3.setZ( (pt3.z + this._translation.z) );
-// 		}
-// 	},
-
-// 	/**
-// 	 *	@param val
-// 	 *			degree value for x axis rotation
-// 	 */
-// 	rotateX : function(val) {
-// 		this._rotation.x = val;
-// 	},
-
-// 	/**
-// 	 *	@param val
-// 	 *			degree value for y axis rotation
-// 	 */
-// 	rotateY : function(val) {
-// 		this._rotation.y = val;
-// 	},
-
-// 	/**
-// 	 *	@param val
-// 	 *			degree value for z axis rotation
-// 	 */
-// 	rotateZ : function(val) {
-// 		this._rotation.z = val;
-// 	},
-
-
-
-// 	// ------------------------------------------------------------------------
-// 	// Gets
-// 	// ------------------------------------------------------------------------
-// 	get : function() {
-// 		// clear segments
-// 		this._segments = [];
-
-// 		// push points into 2D path
-// 		for(var i=0; i<this._fpoints3.length; i++) {
-// 			var pt3 = this._fpoints3[i];
-// 			this.add( 
-// 				new Point( pt3.x2D(), pt3.y2D() )
-// 			);
-// 		}
-// 		return this;
-// 	},
-
-// });
-
-
-// /**
-//  *  
-//  *	FPoint3
-//  *
-//  *	A barebones collection of classes for primitive 3D rendering
-//  *
-//  *	code inspired by
-//  *	http://www.netmagazine.com/tutorials/build-your-own-html5-3d-engine
-//  *	https://github.com/mrdoob/three.js/
-//  *
-//  *	modified/expanded for use in PaperJS by Ken Frederick
-//  *
-//  */
-
-// /**
-//  *	@param arg0
-//  *			x coordinate
-//  *	@param arg1
-//  *			y coordinate
-//  *	@param arg2
-//  *			z coordinate
-//  */
-// var F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
-// 	// ------------------------------------------------------------------------
-// 	// Properties
-// 	// ------------------------------------------------------------------------
-// 	/*
-// 	 *	private
-// 	 */
-// 	var _scene = null;
-
-// 	var _xIndex = 0;
-// 	var _yIndex = 0;
-// 	var _zIndex = 0;
-	
-// 	var _xIndex2D = 0;
-// 	var _yIndex2D = 0;
-
-
-// 	/*
-// 	 *	public
-// 	 */
-// 	this.x = arg0 != undefined ? arg0 : 0;
-// 	this.y = arg1 != undefined ? arg1 : 0;
-// 	this.z = arg2 != undefined ? arg2 : 0;
-
-
-
-// 	// ------------------------------------------------------------------------
-// 	// Methods
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	@param scene
-// 	 *			the scene with which the points are
-// 	 *			associated with
-// 	 */
-// 	this.setup = function(scene) {
-// 		// setup scene
-// 		_scene = scene;
-
-// 		var index = _scene.setupPoint(this.x, this.y, this.z);
-// 		var i3 = index*3;
-// 		var i2 = index*2;
-
-// 		// 3D indicies
-// 		_xIndex = i3;
-// 		_yIndex = i3+1;
-// 		_zIndex = i3+2;
-
-// 		// 2D indicies
-// 		_xIndex2D = i2;
-// 		_yIndex2D = i2+1;
-// 	};
-
-
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	
-// 	 *	@return random point
-// 	 *
-// 	 */
-// 	/**
-// 	 *	@param minx
-// 	 *				minmum x (default: 0)
-// 	 *	@param maxx
-// 	 *				maximum x (default: artboard.bounds.width)
-// 	 *	@param miny
-// 	 *				minmum y (default: 0)
-// 	 *	@param maxy
-// 	 *				maximum y (default: artboard.bounds.height)
-// 	 *	@param minz
-// 	 *				minmum z (default: 0)
-// 	 *	@param maxz
-// 	 *				maximum z (default: 1000)
-// 	 *
-// 	 *	@return random point
-// 	 *
-// 	 */
-// 	this.random = function(minx, maxx, miny, maxy, minz, maxz) {
-// 		minx = (minx != undefined) ? minx : 0;
-// 		maxx = (maxx != undefined) ? maxx : artboard.bounds.width;
-// 		miny = (miny != undefined) ? miny : 0;
-// 		maxy = (maxy != undefined) ? maxy : artboard.bounds.height;
-// 		minz = (minz != undefined) ? miny : 0;
-// 		maxz = (maxz != undefined) ? maxy : 1000;
-
-// 		this.x = frederickkScript.random(minx, maxx);
-// 		this.y = frederickkScript.random(miny, maxy);
-// 		this.z = frederickkScript.random(minz, maxz);
-
-// 		return new F3D.FPoint3(this.x, this.y, this.z);
-// 	};
-
-
-
-// 	// ------------------------------------------------------------------------
-// 	// Sets
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *
-// 	 *	@param val
-// 	 *			set x value
-// 	 */
-// 	this.setX = function(val) {
-// 		if( _scene != null ) _scene.points3D[_xIndex] = val;
-// 		this.x = val;
-// 	};
-	
-// 	/**
-// 	 *
-// 	 *	@param val
-// 	 *			set y value
-// 	 */
-// 	this.setY = function(val) {
-// 		if( _scene != null ) _scene.points3D[_yIndex] = val;
-// 		this.y = val;
-// 	};
-
-// 	/**
-// 	 *
-// 	 *	@param val
-// 	 *			set z value
-// 	 */
-// 	this.setZ = function(val) {
-// 		if( _scene != null ) _scene.points3D[_zIndex] = val;
-// 		this.z = val;
-// 	};
-
-// 	// ------------------------------------------------------------------------
-// 	this.set = function(arg0, arg1, arg2) {
-// 		this.setX(arg0);
-// 		this.setY(arg1);
-// 		this.setZ(arg2);
-// 	};
-
-
-
-// 	// ------------------------------------------------------------------------
-// 	// Gets
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	@return a copy of this point
-// 	 */
-// 	this.get = function() {
-// 		return new F3D.FPoint3(this.x, this.y, this.z);
-// 	};
-
-
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	@return projected 2D x
-// 	 */
-// 	this.x2D = function() {
-// 		return _scene.points2D[_xIndex2D];
-// 	};
-
-// 	/**
-// 	 *	@return projected 2D y
-// 	 */
-// 	this.y2D = function() {
-// 		return _scene.points2D[_yIndex2D];
-// 	};
-
-// 	// ------------------------------------------------------------------------
-// 	this.getSceneIndex = function() {
-// 		return _sceneIndex;
-// 	};
-
-
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	Calculate the magnitude (length) of the point
-// 	 *
-// 	 *	@return the magnitude of the point
-// 	 */
-// 	this.mag = function() {
-// 		return Math.sqrt(this.x*this.x + this.y*this.y + this.z*this.z);
-// 	};
-
-
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	Add a point to this point
-// 	 *
-// 	 *	@param arg0
-// 	 *			the FPoint3 to be added
-// 	 */
-// 	/**
-// 	 *	Add a point to this point
-// 	 *
-// 	 *	@param arg0
-// 	 *			the x point to be added
-// 	 *	@param arg1
-// 	 *			the y point to be added
-// 	 *	@param arg2
-// 	 *			the z point to be added
-// 	 */
-// 	this.add = function(arg0, arg1, arg2) {
-// 		if(typeof arg0 == 'number') {
-// 			this.x += arg0;
-// 			this.y += arg1;
-// 			this.z += arg2;
-// 		}
-// 		else if(typeof arg0 == 'object') { // FPoint3
-// 			this.x += arg0.x();
-// 			this.y += arg0.y();
-// 			this.z += arg0.z();
-// 		}
-// 		this.set(this.x, this.y, this.z);
-// 	};
-
-
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	Subtract a point to this point
-// 	 *
-// 	 *	@param arg0
-// 	 *			the FPoint3 to be subtracted
-// 	 */
-// 	/**
-// 	 *	Subtract a point to this point
-// 	 *
-// 	 *	@param arg0
-// 	 *			the x point to be subtracted
-// 	 *	@param arg1
-// 	 *			the y point to be subtracted
-// 	 *	@param arg2
-// 	 *			the z point to be subtracted
-// 	 */
-// 	this.sub = function(arg0, arg1, arg2) {
-// 		if(typeof arg0 == 'number') {
-// 			this.x -= arg0;
-// 			this.y -= arg1;
-// 			this.z -= arg2;
-// 		}
-// 		else if(typeof arg0 == 'object') { // FPoint3
-// 			this.x -= arg0.x();
-// 			this.y -= arg0.y();
-// 			this.z -= arg0.z();
-// 		}
-// 		this.set(this.x, this.y, this.z);
-// 	};
-
-
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	Scale this point by a scalar
-// 	 *
-// 	 *	@param n
-// 	 *			the value to scale by
-// 	 */
-// 	this.scale = function(n) {
-// 		this.x *= n;
-// 		this.y *= n;
-// 		this.z *= n;
-// 		this.set(this.x, this.y, this.z);
-// 	};
-
-
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	Multiply each element of one point by the elements of another point.
-// 	 *
-// 	 *	@param arg0
-// 	 *			the FPoint3 to be multiplied
-// 	 */
-// 	/**
-// 	 *	Multiply each element of one point by the elements of another point.
-// 	 *
-// 	 *	@param arg0
-// 	 *			the x point to be multiplied
-// 	 *	@param arg1
-// 	 *			the y point to be multiplied
-// 	 *	@param arg2
-// 	 *			the z point to be multiplied
-// 	 */
-// 	this.mult = function(arg0, arg1, arg2) {
-// 		if(typeof arg0 == 'number') {
-// 			this.x *= arg0;
-// 			this.y *= arg1;
-// 			this.z *= arg2;
-// 		}
-// 		else if(typeof arg0 == 'object') { // FPoint3
-// 			this.x *= arg0.x();
-// 			this.y *= arg0.y();
-// 			this.z *= arg0.z();
-// 		}
-// 		this.set(this.x, this.y, this.z);
-// 	};
-
-
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	Divide each element of one point by the elements of another point.
-// 	 *
-// 	 *	@param arg0
-// 	 *			the FPoint3 to be divided
-// 	 */
-// 	/**
-// 	 *	Divide each element of one point by the elements of another point.
-// 	 *
-// 	 *	@param arg0
-// 	 *			the x point to be divided
-// 	 *	@param arg1
-// 	 *			the y point to be divided
-// 	 *	@param arg2
-// 	 *			the z point to be divided
-// 	 */
-// 	this.div = function(arg0, arg1, arg2) {
-// 		if(typeof arg0 == 'number') {
-// 			this.x /= arg0;
-// 			this.y /= arg1;
-// 			this.z /= arg2;
-// 		}
-// 		else if(typeof arg0 == 'object') { // FPoint3
-// 			this.x /= arg0.x();
-// 			this.y /= arg0.y();
-// 			this.z /= arg0.z();
-// 		}
-// 		this.set(this.x, this.y, this.z);
-// 	};
-
-
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	Calculate the Euclidean distance between two points (considering a point as a vector object)
-// 	 *
-// 	 *	@param _fpoint3
-// 	 *			another point
-// 	 *
-// 	 *	@return the Euclidean distance between
-// 	 */
-// 	this.getDistance = function(_fpoint3) {
-// 		var dx = this.x - _fpoint3.x();
-// 		var dy = this.y - _fpoint3.y();
-// 		var dz = this.z - _fpoint3.z();
-// 		return Math.sqrt(dx*dx + dy*dy + dz*dz);
-// 	};
-
-
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 * Calculate the angle between two points, using the dot product
-// 	 *
-// 	 * @param _fpoint3a
-// 	 *				a point
-// 	 * @param _fpoint3b
-// 	 *				another point
-// 	 *
-// 	 * @return the angle between the points
-// 	 */
-// 	this.angleBetween = function(_fpoint3a, _fpoint3b) {
-// 		var dot = _fpoint3a.x() * _fpoint3b.x() + _fpoint3a.y() * _fpoint3b.y() + _fpoint3a.z() * _fpoint3b.z();
-// 		var _f1mag = Math.sqrt(_fpoint3a.x() * _fpoint3a.x() + _fpoint3a.y() * _fpoint3a.y() + _fpoint3a.z() * _fpoint3a.z());
-// 		var _f2mag = Math.sqrt(_fpoint3b.x() * _fpoint3b.x() + _fpoint3b.y() * _fpoint3b.y() + _fpoint3b.z() * _fpoint3b.z());
-// 		return Math.acos(dot / (_f1mag * _f2mag));
-// 	};
-
-
-// 	// ------------------------------------------------------------------------
-// 	/**
-//    	 *	Normalize the point to length 1 (make it a unit point)
-// 	 */
-// 	this.normalize = function() {
-// 	    var m = this.mag();
-// 	    if (m != 0 && m != 1) {
-//     	  this.div(m);
-// 	    }
-// 	};
-
-
-// 	// ------------------------------------------------------------------------
-// 	this.toString = function() {
-// 		return '[ ' + this.x + ', ' + this.y + ', ' + this.z + ' ]';
-// 	};
-
-
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	Return a representation of this point as an array.
-// 	 */
-// 	this.array = function() {
-// 		return [this.x, this.y, this.z];
-// 	};
-
-// };
-
-
-// /**
-//  *  
-//  *	3D Scene Class
-//  *
-//  *	A barebones collection of classes for primitive 3D rendering
-//  *
-//  *	code mostly taken from
-//  *	http://www.netmagazine.com/tutorials/build-your-own-html5-3d-engine
-//  *	https://github.com/mrdoob/three.js/
-//  *
-//  *	modified/expanded for use in PaperJS by Ken Frederick
-//  *
-//  */
-
-
-
-// /**
-//  *
-//  *	TODO:	leave as is and accept or redo entire engine
-//  *			possibly look into using three.js as the engine	
-//  *
-//  */
-// var F3D.FScene3D = this.FScene3D = function() {
-// 	// ------------------------------------------------------------------------
-// 	// Properties
-// 	// ------------------------------------------------------------------------
-// 	/*
-// 	 *	private
-// 	 */
-// 	var _mode = 'PERSPECTIVE'; // default
-// 	var _matrix = null;
-
-// 	var _half = new F3D.FSize3(0,0,0);
-
-// 	// transfomrations
-// 	var _sceneScale = 1;
-// 	var _rotation = new F3D.FPoint3(0,0,0);
-
-// 	// items
-// 	var _numPoints = 0;
-// 	var _fpath3Arr = null;
-// 	var _groupBot = null;
-// 	var _groupTop = null;
-
-// 	/*
-// 	 *	public
-// 	 */
-// 	this.bounds = new F3D.FSize3(0,0,0);
-
-// 	this.points3D = [];
-// 	this.points2D = [];
-
-
-
-// 	// ------------------------------------------------------------------------
-// 	// Methods
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	matrix for isometric projection
-// 	 *
-// 	 *	TODO: figure out why this has to be
-// 	 *	configured like this?
-// 	 */
-// 	this._ortho = function() {
-// 		_matrix.makeOrtho( 
-// 			-_half.height,	// left
-// 			_half.height,	// right
-// 			_half.height,	// top
-// 			-_half.height,	// bottom
-// 			-_half.height,	// near
-// 			_half.height	// far
-// 		);
-// 	};
-
-// 	/**
-// 	 *	_perspective( for perspective projection
-// 	 */
-// 	this._perspective = function() {
-// 		_matrix.makePerspective( 
-// 			50,		// fov
-// 			0.5 * this.bounds.width/this.bounds.height,	// aspect
-// 			_half.depth,		// near
-// 			this.bounds.depth*2	// far
-// 		);
-// 	};
-
-
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	@param width
-// 	 *				width of scene
-//  	 *				default: artboard.bounds.width
-// 	 *	@param height
-// 	 *				height of scene
-//  	 *				default: artboard.bounds.height
-// 	 *	@param focalLength
-// 	 *				focal length of scene
-//  	 *				default: 1000
-// 	 *	@param mode
-// 	 *				'PERSPECTIVE' objects scale to perspective
-// 	 *				'ORTHO' objects do not scale (isometric)
-// 	 *
-// 	 */
-// 	this.setup = function(width, height, focalLength, mode) {
-// 		// setup point arrays
-// 		this.points3D = [];
-// 		this.points2D = [];
-
-// 		// setup items array
-// 		_fpath3Arr = [];
-
-// 		// setup matrix
-// 		_matrix = new Matrix3D();
-
-// 		// setup world
-// 		this.bounds.width  = width || artboard.bounds.width;
-// 		this.bounds.height = height || artboard.bounds.height;
-// 		this.bounds.depth = focalLength || 1000;
-
-// 		_half.width = this.bounds.width*0.5;
-// 		_half.height = this.bounds.height*0.5;
-// 		_half.depth = this.bounds.depth*0.5;
-
-// 		// set mode
-// 		this.setMode(mode);
-
-// 		// setup up group for items
-// 		_groupBot = new Group();
-// 		_groupTop = new Group();
-// 	};
-
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	draws FPath3 objects
-// 	 *
-// 	 *	@return group of FPath3 objects
-// 	 *
-// 	 */
-// 	this.draw = function() {
-// 		// transformation matrix
-// 		_matrix.identity();
-
-// 		// set perspective mode
-// 		if(_mode == 'ORTHO') this._ortho();
-// 		else this._perspective();
-
-// 		// implement transformations
-// 		_matrix.scale(_sceneScale, _sceneScale, _sceneScale);
-// 		_matrix.rotateX( _rotation.x );
-// 		_matrix.rotateY( _rotation.y );
-// 		_matrix.rotateZ( _rotation.z );
-// 		_matrix.translate(0, 0, this.bounds.depth);
-
-// 		// transformed points
-// 		var transformed = _matrix.transformArray(this.points3D);
-
-// 		// cycle through transformed 3D points
-// 		// pull out screen 2D points
-// 		for(var i=0; i<_numPoints; i++) {
-// 			var i3 = i*3;
-// 			var i2 = i*2;
-
-// 			var x = transformed[ i3 ];
-// 			var y = transformed[ i3+1 ];
-// 			var z = transformed[ i3+2 ];
-			
-// 			var scale = this.bounds.depth/(z+this.bounds.depth);
-
-// 			this.points2D[ i2 ]   = x*scale+_half.width;
-// 			this.points2D[ i2+1 ] = y*scale+_half.height;
-// 		}
-
-// 		// determine depth order of items
-// 		// very crude and rudimentary
-// 		var tindex = 0;
-// 		var depthArr = []; // temp array to correlate transformed points to items
-// 		for(var i=0; i<_fpath3Arr.length; i++) {
-// 			var fpath3 = _fpath3Arr[i];
-
-// 			var avgz = this.averageZ( 
-// 				transformed,
-// 				tindex,
-// 				tindex+(fpath3._fpoints3.length*3)
-// 			);
-
-// 			var temp = {
-// 				index: i,
-// 				z: avgz
-// 			};
-// 			depthArr.push(temp);
-
-// 			tindex += (fpath3._fpoints3.length*3)-1;
-// 		}
-// 		depthArr.sort(compare);
-
-// 		// put the object into the group based on their z depth
-// 		_groupBot.removeChildren(); // clear out in between draws
-// 		_groupTop.removeChildren(); // clear out in between draws
-// 		for(var i=0; i<depthArr.length; i++) {
-// 			var path = _fpath3Arr[ depthArr[i].index ].get();
-			
-// 			if(path.name == 'Z-TOP') _groupTop.appendTop( path );
-// 			else if(path.name == 'Z-BOTTOM') _groupBot.appendTop( path );
-// 			else if(path != null) _groupBot.appendTop( path );
-// 		}
-
-// 		// TODO: fix this scaling issue
-// 		if(_mode == 'ORTHO') {
-// 			_groupTop.scale(200, _groupBot.position);
-// 			_groupBot.scale(200, _groupBot.position);
-// 		}
-
-// 		return new Group( _groupBot,_groupTop );
-// 	};
-
-
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	@param arg0
-// 	 *				x coordinate
-// 	 *	@param arg1
-// 	 *				y coordinate
-// 	 *	@param arg2
-// 	 *				z coordinate
-// 	 *
-// 	 *	@return total number of points added to scene
-// 	 *
-// 	 */
-// 	this.setupPoint = function(arg0, arg1, arg2) {
-// 		var returnVal = _numPoints;
-
-// 		this.points2D[ this.points2D.length ] = 0;
-// 		this.points2D[ this.points2D.length ] = 0;
-
-// 		this.points3D[ this.points3D.length ] = arg0;
-// 		this.points3D[ this.points3D.length ] = arg1;
-// 		this.points3D[ this.points3D.length ] = arg2;
-
-// 		_numPoints++;
-
-// 		return returnVal;
-// 	};
-
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	@param pointsArr
-// 	 *				the array of points x[0], y[1], z[2]
-// 	 *	@param start
-// 	 *				start position in array
-// 	 *	@param stop
-// 	 *				stop position in array
-// 	 *
-// 	 *	@return average value of z
-// 	 *
-// 	 */
-//  	this.averageZ = function(pointsArr, start, stop) {
-// 		var avgz = 0;
-// 		for(var i=start; i<stop; i+=2) {
-// 		// 	// console.log( 'x\t' + pointsArr[i] );
-// 		// 	// console.log( 'y\t' + pointsArr[i+1] );
-// 		// 	// console.log( 'z\t' + pointsArr[i+2] );
-// 			avgz += parseInt( pointsArr[i+2] );
-// 		}
-// 		var num = (stop-start)/3;
-// 		return avgz/num;
-// 	};
-
-// 	/**
-// 	 *
-// 	 *	comparator to sort object by z value
-// 	 *
-// 	 */
-//  	function compare(a,b) {
-// 		if (a.z < b.z) return -1;
-// 		if (a.z > b.z) return 1;
-// 		return 0;
-// 	};
-
-
-
-// 	// ------------------------------------------------------------------------
-// 	// Sets
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	@param mode
-// 	 *				'PERSPECTIVE' objects scale to perspective
-// 	 *				'ORTHO' objects do not scale (isometric)
-// 	 */
-// 	this.setMode = function(mode) {
-// 		_mode = mode != undefined ? mode : 'PERSPECTIVE';
-// 	};
-
-// 	/**
-// 	 *	@param item
-// 	 *			an FPath3 item to add to the scene
-// 	 */
-// 	/**
-// 	 *	@param item
-// 	 *			an array of FPath3 items to add to the scene
-// 	 */
-// 	this.addItem = function(item) {
-// 		if(item.length > 0) {
-// 			for(var i=0; i<item.length; i++) {
-// 				_fpath3Arr[ _fpath3Arr.length ] = item[i];
-// 				item[i].setScene(this);
-// 			}
-// 		}
-// 		else {
-// 			_fpath3Arr[ _fpath3Arr.length ] = item;
-// 			item.setScene(this);
-// 		}
-// 	};
-	
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	@param val
-// 	 *			degree value for x axis rotation
-// 	 */
-// 	this.rotateX = function(val) {
-// 		_rotation.setX(val);
-// 	};
-
-// 	/**
-// 	 *	@param val
-// 	 *			degree value for y axis rotation
-// 	 */
-// 	this.rotateY = function(val) {
-// 		_rotation.setY(val);
-// 	};
-
-// 	/**
-// 	 *	@param val
-// 	 *			degree value for z axis rotation
-// 	 */
-// 	this.rotateZ = function(val) {
-// 		_rotation.setZ(val);
-// 	};
-
-
-
-// 	// ------------------------------------------------------------------------
-// 	// Gets
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *
-// 	 *	@return scene path items as _groupBot 
-// 	 *
-// 	 */
-// 	this.get = function() {
-// 		return _groupBot;
-// 	};
-
-// 	/**
-// 	 *
-// 	 *	@return scene size as array [width, height, depth]
-// 	 *
-// 	 */
-// 	this.getBounds = function() {
-// 		return [ this.bounds.width, this.bounds.height, this.bounds.depth ];
-// 	};
-
-// 	/**
-// 	 *
-// 	 *	@return scene transformation _matrix
-// 	 *
-// 	 */
-// 	this.getMatrix = function() {
-// 		return _matrix;
-// 	};
-
-// 	/**
-// 	 *
-// 	 *	@return scene focal length (depth)
-// 	 *
-// 	 */
-// 	this.getFocalLength = function() {
-// 		return this.bounds.depth;
-// 	};
-
-// 	/**
-// 	 *
-// 	 *	@return scene scale
-// 	 *
-// 	 */
-// 	this.getScale = function() {
-// 		return _sceneScale;
-// 	};
-
-
-// };
-
-
-// /**
-//  *  
-//  *	FSize3
-//  *
-//  *	A barebones collection of classes for primitive 3D rendering
-//  *
-//  *	code inspired by
-//  *	http://www.netmagazine.com/tutorials/build-your-own-html5-3d-engine
-//  *	https://github.com/mrdoob/three.js/
-//  *
-//  *	modified/expanded for use in PaperJS by Ken Frederick
-//  *
-//  */
-
-
-
-// /**
-//  *	TODO: finish this
-//  *
-//  *	@param arg0
-//  *			width
-//  *	@param arg1
-//  *			height
-//  *	@param arg2
-//  *			depth
-//  */
-// var F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
-// 	/*
-// 	 *	public
-// 	 */
-// 	this.width = arg0 != undefined ? arg0 : 0;
-// 	this.height = arg1 != undefined ? arg1 : 0;
-// 	this.depth = arg2 != undefined ? arg2 : 0;
-
-
-
-// 	// ------------------------------------------------------------------------
-// 	// Sets
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *
-// 	 *	@param val
-// 	 *			set width value
-// 	 */
-// 	this.setWidth = function(val) {
-// 		this.width = val;
-// 	};
-	
-// 	/**
-// 	 *
-// 	 *	@param val
-// 	 *			set height value
-// 	 */
-// 	this.setHeight = function(val) {
-// 		this.height = val;
-// 	};
-
-// 	/**
-// 	 *
-// 	 *	@param val
-// 	 *			set depth value
-// 	 */
-// 	this.setDepth = function(val) {
-// 		this.depth = val;
-// 	};
-
-// 	// ------------------------------------------------------------------------
-// 	this.set = function(arg0, arg1, arg2) {
-// 		this.setWidth(arg0);
-// 		this.setHeight(arg1);
-// 		this.setDepth(arg2);
-// 	};
-
-
-
-// 	// ------------------------------------------------------------------------
-// 	// Gets
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	Get a copy of this size
-// 	 */
-// 	this.get = function() {
-// 		return new F3D.FSize3(this.width, this.height, this.depth);
-// 	};
-
-
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	
-// 	 *	@return random size
-// 	 *
-// 	 */
-// 	/**
-// 	 *	@param minw
-// 	 *				minmum width (default: 0)
-// 	 *	@param maxw
-// 	 *				maximum width (default: artboard.bounds.width)
-// 	 *	@param minh
-// 	 *				minmum height (default: 0)
-// 	 *	@param maxh
-// 	 *				maximum height (default: artboard.bounds.height)
-// 	 *	@param mind
-// 	 *				minmum depth (default: 0)
-// 	 *	@param maxd
-// 	 *				maximum depth (default: 1000)
-// 	 *
-// 	 *	@return random size
-// 	 *
-// 	 */
-// 	this.random = function(minw, maxw, minh, maxh, mind, maxd) {
-// 		minw = (minw != undefined) ? minw : 0;
-// 		maxw = (maxw != undefined) ? maxw : artboard.bounds.width;
-// 		minh = (minh != undefined) ? minh : 0;
-// 		maxh = (maxh != undefined) ? maxh : artboard.bounds.height;
-// 		mind = (mind != undefined) ? mind : 0;
-// 		maxd = (maxd != undefined) ? maxd : 1000;
-
-// 		this.width = frederickkScript.random(minw, maxw);
-// 		this.height = frederickkScript.random(minh, maxh);
-// 		this.depth = frederickkScript.random(mind, maxd);
-// 		return this;
-// 	};
-
-// 	/**
-// 	 *	
-// 	 *	@return volume
-// 	 *
-// 	 */
-// 	this.volume = function() {
-// 		return (this.width * this.height * this.depth);
-// 	};
-
-
-// };
-
-
 /**
+ *	Travelling Salesman Problem Algorithm
+ *
+ *	Taken from "SVG Stipple Generator, v 1.0"
+ *	Copyright (C) 2012 by Windell H. Oskay
  *	
- *	Matrix3D
- *
- *	forked from daijimachine's "Matrix3D(lib)"
- *	http://jsdo.it/daijimachine/matrix3d
- * 
- *	@author Masayuki Daijima (ARCHETYP Inc.)
- *	http://www.daijima.jp/blog/
- *	http://twitter.com/daijimachine
- *
- *
- *	expanded and modified with inspiration from three.js
- *
+ *	http://www.evilmadscientist.com
+ *	http://www.evilmadscientist.com/go/stipple
+ *  
+ *  
+ *	Modified/Simplified for Paper.js
+ *  
  *	Ken Frederick
  *	ken.frederick@gmx.de
  *
- *	http://cargocollective.com/kenfrederick/
- *	http://kenfrederick.blogspot.com/
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
  *
- *
- *	modification 
- *
- *	This library is free software; you can redistribute it and/or
- *	modify it under the terms of the GNU Lesser General Public
- *	License as published by the Free Software Foundation; either
- *	version 2.1 of the License, or (at your option) any later version.
- *	
- *	http://creativecommons.org/licenses/LGPL/2.1/
- *	
- *	This library is distributed in the hope that it will be useful,
- *	but WITHOUT ANY WARRANTY; without even the implied warranty of
- *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- *	Lesser General Public License for more details.
- *	
- *	You should have received a copy of the GNU Lesser General Public
- *	License along with this library; if not, write to the Free Software
- *	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
- *	
  */
-var Matrix3D = function( n11, n12, n13, n14, 
-						 n21, n22, n23, n24, 
-						 n31, n32, n33, n34, 
-						 n41, n42, n43, n44 ) {
+/**
+ *	@param  {PathItem} items
+ *	        	an array of PathItems
+ *	@param  {Number} iterations (optional)
+ *	        	tests per frame (higher = better) default: 1000
+ *
+ *	@return {Array} an array of indices for the route through the input items
+ *
+ *	@example
+ */
+folio.FRoute = function(items, iterations) { 
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
-	this.n11 = n11 || 1.0;	this.n12 = n12 || 0.0;	this.n13 = n13 || 0.0;	this.n14 = n14 || 0.0;
-	this.n21 = n21 || 0.0;	this.n22 = n22 || 1.0;	this.n23 = n23 || 0.0;	this.n24 = n24 || 0.0;
-	this.n31 = n31 || 0.0;	this.n32 = n32 || 0.0;	this.n33 = n33 || 1.0;	this.n34 = n34 || 0.0;
-	this.n41 = n41 || 0.0;	this.n42 = n42 || 0.0;	this.n43 = n43 || 0.0;	this.n44 = n44 || 1.0;
+	var items = items;
+	var iterations = (iterations != undefined)
+		? iterations
+		: 1000;
+
+	var RouteStep = 0;
+	var RouteNodes = [];
 
 
 
 	// ------------------------------------------------------------------------
 	// Methods
 	// ------------------------------------------------------------------------
-	this.clone = function() {
-		return new Matrix3D( this.n11, this.n12, this.n13, this.n14,
-							 this.n21, this.n22, this.n23, this.n24,
-							 this.n31, this.n32, this.n33, this.n34,
-							 this.n41, this.n42, this.n43, this.n44 );
-	};
+	function calculate() {
+		var temp;
+		var p1;
 
-	// ------------------------------------------------------------------------
-	this.concat = function(m) {
-		var values = {};
-	
-		values.n11 = this.n11 * m.n11 + this.n12 * m.n21 + this.n13 * m.n31 + this.n14 * m.n41;
-		values.n12 = this.n11 * m.n12 + this.n12 * m.n22 + this.n13 * m.n32 + this.n14 * m.n42;
-		values.n13 = this.n11 * m.n13 + this.n12 * m.n23 + this.n13 * m.n33 + this.n14 * m.n43;
-		values.n14 = this.n11 * m.n14 + this.n12 * m.n24 + this.n13 * m.n34 + this.n14 * m.n44;
-							 
-		values.n21 = this.n21 * m.n11 + this.n22 * m.n21 + this.n23 * m.n31 + this.n24 * m.n41;
-		values.n22 = this.n21 * m.n12 + this.n22 * m.n22 + this.n23 * m.n32 + this.n24 * m.n42;
-		values.n23 = this.n21 * m.n13 + this.n22 * m.n23 + this.n23 * m.n33 + this.n24 * m.n43;
-		values.n24 = this.n21 * m.n14 + this.n22 * m.n24 + this.n23 * m.n34 + this.n24 * m.n44;
-							 
-		values.n31 = this.n31 * m.n11 + this.n32 * m.n21 + this.n33 * m.n31 + this.n34 * m.n41;
-		values.n32 = this.n31 * m.n12 + this.n32 * m.n22 + this.n33 * m.n32 + this.n34 * m.n42;
-		values.n33 = this.n31 * m.n13 + this.n32 * m.n23 + this.n33 * m.n33 + this.n34 * m.n43;
-		values.n34 = this.n31 * m.n14 + this.n32 * m.n24 + this.n33 * m.n34 + this.n34 * m.n44;
-							 
-		values.n41 = this.n41 * m.n11 + this.n42 * m.n21 + this.n43 * m.n31 + this.n44 * m.n41;
-		values.n42 = this.n41 * m.n12 + this.n42 * m.n22 + this.n43 * m.n32 + this.n44 * m.n42;
-		values.n43 = this.n41 * m.n13 + this.n42 * m.n23 + this.n43 * m.n33 + this.n44 * m.n43;
-		values.n44 = this.n41 * m.n14 + this.n42 * m.n24 + this.n43 * m.n34 + this.n44 * m.n44;
-	
-		this.initialize(values);
-	};
+		if(RouteStep == 0) {
+			//	Begin process of optimizing plotting route, 
+			//	by flagging nodes that will be shown.
+			//	console.log("Optimizing plotting path");
+			var RouteNodesLength = 0;
+			var RouteNodesTemp = new Array(items.length);
 
-	// ------------------------------------------------------------------------
-	this.initialize = function(values) {
-		for(var i in values) this[i] = values[i];
-	};
+			for(var i=0; i<items.length; ++i) {
 
-	// ------------------------------------------------------------------------
-	this.createBox = function(	scalex, scaley, scalez, 
-								rotationx, rotationy, rotationz,
-								tx, ty, tz ) {
-		this.identity();
-		if (rotationx != 0) this.rotateX( rotationx );
-		if (rotationy != 0) this.rotateY( rotationy );
-		if (rotationz != 0) this.rotateZ( rotationz );
-		if (scalex != 1 || scaley != 1 || scalez != 1) this.scale( scalex, scaley, scalez );
-		if (tx != 0 || ty != 0 || tz != 0) this.translate( tx, ty, tz );
-	};
+				RouteNodesTemp[i] = false;
+				var px = items[i].position.x;
+				var py = items[i].position.y;
 
+				if( (px >= view.bounds.width) || (py >= view.bounds.height) || 
+					(px < 0) || (py < 0)) {
+					continue;
+				}
+				else {
+					RouteNodesTemp[i] = true;
+					RouteNodesLength++;
+				}
+			}
 
-	// ------------------------------------------------------------------------
-	this.identity = function() {
-		this.initialize({ n11:1, n12:0, n13:0, n14:0, 
-						  n21:0, n22:1, n23:0, n24:0, 
-						  n31:0, n32:0, n33:1, n34:0, 
-						  n41:0, n42:0, n43:0, n44:1 });
-	};
-
-	// ------------------------------------------------------------------------
-	/**
-	 *
-	 *	Rotation
-	 *
-	 */
-	this.rotateX = function(angle) {
-		var sin = Math.sin(angle);
-		var cos = Math.cos(angle);
-	
-		this.concat(new Matrix3D(
-			1, 0, 0, 0, 
-			0, cos, -sin, 0,	
-			0, sin, cos, 0,	
-			0, 0, 0, 1)
-		);
-	};
-
-	this.rotateY = function(angle) {
-		var sin = Math.sin(angle);
-		var cos = Math.cos(angle);
-	
-		this.concat(new Matrix3D(
-			cos, 0, sin, 0, 
-			0, 1, 0, 0, 
-			-sin, 0, cos, 0, 
-			0, 0, 0, 1)
-		);
-	};
-
-	this.rotateZ = function(angle) {
-		var sin = Math.sin(angle);
-		var cos = Math.cos(angle);
-	
-		this.concat(new Matrix3D(
-			cos,  -sin, 0, 0, 
-			sin, cos, 0, 0, 
-			0, 0, 1, 0, 
-			0, 0, 0, 1)
-		);
-	};
-
-	/**
-	 *
-	 *	@param axis
-	 *				FPoint3 xyz
-	 *	@param angle 
-	 *				rotation angle in degrees
-	 *
-	 */
-	this.setRotateAxis = function(axis, angle) {
-		// Based on http://www.gamedev.net/reference/articles/article1199.asp
-
-		var cos = Math.cos( angle );
-		var sin = Math.sin( angle );
-
-		var t = 1 - cos;
-
-		var x = axis.x();
-		var y = axis.y(); 
-		var z = axis.z();
-
-		var tx = t * x;
-		var ty = t * y;
-
-		this.concat(
-			tx * x + cos, 		tx * y - sin * z, 	tx * z + sin * y, 	0,
-			tx * y + sin * z, 	ty * y + cos, 		ty * z - sin * x, 	0,
-			tx * z - sin * y, 	ty * z + sin * x, 	t * z * z + cos, 	0,
-			0, 0, 0, 1
-		);
-	};
-
-
-	// ------------------------------------------------------------------------
-	/**
-	 *	Scaling
-	 */
-	this.scale = function(sx, sy, sz) {
-		this.concat(new Matrix3D(
-			sx, 0, 0, 0, 
-			0, sy, 0, 0, 
-			0, 0, sz, 0, 
-			0, 0, 0,  1)
-		);
-	};
-
-
-	// ------------------------------------------------------------------------
-	/**
-	 *	Translating
-	 */
-	this.translate = function(dx, dy, dz) {
-		this.n41 += dx;
-		this.n42 += dy;
-		this.n43 += dz;
-	};
-
-
-	// ------------------------------------------------------------------------
-	/**
-	 *	Transforming
-	 */
-	this.transformPoint = function(point) {
-		return new Vertex3D(
-			this.n11 * point.x + this.n21 * point.y + this.n31 * point.z + this.n41, 
-			this.n12 * point.x + this.n22 * point.y + this.n32 * point.z + this.n42, 
-			this.n13 * point.x + this.n23 * point.y + this.n33 * point.z + this.n43
-		);
-	};
-
-	this.transformArray = function(arr) {
-		var rVal=[];
-		var numPoints=arr.length/3;
-	
-		for(var i=0; i<numPoints; i++) {
-			var i3 = i*3;
-			var x = arr[i3];
-			var y = arr[i3+1];
-			var z = arr[i3+2];
-		
-			rVal[i3]   = this.n11 * x + this.n21 * y + this.n31 * z + this.n41;
-			rVal[i3+1] = this.n12 * x + this.n22 * y + this.n32 * z + this.n42;
-			rVal[i3+2] = this.n13 * x + this.n23 * y + this.n33 * z + this.n43;
+			// These are the ONLY points to be drawn in the tour.
+			RouteNodes = new Array(RouteNodesLength);
+			var tempCounter = 0;
+			for(var i=0; i<items.length; ++i) { 
+				if(RouteNodesTemp[i]) {
+					RouteNodes[tempCounter] = i;
+					tempCounter++;
+				}
+			}
 		}
-		return rVal;
+
+		var nodesNum = RouteNodes.length - 1;
+		if(RouteStep < (RouteNodes.length - 2))  { 
+			//	console.log('Nearest neighbor ("Simple, Greedy") algorithm path optimization:');
+			//	1000 steps per frame displayed; you can edit this number!
+			var StopPoint = RouteStep + 1000;
+
+			if(StopPoint > nodesNum)
+				StopPoint = nodesNum;
+
+			for(var i=RouteStep; i<StopPoint; ++i) { 
+				p1 = items[RouteNodes[RouteStep]].position;
+				var ClosestNode = 0; 
+				var distMin = Number.MAX_VALUE;
+
+				for(var j=RouteStep+1; j<nodesNum; ++j) { 
+					var p2 = items[ RouteNodes[j] ].position;
+
+					var dx = p1.x - p2.x;
+					var dy = p1.y - p2.y;
+					var distance = (dx*dx+dy*dy);	// Only looking for closest; do not need sqrt factor!
+
+					if(distance < distMin) {
+						ClosestNode = j; 
+						distMin = distance;
+					}
+				}	
+
+				temp = RouteNodes[RouteStep + 1];
+				//p1 = items[RouteNodes[RouteStep + 1]];
+				RouteNodes[RouteStep + 1] = RouteNodes[ClosestNode];
+				RouteNodes[ClosestNode] = temp;
+
+				if(RouteStep < (nodesNum)) {
+					RouteStep++;
+				}
+				else {
+					console.log("Now optimizing plot path" );
+				}
+			}
+	
+		} 
+		//else {
+			// Initial routing is complete
+			// console.log('2-opt heuristic optimization');
+			// Identify a pair of edges that would become shorter by reversing part of the tour.
+
+			// var groupPath = new Group();
+			for(var i=0; i<iterations; ++i) {
+			
+				var indexA = Math.floor( random(0, nodesNum) );
+				var indexB = Math.floor( random(0, nodesNum) );
+
+				// console.log('indexA', indexA);
+				// console.log('indexB', indexB);
+
+				if(Math.abs(indexA - indexB) < 2)
+					continue;
+		
+				if(indexB < indexA) {
+					// swap A, B.
+					temp = indexB;
+					indexB = indexA;
+					indexA = temp;
+				}
+		
+				var a0 = items[ RouteNodes[indexA] ].position;
+				var a1 = items[ RouteNodes[indexA + 1] ].position;
+				var b0 = items[ RouteNodes[indexB] ].position;
+				var b1 = items[ RouteNodes[indexB + 1] ].position;
+		
+				// Original distance:
+				var dx = a0.x - a1.x;
+				var dy = a0.y - a1.y;
+				var distance = (dx*dx+dy*dy);	// Only a comparison; do not need sqrt factor! 
+				dx = b0.x - b1.x;
+				dy = b0.y - b1.y;
+				distance += (dx*dx+dy*dy);	//	Only a comparison; do not need sqrt factor! 
+		
+				// Possible shorter distance?
+				dx = a0.x - b0.x;
+				dy = a0.y - b0.y;
+				var distance2 = (dx*dx+dy*dy);	//	Only a comparison; do not need sqrt factor! 
+				dx = a1.x - b1.x;
+				dy = a1.y - b1.y;
+				distance2 += (dx*dx+dy*dy);	// Only a comparison; do not need sqrt factor! 
+		
+				if(distance2 < distance) {
+					// Reverse tour between a1 and b0.	 
+		
+					var indexhigh = indexB;
+					var indexlow = indexA + 1;
+		
+					while (indexhigh > indexlow) {
+						temp = RouteNodes[indexlow];
+						RouteNodes[indexlow] = RouteNodes[indexhigh];
+						RouteNodes[indexhigh] = temp;
+		
+						indexhigh--;
+						indexlow++;
+					}
+				}
+
+			}
+		// }
+		// 
 	};
+
 
 
 	// ------------------------------------------------------------------------
-	/**
-	 *	Position
-	 */
-	this.getPosition = function() {
-		return [ this.n12, this.n13, this.n14 ];
-	};
-
-	/**
-	 *
-	 *	@param fpoint3
-	 *				FPoint3 xyz
-	 *
-	 */
-	this.setPosition = function(fpoint3) {
-		this.n12 = fpoint3.x;
-		this.n13 = fpoint3.y;
-		this.n14 = fpoint3.z;
-		return this;
-	},
-
-	/**
-	 *
-	 *	Frustrum
-	 *	https://github.com/mrdoob/three.js/blob/master/src/core/Matrix4.js
-	 *
-	 */
-	this.makeFrustum = function(left, right, bottom, top, near, far) {
-
-		var values = {};
-
-		var x = 2 * near / ( right - left );
-		var y = 2 * near / ( top - bottom );
-
-		var a = ( right + left ) / ( right - left );
-		var b = ( top + bottom ) / ( top - bottom );
-		var c = - ( far + near ) / ( far - near );
-		var d = - 2 * far * near / ( far - near );
-
-		values.n11 = x;	values.n12 = 0;	values.n13 = a;	 	values.n14 = 0;
-		values.n21 = 0;	values.n22 = y;	values.n23 = b;	 	values.n24 = 0;
-		values.n31 = 0;	values.n32 = 0;	values.n33 = c;	 	values.n34 = d;
-		values.n41 = 0;	values.n42 = 0;	values.n43 = - 1;	values.n44 = 0;
-
-		this.concat(values);
-		// this.initialize(values);
-	};
-
-	/**
-	 *
-	 *	Presets modified from Three.js
-	 *	https://github.com/mrdoob/three.js/blob/master/src/core/Matrix4.js
-	 *
-	 */
+	// Instantiate
 	// ------------------------------------------------------------------------
-	this.makePerspective = function(fov, aspect, near, far) {
-		var ymax = near * Math.tan( fov * Math.PI / 360 );
-		var ymin = - ymax;
-		var xmin = ymin * aspect;
-		var xmax = ymax * aspect;
+	calculate();
 
-		this.makeFrustum( xmin, xmax, ymin, ymax, near, far );
-	};
-
-	// ------------------------------------------------------------------------
-	this.makeOrtho = function(left, right, top, bottom, near, far) {
-
-		var values = {};
-
-		var w = right - left;
-		var h = top - bottom;
-		var p = far - near;
-
-		var x = ( right + left ) / w;
-		var y = ( top + bottom ) / h;
-		var z = ( far + near ) / p;
-
-		values.n11 = 2/w;	values.n12 = 0;		values.n13 = 0;	 	values.n14 = -x;
-		values.n21 = 0;		values.n22 = 2/h;	values.n23 = 0;	 	values.n24 = -y;
-		values.n31 = 0;		values.n32 = 0;		values.n33 = -2/p; 	values.n34 = -z;
-		values.n41 = 0;		values.n42 = 0;		values.n43 = 0;	 	values.n44 = 1;
-
-		this.concat(values);
-		// this.initialize(values);
-	};
 
 
 	// ------------------------------------------------------------------------
-	this.toString = function() {
-		return  this.n11 + ',' + this.n12 + ',' + this.n13 + ',' + this.n14 + ',' + 
-				this.n21 + ',' + this.n22 + ',' + this.n23 + ',' + this.n24 + ',' + 
-				this.n31 + ',' + this.n32 + ',' + this.n33 + ',' + this.n34 + ',' + 
-				this.n41 + ',' + this.n42 + ',' + this.n43 + ',' + this.n44;
+	// Gets
+	// ------------------------------------------------------------------------
+	return {
+		route: RouteNodes
 	};
+
+
 };
-
 
 
 /**
  *	
- *	FShape
- *	A collection of shapes for Path
- *	and methods for Item
+ *	Delaunay Triangulation
+ *	Joshua Bell
+ *	inexorabletash@hotmail.com
  *
- *	I'm assuming that injecting all of the shapes into
- *	Path is not only cleaner but more efficient
- *	and therefore faster
+ *	http://www.travellermap.com/
+ *	Inspired by: http://www.codeguru.com/cpp/data/mfc_database/misc/article.php/c8901/
+ *	
  *
- *	FArrow
- *	FBubble
- *	FChain
- *	FCross
- *	FDrop
- *	FTriangle
+ *	Modifications for specific use with Paper.js/Scriptographer
+ *
+ *	Ken Frederick
+ *
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
+ *
+ *
+ *	Credit given where credit is due
+ *	
+ *
+ *	This work is hereby released into the Public Domain. To view a copy of the public 
+ *	domain dedication, visit http://creativecommons.org/licenses/publicdomain/ or send 
+ *	a letter to Creative Commons, 171 Second Street, Suite 300, San Francisco, 
+ *	California, 94105, USA.
+ *	
+ */
+
+/**
+ *	@example
+ *	var triangulate = new FTriangulate( points );
+ *
+ *	// draw faces
+ *	for( var i=0; i<triangulate.length; i++ ) {
+ *		var triangle = triangulate[i];
+ *
+ *		// draw triangle
+ *		face = new Path();
+ *		face.add( triangle.p1 );
+ *		face.add( triangle.p2 );
+ *		face.add( triangle.p3 );
+ *		face.closed = true;
+ *		face.strokeColor = 'white';
+ *
+ *	}
  *
  */
 
 
-/*
- *
- *	Item
+
+// ------------------------------------------------------------------------
+// constants
+// ------------------------------------------------------------------------
+var EPSILON = 1.0e-6;
+
+
+
+/**
+ *	FTriangulate
+ *	
+ *	@param points
+ *			input vertices (Points)
  *
  */
-Item.inject({
+folio.FTriangulate = function( points ) {
 	//-----------------------------------------------------------------------------
 	// Properties
 	//-----------------------------------------------------------------------------
-	radius: 0,
-	innerRadius: 0,
+	var _triangles;
+	var _points = points;
+	var _pointsNew = [];
 
 
 
 	//-----------------------------------------------------------------------------
-	// Methods
+	// Classes
 	//-----------------------------------------------------------------------------
 	/**
+	 *	Triangle
 	 *	
-	 *	@return {Number} distance of object from center of canvas
-	 *
+	 *	@param p1
+	 *				first Point of Triangle
+	 *	@param p2
+	 *				second Point of Triangle
+	 *	@param p3
+	 *				third Point of Triangle
 	 */
-	distanceToCenter: function() {
-		var dx = this.position.x - artboard.bounds.center.x;
-		var dy = this.position.y - artboard.bounds.center.y;
-		return (dx * dx + dy * dy) + 1;
-	},
+	// TODO: remove this and rely on Path.Triangle
+	var Triangle = function( p1, p2, p3 ) {
+		//-----------------------------------------------------------------------------
+		// Properties
+		//-----------------------------------------------------------------------------
+		var _p1 = p1;
+		var _p2 = p2;
+		var _p3 = p3;
 
-	/*
-	 *	
-	 *	@return {Number} radius
-	 *
-	 */
-	// getRadius: function() {
-	// 	// return this.size.radius();
-	// },
 
-	/**
-	 *	@param {Size} spacing
-	 *				spacing.width  = the horizontal snapping value, width of the grid.
-	 *				spacing.height = the vertical snapping value, height of the grid.
-	 *
-	 */
-	snapGrid: function(spacing) {
-		this.position.snapGrid(spacing);
-	},
 
-	/**
-	 *	snaps point to an isometric grid
-	 *	
-	 *	@param {Number} scale
-	 *				scale of the grid (1.0 = 32x16)
-	 *
-	 */
-	snapIso: function(scale) {
-		this.position.snapIso(scale);
-	},
-
-	//-----------------------------------------------------------------------------
-	/**
-	 *	converts an CompoundPath into a Group otherwise returns original Item
-	 *	
-	 */
-	toGroup: function() {
-		if (frederickkScript.getType(this) == 'CompoundPath') {
-			return new Group( this.children );
+		//-----------------------------------------------------------------------------
+		// Methods
+		//-----------------------------------------------------------------------------
+		/**
+		 *	vertex (Edge) sharing
+		 *	
+		 *	@param other
+		 *				the triangle to check for vertex (Edge) sharing
+		 */
+		function sharesVertex(other) {
+			return p1 == other.p1 || p1 == other.p2 || p1 == other.p3 ||
+			p2 == other.p1 || p2 == other.p2 || p2 == other.p3 || 
+			p3 == other.p1 || p3 == other.p2 || p3 == other.p3;
 		}
-		else {
-			return this;
-		}
-	}
 
-});
+		/**
+		 *	@return circle
+		 *			Point of the circle center
+		 */
+		function circumcenter() {
+			var circle = new Point();
+			var m1, m2;
+			var mx1, mx2;
+			var my1, my2;
 
+			if ( Math.abs(_p2.y-_p1.y) < EPSILON ) {
+				m2 = - (_p3.x-_p2.x) / (_p3.y-_p2.y);
+				mx2 = (_p2.x + _p3.x) / 2.0;
+				my2 = (_p2.y + _p3.y) / 2.0;
+				circle.x = (_p2.x + _p1.x) / 2.0;
+				circle.y = m2 *	(circle.x - mx2) + my2;
 
+			}
+			else if ( Math.abs(_p3.y-_p2.y) < EPSILON ) {
+				m1 = - (_p2.x-_p1.x) / (_p2.y-_p1.y);
+				mx1 = (_p1.x + _p2.x) / 2.0;
+				my1 = (_p1.y + _p2.y) / 2.0;
+				circle.x = (_p3.x + _p2.x) / 2.0;
+				circle.y = m1 *	(circle.x - mx1) + my1;	
 
-Path.inject({ 
-	//-----------------------------------------------------------------------------
-	// Methods
-	//-----------------------------------------------------------------------------
-	/*
-	 *
-	 *	Additional Math Methods
-	 *	TODO: fix bugs (downright false) math methods
-	 *
-	 */
-
-	/**
-	 *	@param b
-	 *			array of barycentric coordinates
-	 */		
-	// TODO: currently implementation returns false point
-	// toCartesian : function(bary) {
-	// 	if( this.segments.length == 3 ) {
-	// 		var p1 = this.segments[0].point;
-	// 		var p2 = this.segments[1].point;
-	// 		var p3 = this.segments[2].point;
-
-	// 		// side lengths
-	// 		var a = p1.getDistance(p2);
-	// 		var b = p2.getDistance(p3);
-	// 		var c = p3.getDistance(p1);
-
-	// 		// var area = 0.5 * (p1.x * (p2.y - p3.y) +
-	// 		// 				  p2.x * (p3.y - p1.y) +
-	// 		// 				  p3.x * (p1.y - p2.y));
-
-	// 		// var r = 2 * area / (a + b + c);
-	// 		// var k = 2 * area / (a*bary[0] + b*bary[1] + c*bary[2]);
-
-	// 		// var angleC = Math.acos((a*a + b*b - c*c) / (2*a*b));
-
-	// 		// var cosC = Math.cos( angleC );
-	// 		// var sinC = Math.sin( angleC );
-
-	// 		// var x =	(k*bary[1] - r + (k*bary[0] - r)*cosC) / sinC;
-	// 		// var y =	k*bary[0] - r;
-
-	// 		// return new Point(
-	// 		// 	x + this.getIncenter().x,
-	// 		// 	y + this.getIncenter().y
-	// 		// );
-
-	// 		return new Point(
-	// 			bary[0] * p1.x + bary[1] * p2.x + bary[2] * p3.x,
-	// 			bary[0] * p1.x + bary[1] * p2.x + bary[2] * p3.x
-	// 		);
-	// 	}
-	// 	else {
-	// 		console.error( 'Not Path.FTriangle' );
-	// 		return null;
-	// 	}
-	// },
-
-	/**
-	 *	http://www.ssicom.org/js/x974780.htm
-	 */
-	sec : function(val) {
-	   return 1/Math.cos(val);
-	},
-
-
-
-	//-----------------------------------------------------------------------------
-	/*
-	 *
-	 *	FTriangle Center Methods
-	 *	TODO: finish adding center methods
-	 *
-	 */
-
-	/**
-	 *	http://www.exaflop.org/docs/cgafaq/cga1.html
-	 */
-	getCircumCircle : function() {
-		if( this.segments.length == 3 ) {
-			var p1 = this.segments[0].point;
-			var p2 = this.segments[1].point;
-			var p3 = this.segments[2].point;
-
-			var A = p2.x - p1.x; 
-			var B = p2.y - p1.y; 
-			var C = p3.x - p1.x; 
-			var D = p3.y - p1.y; 
-
-			var E = A*(p1.x + p2.x) + B*(p1.y + p2.y); 
-			var F = C*(p1.x + p3.x) + D*(p1.y + p3.y); 
-
-			var G = 2.0*(A*(p3.y - p2.y)-B*(p3.x - p2.x)); 
-			
-			var circumCenter;
-			var dx, dy;
-
-			if( Math.abs(G) < EPSILON ) {
-				// Collinear - find extremes and use the midpoint
-
-				function max3( a, b, c ) { return ( a >= b && a >= c ) ? a : ( b >= a && b >= c ) ? b : c; }
-				function min3( a, b, c ) { return ( a <= b && a <= c ) ? a : ( b <= a && b <= c ) ? b : c; }
-
-				var minx = min3( p1.x, p2.x, p3.x );
-				var miny = min3( p1.y, p2.y, p3.y );
-				var maxx = max3( p1.x, p2.x, p3.x );
-				var maxy = max3( p1.y, p2.y, p3.y );
-
-				circumCenter = new Point( ( minx + maxx ) / 2, ( miny + maxy ) / 2 );
-
-				dx = circumCenter.x - minx;
-				dy = circumCenter.y - miny;
-			
 			}
 			else {
-				var cx = (D*E - B*F) / G; 
-				var cy = (A*F - C*E) / G;
-
-				circumCenter = new Point( cx, cy );
-
-				dx = circumCenter.x - p1.x;
-				dy = circumCenter.y - p1.y;
+				m1 = - (_p2.x-_p1.x) / (_p2.y-_p1.y);
+				m2 = - (_p3.x-_p2.x) / (_p3.y-_p2.y);
+				mx1 = (_p1.x + _p2.x) / 2.0;
+				mx2 = (_p2.x + _p3.x) / 2.0;
+				my1 = (_p1.y + _p2.y) / 2.0;
+				my2 = (_p2.y + _p3.y) / 2.0;
+				circle.x = (m1 *	mx1 - m2 *	mx2 + my2 - my1) / (m1 - m2);
+				circle.y = m1 *	(circle.x - mx1) + my1;
 			}
 
-			this.radius = Math.sqrt( (dx * dx + dy * dy) );
+			return circle;
+		};
 
-			return circumCenter;
-		}
-		else {
-			console.error( 'Not Path.FTriangle' );
-			return null;
-		}
-	},
+		//-----------------------------------------------------------------------------
+		/**
+		 *	@return center
+		 *			Point of the centroid center
+		 *
+		 *	http://www.mathwords.com/c/centroid_formula.htm
+		 */
+		function centroid() {
+			return new Point(
+				(_p1.x + _p2.x + _p3.x)/3,
+				(_p1.y + _p2.y + _p3.y)/3
+			);
+		};
+
+		//-----------------------------------------------------------------------------
+		/**
+		 *	 @return
+		 *	 		a sorted array (Edge) of the Triangle's Edges (shortest to longest)
+		 */
+		function distances() {
+			var distances = [];
+			distances[0] = new Edge(_p1, _p2);
+			distances[1] = new Edge(_p1, _p3);
+			distances[2] = new Edge(_p3, _p2);
+
+			distances.sort();
+			return distances;
+		};
+
+		//-----------------------------------------------------------------------------
+		/**
+		 *	http://www.btinternet.com/~se16/hgb/triangle.htm
+		 */
+		function width() {
+			var x1 = 0;
+			if(_p1.x < _p2.x && _p1.x < _p3.x) x1 = _p1.x;
+			else if( _p2.x < _p1.x && _p2.x < _p3.x ) x1 = _p2.x;
+			else if( _p3.x < _p1.x && _p3.x < _p2.x) x1 = _p3.x;
+
+			var x2 = 0;
+			if(_p1.x > _p2.x && _p1.x > _p3.x) x2 = _p1.x;
+			else if( _p2.x > _p1.x && _p2.x > _p3.x ) x2 = _p2.x;
+			else if( _p3.x > _p1.x && _p3.x > _p2.x) x2 = _p3.x;
+
+			var f = Math.abs(x2 - x1);
+			return f;
+		};
+
+		function height() {
+			var y1 = 0;
+			if(_p1.y < _p2.y && _p1.y < _p3.y) y1 = _p1.y;
+			else if( _p2.y < _p1.y && _p2.y < _p3.y ) y1 = _p2.y;
+			else if( _p3.y < _p1.y && _p3.y < _p2.y) y1 = _p3.y;
+
+			var y2 = 0;
+			if(_p1.y > _p2.y && _p1.y > _p3.y) y2 = _p1.y;
+			else if( _p2.y > _p1.y && _p2.y > _p3.y ) y2 = _p2.y;
+			else if( _p3.y > _p1.y && _p3.y > _p2.y) y2 = _p3.y;
+
+			var g = Math.abs(y2 - y1);
+			return g;
+		};
+
+		//-----------------------------------------------------------------------------
+		function area() { 
+			var area = 0;
+			area += (_p1.x + _p3.x) * (_p3.y - _p1.y);
+			area += (_p2.x + _p1.x) * (_p1.y - _p2.y);
+			area += (_p3.x + _p2.x) * (_p2.y - _p3.y);
+			return area/2;
+		};
+
+
+
+		//-----------------------------------------------------------------------------
+		// Gets
+		//-----------------------------------------------------------------------------
+		/**
+		 *	 @return
+		 *	  		the points of the triangle as a Point array 
+		 */
+		function get() {
+			var points = [_p1, _p2, _p3];
+			return points;
+		};
+
+		//-----------------------------------------------------------------------------
+		return {
+			p1: _p1,
+			p2: _p2,
+			p3: _p3,
+
+			sharesVertex: sharesVertex,
+			getCentroid: centroid,
+
+			getArea: area,
+			getWidth: width,
+			getHeight: height,
+
+			getPoints: get
+		};
+
+	};
 
 	/**
+	 *	Edge
+	 *	TODO: replace with paper.Segment
 	 *	
-	 *	@param {Point} v
-	 *				Point to be checked if it lies within the circumcircle
-
+	 *	@param p1
+	 *				first Point of Edge
+	 *	@param p2
+	 *				second Point of Edge
 	 */
-	inCircumcircle : function( point ) {
-		var dx = this.getCircumCircle().x - point.x;
-		var dy = this.getCircumCircle().y - point.y;
-		var ds = dx * dx + dy * dy;
-		return ( ds <= sq(this.radius) );
-	},
+	var Edge = function( p1, p2 ) {
+		//-----------------------------------------------------------------------------
+		// Properties
+		//-----------------------------------------------------------------------------
+		var _p1 = p1;
+		var _p2 = p2;
+		var _dist = _p1.getDistance(_p2);
 
-	// TODO: currently implementation returns false point
-	// getInCircle : function() {
-	// 	// vertices
-	// 	if( this.segments.length == 3 ) {
-	// 		var p1 = this.segments[0].point;
-	// 		var p2 = this.segments[1].point;
-	// 		var p3 = this.segments[2].point;
 
-	// 		// side lengths
-	// 		var a = p1.getDistance(p2);
-	// 		var b = p2.getDistance(p3);
-	// 		var c = p3.getDistance(p1);
 
-	// 		var incenter = this.toCartesian( [1.0, 1.0, 1.0] );
+		//-----------------------------------------------------------------------------
+		// Methods
+		//-----------------------------------------------------------------------------
+		/**
+		 *	sorts edge by shortest to longest
+		 *	
+		 *	@param o
+		 *				Edge to compare against
+		 */
+		function compareTo(other) {
+			return _dist < other.dist ? -1 : _dist > other.dist ? 1 : 0;
+		};
 
-	// 		var area = 0.5 * (p1.x * (p2.y - p3.y) +
-	// 						  p2.x * (p3.y - p1.y) +
-	// 						  p3.x * (p1.y - p2.y));
 
-	// 		var semiperimeter = 0.5 * (a + b + c);
 
-	// 		this.innerRadius = (area / semiperimeter);
-	// 		return incenter;
-	// 	}
-	// 	else {
-	// 		console.error( 'Not Path.FTriangle' );
-	// 		return null;
-	// 	}
-	// },
+		//-----------------------------------------------------------------------------
+		// Gets
+		//-----------------------------------------------------------------------------
+		/**
+		 *	 @return
+		 *	  		the points of the edge as a Point array 
+		 */
+		function get() {
+			var points = [_p1, _p2];
+			return points;
+		};
 
-	getCentroid : function() {
-		// vertices
-		if( this.segments.length == 3 ) {
-			var p1 = this.segments[0].point;
-			var p2 = this.segments[1].point;
-			var p3 = this.segments[2].point;
 
-			return new Point(
-				(p1.x + p2.x + p3.x)/3,
-				(p1.y + p2.y + p3.y)/3
-			);
-		}
-		else {
-			console.error( 'Not Path.FTriangle' );
-			return null;
-		}
-	},
+		//-----------------------------------------------------------------------------
+		return {
+			p1: _p1,
+			p2: _p2,
+			dist: _dist,
 
-	// TODO: currently implementation returns false point
-	// getOrthocenter : function() {
-	// 	// vertices
-	// 	if( this.segments.length == 3 ) {
-	// 		var p1 = this.segments[0].point;
-	// 		var p2 = this.segments[1].point;
-	// 		var p3 = this.segments[2].point;
+			getPoints: get
+		};
 
-	// 		// side lengths
-	// 		var a = p1.getDistance(p2);
-	// 		var b = p2.getDistance(p3);
-	// 		var c = p3.getDistance(p1);
-
-	// 		var bary = [
-	// 			this.sec(a),
-	// 			this.sec(b),
-	// 			this.sec(c)
-	// 		];
-	// 		return this.toCartesian(bary);
-	// 	}
-	// 	else {
-	// 		console.error( 'Not Path.FTriangle' );
-	// 		return null;
-	// 	}
-	// },
-
-	// TODO: currently implementation returns false point
-	// getIncenter : function() {
-	// 	// vertices
-	// 	if( this.segments.length == 3 ) {
-	// 		var p1 = this.segments[0].point;
-	// 		var p2 = this.segments[1].point;
-	// 		var p3 = this.segments[2].point;
-
-	// 		// side lengths
-	// 		var a = p1.getDistance(p2);
-	// 		var b = p2.getDistance(p3);
-	// 		var c = p3.getDistance(p1);
-
-	// 		var circum = a + b + c;
-
-	// 		return new Point(
-	// 			(a* p1.x + b * p2.x + c * p3.x) / circum,
-	// 			(a * p1.y + b * p2.y + c * p3.y) / circum
-	// 		);
-	// 	}
-	// 	else {
-	// 		console.error( 'Not Path.FTriangle' );
-	// 		return null;
-	// 	}
-	// },
-
-	// TODO: currently implementation returns false point
-	// getSchifflerPoint : function() {
-	// 	// vertices
-	// 	if( this.segments.length == 3 ) {
-	// 		var p1 = this.segments[0].point;
-	// 		var p2 = this.segments[1].point;
-	// 		var p3 = this.segments[2].point;
-
-	// 		// side lengths
-	// 		var a = p1.getDistance(p2);
-	// 		var b = p2.getDistance(p3);
-	// 		var c = p3.getDistance(p1);
-
-	// 		var bary = [
-	// 			1/(Math.cos(b) + Math.cos(c)),
-	// 			1/(Math.cos(c) + Math.cos(a)),
-	// 			1/(Math.cos(a) + Math.cos(b))
-	// 		];
-	// 		return this.toCartesian(bary, p1,p2,p3);
-	// 	}
-	// 	else {
-	// 		console.error( 'Not Path.FTriangle' );
-	// 		return null;
-	// 	}
-	// },
+	};
 
 
 
 	//-----------------------------------------------------------------------------
-	statics: new function() {
-		return {
-			/**
-			 *	
-			 *	FArrow
-			 *	Create simple arrow
-			 *
-			 *	@param {Point} headPoint
-			 *				the head of the arrow
-			 *	@param {Point} tailPoint
-			 *				the tail of the arrow
-			 *	@param {Size} arrowHeadSize
-			 *				(optional) length of the arrow head
-			 *
-			 *	@example
-			 *	var headPoint = new Point( 9,9 );
-			 *	var tailPoint = new Point( 90,90 );
-			 *	var arrowHeadSize = new Size( 18,18 );
-			 *	var farrow = new Path.FArrow( headPoint, tailPoint, arrowHeadSize );
-			 *
-			 */
-			FArrow: function( headPoint, tailPoint, arrowHeadSize ) {
-				// the line part
-				var path = new Path.Line( headPoint, tailPoint );
+	// Methods
+	//-----------------------------------------------------------------------------
+	/**
+	 *	Triangulation subroutine
+	 *
+	 *	Returned is a list of triangular faces in the Array triangles 
+	 *	These triangles are arranged in a consistent clockwise order.
+	 *
+	 *	@return triangles
+	 *			return Array of Triangles in clockwise order
+	 *		
+	 */
+	function init() {
+		_triangles = [];
 
-				// the arrow head
-				arrowHeadSize = (arrowHeadSize != undefined) ? arrowHeadSize : new Size(headPoint.getDistance(tailPoint)*0.381924,headPoint.getDistance(tailPoint)*0.381924);
+		if( _points.length != null ) {
+			// remove duplicate points
+			_points = uniquePoints( _points );
 
-				// rotate arrow head around to correct position
-				var a = Math.atan2( headPoint.x-tailPoint.x, tailPoint.y-headPoint.y );
-
-				// slight "hack" to get strokCap correct
-				var arrowHead = [];
-				arrowHead[0] = new Path.Line( new Point(0,0), new Point(-arrowHeadSize.width,-arrowHeadSize.height) );
-				arrowHead[1] = new Path.Line( new Point(0,0), new Point( arrowHeadSize.width,-arrowHeadSize.height) );
-				for( var i=0; i<arrowHead.length; i++ ) {
-					arrowHead[i].rotate( frederickkScript.radians(180+frederickkScript.degrees(a)), new Point(0,0) );
-					arrowHead[i].translate( headPoint );
-				}
-
-				var group = new Group();
-				group.appendTop( path );
-				group.appendTop( arrowHead[0] );
-				group.appendTop( arrowHead[1] );
-				group.name = 'arrow';
-				return group;
-			},
+			// sort vertex array in increasing x values
+			_points.sort( sortLeftToRight );
+			// _points.sort( sortTopToBottom );
 
 
-			/**
-			 *	
-			 *	FBubble
-			 *	Create a simple speech bubble
-			 *
-			 *	@param {Point} bubblePoint
-			 *				the position of the bubble
-			 *	@param {Size} bubbleSize
-			 *				the size of the bubble
-			 *	@param {Size} bubbleTagSize
-			 *				the size of the tag
-			 *	@param {String} bubbleTagCenter 
-			 *				(optional)
-			 *				'RANDOM'	randomly x-position the point (default)
-			 *				'LEFT'		left align the x-position of the point
-			 *				'CENTER'	center align the x-position of the point
-			 *				'RIGHT'		right align the x-position of the point
-			 *
-			 *	@example
-			 *	var bubblePoint = new Point( 45,45 );
-			 *	var bubbleSize = new Size( 90,60 );
-			 *	var bubbleTagSize = new Size( 9,9 );
-			 *	var bubbleTagCenter = 'CENTER';
-			 *	var b = new Path.FBubble( bubblePoint, bubbleSize, bubbleTagSize, bubbleTagCenter );
-			 *
-			 */
-			FBubble: function(bubblePoint, bubbleSize, bubbleTagSize, bubbleTagCenter) {
-				var path = new Path();
-				path.name = 'bubble';
+			// Find the maximum and minimum vertex bounds.
+			// This is to allow calculation of the bounding triangle
+			var xmin = (_points[0]).x;
+			var ymin = (_points[0]).y;
+			var xmax = xmin;
+			var ymax = ymin;
 
-				bubbleTagSize = (bubbleTagSize != undefined) ? bubbleTagSize : defaultFBubbleTagSize;
-				if(bubbleSize.width < 10) {
-					bubbleSize.width = 10;
-					bubbleTagSize = new Size(10,10);
-				}
-				bubbleTagCenter = (bubbleTagCenter != undefined) ? bubbleTagCenter : 'RANDOM';
+			// z is used for storing misc. info i.e. normalized brightness data	
+			var z = (_points[0]).z; 
 
-				// left side of bubble
-				path.add( new Point(0,0) );
-				var angle = 180;
-				var through = new Point(
-					bubbleSize.height/2 + Math.cos( frederickkScript.radians(angle) ) * (bubbleSize.height),
-					bubbleSize.height/2 + Math.sin( frederickkScript.radians(angle) ) * (bubbleSize.height)
-				);
-				path.arcTo(through, new Point(0,bubbleSize.height));
-
-				// middle bottom
-				// create tag space somewhere along the bottom of the bubble
-				var tagStart = frederickkScript.randomInt(0,bubbleSize.width-bubbleTagSize.width);
-
-				// create tag
-				path.add( new Point(tagStart,bubbleSize.height) );
-
-				var tx, ty;
-				if(bubbleTagCenter == 'LEFT') {
-					tx = tagStart;
-				}
-				else if(bubbleTagCenter == 'CENTER') {
-					tx = tagStart + (bubbleTagSize.width/2);
-				}
-				else if(bubbleTagCenter == 'RIGHT') {
-					tx = tagStart+bubbleTagSize.width;
-				}
-				else { // if(bubbleTagCenter == 'RANDOM') { 
-					tx = frederickkScript.randomInt(tagStart,tagStart+bubbleTagSize.width);
-				}
-
-				// the length of the tag
-				ty = bubbleSize.height + bubbleTagSize.height;
-				path.add( new Point(tx,ty) ); 
-
-				// continue bottom
-				path.add( new Point(tagStart+bubbleTagSize.width,bubbleSize.height) );
-				path.add( new Point(bubbleSize.width,bubbleSize.height) );
-
-
-				// right side of bubble
-				angle = 0;
-				through = new Point(
-					bubbleSize.height/2 + Math.cos( frederickkScript.radians(angle) ) * (bubbleSize.height/2),
-					bubbleSize.height/2 + Math.sin( frederickkScript.radians(angle) ) * (bubbleSize.height/2)
-				);
-				path.arcTo( new Point(bubbleSize.width,0), false );
-
-				// middle top
-				path.closed = true;
-
-				// center the bubble
-				// compensated for the tag's length
-				path.position = new Point(bubblePoint.x,bubblePoint.y+(bubbleTagSize.height/2));
-				
-				return path;
-			},
-
-
-			/**
-			 *	FChain
-			 *	Create simple chain (a line with different endpoint sizes)
-			 *	
-			 *	@param {Point} arg0
-			 *				point1 The first point (endpoint1)
-			 *	@param {Number} arg1
-			 *				radius of endpoint1
-			 *	@param {Point} arg2
-			 *				point2 The second point (endpoint2)
-			 *	@param {Number} arg3
-			 *				radius of endpoint2
-			 *
-			 *	@example
-			 *	var point1 = new Point( 9,9 );
-			 *	var radius1 = 9;
-			 *	var point2 = new Point( 90,90 );
-			 *	var radius2 = 90;
-			 *	var fchain = new Path.FChain( point1, radius1, point2, radius2 );
-			 *
-			 */
-			/**
-			 *	
-			 *	@param {Path} arg0
-			 *				PathItem (endpoint1)
-			 *	@param {Path} arg1
-			 *				PathItem (endpoint2)
-			 *
-			 *	@example
-			 *	var path1 = new Path.Circle( new Point(9,9), 9 );
-			 *	var path2 = new Path.Circle( new Point(90,90), 90 );
-			 *	var fchain = new Path.FChain( path1, path2 );
-			 *
-			 */
-			FChain: function(arg0, arg1, arg2, arg3) {
-				var obj1, obj2;
-
-				// check for the type of arguments being passed
-				var type = frederickkScript.getType(arg0);
-				if( type == 'Point' ) {
-					obj1 = new Path.Circle( arg0, arg1 );
-					obj2 = new Path.Circle( arg2, arg3 );
-				}
-				else if( type == 'Path' ) {
-					obj1 = arg0;
-					obj2 = arg1;
-				}
-				else {
-					return;
-				}
-
-				var tangents = frederickkScript.getCommonTangents(obj1, obj2);
-				if( tangents != null ) {
-					// path for chain
-					var path = new Path();
-					path.name = 'chain';
-
-					path.add( tangents[0] );
-					path.add( tangents[1] );
-
-					// determine position of chain around endpoint2
-					if( obj2.position.x > obj1.position.x ) angle = 0;
-					else if( obj2.position.y < obj1.position.y ) angle = -90;
-					else if( obj2.position.y > obj1.position.y ) angle = 90;
-					else angle = 180;
-					var tp2 = new Point(
-						obj2.position.x + Math.cos( frederickkScript.radians(angle) ) * (obj2.bounds.width/2),
-						obj2.position.y + Math.sin( frederickkScript.radians(angle) ) * (obj2.bounds.height/2)
-					);
-					path.arcTo(tp2, tangents[2]);
-
-					path.add(tangents[2]);
-					path.add(tangents[3]);
-
-					// determine position of chain around endpoint1
-					if( obj1.position.x > obj2.position.x ) angle = 0;
-					else if( obj1.position.y < obj2.position.y ) angle = -90;
-					else if( obj1.position.y > obj2.position.y ) angle = 90;
-					else angle = 180;
-					var tp1 = new Point(
-						obj1.position.x + Math.cos( frederickkScript.radians(angle) ) * (obj1.bounds.width/2),
-						obj1.position.y + Math.sin( frederickkScript.radians(angle) ) * (obj1.bounds.height/2)
-					);
-					path.arcTo(tp1, tangents[0]);
-					path.closed = true;
-
-					return path;
-				}
-
-			},
-
-
-			/**
-			 *
-			 *	FCross
-			 *	Create a cross
-			 *	
-			 *	@param {Point} centerPoint
-			 *				position of cross
-			 *	@param {Size} size
-			 *				size [width,height] of cross
-			 *	@param {Number} strokeWidth
-			 *				thickness of the cross
-			 *	@param {String} crossType (optional)
-			 *				'SHARP'		sharp edged cross (fill)
-			 *				'LINE'		simple built of lines (stroke)
-			 *
-			 *	@example
-			 *	var centerPoint = new Point( 45,45 );
-			 *	var size = new Size( 45,45 );
-			 *	var strokeWidth = 18;
-			 *	var crossType = 'LINE';
-			 *	var fcross = new Path.FCross( centerPoint, size, strokeWidth, crossType );
-			 *
-			 */
-			FCross: function( centerPoint, size, strokeWidth, crossType ) {
-				(strokeWidth != undefined) ? strokeWidth : 1.0;
-				(crossType != undefined) ? crossType : 'LINE';
-
-				// var centerPoint = new Point(_x,_y);
-				// var size = new Size(_width,_height);
-				var line1, line2;
-
-				if( crossType == 'LINE' ) {
-					line1 = new Path.Line(
-						centerPoint.x + size.width, centerPoint.y - size.height, 
-						centerPoint.x - size.width, centerPoint.y + size.height
-					);
-					line1.strokeWidth = strokeWidth;
-					line2 = new Path.Line(
-						centerPoint.x + size.width, centerPoint.y + size.height, 
-						centerPoint.x - size.width, centerPoint.y - size.height
-					);
-					line2.strokeWidth = strokeWidth;
-				}
-				else if( crossType == 'SHARP' ) {
-					line1 = new Path();
-					line1.add( centerPoint.x + size.width, centerPoint.y - size.height );
-					line1.add( centerPoint.x + size.width, (centerPoint.y - size.height) + (strokeWidth/2) );
-					line1.add( (centerPoint.x - size.width) + (strokeWidth/2), centerPoint.y + size.height );
-					line1.add( centerPoint.x - size.width, centerPoint.y + size.height );
-					line1.add( centerPoint.x - size.width, (centerPoint.y + size.height) - (strokeWidth/2) );
-					line1.add( (centerPoint.x + size.width) - (strokeWidth/2), centerPoint.y - size.height );
-					line1.closed = true;
-
-					line2 = new Path();
-					line2.add( centerPoint.x - size.width, centerPoint.y - size.height );
-					line2.add( (centerPoint.x - size.width) + (strokeWidth/2), centerPoint.y - size.height );
-					line2.add( centerPoint.x + size.width, (centerPoint.y + size.height) - (strokeWidth/2) );
-					line2.add( centerPoint.x + size.width, centerPoint.y + size.height );
-					line2.add( (centerPoint.x + size.width) - (strokeWidth/2), centerPoint.y + size.height );
-					line2.add( centerPoint.x - size.width, (centerPoint.y - size.height) + (strokeWidth/2) );
-					line2.closed = true;
-				}
-
-				var group = new Group();
-				group.appendTop( line1 );
-				group.appendTop( line2 );
-				group.name = 'cross';
-				return group;
-			},
-
-
-			/**
-			 *	FDrop
-			 *	Create a (tear)drop
-			 *
-			 *	@param {Point} centerPoint
-			 *				position of drop
-			 *	@param {Number} arg1
-			 *				scale drop, maintains intended proportion
-			 *
-			 *	@example
-			 *	var centerPoint = new Point( 45,45 );
-			 *	var scale = 45;
-			 *	var fdrop = new Path.FDrop( centerPoint, scale );
-			 *
-			 */
-			/**
-			 *	
-			 *	@param {Point} centerPoint
-			 *				position of drop
-			 *	@param {Size} arg1
-			 *				scale drop, custom proportion
-			 *
-			 *	@example
-			 *	var centerPoint = new Point( 45,45 );
-			 *	var scale = new Size( 30,61.8 );
-			 *	var fdrop = new Path.FDrop( centerPoint, scale );
-			 *
-			 */
-			FDrop: function( centerPoint, arg1 ) {
-				var path = new Path();
-				path.name = 'drop';
-
-				// segments added from top counter-clockwise
-				path.add( new Segment(
-					new Point( -0.01, 0.01 ),
-					new Point( 0, -0.0055078 ),
-					new Point( 0, 0.643042 )
-				) );
-				path.add( new Segment(
-					new Point( -0.65, 1.6381104 ),
-					new Point( 0, -0.6109619 ),
-					new Point( 0, 0.3694434 )
-				) );
-				path.add( new Segment(
-					new Point( 0, 2.31 ),
-					new Point( -0.3578369, 0 ),
-					new Point( 0.3578369, 0 )
-				) );
-				path.add( new Segment(
-					new Point( 0.65, 1.6381104 ),
-					new Point( 0, 0.3694434 ),
-					new Point( 0, -0.6109619 )
-				) );
-				path.add( new Segment(
-					new Point( 0.01, 0.01 ),
-					new Point( 0, 0.643042 ),
-					new Point( 0, -0.0055078 )
-				) );
-				path.add( new Segment(
-					new Point( 0, -0 ),
-					new Point( 0.0055078, 0 ),
-					new Point( -0.0055078, 0 )
-				) );
-				path.closed = true;
-				path.position = centerPoint;
-
-				// check for the type of arguments being passed
-				// default scale is from center (position)
-				var type = frederickkScript.getType(arg1);
-				if( type == 'Size' ) {
-					path.scale( arg1.width, arg1.height );
-				}
-				else {
-					path.scale( arg1 );
-				}
-
-				return path;
-			},
-
-
-			/**
-			 *	FTriangle
-			 *	Create a triangle
-			 *
-			 *	@param {Point} p1
-			 *				first point of triangle
-			 *	@param {Point} p2
-			 *				second point of triangle
-			 *	@param {Point} p3
-			 *				third point of triangle
-			 *
-			 *	@example
-			 *	var p1 = new Point( 9,9 );
-			 *	var p2 = new Point( 90,45 );
-			 *	var p3 = new Point( 45,90 ); 
-			 *	var ftriangle = new Path.FTriangle( p1, p2, p3 );
-			 *
-			 */
-			FTriangle: function( p1, p2, p3 ) {
-				var path = new Path();
-				path.add(p1);
-				path.add(p2);
-				path.add(p3);
-				path.closed = true;
-				path.name = 'triangle';
-
-				return path;
+			for( var i=0; i<_points.length; i++ ) {
+				var p = _points[i];
+				if(p.x < xmin) xmin = p.x;
+				if(p.x > xmax) xmax = p.x;
+				if(p.y < ymin) ymin = p.y;
+				if(p.y > ymax) ymax = p.y;
 			}
-		}; // end return
 
+			var dx = xmax - xmin;
+			var dy = ymax - ymin;
+			var dmax = (dx > dy) ? dx : dy;
+			var xmid = (xmax + xmin) / 2.0;
+			var ymid = (ymax + ymin) / 2.0;
+
+			_triangles = [];
+			var complete = new HashSet(); // for complete Triangles
+
+
+			// Set up the super triangle
+			// This is a triangle which encompasses all the sample points.
+			// The super triangle coordinates are added to the end of the
+			// vertex list. The super triangle is the first triangle in
+			// the triangle list.
+			var superTriangle = new Triangle(
+				new Point( xmid - 2.0 * dmax, ymid - dmax ),
+				new Point( xmid, ymid + 2.0 * dmax ),
+				new Point( xmid + 2.0 * dmax, ymid - dmax )
+			);
+			_triangles.push( superTriangle );
+
+
+			// Include each point one at a time into the existing mesh
+			var edges = [];
+			for ( var i=0; i<_points.length; i++ ) {
+				var p = _points[i];
+				edges = [];
+
+				
+				// Set up the edge buffer.
+				// If the point (xp,yp) lies inside the circumcircle then the
+				// three edges of that triangle are added to the edge buffer
+				// and that triangle is removed.
+				var circle = new Point();
+
+				for (var j=_triangles.length-1; j>=0; j--) {
+					var t = _triangles[j];
+					if(complete.contains(t)) {
+						continue;
+					}
+
+					var inside = circumCircle( p, t, circle );
+
+					if(circle.x + circle.z < p.x) {
+						complete.add(t);
+					}
+					if(inside) {
+						edges.push( new Edge(t.p1, t.p2) );
+						edges.push( new Edge(t.p2, t.p3) );
+						edges.push( new Edge(t.p3, t.p1) );
+						_triangles.splice(j, 1);
+					}
+				}
+
+				// remove duplicate edges
+				edges = uniqueEdges( edges );
+
+				// Tag multiple edges
+				// Note: if all triangles are specified anticlockwise then all
+				// interior edges are opposite pointing in direction.
+				for (var j=0; j<edges.length-1; j++) {
+					var e1 = edges[j];
+					for (var k=j+1; k<edges.length; k++) {
+						var e2 = edges[k];
+						if(e1.p1 == e2.p2 && e1.p2 == e2.p1) {
+							e1.p1 = null;
+							e1.p2 = null;
+							e2.p1 = null;
+							e2.p2 = null;
+						}
+						// Shouldn't need the following, see note above
+						if(e1.p1 == e2.p1 && e1.p2 == e2.p2) {
+							e1.p1 = null;
+							e1.p2 = null;
+							e2.p1 = null;
+							e2.p2 = null;
+						}
+					}
+				}
+
+				// Form new triangles for the current point
+				// Skipping over any tagged edges.
+				// All edges are arranged in clockwise order.
+				for (var j=0; j<edges.length; j++) {
+					var e = edges[j];
+					if(e.p1 == null || e.p2 == null) {
+						continue;
+					}
+					// determine if point in triangle is new
+					// if it is mark it as so
+					for( var k=0; k<_pointsNew.length; k++ ) {
+						if( e.p1 == _pointsNew[k] ) e.p1.name = '__new';
+						else e.p1.name = null;
+
+						if( e.p2 == _pointsNew[k] ) e.p2.name = '__new';
+						else e.p2.name = null;
+
+						if( p == _pointsNew[k] ) p.name = '__new';
+						else p.name = null;
+					}
+					_triangles.push( new Triangle(e.p1, e.p2, p) );
+				}
+
+			}
+
+			// Remove triangles with super triangle vertices
+			for (var i=_triangles.length-1; i>=0; i--) {
+				var t = _triangles[i];
+				if(t.sharesVertex(superTriangle)) {
+					_triangles.splice(i, 1);
+				}
+			}
 
-	} // end statics:
-});
-
-
-
-// /**
-//  *	
-//  *	FBox
-//  *	Create simple box
-//  *
-//  */
-// 
-// 
-//  /**
-//   *
-//   *	TODO: make this an extension of FPath3
-//   *
-//   */
-// var FShape.FBox = function(scene) {
-// 	// ------------------------------------------------------------------------
-// 	// Properties
-// 	// ------------------------------------------------------------------------
-// 	/*
-// 	 *	public
-// 	 */
-// 	this.sides = new Array(6);
-
-// 	this.vertices = [];
-
-// 	// temporary until I figure out how
-// 	// to extend Item properly
-// 	this.name = '';
-
-// 	this.visible = true;
-// 	this.selected = false;
-
-// 	this.strokeCap;
-// 	this.strokeJoin;
-
-// this.faceFRONT = [
-// 		new F3D.FPoint3(-0.5, -0.5, -0.5),	// corner
-// 		new F3D.FPoint3( 0.5, -0.5, -0.5),	// corner
-// 		new F3D.FPoint3( 0.5,	0.5, -0.5),	// corner
-// 		new F3D.FPoint3(-0.5,	0.5, -0.5)	// corner
-// 	];
-
-// 	this.faceTOP = [
-// 		new F3D.FPoint3(-0.5, -0.5,	0.5),	// corner
-// 		new F3D.FPoint3( 0.5, -0.5,	0.5),	// corner
-// 		new F3D.FPoint3( 0.5, -0.5, -0.5),	// corner
-// 		new F3D.FPoint3(-0.5, -0.5, -0.5)	// corner
-// 	];
-
-// 	this.faceBOTTOM = [
-// 		new F3D.FPoint3(-0.5, 0.5,	0.5),	// corner
-// 		new F3D.FPoint3( 0.5, 0.5,	0.5),	// corner
-// 		new F3D.FPoint3( 0.5, 0.5, -0.5),	// corner
-// 		new F3D.FPoint3(-0.5, 0.5, -0.5)	// corner
-// 	];
-
-// 	this.faceLEFT = [
-// 		new F3D.FPoint3(-0.5, -0.5, -0.5),	// corner
-// 		new F3D.FPoint3(-0.5, -0.5,	0.5),	// corner
-// 		new F3D.FPoint3(-0.5,	0.5,	0.5),	// corner
-// 		new F3D.FPoint3(-0.5,	0.5, -0.5)	// corner
-// 	];
-
-// 	this.faceRIGHT = [
-// 		new F3D.FPoint3( 0.5, -0.5, -0.5),	// corner
-// 		new F3D.FPoint3( 0.5, -0.5,	0.5),	// corner
-// 		new F3D.FPoint3( 0.5,	0.5,	0.5),	// corner
-// 		new F3D.FPoint3( 0.5,	0.5, -0.5)	// corner
-// 	];
-
-// 	this.faceBACK = [
-// 		new F3D.FPoint3(-0.5, -0.5,	0.5),	// corner
-// 		new F3D.FPoint3( 0.5, -0.5,	0.5),	// corner
-// 		new F3D.FPoint3( 0.5,	0.5,	0.5),	// corner
-// 		new F3D.FPoint3(-0.5,	0.5,	0.5)	// corner
-// 	];
-
-
-
-// 	/*
-// 	 *	private
-// 	 */
-// 	var _scene = scene;
-
-// 	var _faces = [
-// 		['front',	this.faceFRONT],
-// 		['top',		this.faceTOP],
-// 		['bottom',	this.faceBOTTOM],
-// 		['left',	this.faceLEFT],
-// 		['right',	this.faceRIGHT],
-// 		['back',	this.faceBACK]
-// 	];
-
-// 	var _facesOpacity = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0];
-// 	var _facesBlendModes = [
-// 		'normal',	// FRONT
-// 		'normal',	// TOP
-// 		'normal',	// BOTTOM
-// 		'normal',	// LEFT
-// 		'normal',	// RIGHT
-// 		'normal'	// BACK
-// 	];
-
-// 	var _facesFillColor = [
-// 		new RGBColor(1.0, 1.0, 0.0, 0.8), // FRONT
-// 		new RGBColor(1.0, 0.0, 1.0, 0.8), // TOP
-// 		new RGBColor(0.0, 0.0, 1.0, 0.8), // BOTTOM
-// 		new RGBColor(1.0, 0.0, 0.0, 0.8), // LEFT
-// 		new RGBColor(0.0, 1.0, 1.0, 0.8), // RIGHT
-// 		new RGBColor(0.0, 1.0, 0.0, 0.8)	// BACK
-// 	];
-// 	var _facesStrokeColor = [
-// 		new RGBColor(1.0, 1.0, 0.0, 0.8), // FRONT
-// 		new RGBColor(1.0, 0.0, 1.0, 0.8), // TOP
-// 		new RGBColor(0.0, 0.0, 1.0, 0.8), // BOTTOM
-// 		new RGBColor(1.0, 0.0, 0.0, 0.8), // LEFT
-// 		new RGBColor(0.0, 1.0, 1.0, 0.8), // RIGHT
-// 		new RGBColor(0.0, 1.0, 0.0, 0.8)	// BACK
-// 	];
-// 	var _facesStrokeWidth = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0];
-
-// 	var _size = new F3D.FSize3(10,10,10);
-
-
-
-// 	// ------------------------------------------------------------------------
-// 	// Methods
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	@param arg0
-// 	 *				translate x coordinate
-// 	 *	@param arg1
-// 	 *				translate y coordinate
-// 	 *	@param arg2
-// 	 *				translate z coordinate
-// 	 *
-// 	 */
-// 	this.init = function(arg0, arg1, arg2) {
-// 		for(var i=0; i<_faces.length; i++) {
-
-// 			this.sides[i] = new F3D.FPath3();
-// 			this.sides[i].name = _faces[i][0];
-
-// 			this.vertices = _faces[i][1];
-// 			for(var j=0; j<this.vertices.length; j++) {
-// 				this.sides[i].add3( new F3D.FPoint3(
-// 					this.vertices[j].x * _size.width,
-// 					this.vertices[j].y * _size.height,
-// 					this.vertices[j].z * _size.depth
-// 				));
-// 			}
-
-// 			// ! temporary see above !
-// 			this.sides[i].opacity = _facesOpacity[i];
-// 			this.sides[i].blendMode = _facesBlendModes[i];
-// 			this.sides[i].visible = this.visible;
-// 			this.sides[i].selected = this.selected;
-
-// 			this.sides[i].fillColor = _facesFillColor[i];
-
-// 			this.sides[i].strokeColor = _facesStrokeColor[i];
-// 			this.sides[i].strokeWidth = _facesStrokeWidth[i];
-// 			this.sides[i].strokeCap = this.strokeCap;
-// 			this.sides[i].strokeJoin = this.strokeJoin;
-
-// 			this.sides[i].closed = true;
-// 			this.sides[i].translate(arg0, arg1, arg2);
-
-// 			_scene.addItem( this.sides[i] );
-// 		}
-// 	};
-
-
-
-// 	// ------------------------------------------------------------------------
-// 	// Sets
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *
-// 	 *	all sets need to be called before .init()
-// 	 *
-// 	 */
-
-// 	/**
-// 	 *	@param name
-// 	 *			name of the box (affects all faces)
-// 	 */
-// 	this.setName = function(name) {
-// 		for(var i=0; i<_faces.length; i++) {
-// 			_faces[i][0] = name;
-// 		}
-// 	};
-
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	@param width
-// 	 *			width of box
-// 	 *	@param height
-// 	 *			height of box
-// 	 *	@param depth
-// 	 *			depth of box
-// 	 */
-// 	this.setSize = function(width, height, depth) {
-// 		_size.set(width, height, depth);
-// 	};
-
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	@param bVal
-// 	 *			visibility of box (affects all faces)
-// 	 */
-// 	this.setVisible = function(bVal) {
-// 		this.visible = bVal;
-// 	};
-
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	@param bVal
-// 	 *			selected of box (affects all faces)
-// 	 */
-// 	this.setSelected = function(bVal) {
-// 		this.selected = bVal;
-// 	};
-
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	@param face
-// 	 *			opacity of box (affects all faces)
-// 	 */
-// 	/**
-// 	 *	@param face
-// 	 *			specific face
-// 	 *	@param o
-// 	 *			opacity value of face
-// 	 */
-// 	this.setOpacity = function(face, o) {
-// 		if( face.length === undefined ) _facesOpacity[face] = o;
-// 		else _facesOpacity = face;
-// 	};
-
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	@param face
-// 	 *			fill color of box (affects all faces)
-// 	 */
-// 	/**
-// 	 *	@param face
-// 	 *			specific face
-// 	 *	@param col
-// 	 *			fill color value of face (RGBColor())
-// 	 */
-// 	 this.setFillColor = function(face, col) {
-// 		if( face.length === undefined ) _facesFillColor[face] = col;
-// 		else _facesFillColor = face;
-// 	};
-
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	@param face
-// 	 *			stroke color of box (affects all faces)
-// 	 */
-// 	/**
-// 	 *	@param face
-// 	 *			specific face
-// 	 *	@param col
-// 	 *			stroke color value of face (RGBColor())
-// 	 */
-// 	this.setStrokeColor = function(face, col) {
-// 		if( face.length === undefined ) _facesStrokeColor[face] = col;
-// 		else _facesStrokeColor = face;
-// 	};
-
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	@param face
-// 	 *			stroke width of box (affects all faces)
-// 	 */
-// 	/**
-// 	 *	@param face
-// 	 *			specific face
-// 	 *	@param w
-// 	 *			stroke width
-// 	 */
-// 	this.setStrokeWidth = function(face, w) {
-// 		if( face.length === undefined ) _facesStrokeWidth[face] = w;
-// 		else _facesStrokeWidth = face;
-// 	};
-
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	@param cap
-// 	 *			stroke cap of box (affects all faces)
-// 	 */
-// 	this.setStrokeCap = function(cap) {
-// 		this.strokeCap = cap;
-// 	};
-
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	@param join
-// 	 *			stroke join of box (affects all faces)
-// 	 */
-// 	this.setStrokeJoin = function(join) {
-// 		this.strokeJoin = join;
-// 	};
-
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *
-// 	 *	clear fill of box
-// 	 *
-// 	 */
-// 	this.noFill = function() {
-// 		_facesFillColor = [];
-// 	};
-
-// 	/**
-// 	 *
-// 	 *	clear stroke of box
-// 	 *
-// 	 */
-// 	this.noStroke = function() {
-// 		_facesStrokeColor = [];
-// 	}
-
-
-
-// 	// ------------------------------------------------------------------------
-// 	// Gets
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *
-// 	 *	@return array of FPath3 (faces)
-// 	 *
-// 	 */
-// 	this.get = function() {
-// 		return this.sides;
-// 	};
-
-// 	/**
-// 	 *	@param index
-// 	 *			face index number
-// 	 *
-// 	 *	@return FPath3
-// 	 *
-// 	 */
-// 	this.get = function(index) {
-// 		return this.sides[index];
-// 	};
-
-// 	//-----------------------------------------------------------------------------
-// 	/**
-// 	 *
-// 	 *	@return number of faces
-// 	 *
-// 	 */
-// 	this.getNumFaces = function() {
-// 		return this.vertices.length-2;
-// 	};
-
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *
-// 	 *	@return FSize3 dimensions of box
-// 	 *
-// 	 */
-// 	this.getSize = function() {
-// 		return _size;
-// 	};
-
-// };
-
-
-
-// /**
-//  *	
-//  *	FSphere
-//  *	Create simple sphere
-//  *
-//  */
-
-
-//  /**
-//   *
-//   *	TODO: make this an extension of FPath3
-//   *
-//   */
-// var FShape.FSphere = function(scene) {
-// 	//-----------------------------------------------------------------------------
-// 	// Properties
-// 	//-----------------------------------------------------------------------------
-// 	/*
-// 	 *	public
-// 	 */
-// 	this.sides = [];
-// 	this.vertices = [];
-
-// 	// temporary until I figure out how
-// 	// to extend Item properly
-// 	this.name = '';
-
-// 	this.visible = true;
-// 	this.selected = false;
-
-// 	this.strokeCap;
-// 	this.strokeJoin;
-
-// 	/*
-// 	 *	private
-// 	 */
-// 	var _scene = scene;
-
-// 	var _radius3 = 10;
-// 	var _c = 0.5;
-
-// 	var _lats;
-// 	var _longs;
-
-// 	var _facesOpacity = [];
-// 	var _facesBlendModes = [];
-
-// 	var _facesFillColor = [];
-// 	var _facesStrokeColor = [];
-// 	var _facesStrokeWidth = [];
-
-
-
-// 	//-----------------------------------------------------------------------------
-// 	// Methods
-// 	//-----------------------------------------------------------------------------
-// 	/**
-// 	 *  @param lats
-// 	 *  			number of latitude segments
-// 	 *  @param longs
-// 	 *  			number of longitude segments
-// 	 */
-// 	this._calculate = function(clats, clongs) {
-// 		// this._calculate this.vertices
-// 		this.vertices = [];
-// 		for(var i=0; i<=clats; i++) {
-// 			var lat0 = (Math.PI * (-_c + ( (i-1)/clats) ));
-// 			var z0   = Math.sin(lat0);
-// 			var zr0  = Math.cos(lat0);
-
-// 			var lat1 = (Math.PI * (-_c + ( i/clats) ));
-// 			var z1   = Math.sin(lat1);
-// 			var zr1  = Math.cos(lat1);
-
-// 			for(var j=0; j<=clongs; j++) {
-// 				var lng = ((Math.PI*2) * ( (j-1)/clongs ));
-// 				var x = Math.cos(lng);
-// 				var y = Math.sin(lng);
-
-// 				this.vertices.push( new F3D.FPoint3( x*zr0, y*zr0, z0 ) );
-// 				this.vertices.push( new F3D.FPoint3( x*zr1, y*zr1, z1 ) );
-// 			} // _longs
-// 		} // _lats
-
-
-// 		// Setup arrays
-// 		this.sides = new Array(this.vertices.length-2);
-
-// 		_facesOpacity = new Array(this.vertices.length-2);
-// 		_facesBlendModes = new Array(this.vertices.length-2);
-// 		_facesFillColor = new Array(this.vertices.length-2);
-// 		_facesStrokeColor = new Array(this.vertices.length-2);
-// 		_facesStrokeWidth = new Array(this.vertices.length-2);
-
-// 		var numVertices = this.vertices.length-2;
-// 		for(var i=0; i<numVertices; i++) {
-// 			var v = this.vertices[i];
-// 			var col = new HslColor( 360*i/numVertices, 0.9, 0.7);
-
-// 			var depth = (v.z/scene.getFocalLength())*100;
-
-// 			_facesOpacity[i] = 1.0;
-// 			_facesBlendModes[i] = 'normal';
-
-// 			_facesFillColor[i] = col.darken( depth );
-// 			_facesStrokeColor[i] = col.darken( depth );
-// 			_facesStrokeWidth[i] = 1.0;
-// 		}
-// 	};
-
-
-// 	/**
-// 	 *  @param arg0
-// 	 *  			x translate value
-// 	 *  @param arg1
-// 	 *  			y translate value
-// 	 *  @param arg2
-// 	 *  			z translate value
-// 	 */
-// 	this.init = function(arg0, arg1, arg2) {
-// 		if(_lats == null) this.setLatsLongs(6,6);
-
-// 		for(var i=0; i<this.vertices.length-2; i++) {
-// 			this.sides[i] = new F3D.FPath3();
-// 			this.sides[i].name = 'face'+i;
-
-// 			this.sides[i].add3( new F3D.FPoint3(
-// 				this.vertices[i].x*(_radius3*0.5),
-// 				this.vertices[i].y*(_radius3*0.5),
-// 				this.vertices[i].z*(_radius3*0.5)
-// 			));
-// 			this.sides[i].add3( new F3D.FPoint3(
-// 				this.vertices[i+1].x*(_radius3*0.5),
-// 				this.vertices[i+1].y*(_radius3*0.5),
-// 				this.vertices[i+1].z*(_radius3*0.5)
-// 			));
-// 			this.sides[i].add3( new F3D.FPoint3(
-// 				this.vertices[i+2].x*(_radius3*0.5),
-// 				this.vertices[i+2].y*(_radius3*0.5),
-// 				this.vertices[i+2].z*(_radius3*0.5)
-// 			));
-
-// 			// ! temporary see above !
-// 			this.sides[i].opacity = _facesOpacity[i];
-// 			this.sides[i].blendMode = _facesBlendModes[i];
-// 			this.sides[i].visible = this.visible;
-// 			this.sides[i].selected = this.selected;
-
-// 			this.sides[i].fillColor = _facesFillColor[i];
-
-// 			this.sides[i].strokeColor = _facesStrokeColor[i];
-// 			this.sides[i].strokeWidth = _facesStrokeWidth[i];
-// 			this.sides[i].strokeCap = this.strokeCap;
-// 			this.sides[i].strokeJoin = this.strokeJoin;
-
-// 			this.sides[i].closed = true;
-// 			this.sides[i].translate(arg0, arg1, arg2);
-
-// 			scene.addItem( this.sides[i] );
-// 		}
-// 	};
-
-
-
-// 	//-----------------------------------------------------------------------------
-// 	// Sets
-// 	//-----------------------------------------------------------------------------
-// 	/**
-// 	 *  @param r
-// 	 *  		radius of sphere
-// 	 */
-// 	this.setSize = function(radius) {
-// 		_radius3 = radius;
-// 	};
-
-// 	/**
-// 	 *  @param lats
-// 	 *  			number of latitude segments
-// 	 *  @param longs
-// 	 *  			number of longitude segments
-// 	 */
-// 	this.setLatsLongs = function(lats, longs) {
-// 		_lats = (lats < 4) ? 4 : lats;
-// 		_longs = (longs < 4) ? 4 : longs;
-// 		this._calculate(_lats, _longs);
-// 	};
-
-// 	// ------------------------------------------------------------------------
-// 	this.setVisible = function(val) {
-// 		this.visible = val;
-// 	};
-
-// 	// ------------------------------------------------------------------------
-// 	this.setSelected = function(val) {
-// 		this.selected = val;
-// 	};
-
-// 	// ------------------------------------------------------------------------
-// 	this.setOpacity = function(face, o) {
-// 		if( face.length === undefined ) _facesOpacity[face] = o;
-// 		else _facesOpacity = face;
-// 	};
-
-// 	// ------------------------------------------------------------------------
-// 	this.setFillColor = function(face, col) {
-// 		if( face.length === undefined ) _facesFillColor[face] = col;
-// 		else {
-// 			// _facesFillColor = face;
-// 			for(var i=0; i<face.length; i++) {
-// 				var v = this.vertices[i];
-// 				var depth = (v.z/scene.getFocalLength())*100;
-// 				_facesFillColor[i] = face.darken( depth );
-// 			}
-// 		}
-// 	};
-
-// 	// ------------------------------------------------------------------------
-// 	this.setStrokeColor = function(face, col) {
-// 		if( face.length === undefined ) _facesStrokeColor[face] = col;
-// 		else {
-// 			// _facesStrokeColor = face;
-// 			for(var i=0; i<face.length; i++) {
-// 				var v = this.vertices[i];
-// 				var depth = (v.z/scene.getFocalLength())*100;
-// 				_facesStrokeColor[i] = face.darken( depth );
-// 			}
-// 		}
-// 	};
-
-// 	// ------------------------------------------------------------------------
-// 	this.setStrokeWidth = function(face, w) {
-// 		if( face.length === undefined ) _facesStrokeWidth[face] = w;
-// 		else _facesStrokeWidth = face;
-// 	};
-
-// 	// ------------------------------------------------------------------------
-// 	this.setStrokeCap = function(cap) {
-// 		this.strokeCap = cap;
-// 	};
-
-// 	// ------------------------------------------------------------------------
-// 	this.setStrokeJoin = function(join) {
-// 		this.strokeJoin = join;
-// 	};
-
-// 	// ------------------------------------------------------------------------
-// 	this.noFill = function() {
-// 		_facesFillColor = [];
-// 	};
-// 	this.noStroke = function() {
-// 		_facesStrokeColor = [];
-// 	};
-
-// 	// ------------------------------------------------------------------------
-// 	this.setVertices = function(vertice, val) {
-// 		if( vertice.length === undefined ) this.vertices[vertice] = val;
-// 		else this.vertices = vertice;
-// 	};
-
-	
-
-// 	//-----------------------------------------------------------------------------
-// 	// Gets
-// 	//-----------------------------------------------------------------------------
-// 	this.get = function() {
-// 		return this.sides;
-// 	};
-// 	this.get = function(index) {
-// 		return this.sides[index];
-// 	};
-
-// 	//-----------------------------------------------------------------------------
-// 	this.getNumFaces = function() {
-// 		return this.vertices.length-2;
-// 	};
-
-// 	//-----------------------------------------------------------------------------
-// 	this.getVertices = function() {
-// 		return this.vertices;
-// 	};
-
-// 	//-----------------------------------------------------------------------------
-// 	this.getSize = function() {
-// 		return _radius3;
-// 	};
-
-
-
-// };
-
-
-
-
-
-/**
- *	
- *	Raster
- *
- *	A collection of supporing methods for
- *	creating & handling Raster objects
- *
- */
-function RasterSetup() {
-	var isRasterValid = false;
-	var rasters = document.getItems({
-		type: [Raster, PlacedFile],
-		selected: true
-	});
-
-	if(rasters.length > 0) {
-		raster = rasters.first;
-		isRasterValid = true;
-		if (raster instanceof PlacedFile && !raster.eps) {
-			raster = raster.embed(false);
 		}
-	}
-	else {
-		isRasterValid = false;
-		// RasterSelection();
-	}
-	
-	// no image selected or created
-	if(isRasterValid) {
-		raster.selected = false;
-	}
-	else {
-		console.log( 'Please select a valid image' );
-	}
 
-	return isRasterValid;
+		// return _triangles;
+	};
+
+	//-----------------------------------------------------------------------------
+	/**
+	 *	Return TRUE if a point (xp,yp) is inside the circumcircle made up
+	 *	of the points (x1,y1), (x2,y2), (x3,y3)
+	 *	The circumcircle center is returned in (xc,yc) and the radius r
+	 *	NOTE: A point on the edge is inside the circumcircle
+	 * 
+	 * @param p
+	 *				Point to check
+	 * @param t
+	 *				Triangle to check
+	 * @param circle
+	 *				circle to check
+	 *
+	 */
+	function circumCircle( p, t, circle ) {
+		var m1, m2;
+		var mx1, mx2;
+		var my1, my2;
+		var dx, dy;
+
+		var rsqr;
+		var drsqr;
+
+		// Check for coincident points
+		if( Math.abs(t.p1.y-t.p2.y) < EPSILON && Math.abs(t.p2.y-t.p3.y) < EPSILON ) {
+			//System.err.println("CircumCircle: Points are coincident.");
+			return false;
+		}
+
+		if( Math.abs(t.p2.y-t.p1.y) < EPSILON ) {
+			m2 = - (t.p3.x-t.p2.x) / (t.p3.y-t.p2.y);
+			mx2 = (t.p2.x + t.p3.x) / 2.0;
+			my2 = (t.p2.y + t.p3.y) / 2.0;
+			circle.x = (t.p2.x + t.p1.x) / 2.0;
+			circle.y = m2 * (circle.x - mx2) + my2;
+		}
+		else if( Math.abs(t.p3.y-t.p2.y) < EPSILON ) {
+			m1 = - (t.p2.x-t.p1.x) / (t.p2.y-t.p1.y);
+			mx1 = (t.p1.x + t.p2.x) / 2.0;
+			my1 = (t.p1.y + t.p2.y) / 2.0;
+			circle.x = (t.p3.x + t.p2.x) / 2.0;
+			circle.y = m1 * (circle.x - mx1) + my1;	
+		}
+		else {
+			m1 = - (t.p2.x-t.p1.x) / (t.p2.y-t.p1.y);
+			m2 = - (t.p3.x-t.p2.x) / (t.p3.y-t.p2.y);
+			mx1 = (t.p1.x + t.p2.x) / 2.0;
+			mx2 = (t.p2.x + t.p3.x) / 2.0;
+			my1 = (t.p1.y + t.p2.y) / 2.0;
+			my2 = (t.p2.y + t.p3.y) / 2.0;
+			circle.x = (m1 * mx1 - m2 * mx2 + my2 - my1) / (m1 - m2);
+			circle.y = m1 * (circle.x - mx1) + my1;
+		}
+
+		dx = t.p2.x - circle.x;
+		dy = t.p2.y - circle.y;
+		rsqr = dx*dx + dy*dy;
+		circle.z = Math.sqrt(rsqr);
+
+		dx = p.x - circle.x;
+		dy = p.y - circle.y;
+		drsqr = dx*dx + dy*dy;
+
+		return drsqr <= rsqr;
+	};
+
+	//-----------------------------------------------------------------------------
+	/**
+	 *	findClosest Triangle
+	 *
+	 *	Returns the closest Triangle based on the input Triangle 
+	 *
+	 *	@param other
+	 *			the input Triangle to find it's closest neighbor 
+	 *
+	 *	@return
+	 *			closest Triangle
+	 */
+	function findClosest(other) {
+		var result;
+
+		for(var i=0; i<_triangles.length; i++) {
+			var iFind = _triangles[i];
+			var d1 = other.getCentroid.getDistance( iFind.getCentroid );
+
+			for(var j=0; j<_triangles.length; j++) {
+				// var jFind = _triangles[i];
+				var jFind = _triangles[j];
+				var d2 = other.getCentroid.getDistance( jFind.getCentroid );
+
+				if( d2 < d1 ) {
+					result = jFind;      
+					break;
+				}
+
+			}
+		}
+
+		return result;
+	};
+
+	//-----------------------------------------------------------------------------
+	/**
+	 *	
+	 *	sort Point rray from left to right
+	 *
+	 *	@param a
+	 *			Point A
+	 *	@param b
+	 *			Point A
+	 *
+	 */
+	function sortLeftToRight(a,b) {
+		if (a.x < b.x) return 1;
+		else if (a.x > b.x) return -1;
+		else return 0;
+	};
+
+	/**
+	 *	
+	 *	sort Point array from top to bottom
+	 *
+	 *	@param a
+	 *			Point A
+	 *	@param b
+	 *			Point A
+	 *
+	 */
+	function sortTopToBottom(a,b) {
+		if (a.y < b.y) return 1;
+		else if (a.y > b.y) return -1;
+		else return 0;
+	};
+
+	/**
+	 *	
+	 *	remove Point duplicates
+	 *
+	 *	@param {Array} arr
+	 *			array to remove duplicate points from
+	 *
+	 *	@return
+	 *			the cleaned up array
+	 *
+	 */
+	function uniquePoints(arr){
+		arr.sort();
+		for( var i=1; i<arr.length; ){
+			if( arr[i-1].x == arr[i].x && arr[i-1].y == arr[i].y ) arr.splice(i, 1);
+			else i++;
+		}
+		return arr;
+	};
+
+	/**
+	 *	
+	 *	remove Edge duplicates
+	 *
+	 *	@param {Array} arr
+	 *			array to remove duplicate edges from
+	 *
+	 *	@return
+	 *			the cleaned up array
+	 *
+	 */
+	function uniqueEdges(arr) {
+		arr.sort();
+		for( var i=1; i<arr.length; ){
+			if( arr[i-1].p1 == arr[i].p1 && arr[i-1].p2 == arr[i].p2 ||
+				arr[i-1].p1 == arr[i].p2 && arr[i-1].p2 == arr[i].p2 ) arr.splice(i, 1);
+			else i++;
+		}
+		return arr;
+
+		// TODO: This is O(n^2), make it O(n) with a hash or some such
+		// var uniqueEdges = [];
+		// for( var i=0; i<edges.length; i++ ) {
+		// 	var edge1 = edges[i];
+		// 	var unique = true;
+
+		// 	for( var j=0; j<edges.length; j++ ) {
+		// 		if( i != j ) {
+		// 			var edge2 = edges[j];
+		// 			if( ( edge1.p1 == edge2.p1 && edge1.p2 == edge2.p2 ) ||
+		// 				( edge1.p1 == edge2.p2 && edge1.p2 == edge2.p1 ) ) {
+		// 				unique = false;
+		// 				break;
+		// 			}
+		// 		}
+		// 	}
+			
+		// 	if( unique ) {
+		// 		uniqueEdges.push( edge1 );
+		// 	}
+		// }
+
+		// return uniqueEdges;
+	};
+
+
+
+	//-----------------------------------------------------------------------------
+	// sets
+	//-----------------------------------------------------------------------------
+	/**
+	 *	add point(s) to Triangulation
+	 *
+	 *	@param point
+	 *			a single Point or array of Points
+	 *
+	 */
+	function addPoint(point) {
+		_pointsNew = [];
+
+		if( point instanceof Array ) {
+			_pointsNew = point;
+			// add points to points array
+			_points = _points.concat( point );
+		}
+		else {
+			_pointsNew[0] = point;
+			// add point to points array
+			_points.push( point );
+		}
+
+		// check for duplicate points
+		_points = uniquePoints( _points );
+
+		// console.log( _pointsNew );
+		// create (new) triangulation
+		init();
+	};
+
+
+
+	//-----------------------------------------------------------------------------
+	// Gets
+	//-----------------------------------------------------------------------------
+	/**
+	 *	@param index
+	 *			index of Triangle to return (optional)
+	 *
+	 *	@return
+	 *			the Triangles as array 
+	 */
+	function getTriangles(index) {
+		if( index != null ) {
+			return _triangles[index];
+		}
+		else {
+			return _triangles;
+		}
+	};
+
+	/**
+	 *	@param index
+	 *			index of Point to return (optional)
+	 *
+	 *	@return
+	 *			the points as a Point array 
+	 */
+	function getPoints(index) {
+		if( index != null ) {
+			return _points[index];
+		}
+		else {
+			return _points;
+		}
+	};
+
+
+
+	//-----------------------------------------------------------------------------
+	// Invocation
+	//-----------------------------------------------------------------------------
+	init();
+
+
+
+
+	//-----------------------------------------------------------------------------
+	return {
+		// sets
+		add: addPoint,
+
+		// gets
+		getTriangles: getTriangles, 
+		getPoints: getPoints,
+		getClosest: findClosest
+	};
+
+
 };
 
-//-----------------------------------------------------------------------------
+
+
 /**
  *
- *	@param {Item} sel
- *				a Path.Item (can also be a Group)
- *	@param {Number} width
- *				(optional) amount to add to overall width - default: 0
- *	@param {Number} height
- *				(optional) amount to add to overall height - default: 0
- *	@param {Number} res
- *				(optional) resolution - default: 72
+ *	HashSet
+ *	Phùng Văn Huy
+ *	huyphungvan@gmail.com
  *
- *	@return Raster
+ *	http://code.huypv.net/2010/04/hashset-implementation-in-javascript.html
+ *	
+ *
+ *	Modifications
+ *
+ *	Ken Frederick
+ *
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
  *
  */
-function RasterSelection(sel, width, height, res) {
-	width = (width === undefined) ? 0 : width;
-	height = (height === undefined) ? 0 : height;
-	res = (res === undefined) ? 72 : res;
+var HashSet = function() {
+	//-----------------------------------------------------------------------------
+	// Properties
+	//-----------------------------------------------------------------------------
+	var _arr = new Array();
 
-	var groupSel = new Group();
-	for( var i=0; i<sel.length; i++ ) {
-		var obj = sel[i].clone();
-		groupSel.appendTop( obj );
-		sel[i].selected = false;
-	}
 
-	// set background
-	var rect = new Path.Rectangle( groupSel.bounds );
-	rect.bounds.width += width;
-	rect.bounds.height += height;
-	rect.position = groupSel.position;
-	rect.fillColor = null;
-	rect.strokeColor = null;
-	groupSel.appendBottom( rect );
 
-	// rasterize
-	raster = groupSel.rasterize('rgb', res,0); 
-	raster.selected = false;
-	isRasterValid = true;
+	//-----------------------------------------------------------------------------
+	// Methods
+	//-----------------------------------------------------------------------------
+	function _add(e) {
+		var arr = _arr;
+		var i = arr.indexOf(e);
+		if (i == -1) arr.push(e);
+	};
 
-	// remove cloned items
-	groupSel.remove();
+	function _get(i) {
+		return _arr[i];
+	};
 
-	return raster;
+	function _size(i) {
+		return _arr.length;
+	};
+
+	function _remove(e) {
+		var arr =_arr;
+		var i = arr.indexOf(e);
+		if (i != -1) arr.splice(i, 1);
+	};
+
+	function _contains(o) {
+		var b = false;
+		for(var i=0; i<_arr.length; i++) {
+			if(_arr[i] === o) b = true; // break;
+		}
+		return b;
+	};
+
+
+
+	//-----------------------------------------------------------------------------
+	// Gets
+	//-----------------------------------------------------------------------------
+	function _toString() {
+		return _arr.join(',');
+	};
+
+
+
+	//-----------------------------------------------------------------------------
+	return {
+		add: _add,
+		get: _get,
+		size: _size,
+		remove: _remove,
+		contains: _contains,
+		toString: _toString
+	};
+
 };
-
-
-
-
-/*
- *
- *	initiate global variable
- *
- */ 
-var fs = frederickkScript || {};
-
-
 
 

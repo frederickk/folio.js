@@ -4391,7 +4391,8 @@ html {
   hyphens: auto;
 }
 body {
-  margin: 0 35px 0 35px;
+  margin: 0;
+  padding: 0;
   font-size: 12px;
   font-family: "Akzidenz-Grotesk", akzidenz grotesk, helvetica, sans-serif;
   font-weight: bold;
@@ -4660,10 +4661,10 @@ a:hover {
  *	container div for text (season to taste)
  */
 #textContainer {
-  position: relative;
+  position: absolute;
   width: 100%;
   top: 70px;
-  margin: 0px;
+  margin: 0 35px 0 35px;
   padding: 0px;
   white-space: nowrap;
   z-index: 200;
@@ -4672,8 +4673,9 @@ a:hover {
 }
 #manual {
   position: absolute;
+  width: 100%;
   bottom: 70px;
-  margin: 0px;
+  margin: 0 35px 0 35px;
   padding: 0px;
   white-space: nowrap;
   z-index: 200;

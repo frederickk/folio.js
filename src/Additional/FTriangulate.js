@@ -56,192 +56,6 @@ var EPSILON = 1.0e-6;
 
 
 /**
- *	Triangle
- *	
- *	@param p1
- *				first Point of Triangle
- *	@param p2
- *				second Point of Triangle
- *	@param p3
- *				third Point of Triangle
- */
-// TODO: remove this and rely on Path.Triangle
-folio.Triangle = function( p1, p2, p3 ) {
-	//-----------------------------------------------------------------------------
-	// Properties
-	//-----------------------------------------------------------------------------
-	var _p1 = p1;
-	var _p2 = p2;
-	var _p3 = p3;
-
-
-
-	//-----------------------------------------------------------------------------
-	// Methods
-	//-----------------------------------------------------------------------------
-	/**
-	 *	vertex (Edge) sharing
-	 *	
-	 *	@param other
-	 *				the triangle to check for vertex (Edge) sharing
-	 */
-	function sharesVertex(other) {
-		return p1 == other.p1 || p1 == other.p2 || p1 == other.p3 ||
-		p2 == other.p1 || p2 == other.p2 || p2 == other.p3 || 
-		p3 == other.p1 || p3 == other.p2 || p3 == other.p3;
-	}
-
-	/**
-	 *	@return circle
-	 *			Point of the circle center
-	 */
-	function circumcenter() {
-		var circle = new Point();
-		var m1, m2;
-		var mx1, mx2;
-		var my1, my2;
-
-		if ( Math.abs(_p2.y-_p1.y) < EPSILON ) {
-			m2 = - (_p3.x-_p2.x) / (_p3.y-_p2.y);
-			mx2 = (_p2.x + _p3.x) / 2.0;
-			my2 = (_p2.y + _p3.y) / 2.0;
-			circle.x = (_p2.x + _p1.x) / 2.0;
-			circle.y = m2 *	(circle.x - mx2) + my2;
-
-		}
-		else if ( Math.abs(_p3.y-_p2.y) < EPSILON ) {
-			m1 = - (_p2.x-_p1.x) / (_p2.y-_p1.y);
-			mx1 = (_p1.x + _p2.x) / 2.0;
-			my1 = (_p1.y + _p2.y) / 2.0;
-			circle.x = (_p3.x + _p2.x) / 2.0;
-			circle.y = m1 *	(circle.x - mx1) + my1;	
-
-		}
-		else {
-			m1 = - (_p2.x-_p1.x) / (_p2.y-_p1.y);
-			m2 = - (_p3.x-_p2.x) / (_p3.y-_p2.y);
-			mx1 = (_p1.x + _p2.x) / 2.0;
-			mx2 = (_p2.x + _p3.x) / 2.0;
-			my1 = (_p1.y + _p2.y) / 2.0;
-			my2 = (_p2.y + _p3.y) / 2.0;
-			circle.x = (m1 *	mx1 - m2 *	mx2 + my2 - my1) / (m1 - m2);
-			circle.y = m1 *	(circle.x - mx1) + my1;
-		}
-
-		return circle;
-	};
-
-	//-----------------------------------------------------------------------------
-	/**
-	 *	@return center
-	 *			Point of the centroid center
-	 *
-	 *	http://www.mathwords.com/c/centroid_formula.htm
-	 */
-	function centroid() {
-		return new Point(
-			(_p1.x + _p2.x + _p3.x)/3,
-			(_p1.y + _p2.y + _p3.y)/3
-		);
-	};
-
-	//-----------------------------------------------------------------------------
-	/**
-	 *	 @return
-	 *	 		a sorted array (Edge) of the Triangle's Edges (shortest to longest)
-	 */
-	function distances() {
-		var distances = [];
-		distances[0] = new Edge(_p1, _p2);
-		distances[1] = new Edge(_p1, _p3);
-		distances[2] = new Edge(_p3, _p2);
-
-		distances.sort();
-		return distances;
-	};
-
-	//-----------------------------------------------------------------------------
-	/**
-	 *	http://www.btinternet.com/~se16/hgb/triangle.htm
-	 */
-	function width() {
-		var x1 = 0;
-		if(_p1.x < _p2.x && _p1.x < _p3.x) x1 = _p1.x;
-		else if( _p2.x < _p1.x && _p2.x < _p3.x ) x1 = _p2.x;
-		else if( _p3.x < _p1.x && _p3.x < _p2.x) x1 = _p3.x;
-
-		var x2 = 0;
-		if(_p1.x > _p2.x && _p1.x > _p3.x) x2 = _p1.x;
-		else if( _p2.x > _p1.x && _p2.x > _p3.x ) x2 = _p2.x;
-		else if( _p3.x > _p1.x && _p3.x > _p2.x) x2 = _p3.x;
-
-		var f = Math.abs(x2 - x1);
-		return f;
-	};
-
-	function height() {
-		var y1 = 0;
-		if(_p1.y < _p2.y && _p1.y < _p3.y) y1 = _p1.y;
-		else if( _p2.y < _p1.y && _p2.y < _p3.y ) y1 = _p2.y;
-		else if( _p3.y < _p1.y && _p3.y < _p2.y) y1 = _p3.y;
-
-		var y2 = 0;
-		if(_p1.y > _p2.y && _p1.y > _p3.y) y2 = _p1.y;
-		else if( _p2.y > _p1.y && _p2.y > _p3.y ) y2 = _p2.y;
-		else if( _p3.y > _p1.y && _p3.y > _p2.y) y2 = _p3.y;
-
-		var g = Math.abs(y2 - y1);
-		return g;
-	};
-
-	//-----------------------------------------------------------------------------
-	function area() { 
-		var area = 0;
-		area += (_p1.x + _p3.x) * (_p3.y - _p1.y);
-		area += (_p2.x + _p1.x) * (_p1.y - _p2.y);
-		area += (_p3.x + _p2.x) * (_p2.y - _p3.y);
-		return area/2;
-	};
-
-
-
-	//-----------------------------------------------------------------------------
-	// Gets
-	//-----------------------------------------------------------------------------
-	/**
-	 *	 @return
-	 *	  		the points of the triangle as a Point array 
-	 */
-	function get() {
-		var points = [_p1, _p2, _p3];
-		return points;
-	};
-
-	//-----------------------------------------------------------------------------
-	return {
-		p1: _p1,
-		p2: _p2,
-		p3: _p3,
-
-		sharesVertex: sharesVertex,
-		getCentroid: centroid,
-
-		getArea: area,
-		getWidth: width,
-		getHeight: height,
-
-		getPoints: get
-	};
-
-};
-
-
-
-
-
-
-
-/**
  *	FTriangulate
  *	
  *	@param points
@@ -261,6 +75,186 @@ folio.FTriangulate = function( points ) {
 	//-----------------------------------------------------------------------------
 	// Classes
 	//-----------------------------------------------------------------------------
+	/**
+	 *	Triangle
+	 *	
+	 *	@param p1
+	 *				first Point of Triangle
+	 *	@param p2
+	 *				second Point of Triangle
+	 *	@param p3
+	 *				third Point of Triangle
+	 */
+	// TODO: remove this and rely on Path.Triangle
+	var Triangle = function( p1, p2, p3 ) {
+		//-----------------------------------------------------------------------------
+		// Properties
+		//-----------------------------------------------------------------------------
+		var _p1 = p1;
+		var _p2 = p2;
+		var _p3 = p3;
+
+
+
+		//-----------------------------------------------------------------------------
+		// Methods
+		//-----------------------------------------------------------------------------
+		/**
+		 *	vertex (Edge) sharing
+		 *	
+		 *	@param other
+		 *				the triangle to check for vertex (Edge) sharing
+		 */
+		function sharesVertex(other) {
+			return p1 == other.p1 || p1 == other.p2 || p1 == other.p3 ||
+			p2 == other.p1 || p2 == other.p2 || p2 == other.p3 || 
+			p3 == other.p1 || p3 == other.p2 || p3 == other.p3;
+		}
+
+		/**
+		 *	@return circle
+		 *			Point of the circle center
+		 */
+		function circumcenter() {
+			var circle = new Point();
+			var m1, m2;
+			var mx1, mx2;
+			var my1, my2;
+
+			if ( Math.abs(_p2.y-_p1.y) < EPSILON ) {
+				m2 = - (_p3.x-_p2.x) / (_p3.y-_p2.y);
+				mx2 = (_p2.x + _p3.x) / 2.0;
+				my2 = (_p2.y + _p3.y) / 2.0;
+				circle.x = (_p2.x + _p1.x) / 2.0;
+				circle.y = m2 *	(circle.x - mx2) + my2;
+
+			}
+			else if ( Math.abs(_p3.y-_p2.y) < EPSILON ) {
+				m1 = - (_p2.x-_p1.x) / (_p2.y-_p1.y);
+				mx1 = (_p1.x + _p2.x) / 2.0;
+				my1 = (_p1.y + _p2.y) / 2.0;
+				circle.x = (_p3.x + _p2.x) / 2.0;
+				circle.y = m1 *	(circle.x - mx1) + my1;	
+
+			}
+			else {
+				m1 = - (_p2.x-_p1.x) / (_p2.y-_p1.y);
+				m2 = - (_p3.x-_p2.x) / (_p3.y-_p2.y);
+				mx1 = (_p1.x + _p2.x) / 2.0;
+				mx2 = (_p2.x + _p3.x) / 2.0;
+				my1 = (_p1.y + _p2.y) / 2.0;
+				my2 = (_p2.y + _p3.y) / 2.0;
+				circle.x = (m1 *	mx1 - m2 *	mx2 + my2 - my1) / (m1 - m2);
+				circle.y = m1 *	(circle.x - mx1) + my1;
+			}
+
+			return circle;
+		};
+
+		//-----------------------------------------------------------------------------
+		/**
+		 *	@return center
+		 *			Point of the centroid center
+		 *
+		 *	http://www.mathwords.com/c/centroid_formula.htm
+		 */
+		function centroid() {
+			return new Point(
+				(_p1.x + _p2.x + _p3.x)/3,
+				(_p1.y + _p2.y + _p3.y)/3
+			);
+		};
+
+		//-----------------------------------------------------------------------------
+		/**
+		 *	 @return
+		 *	 		a sorted array (Edge) of the Triangle's Edges (shortest to longest)
+		 */
+		function distances() {
+			var distances = [];
+			distances[0] = new Edge(_p1, _p2);
+			distances[1] = new Edge(_p1, _p3);
+			distances[2] = new Edge(_p3, _p2);
+
+			distances.sort();
+			return distances;
+		};
+
+		//-----------------------------------------------------------------------------
+		/**
+		 *	http://www.btinternet.com/~se16/hgb/triangle.htm
+		 */
+		function width() {
+			var x1 = 0;
+			if(_p1.x < _p2.x && _p1.x < _p3.x) x1 = _p1.x;
+			else if( _p2.x < _p1.x && _p2.x < _p3.x ) x1 = _p2.x;
+			else if( _p3.x < _p1.x && _p3.x < _p2.x) x1 = _p3.x;
+
+			var x2 = 0;
+			if(_p1.x > _p2.x && _p1.x > _p3.x) x2 = _p1.x;
+			else if( _p2.x > _p1.x && _p2.x > _p3.x ) x2 = _p2.x;
+			else if( _p3.x > _p1.x && _p3.x > _p2.x) x2 = _p3.x;
+
+			var f = Math.abs(x2 - x1);
+			return f;
+		};
+
+		function height() {
+			var y1 = 0;
+			if(_p1.y < _p2.y && _p1.y < _p3.y) y1 = _p1.y;
+			else if( _p2.y < _p1.y && _p2.y < _p3.y ) y1 = _p2.y;
+			else if( _p3.y < _p1.y && _p3.y < _p2.y) y1 = _p3.y;
+
+			var y2 = 0;
+			if(_p1.y > _p2.y && _p1.y > _p3.y) y2 = _p1.y;
+			else if( _p2.y > _p1.y && _p2.y > _p3.y ) y2 = _p2.y;
+			else if( _p3.y > _p1.y && _p3.y > _p2.y) y2 = _p3.y;
+
+			var g = Math.abs(y2 - y1);
+			return g;
+		};
+
+		//-----------------------------------------------------------------------------
+		function area() { 
+			var area = 0;
+			area += (_p1.x + _p3.x) * (_p3.y - _p1.y);
+			area += (_p2.x + _p1.x) * (_p1.y - _p2.y);
+			area += (_p3.x + _p2.x) * (_p2.y - _p3.y);
+			return area/2;
+		};
+
+
+
+		//-----------------------------------------------------------------------------
+		// Gets
+		//-----------------------------------------------------------------------------
+		/**
+		 *	 @return
+		 *	  		the points of the triangle as a Point array 
+		 */
+		function get() {
+			var points = [_p1, _p2, _p3];
+			return points;
+		};
+
+		//-----------------------------------------------------------------------------
+		return {
+			p1: _p1,
+			p2: _p2,
+			p3: _p3,
+
+			sharesVertex: sharesVertex,
+			getCentroid: centroid,
+
+			getArea: area,
+			getWidth: width,
+			getHeight: height,
+
+			getPoints: get
+		};
+
+	};
+
 	/**
 	 *	Edge
 	 *	TODO: replace with paper.Segment
@@ -379,7 +373,7 @@ folio.FTriangulate = function( points ) {
 			// The super triangle coordinates are added to the end of the
 			// vertex list. The super triangle is the first triangle in
 			// the triangle list.
-			var superTriangle = new folio.Triangle(
+			var superTriangle = new Triangle(
 				new Point( xmid - 2.0 * dmax, ymid - dmax ),
 				new Point( xmid, ymid + 2.0 * dmax ),
 				new Point( xmid + 2.0 * dmax, ymid - dmax )
@@ -465,7 +459,7 @@ folio.FTriangulate = function( points ) {
 						if( p == _pointsNew[k] ) p.name = '__new';
 						else p.name = null;
 					}
-					_triangles.push( new folio.Triangle(e.p1, e.p2, p) );
+					_triangles.push( new Triangle(e.p1, e.p2, p) );
 				}
 
 			}
@@ -858,12 +852,5 @@ var HashSet = function() {
 	};
 
 };
-
-
-
-paper.Point.inject({
-	name: null,
-	data: {}
-});
 
 

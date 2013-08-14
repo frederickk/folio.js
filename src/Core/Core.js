@@ -33,34 +33,6 @@ folio = {
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	http://www.siafoo.net/snippet/191
-	 *
-	 *	@param {Number} minr
-	 *				minmum range
-	 *	@param {Number} maxr
-	 *				maximum range
-	 *	@param {Number} bias
-	 *				bias represents the preference towards lower or higher numbers,
-	 *				as a number between 0.0 and 1.0. For example: 
-	 *				random(0, 10, bias=0.9) will return 9 much more often than 1.
-	 *
-	 *	@return a random, albeit biased, number
-	 *
-	 */
-	randomBias: function(minr, maxr, bias) {
-		var _map = new Array(90.0, 9.00, 4.00, 2.33, 1.50, 1.00, 0.66, 0.43, 0.25, 0.11, 0.01);
-		bias = Math.max(0, Math.min(bias, 1)) * 10;
-
-		var i = parseInt(Math.floor(bias))
-		var n = _map[i]
-		if(bias < 10) n += (_map[i+1]-n) * (bias-i);
-
-		return Math.pow( Math.random(),n ) * (maxr-minr) + minr;
-	},
-
-	// ------------------------------------------------------------------------
-	/**
-	 *
 	 *	@param {Point} point1
 	 *			first point
 	 *	@param {Point} point2
@@ -178,18 +150,23 @@ folio = {
 	 *
 	 */
 	getType: function(object) {
-		if (object instanceof paper.Point) return 'Point';
-		else if (object instanceof paper.Size) return 'Size';
-		else if (object instanceof paper.Rectangle) return 'Rectangle';
-		else if (object instanceof Group) return 'Group';
-		else if (object instanceof paper.PlacedItem) return 'PlacedItem';
-		else if (object instanceof paper.Raster) return 'Raster';
-		else if (object instanceof paper.PlacedSymbol) return 'PlacedSymbol';
-		else if (object instanceof paper.Path) return 'Path';
-		else if (object instanceof paper.CompoundPath) return 'CompoundPath';
-		else if (object instanceof paper.Symbol) return 'Symbol';
-		else if (object instanceof paper.TextItem) return 'TextItem';
-		else return 'undefined'
+		if( typeof object == 'object' ) {
+			if (object instanceof paper.Point) return 'Point';
+			else if (object instanceof paper.Size) return 'Size';
+			else if (object instanceof paper.Rectangle) return 'Rectangle';
+			else if (object instanceof Group) return 'Group';
+			else if (object instanceof paper.PlacedItem) return 'PlacedItem';
+			else if (object instanceof paper.Raster) return 'Raster';
+			else if (object instanceof paper.PlacedSymbol) return 'PlacedSymbol';
+			else if (object instanceof paper.Path) return 'Path';
+			else if (object instanceof paper.CompoundPath) return 'CompoundPath';
+			else if (object instanceof paper.Symbol) return 'Symbol';
+			else if (object instanceof paper.TextItem) return 'TextItem';
+			else return 'undefined'
+		}
+		else {
+			return typeof object;
+		}
 	},
 
 	/**
@@ -232,150 +209,11 @@ folio = {
 
 
 
-	/*	------------------------------------------------------------------------
-	 *
-	 *	Strings
-	 *
-	 *	------------------------------------------------------------------------/
-
-	/**
-	 *	
-	 *	@param {TextItem} textObj
-	 *				Path.TextItem
-	 *
-	 *	@return string content which will will fit within the bounds of the input TextItem
-	 *
-	 */
-	trimToFit: function(textObj) {
-		var visibleContent = textObj.visibleRange.content;
-		textObj.content = trim(visibleContent);
-		return textObj;
-	},
-
-	/**
-	 *	
-	 *	trims white space from right (end) of String
-	 *
-	 *	@param {String} str
-	 *			input String
-	 *
-	 *	@return trimmed input String
-	 *
-	 */
-	rtrim: function(str) {
-		for (var i=str.length-1; str.charAt(i) ==' '; i--) {
-			str = str.substring(0, i);
-		}
-		return str;
-	},
-
-	/**
-	 *	
-	 *	trims all white space from String
-	 *	
-	 *	@param {String} str
-	 *			input string
-	 *
-	 *	@return string of PaperJs object type
-	 *
-	 */
-	trim: function(str) {
-		str = str.replace(/(^\s*)|(\s*$)/gi,"");
-		str = str.replace(/[ ]{2,}/gi," ");
-		str = str.replace(/\n /,"\n");
-		return str;
-	},
-
-	/**
-	 *	
-	 *	converts String to Boolean value
-	 *	
-	 *	@param {String} str
-	 *			input string
-	 *
-	 *	@return Boolean value
-	 *
-	 */
-	strToBool: function(str){
-		switch(str.toLowerCase()){
-			case "true": case "yes": case "1": return true;
-			case "false": case "no": case "0": case null: return false;
-			default: return Boolean(str);
-		}
-	},
-
-
-
-	/*	------------------------------------------------------------------------
-	 *
-	 *	Arrays
-	 *
-	 *	------------------------------------------------------------------------/
-
-	/**
-	 *	
-	 *	@param {Array} arr1
-	 *				Array of Numbers
-	 *
-	 *	@return {Number} median value
-	 *
-	 */
-	median: function(arr) {
-		var median = 0;
-		arr.sort();
-		if (arr.length % 2 === 0) {
-			median = (arr[arr.length / 2 - 1] + arr[arr.length / 2]) / 2;
-		}
-		else {
-			median = arr[(arr.length - 1) / 2];
-		}
-		return median;
-	},
-
-	/**
-	 *	
-	 *	@param {Array} arr
-	 *				Array of Objects
-	 *
-	 *	@return {Object} unique element
-	 *
-	 */
-	unique: function(arr) {
-		var u = [];
-		o:for(var i=0, n=arr.length; i<n; i++) {
-			for(var x=0, y=u.length; x<y; x++) {
-				if(u[x] == arr[i]) {
-					continue o;
-				}
-			}
-			u[u.length] = arr[i];
-		}
-		return u;
-	},
-
-	/**
-	 *	
-	 *	merges (then shuffles) two Arrays
-	 *	
-	 *	@param {Array} arr1
-	 *				Array object 1
-	 *	@param {Array} arr2
-	 *				Array object 2
-	 *
-	 *	@return new merged Array object
-	 *
-	 */
-	merge: function(arr1, arr2) {
-		var output = arr1.concat(arr2);
-		output.shuffle();
-		return output;
-	},
-
 
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	sory Array in alphabetical order
+	 *	sort Array in alphabetical order
 	 *
 	 *	http://www.brain4.de/programmierecke/js/arraySort.php
 	 *
@@ -425,6 +263,122 @@ folio = {
 
 };
 
+
+
+
+
+
+/*	------------------------------------------------------------------------
+ *
+ *	Strings
+ *
+ *	------------------------------------------------------------------------/
+
+/**
+ *	
+ *	trims white space from right (end) of String
+ *
+ *	@return trimmed input String
+ *
+ */
+String.prototype.rtrim = function() {
+	for (var i=str.length-1; str.charAt(i) ==' '; i--) {
+		str = str.substring(0, i);
+	}
+	return str;
+};
+
+/**
+ *	
+ *	trims all white space from String
+ *	
+ *	@return string of PaperJs object type
+ *
+ */
+String.prototype.trim = function() {
+	str = str.replace(/(^\s*)|(\s*$)/gi,"");
+	str = str.replace(/[ ]{2,}/gi," ");
+	str = str.replace(/\n /,"\n");
+	return str;
+};
+
+/**
+ *	
+ *	converts String to Boolean value
+ *	
+ *	@return Boolean value
+ *
+ */
+String.prototype.toBool = function() {
+	switch(this.toLowerCase()) {
+		case "true": case "yes": case "1": return true;
+		case "false": case "no": case "0": case null: return false;
+		default: return Boolean(this);
+	}
+};
+
+
+
+
+
+
+/*
+ *
+ *	Array
+ *
+ */
+
+/**
+ *	
+ *	@return {Number} median value
+ *
+ */
+Array.prototype.median = function() {
+	var median = 0;
+	this.sort();
+	if (this.length % 2 === 0) {
+		median = (this[this.length / 2 - 1] + this[this.length / 2]) / 2;
+	}
+	else {
+		median = this[(this.length - 1) / 2];
+	}
+	return median;
+};
+
+/**
+ *	
+ *	@return {Object} unique element
+ *
+ */
+Array.prototype.unique = function() {
+	var u = [];
+	o:for(var i=0, n=this.length; i<n; i++) {
+		for(var x=0, y=u.length; x<y; x++) {
+			if(u[x] == this[i]) {
+				continue o;
+			}
+		}
+		u[u.length] = this[i];
+	}
+	return u;
+};
+
+/**
+ *	
+ *	merges (then shuffles) two Arrays
+ *	
+ *	@param {Array} arr2
+ *				Array object 2
+ *
+ *	@return new merged Array object
+ *
+ */
+Array.prototype.merge = function(arr) {
+	var output = this.concat(arr);
+	output.shuffle();
+	return output;
+};
+
 /**
  *	
  *	@param {Number} start
@@ -436,11 +390,15 @@ folio = {
  *
  */
 Array.prototype.max = function(start, stop) {
-	var _start = (start != undefined) ? start : 0;
-	var _stop = (stop != undefined) ? stop : this.length;
-	var max = this[_start];
+	start = (start != undefined) 
+		? start
+		: 0;
+	stop = (stop != undefined)
+		? stop
+		: this.length;
+	var max = this[start];
 
-	for(var i=(_start+1); i<_stop; i++) if(this[i] > max) max = i;
+	for(var i=(start+1); i<stop; i++) if(this[i] > max) max = i;
 	return max;
 };
 
@@ -455,11 +413,15 @@ Array.prototype.max = function(start, stop) {
  *
  */
 Array.prototype.min = function(start, stop) {
-	var _start = (start != undefined) ? start : 0;
-	var _stop = (stop != undefined) ? stop : this.length;
-	var min = this[_start];
+	start = (start != undefined)
+		? start
+		: 0;
+	stop = (stop != undefined)
+		? stop
+		: this.length;
+	var min = this[start];
 
-	for (var i=(_start+1); i<_stop; i++) if(this[i] < min) min = i;
+	for (var i=(start+1); i<stop; i++) if(this[i] < min) min = i;
 	return min;
 };
 
@@ -517,15 +479,35 @@ PaperScope.inject({
 		console.log( '\n' );
 	},
 
+
+
 	/**
-	 *	Java style print output
 	 *
-	 *	@param {Object} obj
-	 *				any Javascript Object
+	 *	http://www.siafoo.net/snippet/191
+	 *
+	 *	@param {Number} minr
+	 *				minmum range
+	 *	@param {Number} maxr
+	 *				maximum range
+	 *	@param {Number} bias
+	 *				bias represents the preference towards lower or higher numbers,
+	 *				as a number between 0.0 and 1.0. For example: 
+	 *				random(0, 10, bias=0.9) will return 9 much more often than 1.
+	 *
+	 *	@return a random, albeit biased, number
+	 *
 	 */
-	print: function(obj) {
-		console.log( obj );
+	randomBias: function(minr, maxr, bias) {
+		var _map = new Array(90.0, 9.00, 4.00, 2.33, 1.50, 1.00, 0.66, 0.43, 0.25, 0.11, 0.01);
+		bias = Math.max(0, Math.min(bias, 1)) * 10;
+
+		var i = parseInt(Math.floor(bias))
+		var n = _map[i]
+		if(bias < 10) n += (_map[i+1]-n) * (bias-i);
+
+		return Math.pow( Math.random(),n ) * (maxr-minr) + minr;
 	}
+
 
 });
 
@@ -541,6 +523,14 @@ PaperScope.inject({
  */
 paper.Point.inject({
 	// ------------------------------------------------------------------------
+	// Properties
+	// ------------------------------------------------------------------------
+	name: null,
+	data: {},
+
+
+
+	// ------------------------------------------------------------------------
 	// Methods
 	// ------------------------------------------------------------------------
 	/**
@@ -548,35 +538,52 @@ paper.Point.inject({
 	 *	http://gmc.yoyogames.com/index.php?showtopic=290349
 	 *
 	 *	@param {Size} spacing
-	 *				spacing.width  = the horizontal snapping value, width of the grid.
-	 *				spacing.height = the vertical snapping value, height of the grid.
-	 *
+	 *				scale.width  = x scale of the grid.
+	 *				scale.height = y scale of the grid.
+	 *	@param {Object} options
+	 *				{ grid: true }
+	 *				{ isometric: true }
+	 *				
 	 *	@return {Point} snapped Point
 	 *
 	 */
-	snapGrid: function(spacing) {
-		var ix, iy;
-		ix = Math.round(this.y/spacing.height - this.x/spacing.width);
-		iy = Math.round(this.y/spacing.height + this.x/spacing.width);
-
-		this.x = (iy - ix)/2*spacing.width;
-		this.y = (iy + ix)/2*spacing.height;
-		return this;
-	},
-
 	/**
 	 *	snaps point to an isometric grid
 	 *	
 	 *	@param {Number} scale
-	 *				scale of the grid (1.0 = 32x16)
+	 *				scale of the grid
+	 *	@param {Object} options
+	 *				{ grid: true }
+	 *				{ isometric: true }
 	 *
-	 *	@return {Point} snapped isometric Point
+	 *	@return {Point} snapped Point
 	 *
 	 */
-	snapIso: function(scale) {
-		if(scale === null) scale = 1;
-		return this.snapGrid( new Size(32*scale,16*scale) );
-	},
+	snap: function(scale, options) {
+		options = (options != undefined)
+			? options
+			: { grid: true, isometric: false };
+		scale = (scale.type == 'Size') 
+			? scale
+			: new Size(scale,scale);
+
+		var ix, iy;
+		if (optons.isometric === true) {
+			ix = Math.round(this.y/(16*scale.height) - this.x/(32*scale.width));
+			iy = Math.round(this.y/(16*scale.height) + this.x/(16*scale.width));
+			this.x = (iy - ix)/2*(32*scale.width);
+			this.y = (iy + ix)/2*(16*scale.height);
+		}
+		else {
+			ix = Math.round(this.y/scale.height - this.x/scale.width);
+			iy = Math.round(this.y/scale.height + this.x/scale.width);
+			this.x = (iy - ix)/2*scale.width;
+			this.y = (iy + ix)/2*scale.height;
+		}
+
+		return this;
+	}
+
 
 });
 
@@ -692,3 +699,25 @@ paper.Color.inject({
 
 });
 
+
+
+
+/*
+ *
+ *	paper.TextItem
+ *
+ */
+paper.TextItem.inject({
+	// ------------------------------------------------------------------------
+	/**
+	 *	
+	 *	@return string content which will will fit within the bounds of the TextItem
+	 *
+	 */
+	trimToFit: function() {
+		var visibleContent = this.visibleRange.content.trim();
+		this.content = visibleContent;
+		return this;
+	}
+
+});

@@ -283,7 +283,7 @@ paper.Path.inject({
 			 */
 			FArrow: function( headPoint, tailPoint, arrowHeadSize ) {
 				// the line part
-				var path = new Path( headPoint, tailPoint );
+				var path = new Path.Line( headPoint, tailPoint );
 
 				// the arrow head
 				arrowHeadSize = (arrowHeadSize != undefined) ? arrowHeadSize : new Size(headPoint.getDistance(tailPoint)*0.381924,headPoint.getDistance(tailPoint)*0.381924);
@@ -293,14 +293,14 @@ paper.Path.inject({
 
 				// slight "hack" to get strokCap correct
 				var arrowHead = [];
-				arrowHead[0] = new Path( new Point(0,0), new Point(-arrowHeadSize.width,-arrowHeadSize.height) );
-				arrowHead[1] = new Path( new Point(0,0), new Point( arrowHeadSize.width,-arrowHeadSize.height) );
+				arrowHead[0] = new Path.Line( new Point(0,0), new Point(-arrowHeadSize.width,-arrowHeadSize.height) );
+				arrowHead[1] = new Path.Line( new Point(0,0), new Point( arrowHeadSize.width,-arrowHeadSize.height) );
 				for( var i=0; i<arrowHead.length; i++ ) {
 					arrowHead[i].rotate( 180+paper.degrees(a), new Point(0,0) );
 					arrowHead[i].translate( headPoint );
 				}
 
-				var group = new Group( path, arrowHead[0], arrowHead[1] );
+				var group = new Group([ path, arrowHead[0], arrowHead[1] ]);
 				group.name = 'arrow';
 				return group;
 			},
@@ -531,25 +531,25 @@ paper.Path.inject({
 				}
 				else if( crossType == 'SHARP' ) {
 					line1 = new Path();
-					line1.add( centerPoint.x + size.width, centerPoint.y - size.height );
-					line1.add( centerPoint.x + size.width, (centerPoint.y - size.height) + (strokeWidth/2) );
-					line1.add( (centerPoint.x - size.width) + (strokeWidth/2), centerPoint.y + size.height );
-					line1.add( centerPoint.x - size.width, centerPoint.y + size.height );
-					line1.add( centerPoint.x - size.width, (centerPoint.y + size.height) - (strokeWidth/2) );
-					line1.add( (centerPoint.x + size.width) - (strokeWidth/2), centerPoint.y - size.height );
+					line1.add( new Point( centerPoint.x + size.width, centerPoint.y - size.height ) );
+					line1.add( new Point( centerPoint.x + size.width, (centerPoint.y - size.height) + (strokeWidth/2) ) );
+					line1.add( new Point( (centerPoint.x - size.width) + (strokeWidth/2), centerPoint.y + size.height ) );
+					line1.add( new Point( centerPoint.x - size.width, centerPoint.y + size.height ) );
+					line1.add( new Point( centerPoint.x - size.width, (centerPoint.y + size.height) - (strokeWidth/2) ) );
+					line1.add( new Point( (centerPoint.x + size.width) - (strokeWidth/2), centerPoint.y - size.height ) );
 					line1.closed = true;
 
 					line2 = new Path();
-					line2.add( centerPoint.x - size.width, centerPoint.y - size.height );
-					line2.add( (centerPoint.x - size.width) + (strokeWidth/2), centerPoint.y - size.height );
-					line2.add( centerPoint.x + size.width, (centerPoint.y + size.height) - (strokeWidth/2) );
-					line2.add( centerPoint.x + size.width, centerPoint.y + size.height );
-					line2.add( (centerPoint.x + size.width) - (strokeWidth/2), centerPoint.y + size.height );
-					line2.add( centerPoint.x - size.width, (centerPoint.y - size.height) + (strokeWidth/2) );
+					line2.add( new Point( centerPoint.x - size.width, centerPoint.y - size.height ) );
+					line2.add( new Point( (centerPoint.x - size.width) + (strokeWidth/2), centerPoint.y - size.height ) );
+					line2.add( new Point( centerPoint.x + size.width, (centerPoint.y + size.height) - (strokeWidth/2) ) );
+					line2.add( new Point( centerPoint.x + size.width, centerPoint.y + size.height ) );
+					line2.add( new Point( (centerPoint.x + size.width) - (strokeWidth/2), centerPoint.y + size.height ) );
+					line2.add( new Point( centerPoint.x - size.width, (centerPoint.y - size.height) + (strokeWidth/2) ) );
 					line2.closed = true;
 				}
 
-				var group = new Group( line1, line2 );
+				var group = new Group([ line1, line2 ]);
 				group.name = 'cross';
 				return group;
 			},

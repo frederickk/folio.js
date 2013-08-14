@@ -267,34 +267,6 @@ folio = {
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	http://www.siafoo.net/snippet/191
-	 *
-	 *	@param {Number} minr
-	 *				minmum range
-	 *	@param {Number} maxr
-	 *				maximum range
-	 *	@param {Number} bias
-	 *				bias represents the preference towards lower or higher numbers,
-	 *				as a number between 0.0 and 1.0. For example: 
-	 *				random(0, 10, bias=0.9) will return 9 much more often than 1.
-	 *
-	 *	@return a random, albeit biased, number
-	 *
-	 */
-	randomBias: function(minr, maxr, bias) {
-		var _map = new Array(90.0, 9.00, 4.00, 2.33, 1.50, 1.00, 0.66, 0.43, 0.25, 0.11, 0.01);
-		bias = Math.max(0, Math.min(bias, 1)) * 10;
-
-		var i = parseInt(Math.floor(bias))
-		var n = _map[i]
-		if(bias < 10) n += (_map[i+1]-n) * (bias-i);
-
-		return Math.pow( Math.random(),n ) * (maxr-minr) + minr;
-	},
-
-	// ------------------------------------------------------------------------
-	/**
-	 *
 	 *	@param {Point} point1
 	 *			first point
 	 *	@param {Point} point2
@@ -412,18 +384,23 @@ folio = {
 	 *
 	 */
 	getType: function(object) {
-		if (object instanceof paper.Point) return 'Point';
-		else if (object instanceof paper.Size) return 'Size';
-		else if (object instanceof paper.Rectangle) return 'Rectangle';
-		else if (object instanceof Group) return 'Group';
-		else if (object instanceof paper.PlacedItem) return 'PlacedItem';
-		else if (object instanceof paper.Raster) return 'Raster';
-		else if (object instanceof paper.PlacedSymbol) return 'PlacedSymbol';
-		else if (object instanceof paper.Path) return 'Path';
-		else if (object instanceof paper.CompoundPath) return 'CompoundPath';
-		else if (object instanceof paper.Symbol) return 'Symbol';
-		else if (object instanceof paper.TextItem) return 'TextItem';
-		else return 'undefined'
+		if( typeof object == 'object' ) {
+			if (object instanceof paper.Point) return 'Point';
+			else if (object instanceof paper.Size) return 'Size';
+			else if (object instanceof paper.Rectangle) return 'Rectangle';
+			else if (object instanceof Group) return 'Group';
+			else if (object instanceof paper.PlacedItem) return 'PlacedItem';
+			else if (object instanceof paper.Raster) return 'Raster';
+			else if (object instanceof paper.PlacedSymbol) return 'PlacedSymbol';
+			else if (object instanceof paper.Path) return 'Path';
+			else if (object instanceof paper.CompoundPath) return 'CompoundPath';
+			else if (object instanceof paper.Symbol) return 'Symbol';
+			else if (object instanceof paper.TextItem) return 'TextItem';
+			else return 'undefined'
+		}
+		else {
+			return typeof object;
+		}
 	},
 
 	/**
@@ -466,150 +443,11 @@ folio = {
 
 
 
-	/*	------------------------------------------------------------------------
-	 *
-	 *	Strings
-	 *
-	 *	------------------------------------------------------------------------/
-
-	/**
-	 *	
-	 *	@param {TextItem} textObj
-	 *				Path.TextItem
-	 *
-	 *	@return string content which will will fit within the bounds of the input TextItem
-	 *
-	 */
-	trimToFit: function(textObj) {
-		var visibleContent = textObj.visibleRange.content;
-		textObj.content = trim(visibleContent);
-		return textObj;
-	},
-
-	/**
-	 *	
-	 *	trims white space from right (end) of String
-	 *
-	 *	@param {String} str
-	 *			input String
-	 *
-	 *	@return trimmed input String
-	 *
-	 */
-	rtrim: function(str) {
-		for (var i=str.length-1; str.charAt(i) ==' '; i--) {
-			str = str.substring(0, i);
-		}
-		return str;
-	},
-
-	/**
-	 *	
-	 *	trims all white space from String
-	 *	
-	 *	@param {String} str
-	 *			input string
-	 *
-	 *	@return string of PaperJs object type
-	 *
-	 */
-	trim: function(str) {
-		str = str.replace(/(^\s*)|(\s*$)/gi,"");
-		str = str.replace(/[ ]{2,}/gi," ");
-		str = str.replace(/\n /,"\n");
-		return str;
-	},
-
-	/**
-	 *	
-	 *	converts String to Boolean value
-	 *	
-	 *	@param {String} str
-	 *			input string
-	 *
-	 *	@return Boolean value
-	 *
-	 */
-	strToBool: function(str){
-		switch(str.toLowerCase()){
-			case "true": case "yes": case "1": return true;
-			case "false": case "no": case "0": case null: return false;
-			default: return Boolean(str);
-		}
-	},
-
-
-
-	/*	------------------------------------------------------------------------
-	 *
-	 *	Arrays
-	 *
-	 *	------------------------------------------------------------------------/
-
-	/**
-	 *	
-	 *	@param {Array} arr1
-	 *				Array of Numbers
-	 *
-	 *	@return {Number} median value
-	 *
-	 */
-	median: function(arr) {
-		var median = 0;
-		arr.sort();
-		if (arr.length % 2 === 0) {
-			median = (arr[arr.length / 2 - 1] + arr[arr.length / 2]) / 2;
-		}
-		else {
-			median = arr[(arr.length - 1) / 2];
-		}
-		return median;
-	},
-
-	/**
-	 *	
-	 *	@param {Array} arr
-	 *				Array of Objects
-	 *
-	 *	@return {Object} unique element
-	 *
-	 */
-	unique: function(arr) {
-		var u = [];
-		o:for(var i=0, n=arr.length; i<n; i++) {
-			for(var x=0, y=u.length; x<y; x++) {
-				if(u[x] == arr[i]) {
-					continue o;
-				}
-			}
-			u[u.length] = arr[i];
-		}
-		return u;
-	},
-
-	/**
-	 *	
-	 *	merges (then shuffles) two Arrays
-	 *	
-	 *	@param {Array} arr1
-	 *				Array object 1
-	 *	@param {Array} arr2
-	 *				Array object 2
-	 *
-	 *	@return new merged Array object
-	 *
-	 */
-	merge: function(arr1, arr2) {
-		var output = arr1.concat(arr2);
-		output.shuffle();
-		return output;
-	},
-
 
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	sory Array in alphabetical order
+	 *	sort Array in alphabetical order
 	 *
 	 *	http://www.brain4.de/programmierecke/js/arraySort.php
 	 *
@@ -659,6 +497,122 @@ folio = {
 
 };
 
+
+
+
+
+
+/*	------------------------------------------------------------------------
+ *
+ *	Strings
+ *
+ *	------------------------------------------------------------------------/
+
+/**
+ *	
+ *	trims white space from right (end) of String
+ *
+ *	@return trimmed input String
+ *
+ */
+String.prototype.rtrim = function() {
+	for (var i=str.length-1; str.charAt(i) ==' '; i--) {
+		str = str.substring(0, i);
+	}
+	return str;
+};
+
+/**
+ *	
+ *	trims all white space from String
+ *	
+ *	@return string of PaperJs object type
+ *
+ */
+String.prototype.trim = function() {
+	str = str.replace(/(^\s*)|(\s*$)/gi,"");
+	str = str.replace(/[ ]{2,}/gi," ");
+	str = str.replace(/\n /,"\n");
+	return str;
+};
+
+/**
+ *	
+ *	converts String to Boolean value
+ *	
+ *	@return Boolean value
+ *
+ */
+String.prototype.toBool = function() {
+	switch(this.toLowerCase()) {
+		case "true": case "yes": case "1": return true;
+		case "false": case "no": case "0": case null: return false;
+		default: return Boolean(this);
+	}
+};
+
+
+
+
+
+
+/*
+ *
+ *	Array
+ *
+ */
+
+/**
+ *	
+ *	@return {Number} median value
+ *
+ */
+Array.prototype.median = function() {
+	var median = 0;
+	this.sort();
+	if (this.length % 2 === 0) {
+		median = (this[this.length / 2 - 1] + this[this.length / 2]) / 2;
+	}
+	else {
+		median = this[(this.length - 1) / 2];
+	}
+	return median;
+};
+
+/**
+ *	
+ *	@return {Object} unique element
+ *
+ */
+Array.prototype.unique = function() {
+	var u = [];
+	o:for(var i=0, n=this.length; i<n; i++) {
+		for(var x=0, y=u.length; x<y; x++) {
+			if(u[x] == this[i]) {
+				continue o;
+			}
+		}
+		u[u.length] = this[i];
+	}
+	return u;
+};
+
+/**
+ *	
+ *	merges (then shuffles) two Arrays
+ *	
+ *	@param {Array} arr2
+ *				Array object 2
+ *
+ *	@return new merged Array object
+ *
+ */
+Array.prototype.merge = function(arr) {
+	var output = this.concat(arr);
+	output.shuffle();
+	return output;
+};
+
 /**
  *	
  *	@param {Number} start
@@ -670,11 +624,15 @@ folio = {
  *
  */
 Array.prototype.max = function(start, stop) {
-	var _start = (start != undefined) ? start : 0;
-	var _stop = (stop != undefined) ? stop : this.length;
-	var max = this[_start];
+	start = (start != undefined) 
+		? start
+		: 0;
+	stop = (stop != undefined)
+		? stop
+		: this.length;
+	var max = this[start];
 
-	for(var i=(_start+1); i<_stop; i++) if(this[i] > max) max = i;
+	for(var i=(start+1); i<stop; i++) if(this[i] > max) max = i;
 	return max;
 };
 
@@ -689,11 +647,15 @@ Array.prototype.max = function(start, stop) {
  *
  */
 Array.prototype.min = function(start, stop) {
-	var _start = (start != undefined) ? start : 0;
-	var _stop = (stop != undefined) ? stop : this.length;
-	var min = this[_start];
+	start = (start != undefined)
+		? start
+		: 0;
+	stop = (stop != undefined)
+		? stop
+		: this.length;
+	var min = this[start];
 
-	for (var i=(_start+1); i<_stop; i++) if(this[i] < min) min = i;
+	for (var i=(start+1); i<stop; i++) if(this[i] < min) min = i;
 	return min;
 };
 
@@ -751,15 +713,35 @@ PaperScope.inject({
 		console.log( '\n' );
 	},
 
+
+
 	/**
-	 *	Java style print output
 	 *
-	 *	@param {Object} obj
-	 *				any Javascript Object
+	 *	http://www.siafoo.net/snippet/191
+	 *
+	 *	@param {Number} minr
+	 *				minmum range
+	 *	@param {Number} maxr
+	 *				maximum range
+	 *	@param {Number} bias
+	 *				bias represents the preference towards lower or higher numbers,
+	 *				as a number between 0.0 and 1.0. For example: 
+	 *				random(0, 10, bias=0.9) will return 9 much more often than 1.
+	 *
+	 *	@return a random, albeit biased, number
+	 *
 	 */
-	print: function(obj) {
-		console.log( obj );
+	randomBias: function(minr, maxr, bias) {
+		var _map = new Array(90.0, 9.00, 4.00, 2.33, 1.50, 1.00, 0.66, 0.43, 0.25, 0.11, 0.01);
+		bias = Math.max(0, Math.min(bias, 1)) * 10;
+
+		var i = parseInt(Math.floor(bias))
+		var n = _map[i]
+		if(bias < 10) n += (_map[i+1]-n) * (bias-i);
+
+		return Math.pow( Math.random(),n ) * (maxr-minr) + minr;
 	}
+
 
 });
 
@@ -775,6 +757,14 @@ PaperScope.inject({
  */
 paper.Point.inject({
 	// ------------------------------------------------------------------------
+	// Properties
+	// ------------------------------------------------------------------------
+	name: null,
+	data: {},
+
+
+
+	// ------------------------------------------------------------------------
 	// Methods
 	// ------------------------------------------------------------------------
 	/**
@@ -782,35 +772,52 @@ paper.Point.inject({
 	 *	http://gmc.yoyogames.com/index.php?showtopic=290349
 	 *
 	 *	@param {Size} spacing
-	 *				spacing.width  = the horizontal snapping value, width of the grid.
-	 *				spacing.height = the vertical snapping value, height of the grid.
-	 *
+	 *				scale.width  = x scale of the grid.
+	 *				scale.height = y scale of the grid.
+	 *	@param {Object} options
+	 *				{ grid: true }
+	 *				{ isometric: true }
+	 *				
 	 *	@return {Point} snapped Point
 	 *
 	 */
-	snapGrid: function(spacing) {
-		var ix, iy;
-		ix = Math.round(this.y/spacing.height - this.x/spacing.width);
-		iy = Math.round(this.y/spacing.height + this.x/spacing.width);
-
-		this.x = (iy - ix)/2*spacing.width;
-		this.y = (iy + ix)/2*spacing.height;
-		return this;
-	},
-
 	/**
 	 *	snaps point to an isometric grid
 	 *	
 	 *	@param {Number} scale
-	 *				scale of the grid (1.0 = 32x16)
+	 *				scale of the grid
+	 *	@param {Object} options
+	 *				{ grid: true }
+	 *				{ isometric: true }
 	 *
-	 *	@return {Point} snapped isometric Point
+	 *	@return {Point} snapped Point
 	 *
 	 */
-	snapIso: function(scale) {
-		if(scale === null) scale = 1;
-		return this.snapGrid( new Size(32*scale,16*scale) );
-	},
+	snap: function(scale, options) {
+		options = (options != undefined)
+			? options
+			: { grid: true, isometric: false };
+		scale = (scale.type == 'Size') 
+			? scale
+			: new Size(scale,scale);
+
+		var ix, iy;
+		if (optons.isometric === true) {
+			ix = Math.round(this.y/(16*scale.height) - this.x/(32*scale.width));
+			iy = Math.round(this.y/(16*scale.height) + this.x/(16*scale.width));
+			this.x = (iy - ix)/2*(32*scale.width);
+			this.y = (iy + ix)/2*(16*scale.height);
+		}
+		else {
+			ix = Math.round(this.y/scale.height - this.x/scale.width);
+			iy = Math.round(this.y/scale.height + this.x/scale.width);
+			this.x = (iy - ix)/2*scale.width;
+			this.y = (iy + ix)/2*scale.height;
+		}
+
+		return this;
+	}
+
 
 });
 
@@ -926,6 +933,28 @@ paper.Color.inject({
 
 });
 
+
+
+
+/*
+ *
+ *	paper.TextItem
+ *
+ */
+paper.TextItem.inject({
+	// ------------------------------------------------------------------------
+	/**
+	 *	
+	 *	@return string content which will will fit within the bounds of the TextItem
+	 *
+	 */
+	trimToFit: function() {
+		var visibleContent = this.visibleRange.content.trim();
+		this.content = visibleContent;
+		return this;
+	}
+
+});
 /**
  *	
  *	FPath.js
@@ -1211,7 +1240,7 @@ paper.Path.inject({
 			 */
 			FArrow: function( headPoint, tailPoint, arrowHeadSize ) {
 				// the line part
-				var path = new Path( headPoint, tailPoint );
+				var path = new Path.Line( headPoint, tailPoint );
 
 				// the arrow head
 				arrowHeadSize = (arrowHeadSize != undefined) ? arrowHeadSize : new Size(headPoint.getDistance(tailPoint)*0.381924,headPoint.getDistance(tailPoint)*0.381924);
@@ -1221,14 +1250,14 @@ paper.Path.inject({
 
 				// slight "hack" to get strokCap correct
 				var arrowHead = [];
-				arrowHead[0] = new Path( new Point(0,0), new Point(-arrowHeadSize.width,-arrowHeadSize.height) );
-				arrowHead[1] = new Path( new Point(0,0), new Point( arrowHeadSize.width,-arrowHeadSize.height) );
+				arrowHead[0] = new Path.Line( new Point(0,0), new Point(-arrowHeadSize.width,-arrowHeadSize.height) );
+				arrowHead[1] = new Path.Line( new Point(0,0), new Point( arrowHeadSize.width,-arrowHeadSize.height) );
 				for( var i=0; i<arrowHead.length; i++ ) {
 					arrowHead[i].rotate( 180+paper.degrees(a), new Point(0,0) );
 					arrowHead[i].translate( headPoint );
 				}
 
-				var group = new Group( path, arrowHead[0], arrowHead[1] );
+				var group = new Group([ path, arrowHead[0], arrowHead[1] ]);
 				group.name = 'arrow';
 				return group;
 			},
@@ -1459,25 +1488,25 @@ paper.Path.inject({
 				}
 				else if( crossType == 'SHARP' ) {
 					line1 = new Path();
-					line1.add( centerPoint.x + size.width, centerPoint.y - size.height );
-					line1.add( centerPoint.x + size.width, (centerPoint.y - size.height) + (strokeWidth/2) );
-					line1.add( (centerPoint.x - size.width) + (strokeWidth/2), centerPoint.y + size.height );
-					line1.add( centerPoint.x - size.width, centerPoint.y + size.height );
-					line1.add( centerPoint.x - size.width, (centerPoint.y + size.height) - (strokeWidth/2) );
-					line1.add( (centerPoint.x + size.width) - (strokeWidth/2), centerPoint.y - size.height );
+					line1.add( new Point( centerPoint.x + size.width, centerPoint.y - size.height ) );
+					line1.add( new Point( centerPoint.x + size.width, (centerPoint.y - size.height) + (strokeWidth/2) ) );
+					line1.add( new Point( (centerPoint.x - size.width) + (strokeWidth/2), centerPoint.y + size.height ) );
+					line1.add( new Point( centerPoint.x - size.width, centerPoint.y + size.height ) );
+					line1.add( new Point( centerPoint.x - size.width, (centerPoint.y + size.height) - (strokeWidth/2) ) );
+					line1.add( new Point( (centerPoint.x + size.width) - (strokeWidth/2), centerPoint.y - size.height ) );
 					line1.closed = true;
 
 					line2 = new Path();
-					line2.add( centerPoint.x - size.width, centerPoint.y - size.height );
-					line2.add( (centerPoint.x - size.width) + (strokeWidth/2), centerPoint.y - size.height );
-					line2.add( centerPoint.x + size.width, (centerPoint.y + size.height) - (strokeWidth/2) );
-					line2.add( centerPoint.x + size.width, centerPoint.y + size.height );
-					line2.add( (centerPoint.x + size.width) - (strokeWidth/2), centerPoint.y + size.height );
-					line2.add( centerPoint.x - size.width, (centerPoint.y - size.height) + (strokeWidth/2) );
+					line2.add( new Point( centerPoint.x - size.width, centerPoint.y - size.height ) );
+					line2.add( new Point( (centerPoint.x - size.width) + (strokeWidth/2), centerPoint.y - size.height ) );
+					line2.add( new Point( centerPoint.x + size.width, (centerPoint.y + size.height) - (strokeWidth/2) ) );
+					line2.add( new Point( centerPoint.x + size.width, centerPoint.y + size.height ) );
+					line2.add( new Point( (centerPoint.x + size.width) - (strokeWidth/2), centerPoint.y + size.height ) );
+					line2.add( new Point( centerPoint.x - size.width, (centerPoint.y - size.height) + (strokeWidth/2) ) );
 					line2.closed = true;
 				}
 
-				var group = new Group( line1, line2 );
+				var group = new Group([ line1, line2 ]);
 				group.name = 'cross';
 				return group;
 			},
@@ -4816,192 +4845,6 @@ var EPSILON = 1.0e-6;
 
 
 /**
- *	Triangle
- *	
- *	@param p1
- *				first Point of Triangle
- *	@param p2
- *				second Point of Triangle
- *	@param p3
- *				third Point of Triangle
- */
-// TODO: remove this and rely on Path.Triangle
-folio.Triangle = function( p1, p2, p3 ) {
-	//-----------------------------------------------------------------------------
-	// Properties
-	//-----------------------------------------------------------------------------
-	var _p1 = p1;
-	var _p2 = p2;
-	var _p3 = p3;
-
-
-
-	//-----------------------------------------------------------------------------
-	// Methods
-	//-----------------------------------------------------------------------------
-	/**
-	 *	vertex (Edge) sharing
-	 *	
-	 *	@param other
-	 *				the triangle to check for vertex (Edge) sharing
-	 */
-	function sharesVertex(other) {
-		return p1 == other.p1 || p1 == other.p2 || p1 == other.p3 ||
-		p2 == other.p1 || p2 == other.p2 || p2 == other.p3 || 
-		p3 == other.p1 || p3 == other.p2 || p3 == other.p3;
-	}
-
-	/**
-	 *	@return circle
-	 *			Point of the circle center
-	 */
-	function circumcenter() {
-		var circle = new Point();
-		var m1, m2;
-		var mx1, mx2;
-		var my1, my2;
-
-		if ( Math.abs(_p2.y-_p1.y) < EPSILON ) {
-			m2 = - (_p3.x-_p2.x) / (_p3.y-_p2.y);
-			mx2 = (_p2.x + _p3.x) / 2.0;
-			my2 = (_p2.y + _p3.y) / 2.0;
-			circle.x = (_p2.x + _p1.x) / 2.0;
-			circle.y = m2 *	(circle.x - mx2) + my2;
-
-		}
-		else if ( Math.abs(_p3.y-_p2.y) < EPSILON ) {
-			m1 = - (_p2.x-_p1.x) / (_p2.y-_p1.y);
-			mx1 = (_p1.x + _p2.x) / 2.0;
-			my1 = (_p1.y + _p2.y) / 2.0;
-			circle.x = (_p3.x + _p2.x) / 2.0;
-			circle.y = m1 *	(circle.x - mx1) + my1;	
-
-		}
-		else {
-			m1 = - (_p2.x-_p1.x) / (_p2.y-_p1.y);
-			m2 = - (_p3.x-_p2.x) / (_p3.y-_p2.y);
-			mx1 = (_p1.x + _p2.x) / 2.0;
-			mx2 = (_p2.x + _p3.x) / 2.0;
-			my1 = (_p1.y + _p2.y) / 2.0;
-			my2 = (_p2.y + _p3.y) / 2.0;
-			circle.x = (m1 *	mx1 - m2 *	mx2 + my2 - my1) / (m1 - m2);
-			circle.y = m1 *	(circle.x - mx1) + my1;
-		}
-
-		return circle;
-	};
-
-	//-----------------------------------------------------------------------------
-	/**
-	 *	@return center
-	 *			Point of the centroid center
-	 *
-	 *	http://www.mathwords.com/c/centroid_formula.htm
-	 */
-	function centroid() {
-		return new Point(
-			(_p1.x + _p2.x + _p3.x)/3,
-			(_p1.y + _p2.y + _p3.y)/3
-		);
-	};
-
-	//-----------------------------------------------------------------------------
-	/**
-	 *	 @return
-	 *	 		a sorted array (Edge) of the Triangle's Edges (shortest to longest)
-	 */
-	function distances() {
-		var distances = [];
-		distances[0] = new Edge(_p1, _p2);
-		distances[1] = new Edge(_p1, _p3);
-		distances[2] = new Edge(_p3, _p2);
-
-		distances.sort();
-		return distances;
-	};
-
-	//-----------------------------------------------------------------------------
-	/**
-	 *	http://www.btinternet.com/~se16/hgb/triangle.htm
-	 */
-	function width() {
-		var x1 = 0;
-		if(_p1.x < _p2.x && _p1.x < _p3.x) x1 = _p1.x;
-		else if( _p2.x < _p1.x && _p2.x < _p3.x ) x1 = _p2.x;
-		else if( _p3.x < _p1.x && _p3.x < _p2.x) x1 = _p3.x;
-
-		var x2 = 0;
-		if(_p1.x > _p2.x && _p1.x > _p3.x) x2 = _p1.x;
-		else if( _p2.x > _p1.x && _p2.x > _p3.x ) x2 = _p2.x;
-		else if( _p3.x > _p1.x && _p3.x > _p2.x) x2 = _p3.x;
-
-		var f = Math.abs(x2 - x1);
-		return f;
-	};
-
-	function height() {
-		var y1 = 0;
-		if(_p1.y < _p2.y && _p1.y < _p3.y) y1 = _p1.y;
-		else if( _p2.y < _p1.y && _p2.y < _p3.y ) y1 = _p2.y;
-		else if( _p3.y < _p1.y && _p3.y < _p2.y) y1 = _p3.y;
-
-		var y2 = 0;
-		if(_p1.y > _p2.y && _p1.y > _p3.y) y2 = _p1.y;
-		else if( _p2.y > _p1.y && _p2.y > _p3.y ) y2 = _p2.y;
-		else if( _p3.y > _p1.y && _p3.y > _p2.y) y2 = _p3.y;
-
-		var g = Math.abs(y2 - y1);
-		return g;
-	};
-
-	//-----------------------------------------------------------------------------
-	function area() { 
-		var area = 0;
-		area += (_p1.x + _p3.x) * (_p3.y - _p1.y);
-		area += (_p2.x + _p1.x) * (_p1.y - _p2.y);
-		area += (_p3.x + _p2.x) * (_p2.y - _p3.y);
-		return area/2;
-	};
-
-
-
-	//-----------------------------------------------------------------------------
-	// Gets
-	//-----------------------------------------------------------------------------
-	/**
-	 *	 @return
-	 *	  		the points of the triangle as a Point array 
-	 */
-	function get() {
-		var points = [_p1, _p2, _p3];
-		return points;
-	};
-
-	//-----------------------------------------------------------------------------
-	return {
-		p1: _p1,
-		p2: _p2,
-		p3: _p3,
-
-		sharesVertex: sharesVertex,
-		getCentroid: centroid,
-
-		getArea: area,
-		getWidth: width,
-		getHeight: height,
-
-		getPoints: get
-	};
-
-};
-
-
-
-
-
-
-
-/**
  *	FTriangulate
  *	
  *	@param points
@@ -5021,6 +4864,186 @@ folio.FTriangulate = function( points ) {
 	//-----------------------------------------------------------------------------
 	// Classes
 	//-----------------------------------------------------------------------------
+	/**
+	 *	Triangle
+	 *	
+	 *	@param p1
+	 *				first Point of Triangle
+	 *	@param p2
+	 *				second Point of Triangle
+	 *	@param p3
+	 *				third Point of Triangle
+	 */
+	// TODO: remove this and rely on Path.Triangle
+	var Triangle = function( p1, p2, p3 ) {
+		//-----------------------------------------------------------------------------
+		// Properties
+		//-----------------------------------------------------------------------------
+		var _p1 = p1;
+		var _p2 = p2;
+		var _p3 = p3;
+
+
+
+		//-----------------------------------------------------------------------------
+		// Methods
+		//-----------------------------------------------------------------------------
+		/**
+		 *	vertex (Edge) sharing
+		 *	
+		 *	@param other
+		 *				the triangle to check for vertex (Edge) sharing
+		 */
+		function sharesVertex(other) {
+			return p1 == other.p1 || p1 == other.p2 || p1 == other.p3 ||
+			p2 == other.p1 || p2 == other.p2 || p2 == other.p3 || 
+			p3 == other.p1 || p3 == other.p2 || p3 == other.p3;
+		}
+
+		/**
+		 *	@return circle
+		 *			Point of the circle center
+		 */
+		function circumcenter() {
+			var circle = new Point();
+			var m1, m2;
+			var mx1, mx2;
+			var my1, my2;
+
+			if ( Math.abs(_p2.y-_p1.y) < EPSILON ) {
+				m2 = - (_p3.x-_p2.x) / (_p3.y-_p2.y);
+				mx2 = (_p2.x + _p3.x) / 2.0;
+				my2 = (_p2.y + _p3.y) / 2.0;
+				circle.x = (_p2.x + _p1.x) / 2.0;
+				circle.y = m2 *	(circle.x - mx2) + my2;
+
+			}
+			else if ( Math.abs(_p3.y-_p2.y) < EPSILON ) {
+				m1 = - (_p2.x-_p1.x) / (_p2.y-_p1.y);
+				mx1 = (_p1.x + _p2.x) / 2.0;
+				my1 = (_p1.y + _p2.y) / 2.0;
+				circle.x = (_p3.x + _p2.x) / 2.0;
+				circle.y = m1 *	(circle.x - mx1) + my1;	
+
+			}
+			else {
+				m1 = - (_p2.x-_p1.x) / (_p2.y-_p1.y);
+				m2 = - (_p3.x-_p2.x) / (_p3.y-_p2.y);
+				mx1 = (_p1.x + _p2.x) / 2.0;
+				mx2 = (_p2.x + _p3.x) / 2.0;
+				my1 = (_p1.y + _p2.y) / 2.0;
+				my2 = (_p2.y + _p3.y) / 2.0;
+				circle.x = (m1 *	mx1 - m2 *	mx2 + my2 - my1) / (m1 - m2);
+				circle.y = m1 *	(circle.x - mx1) + my1;
+			}
+
+			return circle;
+		};
+
+		//-----------------------------------------------------------------------------
+		/**
+		 *	@return center
+		 *			Point of the centroid center
+		 *
+		 *	http://www.mathwords.com/c/centroid_formula.htm
+		 */
+		function centroid() {
+			return new Point(
+				(_p1.x + _p2.x + _p3.x)/3,
+				(_p1.y + _p2.y + _p3.y)/3
+			);
+		};
+
+		//-----------------------------------------------------------------------------
+		/**
+		 *	 @return
+		 *	 		a sorted array (Edge) of the Triangle's Edges (shortest to longest)
+		 */
+		function distances() {
+			var distances = [];
+			distances[0] = new Edge(_p1, _p2);
+			distances[1] = new Edge(_p1, _p3);
+			distances[2] = new Edge(_p3, _p2);
+
+			distances.sort();
+			return distances;
+		};
+
+		//-----------------------------------------------------------------------------
+		/**
+		 *	http://www.btinternet.com/~se16/hgb/triangle.htm
+		 */
+		function width() {
+			var x1 = 0;
+			if(_p1.x < _p2.x && _p1.x < _p3.x) x1 = _p1.x;
+			else if( _p2.x < _p1.x && _p2.x < _p3.x ) x1 = _p2.x;
+			else if( _p3.x < _p1.x && _p3.x < _p2.x) x1 = _p3.x;
+
+			var x2 = 0;
+			if(_p1.x > _p2.x && _p1.x > _p3.x) x2 = _p1.x;
+			else if( _p2.x > _p1.x && _p2.x > _p3.x ) x2 = _p2.x;
+			else if( _p3.x > _p1.x && _p3.x > _p2.x) x2 = _p3.x;
+
+			var f = Math.abs(x2 - x1);
+			return f;
+		};
+
+		function height() {
+			var y1 = 0;
+			if(_p1.y < _p2.y && _p1.y < _p3.y) y1 = _p1.y;
+			else if( _p2.y < _p1.y && _p2.y < _p3.y ) y1 = _p2.y;
+			else if( _p3.y < _p1.y && _p3.y < _p2.y) y1 = _p3.y;
+
+			var y2 = 0;
+			if(_p1.y > _p2.y && _p1.y > _p3.y) y2 = _p1.y;
+			else if( _p2.y > _p1.y && _p2.y > _p3.y ) y2 = _p2.y;
+			else if( _p3.y > _p1.y && _p3.y > _p2.y) y2 = _p3.y;
+
+			var g = Math.abs(y2 - y1);
+			return g;
+		};
+
+		//-----------------------------------------------------------------------------
+		function area() { 
+			var area = 0;
+			area += (_p1.x + _p3.x) * (_p3.y - _p1.y);
+			area += (_p2.x + _p1.x) * (_p1.y - _p2.y);
+			area += (_p3.x + _p2.x) * (_p2.y - _p3.y);
+			return area/2;
+		};
+
+
+
+		//-----------------------------------------------------------------------------
+		// Gets
+		//-----------------------------------------------------------------------------
+		/**
+		 *	 @return
+		 *	  		the points of the triangle as a Point array 
+		 */
+		function get() {
+			var points = [_p1, _p2, _p3];
+			return points;
+		};
+
+		//-----------------------------------------------------------------------------
+		return {
+			p1: _p1,
+			p2: _p2,
+			p3: _p3,
+
+			sharesVertex: sharesVertex,
+			getCentroid: centroid,
+
+			getArea: area,
+			getWidth: width,
+			getHeight: height,
+
+			getPoints: get
+		};
+
+	};
+
 	/**
 	 *	Edge
 	 *	TODO: replace with paper.Segment
@@ -5139,7 +5162,7 @@ folio.FTriangulate = function( points ) {
 			// The super triangle coordinates are added to the end of the
 			// vertex list. The super triangle is the first triangle in
 			// the triangle list.
-			var superTriangle = new folio.Triangle(
+			var superTriangle = new Triangle(
 				new Point( xmid - 2.0 * dmax, ymid - dmax ),
 				new Point( xmid, ymid + 2.0 * dmax ),
 				new Point( xmid + 2.0 * dmax, ymid - dmax )
@@ -5225,7 +5248,7 @@ folio.FTriangulate = function( points ) {
 						if( p == _pointsNew[k] ) p.name = '__new';
 						else p.name = null;
 					}
-					_triangles.push( new folio.Triangle(e.p1, e.p2, p) );
+					_triangles.push( new Triangle(e.p1, e.p2, p) );
 				}
 
 			}
@@ -5618,12 +5641,5 @@ var HashSet = function() {
 	};
 
 };
-
-
-
-paper.Point.inject({
-	name: null,
-	data: {}
-});
 
 
