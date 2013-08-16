@@ -18,10 +18,6 @@ console.log( 'FColor Example Loaded' );
 // the core folio namespace
 var f = folio;
 
-// depreciating FColor namespace
-// no longer necessary use paper.Color() or GrayColor() or etc.
-//var fcolor = f.FColor
-
 var dots;
 var dotsSize;
 
@@ -37,10 +33,10 @@ function Setup() {
 		// individualize colors
 		// first row
 		// color class in Paper.js has been re-worked
-		new GrayColor( random( 0.3,0.6 ) ),
-		new Color( random( 0.0,1.0), random( 0.0,1.0), random( 0.0,1.0) ),
-		new HslColor( random( 45,90), random( 0.7,0.9), random( 0.7,0.9) ),
-		new HsbColor( random( 90,120), random( 0.7,0.9), random( 0.7,0.9) ),
+		new Color(0.3).random(),
+		new Color().random(),
+		new Color({ hue: 45, saturation: 0.7, lightness: 0.7 }).random(),
+		new Color({ hue: 90, saturation: 0.7, lightness: 0.7 }).random(),
 
 		new Color( 0, 1.0, 0.7 ),
 		new Color( 0, 0.7, 1.0 ),
@@ -61,22 +57,22 @@ function Setup() {
 	];
 
 	// second row
-	// (lerped between first and fourth row)
-	colors[6] = colors[0].lerp( colors[18], 0.66 );
-	colors[7] = colors[1].lerp( colors[19], 0.66 );
-	colors[8] = colors[2].lerp( colors[20], 0.66 );
-	colors[9] = colors[3].lerp( colors[21], 0.66 );
+	// (interpolateed between first and fourth row)
+	colors[6] = colors[0].interpolate( colors[18], 0.66 );
+	colors[7] = colors[1].interpolate( colors[19], 0.66 );
+	colors[8] = colors[2].interpolate( colors[20], 0.66 );
+	colors[9] = colors[3].interpolate( colors[21], 0.66 );
 	// darkened
 	colors[10] = colors[4];//.darken( 0.33, true );
 	// lightned
 	colors[11] = colors[5];//.clone().lighten( 0.33 );
 
 	// third row
-	// (lerped between first and fourth row)
-	colors[12] = colors[0].lerp( colors[18], 0.33 );
-	colors[13] = colors[1].lerp( colors[19], 0.33 );
-	colors[14] = colors[2].lerp( colors[20], 0.33 );
-	colors[15] = colors[3].lerp( colors[21], 0.33 );
+	// (interpolateed between first and fourth row)
+	colors[12] = colors[0].interpolate( colors[18], 0.33 );
+	colors[13] = colors[1].interpolate( colors[19], 0.33 );
+	colors[14] = colors[2].interpolate( colors[20], 0.33 );
+	colors[15] = colors[3].interpolate( colors[21], 0.33 );
 	// darkened
 	colors[16] = colors[4];//.clone().darken( 0.66 );
 	// lightned

@@ -96,12 +96,13 @@ function Draw() {
 
 	
 	// triangle Circumcenter
-	var cc = new Path.Circle( triangle.getCircumcircle(), 6 );
-	cc.fillColor = new Color( 0.0, 1.0, 0.7 );
-	triangles.appendTop(cc);
+	// TODO: wrong
+	// var cc = new Path.Circle( triangle.getCircumcenter(), 6 );
+	// cc.fillColor = new Color( 0.0, 1.0, 0.7 );
+	// triangles.appendTop(cc);
 
-	// triangle CircumCircle radius
-	var r = new Path.Circle( triangle.getCircumcircle(), triangle.radius );
+	// triangle Circumcircle radius
+	var r = triangle.getCircumcircle();
 	r.fillColor = new Color( 0.0, 1.0, 0.7 );
 	triangles.appendBottom(r);
 

@@ -9,7 +9,7 @@ console.log( 'Spectrum Loaded' );
  *	http://blog.kennethfrederick.de/
  *
  *	
- *	An exmaple of blending colors using Color.lerp
+ *	An exmaple of blending colors using Color.interpolate
  *
  */
 
@@ -86,13 +86,13 @@ function Update(event) {
 function Draw() {
 
 	// update colors
-	colors[0] = new Color().lerp(
+	colors[0] = new Color().interpolate(
 		spectrumColors[ index % 4 ],
 		spectrumColors[ (index+1) % 4 ],
 		delta
 	);
 
-	colors[1] = new Color().lerp(
+	colors[1] = new Color().interpolate(
 		spectrumColors[ (index+1) % 4 ],
 		spectrumColors[ (index+2) % 4 ],
 		delta

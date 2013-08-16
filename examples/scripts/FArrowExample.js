@@ -55,8 +55,11 @@ function Setup() {
 			tailPoint,
 			new Size(20,20)
 		);
+		arrow.strokeWidth = 3;
+		arrow.strokeColor = new Color().random();
 		arrow.strokeCap = 'round';
-		arrows.appendTop( arrow );
+
+		arrows.appendBottom( arrow );
 	}
 };
 
@@ -104,20 +107,20 @@ function onMouseMove(event) {
 		// Get the old arrow
 		var arrow = arrows.children[i];
 
-		var headSize = 1+120*norm(event.point.y, 0,view.bounds.height);
+		var headSize = 120*normalize( event.point.y,0, view.bounds.height );
 		var headPoint = new Point( 
-			event.point.x + ( headSize*3 * Math.cos( radians( 360*norm(i, 0,num) ) ) ), 
-			event.point.y + ( headSize*3 * Math.sin( radians( 360*norm(i, 0,num) ) ) )
+			event.point.x + headSize*2 * Math.cos( radians(360*normalize(i,0,num)) ),
+			event.point.y + headSize*2 * Math.sin( radians(360*normalize(i,0,num)) )
 		);
 
 		// create a new arrow
 		var arrowNew = new Path.FArrow( 
 			headPoint,
 			points[i],
-			new Size(headSize,headSize)
+			new Size(headSize, headSize)
 		);
 		arrowNew.strokeWidth = 3;
-		arrowNew.strokeColor = 'black';
+		arrowNew.strokeColor = arrow.strokeColor;
 		arrowNew.strokeCap = arrow.strokeCap;
 
 		// remove the old arrow

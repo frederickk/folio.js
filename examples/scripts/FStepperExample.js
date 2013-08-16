@@ -9,7 +9,7 @@ console.log( 'FStepper Example Loaded' );
  *	http://blog.kennethfrederick.de/
  *
  *	
- *	An example of lerping points, sunrise, sunset
+ *	An example of interpolateing points, sunrise, sunset
  *
  */
 
@@ -108,15 +108,15 @@ function Update(event) {
 function Draw() {
 	background.fillColor = colors[1];
 
-	// in order to animate the ball, we'll lerp from
+	// in order to animate the ball, we'll interpolate from
 	// point1 to point2
-	// var pos = points[0].lerp(
+	// var pos = points[0].interpolate(
 	// 	points[1],
 	// 	move.delta
 	// );
 	var pos = new Point(
-		lerp( points[0].x, points[1].x, move.delta ),
-		lerp( points[0].y, points[1].y, move.delta )
+		interpolate( points[0].x, points[1].x, move.delta ),
+		interpolate( points[0].y, points[1].y, move.delta )
 	);
 
 	// move the ball on an arc
@@ -126,7 +126,7 @@ function Draw() {
 	ball.translate( 0, view.bounds.height );
 
 	// blend the colors from one to the other
-	var col = colors[0].lerp(
+	var col = colors[0].interpolate(
 		new Color(1.0, 1.0, 1.0),
 		blend.delta
 	);

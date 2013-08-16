@@ -359,10 +359,10 @@ global.inject({
 	 *	@return value between start and stop
 	 *
 	 *	@example
-	 * 	var lerped = Calculation.lerp(0, 100, 0.5); // 50
+	 * 	var interpolateed = Calculation.interpolate(0, 100, 0.5); // 50
 	 *	
 	 */
-	lerp: function(start, stop, val) {
+	interpolate: function(start, stop, val) {
 		return start + (stop-start) * val;
 	},
 
@@ -530,16 +530,16 @@ paper.Point.inject({
 	 *	@param {Point} arg0
 	 *			ending Point
 	 *	@param {Number} arg1
-	 *			(0.0 - 1.0) lerp factor
+	 *			(0.0 - 1.0) interpolate factor
 	 *
-	 *	@return {Point} new lerped Point
+	 *	@return {Point} new interpolateed Point
 	 *
 	 *	@example
 	 *	var point = new Point(0, 30);
 	 *	var end = new Point(360, 90);
 	 *
-	 *	point.lerp( end, 0.5 );
-	 *	console.log( lerp ); // { x: 180, y: 60 }
+	 *	point.interpolate( end, 0.5 );
+	 *	console.log( interpolate ); // { x: 180, y: 60 }
 	 *
 	 */
 	/**
@@ -549,33 +549,33 @@ paper.Point.inject({
 	 *	@param {Point} arg1
 	 *			ending Point
 	 *	@param {Number} arg2
-	 *			(0.0 - 1.0) lerp factor
+	 *			(0.0 - 1.0) interpolate factor
 	 *
-	 *	@return {Point} new lerped Point
+	 *	@return {Point} new interpolateed Point
 	 *
 	 *	@example
 	 *	var start = new Point(0, 30);
 	 *	var end = new Point(360, 90);
-	 *	var lerp = new Point.lerp( start, end, 0.5 );
-	 *	console.log( lerp ); // { x: 180, y: 60 }
+	 *	var interpolate = new Point.interpolate( start, end, 0.5 );
+	 *	console.log( interpolate ); // { x: 180, y: 60 }
 	 *
 	 */
-	lerp: function( arg0, arg1, arg2 ) {
+	interpolate: function( arg0, arg1, arg2 ) {
 		if(typeof arg1 === 'number') {
 			// hmm... duplicate of interpolateTo( ... )
-			// this.x = paper.lerp(this.x, arg0.x, arg1);
-			// this.y = paper.lerp(this.y, arg0.y, arg1);
+			// this.x = paper.interpolate(this.x, arg0.x, arg1);
+			// this.y = paper.interpolate(this.y, arg0.y, arg1);
 			// return this;
 			return new Point(
-				paper.lerp(this.x, arg0.x, arg1),
-				paper.lerp(this.y, arg0.y, arg1)
+				paper.interpolate(this.x, arg0.x, arg1),
+				paper.interpolate(this.y, arg0.y, arg1)
 			);
 		}
 		else {
-			// return new lerped point from two points
+			// return new interpolateed point from two points
 			return new Point(
-				paper.lerp(arg0.x, arg1.x, arg2),
-				paper.lerp(arg0.y, arg1.y, arg2)
+				paper.interpolate(arg0.x, arg1.x, arg2),
+				paper.interpolate(arg0.y, arg1.y, arg2)
 			);
 		}
 	},
@@ -683,7 +683,7 @@ paper.Size.inject({
 	 *
 	 *	@example
 	 *	var size = new Size(10, 20);
-	 *	var a = size.area(); // 200
+	 *	var a = size.getArea(); // 200
 	 *
 	 */
 	area: function() {

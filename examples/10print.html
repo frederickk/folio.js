@@ -43,14 +43,14 @@
 
 
 		<!-- TEXT -->
-		<div id="textContainer" class="white">
-			<a href="http://10print.org/" class="white" target="new">10 PRINT CHR$(205.5+RND(1));</a><br />
-			<a href="http://paperjs.org/" class="white" target="new">paperjs</a> experiment by <a href="http://kennnethfrederick.de/" class="white" target="new">kenfrederick</a>
+		<div id="textContainer">
+			<span class="white"><a href="http://10print.org/" class="white" target="new">10 PRINT CHR$(205.5+RND(1));</a><br />
+			<a href="http://paperjs.org/" class="white" target="new">paperjs</a> experiment by <a href="http://kennnethfrederick.de/" class="white" target="new">kenfrederick</a></span>
 		</div>
 
-		<div id="manual" class="white">
-			<b>mouse</b> generate new pattern<br />
-			<b>input fields</b> change colors
+		<div id="manual">
+			<span class="white"><b>mouse</b> generate new pattern<br />
+			<b>input fields</b> change colors</span>
 		</div>
 
 		<!-- INPUTS -->
@@ -58,12 +58,12 @@
 			<form method="POST" name="Form">
 
 				<div class="inputComponent" style="width: 300px;">
-					<div class="left white"><b>Pattern</b></div>
+					<div class="left"><b class="white">Pattern</b></div>
 					<input type="text" id="hexcolor1" name="hexcolor1" onChange="Draw()" value="#00ff11" class="whiteBackground white" />
 				</div>
 
 				<div class="inputComponent" style="width: 300px;">
-					<div class="left white"><b>Background</b></div>
+					<div class="left"><b class="white">Background</b></div>
 					<input type="text" id="hexcolor2" name="hexcolor2" onChange="Draw()" value="#00ffff" class="whiteBackground white" />
 				</div>
 			</form>

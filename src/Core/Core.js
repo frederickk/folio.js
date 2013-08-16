@@ -73,8 +73,8 @@ folio = {
 		var dx = arg1.position.x - arg0.position.x;
 		var dy = arg1.position.y - arg0.position.y;
 
-		var r1 = Math.sqrt( arg0.bounds.size.area() );
-		var r2 = Math.sqrt( arg1.bounds.size.area() );
+		var r1 = Math.sqrt( arg0.bounds.size.getArea() );
+		var r2 = Math.sqrt( arg1.bounds.size.getArea() );
 
 		r1 /= 2;
 		r2 /= 2;

@@ -10,7 +10,7 @@ console.log( 'Chain-Chain-Chain Loaded' );
  *	http://blog.kennethfrederick.de/
  *
  *	
- *	An example lerping colors and connecting dots
+ *	An example interpolateing colors and connecting dots
  *	with the Travelling Salesman Problem
  *
  */
@@ -149,7 +149,7 @@ function updateDots() {
 	// dots
 	for(var i=0; i<dots.children.length; i++) {
 		var dot = dots.children[i];
-		var col = colors.start.lerp(
+		var col = colors.start.interpolate(
 			colors.end,
 			i/dots.children.length
 		);

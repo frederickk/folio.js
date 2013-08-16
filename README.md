@@ -1,6 +1,6 @@
 Folio.js
 ============
-### The missing tweezers, toothpick, and corkscrew for Paper.js ###
+### The tweezers, toothpick, and corkscrew for Paper.js ###
 
 
 

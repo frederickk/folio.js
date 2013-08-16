@@ -141,7 +141,7 @@ function Draw() {
 		var pmax = max;
 		var pstrokeWidth = 100 * (triArea/compareArea);
 
-		density.lerp = 1.0;
+		density.interpolate = 1.0;
 		density.value = ratio;
 		density.max = max;
 		density.strokeWidth = 2;
@@ -215,7 +215,7 @@ function reflectPoint(point, axis) {
  *			  min: 10,				// minimum no. of lines)
  *			  value: 0.1,			// density 0.0 - 1.0
  *
- *			  lerp: 0.5,			// lerp value 0.0 - 1.0
+ *			  interpolate: 0.5,			// interpolate value 0.0 - 1.0
  *			  strokeWidth: 2,		// width of stroke
  *			  strokeColor: 'white',	// color of stroke
  *
@@ -279,15 +279,15 @@ function hatchFill(path, options) {
 				break;
 		}
 
-		// if( options.lerp != undefined ) {
-		// 	linePt2 = linePt1.lerp( linePt2, options.lerp );
+		// if( options.interpolate != undefined ) {
+		// 	linePt2 = linePt1.interpolate( linePt2, options.interpolate );
 		// }
 
 		var line = new Path.Line( 
 			linePt1,
 			// linePt2
-			( options.lerp != undefined ) 
-				? linePt1.lerp( linePt2, options.lerp )
+			( options.interpolate != undefined ) 
+				? linePt1.interpolate( linePt2, options.interpolate )
 				: linePt2
 		);
 		line.strokeWidth = (options.strokeWidth != null) 

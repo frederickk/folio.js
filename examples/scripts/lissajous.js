@@ -240,12 +240,12 @@ var lissajousBezier = function(frequency, scale, periodAngleRads, stepRads) {
 		var n = norm(angle, stepRads,(radians(360) + stepRads));
 
 		// stroke width
-		var lweight = lerp( values.widthSta, values.widthEnd, n );
+		var lweight = interpolate( values.widthSta, values.widthEnd, n );
 		lpath.strokeWidth = lweight;
 
 		// stroke color
 		if( values.bBlend ) {
-			var lcol = lerpColor( values.colSta, values.colEnd, n );
+			var lcol = interpolateColor( values.colSta, values.colEnd, n );
 			lpath.strokeColor = lcol;
 		}
 		if( values.bAlternate) {
@@ -255,7 +255,7 @@ var lissajousBezier = function(frequency, scale, periodAngleRads, stepRads) {
 		lpath.fillColor = null;
 
 		// stroke opacity
-		var lopacity = lerp( values.opacSta, values.opacEnd, n );
+		var lopacity = interpolate( values.opacSta, values.opacEnd, n );
 		lpath.opacity = lopacity/100;
 
 
@@ -295,13 +295,13 @@ function round(val, deci) {
 };
 
 // ------------------------------------------------------------------------
-function lerp(start, stop, amt) {
+function interpolate(start, stop, amt) {
 	return start + (stop-start) * amt;
 };
-function lerpColor(c1,c2, amt) {
-	var arg0 = lerp(c1.red,		c2.red,		amt);
-	var arg1 = lerp(c1.green,	c2.green,	amt);
-	var arg2 = lerp(c1.blue,	c2.blue,	amt);
+function interpolateColor(c1,c2, amt) {
+	var arg0 = interpolate(c1.red,		c2.red,		amt);
+	var arg1 = interpolate(c1.green,	c2.green,	amt);
+	var arg2 = interpolate(c1.blue,	c2.blue,	amt);
 	return new paper.RGBColor(arg0, arg1, arg2);
 };
 

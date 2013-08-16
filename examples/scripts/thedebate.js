@@ -271,14 +271,14 @@ function Draw() {
 		// bubble
 		var x;
 		if(i % 2 == 0) {
-			x = lerp(
+			x = interpolate(
 				view.bounds.leftCenter.x + s.bubble.bounds.width*0.66,
 				view.bounds.rightCenter.x - s.bubble.bounds.width*0.66, 
 				s.move.delta
 			);
 		}
 		else {
-			x = lerp(
+			x = interpolate(
 				view.bounds.rightCenter.x - s.bubble.bounds.width*0.66,
 				view.bounds.leftCenter.x + s.bubble.bounds.width*0.66, 
 				s.move.delta
