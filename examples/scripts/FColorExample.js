@@ -19,9 +19,16 @@ console.log( 'FColor Example Loaded' );
 var f = folio;
 
 var dots;
-var dotsSize;
 
 var colors;
+// create base colors
+var rgray = new Color(0.3).random(),
+	rrgb = new Color().random(),
+	rhsl = new Color({ hue: 45, saturation: 0.7, lightness: 0.7 }).random(),
+	rhsb = new Color({ hue: 45, saturation: 0.7, brightness: 0.7 }).random(),
+	rhex = new Color( '#'+randomHex() ),
+	green = new Color( 0.3, 0.9, 0.7 );
+
 
 
 // ------------------------------------------------------------------------
@@ -29,65 +36,65 @@ var colors;
 // ------------------------------------------------------------------------
 function Setup() {
 
-	colors = [
-		// individualize colors
-		// first row
-		// color class in Paper.js has been re-worked
-		new Color(0.3).random(),
-		new Color().random(),
-		new Color({ hue: 45, saturation: 0.7, lightness: 0.7 }).random(),
-		new Color({ hue: 90, saturation: 0.7, lightness: 0.7 }).random(),
-
-		new Color( 0, 1.0, 0.7 ),
-		new Color( 0, 0.7, 1.0 ),
-
-		// second row
-		null, null, null, null, null, null,
-
-		// third row
-		null, null, null, null, null, null,
-
-		// fourth row
-		new Color( 0 ),
-		new Color( '#'+randomHex() ),
-		new Color( '#'+randomHex() ), //new Color().integer( parseInt(randomHex()) ),
-		new Color( '#'+randomHex() ), //new Color().bytes( Math.random()*255, Math.random()*255, Math.random()*255 ),
-		null,
-		null
-	];
-
-	// second row
-	// (interpolateed between first and fourth row)
-	colors[6] = colors[0].interpolate( colors[18], 0.66 );
-	colors[7] = colors[1].interpolate( colors[19], 0.66 );
-	colors[8] = colors[2].interpolate( colors[20], 0.66 );
-	colors[9] = colors[3].interpolate( colors[21], 0.66 );
-	// darkened
-	colors[10] = colors[4];//.darken( 0.33, true );
-	// lightned
-	colors[11] = colors[5];//.clone().lighten( 0.33 );
-
-	// third row
-	// (interpolateed between first and fourth row)
-	colors[12] = colors[0].interpolate( colors[18], 0.33 );
-	colors[13] = colors[1].interpolate( colors[19], 0.33 );
-	colors[14] = colors[2].interpolate( colors[20], 0.33 );
-	colors[15] = colors[3].interpolate( colors[21], 0.33 );
-	// darkened
-	colors[16] = colors[4];//.clone().darken( 0.66 );
-	// lightned
-	colors[17] = colors[5];//.clone().lighten( 0.66 );
-
-	// fourth row
-	// darkened
-	colors[22] = colors[4];//.clone().darken( 0.9 );
-	// lightned
-	colors[23] = colors[5];//.clone().lighten( 0.9 );
+	// intial color creation
+	createColors();
 
 
 	// create dot group
 	dots = new Group();
-	dotsSize = view.bounds.height/4;
+	radius = view.bounds.width/24;
+
+	// create labels
+	var labels = new Group();
+	var label = [
+		'interpolate', '', '',
+		'desaturate',
+		'saturate',
+		'darken',
+		'dim',
+		'lighten',
+		'brighten',
+		'contrast',
+		'invert\ncompliment'
+	];
+	for( var i=0; i<label.length; i++ ) {
+		var point = new Point(
+			(radius*2.1)*i,
+			24
+		);
+		var text = new PointText({
+			point: point,
+			content: label[i],
+			fillColor: 'black',
+			fontSize: 12
+		});
+		text.justification = 'center';
+		labels.appendTop( text );
+	}
+	labels.position.x = view.bounds.center.x;
+
+
+	// create dot grid
+	var y = 0;
+	for( a in colors ) {
+
+		for( var i=0; i<colors[a].length; i++ ) {
+			// setup grid
+			var center = new Point(
+				(radius*2.1)*i,
+				(radius*2.1)*y
+			);		
+
+			// setup dot
+			var label = colors[a][i].type + '\n' + colors[a][i]._components.round(2);
+			var dot = new ColorDot( center, radius, label );
+			dot.children[0].fillColor = colors[a][i];
+			dots.appendTop( dot );
+		}
+		y++;
+	}
+	dots.position = view.bounds.center;
+	
 
 };
 
@@ -106,28 +113,18 @@ function Update(event) {
 // ------------------------------------------------------------------------
 function Draw() {
 
-	dots.removeChildren();
-
-	// draw dots
 	var index = 0;
-	var margin = 21;
+	for( a in colors ) {
+		for( var i=0; i<colors[a].length; i++ ) {
+			var dot = dots.children[index].children[0];
+			dot.fillColor = colors[a][i];
 
-	for(var y=0; y<4; y++) {
-		for(var x=0; x<6; x++) {
-			// setup grid
-			var pt = new Point(
-				map( x, 0,5, margin*6,view.bounds.width-margin*6),
-				map( y, 0,3, margin*6,view.bounds.height-margin*6)
-			);		
-
-			// draw dot
-			var dot = new Path.Circle( pt, dotsSize );
-			dot.fillColor = colors[index];
-			dots.appendTop( dot );
+			var text = dots.children[index].children[1];
+			text.content = colors[a][i].type + '\n' + colors[a][i]._components.round(2);
 
 			index++;
 		}
-	} 
+	}
 
 };
 
@@ -136,8 +133,84 @@ function Draw() {
 // ------------------------------------------------------------------------
 // Methods
 // ------------------------------------------------------------------------
+function createColors() {
+	colors = {
+		// first row
+		first: [ rgray, rrgb, rhsl, green, null, green, green, green, green, green, green ],
+		// second row
+		second: [],
+		// third row
+		third: [ new Color(0), rhsb, rhex ]
+	};
+
+	// first row
+	// please never do this... only for proof of concept!
+	colors.first[4] = colors.third[3] = colors.first[3].desaturate( 0.6 ).saturate( 0.1 );
+
+	// second row
+	// (interpolated between first and third row)
+	colors.second[0] = colors.first[0].interpolate( colors.third[0], 0.3 );
+	colors.second[1] = colors.first[1].interpolate( colors.third[1], 0.3 );
+	colors.second[2] = colors.first[2].interpolate( colors.third[2], 0.3 );
+	// desaturated
+	colors.second[3] = colors.first[3].desaturate( 0.3 );
+	// saturated
+	colors.second[4] = colors.first[4].saturate( 0.3 );
+	// darkened
+	colors.second[5] = colors.first[5].darken( 0.3 );
+	// dimmed
+	colors.second[6] = colors.first[6].dim( 0.3 );
+	// lightened
+	colors.second[7] = colors.first[7].lighten( 0.3 );
+	// brightened
+	colors.second[8] = colors.first[8].brighten( 0.3 );
+	// contrasted
+	colors.second[9] = colors.first[9].contrast( 0.3 );
+	// inverted
+	colors.second[10] = colors.first[10].invert();
+
+	// third row
+	// (interpolated between first and third row)
+	colors.third[0] = colors.first[0].interpolate( colors.third[0], 0.66 );
+	// colors.third[1] = colors.first[1].interpolate( colors.third[1], 0.66 );
+	colors.third[2] = colors.first[2].interpolate( colors.third[2], 0.66 );
+	// desaturated
+	colors.third[3] = colors.first[3].desaturate( 0.6 );
+	// saturated
+	colors.third[4] = colors.first[4].saturate( 0.6 );
+	// darkened
+	colors.third[5] = colors.first[5].darken( 0.6 );
+	// dimmed
+	colors.third[6] = colors.first[6].dim( 0.6 );
+	// lightened
+	colors.third[7] = colors.first[7].lighten( 0.6 );
+	// brightened
+	colors.third[8] = colors.first[8].brighten( 0.6 );
+	// contrasted
+	colors.third[9] = colors.first[9].contrast( 0.6 );
+	// compliment
+	colors.third[10] = colors.first[10].rotate( 180 );
+}
+
+
+// ------------------------------------------------------------------------
 function randomHex() {
 	return ((1<<24)*Math.random()|0).toString(16);
+};
+
+// ------------------------------------------------------------------------
+var ColorDot = function(center, radius, label) {
+	var dot = new Path.Circle( center, radius );
+
+	var text = new PointText({
+		point: [ center.x, center.y + 0 ],
+		content: label,
+		fillColor: 'black',
+		fontSize: 12
+	});
+	text.justification = 'center';
+
+	return new Group([ dot, text ]);
 };
 
 
@@ -157,11 +230,22 @@ function onMouseDown(event) {
 };
 
 function onMouseMove(event) {
+	// var n = map( event.point.x, 0,view.bounds.width, -1.1,1.1 );
+	var n = (event.point.x <= view.bounds.width/2)
+		? -2
+		: 2;
+
+	// adjust core color hues
+	green.hue += n;
+	rrgb.hue += n;
+	rhsl.hue += n;
+	// rhsb.hue += n;
+
+	createColors();
+	Draw();
 };
 
 function onMouseDrag(event) {
-	dotsSize = (event.point.x*event.point.y)/view.bounds.width;
-	Draw();
 };
 
 

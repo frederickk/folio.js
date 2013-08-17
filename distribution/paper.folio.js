@@ -685,6 +685,19 @@ Array.prototype.removeDuplicates = function() {
 	}, [] );
 };
 
+/**
+ *
+ *	@param {Number} decimalPlaces
+ *			number of decimal places
+ *			
+ *	@return original array with rounded values
+ *
+ */
+Array.prototype.round = function(decimalPlaces) {
+	var multi = Math.pow(10,decimalPlaces);
+	for (var i=0; i<this.length; i++) this[i] = Math.round(this[i] * multi)/multi;
+	return this;
+};
 
 
 
