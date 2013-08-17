@@ -246,7 +246,7 @@ var folio = folio || {};
  *	http://blog.kennethfrederick.de/
  *  
  *  
- *	Core Methods
+ *	Core Methods and a collection of extensions for paper globally
  *
  */
 
@@ -502,58 +502,80 @@ folio = {
 
 
 
-/*	------------------------------------------------------------------------
+/*
  *
- *	Strings
- *
- *	------------------------------------------------------------------------/
-
-/**
- *	
- *	trims white space from right (end) of String
- *
- *	@return trimmed input String
+ *	Global Scope (Paper.js core)
  *
  */
-String.prototype.rtrim = function() {
-	for (var i=str.length-1; str.charAt(i) ==' '; i--) {
-		str = str.substring(0, i);
+PaperScope.inject({
+	enumerable: true,
+
+
+	//-----------------------------------------------------------------------------
+	// Methods
+	//-----------------------------------------------------------------------------
+	/**
+	 *	Java style println output
+	 *
+	 *	@param {Object} obj
+	 *				any Javascript Object
+	 */
+	println: function(obj) {
+		console.log( obj );
+		console.log( '\n' );
+	},
+
+
+
+	/**
+	 *
+	 *	http://www.siafoo.net/snippet/191
+	 *
+	 *	@param {Number} minr
+	 *				minmum range
+	 *	@param {Number} maxr
+	 *				maximum range
+	 *	@param {Number} bias
+	 *				bias represents the preference towards lower or higher numbers,
+	 *				as a number between 0.0 and 1.0. For example: 
+	 *				random(0, 10, bias=0.9) will return 9 much more often than 1.
+	 *
+	 *	@return a random, albeit biased, number
+	 *
+	 */
+	randomBias: function(minr, maxr, bias) {
+		var _map = new Array(90.0, 9.00, 4.00, 2.33, 1.50, 1.00, 0.66, 0.43, 0.25, 0.11, 0.01);
+		bias = Math.max(0, Math.min(bias, 1)) * 10;
+
+		var i = parseInt(Math.floor(bias))
+		var n = _map[i]
+		if(bias < 10) n += (_map[i+1]-n) * (bias-i);
+
+		return Math.pow( Math.random(),n ) * (maxr-minr) + minr;
 	}
-	return str;
-};
 
-/**
- *	
- *	trims all white space from String
- *	
- *	@return string of PaperJs object type
+
+});
+
+
+ /**
+ *  
+ *	FArray.js
+ *	v0.5
+ *  
+ *	15. May 2013
+ *
+ *	Ken Frederick
+ *	ken.frederick@gmx.de
+ *
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
+ *  
+ *  
+ *	Extensions to JavaScript Array
+ *	may be bad form... but whatever
  *
  */
-String.prototype.trim = function() {
-	str = str.replace(/(^\s*)|(\s*$)/gi,"");
-	str = str.replace(/[ ]{2,}/gi," ");
-	str = str.replace(/\n /,"\n");
-	return str;
-};
-
-/**
- *	
- *	converts String to Boolean value
- *	
- *	@return Boolean value
- *
- */
-String.prototype.toBool = function() {
-	switch(this.toLowerCase()) {
-		case "true": case "yes": case "1": return true;
-		case "false": case "no": case "0": case null: return false;
-		default: return Boolean(this);
-	}
-};
-
-
-
-
 
 
 /*
@@ -689,7 +711,7 @@ Array.prototype.removeDuplicates = function() {
  *
  *	@param {Number} decimalPlaces
  *			number of decimal places
- *			
+ *				
  *	@return original array with rounded values
  *
  */
@@ -698,145 +720,23 @@ Array.prototype.round = function(decimalPlaces) {
 	for (var i=0; i<this.length; i++) this[i] = Math.round(this[i] * multi)/multi;
 	return this;
 };
-
-
-
-
-
-/*
+ /**
+ *  
+ *	FColor.js
+ *	v0.5
+ *  
+ *	15. May 2013
  *
- *	Global Scope (Paper.js core)
+ *	Ken Frederick
+ *	ken.frederick@gmx.de
  *
- */
-PaperScope.inject({
-	enumerable: true,
-
-
-	//-----------------------------------------------------------------------------
-	// Methods
-	//-----------------------------------------------------------------------------
-	/**
-	 *	Java style println output
-	 *
-	 *	@param {Object} obj
-	 *				any Javascript Object
-	 */
-	println: function(obj) {
-		console.log( obj );
-		console.log( '\n' );
-	},
-
-
-
-	/**
-	 *
-	 *	http://www.siafoo.net/snippet/191
-	 *
-	 *	@param {Number} minr
-	 *				minmum range
-	 *	@param {Number} maxr
-	 *				maximum range
-	 *	@param {Number} bias
-	 *				bias represents the preference towards lower or higher numbers,
-	 *				as a number between 0.0 and 1.0. For example: 
-	 *				random(0, 10, bias=0.9) will return 9 much more often than 1.
-	 *
-	 *	@return a random, albeit biased, number
-	 *
-	 */
-	randomBias: function(minr, maxr, bias) {
-		var _map = new Array(90.0, 9.00, 4.00, 2.33, 1.50, 1.00, 0.66, 0.43, 0.25, 0.11, 0.01);
-		bias = Math.max(0, Math.min(bias, 1)) * 10;
-
-		var i = parseInt(Math.floor(bias))
-		var n = _map[i]
-		if(bias < 10) n += (_map[i+1]-n) * (bias-i);
-
-		return Math.pow( Math.random(),n ) * (maxr-minr) + minr;
-	}
-
-
-});
-
-
-
-
-
-
-/*
- *
- *	paper.Point
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
+ *  
+ *  
+ *	A collection of extensions for paper.Color
  *
  */
-paper.Point.inject({
-	// ------------------------------------------------------------------------
-	// Properties
-	// ------------------------------------------------------------------------
-	name: null,
-	data: {},
-
-
-
-	// ------------------------------------------------------------------------
-	// Methods
-	// ------------------------------------------------------------------------
-	/**
-	 *
-	 *	http://gmc.yoyogames.com/index.php?showtopic=290349
-	 *
-	 *	@param {Size} spacing
-	 *				scale.width  = x scale of the grid.
-	 *				scale.height = y scale of the grid.
-	 *	@param {Object} options
-	 *				{ grid: true }
-	 *				{ isometric: true }
-	 *				
-	 *	@return {Point} snapped Point
-	 *
-	 */
-	/**
-	 *	snaps point to an isometric grid
-	 *	
-	 *	@param {Number} scale
-	 *				scale of the grid
-	 *	@param {Object} options
-	 *				{ grid: true }
-	 *				{ isometric: true }
-	 *
-	 *	@return {Point} snapped Point
-	 *
-	 */
-	snap: function(scale, options) {
-		options = (options != undefined)
-			? options
-			: { grid: true, isometric: false };
-		scale = (scale.type == 'Size') 
-			? scale
-			: new Size(scale,scale);
-
-		var ix, iy;
-		if (optons.isometric === true) {
-			ix = Math.round(this.y/(16*scale.height) - this.x/(32*scale.width));
-			iy = Math.round(this.y/(16*scale.height) + this.x/(16*scale.width));
-			this.x = (iy - ix)/2*(32*scale.width);
-			this.y = (iy + ix)/2*(16*scale.height);
-		}
-		else {
-			ix = Math.round(this.y/scale.height - this.x/scale.width);
-			iy = Math.round(this.y/scale.height + this.x/scale.width);
-			this.x = (iy - ix)/2*scale.width;
-			this.y = (iy + ix)/2*scale.height;
-		}
-
-		return this;
-	}
-
-
-});
-
-
-
-
 
 
 /*
@@ -947,27 +847,6 @@ paper.Color.inject({
 });
 
 
-
-
-/*
- *
- *	paper.TextItem
- *
- */
-paper.TextItem.inject({
-	// ------------------------------------------------------------------------
-	/**
-	 *	
-	 *	@return string content which will will fit within the bounds of the TextItem
-	 *
-	 */
-	trimToFit: function() {
-		var visibleContent = this.visibleRange.content.trim();
-		this.content = visibleContent;
-		return this;
-	}
-
-});
 /**
  *	
  *	FPath.js
@@ -982,13 +861,8 @@ paper.TextItem.inject({
  *	http://blog.kennethfrederick.de/
  *
  *
- *	FPath
  *	A collection of shapes for paper.Path
  *	and methods for paper.Item
- *
- *	I'm assuming that injecting all of the shapes into
- *	paper.Path is not only cleaner but more efficient
- *	and therefore faster
  *
  *	FArrow
  *	FBubble
@@ -1638,6 +1512,207 @@ paper.Path.inject({
 
 	} // end statics:
 });
+
+ /**
+ *  
+ *	FPoint.js
+ *	v0.5
+ *  
+ *	15. May 2013
+ *
+ *	Ken Frederick
+ *	ken.frederick@gmx.de
+ *
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
+ *  
+ *  
+ *	A collection of extensions for paper.Point
+ *
+ */
+
+
+/*
+ *
+ *	paper.Point
+ *
+ */
+paper.Point.inject({
+	// ------------------------------------------------------------------------
+	// Properties
+	// ------------------------------------------------------------------------
+	name: null,
+	data: {},
+
+
+
+	// ------------------------------------------------------------------------
+	// Methods
+	// ------------------------------------------------------------------------
+	/**
+	 *
+	 *	http://gmc.yoyogames.com/index.php?showtopic=290349
+	 *
+	 *	@param {Size} spacing
+	 *				scale.width  = x scale of the grid.
+	 *				scale.height = y scale of the grid.
+	 *	@param {Object} options
+	 *				{ grid: true }
+	 *				{ isometric: true }
+	 *				
+	 *	@return {Point} snapped Point
+	 *
+	 */
+	/**
+	 *	snaps point to an isometric grid
+	 *	
+	 *	@param {Number} scale
+	 *				scale of the grid
+	 *	@param {Object} options
+	 *				{ grid: true }
+	 *				{ isometric: true }
+	 *
+	 *	@return {Point} snapped Point
+	 *
+	 */
+	snap: function(scale, options) {
+		options = (options != undefined)
+			? options
+			: { grid: true, isometric: false };
+		scale = (scale.type == 'Size') 
+			? scale
+			: new Size(scale,scale);
+
+		var ix, iy;
+		if (optons.isometric === true) {
+			ix = Math.round(this.y/(16*scale.height) - this.x/(32*scale.width));
+			iy = Math.round(this.y/(16*scale.height) + this.x/(16*scale.width));
+			this.x = (iy - ix)/2*(32*scale.width);
+			this.y = (iy + ix)/2*(16*scale.height);
+		}
+		else {
+			ix = Math.round(this.y/scale.height - this.x/scale.width);
+			iy = Math.round(this.y/scale.height + this.x/scale.width);
+			this.x = (iy - ix)/2*scale.width;
+			this.y = (iy + ix)/2*scale.height;
+		}
+
+		return this;
+	}
+
+
+});
+
+
+ /**
+ *  
+ *	FString.js
+ *	v0.5
+ *  
+ *	15. May 2013
+ *
+ *	Ken Frederick
+ *	ken.frederick@gmx.de
+ *
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
+ *  
+ *  
+ *	Extensions to JavaScript Array
+ *	may be bad form... but whatever
+ *
+ */
+
+
+/*	------------------------------------------------------------------------
+ *
+ *	Strings
+ *
+ *	------------------------------------------------------------------------/
+
+/**
+ *	
+ *	trims white space from right (end) of String
+ *
+ *	@return trimmed input String
+ *
+ */
+String.prototype.rtrim = function() {
+	for (var i=str.length-1; str.charAt(i) ==' '; i--) {
+		str = str.substring(0, i);
+	}
+	return str;
+};
+
+/**
+ *	
+ *	trims all white space from String
+ *	
+ *	@return string of PaperJs object type
+ *
+ */
+String.prototype.trim = function() {
+	str = str.replace(/(^\s*)|(\s*$)/gi,"");
+	str = str.replace(/[ ]{2,}/gi," ");
+	str = str.replace(/\n /,"\n");
+	return str;
+};
+
+/**
+ *	
+ *	converts String to Boolean value
+ *	
+ *	@return Boolean value
+ *
+ */
+String.prototype.toBool = function() {
+	switch(this.toLowerCase()) {
+		case "true": case "yes": case "1": return true;
+		case "false": case "no": case "0": case null: return false;
+		default: return Boolean(this);
+	}
+};
+
+
+ /**
+ *  
+ *	Core.js
+ *	v0.5
+ *  
+ *	15. May 2013
+ *
+ *	Ken Frederick
+ *	ken.frederick@gmx.de
+ *
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
+ *  
+ *  
+ *	Core Methods
+ *
+ */
+
+
+/*
+ *
+ *	paper.TextItem
+ *
+ */
+paper.TextItem.inject({
+	// ------------------------------------------------------------------------
+	/**
+	 *	
+	 *	@return string content which will will fit within the bounds of the TextItem
+	 *
+	 */
+	trimToFit: function() {
+		var visibleContent = this.visibleRange.content.trim();
+		this.content = visibleContent;
+		return this;
+	}
+
+});
+
 
 /**
  *  
@@ -2484,10 +2559,10 @@ folio.FTime.FStepper = function() {
 			_bBeginStpper = false;
 			_timeStart = currentTime;
 			if(_bIn) {
-				_timeEnd = paper.roundDecimal( (currentTime + ((1.0 - this.delta) * _stepMillis)), 3 );
+				_timeEnd = paper.round( (currentTime + ((1.0 - this.delta) * _stepMillis)), 3 );
 			}
 			else {
-				_timeEnd = paper.roundDecimal( (currentTime + (this.delta*_stepMillis)), 3 );
+				_timeEnd = paper.round( (currentTime + (this.delta*_stepMillis)), 3 );
 			}
 			if(_timeEnd <= currentTime) {
 				if(_bIn) {
@@ -2501,7 +2576,7 @@ folio.FTime.FStepper = function() {
 			}
 		}
 		if(_bIn) {
-			this.delta = paper.roundDecimal( (1.0 - ((_timeEnd - currentTime) / _stepMillis)), 3 );
+			this.delta = paper.round( (1.0 - ((_timeEnd - currentTime) / _stepMillis)), 3 );
 			// if(_bEase) {
 			// }
 
@@ -2513,7 +2588,7 @@ folio.FTime.FStepper = function() {
 			}
 		}
 		else if(_bOut) {
-			this.delta = paper.roundDecimal( ((_timeEnd - currentTime) / _stepMillis), 3 );
+			this.delta = paper.round( ((_timeEnd - currentTime) / _stepMillis), 3 );
 			// if(_bEase) {
 			// }
 
@@ -2770,6 +2845,11 @@ folio.FTime.FStopwatch = function() {
 	this.isRunning = function() {
 		return (_bStart) ? true : false;
 	};
+
+
+	// return {
+
+	// };
 
 };
 

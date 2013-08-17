@@ -134,6 +134,11 @@ folio.FTime.FStopwatch = function() {
 		return (_bStart) ? true : false;
 	};
 
+
+	// return {
+
+	// };
+
 };
 
 

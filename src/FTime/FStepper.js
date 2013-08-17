@@ -80,10 +80,10 @@ folio.FTime.FStepper = function() {
 			_bBeginStpper = false;
 			_timeStart = currentTime;
 			if(_bIn) {
-				_timeEnd = paper.roundDecimal( (currentTime + ((1.0 - this.delta) * _stepMillis)), 3 );
+				_timeEnd = paper.round( (currentTime + ((1.0 - this.delta) * _stepMillis)), 3 );
 			}
 			else {
-				_timeEnd = paper.roundDecimal( (currentTime + (this.delta*_stepMillis)), 3 );
+				_timeEnd = paper.round( (currentTime + (this.delta*_stepMillis)), 3 );
 			}
 			if(_timeEnd <= currentTime) {
 				if(_bIn) {
@@ -97,7 +97,7 @@ folio.FTime.FStepper = function() {
 			}
 		}
 		if(_bIn) {
-			this.delta = paper.roundDecimal( (1.0 - ((_timeEnd - currentTime) / _stepMillis)), 3 );
+			this.delta = paper.round( (1.0 - ((_timeEnd - currentTime) / _stepMillis)), 3 );
 			// if(_bEase) {
 			// }
 
@@ -109,7 +109,7 @@ folio.FTime.FStepper = function() {
 			}
 		}
 		else if(_bOut) {
-			this.delta = paper.roundDecimal( ((_timeEnd - currentTime) / _stepMillis), 3 );
+			this.delta = paper.round( ((_timeEnd - currentTime) / _stepMillis), 3 );
 			// if(_bEase) {
 			// }
 

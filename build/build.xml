@@ -112,7 +112,7 @@
 			<mapper type="glob" from="*.js" to="*.min.js" />
 			<targetfile/>
 		</apply>
-		<echo>Finished</echo>
+		<!-- <echo>Finished</echo> -->
 	</target>
 
 

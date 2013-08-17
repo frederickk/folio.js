@@ -12,13 +12,8 @@
  *	http://blog.kennethfrederick.de/
  *
  *
- *	FPath
  *	A collection of shapes for paper.Path
  *	and methods for paper.Item
- *
- *	I'm assuming that injecting all of the shapes into
- *	paper.Path is not only cleaner but more efficient
- *	and therefore faster
  *
  *	FArrow
  *	FBubble

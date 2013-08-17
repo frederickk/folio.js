@@ -280,15 +280,14 @@ function hatchFill(path, options) {
 		}
 
 		// if( options.interpolate != undefined ) {
-		// 	linePt2 = linePt1.interpolate( linePt2, options.interpolate );
+			// linePt2 = linePt1.interpolateTo( linePt2, options.interpolate );
 		// }
-
 		var line = new Path.Line( 
 			linePt1,
-			// linePt2
-			( options.interpolate != undefined ) 
-				? linePt1.interpolate( linePt2, options.interpolate )
-				: linePt2
+			linePt2
+			// ( options.interpolate != undefined ) 
+			// 	? linePt1.interpolateTo( linePt2, options.interpolate )
+			// 	: linePt2
 		);
 		line.strokeWidth = (options.strokeWidth != null) 
 			? options.strokeWidth

@@ -1,6 +1,5 @@
 paper.Path.inject({
 
-
 	getCircumcircle: function() {
 		var that = this;
 		var circumradius = 0;
@@ -27,16 +26,65 @@ paper.Path.inject({
 		// // 	}
 		// // }
 
-		console.log( that.getCenterOfPolygon() );
 		return Path.Circle(
-			that.getCenterOfPolygon(),
+			that.getCentroid(),
+			// that.getCenterOfPolygon(),
 			circumradius
 		);
 	},
 
-	getCenterOfPolygon: function() {
-		return new Point( 0,0 );
-	}
+	// getCenterOfPolygon: function() {
+
+	// 	for( var i=0; i<this._segments.length; i++ ) {
+
+	// 	}
+
+	// 		var p1 = this._segments[0].point;
+	// 		var p2 = this._segments[1].point;
+	// 		var p3 = this._segments[2].point;
+
+	// 		var A = p2.x - p1.x; 
+	// 		var B = p2.y - p1.y; 
+	// 		var C = p3.x - p1.x; 
+	// 		var D = p3.y - p1.y; 
+
+	// 		var E = A*(p1.x + p2.x) + B*(p1.y + p2.y); 
+	// 		var F = C*(p1.x + p3.x) + D*(p1.y + p3.y); 
+
+	// 		var G = 2.0*(A*(p3.y - p2.y)-B*(p3.x - p2.x)); 
+			
+	// 		if( Math.abs(G) < Numerical.EPSILON ) {
+	// 			// Collinear - find extremes and use the midpoint
+	// 			function max3( a, b, c ) { 
+	// 				return ( a >= b && a >= c ) 
+	// 					? a 
+	// 					: ( b >= a && b >= c ) 
+	// 						? b 
+	// 						: c;
+	// 			}
+	// 			function min3( a, b, c ) {
+	// 				return ( a <= b && a <= c ) 
+	// 					? a 
+	// 					: ( b <= a && b <= c ) 
+	// 						? b 
+	// 						: c;
+	// 			}
+
+	// 			var minx = min3( p1.x, p2.x, p3.x );
+	// 			var miny = min3( p1.y, p2.y, p3.y );
+	// 			var maxx = max3( p1.x, p2.x, p3.x );
+	// 			var maxy = max3( p1.y, p2.y, p3.y );
+
+	// 			return Point.create( ( minx + maxx ) / 2, ( miny + maxy ) / 2 );
+	// 		}
+	// 		else {
+	// 			var cx = (D*E - B*F) / G; 
+	// 			var cy = (A*F - C*E) / G;
+
+	// 			return Point.create( cx, cy );
+	// 		}
+
+	// }
 
 });
 

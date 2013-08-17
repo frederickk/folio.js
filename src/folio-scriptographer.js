@@ -316,7 +316,7 @@ global.inject({
 	 *	@return float value with desired decimal places
 	 *
 	 *	@example
-	 * 	var rounded = Calculation.roundDecimal(0.586, 2); // 0.59
+	 * 	var rounded = Calculation.round(0.586, 2); // 0.59
 	 *	
 	 */
 	roundDecimal: function(val, deci) {
@@ -344,7 +344,7 @@ global.inject({
 	 */
 	snap: function(val, snapInc, roundFunction) {
 		if (roundFunction === undefined) roundFunction = Math.round;
-		return this.roundDecimal( snapInc * roundFunction(val / snapInc), 2 );
+		return this.round( snapInc * roundFunction(val / snapInc), 2 );
 	},
 
 	/**

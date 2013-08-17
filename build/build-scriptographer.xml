@@ -70,7 +70,7 @@
 		<exec dir="${distribution.dir}/" executable="java" failonerror="true">
 			<arg line="-jar ${js.jar} ${jslint.js} ${jsfiles}" />
 		</exec>
-		<echo>Finished</echo>
+		<!-- <echo>Finished</echo> -->
 	</target>
 	
 
@@ -93,7 +93,7 @@
 
 			<fileset dir="${src.dir.libs}" includes="*.js" />
 		</concat>
-		<echo>Finished</echo>
+		<!-- <echo>Finished</echo> -->
 	</target>
 
 		
@@ -112,7 +112,7 @@
 			<mapper type="glob" from="*.js" to="*.min.js" />
 			<targetfile/>
 		</apply>
-		<echo>Finished</echo>
+		<!-- <echo>Finished</echo> -->
 	</target>
 
 
