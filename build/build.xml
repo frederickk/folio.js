@@ -14,14 +14,14 @@
 		<property name="jslint.js" value="${basedir}/scripts/jslint.js" />
 		<!-- Rhino dir -->
         <property name="js.jar" value="${basedir}/scripts/rhino/js.jar"/>
-		
+
 		<!-- Source JS dir -->
 		<property name="src.dir" value="${basedir}/../src" />
 		<property name="src.dir.core" value="${basedir}/../src/Core/" />
 		<property name="src.dir.fio" value="${basedir}/../src/FIO/" />
 		<property name="src.dir.ftime" value="${basedir}/../src/FTime/" />
 		<property name="src.dir.f3d" value="${basedir}/../src/F3D/" />
-		<property name="src.dir.libs" value="${basedir}/../src/Additional/" />
+		<property name="src.dir.libs" value="${basedir}/../src/Extensions/" />
 
 		<!-- Output dir -->
 		<property name="distribution.dir" value="${basedir}/../distribution/" />
@@ -44,16 +44,16 @@
 		<tstamp>
 			<format property="TODAY" pattern="EEE, d MMM yyyy HH:mm:ss Z" />
 		</tstamp>
-		
+
 		<!-- Delete previous distribution files -->
 		<!-- <delete dir="${distribution.dir}" /> -->
 		<delete dir="${distribution.dir}/${distribution.file}.js" />
 		<delete dir="${distribution.dir}/${distribution.file}.min.js" />
-		
+
 		<!-- Recreate the distribution directories -->
 		<!-- <mkdir dir="${distribution.dir}" /> -->
 		<!-- <mkdir dir="${distribution.dir}/js" /> -->
-		
+
 		<!-- Log the distribution timestamps to file -->
 		<echo file="${distribution.dir}/timestamp.txt" append="false">Build Date: ${TODAY}</echo>
 	</target>
@@ -72,11 +72,11 @@
 		</exec>
 		<!-- <echo>Finished</echo> -->
 	</target>
-	
 
-	
+
+
 	<!-- Concatenate JS files -->
-	<target name="-js.concatenate" depends="-js.lint" 
+	<target name="-js.concatenate" depends="-js.lint"
 		description="Concatenates specified JavaScript files">
 		<concat destfile="${distribution.dir}/${distribution.file}.js">
 			<fileset dir="${src.dir}" includes="folio.js" excludes="folio-scriptographer.js" />
@@ -87,7 +87,7 @@
 
 			<fileset dir="${src.dir.ftime}" includes="FTime.js" />
 			<fileset dir="${src.dir.ftime}" includes="*.js" excludes="FTime.js" />
-		
+
 			<fileset dir="${src.dir.f3d}" includes="Matrix3D.js" />
 			<fileset dir="${src.dir.f3d}" includes="*.js" excludes="Matrix3D.js" />
 
@@ -96,14 +96,14 @@
 		<!-- <echo>Finished</echo> -->
 	</target>
 
-		
-	
+
+
 	<!-- Minify JS files -->
-	<target name="-js.minify" depends="-js.concatenate" 
+	<target name="-js.minify" depends="-js.concatenate"
 		description="Minifies JavaScript files">
 		<apply executable="java" parallel="false" dest="${distribution.dir}">
-			<fileset 
-				dir="${distribution.dir}" 
+			<fileset
+				dir="${distribution.dir}"
 				includes="${distribution.file}.js" />
 			<arg line="-jar" />
 			<arg path="${yui.dir}" />
@@ -118,13 +118,13 @@
 
 
 	<!-- Build -->
-	<target name="prod" 
+	<target name="prod"
 		description="Builds project files for production use"
 		depends="
-			-load.properties, 
-			-init, 
+			-load.properties,
+			-init,
 			-js.concatenate,
-			-js.lint, 
+			-js.lint,
 			-js.minify">
 	</target>
 </project>

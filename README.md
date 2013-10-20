@@ -142,7 +142,7 @@ $ ./build.sh Scriptographer
 
 
 
-Change Log
+<!-- Change Log
 --------------
 
 - 9. August 2013
@@ -182,6 +182,6 @@ Over the past couple of years, I've assembled a library of functions for Scripto
 
 For now FrederickkPaper should be seen as very very alpha.
 
-Not all of the code in here was created by me but credit and links are given where credit is due.
+Not all of the code in here was created by me but credit and links are given where credit is due. -->
 
 
