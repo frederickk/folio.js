@@ -8,7 +8,7 @@ console.log( 'FTriangle Example Loaded' );
  *	http://kennethfrederick.de/
  *	http://blog.kennethfrederick.de/
  *
- *	
+ *
  *	An example of FTriangle
  *
  */
@@ -42,7 +42,7 @@ function Setup() {
 	triangles = new Group();
 
 	// create FTriangle
-	triangle = new Path.FTriangle( 
+	triangle = new Path.FTriangle(
 		new Point( 100,100 ),
 		new Point( view.bounds.width-100,view.bounds.height/2 ),
 		new Point( 100, view.bounds.height-100 )
@@ -64,7 +64,7 @@ function Update(event) {
 // Draw
 // ------------------------------------------------------------------------
 function Draw() {
-	// workaround for clearing redraws	
+	// workaround for clearing redraws
 	triangles.removeChildren();
 
 
@@ -94,7 +94,7 @@ function Draw() {
 	// oc.fillColor = new Color( 1.0, 0.0, 0.7 );
 	// triangles.appendTop(oc);
 
-	
+
 	// triangle Circumcenter
 	// TODO: wrong
 	// var cc = new Path.Circle( triangle.getCircumcenter(), 6 );
@@ -102,9 +102,9 @@ function Draw() {
 	// triangles.appendTop(cc);
 
 	// triangle Circumcircle radius
-	var r = triangle.getCircumcircle();
-	r.fillColor = new Color( 0.0, 1.0, 0.7 );
-	triangles.appendBottom(r);
+	// var r = triangle.getCircumcircle();
+	// r.fillColor = new Color( 0.0, 1.0, 0.7 );
+	// triangles.appendBottom(r);
 
 };
 

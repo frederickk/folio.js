@@ -4,11 +4,11 @@ console.log( 'Extruder Loaded' );
  *
  *	Ken Frederick
  *	ken.frederick@gmx.de
- * 
+ *
  *	http://kennethfrederick.de/
  *	http://blog.kennethfrederick.de/
  *
- *	
+ *
  *	simple extrusion of path shapes
  *
  */
@@ -28,7 +28,7 @@ var type;
 // extrusion
 var extrusionsGroup;
 
-// mouse 
+// mouse
 var slopeLine;
 var clicks = [false, false, false];
 var clickPts = [];
@@ -80,7 +80,7 @@ var components = {
 	},
 
 
-	
+
 };
 
 
@@ -217,7 +217,7 @@ function Draw() {
 // Methods
 // ------------------------------------------------------------------------
 /**
- *	
+ *
  *	extrudes shapes
  *	TODO: make into a class
  *	TODO: fix face z-indexing
@@ -234,7 +234,7 @@ function extrude(item, slope, color) {
 	// extrusion holder
 	var extrusion = new Group();
 
-	// pull the points for drawing the 
+	// pull the points for drawing the
 	// extrusion sides
 	var holder1 = item; //.clone();
 	holder1.strokeColor = new Color( 1.0, 0.0, 1.0 );
@@ -250,7 +250,7 @@ function extrude(item, slope, color) {
 		var curve1 = holder1.curves[cc];
 		var curve2 = holder2.curves[cc];
 
-		// the path for the extruded face 
+		// the path for the extruded face
 		var path = new Path();
 
 		var uniteGroup = new Group();
@@ -282,7 +282,7 @@ function extrude(item, slope, color) {
 
 		// add to extrusion group
 		extrusion.appendBottom( uniteGroup );
-	}				
+	}
 
 	// clean-up
 	holder1.remove();
@@ -296,7 +296,7 @@ function extrude(item, slope, color) {
 
 
 /**
- *	
+ *
  *	recursive extrusion
  *	TODO: make a part of "master" extrusion class
  *
@@ -335,7 +335,7 @@ function recursiveExtrude(item, slope, color) {
 
 // ------------------------------------------------------------------------
 function angleAsPoints(center, angle, radius) {
-	var theta = radians( angle );
+	var theta = paper.radians( angle );
 	radius /= 2;
 
 	var pt1 = new Point(
@@ -360,8 +360,8 @@ function angleToSlope(center, angle, distance) {
 	// this is my bootleg work-around
 	var pt1 = center;
 	var pt2 = new Point(
-		pt1.x + distance*Math.cos( radians(angle) ),
-		pt1.y + distance*Math.sin( radians(angle) )
+		pt1.x + distance*Math.cos( paper.radians(angle) ),
+		pt1.y + distance*Math.sin( paper.radians(angle) )
 	);
 
 	var slope = new Size(
@@ -416,17 +416,17 @@ function onMouseDown(event) {
 	// 	// calculate angle and distance
 	// 	var angle = slopeToAngle( slopeLine.bounds );
 	// 	var distance = slopeLine.segments[0].point.getDistance( slopeLine.segments[1].point );
-	
+
 	// 	// push to components
 	// 	values.angle = ( f.degrees( angle ) );
 	// 	values.distance = distance;
 
-	// 	// extrusion slope as 
+	// 	// extrusion slope as
 	// 	// drawn by mouse
 	// 	bDrawn = true;
 
 	// }
-	
+
 };
 
 // ------------------------------------------------------------------------

@@ -8,7 +8,7 @@ console.log( 'FStepper Example Loaded' );
  *	http://kennethfrederick.de/
  *	http://blog.kennethfrederick.de/
  *
- *	
+ *
  *	An example of interpolateing points, sunrise, sunset
  *
  */
@@ -115,8 +115,8 @@ function Draw() {
 	// 	move.delta
 	// );
 	var pos = new Point(
-		interpolate( points[0].x, points[1].x, move.delta ),
-		interpolate( points[0].y, points[1].y, move.delta )
+		paper.interpolate( points[0].x, points[1].x, move.delta ),
+		paper.interpolate( points[0].y, points[1].y, move.delta )
 	);
 
 	// move the ball on an arc

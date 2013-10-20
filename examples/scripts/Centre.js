@@ -43,30 +43,30 @@ paper.Path.inject({
 	// 		var p2 = this._segments[1].point;
 	// 		var p3 = this._segments[2].point;
 
-	// 		var A = p2.x - p1.x; 
-	// 		var B = p2.y - p1.y; 
-	// 		var C = p3.x - p1.x; 
-	// 		var D = p3.y - p1.y; 
+	// 		var A = p2.x - p1.x;
+	// 		var B = p2.y - p1.y;
+	// 		var C = p3.x - p1.x;
+	// 		var D = p3.y - p1.y;
 
-	// 		var E = A*(p1.x + p2.x) + B*(p1.y + p2.y); 
-	// 		var F = C*(p1.x + p3.x) + D*(p1.y + p3.y); 
+	// 		var E = A*(p1.x + p2.x) + B*(p1.y + p2.y);
+	// 		var F = C*(p1.x + p3.x) + D*(p1.y + p3.y);
 
-	// 		var G = 2.0*(A*(p3.y - p2.y)-B*(p3.x - p2.x)); 
-			
+	// 		var G = 2.0*(A*(p3.y - p2.y)-B*(p3.x - p2.x));
+
 	// 		if( Math.abs(G) < Numerical.EPSILON ) {
 	// 			// Collinear - find extremes and use the midpoint
-	// 			function max3( a, b, c ) { 
-	// 				return ( a >= b && a >= c ) 
-	// 					? a 
-	// 					: ( b >= a && b >= c ) 
-	// 						? b 
+	// 			function max3( a, b, c ) {
+	// 				return ( a >= b && a >= c )
+	// 					? a
+	// 					: ( b >= a && b >= c )
+	// 						? b
 	// 						: c;
 	// 			}
 	// 			function min3( a, b, c ) {
-	// 				return ( a <= b && a <= c ) 
-	// 					? a 
-	// 					: ( b <= a && b <= c ) 
-	// 						? b 
+	// 				return ( a <= b && a <= c )
+	// 					? a
+	// 					: ( b <= a && b <= c )
+	// 						? b
 	// 						: c;
 	// 			}
 
@@ -78,7 +78,7 @@ paper.Path.inject({
 	// 			return Point.create( ( minx + maxx ) / 2, ( miny + maxy ) / 2 );
 	// 		}
 	// 		else {
-	// 			var cx = (D*E - B*F) / G; 
+	// 			var cx = (D*E - B*F) / G;
 	// 			var cy = (A*F - C*E) / G;
 
 	// 			return Point.create( cx, cy );
@@ -99,7 +99,7 @@ console.log( 'Centre Loaded' );
  *	http://kennethfrederick.de/
  *	http://blog.kennethfrederick.de/
  *
- *	
+ *
  *	An example of various center methods
  *
  */
@@ -139,12 +139,12 @@ function Setup() {
 	path.name = '_polygon';
 
 	// create vertices
-	var numVertices = randomInt(3,15);
+	var numVertices = paper.randomInt(3,15);
 	for( var t=0; t<360; t+=360/numVertices ) {
-		var r = random( 100, 150 );
+		var r = paper.random( 100, 150 );
 		var point = new Point(
-			r * Math.cos( radians(t) ),
-			r * Math.sin( radians(t) )
+			r * Math.cos( paper.radians(t) ),
+			r * Math.sin( paper.radians(t) )
 		);
 		path.add( point );
 	}

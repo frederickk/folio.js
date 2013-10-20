@@ -593,7 +593,7 @@ paper.Path.inject({
 					obj2 = arg1;
 				}
 
-				var tangents = folio.getCommonTangents(obj1, obj2);
+				var tangents = paper.getCommonTangents(obj1, obj2);
 				var path = new Path();
 				if( tangents != null ) {
 					path.name = 'chain';
@@ -768,8 +768,7 @@ paper.Path.inject({
 
 				// check for the type of arguments being passed
 				// default scale is from center (position)
-				var type = folio.getType(arg1);
-				if( type == 'Size' ) {
+				if( typeof arg1 == 'Size' ) {
 					path.scale( arg1.width, arg1.height );
 				}
 				else {

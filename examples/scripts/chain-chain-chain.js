@@ -9,7 +9,7 @@ console.log( 'Chain-Chain-Chain Loaded' );
  *	http://kennethfrederick.de/
  *	http://blog.kennethfrederick.de/
  *
- *	
+ *
  *	An example interpolateing colors and connecting dots
  *	with the Travelling Salesman Problem
  *
@@ -25,7 +25,7 @@ var f = folio;
 // dots
 var dots;
 
-// tsp 
+// tsp
 var routePath;
 
 // background
@@ -45,6 +45,7 @@ var hitOptions = {
 // Setup
 // ------------------------------------------------------------------------
 function Setup() {
+
 	// calculate grid
 	var grid;
 	var size;
@@ -64,8 +65,8 @@ function Setup() {
 
 	// calculate colors
 	colors = {
-		start:	new Color( random(0,1),random(0,1),random(0,1) ),
-		end:	new Color( random(0,1),random(0,1),random(0,1) )
+		start:	new Color( paper.random(0,1),paper.random(0,1),paper.random(0,1) ),
+		end:	new Color( paper.random(0,1),paper.random(0,1),paper.random(0,1) )
 	};
 
 
@@ -79,7 +80,7 @@ function Setup() {
 		for(var x=grid.width; x<view.bounds.width; x+=grid.width) {
 			var dot = new Path.Circle(
 				new Point(x,y),
-				randomInt(3,60)
+				paper.randomInt(3,60)
 			);
 			dot.name = 'dot';
 			dots.appendTop(dot);
@@ -116,7 +117,7 @@ function Draw() {
 	// draw the route
 	routePath = new Group();
 	for (var j=0; j<tsp.route.length-1; ++j) {
-		var chain = new Path.FChain( 
+		var chain = new Path.FChain(
 			dots.children[ tsp.route[j] ],
 			dots.children[ tsp.route[j+1] ]
 		);

@@ -248,7 +248,7 @@ var folio = folio || {};
  */
 
 
-var folio = folio || {
+folio = {
 	// ------------------------------------------------------------------------
  	// Setup Core Namespaces
 	// ------------------------------------------------------------------------
@@ -612,6 +612,8 @@ var FSort = {
  *
  */
 PaperScope.inject({
+	// TODO: enumerable doesn't seem to matter
+	// paper. prefix needed for these functions
 	enumerable: true,
 
 
@@ -1405,10 +1407,10 @@ paper.Color.inject({
 	 */
 	random: function() {
 		this._components[0] = ( this.type == 'hsb' || this.type == 'hsl' )
-			? random( this._components[0], 360 )
-			: random( this._components[0], 1 );
+			? paper.random( this._components[0], 360 )
+			: paper.random( this._components[0], 1 );
 		for( var i=1; i<this._components.length; i++ ) {
-			this._components[i] = random( this._components[i], 1 );
+			this._components[i] = paper.random( this._components[i], 1 );
 		}
 		return this;
 	}
@@ -2066,7 +2068,7 @@ paper.Path.inject({
 					obj2 = arg1;
 				}
 
-				var tangents = folio.getCommonTangents(obj1, obj2);
+				var tangents = paper.getCommonTangents(obj1, obj2);
 				var path = new Path();
 				if( tangents != null ) {
 					path.name = 'chain';
@@ -2241,8 +2243,7 @@ paper.Path.inject({
 
 				// check for the type of arguments being passed
 				// default scale is from center (position)
-				var type = folio.getType(arg1);
-				if( type == 'Size' ) {
+				if( typeof arg1 == 'Size' ) {
 					path.scale( arg1.width, arg1.height );
 				}
 				else {
@@ -2462,8 +2463,8 @@ paper.Point.inject({
 	 *	console.log( paper.degrees(result) ); // XX
 	 *
 	 */
-	getAngle: function(point) {
-		return Math.atan2(point.y - this.y, point.x - this.x);
+	getAngle: function(point2) {
+		return Math.atan2(point2.y - this.y, point2.x - this.x);
 	},
 
 	/**
@@ -5707,13 +5708,13 @@ folio.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
  *
  *	Taken from "SVG Stipple Generator, v 1.0"
  *	Copyright (C) 2012 by Windell H. Oskay
- *	
+ *
  *	http://www.evilmadscientist.com
  *	http://www.evilmadscientist.com/go/stipple
- *  
- *  
+ *
+ *
  *	Modified/Simplified for Paper.js
- *  
+ *
  *	Ken Frederick
  *	ken.frederick@gmx.de
  *
@@ -5731,7 +5732,7 @@ folio.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
  *
  *	@example
  */
-folio.FRoute = function(items, iterations) { 
+folio.FRoute = function(items, iterations) {
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
@@ -5753,7 +5754,7 @@ folio.FRoute = function(items, iterations) {
 		var p1;
 
 		if(RouteStep == 0) {
-			//	Begin process of optimizing plotting route, 
+			//	Begin process of optimizing plotting route,
 			//	by flagging nodes that will be shown.
 			//	console.log("Optimizing plotting path");
 			var RouteNodesLength = 0;
@@ -5765,7 +5766,7 @@ folio.FRoute = function(items, iterations) {
 				var px = items[i].position.x;
 				var py = items[i].position.y;
 
-				if( (px >= view.bounds.width) || (py >= view.bounds.height) || 
+				if( (px >= view.bounds.width) || (py >= view.bounds.height) ||
 					(px < 0) || (py < 0)) {
 					continue;
 				}
@@ -5778,7 +5779,7 @@ folio.FRoute = function(items, iterations) {
 			// These are the ONLY points to be drawn in the tour.
 			RouteNodes = new Array(RouteNodesLength);
 			var tempCounter = 0;
-			for(var i=0; i<items.length; ++i) { 
+			for(var i=0; i<items.length; ++i) {
 				if(RouteNodesTemp[i]) {
 					RouteNodes[tempCounter] = i;
 					tempCounter++;
@@ -5787,7 +5788,7 @@ folio.FRoute = function(items, iterations) {
 		}
 
 		var nodesNum = RouteNodes.length - 1;
-		if(RouteStep < (RouteNodes.length - 2))  { 
+		if(RouteStep < (RouteNodes.length - 2))  {
 			//	console.log('Nearest neighbor ("Simple, Greedy") algorithm path optimization:');
 			//	1000 steps per frame displayed; you can edit this number!
 			var StopPoint = RouteStep + 1000;
@@ -5795,12 +5796,12 @@ folio.FRoute = function(items, iterations) {
 			if(StopPoint > nodesNum)
 				StopPoint = nodesNum;
 
-			for(var i=RouteStep; i<StopPoint; ++i) { 
+			for(var i=RouteStep; i<StopPoint; ++i) {
 				p1 = items[RouteNodes[RouteStep]].position;
-				var ClosestNode = 0; 
+				var ClosestNode = 0;
 				var distMin = Number.MAX_VALUE;
 
-				for(var j=RouteStep+1; j<nodesNum; ++j) { 
+				for(var j=RouteStep+1; j<nodesNum; ++j) {
 					var p2 = items[ RouteNodes[j] ].position;
 
 					var dx = p1.x - p2.x;
@@ -5808,10 +5809,10 @@ folio.FRoute = function(items, iterations) {
 					var distance = (dx*dx+dy*dy);	// Only looking for closest; do not need sqrt factor!
 
 					if(distance < distMin) {
-						ClosestNode = j; 
+						ClosestNode = j;
 						distMin = distance;
 					}
-				}	
+				}
 
 				temp = RouteNodes[RouteStep + 1];
 				//p1 = items[RouteNodes[RouteStep + 1]];
@@ -5825,8 +5826,8 @@ folio.FRoute = function(items, iterations) {
 					console.log("Now optimizing plot path" );
 				}
 			}
-	
-		} 
+
+		}
 		//else {
 			// Initial routing is complete
 			// console.log('2-opt heuristic optimization');
@@ -5834,55 +5835,55 @@ folio.FRoute = function(items, iterations) {
 
 			// var groupPath = new Group();
 			for(var i=0; i<iterations; ++i) {
-			
-				var indexA = Math.floor( random(0, nodesNum) );
-				var indexB = Math.floor( random(0, nodesNum) );
+
+				var indexA = Math.floor( Math.random()*nodesNum );
+				var indexB = Math.floor( Math.random()*nodesNum );
 
 				// console.log('indexA', indexA);
 				// console.log('indexB', indexB);
 
 				if(Math.abs(indexA - indexB) < 2)
 					continue;
-		
+
 				if(indexB < indexA) {
 					// swap A, B.
 					temp = indexB;
 					indexB = indexA;
 					indexA = temp;
 				}
-		
+
 				var a0 = items[ RouteNodes[indexA] ].position;
 				var a1 = items[ RouteNodes[indexA + 1] ].position;
 				var b0 = items[ RouteNodes[indexB] ].position;
 				var b1 = items[ RouteNodes[indexB + 1] ].position;
-		
+
 				// Original distance:
 				var dx = a0.x - a1.x;
 				var dy = a0.y - a1.y;
-				var distance = (dx*dx+dy*dy);	// Only a comparison; do not need sqrt factor! 
+				var distance = (dx*dx+dy*dy);	// Only a comparison; do not need sqrt factor!
 				dx = b0.x - b1.x;
 				dy = b0.y - b1.y;
-				distance += (dx*dx+dy*dy);	//	Only a comparison; do not need sqrt factor! 
-		
+				distance += (dx*dx+dy*dy);	//	Only a comparison; do not need sqrt factor!
+
 				// Possible shorter distance?
 				dx = a0.x - b0.x;
 				dy = a0.y - b0.y;
-				var distance2 = (dx*dx+dy*dy);	//	Only a comparison; do not need sqrt factor! 
+				var distance2 = (dx*dx+dy*dy);	//	Only a comparison; do not need sqrt factor!
 				dx = a1.x - b1.x;
 				dy = a1.y - b1.y;
-				distance2 += (dx*dx+dy*dy);	// Only a comparison; do not need sqrt factor! 
-		
+				distance2 += (dx*dx+dy*dy);	// Only a comparison; do not need sqrt factor!
+
 				if(distance2 < distance) {
-					// Reverse tour between a1 and b0.	 
-		
+					// Reverse tour between a1 and b0.
+
 					var indexhigh = indexB;
 					var indexlow = indexA + 1;
-		
+
 					while (indexhigh > indexlow) {
 						temp = RouteNodes[indexlow];
 						RouteNodes[indexlow] = RouteNodes[indexhigh];
 						RouteNodes[indexhigh] = temp;
-		
+
 						indexhigh--;
 						indexlow++;
 					}
@@ -5890,7 +5891,7 @@ folio.FRoute = function(items, iterations) {
 
 			}
 		// }
-		// 
+		//
 	};
 
 

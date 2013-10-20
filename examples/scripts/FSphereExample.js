@@ -9,7 +9,7 @@ console.log( 'FSphere Example Loaded' );
  *	http://kennethfrederick.de/
  *	http://blog.kennethfrederick.de/
  *
- *	
+ *
  *	An example of creating some Max Bill inspired objects
  *
  */
@@ -60,7 +60,7 @@ function Setup() {
 	);
 	sphere.strokeColor = null;
 
-	var r = random(0,360);
+	var r = paper.random(0,360);
 	var facesNum = sphere.children.length;
 	for(var i=0; i<facesNum; i++) {
 		var face = sphere.children[i];
@@ -108,9 +108,9 @@ function Update(event) {
 // ------------------------------------------------------------------------
 function Draw() {
 	// rotate
-	scene.rotateX( radians(values.rotx) );
-	scene.rotateY( radians(values.roty) );
-	scene.rotateZ( radians(values.rotz) );
+	scene.rotateX( paper.radians(values.rotx) );
+	scene.rotateY( paper.radians(values.roty) );
+	scene.rotateZ( paper.radians(values.rotz) );
 
 	// draw to screen
 	scene.draw().scale(1);

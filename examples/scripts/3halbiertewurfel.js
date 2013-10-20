@@ -9,7 +9,7 @@ console.log( '3 halbierte Würfel Loaded' );
  *	http://kennethfrederick.de/
  *	http://blog.kennethfrederick.de/
  *
- *	
+ *
  *	An example of creating some Max Bill inspired objects
  *
  */
@@ -115,9 +115,9 @@ function Update(event) {
 function Draw() {
 	// rotates all of the items in the scene
 	// TODO: be able to rotate individual items
-	scene.rotateX( radians(values.rotx) );
-	scene.rotateY( radians(values.roty) );
-	scene.rotateZ( radians(values.rotz) );
+	scene.rotateX( paper.radians(values.rotx) );
+	scene.rotateY( paper.radians(values.roty) );
+	scene.rotateZ( paper.radians(values.rotz) );
 
 	// draw scene to screen
 	// the scene contains all paths (only FPath3 items) added to the scene

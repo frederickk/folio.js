@@ -4,15 +4,15 @@
 	<head>
 		<!-- META -->
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		
+
 
 		<title>10 PRINT CHR$(205.5+RND(1));</title>
-		
-		
+
+
 		<!-- CSS -->
 		<link href="../FolioTemplate/css/Folio.css" rel="stylesheet" type="text/css" />
 
-		
+
 		<!-- JAVASCRIPT -->
 		<script src="js/jquery/jquery.min.js"></script>
 
@@ -43,7 +43,7 @@
 
 
 		<!-- TEXT -->
-		<div id="textContainer">
+		<div id="text-container">
 			<span class="white"><a href="http://10print.org/" class="white" target="new">10 PRINT CHR$(205.5+RND(1));</a><br />
 			<a href="http://paperjs.org/" class="white" target="new">paperjs</a> experiment by <a href="http://kennnethfrederick.de/" class="white" target="new">kenfrederick</a></span>
 		</div>
@@ -54,17 +54,17 @@
 		</div>
 
 		<!-- INPUTS -->
-		<div id="inputContainer" style="left: 35px;">
+		<div id="input-container" style="left: 35px;">
 			<form method="POST" name="Form">
 
-				<div class="inputComponent" style="width: 300px;">
+				<div class="input-component" style="width: 300px;">
 					<div class="left"><b class="white">Pattern</b></div>
-					<input type="text" id="hexcolor1" name="hexcolor1" onChange="Draw()" value="#00ff11" class="whiteBackground white" />
+					<input type="text" id="hexcolor1" name="hexcolor1" onChange="Draw()" value="#00ff11" class="black-dark-gray" />
 				</div>
 
-				<div class="inputComponent" style="width: 300px;">
+				<div class="input-component" style="width: 300px;">
 					<div class="left"><b class="white">Background</b></div>
-					<input type="text" id="hexcolor2" name="hexcolor2" onChange="Draw()" value="#00ffff" class="whiteBackground white" />
+					<input type="text" id="hexcolor2" name="hexcolor2" onChange="Draw()" value="#00ffff" class="black-dark-gray" />
 				</div>
 			</form>
 		</div>
@@ -80,12 +80,12 @@
 				$("#hexcolor2").val( randomHex() );
 			})();
 		</script>
-		
+
 
 		<!-- IMAGES -->
 		<div id="rasters">
 		</div>
 
-		
+
 	</body>
 </html>

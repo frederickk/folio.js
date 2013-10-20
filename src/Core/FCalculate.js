@@ -24,6 +24,8 @@
  *
  */
 PaperScope.inject({
+	// TODO: enumerable doesn't seem to matter
+	// paper. prefix needed for these functions
 	enumerable: true,
 
 

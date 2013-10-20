@@ -5,11 +5,11 @@ console.log( 'Clocks Loaded' );
  *
  *	Ken Frederick
  *	ken.frederick@gmx.de
- * 
+ *
  *	http://kennethfrederick.de/
  *	http://blog.kennethfrederick.de/
  *
- *	
+ *
  *	An example of multiple closk that would Edward R. Murrow proud
  *
  */
@@ -51,14 +51,14 @@ function Setup() {
 
 
 	// Show the local time
-	local = new Clock( 
+	local = new Clock(
 		new Point(
 			view.bounds.width*0.15,
 			view.bounds.center.y
 		),
 		size
 	);
-	timeText.local = new PointText( 
+	timeText.local = new PointText(
 		new Point(
 			view.bounds.width*0.15,
 			view.bounds.center.y+size
@@ -89,7 +89,7 @@ function Setup() {
 
 
 	// show the timer time
-	timer = new Clock( 
+	timer = new Clock(
 		new Point(
 			view.bounds.width*0.62,
 			view.bounds.center.y
@@ -104,7 +104,7 @@ function Setup() {
 
 
 	// show the time since 1. January 1970
-	seventy = new Clock( 
+	seventy = new Clock(
 		new Point(
 			view.bounds.width*0.85,
 			view.bounds.center.y
@@ -186,12 +186,12 @@ var Clock = function(_pt, _radius) {
 	var radius = _radius;
 
 	var group = new Group();
-	
+
 	var clockRadius = radius * 0.5;
 	var secondsRadius = clockRadius * 0.90;
 	var minutesRadius = clockRadius * 0.80;
 	var hoursRadius = clockRadius * 0.53;
-	
+
 
 	// clock face
 	var face = new Path.Circle(pt, clockRadius);
@@ -228,10 +228,10 @@ var Clock = function(_pt, _radius) {
 	if(this.ticks) {
 		var groupTicks = new Group();
 		for (var a=0; a<360; a+=30) {
-			var x1 = pt.x + Math.cos(radians(a)) * (secondsRadius-3);
-			var y1 = pt.y + Math.sin(radians(a)) * (secondsRadius-3);
-			var x2 = pt.x + Math.cos(radians(a)) * (secondsRadius+9);
-			var y2 = pt.y + Math.sin(radians(a)) * (secondsRadius+9);
+			var x1 = pt.x + Math.cos(paper.radians(a)) * (secondsRadius-3);
+			var y1 = pt.y + Math.sin(paper.radians(a)) * (secondsRadius-3);
+			var x2 = pt.x + Math.cos(paper.radians(a)) * (secondsRadius+9);
+			var y2 = pt.y + Math.sin(paper.radians(a)) * (secondsRadius+9);
 			// var tick = new Path.Circle( new Point(x,y), 1.5 );
 			var tick = new Path.Line(
 				new Point(x1,y1),
@@ -276,10 +276,10 @@ var Clock = function(_pt, _radius) {
 	this.setTime = function(time) {
 		// Angles for Math.sin() and Math.cos() start at 3 o'clock;
 		// subtract (Math.PI*0.5) to make them start at the top
-		this.s = map(time[2], 0, 60, 0, (Math.PI*2)) - (Math.PI*0.5);
-		this.m = map(time[1], 0, 60, 0, (Math.PI*2)) - (Math.PI*0.5);
+		this.s = paper.map(time[2], 0, 60, 0, (Math.PI*2)) - (Math.PI*0.5);
+		this.m = paper.map(time[1], 0, 60, 0, (Math.PI*2)) - (Math.PI*0.5);
 		var hour = (time[0] > 12) ? (time[0]-12) : time[0];
-		this.h = map( Math.abs(hour), 0, 12, 0, (Math.PI*2)) - (Math.PI*0.5);
+		this.h = paper.map( Math.abs(hour), 0, 12, 0, (Math.PI*2)) - (Math.PI*0.5);
 
 		// update hands
 		this.update();

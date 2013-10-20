@@ -4,15 +4,15 @@
 	<head>
 		<!-- META -->
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		
+
 
 		<title>Lissajous</title>
-		
-		
+
+
 		<!-- CSS -->
 		<link href="../FolioTemplate/css/Folio.css" rel="stylesheet" type="text/css" />
 
-		
+
 		<!-- JAVASCRIPT -->
 		<script src="js/jquery/jquery.min.js"></script>
 
@@ -28,16 +28,16 @@
 			$(function() {
 				$('#periodAngle').val( parseInt(Math.random()*360) );
 
-				$('#frequencyX').val( randomInt(25,41.5) );
-				$('#frequencyY').val( randomInt(1,25) );
+				$('#frequencyX').val( paper.randomInt(25,41.5) );
+				$('#frequencyY').val( paper.randomInt(1,25) );
 
 				$('#widthSta').val( 1 );
-				$('#widthEnd').val( randomInt(1,30) );
+				$('#widthEnd').val( paper.randomInt(1,30) );
 
 				$('#colSta').val( randomHex() ); //'#00ffb2' );
 				$('#colEnd').val( randomHex() ); //'#ff00b2' );
 
-				$('#opacSta').val( round( random(1,61.8),2 ) );
+				$('#opacSta').val( round( paper.random(1,61.8),2 ) );
 				$('#opacEnd').val( 61.8 );
 			});
 		</script>
@@ -65,7 +65,7 @@
 
 
 		<!-- TEXT -->
-		<div id="textContainer">
+		<div id="text-container">
 			Lissajous<br />
 			<a href="http://paperjs.org/" target="new">paperjs</a> experiment by <a href="http://kennnethfrederick.de/" target="new">kenfrederick</a>
 		</div>
@@ -77,48 +77,48 @@
 
 
 		<!-- INPUTS -->
-		<div id="inputContainer">
+		<div id="input-container">
 			<form method="POST" name="Form">
 
-				<div class="inputComponent" style="width: 100px">
+				<div class="input-component" style="width: 100px">
 					<div class="left"><b class="black">Period Angle</b></div>
-					<input type="text" id="periodAngle" name="periodAngle" onChange="setParameters()" value="" class="blackBackground white" />
+					<input type="text" id="periodAngle" name="periodAngle" onChange="setParameters()" value="" class="black-dark-gray" />
 				</div>
 
-				<div class="inputComponent" style="width: 100px;">
+				<div class="input-component" style="width: 100px;">
 					<div class="left"><b class="black">Frequency</b></div>
-					<input type="text" id="frequencyX" name="frequencyX" onChange="setParameters()" value="" class="blackBackground white" />
+					<input type="text" id="frequencyX" name="frequencyX" onChange="setParameters()" value="" class="black-dark-gray" />
 				</div>
-				<div class="inputComponent" style="width: 100px;">
+				<div class="input-component" style="width: 100px;">
 					<div class="left"><b class="black">&nbsp;</b></div>
-					<input type="text" id="frequencyY" name="frequencyY" onChange="setParameters()" value="" class="blackBackground white" />
+					<input type="text" id="frequencyY" name="frequencyY" onChange="setParameters()" value="" class="black-dark-gray" />
 				</div>
 
-				<div class="inputComponent" style="width: 100px;">
+				<div class="input-component" style="width: 100px;">
 					<div class="left"><b class="black">Stroke</b></div>
-					<input type="text" id="widthSta" name="widthSta" onChange="setParameters()" value="" class="blackBackground white" />
+					<input type="text" id="widthSta" name="widthSta" onChange="setParameters()" value="" class="black-dark-gray" />
 				</div>
-				<div class="inputComponent" style="width: 100px;">
+				<div class="input-component" style="width: 100px;">
 					<div class="left"><b class="black">&nbsp;</b></div>
-					<input type="text" id="widthEnd" name="widthEnd" onChange="setParameters()" value="" class="blackBackground white" />
+					<input type="text" id="widthEnd" name="widthEnd" onChange="setParameters()" value="" class="black-dark-gray" />
 				</div>
 
-				<div class="inputComponent" style="width: 170px;">
+				<div class="input-component" style="width: 170px;">
 					<div class="left"><b class="black">Colors</b></div>
-					<input type="text" id="colSta" name="colSta" onChange="setParameters()" value="" class="blackBackground white" />
+					<input type="text" id="colSta" name="colSta" onChange="setParameters()" value="" class="black-dark-gray" />
 				</div>
-				<div class="inputComponent" style="width: 170px;">
+				<div class="input-component" style="width: 170px;">
 					<div class="left"><b class="black">&nbsp;</b></div>
-					<input type="text" id="colEnd" name="colEnd" onChange="setParameters()" value="" class="blackBackground white" />
+					<input type="text" id="colEnd" name="colEnd" onChange="setParameters()" value="" class="black-dark-gray" />
 				</div>
 
-				<div class="inputComponent" style="width: 100px;">
+				<div class="input-component" style="width: 100px;">
 					<div class="left"><b class="black">Opacity</b></div>
-					<input type="text" id="opacSta" name="opacSta" onChange="setParameters()" value="" class="blackBackground white" />
+					<input type="text" id="opacSta" name="opacSta" onChange="setParameters()" value="" class="black-dark-gray" />
 				</div>
-				<div class="inputComponent" style="width: 100px;">
+				<div class="input-component" style="width: 100px;">
 					<div class="left"><b class="black">&nbsp;</b></div>
-					<input type="text" id="opacEnd" name="opacEnd" onChange="setParameters()" value="" class="blackBackground white" />
+					<input type="text" id="opacEnd" name="opacEnd" onChange="setParameters()" value="" class="black-dark-gray" />
 				</div>
 			</form>
 		</div>
@@ -128,6 +128,6 @@
 		<div id="rasters">
 		</div>
 
-		
+
 	</body>
 </html>

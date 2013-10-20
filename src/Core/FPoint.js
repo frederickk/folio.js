@@ -173,8 +173,8 @@ paper.Point.inject({
 	 *	console.log( paper.degrees(result) ); // XX
 	 *
 	 */
-	getAngle: function(point) {
-		return Math.atan2(point.y - this.y, point.x - this.x);
+	getAngle: function(point2) {
+		return Math.atan2(point2.y - this.y, point2.x - this.x);
 	},
 
 	/**

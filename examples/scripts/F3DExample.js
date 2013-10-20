@@ -8,7 +8,7 @@ console.log( 'F3D Example Loaded' );
  *	http://kennethfrederick.de/
  *	http://blog.kennethfrederick.de/
  *
- *	
+ *
  *	An example of creating a 3D field
  *
  */
@@ -52,7 +52,7 @@ function Setup() {
 	scene.setup(view.bounds.width, view.bounds.height, 1000, 'PERSPECTIVE');
 
 
-	// top 
+	// top
 	// initiate the 3D path
 	path3[0] = new f3d.FPath3();
 	// add 3D points to this path
@@ -62,7 +62,7 @@ function Setup() {
 	path3[0].add3( new f3d.FPoint3( 100,	-100,	-100) );
 	path3[0].add3( new f3d.FPoint3(-100,	-100,	-100) );
 	// use FColor to give the field a random RGB color
-	path3[0].fillColor = new Color( random(0.0,1.0), random(0.0,1.0), random(0.0,1.0) );
+	path3[0].fillColor = new Color().random();
 	path3[0].closed = true;
 
 	// middle
@@ -71,7 +71,7 @@ function Setup() {
 	path3[1].add3( new f3d.FPoint3( 100,	0,	 100) );
 	path3[1].add3( new f3d.FPoint3( 100,	0,	-100) );
 	path3[1].add3( new f3d.FPoint3(-100,	0,	-100) );
-	path3[1].fillColor = new Color( random(0.0,1.0), random(0.0,1.0), random(0.0,1.0) );
+	path3[1].fillColor = new Color().random();
 	path3[1].closed = true;
 
 	// bottom
@@ -80,7 +80,7 @@ function Setup() {
 	path3[2].add3( new f3d.FPoint3( 100,	100,	 100) );
 	path3[2].add3( new f3d.FPoint3( 100,	100,	-100) );
 	path3[2].add3( new f3d.FPoint3(-100,	100,	-100) );
-	path3[2].fillColor = new Color( random(0.0,1.0), random(0.0,1.0), random(0.0,1.0) );
+	path3[2].fillColor = new Color().random();
 	path3[2].closed = true;
 
 
@@ -112,9 +112,9 @@ function Update(event) {
 function Draw() {
 	// rotates all of the items in the scene
 	// TODO: be able to rotate individual items
-	scene.rotateX( radians(values.rotx) );
-	scene.rotateY( radians(values.roty) );
-	scene.rotateZ( radians(values.rotz) );
+	scene.rotateX( paper.radians(values.rotx) );
+	scene.rotateY( paper.radians(values.roty) );
+	scene.rotateZ( paper.radians(values.rotz) );
 
 	// draw scene to screen
 	// the scene contains all paths (only FPath3 items) added to the scene

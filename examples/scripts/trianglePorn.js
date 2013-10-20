@@ -8,7 +8,7 @@ console.log( 'Triangle Porn' );
  *	http://kennethfrederick.de/
  *	http://blog.kennethfrederick.de/
  *
- *	
+ *
  *	An example of FTriangle
  *
  */
@@ -46,7 +46,7 @@ var density = {
 	// clipmask: true
 };
 
-// reflection markers 
+// reflection markers
 var reflectMarkers;
 
 // hit paths
@@ -95,9 +95,9 @@ function Setup() {
 	face.add( triangulation.getTriangles(0).p3 );
 	face.closed = true;
 
-	triangles.appendTop( 
+	triangles.appendTop(
 		hatchFill(
-			face, 
+			face,
 			{ value: 0.5 }
 		)
 	);
@@ -120,7 +120,7 @@ function Update(event) {
 // Draw
 // ------------------------------------------------------------------------
 function Draw() {
-	// workaround for clearing redraws	
+	// workaround for clearing redraws
 	triangles.removeChildren();
 
 	var total = triangulation.getTriangles().length;
@@ -145,7 +145,7 @@ function Draw() {
 		density.value = ratio;
 		density.max = max;
 		density.strokeWidth = 2;
-		var r = randomInt( 0,rgbColors.length );
+		var r = paper.randomInt( 0,rgbColors.length );
 		if( i%3 == 0) {
 			density.strokeColor = new Color( rgbColors[r] );
 			density.fillColor = null;
@@ -226,7 +226,7 @@ function reflectPoint(point, axis) {
  *			}
  */
 function hatchFill(path, options) {
-	var density = (options == undefined) 
+	var density = (options == undefined)
 		? Math.round(100 * 0.5)
 		: Math.round(options.max * options.value) < options.min
 			? options.min
@@ -245,7 +245,7 @@ function hatchFill(path, options) {
 	// distances
 	var distances = [];
 	for( var i=0,j=points.length-1; i<points.length; i++,j--) {
-		distances.push( 
+		distances.push(
 			// first point v. last point
 			points[i].getDistance( points[j] )
 		);
@@ -282,14 +282,14 @@ function hatchFill(path, options) {
 		// if( options.interpolate != undefined ) {
 			// linePt2 = linePt1.interpolateTo( linePt2, options.interpolate );
 		// }
-		var line = new Path.Line( 
+		var line = new Path.Line(
 			linePt1,
 			linePt2
-			// ( options.interpolate != undefined ) 
+			// ( options.interpolate != undefined )
 			// 	? linePt1.interpolateTo( linePt2, options.interpolate )
 			// 	: linePt2
 		);
-		line.strokeWidth = (options.strokeWidth != null) 
+		line.strokeWidth = (options.strokeWidth != null)
 			? options.strokeWidth
 			: 1;
 
@@ -319,7 +319,7 @@ function hatchFill(path, options) {
 			: (options.background)
 				? null
 				: path.strokeColor;
-		mask.strokeWidth = (options.strokeWidth != null) 
+		mask.strokeWidth = (options.strokeWidth != null)
 			? options.strokeWidth
 			: 1;
 		// mask.clipMask = true;
@@ -350,7 +350,7 @@ function onMouseUp(event) {
 
 	var hitResult = project.hitTest(event.point, hitOptions);
 
-	// check hit 
+	// check hit
 	if (hitResult) {
 		hitPath = hitResult.item;
 		if (hitResult.type == 'segment' && hitPath.name == 'triangle') {

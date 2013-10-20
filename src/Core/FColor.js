@@ -434,10 +434,10 @@ paper.Color.inject({
 	 */
 	random: function() {
 		this._components[0] = ( this.type == 'hsb' || this.type == 'hsl' )
-			? random( this._components[0], 360 )
-			: random( this._components[0], 1 );
+			? paper.random( this._components[0], 360 )
+			: paper.random( this._components[0], 1 );
 		for( var i=1; i<this._components.length; i++ ) {
-			this._components[i] = random( this._components[i], 1 );
+			this._components[i] = paper.random( this._components[i], 1 );
 		}
 		return this;
 	}

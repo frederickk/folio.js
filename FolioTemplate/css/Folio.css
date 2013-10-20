@@ -4117,7 +4117,7 @@ td.visible-print {
  *	http://blog.kennethfrederick.de/
  *
  *
- *	a slightly modified version of 
+ *	a slightly modified version of
  *	Typeplate
  *	1.0.0
  *
@@ -4253,7 +4253,7 @@ td.visible-print {
   padding: inherit;
   font-size: 4em;
   font-family: inherit;
-  line-height: 1;
+  line-height: 1px;
   text-indent: 0;
   background: transparent;
   color: inherit;
@@ -4370,6 +4370,20 @@ a:hover.black-dark-gray {
 div.black-dark-gray {
   background-color: rgba(30, 20, 15, 0.45);
 }
+.red {
+  color: #ff4464;
+}
+a.red {
+  color: #ff4464;
+  border-color: #ff4464;
+}
+a:hover.red {
+  color: #ff4464;
+  border-color: #ff4464;
+}
+div.red {
+  background-color: #ff4464;
+}
 html {
   background-color: #ffffff;
   font-size: 12px;
@@ -4434,215 +4448,350 @@ a:hover {
   position: absolute;
   bottom: 0px;
 }
-.baseline-grid68.4 {
-  margin-top: 1026px;
-}
-.baseline-grid67.4 {
-  margin-top: 1011.0000000000001px;
-}
-.baseline-grid66.4 {
-  margin-top: 996.0000000000001px;
-}
-.baseline-grid65.4 {
-  margin-top: 981.0000000000001px;
-}
-.baseline-grid64.4 {
-  margin-top: 966.0000000000001px;
-}
-.baseline-grid63.400000000000006 {
-  margin-top: 951.0000000000001px;
-}
-.baseline-grid62.400000000000006 {
-  margin-top: 936.0000000000001px;
-}
-.baseline-grid61.400000000000006 {
-  margin-top: 921.0000000000001px;
-}
-.baseline-grid60.400000000000006 {
-  margin-top: 906.0000000000001px;
-}
-.baseline-grid59.400000000000006 {
-  margin-top: 891.0000000000001px;
-}
-.baseline-grid58.400000000000006 {
-  margin-top: 876.0000000000001px;
-}
-.baseline-grid57.400000000000006 {
-  margin-top: 861.0000000000001px;
-}
-.baseline-grid56.400000000000006 {
-  margin-top: 846.0000000000001px;
-}
-.baseline-grid55.400000000000006 {
-  margin-top: 831.0000000000001px;
-}
-.baseline-grid54.400000000000006 {
-  margin-top: 816.0000000000001px;
-}
-.baseline-grid53.400000000000006 {
-  margin-top: 801.0000000000001px;
-}
-.baseline-grid52.400000000000006 {
-  margin-top: 786.0000000000001px;
-}
-.baseline-grid51.400000000000006 {
-  margin-top: 771.0000000000001px;
-}
-.baseline-grid50.400000000000006 {
-  margin-top: 756.0000000000001px;
-}
-.baseline-grid49.400000000000006 {
-  margin-top: 741.0000000000001px;
-}
-.baseline-grid48.400000000000006 {
-  margin-top: 726.0000000000001px;
-}
-.baseline-grid47.400000000000006 {
-  margin-top: 711.0000000000001px;
-}
-.baseline-grid46.400000000000006 {
-  margin-top: 696.0000000000001px;
-}
-.baseline-grid45.400000000000006 {
-  margin-top: 681.0000000000001px;
-}
-.baseline-grid44.400000000000006 {
-  margin-top: 666.0000000000001px;
-}
-.baseline-grid43.400000000000006 {
-  margin-top: 651.0000000000001px;
-}
-.baseline-grid42.400000000000006 {
-  margin-top: 636.0000000000001px;
-}
-.baseline-grid41.400000000000006 {
-  margin-top: 621.0000000000001px;
-}
-.baseline-grid40.400000000000006 {
-  margin-top: 606.0000000000001px;
-}
-.baseline-grid39.400000000000006 {
-  margin-top: 591.0000000000001px;
-}
-.baseline-grid38.400000000000006 {
-  margin-top: 576.0000000000001px;
-}
-.baseline-grid37.400000000000006 {
-  margin-top: 561.0000000000001px;
-}
-.baseline-grid36.400000000000006 {
-  margin-top: 546.0000000000001px;
-}
-.baseline-grid35.400000000000006 {
-  margin-top: 531.0000000000001px;
-}
-.baseline-grid34.400000000000006 {
-  margin-top: 516.0000000000001px;
-}
-.baseline-grid33.400000000000006 {
-  margin-top: 501.0000000000001px;
-}
-.baseline-grid32.400000000000006 {
-  margin-top: 486.0000000000001px;
-}
-.baseline-grid31.400000000000006 {
-  margin-top: 471.0000000000001px;
-}
-.baseline-grid30.400000000000006 {
-  margin-top: 456.0000000000001px;
-}
-.baseline-grid29.400000000000006 {
-  margin-top: 441.0000000000001px;
-}
-.baseline-grid28.400000000000006 {
-  margin-top: 426.0000000000001px;
-}
-.baseline-grid27.400000000000006 {
-  margin-top: 411.0000000000001px;
-}
-.baseline-grid26.400000000000006 {
-  margin-top: 396.0000000000001px;
-}
-.baseline-grid25.400000000000006 {
-  margin-top: 381.0000000000001px;
-}
-.baseline-grid24.400000000000006 {
-  margin-top: 366.0000000000001px;
-}
-.baseline-grid23.400000000000006 {
-  margin-top: 351.0000000000001px;
-}
-.baseline-grid22.400000000000006 {
-  margin-top: 336.0000000000001px;
-}
-.baseline-grid21.400000000000006 {
-  margin-top: 321.0000000000001px;
-}
-.baseline-grid20.400000000000006 {
-  margin-top: 306.0000000000001px;
-}
-.baseline-grid19.400000000000006 {
-  margin-top: 291.0000000000001px;
-}
-.baseline-grid18.400000000000006 {
-  margin-top: 276.0000000000001px;
-}
-.baseline-grid17.400000000000006 {
-  margin-top: 261.0000000000001px;
-}
-.baseline-grid16.400000000000006 {
-  margin-top: 246.00000000000009px;
-}
-.baseline-grid15.400000000000006 {
-  margin-top: 231.00000000000009px;
-}
-.baseline-grid14.400000000000006 {
-  margin-top: 216.00000000000009px;
-}
-.baseline-grid13.400000000000006 {
-  margin-top: 201.00000000000009px;
-}
-.baseline-grid12.400000000000006 {
-  margin-top: 186.00000000000009px;
-}
-.baseline-grid11.400000000000006 {
-  margin-top: 171.00000000000009px;
-}
-.baseline-grid10.400000000000006 {
-  margin-top: 156.00000000000009px;
-}
-.baseline-grid9.400000000000006 {
-  margin-top: 141.00000000000009px;
-}
-.baseline-grid8.400000000000006 {
-  margin-top: 126.00000000000009px;
-}
-.baseline-grid7.400000000000006 {
-  margin-top: 111.00000000000009px;
-}
-.baseline-grid6.400000000000006 {
-  margin-top: 96.00000000000009px;
-}
-.baseline-grid5.400000000000006 {
-  margin-top: 81.00000000000009px;
-}
-.baseline-grid4.400000000000006 {
-  margin-top: 66.00000000000009px;
-}
-.baseline-grid3.4000000000000057 {
-  margin-top: 51.000000000000085px;
-}
-.baseline-grid2.4000000000000057 {
-  margin-top: 36.000000000000085px;
-}
-.baseline-grid1.4000000000000057 {
-  margin-top: 21.000000000000085px;
-}
-.baseline-grid0.4000000000000057 {
-  margin-top: 6.000000000000085px;
+.baseline-grid-68 {
+  position: absolute;
+  top: 0px;
+  margin-top: 1020px;
+}
+.baseline-grid-67 {
+  position: absolute;
+  top: 0px;
+  margin-top: 1005px;
+}
+.baseline-grid-66 {
+  position: absolute;
+  top: 0px;
+  margin-top: 990px;
+}
+.baseline-grid-65 {
+  position: absolute;
+  top: 0px;
+  margin-top: 975px;
+}
+.baseline-grid-64 {
+  position: absolute;
+  top: 0px;
+  margin-top: 960px;
+}
+.baseline-grid-63 {
+  position: absolute;
+  top: 0px;
+  margin-top: 945px;
+}
+.baseline-grid-62 {
+  position: absolute;
+  top: 0px;
+  margin-top: 930px;
+}
+.baseline-grid-61 {
+  position: absolute;
+  top: 0px;
+  margin-top: 915px;
+}
+.baseline-grid-60 {
+  position: absolute;
+  top: 0px;
+  margin-top: 900px;
+}
+.baseline-grid-59 {
+  position: absolute;
+  top: 0px;
+  margin-top: 885px;
+}
+.baseline-grid-58 {
+  position: absolute;
+  top: 0px;
+  margin-top: 870px;
+}
+.baseline-grid-57 {
+  position: absolute;
+  top: 0px;
+  margin-top: 855px;
+}
+.baseline-grid-56 {
+  position: absolute;
+  top: 0px;
+  margin-top: 840px;
+}
+.baseline-grid-55 {
+  position: absolute;
+  top: 0px;
+  margin-top: 825px;
+}
+.baseline-grid-54 {
+  position: absolute;
+  top: 0px;
+  margin-top: 810px;
+}
+.baseline-grid-53 {
+  position: absolute;
+  top: 0px;
+  margin-top: 795px;
+}
+.baseline-grid-52 {
+  position: absolute;
+  top: 0px;
+  margin-top: 780px;
+}
+.baseline-grid-51 {
+  position: absolute;
+  top: 0px;
+  margin-top: 765px;
+}
+.baseline-grid-50 {
+  position: absolute;
+  top: 0px;
+  margin-top: 750px;
+}
+.baseline-grid-49 {
+  position: absolute;
+  top: 0px;
+  margin-top: 735px;
+}
+.baseline-grid-48 {
+  position: absolute;
+  top: 0px;
+  margin-top: 720px;
+}
+.baseline-grid-47 {
+  position: absolute;
+  top: 0px;
+  margin-top: 705px;
+}
+.baseline-grid-46 {
+  position: absolute;
+  top: 0px;
+  margin-top: 690px;
+}
+.baseline-grid-45 {
+  position: absolute;
+  top: 0px;
+  margin-top: 675px;
+}
+.baseline-grid-44 {
+  position: absolute;
+  top: 0px;
+  margin-top: 660px;
+}
+.baseline-grid-43 {
+  position: absolute;
+  top: 0px;
+  margin-top: 645px;
+}
+.baseline-grid-42 {
+  position: absolute;
+  top: 0px;
+  margin-top: 630px;
+}
+.baseline-grid-41 {
+  position: absolute;
+  top: 0px;
+  margin-top: 615px;
+}
+.baseline-grid-40 {
+  position: absolute;
+  top: 0px;
+  margin-top: 600px;
+}
+.baseline-grid-39 {
+  position: absolute;
+  top: 0px;
+  margin-top: 585px;
+}
+.baseline-grid-38 {
+  position: absolute;
+  top: 0px;
+  margin-top: 570px;
+}
+.baseline-grid-37 {
+  position: absolute;
+  top: 0px;
+  margin-top: 555px;
+}
+.baseline-grid-36 {
+  position: absolute;
+  top: 0px;
+  margin-top: 540px;
+}
+.baseline-grid-35 {
+  position: absolute;
+  top: 0px;
+  margin-top: 525px;
+}
+.baseline-grid-34 {
+  position: absolute;
+  top: 0px;
+  margin-top: 510px;
+}
+.baseline-grid-33 {
+  position: absolute;
+  top: 0px;
+  margin-top: 495px;
+}
+.baseline-grid-32 {
+  position: absolute;
+  top: 0px;
+  margin-top: 480px;
+}
+.baseline-grid-31 {
+  position: absolute;
+  top: 0px;
+  margin-top: 465px;
+}
+.baseline-grid-30 {
+  position: absolute;
+  top: 0px;
+  margin-top: 450px;
+}
+.baseline-grid-29 {
+  position: absolute;
+  top: 0px;
+  margin-top: 435px;
+}
+.baseline-grid-28 {
+  position: absolute;
+  top: 0px;
+  margin-top: 420px;
+}
+.baseline-grid-27 {
+  position: absolute;
+  top: 0px;
+  margin-top: 405px;
+}
+.baseline-grid-26 {
+  position: absolute;
+  top: 0px;
+  margin-top: 390px;
+}
+.baseline-grid-25 {
+  position: absolute;
+  top: 0px;
+  margin-top: 375px;
+}
+.baseline-grid-24 {
+  position: absolute;
+  top: 0px;
+  margin-top: 360px;
+}
+.baseline-grid-23 {
+  position: absolute;
+  top: 0px;
+  margin-top: 345px;
+}
+.baseline-grid-22 {
+  position: absolute;
+  top: 0px;
+  margin-top: 330px;
+}
+.baseline-grid-21 {
+  position: absolute;
+  top: 0px;
+  margin-top: 315px;
+}
+.baseline-grid-20 {
+  position: absolute;
+  top: 0px;
+  margin-top: 300px;
+}
+.baseline-grid-19 {
+  position: absolute;
+  top: 0px;
+  margin-top: 285px;
+}
+.baseline-grid-18 {
+  position: absolute;
+  top: 0px;
+  margin-top: 270px;
+}
+.baseline-grid-17 {
+  position: absolute;
+  top: 0px;
+  margin-top: 255px;
+}
+.baseline-grid-16 {
+  position: absolute;
+  top: 0px;
+  margin-top: 240px;
+}
+.baseline-grid-15 {
+  position: absolute;
+  top: 0px;
+  margin-top: 225px;
+}
+.baseline-grid-14 {
+  position: absolute;
+  top: 0px;
+  margin-top: 210px;
+}
+.baseline-grid-13 {
+  position: absolute;
+  top: 0px;
+  margin-top: 195px;
+}
+.baseline-grid-12 {
+  position: absolute;
+  top: 0px;
+  margin-top: 180px;
+}
+.baseline-grid-11 {
+  position: absolute;
+  top: 0px;
+  margin-top: 165px;
+}
+.baseline-grid-10 {
+  position: absolute;
+  top: 0px;
+  margin-top: 150px;
+}
+.baseline-grid-9 {
+  position: absolute;
+  top: 0px;
+  margin-top: 135px;
+}
+.baseline-grid-8 {
+  position: absolute;
+  top: 0px;
+  margin-top: 120px;
+}
+.baseline-grid-7 {
+  position: absolute;
+  top: 0px;
+  margin-top: 105px;
+}
+.baseline-grid-6 {
+  position: absolute;
+  top: 0px;
+  margin-top: 90px;
+}
+.baseline-grid-5 {
+  position: absolute;
+  top: 0px;
+  margin-top: 75px;
+}
+.baseline-grid-4 {
+  position: absolute;
+  top: 0px;
+  margin-top: 60px;
+}
+.baseline-grid-3 {
+  position: absolute;
+  top: 0px;
+  margin-top: 45px;
+}
+.baseline-grid-2 {
+  position: absolute;
+  top: 0px;
+  margin-top: 30px;
+}
+.baseline-grid-1 {
+  position: absolute;
+  top: 0px;
+  margin-top: 15px;
 }
 .baseline-grid {
-  margin-top: 15px;
+  position: absolute;
+  top: 0px;
+  margin-top: 0px;
 }
 #canvas {
   width: 100%;
@@ -4660,7 +4809,7 @@ a:hover {
 /*
  *	container div for text (season to taste)
  */
-#textContainer {
+#text-container {
   position: absolute;
   width: 100%;
   top: 70px;
@@ -4688,18 +4837,19 @@ a:hover {
 /*
  *	TODO: entertain notion to switch to https://code.google.com/p/dat-gui/
  */
-#inputContainer {
+#input-container {
   position: absolute;
   bottom: 17px;
   width: 100%;
   text-align: center;
 }
-.inputComponent {
+.input-component {
   position: relative;
   display: inline-block;
   padding: 0px 6px 0px 6px;
 }
 input {
+  color: #1e140f;
   font-family: "Akzidenz-Grotesk", akzidenz grotesk, helvetica, sans-serif;
   font-weight: bold;
   font-size: 30px;
@@ -4745,8 +4895,8 @@ input.submit {
  *	http://blog.kennethfrederick.de/
  *
  *
- *	mostly borrowed from 
- *	Dapper 
+ *	mostly borrowed from
+ *	Dapper
  *	0.1.0
  *
  *	Flip Steward (@flipstewart)
@@ -4755,53 +4905,53 @@ input.submit {
  *	http://opensource.org/licenses/MIT
  *
  */
-/* 
+/*
  *	iPhone & iPod Touch Portrait
  */
 @media screen and (width: 320px), (height: 480px) {
-  #textContainer {
+  #text-container {
     visibility: hidden;
   }
   #manual {
     visibility: hidden;
   }
-  #inputContainer {
+  #input-container {
     visibility: hidden;
   }
 }
-/* 
+/*
  *	iPhone & iPod Touch Landscape
  */
 @media screen and (width: 480px), (height: 320px) {
-  #textContainer {
+  #text-container {
     visibility: hidden;
   }
   #manual {
     visibility: hidden;
   }
-  #inputContainer {
+  #input-container {
     visibility: hidden;
   }
 }
-/* 
+/*
  *	iPhone 4 Portrait
  */
 @media screen and (max-device-width: 320px) and (-webkit-min-device-pixel-ratio: 2) {
   
 }
-/* 
+/*
  *	iPhone 4 Landscape
  */
 @media screen and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
   
 }
-/* 
+/*
  *	iPhone 5 & 5th Generation iPod Touch Portrait
  */
 @media screen and (width: 320px), (height: 568px) {
   
 }
-/* 
+/*
  *	iPhone 5 & 5th Generation iPod Touch Landscape
  */
 @media screen and (width: 658px), (height: 320px) {
