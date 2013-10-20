@@ -52,13 +52,9 @@
 // ------------------------------------------------------------------------
 /*
  *	the Path.Rectangle of the artboard
- */
-var artboard = activeDocument.activeArtboard;
-
-/*
  *	mimic Paper.js
  */
-var view = artboard;
+var view = artboard = activeDocument.activeArtboard;
 
 /*
  *	holder for Raster
@@ -103,7 +99,6 @@ script.angleUnits = 'degrees';
 // Script.inject({
 global.inject({
 	enumerable: true,
-
 
 
 	/**
