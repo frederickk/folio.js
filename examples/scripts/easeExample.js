@@ -31,7 +31,6 @@ var ease = new ftime.Ease();
 // Setup
 // ------------------------------------------------------------------------
 function Setup() {
-
 };
 
 
@@ -58,11 +57,12 @@ function Draw() {
 			var group = new Group();
 			var path = new Path;
 
-			for( var i=0; i<10; i++ ) {
-				var e = ease[f]( i/10 );
+			var length = 9;
+			for( var i=0; i<length; i++ ) {
+				var e = ease[f]( i/length );
 				var center = new Point(
 					origin.x + e*195,
-					origin.y + (i/10)*e*45
+					origin.y + (i/length)*e*45
 				);
 
 				// point marker

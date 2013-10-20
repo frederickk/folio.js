@@ -1,8 +1,8 @@
  /**
- *  
+ *
  *	Core.js
  *	v0.5
- *  
+ *
  *	15. May 2013
  *
  *	Ken Frederick
@@ -10,8 +10,8 @@
  *
  *	http://kennethfrederick.de/
  *	http://blog.kennethfrederick.de/
- *  
- *  
+ *
+ *
  *	Core Methods
  *
  */
@@ -25,8 +25,8 @@
 paper.TextItem.inject({
 	// ------------------------------------------------------------------------
 	/**
-	 *	
-	 *	@return string content which will will fit within the bounds of the TextItem
+	 *
+	 *	@return {String} content which will will fit within the bounds of the TextItem
 	 *
 	 */
 	trimToFit: function() {

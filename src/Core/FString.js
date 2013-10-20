@@ -1,8 +1,8 @@
  /**
- *  
+ *
  *	FString.js
  *	v0.5
- *  
+ *
  *	15. May 2013
  *
  *	Ken Frederick
@@ -10,8 +10,8 @@
  *
  *	http://kennethfrederick.de/
  *	http://blog.kennethfrederick.de/
- *  
- *  
+ *
+ *
  *	Extensions to JavaScript Array
  *	may be bad form... but whatever
  *
@@ -25,44 +25,44 @@
  *	------------------------------------------------------------------------/
 
 /**
- *	
+ *
  *	trims white space from right (end) of String
  *
- *	@return trimmed input String
+ *	@return {String} trimmed input String
  *
  */
-String.prototype.rtrim = function() {
-	for (var i=str.length-1; str.charAt(i) ==' '; i--) {
-		str = str.substring(0, i);
+String.prototype.trimEnd = function() {
+	for (var i=this.length-1; this.charAt(i) ==' '; i--) {
+		this.substring(0, i);
 	}
-	return str;
+	return this;
 };
 
 /**
- *	
+ *
  *	trims all white space from String
- *	
- *	@return string of PaperJs object type
+ *
+ *	@return {String} trimmed input string
  *
  */
 String.prototype.trim = function() {
-	str = str.replace(/(^\s*)|(\s*$)/gi,"");
-	str = str.replace(/[ ]{2,}/gi," ");
-	str = str.replace(/\n /,"\n");
-	return str;
+	this.replace(/(^\s*)|(\s*$)/gi,'');
+	this.replace(/[ ]{2,}/gi,' ');
+	this.replace(/\n /,'\n');
+	return this;
 };
 
 /**
- *	
+ *
  *	converts String to Boolean value
- *	
- *	@return Boolean value
+ *
+ *	@return {Boolean}
  *
  */
 String.prototype.toBool = function() {
 	switch(this.toLowerCase()) {
-		case "true": case "yes": case "1": return true;
-		case "false": case "no": case "0": case null: return false;
+		case 'true': case 'yes': case '1': return true;
+		case 'false': case 'no': case '0': case null: return false;
 		default: return Boolean(this);
 	}
 };

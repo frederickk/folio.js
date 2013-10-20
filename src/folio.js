@@ -1,5 +1,5 @@
 /*!
- *	
+ *
  *	folio.js
  *	v0.5
  *	https://github.com/frederickk/folio.js
@@ -11,13 +11,13 @@
  *
  *	http://kennethfrederick.de/
  *	http://blog.kennethfrederick.de/
- *	
- *	
+ *
+ *
  *	Folio.js is a library for Paper.js http://paperjs.org/. Folio.js
  *	serves as a collection of functions for supporting animations,
  *	rudimentary 3D, additional Path items and lastly a structured
  *	framework/chain of operations similar to that of Processing,
- *	OpenFrameworks, Cinder, et. al. 
+ *	OpenFrameworks, Cinder, et. al.
  *
  *	Not all of the code in here was created by me
  *	but credit and links are given where credit is due
@@ -31,18 +31,18 @@
  *	modify it under the terms of the GNU Lesser General Public
  *	License as published by the Free Software Foundation; either
  *	version 2.1 of the License, or (at your option) any later version.
- *	
+ *
  *	http://creativecommons.org/licenses/LGPL/2.1/
- *	
+ *
  *	This library is distributed in the hope that it will be useful,
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the GNU
  *	Lesser General Public License for more details.
- *	
+ *
  *	You should have received a copy of the GNU Lesser General Public
  *	License along with this library; if not, write to the Free Software
  *	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA	02110-1301	USA
- *	
+ *
  */
 
 
@@ -52,7 +52,7 @@
  *
  *	REQUIRED LIBRARIES!
  *
- *	PaperJs @ http://paperjs.org/
+ *	Paper.js @ http://paperjs.org/
  *	JQuery @	http://jquery.com/download/
  *
  */
@@ -105,17 +105,14 @@ var folio = folio || {};
 	// once the DOM is ready, setup Paper.js
 	window.onload = function() {
  		paper.setup('canvas');
-		console.log('Paper.js is go!');
-		
+		console.log('Folio.js is go!');
 
 
 		// ------------------------------------------------------------------------
 		// Methods
 		// ------------------------------------------------------------------------
-		Setup();
-
-
-		Draw();
+		if ( typeof Setup === 'function') Setup();
+		if ( typeof Draw === 'function') Draw();
 
 
 		// ------------------------------------------------------------------------
@@ -134,50 +131,50 @@ var folio = folio || {};
 			}
 		};
 
-		
+
 
 		// ------------------------------------------------------------------------
 		// Events
 		// ------------------------------------------------------------------------
 		view.onFrame = function(event) {
 			// TODO: 	add a method which clears an "animation group" each frame
-			Update(event);
+			if ( typeof Update === 'function') Update(event);
 			AnimateClear();
 		};
-		
+
 		view.onResize = function(event) {
-			onResize(event);
+			if ( typeof onResize === 'function') onResize(event);
 		};
 
 		// ------------------------------------------------------------------------
 		var tool = new Tool();
 		tool.onMouseUp = function(event) {
-			onMouseUp(event);
+			if ( typeof onMouseUp === 'function') onMouseUp(event);
 		};
-		
+
 		tool.onMouseDown = function(event) {
-			onMouseDown(event);
+			if ( typeof onMouseDown === 'function') onMouseDown(event);
 		};
-		
+
 		tool.onMouseMove = function(event) {
-			onMouseMove(event);
+			if ( typeof onMouseMove === 'function') onMouseMove(event);
 		};
-		
+
 		tool.onMouseDrag = function(event) {
-			onMouseDrag(event);
+			if ( typeof onMouseDrag === 'function') onMouseDrag(event);
 		};
 
 
 		// ------------------------------------------------------------------------
 		tool.onKeyDown = function(event) {
-			onKeyDown(event);
+			if ( typeof onKeyDown === 'function') onKeyDown(event);
 		};
 
 		tool.onKeyUp = function(event) {
-			onKeyUp(event);
+			if ( typeof onKeyUp === 'function') onKeyUp(event);
 		};
-		
-		
+
+
 		// ------------------------------------------------------------------------
 		view.draw(); // draw the screen
 
@@ -186,17 +183,17 @@ var folio = folio || {};
 		/**
 		 *
 		 *	Supporting Methods
-		 *	
+		 *
 		 */
 		// ------------------------------------------------------------------------
 		function resizeCanvas() {
 			// var width = window.innerWidth;
 			// var height = window.innerHeight;
-			
+
 			// set canvas width and height
 			var canvas = document.getElementById('canvas');
 			var parent = canvas.parentNode;
-			if (canvas.getContext) {  
+			if (canvas.getContext) {
 				// canvas.width = width;
 				// canvas.height = height;
 				canvas.width = parent.offsetWidth;
@@ -213,9 +210,9 @@ var folio = folio || {};
 			}
 
 			// re-initiate setup
-			Setup();
+			if ( typeof Setup === 'function') Setup();
 			// re-initiate draw
-			Draw();
+			if ( typeof Draw === 'function') Draw();
 
 			// make sure view does its draw
 			view.draw();

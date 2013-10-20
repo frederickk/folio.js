@@ -1,8 +1,8 @@
 /**
- *	
+ *
  *	FPath.js
  *	v0.5
- *	
+ *
  *	11. August 2013
  *
  *	Ken Frederick
@@ -47,7 +47,7 @@ paper.Item.inject({
 
 	/**
 	 *	snaps point to an isometric grid
-	 *	
+	 *
 	 *	@param {Number} scale
 	 *				scale of the grid (1.0 = 32x16)
 	 *
@@ -57,10 +57,28 @@ paper.Item.inject({
 		this.position.snapIso(scale);
 	},
 
+
+	//-----------------------------------------------------------------------------
+	/**
+	 * {@grouptitle Position and Bounding Boxes}
+	 *
+	 *	Returns the distance between the item and the center of the canvas/artboard
+	 *
+	 *	@return {Number}
+	 *
+	 */
+	getDistanceToCenter: function() {
+		// var dx = this._position.x - view.bounds.center.x;
+		// var dy = this._position.y - view.bounds.center.y;
+		// return (dx * dx + dy * dy) + 1;
+		return this._position.getDistance( view.bounds.center );
+	},
+
+
 	//-----------------------------------------------------------------------------
 	/**
 	 *	converts an CompoundPath into a Group otherwise returns original Item
-	 *	
+	 *
 	 */
 	toGroup: function() {
 		if (folio.getType(this) == 'CompoundPath') {
@@ -75,21 +93,218 @@ paper.Item.inject({
 
 
 
-paper.Path.inject({ 
+paper.Path.inject({
 	//-----------------------------------------------------------------------------
 	// Methods
 	//-----------------------------------------------------------------------------
+
 	/*
 	 *
-	 *	Additional Math Methods
-	 *	TODO: fix bugs (downright false) math methods
+	 *	Center Methods
+	 *	TODO: finish adding center methods
 	 *
 	 */
 
 	/**
+	 *	Returns the Centroid of Path
+	 *	http://stackoverflow.com/questions/2792443/finding-the-centroid-of-a-polygon
+	 *
+	 *	@return {Point}
+	 */
+	getCentroid: function() {
+		var centroid = new Point(0,0);
+
+		var signedArea = 0.0;
+		var a = 0.0;
+
+		var points = [];
+		var i = 0;
+		for ( i; i<this._segments.length-1; ++i ) {
+			points[0] = this._segments[i].point;
+			points[1] = this._segments[i+1].point;
+
+			a = points[0].x*points[1].y - points[1].x*points[0].y;
+			signedArea += a;
+
+			centroid.x += (points[0].x + points[1].x)*a;
+			centroid.y += (points[0].y + points[1].y)*a;
+		}
+
+		// Do last vertex
+		points[0] = this._segments[i].point;
+		points[1] = this._segments[0].point;
+
+		a = points[0].x*points[1].y - points[1].x*points[0].y;
+		signedArea += a;
+
+		centroid.x += (points[0].x + points[1].x)*a;
+		centroid.y += (points[0].y + points[1].y)*a;
+
+		signedArea *= 0.5;
+
+		centroid.x /= (6.0*signedArea);
+		centroid.y /= (6.0*signedArea);
+
+		return centroid;
+	},
+
+	/**
+	 *	Returns the Circumcenter of a triangle
+	 *
+	 *	TODO: adjust formula to return Circumcenter of any polygon
+	 *
+	 *	@return {Point}
+	 */
+	getCircumcenter: function() {
+		if( this._segments.length === 3 ) {
+			var p1 = this._segments[0].point;
+			var p2 = this._segments[1].point;
+			var p3 = this._segments[2].point;
+
+			var A = p2.x - p1.x;
+			var B = p2.y - p1.y;
+			var C = p3.x - p1.x;
+			var D = p3.y - p1.y;
+
+			var E = A*(p1.x + p2.x) + B*(p1.y + p2.y);
+			var F = C*(p1.x + p3.x) + D*(p1.y + p3.y);
+
+			var G = 2.0*(A*(p3.y - p2.y)-B*(p3.x - p2.x));
+
+			if( Math.abs(G) < Numerical.EPSILON ) {
+				// Collinear - find extremes and use the midpoint
+				function max3( a, b, c ) {
+					return ( a >= b && a >= c )
+						? a
+						: ( b >= a && b >= c )
+							? b
+							: c;
+				}
+				function min3( a, b, c ) {
+					return ( a <= b && a <= c )
+						? a
+						: ( b <= a && b <= c )
+							? b
+							: c;
+				}
+
+				var minx = min3( p1.x, p2.x, p3.x );
+				var miny = min3( p1.y, p2.y, p3.y );
+				var maxx = max3( p1.x, p2.x, p3.x );
+				var maxy = max3( p1.y, p2.y, p3.y );
+
+				return Point.create( ( minx + maxx ) / 2, ( miny + maxy ) / 2 );
+			}
+			else {
+				var cx = (D*E - B*F) / G;
+				var cy = (A*F - C*E) / G;
+
+				return Point.create( cx, cy );
+			}
+		}
+		else {
+			return null;
+		}
+	},
+
+	/**
+	 *
+	 *	TODO: add additional "center" formulas (for polygons)
+	 *	http://mathforum.org/library/drmath/view/57665.html
+	 *
+	 */
+
+	/**
+	 *	Returns the Circumcircle of a polygon
+	 *
+	 * 	TODO: fix for triangles...
+	 *
+	 *	@return {Path.Circle}
+	 */
+	// getCircumcircle: function() {
+	// 	var that = this;
+	// 	var circumradius = 0;
+
+	// 	var _segmentsTemp = this._segments.splice();
+	// 	function getDistanceToCentroid(segment) {
+	// 		var point = segment.point;
+	// 		var x = point.x - that.getCentroid().x,
+	// 			y = point.y - that.getCentroid().y,
+	// 			d = x * x + y * y;
+	// 		return Math.sqrt(d);
+	// 	};
+
+	// 	_segmentsTemp.sort( function(a, b) {
+	// 		return getDistanceToCentroid(a) - getDistanceToCentroid(b);
+	// 	});
+
+	// 	var diff = _segmentsTemp[_segmentsTemp.length-1] - _segmentsTemp[_segmentsTemp.length-2];
+	// 	circumradius = _segmentsTemp[_segmentsTemp.length-1] - diff;
+
+	// 	// for( var i=0; i<_segmentsTemp.length; i++ ) {
+	// 	// 	var seg = _segmentsTemp[i].point;
+	// 	// 	if( seg.getDistance( this.getCentroid()) > circumradius ) {
+	// 	// 		circumradius = seg.getDistance( this.getCentroid());
+	// 	// 	}
+	// 	// }
+
+	// 	return Path.Circle(
+	// 		this.getCentroid(),
+	// 		circumradius
+	// 	);
+	// },
+
+	/**
+	 *	Returns the Incircle of a polygon
+	 *
+	 *	@return {Path.Circle}
+	 */
+	getIncircle: function() {
+		var incircleradius = Number.MAX_VALUE;
+
+		for( var i=0; i<this._segments.length; i++ ) {
+			var seg = this._segments[i].point;
+			if( seg.getDistance( this.getCentroid()) < incircleradius ) {
+				incircleradius = seg.getDistance( this.getCentroid());
+			}
+		}
+
+		return Path.Circle(
+			this.getCentroid(),
+			incircleradius
+		);
+	},
+
+	// TODO: currently implementation returns false point
+	// getIncenter : function() {
+	// 	// vertices
+	// 	if( this.segments.length == 3 ) {
+	// 		var p1 = this.segments[0].point;
+	// 		var p2 = this.segments[1].point;
+	// 		var p3 = this.segments[2].point;
+
+	// 		// side lengths
+	// 		var a = p1.getDistance(p2);
+	// 		var b = p2.getDistance(p3);
+	// 		var c = p3.getDistance(p1);
+
+	// 		var circum = a + b + c;
+
+	// 		return new Point(
+	// 			(a* p1.x + b * p2.x + c * p3.x) / circum,
+	// 			(a * p1.y + b * p2.y + c * p3.y) / circum
+	// 		);
+	// 	}
+	// 	else {
+	// 		console.error( 'Not Path.FTriangle' );
+	// 		return null;
+	// 	}
+	// },
+
+	/**
 	 *	@param b
 	 *			array of barycentric coordinates
-	 */		
+	 */
 	// TODO: currently implementation returns false point
 	// toCartesian : function(bary) {
 	// 	if( this.segments.length == 3 ) {
@@ -133,46 +348,6 @@ paper.Path.inject({
 	// 	}
 	// },
 
-	//-----------------------------------------------------------------------------
-	/*
-	 *
-	 *	FTriangle Center Methods
-	 *	TODO: finish adding center methods
-	 *
-	 */
-
-
-
-	// TODO: currently implementation returns false point
-	// getInCircle : function() {
-	// 	// vertices
-	// 	if( this.segments.length == 3 ) {
-	// 		var p1 = this.segments[0].point;
-	// 		var p2 = this.segments[1].point;
-	// 		var p3 = this.segments[2].point;
-
-	// 		// side lengths
-	// 		var a = p1.getDistance(p2);
-	// 		var b = p2.getDistance(p3);
-	// 		var c = p3.getDistance(p1);
-
-	// 		var incenter = this.toCartesian( [1.0, 1.0, 1.0] );
-
-	// 		var area = 0.5 * (p1.x * (p2.y - p3.y) +
-	// 						  p2.x * (p3.y - p1.y) +
-	// 						  p3.x * (p1.y - p2.y));
-
-	// 		var semiperimeter = 0.5 * (a + b + c);
-
-	// 		this.innerRadius = (area / semiperimeter);
-	// 		return incenter;
-	// 	}
-	// 	else {
-	// 		console.error( 'Not Path.FTriangle' );
-	// 		return null;
-	// 	}
-	// },
-
 
 	// TODO: currently implementation returns false point
 	// getOrthocenter : function() {
@@ -200,31 +375,6 @@ paper.Path.inject({
 	// 	}
 	// },
 
-	// TODO: currently implementation returns false point
-	// getIncenter : function() {
-	// 	// vertices
-	// 	if( this.segments.length == 3 ) {
-	// 		var p1 = this.segments[0].point;
-	// 		var p2 = this.segments[1].point;
-	// 		var p3 = this.segments[2].point;
-
-	// 		// side lengths
-	// 		var a = p1.getDistance(p2);
-	// 		var b = p2.getDistance(p3);
-	// 		var c = p3.getDistance(p1);
-
-	// 		var circum = a + b + c;
-
-	// 		return new Point(
-	// 			(a* p1.x + b * p2.x + c * p3.x) / circum,
-	// 			(a * p1.y + b * p2.y + c * p3.y) / circum
-	// 		);
-	// 	}
-	// 	else {
-	// 		console.error( 'Not Path.FTriangle' );
-	// 		return null;
-	// 	}
-	// },
 
 	// TODO: currently implementation returns false point
 	// getSchifflerPoint : function() {
@@ -258,7 +408,7 @@ paper.Path.inject({
 	statics: new function() {
 		return {
 			/**
-			 *	
+			 *
 			 *	FArrow
 			 *	Create simple arrow
 			 *
@@ -302,7 +452,7 @@ paper.Path.inject({
 
 
 			/**
-			 *	
+			 *
 			 *	FBubble
 			 *	Create a simple speech bubble
 			 *
@@ -312,7 +462,7 @@ paper.Path.inject({
 			 *				the size of the bubble
 			 *	@param {Size} bubbleTagSize
 			 *				the size of the tag
-			 *	@param {String} bubbleTagCenter 
+			 *	@param {String} bubbleTagCenter
 			 *				(optional)
 			 *				'RANDOM'	randomly x-position the point (default)
 			 *				'LEFT'		left align the x-position of the point
@@ -364,13 +514,13 @@ paper.Path.inject({
 				else if(bubbleTagCenter == 'RIGHT') {
 					tx = tagStart+bubbleTagSize.width;
 				}
-				else { // if(bubbleTagCenter == 'RANDOM') { 
+				else { // if(bubbleTagCenter == 'RANDOM') {
 					tx = paper.randomInt(tagStart,tagStart+bubbleTagSize.width);
 				}
 
 				// the length of the tag
 				ty = bubbleSize.height + bubbleTagSize.height;
-				path.add( new Point(tx,ty) ); 
+				path.add( new Point(tx,ty) );
 
 				// continue bottom
 				path.add( new Point(tagStart+bubbleTagSize.width,bubbleSize.height) );
@@ -391,7 +541,7 @@ paper.Path.inject({
 				// center the bubble
 				// compensated for the tag's length
 				path.position = new Point(bubblePoint.x,bubblePoint.y+(bubbleTagSize.height/2));
-				
+
 				return path;
 			},
 
@@ -399,7 +549,7 @@ paper.Path.inject({
 			/**
 			 *	FChain
 			 *	Create simple chain (a line with different endpoint sizes)
-			 *	
+			 *
 			 *	@param {Point} arg0
 			 *				point1 The first point (endpoint1)
 			 *	@param {Number} arg1
@@ -418,7 +568,7 @@ paper.Path.inject({
 			 *
 			 */
 			/**
-			 *	
+			 *
 			 *	@param {Path} arg0
 			 *				PathItem (endpoint1)
 			 *	@param {Path} arg1
@@ -485,7 +635,7 @@ paper.Path.inject({
 			 *
 			 *	FCross
 			 *	Create a cross
-			 *	
+			 *
 			 *	@param {Point} centerPoint
 			 *				position of cross
 			 *	@param {Size} size
@@ -514,12 +664,12 @@ paper.Path.inject({
 
 				if( crossType == 'LINE' ) {
 					line1 = new Path.Line(
-						centerPoint.x + size.width, centerPoint.y - size.height, 
+						centerPoint.x + size.width, centerPoint.y - size.height,
 						centerPoint.x - size.width, centerPoint.y + size.height
 					);
 					line1.strokeWidth = strokeWidth;
 					line2 = new Path.Line(
-						centerPoint.x + size.width, centerPoint.y + size.height, 
+						centerPoint.x + size.width, centerPoint.y + size.height,
 						centerPoint.x - size.width, centerPoint.y - size.height
 					);
 					line2.strokeWidth = strokeWidth;
@@ -566,7 +716,7 @@ paper.Path.inject({
 			 *
 			 */
 			/**
-			 *	
+			 *
 			 *	@param {Point} centerPoint
 			 *				position of cross
 			 *	@param {Size} arg1
@@ -644,7 +794,7 @@ paper.Path.inject({
 			 *	@example
 			 *	var p1 = new paper.Point( 9,9 );
 			 *	var p2 = new paper.Point( 90,45 );
-			 *	var p3 = new paper.Point( 45,90 ); 
+			 *	var p3 = new paper.Point( 45,90 );
 			 *	var ftriangle = new paper.Path.FTriangle( p1, p2, p3 );
 			 *
 			 */

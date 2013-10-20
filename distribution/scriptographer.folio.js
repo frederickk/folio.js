@@ -1,5 +1,5 @@
 /*!
- *	
+ *
  *	folio.js
  *	v0.5
  *	https://github.com/frederickk/folio.js
@@ -11,13 +11,13 @@
  *
  *	http://kennethfrederick.de/
  *	http://blog.kennethfrederick.de/
- *	
- *	
+ *
+ *
  *	Folio.js is a library for Paper.js http://paperjs.org/. Folio.js
  *	serves as a collection of functions for supporting animations,
  *	rudimentary 3D, additional Path items and lastly a structured
  *	framework/chain of operations similar to that of Processing,
- *	OpenFrameworks, Cinder, et. al. 
+ *	OpenFrameworks, Cinder, et. al.
  *
  *	Not all of the code in here was created by me
  *	but credit and links are given where credit is due
@@ -31,18 +31,18 @@
  *	modify it under the terms of the GNU Lesser General Public
  *	License as published by the Free Software Foundation; either
  *	version 2.1 of the License, or (at your option) any later version.
- *	
+ *
  *	http://creativecommons.org/licenses/LGPL/2.1/
- *	
+ *
  *	This library is distributed in the hope that it will be useful,
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the GNU
  *	Lesser General Public License for more details.
- *	
+ *
  *	You should have received a copy of the GNU Lesser General Public
  *	License along with this library; if not, write to the Free Software
  *	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA	02110-1301	USA
- *	
+ *
  */
 
 
@@ -56,7 +56,7 @@
 var artboard = activeDocument.activeArtboard;
 
 /*
- *	mimic PaperJs	
+ *	mimic Paper.js
  */
 var view = artboard;
 
@@ -75,10 +75,10 @@ var paper = PaperScope = global;
 
 /**
  *	Note from the Scriptographer.org Team
- *	
+ *
  *	In Scriptographer 2.9, we switched to a top-down coordinate system and
  *	degrees for angle units as an easier alternative to radians.
- *	
+ *
  *	For backward compatibility we offer the possibility to still use the old
  *	bottom-up coordinate system and radians for angle units, by setting the two
  *	values bellow. Read more about this transition on our website:
@@ -97,7 +97,7 @@ script.angleUnits = 'degrees';
  * 	The following are components that I have included within my
  * 	unsupported fork of Paper.js, which are not available natively
  * 	within Scriptogpraher
- * 
+ *
  *
  */
 // Script.inject({
@@ -110,7 +110,7 @@ global.inject({
 	 *
 	 *	These are specific methods for the
 	 *	Scriptographer version of folio.js
-	 * 
+	 *
 	 */
 
 	//-----------------------------------------------------------------------------
@@ -127,8 +127,8 @@ global.inject({
 	FRAMERATE: 12, // 500 == 2 ms
 
 	// event holder for animations events
-	// mimics PaperJs
-	_event: { 
+	// mimics Paper.js
+	_event: {
 		count: 0, // number of frames
 		time: 0.0,  // seconds elapsed
 		delta: 0.0  // difference since last frame
@@ -151,7 +151,7 @@ global.inject({
 
 	//-----------------------------------------------------------------------------
 	/*
-	 *	animation function that mimics PaperJs
+	 *	animation function that mimics Paper.js
 	 */
 	/**
 	 *	@param {Boolean} isOn
@@ -164,9 +164,10 @@ global.inject({
 		var interval = parseInt((1/frameRate)*1000);
 
 		if( isOn ) {
-			var updater = setInterval( function() { 
+			var updater = setInterval( function() {
 				onFrame(interval, Update)
-				}, interval
+				},
+				interval
 			);
 		}
 	},
@@ -182,63 +183,469 @@ global.inject({
 		_event.time += (interval * 0.001);
 		_event.delta -= _event.time;
 
-		// this clears the exceptions
-		// from being printed in the console
-		try {
-			func(_event);
-		}
-		catch(err) {}
+		if (func != undefined) func(_event);
 
 		_event.delta = _event.time;
 	},
 
+});
+
+
+// ------------------------------------------------------------------------
+var folio = folio || {};
+
+ /**
+ *
+ *	Core.js
+ *	v0.5
+ *
+ *	15. May 2013
+ *
+ *	Ken Frederick
+ *	ken.frederick@gmx.de
+ *
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
+ *
+ *
+ *	Core Methods and a collection of extensions for paper globally
+ *
+ */
+
+
+var folio = folio || {
+	// ------------------------------------------------------------------------
+ 	// Setup Core Namespaces
+	// ------------------------------------------------------------------------
+ 	FTime: {},
+ 	FIO: {},
+ 	F3D: {},
+ 	FPath: {},
+};
+
+
+
+/*
+ *
+ *	Global Scope (Paper.js core)
+ *
+ */
+PaperScope.inject({
+	enumerable: true,
+
+
+	//-----------------------------------------------------------------------------
+	// Methods
+	//-----------------------------------------------------------------------------
+	/**
+	 *	Java style println output
+	 *
+	 *	@param {Object} obj
+	 *				any Javascript Object
+	 */
+	println: function(obj) {
+		console.log( obj );
+		console.log( '\n' );
+	},
+
+	// ------------------------------------------------------------------------
+	/**
+	 *
+	 *	@param {Number} val
+	 *			input boolean value
+	 *
+	 *	@return {Number} val as integer
+	 *
+	 */
+	boolToInt: function(val) {
+		return (val) ? 1 : 0;
+	},
+
+	// ------------------------------------------------------------------------
+	/**
+	 *
+	 *	@param {Object} object
+	 *			object whose type to determine
+	 *
+	 *	@return {String} Paper.js object type
+	 *
+	 */
+	getType: function(object) {
+		if( typeof object == 'object' ) {
+			if (object instanceof paper.Point) return 'Point';
+			else if (object instanceof paper.Size) return 'Size';
+			else if (object instanceof paper.Rectangle) return 'Rectangle';
+			else if (object instanceof Group) return 'Group';
+			else if (object instanceof paper.PlacedItem) return 'PlacedItem';
+			else if (object instanceof paper.Raster) return 'Raster';
+			else if (object instanceof paper.PlacedSymbol) return 'PlacedSymbol';
+			else if (object instanceof paper.Path) return 'Path';
+			else if (object instanceof paper.CompoundPath) return 'CompoundPath';
+			else if (object instanceof paper.Symbol) return 'Symbol';
+			else if (object instanceof paper.TextItem) return 'TextItem';
+			else return 'undefined'
+		}
+		else {
+			return typeof object;
+		}
+	},
+
+	/**
+	 *
+	 *	@param {Array} items
+	 *			Array of items to go through
+	 *	@param {String} name
+	 *			name of Item to find
+	 *
+	 *	@return {Path} path with the name that matches
+	 *
+	 */
+	findByName: function(items, name) {
+		var path;
+		for(var i=0; i<items.length; i++) {
+			var item = items[i];
+			if(item.name == name) path = item; // break;
+		}
+		return path;
+	},
+
+	/**
+	 *
+	 *	@param {Array} items
+	 *			Array of items to go through
+	 *	@param {Number} name
+	 *			name of Item to find
+	 *
+	 *	@return {Path} path with the id that matches
+	 *
+	 */
+	findById: function(items, id) {
+		var path;
+		for(var i=0; i<items.length; i++) {
+			var item = items[i];
+			if(item.id == id) path = item; // break;
+		}
+		return path;
+	}
+
+});
+
+
+ /**
+ *
+ *	FArray.js
+ *	v0.5
+ *
+ *	15. May 2013
+ *
+ *	Ken Frederick
+ *	ken.frederick@gmx.de
+ *
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
+ *
+ *
+ *	Extensions to JavaScript Array
+ *	may be bad form... but whatever
+ *
+ */
+
+
+/*
+ *
+ *	Array
+ *
+ */
+
+/**
+ *
+ *	@return {Number} median value
+ *
+ */
+Array.prototype.median = function() {
+	var median = 0;
+	this.sort();
+	if (this.length % 2 === 0) {
+		median = (this[this.length / 2 - 1] + this[this.length / 2]) / 2;
+	}
+	else {
+		median = this[(this.length - 1) / 2];
+	}
+	return median;
+};
+
+/**
+ *
+ *	@return {Object} unique element
+ *
+ */
+Array.prototype.unique = function() {
+	var u = [];
+	o:for(var i=0, n=this.length; i<n; i++) {
+		for(var x=0, y=u.length; x<y; x++) {
+			if(u[x] == this[i]) {
+				continue o;
+			}
+		}
+		u[u.length] = this[i];
+	}
+	return u;
+};
+
+/**
+ *
+ *	merges (then shuffles) two Arrays
+ *
+ *	@param {Array} arr2
+ *				Array object 2
+ *
+ *	@return {Array} new merged Array object
+ *
+ */
+Array.prototype.merge = function(arr) {
+	var output = this.concat(arr);
+	output.shuffle();
+	return output;
+};
+
+/**
+ *
+ *	@param {Number} start
+ *				start position in array
+ *	@param {Number} stop
+ *				stop position in array
+ *
+ *	@return {Number} maximum value within array
+ *
+ */
+Array.prototype.max = function(start, stop) {
+	start = (start != undefined)
+		? start
+		: 0;
+	stop = (stop != undefined)
+		? stop
+		: this.length;
+	var max = this[start];
+
+	for(var i=(start+1); i<stop; i++) if(this[i] > max) max = i;
+	return max;
+};
+
+/**
+ *
+ *	@param {Number} start
+ *				start position in array
+ *	@param {Number} stop
+ *				stop position in array
+ *
+ *	@return {Number} minimum value within array
+ *
+ */
+Array.prototype.min = function(start, stop) {
+	start = (start != undefined)
+		? start
+		: 0;
+	stop = (stop != undefined)
+		? stop
+		: this.length;
+	var min = this[start];
+
+	for (var i=(start+1); i<stop; i++) if(this[i] < min) min = i;
+	return min;
+};
+
+/**
+ *
+ *	http://jsfromhell.com/array/shuffle
+ *	http://www.brain4.de/programmierecke/js/arrayShuffle.php
+ *
+ *	@return {Array} original array but with the order "shuffled"
+ *
+ */
+Array.prototype.shuffle = function() {
+	for (var j, x, i = this.length; i; j = parseInt(Math.random() * i), x = this[--i], this[i] = this[j], this[j] = x);
+};
+
+/**
+ *
+ *	http://stackoverflow.com/questions/9229645/remove-duplicates-from-javascript-array
+ *
+ *	@return {Array} original array without duplicates
+ *
+ */
+Array.prototype.removeDuplicates = function() {
+	return this.reduce(function(accum, cur) {
+		if (accum.indexOf(cur) === -1) accum.push(cur);
+		return accum;
+	}, [] );
+};
+
+/**
+ *
+ *	@param {Number} decimalPlaces
+ *			number of decimal places
+ *
+ *	@return {Array} original array with rounded values
+ *
+ */
+Array.prototype.round = function(decimalPlaces) {
+	var multi = Math.pow(10,decimalPlaces);
+	for (var i=0; i<this.length; i++) this[i] = Math.round(this[i] * multi)/multi;
+	return this;
+};
+
+
+// ------------------------------------------------------------------------
+// TODO: integrate sorting methods in a much cleaner way
+var FSort = {
+
+	/**
+	 *
+	 *	sort Array in alphabetical order
+	 *
+	 *	http://www.brain4.de/programmierecke/js/arraySort.php
+	 *
+	 */
+	alphabetical: function(a, b) {
+		/*
+		var A = a.toLowerCase();
+		var B = b.toLowerCase();
+
+		if (A < B) return -1;
+		else if (A > B) return  1;
+		else return 0;
+		*/
+
+		a = a.toLowerCase();
+		a = a.replace(/ä/g,'a');
+		a = a.replace(/ö/g,'o');
+		a = a.replace(/ü/g,'u');
+		a = a.replace(/ß/g,'s');
+
+		b = b.toLowerCase();
+		b = b.replace(/ä/g,'a');
+		b = b.replace(/ö/g,'o');
+		b = b.replace(/ü/g,'u');
+		b = b.replace(/ß/g,'s');
+
+		return(a == b) ? 0 : (a>b) ? 1 : -1;
+	},
+
+	/**
+	 *
+	 *	sort array by distance of object from center of canvas
+	 *
+	 */
+	distanceToCenter: function(a, b) {
+		var valueA = a.distanceToCenter();
+		console.log( valueA );
+		var valueB = b.distanceToCenter();
+		console.log( valueB );
+		var comparisonValue = 0;
+
+		if (valueA > valueB) comparisonValue = -1;
+		else if (valueA < valueB) comparisonValue = 1;
+
+		return comparisonValue;
+	}
+
+};
+
+ /**
+ *
+ *	FCalculate.js
+ *	v0.5
+ *
+ *	15. May 2013
+ *
+ *	Ken Frederick
+ *	ken.frederick@gmx.de
+ *
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
+ *
+ *
+ *	A collection of global mathematical operations, similar
+ *	to those found in Processing/OpenFrameworks/etc.
+ *
+ */
+
+
+/*
+ *
+ *	paper.Global
+ *
+ */
+PaperScope.inject({
+	enumerable: true,
 
 
 	//-----------------------------------------------------------------------------
 	/**
-	 * 	@name Calculation
-	 *
-	 * 	@class A collection of global mathematical operations, similar
-	 * 	to those found in Processing/OpenFrameworks/etc.
-	 *
-	 *	@example paper.map( ... ) OR if using with JavaScript directly map( ... )
-	 *
-	 */
-
-	/**
-	 *	@param {Number} minr
+	 *	@param {Number} min
 	 *				minmum range
-	 *	@param {Number} maxr
+	 *	@param {Number} max
 	 *				maximum range
 	 *
-	 *	@return random number as float
+	 *	@return {Number} random number as float
 	 *
 	 *	@example
-	 * 	var rand = Calculation.random(30, 90);
-	 *	
+	 *	var rand = Calculation.random(30, 90);
+	 *
 	 */
-	random: function(minr, maxr) {
-		if(maxr === undefined) {
-			maxr = minr;
-			minr = 0;
+	random: function(min, max) {
+		if(max == undefined) {
+			max = min;
+			min = 0;
 		}
-		return (minr + Math.random() * (maxr - minr));
+		// else if(min == undefined) {
+		//	max = 1;
+		//	min = 0;
+		// )
+		return (min + Math.random() * (max - min));
 	},
 
 	/**
+	 *	@param {Number} min
+	 *				minmum range
+	 *	@param {Number} max
+	 *				maximum range
+	 *
+	 *	@return {Number} random number as integer
+	 *
+	 *	@example
+	 *	var randInt = Calculation.randomInt(30, 90);
+	 *
+	 */
+	randomInt: function(min, max) {
+		return parseInt( paper.random(min,max) );
+	},
+
+	/**
+	 *
+	 *	http://www.siafoo.net/snippet/191
+	 *
 	 *	@param {Number} minr
 	 *				minmum range
 	 *	@param {Number} maxr
 	 *				maximum range
+	 *	@param {Number} bias
+	 *				bias represents the preference towards lower or higher numbers,
+	 *				as a number between 0.0 and 1.0. For example:
+	 *				random(0, 10, bias=0.9) will return 9 much more often than 1.
 	 *
-	 *	@return random number as integer
+	 *	@return {Number} a random, albeit biased, number
 	 *
-	 *	@example
-	 * 	var randInt = Calculation.randomInt(30, 90);
-	 *	
 	 */
-	randomInt: function(minr, maxr) {
-		return parseInt( this.random(minr,maxr) );
+	randomBias: function(minr, maxr, bias) {
+		var _map = new Array(90.0, 9.00, 4.00, 2.33, 1.50, 1.00, 0.66, 0.43, 0.25, 0.11, 0.01);
+		bias = Math.max(0, Math.min(bias, 1)) * 10;
+
+		var i = parseInt(Math.floor(bias))
+		var n = _map[i]
+		if(bias < 10) n += (_map[i+1]-n) * (bias-i);
+
+		return Math.pow( Math.random(),n ) * (maxr-minr) + minr;
 	},
 
 
@@ -252,11 +659,11 @@ global.inject({
 	 *	@param {Number} max
 	 *				maximum limit
 	 *
-	 *	@return original value that is not less than the minimum and no greater than the maximum
+	 *	@return {Number} original value that is not less than the minimum and no greater than the maximum
 	 *
 	 *	@example
-	 * 	var clamped = Calculation.clamp(120, 0, 90); // 90
-	 *	
+	 *	var clamped = Calculation.clamp(120, 0, 90); // 90
+	 *
 	 */
 	clamp: function(val, min, max) {
 		return (val < min) ? min : ((val > max) ? max : val);
@@ -271,13 +678,13 @@ global.inject({
 	 *	@param {Number} stop
 	 *				upper bound of the value's current range
 	 *
-	 *	@return float value between 0.0 and 1.0
+	 *	@return {Number} float value between 0.0 and 1.0
 	 *
 	 *	@example
-	 * 	var normed = Calculation.norm(45, 0, 90); // 0.5
-	 *	
+	 *	var normed = Calculation.norm(45, 0, 90); // 0.5
+	 *
 	 */
-	norm: function(val, start, stop) {
+	normalize: function(val, start, stop) {
 		return (val - start) / (stop - start);
 	},
 
@@ -294,11 +701,11 @@ global.inject({
 	 *	@param {Number} ostop
 	 *				upper bound of the value's target range
 	 *
-	 *	@return re-mapped value
+	 *	@return {Number} re-mapped value
 	 *
 	 *	@example
-	 * 	var mapped = Calculation.map(180, 0, 360, 0.0, 2.0); // 1
-	 *	
+	 *	var mapped = Calculation.map(180, 0, 360, 0.0, 2.0); // 1
+	 *
 	 */
 	map: function(val, istart, istop, ostart, ostop) {
 		return ostart + (ostop - ostart) * ((val - istart) / (istop - istart));
@@ -307,20 +714,20 @@ global.inject({
 
 	// ------------------------------------------------------------------------
 	/**
-	 *	
+	 *
 	 *	@param {Number} val
 	 *			number
-	 *	@param {Number} deci
+	 *	@param {Number} decimalPlaces
 	 *			number of decimal places
 	 *
-	 *	@return float value with desired decimal places
+	 *	@return {Number} float value with desired decimal places
 	 *
 	 *	@example
-	 * 	var rounded = Calculation.round(0.586, 2); // 0.59
-	 *	
+	 *	var rounded = Calculation.roundDecimal(0.586, 2); // 0.59
+	 *
 	 */
-	roundDecimal: function(val, deci) {
-		var multi = Math.pow(10,deci);
+	round: function(val, decimalPlaces) {
+		var multi = Math.pow(10,decimalPlaces);
 		return Math.round(val * multi)/multi;
 	},
 
@@ -336,15 +743,15 @@ global.inject({
 	 *	@param {Function} roundFunction
 	 *			(optiona) rounding function
 	 *
-	 *	@return snapped value
+	 *	@return {Number} snapped value
 	 *
 	 *	@example
-	 * 	var snapped = Calculation.snap(0.66, 0.2); // 0.6
-	 *	
+	 *	var snapped = Calculation.snap(0.66, 0.2); // 0.6
+	 *
 	 */
 	snap: function(val, snapInc, roundFunction) {
 		if (roundFunction === undefined) roundFunction = Math.round;
-		return this.round( snapInc * roundFunction(val / snapInc), 2 );
+		return paper.roundDecimal( snapInc * roundFunction(val / snapInc), 2 );
 	},
 
 	/**
@@ -356,11 +763,11 @@ global.inject({
 	 *	@param {Number} val
 	 *			float: between 0.0 and 1.0
 	 *
-	 *	@return value between start and stop
+	 *	@return {Number} value between start and stop
 	 *
 	 *	@example
-	 * 	var interpolateed = Calculation.interpolate(0, 100, 0.5); // 50
-	 *	
+	 *	var interpolateed = Calculation.interpolate(0, 100, 0.5); // 50
+	 *
 	 */
 	interpolate: function(start, stop, val) {
 		return start + (stop-start) * val;
@@ -369,30 +776,30 @@ global.inject({
 
 	// ------------------------------------------------------------------------
 	/**
-	 *	
+	 *
 	 *	@param {Number} val
 	 *			input value
 	 *
-	 *	@return val as degree 
+	 *	@return {Number} val as degree
 	 *
 	 *	@example
-	 * 	var deg = Calculation.degrees(Math.PI); // 180
-	 *	
+	 *	var deg = Calculation.degrees(Math.PI); // 180
+	 *
 	 */
 	degrees: function(val) {
 		return val * (180/Math.PI);
 	},
 
 	/**
-	 *	
+	 *
 	 *	@param {Number} val
 	 *			input value
 	 *
-	 *	@return val as radians
+	 *	@return {Number} val as radians
 	 *
 	 *	@example
-	 * 	var rad = Calculation.radians(180); // Math.PI
-	 *	
+	 *	var rad = Calculation.radians(180); // Math.PI
+	 *
 	 */
 	radians: function(val) {
 		return val * (Math.PI/180);
@@ -409,8 +816,8 @@ global.inject({
 	 *			input value
 	 *
 	 *	@example
-	 * 	var s = Calculation.sec(180);
-	 *	
+	 *	var s = Calculation.sec(180);
+	 *
 	 */
 	sec: function(val) {
 		return 1/Math.cos(val);
@@ -426,8 +833,8 @@ global.inject({
 	 *			input value
 	 *
 	 *	@example
-	 * 	var cs = Calculation.cosec(180);
-	 *	
+	 *	var cs = Calculation.cosec(180);
+	 *
 	 */
 	cosec: function(val) {
 		return 1/Math.sin(val);
@@ -435,355 +842,30 @@ global.inject({
 
 	// ------------------------------------------------------------------------
 	/**
-	 *	
-	 *	@param {Number} val
-	 *			input value
 	 *
-	 *	@return squared value of val
-	 *
-	 *	@example
-	 * 	var squared = Calculation.sq(30); // 900
-	 *	
-	 */
-	sq: function(val) {
-		return val*val;
-	},
-
-	// ------------------------------------------------------------------------
-	/**
-	 *	
 	 *	@param {Point} point
 	 *			input point
 	 *
-	 *	@return slope ratio
+	 *	@return {Number} slope ratio
 	 *
 	 */
-	slope: function(point) {
-	}
+	// slope: function(point) {
+	// }
 
-
-});
-
-
-
-/**
- * 	@name Conversions
- *
- * 	@class A collection of helpful conversion ratios from and to pixels (or points)
- *
- */
-var Conversions = new function() {
-
-	return {
-		// millimeters
-		PIXEL_TO_MM: 0.352777778,
-		MM_TO_PIXEL: 2.83464567,
-
-		// centimeters
-		PIXEL_TO_CM: 0.0352777778,
-		CM_TO_PIXEL: 28.3464567,
-
-		// inches
-		PIXEL_TO_INCH: 0.0138888889,
-		INCH_TO_PIXEL: 72,
-
-		// picas
-		PIXEL_TO_PICA: 0.0833333333,
-		PICA_TO_PIXEL: 12
-	};
-
-};
-
-
-
-/*
- *
- *	paper.Point
- *
- */
-paper.Point.inject({
-
-	/**
-	 *
-	 *  https://bitbucket.org/postspectacular/toxiclibs/src/9d124c80e8af/src.core/toxi/geom/Vec2D.java
-	 *	
-	 *	@param {Point} toPoint
-	 *			interpolates the point towards a given target point
-	 *	@param {Number} amt
-	 *			(0.0 - 1.0) interpolation factor
-	 *	@return {Point} interpolated Point
-	 *
-	 *	@example
-	 *	var point = new Point(0, 0);
-	 *	var toPoint = new Point(100, 100);
-	 *	point.interpolateTo(toPoint, 0.5); // {x: 50, y: 50}
-	 *
-	 */
-	interpolateTo: function(toPoint, amt) {
-		this.x += ((toPoint.x - this.x) * amt);
-		this.y += ((toPoint.y - this.y) * amt);
-		return this;
-	},
-
-	/**
-	 *
-	 *	@param {Point} arg0
-	 *			ending Point
-	 *	@param {Number} arg1
-	 *			(0.0 - 1.0) interpolate factor
-	 *
-	 *	@return {Point} new interpolateed Point
-	 *
-	 *	@example
-	 *	var point = new Point(0, 30);
-	 *	var end = new Point(360, 90);
-	 *
-	 *	point.interpolate( end, 0.5 );
-	 *	console.log( interpolate ); // { x: 180, y: 60 }
-	 *
-	 */
-	/**
-	 *
-	 *	@param {Point} arg0
-	 *			starting Point
-	 *	@param {Point} arg1
-	 *			ending Point
-	 *	@param {Number} arg2
-	 *			(0.0 - 1.0) interpolate factor
-	 *
-	 *	@return {Point} new interpolateed Point
-	 *
-	 *	@example
-	 *	var start = new Point(0, 30);
-	 *	var end = new Point(360, 90);
-	 *	var interpolate = new Point.interpolate( start, end, 0.5 );
-	 *	console.log( interpolate ); // { x: 180, y: 60 }
-	 *
-	 */
-	interpolate: function( arg0, arg1, arg2 ) {
-		if(typeof arg1 === 'number') {
-			// hmm... duplicate of interpolateTo( ... )
-			// this.x = paper.interpolate(this.x, arg0.x, arg1);
-			// this.y = paper.interpolate(this.y, arg0.y, arg1);
-			// return this;
-			return new Point(
-				paper.interpolate(this.x, arg0.x, arg1),
-				paper.interpolate(this.y, arg0.y, arg1)
-			);
-		}
-		else {
-			// return new interpolateed point from two points
-			return new Point(
-				paper.interpolate(arg0.x, arg1.x, arg2),
-				paper.interpolate(arg0.y, arg1.y, arg2)
-			);
-		}
-	},
-
-	/**
-	 *	{@grouptitle Distance & Length}
-	 *
-	 *	Returns the distance between the point and the center of the canvas
-	 *
-	 *	@return {Number}
-	 *
-	 */
-	getDistanceToCenter: function() {
-		// var dx = this.x - view.bounds.center.x;
-		// var dy = this.y - view.bounds.center.y;
-		// return (dx * dx + dy * dy) + 1;
-		return this.getDistance( view.bounds.center );
-	},
-
-
-	/**
-	 *	Normalize a point between two other points (start and end).
-	 *
-	 *	@param {Point} start
-	 *				start Point
-	 *	@param {Point} stop
-	 *				stop Point
-	 *
-	 *	@return {Point} normalized Point
-	 *
-	 *	@example
-	 *	var point = new Point(30, 270);
-	 *	var start = new Point(90, 180);
-	 *	var stop = new Point(180, 360);
-	 *	point.norm(start, stop); // { x: -0.66667, y: 0.5 }')
-	 *
-	 */
-	norm: function(start, stop) {
-		this.x = paper.norm(this.x, start.x, stop.x);
-		this.y = paper.norm(this.y, start.y, stop.y);
-		return this;
-	},
-
-	// /**
-	//  *	
-	//  *	@return {Point} limit Point
-	//  *
-	//  */
-	// limit: function(lim) {
-	// 	if (this.magSq() > lim * lim) {
-	// 		this.normalize();
-	// 		this.mult * lim;
-	// 		return this;
-	// 	}
-	// 	return this;
-	// },
-
-	/**
-	 *	
-	 *	Returns the heading angle (radians) of a point
-	 *
-	 *	@return {Number} vector heading of Point
-	 *
-	 *	@example
-	 * 	var point = new Point(0, 90);
-	 *	var result = point.getHeading();
-	 *	console.log( paper.degrees(result) ); // 90
-	 *
-	 */
-	getHeading: function() {
-		console.log( 'getHeading' );
-		return -1 * (Math.atan2(-this.y, this.x));
-	},
-	
-	/**
-	 *	{@grouptitle Vector Math Functions}
-	 *
-	 *	@return {Number} vector mag squared
-	 *
-	 *	@example
-	 *	var point = new Point(0, 90);
-	 *	var result = point.magSq();
-	 *	console.log(result); // 8100
-	 *
-	 */
-	magSq: function() {
-		return this.x * this.x + this.y * this.y;
-	}
-
-
-});
-
-
-
-/*
- *
- *	paper.Size
- *
- */
-paper.Size.inject({
-
-	/**
-	 *	
-	 *	@return {Number} area
-	 *
-	 *	@example
-	 *	var size = new Size(10, 20);
-	 *	var a = size.getArea(); // 200
-	 *
-	 */
-	area: function() {
-		return (this.width * this.height);
-	},
-
-	/**
-	 *	
-	 *	@return {Number} circumscribed radius
-	 *
-	 *	@example
-	 * 	var size = new Size(10, 20);
-	 *	var r = size.radius(); // 11.180339887498949
-	 *
-	 */
-	radius: function() {
-		var a = this.width;
-		var b = this.height;
-		return (Math.sqrt(a * a + b * b) / 2);
-	},
-
-	/**
-	 *	
-	 *	@return {Number} circumscribed diameter
-	 *
-	 *	@example
-	 * 	var size = new Size(10, 20);
-	 *	var d = size.diameter(); // 22.3606797749979
-	 *
-	 */
-	diameter: function() {
-		var a = this.width;
-		var b = this.height;
-		return (Math.sqrt(a * a + b * b));
-	}
-
-});
-
-
-
-// ------------------------------------------------------------------------
-var folio = folio || {};
-
- /**
- *  
- *	Core.js
- *	v0.5
- *  
- *	15. May 2013
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
- *  
- *  
- *	Core Methods and a collection of extensions for paper globally
- *
- */
-
-
-folio = {
-	// ------------------------------------------------------------------------
- 	// Namespaces
-	// ------------------------------------------------------------------------
- 	FTime: {},
- 	FIO: {},
- 	F3D: {},
- 	FPath: {},
-
-
-
-	// ------------------------------------------------------------------------
-	// Methods
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	@param {Point} point1
-	 *			first point
-	 *	@param {Point} point2
-	 *			second point
+	 *	@param {Number} val
+	 *			input value
 	 *
-	 *	@return vector angle in degrees
+	 *	@return {Number} squared value of val
 	 *
-	 */
-	getAngle: function(point1, point2) {
-		return Math.atan2(point2.y - point1.y, point2.x - point1.x) * 180 / Math.PI;
-	},
-
-	/**
-	 *
-	 *	@param {Size} slope
-	 *			slope is expressed as rise (x) over run (y)
-	 *
-	 *	@return angle in degrees
+	 *	@example
+	 *	var squared = Calculation.sq(30); // 900
 	 *
 	 */
-	getSlopeAngle: function(slope) {
-		return Math.atan( slope.width/slope.height ) * 180 / Math.PI;
+	sq: function(val) {
+		return val*val;
 	},
 
 	// ------------------------------------------------------------------------
@@ -795,7 +877,18 @@ folio = {
 	 *	@param {Path.Circle} arg1
 	 *				the second Circle
 	 *
-	 *	@return array of points
+	 *	@return {Array} of points
+	 *
+	 */
+	/**
+	 *	TODO: get common outer tangents of two curves
+	 *
+	 *	@param {Curve} arg0
+	 *				the first Curve
+	 *	@param {Curve} arg1
+	 *				the second Curve
+	 *
+	 *	@return {Array} of points
 	 *
 	 */
 	getCommonTangents: function(arg0, arg1) {
@@ -837,389 +930,15 @@ folio = {
 		);
 
 		return [pt1, pt2, pt3, pt4]
-	},
-
-	/**
-	 *	get common outer tangents of two curves
-	 *
-	 *	@param arg0
-	 *				the first Curve
-	 *	@param arg1
-	 *				the second Curve
-	 *
-	 *	@return array of points
-	 *
-	 */
-	 // TODO:
-	// getCommonTangents: function(arg0, arg1) {
-
-	// },
-
-
-	// ------------------------------------------------------------------------
-	/**
-	 *	
-	 *	@param {Number} val
-	 *			input boolean value
-	 *
-	 *	@return val as integer
-	 *
-	 */
-	boolToInt: function(val) {
-		return (val) ? 1 : 0;
-	},
-
-	// ------------------------------------------------------------------------
-	/**
-	 *	
-	 *	@param {Object} object
-	 *			object whose type to determine
-	 *
-	 *	@return string of PaperJs object type
-	 *
-	 */
-	getType: function(object) {
-		if( typeof object == 'object' ) {
-			if (object instanceof paper.Point) return 'Point';
-			else if (object instanceof paper.Size) return 'Size';
-			else if (object instanceof paper.Rectangle) return 'Rectangle';
-			else if (object instanceof Group) return 'Group';
-			else if (object instanceof paper.PlacedItem) return 'PlacedItem';
-			else if (object instanceof paper.Raster) return 'Raster';
-			else if (object instanceof paper.PlacedSymbol) return 'PlacedSymbol';
-			else if (object instanceof paper.Path) return 'Path';
-			else if (object instanceof paper.CompoundPath) return 'CompoundPath';
-			else if (object instanceof paper.Symbol) return 'Symbol';
-			else if (object instanceof paper.TextItem) return 'TextItem';
-			else return 'undefined'
-		}
-		else {
-			return typeof object;
-		}
-	},
-
-	/**
-	 *	
-	 *	@param {Array} items
-	 *			Array of items to go through
-	 *	@param {String} name
-	 *			name of Item to find
-	 *
-	 *	@return a path with the name that matches
-	 *
-	 */
-	findByName: function(items, name) {
-		var path;
-		for(var i=0; i<items.length; i++) {
-			var item = items[i];		
-			if(item.name == name) path = item; // break;
-		}
-		return path;
-	},
-
-	/**
-	 *	
-	 *	@param {Array} items
-	 *			Array of items to go through
-	 *	@param {Number} name
-	 *			name of Item to find
-	 *
-	 *	@return a path with the id that matches
-	 *
-	 */
-	findById: function(items, id) {
-		var path;
-		for(var i=0; i<items.length; i++) {
-			var item = items[i];		
-			if(item.id == id) path = item; // break;
-		}
-		return path;
-	},
-
-
-
-
-	// ------------------------------------------------------------------------
-	/**
-	 *
-	 *	sort Array in alphabetical order
-	 *
-	 *	http://www.brain4.de/programmierecke/js/arraySort.php
-	 *
-	 */
-	alphabetical: function(a, b) {
-		/*
-		var A = a.toLowerCase();
-		var B = b.toLowerCase();
-
-		if (A < B) return -1;
-		else if (A > B) return  1;
-		else return 0;
-		*/
-
-		a = a.toLowerCase();
-		a = a.replace(/ä/g,'a');
-		a = a.replace(/ö/g,'o');
-		a = a.replace(/ü/g,'u');
-		a = a.replace(/ß/g,'s');
-
-		b = b.toLowerCase();
-		b = b.replace(/ä/g,'a');
-		b = b.replace(/ö/g,'o');
-		b = b.replace(/ü/g,'u');
-		b = b.replace(/ß/g,'s');
-
-		return(a == b) ? 0 : (a>b) ? 1 : -1;
-	},
-
-	/**
-	 *	
-	 *	sort array by distance of object from center of canvas
-	 *
-	 */
-	distanceToCenter: function(a, b) {
-		var valueA = a.distanceToCenter();
-		console.log( valueA );
-		var valueB = b.distanceToCenter();
-		console.log( valueB );
-		var comparisonValue = 0;
-
-		if (valueA > valueB) comparisonValue = -1;
-		else if (valueA < valueB) comparisonValue = 1;
-
-		return comparisonValue;
-	}
-
-};
-
-
-
-
-
-
-/*
- *
- *	Global Scope (Paper.js core)
- *
- */
-PaperScope.inject({
-	enumerable: true,
-
-
-	//-----------------------------------------------------------------------------
-	// Methods
-	//-----------------------------------------------------------------------------
-	/**
-	 *	Java style println output
-	 *
-	 *	@param {Object} obj
-	 *				any Javascript Object
-	 */
-	println: function(obj) {
-		console.log( obj );
-		console.log( '\n' );
-	},
-
-
-
-	/**
-	 *
-	 *	http://www.siafoo.net/snippet/191
-	 *
-	 *	@param {Number} minr
-	 *				minmum range
-	 *	@param {Number} maxr
-	 *				maximum range
-	 *	@param {Number} bias
-	 *				bias represents the preference towards lower or higher numbers,
-	 *				as a number between 0.0 and 1.0. For example: 
-	 *				random(0, 10, bias=0.9) will return 9 much more often than 1.
-	 *
-	 *	@return a random, albeit biased, number
-	 *
-	 */
-	randomBias: function(minr, maxr, bias) {
-		var _map = new Array(90.0, 9.00, 4.00, 2.33, 1.50, 1.00, 0.66, 0.43, 0.25, 0.11, 0.01);
-		bias = Math.max(0, Math.min(bias, 1)) * 10;
-
-		var i = parseInt(Math.floor(bias))
-		var n = _map[i]
-		if(bias < 10) n += (_map[i+1]-n) * (bias-i);
-
-		return Math.pow( Math.random(),n ) * (maxr-minr) + minr;
 	}
 
 
 });
-
-
  /**
- *  
- *	FArray.js
- *	v0.5
- *  
- *	15. May 2013
  *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
- *  
- *  
- *	Extensions to JavaScript Array
- *	may be bad form... but whatever
- *
- */
-
-
-/*
- *
- *	Array
- *
- */
-
-/**
- *	
- *	@return {Number} median value
- *
- */
-Array.prototype.median = function() {
-	var median = 0;
-	this.sort();
-	if (this.length % 2 === 0) {
-		median = (this[this.length / 2 - 1] + this[this.length / 2]) / 2;
-	}
-	else {
-		median = this[(this.length - 1) / 2];
-	}
-	return median;
-};
-
-/**
- *	
- *	@return {Object} unique element
- *
- */
-Array.prototype.unique = function() {
-	var u = [];
-	o:for(var i=0, n=this.length; i<n; i++) {
-		for(var x=0, y=u.length; x<y; x++) {
-			if(u[x] == this[i]) {
-				continue o;
-			}
-		}
-		u[u.length] = this[i];
-	}
-	return u;
-};
-
-/**
- *	
- *	merges (then shuffles) two Arrays
- *	
- *	@param {Array} arr2
- *				Array object 2
- *
- *	@return new merged Array object
- *
- */
-Array.prototype.merge = function(arr) {
-	var output = this.concat(arr);
-	output.shuffle();
-	return output;
-};
-
-/**
- *	
- *	@param {Number} start
- *				start position in array
- *	@param {Number} stop
- *				stop position in array
- *
- *	@return maximum value within array
- *
- */
-Array.prototype.max = function(start, stop) {
-	start = (start != undefined) 
-		? start
-		: 0;
-	stop = (stop != undefined)
-		? stop
-		: this.length;
-	var max = this[start];
-
-	for(var i=(start+1); i<stop; i++) if(this[i] > max) max = i;
-	return max;
-};
-
-/**
- *	
- *	@param {Number} start
- *				start position in array
- *	@param {Number} stop
- *				stop position in array
- *
- *	@return minimum value within array
- *
- */
-Array.prototype.min = function(start, stop) {
-	start = (start != undefined)
-		? start
-		: 0;
-	stop = (stop != undefined)
-		? stop
-		: this.length;
-	var min = this[start];
-
-	for (var i=(start+1); i<stop; i++) if(this[i] < min) min = i;
-	return min;
-};
-
-/**
- *
- *	http://jsfromhell.com/array/shuffle
- *	http://www.brain4.de/programmierecke/js/arrayShuffle.php
- *
- *	@return original array but with the order "shuffled"
- *
- */
-Array.prototype.shuffle = function() {
-	for (var j, x, i = this.length; i; j = parseInt(Math.random() * i), x = this[--i], this[i] = this[j], this[j] = x);
-};
-
-/**
- *
- *	http://stackoverflow.com/questions/9229645/remove-duplicates-from-javascript-array
- *
- *	@return original array without duplicates
- *
- */
-Array.prototype.removeDuplicates = function() {
-	return this.reduce(function(accum, cur) { 
-		if (accum.indexOf(cur) === -1) accum.push(cur); 
-		return accum; 
-	}, [] );
-};
-
-/**
- *
- *	@param {Number} decimalPlaces
- *			number of decimal places
- *				
- *	@return original array with rounded values
- *
- */
-Array.prototype.round = function(decimalPlaces) {
-	var multi = Math.pow(10,decimalPlaces);
-	for (var i=0; i<this.length; i++) this[i] = Math.round(this[i] * multi)/multi;
-	return this;
-};
- /**
- *  
  *	FColor.js
  *	v0.5
- *  
+ *
  *	15. May 2013
  *
  *	Ken Frederick
@@ -1227,8 +946,8 @@ Array.prototype.round = function(decimalPlaces) {
  *
  *	http://kennethfrederick.de/
  *	http://blog.kennethfrederick.de/
- *  
- *  
+ *
+ *
  *	A collection of extensions for paper.Color
  *
  */
@@ -1337,16 +1056,391 @@ paper.Color.inject({
 		this.blue = (arg2 != undefined) ? arg2/255 : arg0/255;
 		this.alpha = (arg3 != undefined) ? arg3/255 : 1.0;
 		return this;
+	},
+
+
+	// ------------------------------------------------------------------------
+	/**
+	 *	desaturate a color (based on hsb model) by percentage
+	 *	NOTE: Color operators aren't working
+	 *
+	 *	@param {Number} amt
+	 *			(0.0 - 1.0) factor to desaturate color
+	 *
+	 *	@return {Color} desaturated Color by input amount
+	 *
+	 *	@example
+	 *	var color = new Color( 0.0, 1.0, 0.7 );
+	 *	color.desaturate(0.2); // { red: 0, green: 0.76, blue: 0.532 }
+	 *
+	 *	var color = new Color( 0.0, 1.0, 0.7 );
+	 *	var desaturated = color.desaturate(0.2); // { red: 0, green: 0.76, blue: 0.532 }
+	 *
+	 */
+	desaturate: function(amt) {
+		var color = new Color( this );
+		color.saturation = paper.clamp( this.saturation - (this.saturation * amt), 0,1 );
+		return color;
+	},
+
+	/**
+	 *	saturate a color (based on hsb model) by percentage
+	 *	NOTE: Color operators aren't working
+	 *
+	 *	@param {Number} amt
+	 *			(0.0 - 1.0) factor to saturate color
+	 *
+	 *	@return {Color} saturated Color by input amount
+	 *
+	 *	@example
+	 *	var color = new Color( 0.0, 1.0, 0.7 );
+	 *	color.saturate(0.2); // { red: 0, green: 0.76, blue: 0.532 }
+	 *
+	 *	var color = new Color( 0.0, 1.0, 0.7 );
+	 *	var saturated = color.saturate(0.2); // { red: 0, green: 0.76, blue: 0.532 }
+	 *
+	 */
+	saturate: function(amt) {
+		var color = new Color( this );
+		color.saturation = paper.clamp( this.saturation + (this.saturation * amt), 0,1 );
+		return color;
+	},
+
+	/**
+	 *	darken a color (based on hsl model) by percentage
+	 *	NOTE: Color operators aren't working
+	 *
+	 *	@param {Number} amt
+	 *			(0.0 - 1.0) factor to darken color
+	 *
+	 *	@return {Color} darkened Color by input amount
+	 *
+	 *	@example
+	 *	var color = new Color( 0.0, 1.0, 0.7 );
+	 *	color.darken(0.2); // { red: 0, green: 0.76, blue: 0.532 }
+	 *
+	 *	var color = new Color( 0.0, 1.0, 0.7 );
+	 *	var darkened = color.darken(0.2); // { red: 0, green: 0.76, blue: 0.532 }
+	 *
+	 */
+	darken: function(amt) {
+		var color = new Color( this );
+		color.lightness = paper.clamp( this.lightness - (this.lightness * amt), 0,1 );
+		return color;
+	},
+
+	/**
+	 *	dim a color (based on hsl model) by percentage
+	 *	NOTE: Color operators aren't working
+	 *
+	 *	@param {Number} amt
+	 *			(0.0 - 1.0) factor to dim color
+	 *
+	 *	@return {Color} dimmed Color by input amount
+	 *
+	 *	@example
+	 *	var color = new Color( 0.0, 1.0, 0.7 );
+	 *	color.dim(0.2); // { red: 0, green: 0.76, blue: 0.532 }
+	 *
+	 *	var color = new Color( 0.0, 1.0, 0.7 );
+	 *	var dimmed = color.dim(0.2); // { red: 0, green: 0.76, blue: 0.532 }
+	 *
+	 */
+	dim: function(amt) {
+		var color = new Color( this );
+		color.brightness = paper.clamp( this.brightness - (this.brightness * amt), 0,1 );
+		return color;
+	},
+
+	/**
+	 *	lighten a color (based on hsl model) by percentage
+	 *	NOTE: Color operators aren't working
+	 *
+	 *	@param {Number} amt
+	 *			(0.0 - 1.0) factor to lighten color
+	 *
+	 *	@return {Color} lightened Color by input amount
+	 *
+	 *	@example
+	 *	var color = new Color( 0.0, 1.0, 0.7 );
+	 *	color.lighten(0.2); // { red: 0, green: 0.76, blue: 0.532 }
+	 *
+	 *	var color = new Color( 0.0, 1.0, 0.7 );
+	 *	var lightened = color.lighten(0.2); // { red: 0, green: 0.76, blue: 0.532 }
+	 *
+	 */
+	lighten: function(amt) {
+		var color = new Color( this );
+		// color.saturation = paper.clamp( this.saturation - (this.saturation * amt), 0,1 );
+		color.lightness = paper.clamp( this.lightness + (this.lightness * amt), 0,1 );
+		return color;
+	},
+
+	/**
+	 *	brighten a color (based on hsb model) by percentage
+	 *	NOTE: Color operators aren't working
+	 *
+	 *	@param {Number} amt
+	 *			(0.0 - 1.0) factor to brighten color
+	 *
+	 *	@return {Color} brightened Color by input amount
+	 *
+	 *	@example
+	 *	var color = new Color( 0.0, 1.0, 0.7 );
+	 *	color.brighten(0.2);
+	 *
+	 *	var color = new Color( 0.0, 1.0, 0.7 );
+	 *	var brightened = color.brighten(0.2);
+	 *
+	 */
+	brighten: function(amt) {
+		var color = new Color( this );
+		color.saturation = paper.clamp( this.saturation - (this.saturation * amt), 0,1 );
+		color.brightness = paper.clamp( this.brightness + (this.brightness * amt), 0,1 );
+		return color;
+	},
+
+
+	/**
+	 *	increase color contrast (based on hsb model) by percentage
+	 *	NOTE: Color operators aren't working
+	 *
+	 *	@param {Number} amt
+	 *			(0.0 - 1.0) factor to increase contrast
+	 *
+	 *	@return {Color} Color by input amount
+	 *
+	 *	@example
+	 *	var color = new Color( 0.0, 1.0, 0.7 );
+	 *	color.contrast(0.2);
+	 *
+	 *	var color = new Color( 0.0, 1.0, 0.7 );
+	 *	var contrasted = color.contrast(0.2);
+	 *
+	 */
+	contrast: function(amt) {
+		var color = new Color( this );
+		return color.lightness < 0.5
+			? color.darken(amt)
+			: color.lighten(amt);
+	},
+
+
+	/**
+	 *	invert color
+	 *	NOTE: Color operators aren't working
+	 *
+	 *	@return {Color} inverted Color
+	 *
+	 *	@example
+	 *	var color = new Color( 0.0, 1.0, 0.7 );
+	 *	color.invert();
+	 *
+	 *	var color = new Color( 0.0, 1.0, 0.7 );
+	 *	var inverted = color.invert();
+	 *
+	 */
+	invert: function() {
+		var color = new Color( this );
+		for( var i=0; i<color._components.length; i++ ) {
+			color._components[i] = 1-color._components[i];
+		}
+		return color;
+	},
+
+	/**
+	 *	rotate color around hsb/l color wheel other components remain the same
+	 *	NOTE: Color operators aren't working
+	 *
+	 *	@param {Number} degree
+	 *			(0.0 - 360.0) rotation degree
+	 *
+	 *	@return {Color} rotated Color
+	 *
+	 *	@example
+	 *	var color = new Color( 0.0, 1.0, 0.7 );
+	 *	var compliment = color.rotate(180);
+	 *
+	 *	var color = new Color( 0.0, 1.0, 0.7 );
+	 *	var triad = [
+	 *		color,
+	 *		color.rotate(120),
+	 *		color.rotate(240)
+ 	 * 	];
+	 *
+	 */
+	rotate: function(degree) {
+		var color = new Color( this );
+		color.hue += degree;
+		return color;
+	},
+
+	/**
+	 *	interpolate color
+	 *
+	 *	@param {Color} from
+	 *			start color
+	 *	@param {Color} to
+	 *			end color
+	 *	@param {Number} amt
+	 *			float: between 0.0 and 1.0
+	 *
+	 *	@return {Color} interpolated color
+	 *
+	 *	@example
+	 *	var color1 = new Color( 0.0, 1.0, 0.7 );
+	 *	var color2 = new Color( 0.0, 0.7, 1.0 );
+	 *	var interpolateColor = new Color().interpolate( color1, color2, 0.5 );
+	 *
+	 */
+	/**
+	 *
+	 *	@param {Color} to
+	 *			end color
+	 *	@param {Number} amt
+	 *			float: between 0.0 and 1.0
+	 *
+	 *	@return {Color} interpolated color
+	 *
+	 *	@example
+	 *	var color1 = new Color( 0.0, 1.0, 0.7 );
+	 *	var color2 = new Color( 0.0, 0.7, 1.0 );
+	 *	var interpolateColor = color1.interpolate( color2, 0.5 );
+	 *
+	 */
+	//
+	//	TODO: would interpolateTo make more sense?
+	//
+	// interpolateTo: function(toColor, amt) {
+	// 	var color = new Color( this );
+	// 	for( var i=0; i<color._components.length; i++ ) {
+	// 		color._components[i] += ((toColor._components[i] - color._components[i]) * amt);
+	// 	}
+	// 	return color;
+	// },
+	interpolate: function( arg0, arg1, arg2 ) {
+		var color = new Color( this );
+
+		if(typeof arg1 === 'number') {
+			var to = arg0.getComponents();
+			for( var i=0; i<color._components.length; i++ ) {
+				// color._components[i] += ((to[i] - color._components[i]) * arg1);
+				color._components[i] = paper.interpolate( color._components[i], to[i], arg1 );
+			}
+		}
+		else {
+			var from = arg0.getComponents();
+			var to = arg1.getComponents();
+			for( var i=0; i<color._components.length; i++ ) {
+				// color._components[i] += ((to[i] - from[i]) * arg2);
+				color._components[i] = paper.interpolate( from[i], to[i], arg2 );
+			}
+		}
+
+		color.setType( this.type );
+		return color;
+	},
+
+
+	/**
+	 *
+	 *	@return {Color} random Color based on initialization arguments
+	 *
+	 *	@example
+	 *	var color = new Color().random();
+	 *	// all values between 0.0 and 1.0
+	 *	// [ red: 0.1, green: 0.5, blue: 1.0 ]
+	 *
+	 *	var color = new Color(0.5).random();
+	 *	// value between 0.5 and 1.0
+	 *	// [ gray: 0.7 ]
+	 *
+	 *	var color = new Color(0.3, 0.6, 0.9).random();
+	 *	// red value between 0.4 and 1.0, etc.
+	 *	// [ red: 0.4, green: 0.7, blue: 1.0 ]
+	 *
+	 *	var color = new Color({ hue: 90, saturation: 1, brightness: 0.8 }).random();
+	 *	// hue value between 90 and 360, etc.
+	 *	// [ hue: 154, saturation: 1, brightness: 0.9 ]
+	 *
+	 *	var color = new Color({ hue: 90, saturation: 1, lightness: 0.8 }).random();
+	 *	// hue value between 90 and 360, etc.
+	 *	// [ hue: 274, saturation: 1, lightness: 0.9 ]
+	 *
+	 */
+	random: function() {
+		this._components[0] = ( this.type == 'hsb' || this.type == 'hsl' )
+			? random( this._components[0], 360 )
+			: random( this._components[0], 1 );
+		for( var i=1; i<this._components.length; i++ ) {
+			this._components[i] = random( this._components[i], 1 );
+		}
+		return this;
 	}
+
 
 });
 
 
+ /**
+ *
+ *	FConversions.js
+ *	v0.5
+ *
+ *	15. May 2013
+ *
+ *	Ken Frederick
+ *	ken.frederick@gmx.de
+ *
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
+ *
+ *
+ *	A collection of helpful conversion ratios from and to pixels (or points)
+ *
+ */
+
+
+// var FConversions = new function() {
+var FConversions = {
+
+	// return {
+		// millimeters
+		PIXEL_TO_MM: 0.352777778,
+		MM_TO_PIXEL: 2.83464567,
+
+		POINT_TO_MM: this.PIXEL_TO_MM, //0.352777778,
+		MM_TO_POINT: this.MM_TO_PIXEL, //2.83464567,
+
+		// centimeters
+		PIXEL_TO_CM: 0.0352777778,
+		CM_TO_PIXEL: 28.3464567,
+
+		POINT_TO_CM: this.PIXEL_TO_CM, //0.0352777778,
+		CM_TO_POINT: this.CM_TO_PIXEL, //28.3464567,
+
+		// inches
+		PIXEL_TO_INCH: 0.0138888889,
+		INCH_TO_PIXEL: 72,
+
+		POINT_TO_INCH: this.PIXEL_TO_INCH, //0.0138888889,
+		INCH_TO_POINT: this.INCH_TO_PIXEL, //72,
+
+		// picas
+		PIXEL_TO_PICA: 0.0833333333,
+		PICA_TO_PIXEL: 12,
+
+		POINT_TO_PICA: this.PIXEL_TO_PICA, //0.0833333333,
+		PICA_TO_POINT: this.PICA_TO_PIXEL  //12
+	// };
+
+};
+
 /**
- *	
+ *
  *	FPath.js
  *	v0.5
- *	
+ *
  *	11. August 2013
  *
  *	Ken Frederick
@@ -1391,7 +1485,7 @@ paper.Item.inject({
 
 	/**
 	 *	snaps point to an isometric grid
-	 *	
+	 *
 	 *	@param {Number} scale
 	 *				scale of the grid (1.0 = 32x16)
 	 *
@@ -1401,10 +1495,28 @@ paper.Item.inject({
 		this.position.snapIso(scale);
 	},
 
+
+	//-----------------------------------------------------------------------------
+	/**
+	 * {@grouptitle Position and Bounding Boxes}
+	 *
+	 *	Returns the distance between the item and the center of the canvas/artboard
+	 *
+	 *	@return {Number}
+	 *
+	 */
+	getDistanceToCenter: function() {
+		// var dx = this._position.x - view.bounds.center.x;
+		// var dy = this._position.y - view.bounds.center.y;
+		// return (dx * dx + dy * dy) + 1;
+		return this._position.getDistance( view.bounds.center );
+	},
+
+
 	//-----------------------------------------------------------------------------
 	/**
 	 *	converts an CompoundPath into a Group otherwise returns original Item
-	 *	
+	 *
 	 */
 	toGroup: function() {
 		if (folio.getType(this) == 'CompoundPath') {
@@ -1419,21 +1531,218 @@ paper.Item.inject({
 
 
 
-paper.Path.inject({ 
+paper.Path.inject({
 	//-----------------------------------------------------------------------------
 	// Methods
 	//-----------------------------------------------------------------------------
+
 	/*
 	 *
-	 *	Additional Math Methods
-	 *	TODO: fix bugs (downright false) math methods
+	 *	Center Methods
+	 *	TODO: finish adding center methods
 	 *
 	 */
 
 	/**
+	 *	Returns the Centroid of Path
+	 *	http://stackoverflow.com/questions/2792443/finding-the-centroid-of-a-polygon
+	 *
+	 *	@return {Point}
+	 */
+	getCentroid: function() {
+		var centroid = new Point(0,0);
+
+		var signedArea = 0.0;
+		var a = 0.0;
+
+		var points = [];
+		var i = 0;
+		for ( i; i<this._segments.length-1; ++i ) {
+			points[0] = this._segments[i].point;
+			points[1] = this._segments[i+1].point;
+
+			a = points[0].x*points[1].y - points[1].x*points[0].y;
+			signedArea += a;
+
+			centroid.x += (points[0].x + points[1].x)*a;
+			centroid.y += (points[0].y + points[1].y)*a;
+		}
+
+		// Do last vertex
+		points[0] = this._segments[i].point;
+		points[1] = this._segments[0].point;
+
+		a = points[0].x*points[1].y - points[1].x*points[0].y;
+		signedArea += a;
+
+		centroid.x += (points[0].x + points[1].x)*a;
+		centroid.y += (points[0].y + points[1].y)*a;
+
+		signedArea *= 0.5;
+
+		centroid.x /= (6.0*signedArea);
+		centroid.y /= (6.0*signedArea);
+
+		return centroid;
+	},
+
+	/**
+	 *	Returns the Circumcenter of a triangle
+	 *
+	 *	TODO: adjust formula to return Circumcenter of any polygon
+	 *
+	 *	@return {Point}
+	 */
+	getCircumcenter: function() {
+		if( this._segments.length === 3 ) {
+			var p1 = this._segments[0].point;
+			var p2 = this._segments[1].point;
+			var p3 = this._segments[2].point;
+
+			var A = p2.x - p1.x;
+			var B = p2.y - p1.y;
+			var C = p3.x - p1.x;
+			var D = p3.y - p1.y;
+
+			var E = A*(p1.x + p2.x) + B*(p1.y + p2.y);
+			var F = C*(p1.x + p3.x) + D*(p1.y + p3.y);
+
+			var G = 2.0*(A*(p3.y - p2.y)-B*(p3.x - p2.x));
+
+			if( Math.abs(G) < Numerical.EPSILON ) {
+				// Collinear - find extremes and use the midpoint
+				function max3( a, b, c ) {
+					return ( a >= b && a >= c )
+						? a
+						: ( b >= a && b >= c )
+							? b
+							: c;
+				}
+				function min3( a, b, c ) {
+					return ( a <= b && a <= c )
+						? a
+						: ( b <= a && b <= c )
+							? b
+							: c;
+				}
+
+				var minx = min3( p1.x, p2.x, p3.x );
+				var miny = min3( p1.y, p2.y, p3.y );
+				var maxx = max3( p1.x, p2.x, p3.x );
+				var maxy = max3( p1.y, p2.y, p3.y );
+
+				return Point.create( ( minx + maxx ) / 2, ( miny + maxy ) / 2 );
+			}
+			else {
+				var cx = (D*E - B*F) / G;
+				var cy = (A*F - C*E) / G;
+
+				return Point.create( cx, cy );
+			}
+		}
+		else {
+			return null;
+		}
+	},
+
+	/**
+	 *
+	 *	TODO: add additional "center" formulas (for polygons)
+	 *	http://mathforum.org/library/drmath/view/57665.html
+	 *
+	 */
+
+	/**
+	 *	Returns the Circumcircle of a polygon
+	 *
+	 * 	TODO: fix for triangles...
+	 *
+	 *	@return {Path.Circle}
+	 */
+	// getCircumcircle: function() {
+	// 	var that = this;
+	// 	var circumradius = 0;
+
+	// 	var _segmentsTemp = this._segments.splice();
+	// 	function getDistanceToCentroid(segment) {
+	// 		var point = segment.point;
+	// 		var x = point.x - that.getCentroid().x,
+	// 			y = point.y - that.getCentroid().y,
+	// 			d = x * x + y * y;
+	// 		return Math.sqrt(d);
+	// 	};
+
+	// 	_segmentsTemp.sort( function(a, b) {
+	// 		return getDistanceToCentroid(a) - getDistanceToCentroid(b);
+	// 	});
+
+	// 	var diff = _segmentsTemp[_segmentsTemp.length-1] - _segmentsTemp[_segmentsTemp.length-2];
+	// 	circumradius = _segmentsTemp[_segmentsTemp.length-1] - diff;
+
+	// 	// for( var i=0; i<_segmentsTemp.length; i++ ) {
+	// 	// 	var seg = _segmentsTemp[i].point;
+	// 	// 	if( seg.getDistance( this.getCentroid()) > circumradius ) {
+	// 	// 		circumradius = seg.getDistance( this.getCentroid());
+	// 	// 	}
+	// 	// }
+
+	// 	return Path.Circle(
+	// 		this.getCentroid(),
+	// 		circumradius
+	// 	);
+	// },
+
+	/**
+	 *	Returns the Incircle of a polygon
+	 *
+	 *	@return {Path.Circle}
+	 */
+	getIncircle: function() {
+		var incircleradius = Number.MAX_VALUE;
+
+		for( var i=0; i<this._segments.length; i++ ) {
+			var seg = this._segments[i].point;
+			if( seg.getDistance( this.getCentroid()) < incircleradius ) {
+				incircleradius = seg.getDistance( this.getCentroid());
+			}
+		}
+
+		return Path.Circle(
+			this.getCentroid(),
+			incircleradius
+		);
+	},
+
+	// TODO: currently implementation returns false point
+	// getIncenter : function() {
+	// 	// vertices
+	// 	if( this.segments.length == 3 ) {
+	// 		var p1 = this.segments[0].point;
+	// 		var p2 = this.segments[1].point;
+	// 		var p3 = this.segments[2].point;
+
+	// 		// side lengths
+	// 		var a = p1.getDistance(p2);
+	// 		var b = p2.getDistance(p3);
+	// 		var c = p3.getDistance(p1);
+
+	// 		var circum = a + b + c;
+
+	// 		return new Point(
+	// 			(a* p1.x + b * p2.x + c * p3.x) / circum,
+	// 			(a * p1.y + b * p2.y + c * p3.y) / circum
+	// 		);
+	// 	}
+	// 	else {
+	// 		console.error( 'Not Path.FTriangle' );
+	// 		return null;
+	// 	}
+	// },
+
+	/**
 	 *	@param b
 	 *			array of barycentric coordinates
-	 */		
+	 */
 	// TODO: currently implementation returns false point
 	// toCartesian : function(bary) {
 	// 	if( this.segments.length == 3 ) {
@@ -1477,46 +1786,6 @@ paper.Path.inject({
 	// 	}
 	// },
 
-	//-----------------------------------------------------------------------------
-	/*
-	 *
-	 *	FTriangle Center Methods
-	 *	TODO: finish adding center methods
-	 *
-	 */
-
-
-
-	// TODO: currently implementation returns false point
-	// getInCircle : function() {
-	// 	// vertices
-	// 	if( this.segments.length == 3 ) {
-	// 		var p1 = this.segments[0].point;
-	// 		var p2 = this.segments[1].point;
-	// 		var p3 = this.segments[2].point;
-
-	// 		// side lengths
-	// 		var a = p1.getDistance(p2);
-	// 		var b = p2.getDistance(p3);
-	// 		var c = p3.getDistance(p1);
-
-	// 		var incenter = this.toCartesian( [1.0, 1.0, 1.0] );
-
-	// 		var area = 0.5 * (p1.x * (p2.y - p3.y) +
-	// 						  p2.x * (p3.y - p1.y) +
-	// 						  p3.x * (p1.y - p2.y));
-
-	// 		var semiperimeter = 0.5 * (a + b + c);
-
-	// 		this.innerRadius = (area / semiperimeter);
-	// 		return incenter;
-	// 	}
-	// 	else {
-	// 		console.error( 'Not Path.FTriangle' );
-	// 		return null;
-	// 	}
-	// },
-
 
 	// TODO: currently implementation returns false point
 	// getOrthocenter : function() {
@@ -1544,31 +1813,6 @@ paper.Path.inject({
 	// 	}
 	// },
 
-	// TODO: currently implementation returns false point
-	// getIncenter : function() {
-	// 	// vertices
-	// 	if( this.segments.length == 3 ) {
-	// 		var p1 = this.segments[0].point;
-	// 		var p2 = this.segments[1].point;
-	// 		var p3 = this.segments[2].point;
-
-	// 		// side lengths
-	// 		var a = p1.getDistance(p2);
-	// 		var b = p2.getDistance(p3);
-	// 		var c = p3.getDistance(p1);
-
-	// 		var circum = a + b + c;
-
-	// 		return new Point(
-	// 			(a* p1.x + b * p2.x + c * p3.x) / circum,
-	// 			(a * p1.y + b * p2.y + c * p3.y) / circum
-	// 		);
-	// 	}
-	// 	else {
-	// 		console.error( 'Not Path.FTriangle' );
-	// 		return null;
-	// 	}
-	// },
 
 	// TODO: currently implementation returns false point
 	// getSchifflerPoint : function() {
@@ -1602,7 +1846,7 @@ paper.Path.inject({
 	statics: new function() {
 		return {
 			/**
-			 *	
+			 *
 			 *	FArrow
 			 *	Create simple arrow
 			 *
@@ -1646,7 +1890,7 @@ paper.Path.inject({
 
 
 			/**
-			 *	
+			 *
 			 *	FBubble
 			 *	Create a simple speech bubble
 			 *
@@ -1656,7 +1900,7 @@ paper.Path.inject({
 			 *				the size of the bubble
 			 *	@param {Size} bubbleTagSize
 			 *				the size of the tag
-			 *	@param {String} bubbleTagCenter 
+			 *	@param {String} bubbleTagCenter
 			 *				(optional)
 			 *				'RANDOM'	randomly x-position the point (default)
 			 *				'LEFT'		left align the x-position of the point
@@ -1708,13 +1952,13 @@ paper.Path.inject({
 				else if(bubbleTagCenter == 'RIGHT') {
 					tx = tagStart+bubbleTagSize.width;
 				}
-				else { // if(bubbleTagCenter == 'RANDOM') { 
+				else { // if(bubbleTagCenter == 'RANDOM') {
 					tx = paper.randomInt(tagStart,tagStart+bubbleTagSize.width);
 				}
 
 				// the length of the tag
 				ty = bubbleSize.height + bubbleTagSize.height;
-				path.add( new Point(tx,ty) ); 
+				path.add( new Point(tx,ty) );
 
 				// continue bottom
 				path.add( new Point(tagStart+bubbleTagSize.width,bubbleSize.height) );
@@ -1735,7 +1979,7 @@ paper.Path.inject({
 				// center the bubble
 				// compensated for the tag's length
 				path.position = new Point(bubblePoint.x,bubblePoint.y+(bubbleTagSize.height/2));
-				
+
 				return path;
 			},
 
@@ -1743,7 +1987,7 @@ paper.Path.inject({
 			/**
 			 *	FChain
 			 *	Create simple chain (a line with different endpoint sizes)
-			 *	
+			 *
 			 *	@param {Point} arg0
 			 *				point1 The first point (endpoint1)
 			 *	@param {Number} arg1
@@ -1762,7 +2006,7 @@ paper.Path.inject({
 			 *
 			 */
 			/**
-			 *	
+			 *
 			 *	@param {Path} arg0
 			 *				PathItem (endpoint1)
 			 *	@param {Path} arg1
@@ -1829,7 +2073,7 @@ paper.Path.inject({
 			 *
 			 *	FCross
 			 *	Create a cross
-			 *	
+			 *
 			 *	@param {Point} centerPoint
 			 *				position of cross
 			 *	@param {Size} size
@@ -1858,12 +2102,12 @@ paper.Path.inject({
 
 				if( crossType == 'LINE' ) {
 					line1 = new Path.Line(
-						centerPoint.x + size.width, centerPoint.y - size.height, 
+						centerPoint.x + size.width, centerPoint.y - size.height,
 						centerPoint.x - size.width, centerPoint.y + size.height
 					);
 					line1.strokeWidth = strokeWidth;
 					line2 = new Path.Line(
-						centerPoint.x + size.width, centerPoint.y + size.height, 
+						centerPoint.x + size.width, centerPoint.y + size.height,
 						centerPoint.x - size.width, centerPoint.y - size.height
 					);
 					line2.strokeWidth = strokeWidth;
@@ -1910,7 +2154,7 @@ paper.Path.inject({
 			 *
 			 */
 			/**
-			 *	
+			 *
 			 *	@param {Point} centerPoint
 			 *				position of cross
 			 *	@param {Size} arg1
@@ -1988,7 +2232,7 @@ paper.Path.inject({
 			 *	@example
 			 *	var p1 = new paper.Point( 9,9 );
 			 *	var p2 = new paper.Point( 90,45 );
-			 *	var p3 = new paper.Point( 45,90 ); 
+			 *	var p3 = new paper.Point( 45,90 );
 			 *	var ftriangle = new paper.Path.FTriangle( p1, p2, p3 );
 			 *
 			 */
@@ -2009,10 +2253,10 @@ paper.Path.inject({
 });
 
  /**
- *  
+ *
  *	FPoint.js
  *	v0.5
- *  
+ *
  *	15. May 2013
  *
  *	Ken Frederick
@@ -2020,8 +2264,8 @@ paper.Path.inject({
  *
  *	http://kennethfrederick.de/
  *	http://blog.kennethfrederick.de/
- *  
- *  
+ *
+ *
  *	A collection of extensions for paper.Point
  *
  */
@@ -2054,13 +2298,13 @@ paper.Point.inject({
 	 *	@param {Object} options
 	 *				{ grid: true }
 	 *				{ isometric: true }
-	 *				
+	 *
 	 *	@return {Point} snapped Point
 	 *
 	 */
 	/**
 	 *	snaps point to an isometric grid
-	 *	
+	 *
 	 *	@param {Number} scale
 	 *				scale of the grid
 	 *	@param {Object} options
@@ -2074,7 +2318,7 @@ paper.Point.inject({
 		options = (options != undefined)
 			? options
 			: { grid: true, isometric: false };
-		scale = (scale.type == 'Size') 
+		scale = (scale.type == 'Size')
 			? scale
 			: new Size(scale,scale);
 
@@ -2093,6 +2337,150 @@ paper.Point.inject({
 		}
 
 		return this;
+	},
+
+	/**
+	 *
+	 *  https://bitbucket.org/postspectacular/toxiclibs/src/9d124c80e8af/src.core/toxi/geom/Vec2D.java
+	 *
+	 *	@param {Point} toPoint
+	 *			interpolates the point towards a given target point
+	 *	@param {Number} amt
+	 *			(0.0 - 1.0) interpolation factor
+	 *	@return {Point} interpolated Point
+	 *
+	 *	@example
+	 *	var point = new Point(0, 0);
+	 *	var toPoint = new Point(100, 100);
+	 *	point.interpolateTo(toPoint, 0.5); // {x: 50, y: 50}
+	 *
+	 */
+	/**
+	 *
+	 *	@param {Point} arg0
+	 *			starting Point
+	 *	@param {Point} arg1
+	 *			ending Point
+	 *	@param {Number} arg2
+	 *			(0.0 - 1.0) interpolate factor
+	 *
+	 *	@return {Point} new interpolated Point
+	 *
+	 *	@example
+	 *	var start = new Point(0, 30);
+	 *	var end = new Point(360, 90);
+	 *	var interpolate = new Point.interpolateTo( start, end, 0.5 );
+	 *	console.log( interpolate ); // { x: 180, y: 60 }
+	 *
+	 */
+	interpolateTo: function(toPoint, amt) {
+		this.x += ((toPoint.x - this.x) * amt);
+		this.y += ((toPoint.y - this.y) * amt);
+		return this;
+	},
+
+	/**
+	 *	{@grouptitle Distance & Length}
+	 *
+	 *	Returns the distance between the point and the center of the canvas
+	 *
+	 *	@return {Number}
+	 *
+	 */
+	getDistanceToCenter: function() {
+		// var dx = this.x - view.bounds.center.x;
+		// var dy = this.y - view.bounds.center.y;
+		// return (dx * dx + dy * dy) + 1;
+		return this.getDistance( view.bounds.center );
+	},
+
+	/**
+	 *
+	 *	Returns the heading angle (radians) of a point
+	 *
+	 *	@return {Number} vector heading of Point
+	 *
+	 *	@example
+	 * 	var point = new Point(0, 90);
+	 *	var result = point.getHeading();
+	 *	console.log( paper.degrees(result) ); // 90
+	 *
+	 */
+	getHeading: function() {
+		return -1 * (Math.atan2(-this.y, this.x));
+	},
+
+	/**
+	 *	Get the vector angle (radians) of two points
+	 *
+	 *	@param {Point} point1
+	 *			first point
+	 *	@param {Point} point2
+	 *			second point
+	 *
+	 *	@return {Number} vector angle (radians)
+	 *
+	 *	@example
+	 * 	var point1 = new Point(0, 90);
+	 * 	var point2 = new Point(90, 180);
+	 *	var result = point1.getAngle(point2);
+	 *	console.log( paper.degrees(result) ); // XX
+	 *
+	 */
+	getAngle: function(point) {
+		return Math.atan2(point.y - this.y, point.x - this.x);
+	},
+
+	/**
+	 *	Normalize a point between two other points (start and end).
+	 *
+	 *	@param {Point} start
+	 *				start Point
+	 *	@param {Point} stop
+	 *				stop Point
+	 *
+	 *	@return {Point} normalized Point
+	 *
+	 *	@example
+	 *	var point = new Point(30, 270);
+	 *	var start = new Point(90, 180);
+	 *	var stop = new Point(180, 360);
+	 *	point.norm(start, stop); // { x: -0.66667, y: 0.5 }')
+	 *
+	 */
+	norm: function(start, stop) {
+		this.x = paper.normalize(this.x, start.x, stop.x);
+		this.y = paper.normalize(this.y, start.y, stop.y);
+		return this;
+	},
+
+		// /**
+	//  *
+	//  *	@return {Point} limit Point
+	//  *
+	//  */
+	// limit: function(lim) {
+	// 	if (this.magSq() > lim * lim) {
+	// 		this.normalize();
+	// 		this.mult * lim;
+	// 		return this;
+	// 	}
+	// 	return this;
+	// },
+
+	/**
+	 *	{@grouptitle Vector Math Functions}
+	 *
+	 *	@return {Number} vector mag squared
+	 *
+	 *	@example
+	 *	var point = new Point(0, 90);
+	 *	var result = point.magSq();
+	 *	console.log(result); // 8100
+	 *
+	 */
+	magSq: function() {
+		return this.x * this.x + this.y * this.y;
 	}
 
 
@@ -2100,10 +2488,10 @@ paper.Point.inject({
 
 
  /**
- *  
- *	FString.js
+ *
+ *	FSize.js
  *	v0.5
- *  
+ *
  *	15. May 2013
  *
  *	Ken Frederick
@@ -2111,8 +2499,123 @@ paper.Point.inject({
  *
  *	http://kennethfrederick.de/
  *	http://blog.kennethfrederick.de/
- *  
- *  
+ *
+ *
+ *	A collection of extensions for paper.Size
+ *
+ */
+
+
+/*
+ *
+ *	paper.Size
+ *
+ */
+paper.Size.inject({
+
+	/**
+	 *
+	 *	@return {Number} area
+	 *
+	 *	@example
+	 *	var size = new Size(10, 20);
+	 *	var a = size.getArea(); // 200
+	 *
+	 */
+	getArea: function() {
+		return (this.width * this.height);
+	},
+
+	/**
+	 *
+	 *	@return {Number} area of Item circumcircle
+	 *
+	 *	@example
+	 *	var size = new Size(10, 20);
+	 *	var a = size.getCircumarea(); // 200
+	 *
+	 */
+	 getCircumarea: function() {
+		var r = this.getCircumradius();
+		return Math.PI * (r*r);
+	},
+
+	/**
+	 *
+	 *	@return {Number} area of Item incircle
+	 *
+	 *	@example
+	 *	var size = new Size(10, 20);
+	 *	var a = size.getIncirclearea(); // 200
+	 *
+	 */
+	 getIncirclearea: function() {
+		var r = this.getIncircleradius();
+		return Math.PI * (r*r);
+	},
+
+	/**
+	 *
+	 *	@return {Number} the circumcircle radius of the Size bounding box
+	 *
+	 *	@example
+	 * 	var size = new Size(10, 20);
+	 *	var r = size.getCircumradius(); // 11.180339887498949
+	 *
+	 */
+	getCircumradius: function() {
+		var a = this.width;
+		var b = this.height;
+		return (Math.sqrt(a * a + b * b) / 2);
+	},
+
+	/**
+	 *
+	 *	@return {Number} the incircle radius of the Size bounding box
+	 *
+	 *	@example
+	 * 	var size = new Size(10, 20);
+	 *	var r = size.getIncircleradius();
+	 *	console.log( r ); // XX
+	 *
+	 */
+	getIncircleradius: function() {
+		return ( this.width < this.height )
+			? this.width/2
+			: this.height/2;
+	},
+
+	/**
+	 *
+	 *  Slope is expressed as rise (x) over run (y)
+	 *
+	 *	@return {Number} angle (radians)
+	 *
+	 *	@example
+	 * 	var slope = new Size(10, 20);
+	 *	var result = size.getSlopeAngle();
+	 *	console.log( paper.degrees(result) ); // 26.56
+	 *
+	 */
+	getSlopeAngle: function() {
+		return Math.atan( this.width/this.height );
+	}
+
+
+}); /**
+ *
+ *	FString.js
+ *	v0.5
+ *
+ *	15. May 2013
+ *
+ *	Ken Frederick
+ *	ken.frederick@gmx.de
+ *
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
+ *
+ *
  *	Extensions to JavaScript Array
  *	may be bad form... but whatever
  *
@@ -2126,54 +2629,54 @@ paper.Point.inject({
  *	------------------------------------------------------------------------/
 
 /**
- *	
+ *
  *	trims white space from right (end) of String
  *
- *	@return trimmed input String
+ *	@return {String} trimmed input String
  *
  */
-String.prototype.rtrim = function() {
-	for (var i=str.length-1; str.charAt(i) ==' '; i--) {
-		str = str.substring(0, i);
+String.prototype.trimEnd = function() {
+	for (var i=this.length-1; this.charAt(i) ==' '; i--) {
+		this.substring(0, i);
 	}
-	return str;
+	return this;
 };
 
 /**
- *	
+ *
  *	trims all white space from String
- *	
- *	@return string of PaperJs object type
+ *
+ *	@return {String} trimmed input string
  *
  */
 String.prototype.trim = function() {
-	str = str.replace(/(^\s*)|(\s*$)/gi,"");
-	str = str.replace(/[ ]{2,}/gi," ");
-	str = str.replace(/\n /,"\n");
-	return str;
+	this.replace(/(^\s*)|(\s*$)/gi,'');
+	this.replace(/[ ]{2,}/gi,' ');
+	this.replace(/\n /,'\n');
+	return this;
 };
 
 /**
- *	
+ *
  *	converts String to Boolean value
- *	
- *	@return Boolean value
+ *
+ *	@return {Boolean}
  *
  */
 String.prototype.toBool = function() {
 	switch(this.toLowerCase()) {
-		case "true": case "yes": case "1": return true;
-		case "false": case "no": case "0": case null: return false;
+		case 'true': case 'yes': case '1': return true;
+		case 'false': case 'no': case '0': case null: return false;
 		default: return Boolean(this);
 	}
 };
 
 
  /**
- *  
+ *
  *	Core.js
  *	v0.5
- *  
+ *
  *	15. May 2013
  *
  *	Ken Frederick
@@ -2181,8 +2684,8 @@ String.prototype.toBool = function() {
  *
  *	http://kennethfrederick.de/
  *	http://blog.kennethfrederick.de/
- *  
- *  
+ *
+ *
  *	Core Methods
  *
  */
@@ -2196,8 +2699,8 @@ String.prototype.toBool = function() {
 paper.TextItem.inject({
 	// ------------------------------------------------------------------------
 	/**
-	 *	
-	 *	@return string content which will will fit within the bounds of the TextItem
+	 *
+	 *	@return {String} content which will will fit within the bounds of the TextItem
 	 *
 	 */
 	trimToFit: function() {
@@ -2210,10 +2713,10 @@ paper.TextItem.inject({
 
 
 /**
- *  
+ *
  *	FIO.js
  *	v0.5
- *  
+ *
  *	11. August 2013
  *
  *	Ken Frederick
@@ -2240,13 +2743,13 @@ folio.FIO = {
 	/**
 	 *	save a value using HTML5 Local Storage
 	 *	http://www.w3schools.com/html/html5_webstorage.asp
-	 *	
+	 *
 	 *	@param name
 	 *				the name (key) of what we want to save
 	 *	@param value
 	 *				what we want to save
 	 */
-	saveLocal : function(name, value) {
+	saveLocal: function(name, value) {
 		if(window.localStorage) {
 			localStorage.setItem(name, String(value));
 		}
@@ -2261,7 +2764,7 @@ folio.FIO = {
 	 *	@param name
 	 *				the name (key) of what we want to retrieve
 	 */
-	getLocal : function(name) {
+	getLocal: function(name) {
 		return localStorage.getItem(name);
 	},
 
@@ -2271,7 +2774,7 @@ folio.FIO = {
 	 *	@param name
 	 *				the name (key) of what we want to retrieve
 	 */
-	getLocalInt : function(name) {
+	getLocalInt: function(name) {
 		return parseInt( getLocal(name) );
 	},
 
@@ -2281,7 +2784,7 @@ folio.FIO = {
 	 *	@param name
 	 *				the name (key) of what we want to retrieve
 	 */
-	getLocalFloat : function(name) {
+	getLocalFloat: function(name) {
 		return parseFloat( getLocal(name) );
 	},
 
@@ -2289,19 +2792,19 @@ folio.FIO = {
 	 *	@return a list of all items saved in local storage
 	 *
 	 */
-	getAllLocal : function() {
+	getAllLocal: function() {
 		return sessionStorage;
 
 	},
 
 	/**
 	 *	delete a saved value from local storage
-	 *	
+	 *
 	 *	@param name
 	 *				the name (key) of what we want to delete
 	 *
 	 */
-	deleteLocal : function(name) {
+	deleteLocal: function(name) {
 		localStorage.removeItem(name);
 	},
 
@@ -2314,13 +2817,13 @@ folio.FIO = {
 	/**
 	 *	save a value using HTML5 Session Storage
 	 *	http://www.w3schools.com/html/html5_webstorage.asp
-	 *	
+	 *
 	 *	@param name
 	 *				the name (key) of what we want to save
 	 *	@param value
 	 *				what we want to save
 	 */
-	saveSession : function(name, value) {
+	saveSession: function(name, value) {
 		if(window.sessionStorage) {
 			sessionStorage.setItem(name, String(value));
 		}
@@ -2335,7 +2838,7 @@ folio.FIO = {
 	 *	@param name
 	 *				the name (key) of what we want to retrieve
 	 */
-	getSession : function(name) {
+	getSession: function(name) {
 		return sessionStorage.getItem(name);
 	},
 
@@ -2345,7 +2848,7 @@ folio.FIO = {
 	 *	@param name
 	 *				the name (key) of what we want to retrieve
 	 */
-	getSessionInt : function(name) {
+	getSessionInt: function(name) {
 		return parseInt( getSession(name) );
 	},
 
@@ -2355,7 +2858,7 @@ folio.FIO = {
 	 *	@param name
 	 *				the name (key) of what we want to retrieve
 	 */
-	getSessionFloat : function(name) {
+	getSessionFloat: function(name) {
 		return parseFloat( getSession(name) );
 	},
 
@@ -2363,19 +2866,19 @@ folio.FIO = {
 	 *	@return a list of all items saved in session storage
 	 *
 	 */
-	getAllSession : function() {
+	getAllSession: function() {
 		return sessionStorage;
 
 	},
 
 	/**
 	 *	delete a saved value from session storage
-	 *	
+	 *
 	 *	@param name
 	 *				the name (key) of what we want to delete
 	 *
 	 */
-	deleteSession : function(name) {
+	deleteSession: function(name) {
 		sessionStorage.removeItem(name);
 	},
 
@@ -2385,10 +2888,10 @@ folio.FIO = {
 	 *	Cookies
 	 *	http://www.quirksmode.org/js/cookies.html
 	 */
-	
+
 	/**
 	 *	save a value as a cookie
-	 *	
+	 *
 	 *	@param name
 	 *				the name (key) of what we want to save
 	 *	@param value
@@ -2396,7 +2899,7 @@ folio.FIO = {
 	 *	@param days
 	 *				how many days do we want to save it for
 	 */
-	saveCookie : function(name, value, days) {
+	saveCookie: function(name, value, days) {
 		if (days) {
 			var date = new Date();
 			date.setTime(date.getTime() + (days*24*60*60*1000));
@@ -2408,11 +2911,11 @@ folio.FIO = {
 
 	/**
 	 *	retrieve a value from a cookie
-	 *	
+	 *
 	 *	@param name
 	 *				the name (key) of what we want to retrieve
 	 */
-	openCookie : function(name) {
+	openCookie: function(name) {
 		var nameEQ = name + '=';
 		var ca = document.cookie.split(';');
 		for(var i=0;i < ca.length;i++) {
@@ -2425,11 +2928,11 @@ folio.FIO = {
 
 	/**
 	 *	delete a cookie
-	 *	
+	 *
 	 *	@param name
 	 *				the name (key) of what we want to delete
 	 */
-	deleteCookie : function(name) {
+	deleteCookie: function(name) {
 		saveCookie(name, '', -1);
 	}
 

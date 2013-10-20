@@ -4,13 +4,13 @@ Folio.js
 
 
 
-Folio.js is a library for Paper.js http://paperjs.org/. Folio.js serves as a collection of functions for supporting animations, rudimentary 3D, additional Path items and lastly a structured framework/chain of operations similar to that of Processing, OpenFrameworks, Cinder, et. al. 
+Folio.js is a library for Paper.js http://paperjs.org/. Folio.js serves as a collection of functions for supporting animations, rudimentary 3D, additional Path items and lastly a structured framework/chain of operations similar to that of Processing, OpenFrameworks, Cinder, et. al.
 
 Not all of the code used in Folio.js was created by me but credit and links are given where credit is due.
 
 Folio.js exists also as a library for use with Scriptographer. See below for more details.
 
-Additional details and explanation can be found at 
+Additional details and explanation can be found at
 http://kenfrederick.blogspot.de/2012/12/paperjs-frederickkpaper.html
 
 
@@ -19,9 +19,9 @@ http://kenfrederick.blogspot.de/2012/12/paperjs-frederickkpaper.html
 Folio Template & Framework
 -------------
 
-The Folio template takes advantage of injecting Paper.js directly into the DOM http://Paper.js.org/tutorials/getting-started/using-javascript-directly/. This enables the possibility of sharing JavaScript variables created in the HTML directly with Paper.js and visa versa. 
+The Folio template takes advantage of injecting Paper.js directly into the DOM http://Paper.js.org/tutorials/getting-started/using-javascript-directly/. This enables the possibility of sharing JavaScript variables created in the HTML directly with Paper.js and visa versa.
 
-Within ```/FolioTemplate``` are a number of files to be found ```/FolioTemplate.html``` (and ```/FolioWebappTemplate.html```). In addition to the HTML files is a script template file ```/scripts/scripts/FolioTemplate.js``` This includes all of the chain of operations methods ```Setup()```, ```Update()```, and ```Draw()``` as well as hooks for Mouse and Keyboard interactions.
+Within `/FolioTemplate` are a number of files to be found `/FolioTemplate.html` (and `/FolioWebappTemplate.html`). In addition to the HTML files is a script template file `/scripts/scripts/FolioTemplate.js` This includes all of the chain of operations methods `Setup()`, `Update()`, and `Draw()` as well as hooks for Mouse and Keyboard interactions.
 
 The template makes getting Paper.js up and running quicker. When using the template and/or renaming it be sure to uppdate all corresponding filenames.
 
@@ -39,7 +39,7 @@ Examples
 
 http://kennethfrederick.de/folio.js/
 
-All of these examples can be found in the above ```/examples``` directory. More Examples of Folio to be added as time permits.
+All of these examples can be found in the above `/examples` directory. More Examples of Folio to be added as time permits.
 
 
 
@@ -58,7 +58,7 @@ var fio = f.FIO;
 var ftime = f.FTime;
 ```
 
-See documentation ```/distribution/docs``` for API specifics.
+See documentation `/distribution/docs` for API specifics.
 
 
 
@@ -88,7 +88,7 @@ $ cd build/
 $ ./docs.sh
 ```
 
-docs are located in ```distribution/docs```
+docs are located in `distribution/docs`
 
 
 
@@ -113,8 +113,10 @@ var f = folio;
 ```
 
 As ridiculous as it seems, I've ported over support for animations within Scriptographer. The reason is two fold:
-- 1/ why not have animated clocks or physics simulations (https://vimeo.com/27951113) in illustrator 
-- 2/ prototyping an idea for Paper.js can sometimes be faster using Scriptographer.
+
+- why not have animated clocks or physics simulations (https://vimeo.com/27951113) in illustrator
+
+- prototyping an idea for Paper.js can sometimes be faster using Scriptographer.
 
 ```javascript
 function Update(event) {
@@ -123,7 +125,7 @@ function Update(event) {
 
 // add this to the very bottom of your script
 var frameRate = 12; // default frameRate is 12 FPS
-// 
+//
 Animate(
 	true, // true if you want to animate the Update() function
 	frameRate // the framerate
@@ -158,7 +160,7 @@ Finally pushed most of the core elements of this library into my unsupported for
 - 29. March 2013
 0.35a
 
-Cleaned out lots of unnecessary files, at some point I'm planning on getting rid of the "Core" of this library and adding it directly to my forked version of Paper.js itself. 
+Cleaned out lots of unnecessary files, at some point I'm planning on getting rid of the "Core" of this library and adding it directly to my forked version of Paper.js itself.
 
 Added new examples, Extruder and Lissajous.
 
