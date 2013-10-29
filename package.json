@@ -2,7 +2,7 @@
   "name": "folio.js",
   "filename": "folio",
   "version": "0.6.0",
-  "description": "A library intended for use with Paper.js (http://paperjs.org/) ",
+  "description": "A library for use with Paper.js (http://paperjs.org/) and Scriptographer (http://scriptographer.org/)",
   "main": "distribution/paper.folio.js",
   "directories": {
     "example": "examples"

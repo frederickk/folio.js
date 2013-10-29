@@ -31,7 +31,7 @@
   "authors": [
     "Ken Frederick"
   ],
-  "description": "A library intended for use with Paper.js (http://paperjs.org/)",
+  "description": "A library for use with Paper.js (http://paperjs.org/) and Scriptographer (http://scriptographer.org/)",
   "keywords": [
     "\"paperjs\"",
     "\"scriptographer\"",
