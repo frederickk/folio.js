@@ -1,4 +1,4 @@
-/**
+/*
  *
  *	FString.js
  *
@@ -7,13 +7,13 @@
  */
 
 
-/*	------------------------------------------------------------------------
+/**	------------------------------------------------------------------------
  *
  *	Strings
  *
  *	------------------------------------------------------------------------/
 
-/*
+/**
  *
  *	trims white space from right (end) of String
  *
@@ -27,7 +27,7 @@ String.prototype.trimEnd = function() {
 	return this;
 };
 
-/*
+/**
  *
  *	trims all white space from String
  *
@@ -41,7 +41,7 @@ String.prototype.trim = function() {
 	return this;
 };
 
-/*
+/**
  *
  *	converts String to Boolean value
  *

@@ -82,10 +82,10 @@ function Setup() {
 	);
 
 	// billGreen = new f3d.FPath3.BillBox(
-	// 	scene,
-	// 	new f3d.FPoint3(size,size,0),
-	// 	new f3d.FSize3(size, size, size),
-	// 	[9,17,7]
+	//	scene,
+	//	new f3d.FPoint3(size,size,0),
+	//	new f3d.FSize3(size, size, size),
+	//	[9,17,7]
 	// );
 	// billGreen.fillColor = new Color(0.62, 0.77, 0.14);
 

@@ -1,4 +1,4 @@
-/**
+/*
  *
  *	FStopwatch.js
  *
@@ -11,7 +11,7 @@ folio.FTime.FStopwatch = function() {
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	private
 	 */
 	var _now;
@@ -24,7 +24,7 @@ folio.FTime.FStopwatch = function() {
 	// ------------------------------------------------------------------------
 	// Methods
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *
 	 *	toggle (start/stop) the stopwatch
 	 *
@@ -38,7 +38,7 @@ folio.FTime.FStopwatch = function() {
 		}
 	};
 
-	/*
+	/**
 	 *
 	 *	start the stopwatch
 	 *
@@ -50,7 +50,7 @@ folio.FTime.FStopwatch = function() {
 		_then.setTime(_then.getTime() - _timeInMs);
 	};
 
-	/*
+	/**
 	 *
 	 *	pause the stopwatch
 	 *
@@ -62,7 +62,7 @@ folio.FTime.FStopwatch = function() {
 		_timeInMs = _now.getTime() - _then.getTime();
 	};
 
-	/*
+	/**
 	 *
 	 *	reset the stopwatch
 	 *
@@ -77,7 +77,7 @@ folio.FTime.FStopwatch = function() {
 	// ------------------------------------------------------------------------
 	// Sets
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *
 	 *	set the stopwatch
 	 *
@@ -101,7 +101,7 @@ folio.FTime.FStopwatch = function() {
 	// ------------------------------------------------------------------------
 	// Gets
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *
 	 *	@return the time elapsed
 	 *
@@ -114,7 +114,7 @@ folio.FTime.FStopwatch = function() {
 		return _timeInMs;
 	};
 
-	/*
+	/**
 	 *
 	 *	@return whether the stopwatch is running
 	 *

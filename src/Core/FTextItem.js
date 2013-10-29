@@ -1,4 +1,4 @@
-/**
+/*
  *
  *	FTextItem.js
  *
@@ -7,14 +7,14 @@
  */
 
 
-/*
+/**
  *
  *	paper.TextItem
  *
  */
 paper.TextItem.inject({
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *
 	 *	@return {String} content which will will fit within the bounds of the TextItem
 	 *

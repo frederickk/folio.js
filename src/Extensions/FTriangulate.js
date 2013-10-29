@@ -1,4 +1,4 @@
-/**
+/*
  *
  *	Delaunay Triangulation
  *	Joshua Bell
@@ -26,7 +26,7 @@
  *
  */
 
-/*
+/**
  *	@example
  *	var triangulate = new FTriangulate( points );
  *
@@ -55,7 +55,7 @@ var EPSILON = 1.0e-6;
 
 
 
-/*
+/**
  *	FTriangulate
  *
  *	@param points
@@ -75,7 +75,7 @@ folio.FTriangulate = function( points ) {
 	//-----------------------------------------------------------------------------
 	// Classes
 	//-----------------------------------------------------------------------------
-	/*
+	/**
 	 *	Triangle
 	 *
 	 *	@param p1
@@ -99,7 +99,7 @@ folio.FTriangulate = function( points ) {
 		//-----------------------------------------------------------------------------
 		// Methods
 		//-----------------------------------------------------------------------------
-		/*
+		/**
 		 *	vertex (Edge) sharing
 		 *
 		 *	@param other
@@ -111,7 +111,7 @@ folio.FTriangulate = function( points ) {
 			p3 == other.p1 || p3 == other.p2 || p3 == other.p3;
 		}
 
-		/*
+		/**
 		 *	@return circle
 		 *			Point of the circle center
 		 */
@@ -152,7 +152,7 @@ folio.FTriangulate = function( points ) {
 		};
 
 		//-----------------------------------------------------------------------------
-		/*
+		/**
 		 *	@return center
 		 *			Point of the centroid center
 		 *
@@ -166,9 +166,9 @@ folio.FTriangulate = function( points ) {
 		};
 
 		//-----------------------------------------------------------------------------
-		/*
+		/**
 		 *	 @return
-		 *	 		a sorted array (Edge) of the Triangle's Edges (shortest to longest)
+		 *			a sorted array (Edge) of the Triangle's Edges (shortest to longest)
 		 */
 		function distances() {
 			var distances = [];
@@ -181,7 +181,7 @@ folio.FTriangulate = function( points ) {
 		};
 
 		//-----------------------------------------------------------------------------
-		/*
+		/**
 		 *	http://www.btinternet.com/~se16/hgb/triangle.htm
 		 */
 		function width() {
@@ -228,9 +228,9 @@ folio.FTriangulate = function( points ) {
 		//-----------------------------------------------------------------------------
 		// Gets
 		//-----------------------------------------------------------------------------
-		/*
+		/**
 		 *	 @return
-		 *	  		the points of the triangle as a Point array
+		 *	 		the points of the triangle as a Point array
 		 */
 		function get() {
 			var points = [_p1, _p2, _p3];
@@ -255,7 +255,7 @@ folio.FTriangulate = function( points ) {
 
 	};
 
-	/*
+	/**
 	 *	Edge
 	 *	TODO: replace with paper.Segment
 	 *
@@ -277,7 +277,7 @@ folio.FTriangulate = function( points ) {
 		//-----------------------------------------------------------------------------
 		// Methods
 		//-----------------------------------------------------------------------------
-		/*
+		/**
 		 *	sorts edge by shortest to longest
 		 *
 		 *	@param o
@@ -292,9 +292,9 @@ folio.FTriangulate = function( points ) {
 		//-----------------------------------------------------------------------------
 		// Gets
 		//-----------------------------------------------------------------------------
-		/*
+		/**
 		 *	 @return
-		 *	  		the points of the edge as a Point array
+		 *	 		the points of the edge as a Point array
 		 */
 		function get() {
 			var points = [_p1, _p2];
@@ -318,7 +318,7 @@ folio.FTriangulate = function( points ) {
 	//-----------------------------------------------------------------------------
 	// Methods
 	//-----------------------------------------------------------------------------
-	/*
+	/**
 	 *	Triangulation subroutine
 	 *
 	 *	Returned is a list of triangular faces in the Array triangles
@@ -478,7 +478,7 @@ folio.FTriangulate = function( points ) {
 	};
 
 	//-----------------------------------------------------------------------------
-	/*
+	/**
 	 *	Return TRUE if a point (xp,yp) is inside the circumcircle made up
 	 *	of the points (x1,y1), (x2,y2), (x3,y3)
 	 *	The circumcircle center is returned in (xc,yc) and the radius r
@@ -545,7 +545,7 @@ folio.FTriangulate = function( points ) {
 	};
 
 	//-----------------------------------------------------------------------------
-	/*
+	/**
 	 *	findClosest Triangle
 	 *
 	 *	Returns the closest Triangle based on the input Triangle
@@ -580,7 +580,7 @@ folio.FTriangulate = function( points ) {
 	};
 
 	//-----------------------------------------------------------------------------
-	/*
+	/**
 	 *
 	 *	sort Point rray from left to right
 	 *
@@ -596,7 +596,7 @@ folio.FTriangulate = function( points ) {
 		else return 0;
 	};
 
-	/*
+	/**
 	 *
 	 *	sort Point array from top to bottom
 	 *
@@ -612,7 +612,7 @@ folio.FTriangulate = function( points ) {
 		else return 0;
 	};
 
-	/*
+	/**
 	 *
 	 *	remove Point duplicates
 	 *
@@ -632,7 +632,7 @@ folio.FTriangulate = function( points ) {
 		return arr;
 	};
 
-	/*
+	/**
 	 *
 	 *	remove Edge duplicates
 	 *
@@ -655,23 +655,23 @@ folio.FTriangulate = function( points ) {
 		// TODO: This is O(n^2), make it O(n) with a hash or some such
 		// var uniqueEdges = [];
 		// for( var i=0; i<edges.length; i++ ) {
-		// 	var edge1 = edges[i];
-		// 	var unique = true;
+		//	var edge1 = edges[i];
+		//	var unique = true;
 
-		// 	for( var j=0; j<edges.length; j++ ) {
-		// 		if( i != j ) {
-		// 			var edge2 = edges[j];
-		// 			if( ( edge1.p1 == edge2.p1 && edge1.p2 == edge2.p2 ) ||
-		// 				( edge1.p1 == edge2.p2 && edge1.p2 == edge2.p1 ) ) {
-		// 				unique = false;
-		// 				break;
-		// 			}
-		// 		}
-		// 	}
+		//	for( var j=0; j<edges.length; j++ ) {
+		//		if( i != j ) {
+		//			var edge2 = edges[j];
+		//			if( ( edge1.p1 == edge2.p1 && edge1.p2 == edge2.p2 ) ||
+		//				( edge1.p1 == edge2.p2 && edge1.p2 == edge2.p1 ) ) {
+		//				unique = false;
+		//				break;
+		//			}
+		//		}
+		//	}
 
-		// 	if( unique ) {
-		// 		uniqueEdges.push( edge1 );
-		// 	}
+		//	if( unique ) {
+		//		uniqueEdges.push( edge1 );
+		//	}
 		// }
 
 		// return uniqueEdges;
@@ -682,7 +682,7 @@ folio.FTriangulate = function( points ) {
 	//-----------------------------------------------------------------------------
 	// sets
 	//-----------------------------------------------------------------------------
-	/*
+	/**
 	 *	add point(s) to Triangulation
 	 *
 	 *	@param point
@@ -716,7 +716,7 @@ folio.FTriangulate = function( points ) {
 	//-----------------------------------------------------------------------------
 	// Gets
 	//-----------------------------------------------------------------------------
-	/*
+	/**
 	 *	@param index
 	 *			index of Triangle to return (optional)
 	 *
@@ -732,7 +732,7 @@ folio.FTriangulate = function( points ) {
 		}
 	};
 
-	/*
+	/**
 	 *	@param index
 	 *			index of Point to return (optional)
 	 *
@@ -774,7 +774,7 @@ folio.FTriangulate = function( points ) {
 
 
 
-/*
+/**
  *
  *	HashSet
  *	Phùng Văn Huy

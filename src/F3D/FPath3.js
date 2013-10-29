@@ -1,4 +1,4 @@
-/**
+/*
  *
  *	FPath3.js
  *
@@ -8,7 +8,7 @@
 
 
 
-folio.F3D.FPath3 = Path.extend(/* @lends Path# */{
+folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
@@ -32,7 +32,7 @@ folio.F3D.FPath3 = Path.extend(/* @lends Path# */{
 	// ------------------------------------------------------------------------
 	// Methods
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *
 	 *	@param scene
 	 *				the scene to attach this path to
@@ -67,7 +67,7 @@ folio.F3D.FPath3 = Path.extend(/* @lends Path# */{
 	// ------------------------------------------------------------------------
 	// Sets
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	@param scene
 	 *			scene to associate points with
 	 */
@@ -80,7 +80,7 @@ folio.F3D.FPath3 = Path.extend(/* @lends Path# */{
 		}
 	},
 
-	/*
+	/**
 	 *	@param _fpoint3
 	 *			add FPoint3 to path
 	 */
@@ -94,11 +94,11 @@ folio.F3D.FPath3 = Path.extend(/* @lends Path# */{
 
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	@param arg0
 	 *			FPoint3 for transformation
 	 */
-	/*
+	/**
 	 *	@param arg0
 	 *			x point
 	 *	@param arg1
@@ -137,7 +137,7 @@ folio.F3D.FPath3 = Path.extend(/* @lends Path# */{
 		}
 	},
 
-	/*
+	/**
 	 *	@param val
 	 *			degree value for x axis rotation
 	 */
@@ -145,7 +145,7 @@ folio.F3D.FPath3 = Path.extend(/* @lends Path# */{
 		this._rotation.x = val;
 	},
 
-	/*
+	/**
 	 *	@param val
 	 *			degree value for y axis rotation
 	 */
@@ -153,7 +153,7 @@ folio.F3D.FPath3 = Path.extend(/* @lends Path# */{
 		this._rotation.y = val;
 	},
 
-	/*
+	/**
 	 *	@param val
 	 *			degree value for z axis rotation
 	 */
@@ -183,10 +183,10 @@ folio.F3D.FPath3 = Path.extend(/* @lends Path# */{
 
 // }, new function() { // Scope for drawing
 
-// 	return {
-// 		_draw: function(ctx, param) {
-// 		},
-// 	};
+//	return {
+//		_draw: function(ctx, param) {
+//		},
+//	};
 
 // }, {
 

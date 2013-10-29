@@ -1,4 +1,4 @@
-/**
+/*
  *
  *	FScene3.js
  *
@@ -8,7 +8,7 @@
 
 
 
-/*
+/**
  *
  *	TODO:	leave as is and accept or redo entire engine
  *			possibly look into using three.js as the engine
@@ -18,7 +18,7 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	private
 	 */
 	var _mode = 'PERSPECTIVE'; // default
@@ -36,7 +36,7 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 	var _groupBot = null;
 	var _groupTop = null;
 
-	/*
+	/**
 	 *	public
 	 */
 	this.bounds = new folio.F3D.FSize3(0,0,0);
@@ -49,7 +49,7 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 	// ------------------------------------------------------------------------
 	// Methods
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	matrix for isometric projection
 	 *
 	 *	TODO: figure out why this has to be
@@ -66,7 +66,7 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 		);
 	};
 
-	/*
+	/**
 	 *	_perspective( for perspective projection
 	 */
 	this._perspective = function() {
@@ -80,16 +80,16 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	@param width
 	 *				width of scene
- 	 *				default: view.bounds.width
+	 *				default: view.bounds.width
 	 *	@param height
 	 *				height of scene
- 	 *				default: view.bounds.height
+	 *				default: view.bounds.height
 	 *	@param focalLength
 	 *				focal length of scene
- 	 *				default: 1000
+	 *				default: 1000
 	 *	@param mode
 	 *				'PERSPECTIVE' objects scale to perspective
 	 *				'ORTHO' objects do not scale (isometric)
@@ -124,7 +124,7 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 	};
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	draws FPath3 objects
 	 *
 	 *	@return group of FPath3 objects
@@ -209,7 +209,7 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	@param arg0
 	 *				x coordinate
 	 *	@param arg1
@@ -236,7 +236,7 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 	};
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	@param pointsArr
 	 *				the array of points x[0], y[1], z[2]
 	 *	@param start
@@ -247,24 +247,24 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 	 *	@return average value of z
 	 *
 	 */
- 	this.averageZ = function(pointsArr, start, stop) {
+	this.averageZ = function(pointsArr, start, stop) {
 		var avgz = 0;
 		for(var i=start; i<stop; i+=2) {
-		// 	// console.log( 'x\t' + pointsArr[i] );
-		// 	// console.log( 'y\t' + pointsArr[i+1] );
-		// 	// console.log( 'z\t' + pointsArr[i+2] );
+		//	// console.log( 'x\t' + pointsArr[i] );
+		//	// console.log( 'y\t' + pointsArr[i+1] );
+		//	// console.log( 'z\t' + pointsArr[i+2] );
 			avgz += parseInt( pointsArr[i+2] );
 		}
 		var num = (stop-start)/3;
 		return avgz/num;
 	};
 
-	/*
+	/**
 	 *
 	 *	comparator to sort object by z value
 	 *
 	 */
- 	function compare(a,b) {
+	function compare(a,b) {
 		if (a.z < b.z) return -1;
 		if (a.z > b.z) return 1;
 		return 0;
@@ -275,7 +275,7 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 	// ------------------------------------------------------------------------
 	// Sets
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	@param mode
 	 *				'PERSPECTIVE' objects scale to perspective
 	 *				'ORTHO' objects do not scale (isometric)
@@ -284,11 +284,11 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 		_mode = mode != undefined ? mode : 'PERSPECTIVE';
 	};
 
-	/*
+	/**
 	 *	@param item
 	 *			an FPath3 item to add to the scene
 	 */
-	/*
+	/**
 	 *	@param item
 	 *			an array of FPath3 items to add to the scene
 	 */
@@ -306,7 +306,7 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 	};
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	@param val
 	 *			degree value for x axis rotation
 	 */
@@ -314,7 +314,7 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 		_rotation.setX(val);
 	};
 
-	/*
+	/**
 	 *	@param val
 	 *			degree value for y axis rotation
 	 */
@@ -322,7 +322,7 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 		_rotation.setY(val);
 	};
 
-	/*
+	/**
 	 *	@param val
 	 *			degree value for z axis rotation
 	 */
@@ -335,7 +335,7 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 	// ------------------------------------------------------------------------
 	// Gets
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *
 	 *	@return scene path items as _groupBot
 	 *
@@ -344,7 +344,7 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 		return _groupBot;
 	};
 
-	/*
+	/**
 	 *
 	 *	@return scene size as array [width, height, depth]
 	 *
@@ -353,7 +353,7 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 		return [ this.bounds.width, this.bounds.height, this.bounds.depth ];
 	};
 
-	/*
+	/**
 	 *
 	 *	@return scene transformation _matrix
 	 *
@@ -362,7 +362,7 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 		return _matrix;
 	};
 
-	/*
+	/**
 	 *
 	 *	@return scene focal length (depth)
 	 *
@@ -371,7 +371,7 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 		return this.bounds.depth;
 	};
 
-	/*
+	/**
 	 *
 	 *	@return scene scale
 	 *

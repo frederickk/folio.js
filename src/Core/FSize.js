@@ -1,4 +1,4 @@
-/**
+/*
  *
  *	FSize.js
  *
@@ -7,14 +7,14 @@
  */
 
 
-/*
+/**
  *
  *	paper.Size
  *
  */
 paper.Size.inject({
 
-	/*
+	/**
 	 *
 	 *	@return {Number} area
 	 *
@@ -27,7 +27,7 @@ paper.Size.inject({
 		return (this.width * this.height);
 	},
 
-	/*
+	/**
 	 *
 	 *	@return {Number} area of Item circumcircle
 	 *
@@ -41,7 +41,7 @@ paper.Size.inject({
 		return Math.PI * (r*r);
 	},
 
-	/*
+	/**
 	 *
 	 *	@return {Number} area of Item incircle
 	 *
@@ -55,12 +55,12 @@ paper.Size.inject({
 		return Math.PI * (r*r);
 	},
 
-	/*
+	/**
 	 *
 	 *	@return {Number} the circumcircle radius of the Size bounding box
 	 *
 	 *	@example
-	 * 	var size = new Size(10, 20);
+	 *	var size = new Size(10, 20);
 	 *	var r = size.getCircumradius(); // 11.180339887498949
 	 *
 	 */
@@ -70,12 +70,12 @@ paper.Size.inject({
 		return (Math.sqrt(a * a + b * b) / 2);
 	},
 
-	/*
+	/**
 	 *
 	 *	@return {Number} the incircle radius of the Size bounding box
 	 *
 	 *	@example
-	 * 	var size = new Size(10, 20);
+	 *	var size = new Size(10, 20);
 	 *	var r = size.getIncircleradius();
 	 *	console.log( r ); // XX
 	 *
@@ -86,14 +86,14 @@ paper.Size.inject({
 			: this.height/2;
 	},
 
-	/*
+	/**
 	 *
 	 *  Slope is expressed as rise (x) over run (y)
 	 *
 	 *	@return {Number} angle (radians)
 	 *
 	 *	@example
-	 * 	var slope = new Size(10, 20);
+	 *	var slope = new Size(10, 20);
 	 *	var result = size.getSlopeAngle();
 	 *	console.log( paper.degrees(result) ); // 26.56
 	 *

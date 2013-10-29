@@ -96,6 +96,17 @@ Alternatively type `grunt watch` to have the build run automatically when you ma
 
 
 
+Documentation
+-------------
+
+A (not yet) comprehensive documentation of folio.js functions can be found in the `documentation/` folder. You can build documentation by following the build steps above, once inside the folio.js directy simply enter:
+
+```shell
+grunt doc
+```
+
+
+
 Scriptographer Bonus
 -------------
 

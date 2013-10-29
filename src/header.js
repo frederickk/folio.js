@@ -1,4 +1,4 @@
-/*!
+/**!
  *
  *	folio.js
  *	@VERSION

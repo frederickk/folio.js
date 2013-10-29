@@ -1,4 +1,4 @@
-/**
+/*
  *
  *	FDate.js
  *
@@ -9,12 +9,12 @@ folio.FTime.FDate = function() {
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	public
 	 */
 	this.date;
 
-	/*
+	/**
 	 *	private
 	 */
 	var _months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -25,7 +25,7 @@ folio.FTime.FDate = function() {
 	// ------------------------------------------------------------------------
 	// Methods
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	private
 	 */
 	var _addZero = function(val) {
@@ -35,10 +35,10 @@ folio.FTime.FDate = function() {
 
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	public
 	 */
-	/*
+	/**
 	 *	@return return the current year as 'YYYY'
 	 */
 	this.year = function() {
@@ -47,7 +47,7 @@ folio.FTime.FDate = function() {
 		return year;
 	};
 
-	/*
+	/**
 	 *	@return return the current month as 'MM'
 	 */
 	this.month = function() {
@@ -57,7 +57,7 @@ folio.FTime.FDate = function() {
 		return month;
 	};
 
-	/*
+	/**
 	 *	@return return the current day as string 'DD'
 	 */
 	this.day = function() {
@@ -66,7 +66,7 @@ folio.FTime.FDate = function() {
 		return day;
 	};
 
-	/*
+	/**
 	 *	@return return the current hour as string 'HH'
 	 */
 	this.hour = function() {
@@ -76,7 +76,7 @@ folio.FTime.FDate = function() {
 		return hour;
 	};
 
-	/*
+	/**
 	 *	@return return the current minute as string 'mm'
 	 */
 	this.minute = function() {
@@ -86,7 +86,7 @@ folio.FTime.FDate = function() {
 		return minute;
 	};
 
-	/*
+	/**
 	 *	@return return the current second as string 'ss'
 	 */
 	this.second = function() {
@@ -96,16 +96,16 @@ folio.FTime.FDate = function() {
 		return second;
 	};
 
-	/*
+	/**
 	 *	return the current date as string "yyyyMMdd"
 	 *
 	 *	@return date
 	 */
 	// this.date = function() {
-	// 	return this.year() + this.month() + this.day();
+	//	return this.year() + this.month() + this.day();
 	// };
 
-	/*
+	/**
 	 *	@param format
 	 *			boolean array = [hours, minutes, seconds]
 	 *
@@ -133,7 +133,7 @@ folio.FTime.FDate = function() {
 		);
 	};
 
-	/*
+	/**
 	 *	add to time
 	 *
 	 *	@param _d
@@ -149,7 +149,7 @@ folio.FTime.FDate = function() {
 		return this.date + (24 * _d + 60 * _h + 60 * _m + 1000 * s);
 	};
 
-	/*
+	/**
 	 *	sub from time
 	 *
 	 *	@param _d
@@ -170,7 +170,7 @@ folio.FTime.FDate = function() {
 	// ------------------------------------------------------------------------
 	// Sets
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	set to a specific time
 	 *
 	 *	@param _d
@@ -193,7 +193,7 @@ folio.FTime.FDate = function() {
 	// ------------------------------------------------------------------------
 	// Gets
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	@param ms
 	 *			input as milliseconds
 	 *	@param format
@@ -227,7 +227,7 @@ folio.FTime.FDate = function() {
 		return str;
 	};
 
-	/*
+	/**
 	 *	@param h
 	 *			input as hours OR input string as hh:mm:ss OR mm:ss
 	 *	@param m
@@ -252,7 +252,7 @@ folio.FTime.FDate = function() {
 		return parseInt(3600000 * h + 60000 * m + 1000 * s);
 	};
 
-	/*
+	/**
 	 *	@param strHMS
 	 *			input string as hh:mm:ss
 	 *

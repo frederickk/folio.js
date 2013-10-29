@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Extensions/FRoute.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: Extensions/FRoute.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>/*
+ *	Travelling Salesman Problem Algorithm
+ *
+ *	Taken from "SVG Stipple Generator, v 1.0"
+ *	Copyright (C) 2012 by Windell H. Oskay
+ *
+ *	http://www.evilmadscientist.com
+ *	http://www.evilmadscientist.com/go/stipple
+ *
+ *
+ *	Modified/Simplified for Paper.js
+ *
+ *	Ken Frederick
+ *	ken.frederick@gmx.de
+ *
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
+ *
+ */
+
+/**
+ *	@param  {PathItem} items
+ *	       	an array of PathItems
+ *	@param  {Number} iterations (optional)
+ *	       	tests per frame (higher = better) default: 1000
+ *
+ *	@return {Array} an array of indices for the route through the input items
+ *
+ */
+folio.FRoute = function(items, iterations) {
+	// ------------------------------------------------------------------------
+	// Properties
+	// ------------------------------------------------------------------------
+	var items = items;
+	var iterations = (iterations != undefined)
+		? iterations
+		: 1000;
+
+	var RouteStep = 0;
+	var RouteNodes = [];
+
+
+
+	// ------------------------------------------------------------------------
+	// Methods
+	// ------------------------------------------------------------------------
+	function calculate() {
+		var temp;
+		var p1;
+
+		if(RouteStep == 0) {
+			//	Begin process of optimizing plotting route,
+			//	by flagging nodes that will be shown.
+			//	console.log("Optimizing plotting path");
+			var RouteNodesLength = 0;
+			var RouteNodesTemp = new Array(items.length);
+
+			for(var i=0; i&lt;items.length; ++i) {
+
+				RouteNodesTemp[i] = false;
+				var px = items[i].position.x;
+				var py = items[i].position.y;
+
+				if( (px >= view.bounds.width) || (py >= view.bounds.height) ||
+					(px &lt; 0) || (py &lt; 0)) {
+					continue;
+				}
+				else {
+					RouteNodesTemp[i] = true;
+					RouteNodesLength++;
+				}
+			}
+
+			// These are the ONLY points to be drawn in the tour.
+			RouteNodes = new Array(RouteNodesLength);
+			var tempCounter = 0;
+			for(var i=0; i&lt;items.length; ++i) {
+				if(RouteNodesTemp[i]) {
+					RouteNodes[tempCounter] = i;
+					tempCounter++;
+				}
+			}
+		}
+
+		var nodesNum = RouteNodes.length - 1;
+		if(RouteStep &lt; (RouteNodes.length - 2))  {
+			//	console.log('Nearest neighbor ("Simple, Greedy") algorithm path optimization:');
+			//	1000 steps per frame displayed; you can edit this number!
+			var StopPoint = RouteStep + 1000;
+
+			if(StopPoint > nodesNum)
+				StopPoint = nodesNum;
+
+			for(var i=RouteStep; i&lt;StopPoint; ++i) {
+				p1 = items[RouteNodes[RouteStep]].position;
+				var ClosestNode = 0;
+				var distMin = Number.MAX_VALUE;
+
+				for(var j=RouteStep+1; j&lt;nodesNum; ++j) {
+					var p2 = items[ RouteNodes[j] ].position;
+
+					var dx = p1.x - p2.x;
+					var dy = p1.y - p2.y;
+					var distance = (dx*dx+dy*dy);	// Only looking for closest; do not need sqrt factor!
+
+					if(distance &lt; distMin) {
+						ClosestNode = j;
+						distMin = distance;
+					}
+				}
+
+				temp = RouteNodes[RouteStep + 1];
+				//p1 = items[RouteNodes[RouteStep + 1]];
+				RouteNodes[RouteStep + 1] = RouteNodes[ClosestNode];
+				RouteNodes[ClosestNode] = temp;
+
+				if(RouteStep &lt; (nodesNum)) {
+					RouteStep++;
+				}
+				else {
+					console.log("Now optimizing plot path" );
+				}
+			}
+
+		}
+		//else {
+			// Initial routing is complete
+			// console.log('2-opt heuristic optimization');
+			// Identify a pair of edges that would become shorter by reversing part of the tour.
+
+			// var groupPath = new Group();
+			for(var i=0; i&lt;iterations; ++i) {
+
+				var indexA = Math.floor( Math.random()*nodesNum );
+				var indexB = Math.floor( Math.random()*nodesNum );
+
+				// console.log('indexA', indexA);
+				// console.log('indexB', indexB);
+
+				if(Math.abs(indexA - indexB) &lt; 2)
+					continue;
+
+				if(indexB &lt; indexA) {
+					// swap A, B.
+					temp = indexB;
+					indexB = indexA;
+					indexA = temp;
+				}
+
+				var a0 = items[ RouteNodes[indexA] ].position;
+				var a1 = items[ RouteNodes[indexA + 1] ].position;
+				var b0 = items[ RouteNodes[indexB] ].position;
+				var b1 = items[ RouteNodes[indexB + 1] ].position;
+
+				// Original distance:
+				var dx = a0.x - a1.x;
+				var dy = a0.y - a1.y;
+				var distance = (dx*dx+dy*dy);	// Only a comparison; do not need sqrt factor!
+				dx = b0.x - b1.x;
+				dy = b0.y - b1.y;
+				distance += (dx*dx+dy*dy);	//	Only a comparison; do not need sqrt factor!
+
+				// Possible shorter distance?
+				dx = a0.x - b0.x;
+				dy = a0.y - b0.y;
+				var distance2 = (dx*dx+dy*dy);	//	Only a comparison; do not need sqrt factor!
+				dx = a1.x - b1.x;
+				dy = a1.y - b1.y;
+				distance2 += (dx*dx+dy*dy);	// Only a comparison; do not need sqrt factor!
+
+				if(distance2 &lt; distance) {
+					// Reverse tour between a1 and b0.
+
+					var indexhigh = indexB;
+					var indexlow = indexA + 1;
+
+					while (indexhigh > indexlow) {
+						temp = RouteNodes[indexlow];
+						RouteNodes[indexlow] = RouteNodes[indexhigh];
+						RouteNodes[indexhigh] = temp;
+
+						indexhigh--;
+						indexlow++;
+					}
+				}
+
+			}
+		// }
+		//
+	};
+
+
+
+	// ------------------------------------------------------------------------
+	// Instantiate
+	// ------------------------------------------------------------------------
+	calculate();
+
+
+
+	// ------------------------------------------------------------------------
+	// Gets
+	// ------------------------------------------------------------------------
+	return {
+		route: RouteNodes
+	};
+
+
+};
+
+
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Global</h3><ul><li><a href="global.html#boolToInt">boolToInt</a></li><li><a href="global.html#brighten">brighten</a></li><li><a href="global.html#bytes">bytes</a></li><li><a href="global.html#clamp">clamp</a></li><li><a href="global.html#colorToHex">colorToHex</a></li><li><a href="global.html#colorToInt">colorToInt</a></li><li><a href="global.html#componentToHex">componentToHex</a></li><li><a href="global.html#contrast">contrast</a></li><li><a href="global.html#cosec">cosec</a></li><li><a href="global.html#darken">darken</a></li><li><a href="global.html#degrees">degrees</a></li><li><a href="global.html#desaturate">desaturate</a></li><li><a href="global.html#dim">dim</a></li><li><a href="global.html#EPSILON">EPSILON</a></li><li><a href="global.html#FArrow">FArrow</a></li><li><a href="global.html#FBubble">FBubble</a></li><li><a href="global.html#FChain">FChain</a></li><li><a href="global.html#FCross">FCross</a></li><li><a href="global.html#FDrop">FDrop</a></li><li><a href="global.html#findById">findById</a></li><li><a href="global.html#findByName">findByName</a></li><li><a href="global.html#FTriangle">FTriangle</a></li><li><a href="global.html#getAngle">getAngle</a></li><li><a href="global.html#getArea">getArea</a></li><li><a href="global.html#getCentroid">getCentroid</a></li><li><a href="global.html#getCircumarea">getCircumarea</a></li><li><a href="global.html#getCircumcenter">getCircumcenter</a></li><li><a href="global.html#getCircumradius">getCircumradius</a></li><li><a href="global.html#getCommonTangents">getCommonTangents</a></li><li><a href="global.html#getDistanceToCenter">getDistanceToCenter</a></li><li><a href="global.html#getHeading">getHeading</a></li><li><a href="global.html#getIncircle">getIncircle</a></li><li><a href="global.html#getIncirclearea">getIncirclearea</a></li><li><a href="global.html#getIncircleradius">getIncircleradius</a></li><li><a href="global.html#getSlopeAngle">getSlopeAngle</a></li><li><a href="global.html#getType">getType</a></li><li><a href="global.html#HashSet">HashSet</a></li><li><a href="global.html#integer">integer</a></li><li><a href="global.html#interpolate">interpolate</a></li><li><a href="global.html#interpolateTo">interpolateTo</a></li><li><a href="global.html#invert">invert</a></li><li><a href="global.html#lighten">lighten</a></li><li><a href="global.html#linear">linear</a></li><li><a href="global.html#magSq">magSq</a></li><li><a href="global.html#map">map</a></li><li><a href="global.html#norm">norm</a></li><li><a href="global.html#normalize">normalize</a></li><li><a href="global.html#println">println</a></li><li><a href="global.html#radians">radians</a></li><li><a href="global.html#random">random</a></li><li><a href="global.html#randomBias">randomBias</a></li><li><a href="global.html#randomInt">randomInt</a></li><li><a href="global.html#rotate">rotate</a></li><li><a href="global.html#round">round</a></li><li><a href="global.html#saturate">saturate</a></li><li><a href="global.html#sec">sec</a></li><li><a href="global.html#snap">snap</a></li><li><a href="global.html#snapGrid">snapGrid</a></li><li><a href="global.html#snapIso">snapIso</a></li><li><a href="global.html#sq">sq</a></li><li><a href="global.html#statics">statics</a></li><li><a href="global.html#toGroup">toGroup</a></li><li><a href="global.html#trimToFit">trimToFit</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Tue Oct 29 2013 21:43:13 GMT+0100 (MEZ)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

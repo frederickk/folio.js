@@ -7,9 +7,6 @@
   "directories": {
     "example": "examples"
   },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/frederickk/folio.js"
@@ -37,6 +34,7 @@
     "grunt-contrib-uglify": "~0.2.5",
     "grunt-contrib-copy": "~0.4.1",
     "grunt-contrib-jshint": "~0.7.0",
-    "grunt-contrib-qunit": "~0.3.0"
+    "grunt-contrib-qunit": "~0.3.0",
+    "grunt-jsdoc": "~0.4.1"
   }
 }

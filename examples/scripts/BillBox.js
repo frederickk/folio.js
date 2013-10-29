@@ -1,8 +1,8 @@
 /**
- *	
+ *
  *	FBillBox.js
  *	v0.5
- *	
+ *
  *	11. August 2013
  *
  *	Ken Frederick
@@ -28,22 +28,22 @@ folio.F3D.FPath3.inject({
 		return {
 
 			/**
-			 * 
+			 *
 			 *	FBox
 			 *	Create simple box
 			 *
 			 *	@param {folio.F3D.FScene3D} scene
 			 *				the scene to attach the Box to
 			 *	@param {folio.F3D.FPoint3} fpoint3
-			 *	       		the position of the Box
+			 *	      		the position of the Box
 			 *	@param {folio.F3D.FSize3} fsize3
 			 *				the size of the Box
 			 *	@param {Array} vertices
-			 *	       		an array of vertice numbers [1,9,15,17,11,7]
+			 *	      		an array of vertice numbers [1,9,15,17,11,7]
 			 *
 			 */
 			BillBox: function(scene, fpoint3, fsize3, vertices) {
-				this._position3 = (fpoint3 != undefined) 
+				this._position3 = (fpoint3 != undefined)
 					? fpoint3
 					: new folio.F3D.FPoint3( 0,0,0 );
 
@@ -122,7 +122,7 @@ folio.F3D.FPath3.inject({
 					pointsTOP[5],
 					pointsTOP[6],
 					pointsTOP[7],
-					
+
 					pointsLEFT[3],
 
 					pointsRIGHT[3],
@@ -138,12 +138,12 @@ folio.F3D.FPath3.inject({
 					pointsBOTTOM[5],
 					pointsBOTTOM[6],
 					pointsBOTTOM[7]
-				];	
+				];
 
 				// bill shape
 				var path = new folio.F3D.FPath3();
 				for(i=0; i<vertices.length; i++) {
-					path.add3( 
+					path.add3(
 						new folio.F3D.FPoint3(
 							pointsMatrix[ vertices[i] ].x*this._size.width,
 							pointsMatrix[ vertices[i] ].y*this._size.height,

@@ -1,4 +1,4 @@
-/**
+/*
  *
  *	FCalculate.js
  *
@@ -8,7 +8,7 @@
  */
 
 
-/*
+/**
  *
  *	paper.Global
  *
@@ -20,7 +20,7 @@ PaperScope.inject({
 
 
 	//-----------------------------------------------------------------------------
-	/*
+	/**
 	 *	@param {Number} min
 	 *				minmum range
 	 *	@param {Number} max
@@ -44,7 +44,7 @@ PaperScope.inject({
 		return (min + Math.random() * (max - min));
 	},
 
-	/*
+	/**
 	 *	@param {Number} min
 	 *				minmum range
 	 *	@param {Number} max
@@ -60,7 +60,7 @@ PaperScope.inject({
 		return parseInt( paper.random(min,max) );
 	},
 
-	/*
+	/**
 	 *
 	 *	http://www.siafoo.net/snippet/191
 	 *
@@ -89,7 +89,7 @@ PaperScope.inject({
 
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *
 	 *	@param {Number} val
 	 *				the value to constrain
@@ -108,7 +108,7 @@ PaperScope.inject({
 		return (val < min) ? min : ((val > max) ? max : val);
 	},
 
-	/*
+	/**
 	 *
 	 *	@param {Number} val
 	 *				the incoming value to be converted
@@ -127,7 +127,7 @@ PaperScope.inject({
 		return (val - start) / (stop - start);
 	},
 
-	/*
+	/**
 	 *
 	 *	@param {Number} val
 	 *				the incoming value to be converted
@@ -152,7 +152,7 @@ PaperScope.inject({
 
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *
 	 *	@param {Number} val
 	 *			number
@@ -170,7 +170,7 @@ PaperScope.inject({
 		return Math.round(val * multi)/multi;
 	},
 
-	/*
+	/**
 	 *
 	 *	snap from:
 	 *	http://stackoverflow.com/questions/4507784/snap-to-grid-functionality-using-javascript
@@ -193,7 +193,7 @@ PaperScope.inject({
 		return paper.roundDecimal( snapInc * roundFunction(val / snapInc), 2 );
 	},
 
-	/*
+	/**
 	 *
 	 *	@param {Number} start
 	 *			fitst value
@@ -214,7 +214,7 @@ PaperScope.inject({
 
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *
 	 *	@param {Number} val
 	 *			input value
@@ -229,7 +229,7 @@ PaperScope.inject({
 		return val * (180/Math.PI);
 	},
 
-	/*
+	/**
 	 *
 	 *	@param {Number} val
 	 *			input value
@@ -245,7 +245,7 @@ PaperScope.inject({
 	},
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *
 	 *	Calculate secants
 	 *
@@ -262,7 +262,7 @@ PaperScope.inject({
 		return 1/Math.cos(val);
 	},
 
-	/*
+	/**
 	 *
 	 *	Calculate cosecants
 	 *
@@ -280,7 +280,7 @@ PaperScope.inject({
 	},
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *
 	 *	@param {Point} point
 	 *			input point
@@ -292,7 +292,7 @@ PaperScope.inject({
 	// }
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *
 	 *	@param {Number} val
 	 *			input value
@@ -308,7 +308,7 @@ PaperScope.inject({
 	},
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	get common outer tangents of two circles (only works with circles!)
 	 *
 	 *	@param {Path.Circle} arg0
@@ -319,7 +319,7 @@ PaperScope.inject({
 	 *	@return {Array} of points
 	 *
 	 */
-	/*
+	/**
 	 *	TODO: get common outer tangents of two curves
 	 *
 	 *	@param {Curve} arg0

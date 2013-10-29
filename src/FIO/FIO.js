@@ -1,4 +1,4 @@
-/**
+/*
  *
  *	FIO.js
  *
@@ -11,11 +11,11 @@ folio.FIO = {
 	// ------------------------------------------------------------------------
 	// Methods
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	Local Storage
 	 */
 
-	/*
+	/**
 	 *	save a value using HTML5 Local Storage
 	 *	http://www.w3schools.com/html/html5_webstorage.asp
 	 *
@@ -33,7 +33,7 @@ folio.FIO = {
 		}
 	},
 
-	/*
+	/**
 	 *	retrieve saved value (default: as string)
 	 *
 	 *	@param name
@@ -43,7 +43,7 @@ folio.FIO = {
 		return localStorage.getItem(name);
 	},
 
-	/*
+	/**
 	 *	retrieve saved value as an int
 	 *
 	 *	@param name
@@ -53,7 +53,7 @@ folio.FIO = {
 		return parseInt( getLocal(name) );
 	},
 
-	/*
+	/**
 	 *	retrieve saved value as a float
 	 *
 	 *	@param name
@@ -63,7 +63,7 @@ folio.FIO = {
 		return parseFloat( getLocal(name) );
 	},
 
-	/*
+	/**
 	 *	@return a list of all items saved in local storage
 	 *
 	 */
@@ -72,7 +72,7 @@ folio.FIO = {
 
 	},
 
-	/*
+	/**
 	 *	delete a saved value from local storage
 	 *
 	 *	@param name
@@ -85,11 +85,11 @@ folio.FIO = {
 
 
 
-	/*
+	/**
 	 *	Session Storage
 	 */
 
-	/*
+	/**
 	 *	save a value using HTML5 Session Storage
 	 *	http://www.w3schools.com/html/html5_webstorage.asp
 	 *
@@ -107,7 +107,7 @@ folio.FIO = {
 		}
 	},
 
-	/*
+	/**
 	 *	retrieve saved value (default: as string)
 	 *
 	 *	@param name
@@ -117,7 +117,7 @@ folio.FIO = {
 		return sessionStorage.getItem(name);
 	},
 
-	/*
+	/**
 	 *	retrieve saved value as an int
 	 *
 	 *	@param name
@@ -127,7 +127,7 @@ folio.FIO = {
 		return parseInt( getSession(name) );
 	},
 
-	/*
+	/**
 	 *	retrieve saved value as a float
 	 *
 	 *	@param name
@@ -137,7 +137,7 @@ folio.FIO = {
 		return parseFloat( getSession(name) );
 	},
 
-	/*
+	/**
 	 *	@return a list of all items saved in session storage
 	 *
 	 */
@@ -146,7 +146,7 @@ folio.FIO = {
 
 	},
 
-	/*
+	/**
 	 *	delete a saved value from session storage
 	 *
 	 *	@param name
@@ -159,12 +159,12 @@ folio.FIO = {
 
 
 
-	/*
+	/**
 	 *	Cookies
 	 *	http://www.quirksmode.org/js/cookies.html
 	 */
 
-	/*
+	/**
 	 *	save a value as a cookie
 	 *
 	 *	@param name
@@ -184,7 +184,7 @@ folio.FIO = {
 		document.cookie = name + '=' + value + expires + '; path=/';
 	},
 
-	/*
+	/**
 	 *	retrieve a value from a cookie
 	 *
 	 *	@param name
@@ -201,7 +201,7 @@ folio.FIO = {
 		return null;
 	},
 
-	/*
+	/**
 	 *	delete a cookie
 	 *
 	 *	@param name
@@ -213,7 +213,7 @@ folio.FIO = {
 
 
 
-	/*
+	/**
 	 *	Scriptographer specific
 	 *
 	 *	modified from Jürg Lehni
@@ -221,7 +221,7 @@ folio.FIO = {
 	 *
 	 */
 
-	/*
+	/**
 	 *	@param str
 	 *				the String of information to save (JSON encoded)
 	 *	@param fname
@@ -235,7 +235,7 @@ folio.FIO = {
 		file.close();
 	},
 
-	/*
+	/**
 	 *	@param fname
 	 *				the name of the file to open
 	 */
@@ -248,7 +248,7 @@ folio.FIO = {
 		return data;
 	},
 
-	/*
+	/**
 	 *	@param fname
 	 *				the name of the file to delete
 	 */
@@ -258,7 +258,7 @@ folio.FIO = {
 		if (file.exists()) file.remove();
 	},
 
-	/*
+	/**
 	 *	@param fname
 	 *				the name of the file to verify exists
 	 */

@@ -1,4 +1,4 @@
-/*!
+/**!
  *
  *	folio.js
  *	0.6.0
@@ -45,7 +45,7 @@
  *
  */
 
-/*!
+/**!
  *
  *	folio.js
  *	@VERSION
@@ -94,7 +94,7 @@
 
 
 // ------------------------------------------------------------------------
-/*!
+/**!
  *
  *	REQUIRED LIBRARIES!
  *
@@ -110,173 +110,163 @@ var folio = folio || {};
 
 
 
-/*
+/**
  *
  *	Initialize Structure
  *
  */
-// (function() {
-	// console.log('\nfolio.js');
-	// console.log('v.0.5');
-	// console.log('https://github.com/frederickk/folio.js');
-	// console.log('ken.frederick@gmx.de');
-	// console.log('------------------------------------\n');
+// create methods
+// drawing
+var Setup = function(){};
+var Draw = function(){};
+var Update = function(event){};
+
+var Animate = function(object){};
+var AnimateClear = function(){};
+
+// events
+// mouse
+var onMouseUp = function(event){};
+var onMouseDown = function(event){};
+var onMouseMove = function(event){};
+var onMouseDrag = function(event){};
+
+// keyboard
+var onKeyDown = function(event){};
+var onKeyUp = function(event){};
 
 
-	// create methods
-	// drawing
-	var Setup = function(){};
-	var Draw = function(){};
-	var Update = function(event){};
-
-	var Animate = function(object){};
-	var AnimateClear = function(){};
-
-	// events
-	// mouse
-	var onMouseUp = function(event){};
-	var onMouseDown = function(event){};
-	var onMouseMove = function(event){};
-	var onMouseDrag = function(event){};
-
-	// keyboard
-	var onKeyDown = function(event){};
-	var onKeyUp = function(event){};
+// install Paper.js into window
+paper.install(window);
 
 
-	// install Paper.js into window
-	paper.install(window);
+// once the DOM is ready, setup Paper.js
+window.onload = function() {
+	paper.setup('canvas');
+	console.log('Folio.js is go!');
 
 
-	// once the DOM is ready, setup Paper.js
-	window.onload = function() {
- 		paper.setup('canvas');
-		console.log('Folio.js is go!');
+	// ------------------------------------------------------------------------
+	// Methods
+	// ------------------------------------------------------------------------
+	if ( typeof Setup === 'function') Setup();
+	if ( typeof Draw === 'function') Draw();
 
 
-		// ------------------------------------------------------------------------
-		// Methods
-		// ------------------------------------------------------------------------
-		if ( typeof Setup === 'function') Setup();
-		if ( typeof Draw === 'function') Draw();
+	// ------------------------------------------------------------------------
+	var AnimationGroup = new Group();
+	AnimationGroup.name = '__AnimationGroup';
 
-
-		// ------------------------------------------------------------------------
-		var AnimationGroup = new Group();
-		AnimationGroup.name = '__AnimationGroup';
-
-		function Animate(object, order) {
-			// object must be a valid paper.js item
-			// default is to add object to top
-			if( order === 'bottom' ) AnimationGroup.appendBottom( object );
-			else AnimationGroup.appendTop( object );
-		};
-		function AnimateClear() {
-			if( project.activeLayer.children['__AnimationGroup'] ) {
-				project.activeLayer.children['__AnimationGroup'].remove();
-			}
-		};
-
-
-
-		// ------------------------------------------------------------------------
-		// Events
-		// ------------------------------------------------------------------------
-		view.onFrame = function(event) {
-			// TODO: 	add a method which clears an "animation group" each frame
-			if ( typeof Update === 'function') Update(event);
-			AnimateClear();
-		};
-
-		view.onResize = function(event) {
-			if ( typeof onResize === 'function') onResize(event);
-		};
-
-		// ------------------------------------------------------------------------
-		var tool = new Tool();
-		tool.onMouseUp = function(event) {
-			if ( typeof onMouseUp === 'function') onMouseUp(event);
-		};
-
-		tool.onMouseDown = function(event) {
-			if ( typeof onMouseDown === 'function') onMouseDown(event);
-		};
-
-		tool.onMouseMove = function(event) {
-			if ( typeof onMouseMove === 'function') onMouseMove(event);
-		};
-
-		tool.onMouseDrag = function(event) {
-			if ( typeof onMouseDrag === 'function') onMouseDrag(event);
-		};
-
-
-		// ------------------------------------------------------------------------
-		tool.onKeyDown = function(event) {
-			if ( typeof onKeyDown === 'function') onKeyDown(event);
-		};
-
-		tool.onKeyUp = function(event) {
-			if ( typeof onKeyUp === 'function') onKeyUp(event);
-		};
-
-
-		// ------------------------------------------------------------------------
-		view.draw(); // draw the screen
-
-
-
-		/*
-		 *
-		 *	Supporting Methods
-		 *
-		 */
-		// ------------------------------------------------------------------------
-		function resizeCanvas() {
-			// var width = window.innerWidth;
-			// var height = window.innerHeight;
-
-			// set canvas width and height
-			var canvas = document.getElementById('canvas');
-			var parent = canvas.parentNode;
-			if (canvas.getContext) {
-				// canvas.width = width;
-				// canvas.height = height;
-				canvas.width = parent.offsetWidth;
-				canvas.height = parent.offsetHeight;
-			}
-
-			// clear out view
-			for( var i=0; i<projects.length; i++ ) {
-				for( var j=0; j<projects[i].layers.length; j++ ) {
-					var layer = projects[i].layers[j];
-					// console.log( 'removing' );
-					layer.removeChildren();
-				}
-			}
-
-			// re-initiate setup
-			if ( typeof Setup === 'function') Setup();
-			// re-initiate draw
-			if ( typeof Draw === 'function') Draw();
-
-			// make sure view does its draw
-			view.draw();
-		};
-
-		// ------------------------------------------------------------------------
-		var resizeTimeout;
-		$(window).resize(function() {
-			clearTimeout(resizeTimeout);
-			resizeTimeout = setTimeout(resizeCanvas, 100);
-		});
-		resizeCanvas();
-
+	function Animate(object, order) {
+		// object must be a valid paper.js item
+		// default is to add object to top
+		if( order === 'bottom' ) AnimationGroup.appendBottom( object );
+		else AnimationGroup.appendTop( object );
+	};
+	function AnimateClear() {
+		if( project.activeLayer.children['__AnimationGroup'] ) {
+			project.activeLayer.children['__AnimationGroup'].remove();
+		}
 	};
 
-// })();
 
-/**
+
+	// ------------------------------------------------------------------------
+	// Events
+	// ------------------------------------------------------------------------
+	view.onFrame = function(event) {
+		// TODO:	add a method which clears an "animation group" each frame
+		if ( typeof Update === 'function') Update(event);
+		AnimateClear();
+	};
+
+	view.onResize = function(event) {
+		if ( typeof onResize === 'function') onResize(event);
+	};
+
+	// ------------------------------------------------------------------------
+	var tool = new Tool();
+	tool.onMouseUp = function(event) {
+		if ( typeof onMouseUp === 'function') onMouseUp(event);
+	};
+
+	tool.onMouseDown = function(event) {
+		if ( typeof onMouseDown === 'function') onMouseDown(event);
+	};
+
+	tool.onMouseMove = function(event) {
+		if ( typeof onMouseMove === 'function') onMouseMove(event);
+	};
+
+	tool.onMouseDrag = function(event) {
+		if ( typeof onMouseDrag === 'function') onMouseDrag(event);
+	};
+
+
+	// ------------------------------------------------------------------------
+	tool.onKeyDown = function(event) {
+		if ( typeof onKeyDown === 'function') onKeyDown(event);
+	};
+
+	tool.onKeyUp = function(event) {
+		if ( typeof onKeyUp === 'function') onKeyUp(event);
+	};
+
+
+	// ------------------------------------------------------------------------
+	view.draw(); // draw the screen
+
+
+
+	/**
+	 *
+	 *	Supporting Methods
+	 *
+	 */
+	// ------------------------------------------------------------------------
+	function resizeCanvas() {
+		// var width = window.innerWidth;
+		// var height = window.innerHeight;
+
+		// set canvas width and height
+		var canvas = document.getElementById('canvas');
+		var parent = canvas.parentNode;
+		if (canvas.getContext) {
+			// canvas.width = width;
+			// canvas.height = height;
+			canvas.width = parent.offsetWidth;
+			canvas.height = parent.offsetHeight;
+		}
+
+		// clear out view
+		for( var i=0; i<projects.length; i++ ) {
+			for( var j=0; j<projects[i].layers.length; j++ ) {
+				var layer = projects[i].layers[j];
+				// console.log( 'removing' );
+				layer.removeChildren();
+			}
+		}
+
+		// re-initiate setup
+		if ( typeof Setup === 'function') Setup();
+		// re-initiate draw
+		if ( typeof Draw === 'function') Draw();
+
+		// make sure view does its draw
+		view.draw();
+	};
+
+	// ------------------------------------------------------------------------
+	var resizeTimeout;
+	$(window).resize(function() {
+		clearTimeout(resizeTimeout);
+		resizeTimeout = setTimeout(resizeCanvas, 100);
+	});
+	resizeCanvas();
+
+};
+
+/*
  *
  *	Core.js
  *
@@ -287,16 +277,16 @@ var folio = folio || {};
 
 folio = {
 	// ------------------------------------------------------------------------
- 	// Setup Core Namespaces
+	// Setup Core Namespaces
 	// ------------------------------------------------------------------------
- 	FTime: {},
- 	FIO: {},
- 	F3D: {}
+	FTime: {},
+	FIO: {},
+	F3D: {}
 };
 
 
 
-/*
+/**
  *
  *	Global Scope (Paper.js core)
  *
@@ -308,7 +298,7 @@ PaperScope.inject({
 	//-----------------------------------------------------------------------------
 	// Methods
 	//-----------------------------------------------------------------------------
-	/*
+	/**
 	 *	Java style println output
 	 *
 	 *	@param {Object} obj
@@ -320,7 +310,7 @@ PaperScope.inject({
 	},
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *
 	 *	@param {Number} val
 	 *			input boolean value
@@ -333,7 +323,7 @@ PaperScope.inject({
 	},
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *
 	 *	@param {Object} object
 	 *			object whose type to determine
@@ -361,7 +351,7 @@ PaperScope.inject({
 		}
 	},
 
-	/*
+	/**
 	 *
 	 *	@param {Array} items
 	 *			Array of items to go through
@@ -380,7 +370,7 @@ PaperScope.inject({
 		return path;
 	},
 
-	/*
+	/**
 	 *
 	 *	@param {Array} items
 	 *			Array of items to go through
@@ -403,7 +393,7 @@ PaperScope.inject({
 
 
 
-/**
+/*
  *
  *	FArray.js
  *
@@ -412,13 +402,13 @@ PaperScope.inject({
  */
 
 
-/*
+/**
  *
  *	Array
  *
  */
 
-/*
+/**
  *
  *	@return {Number} median value
  *
@@ -435,7 +425,7 @@ Array.prototype.median = function() {
 	return median;
 };
 
-/*
+/**
  *
  *	@return {Object} unique element
  *
@@ -453,7 +443,7 @@ Array.prototype.unique = function() {
 	return u;
 };
 
-/*
+/**
  *
  *	merges (then shuffles) two Arrays
  *
@@ -469,7 +459,7 @@ Array.prototype.merge = function(arr) {
 	return output;
 };
 
-/*
+/**
  *
  *	@param {Number} start
  *				start position in array
@@ -492,7 +482,7 @@ Array.prototype.max = function(start, stop) {
 	return max;
 };
 
-/*
+/**
  *
  *	@param {Number} start
  *				start position in array
@@ -515,7 +505,7 @@ Array.prototype.min = function(start, stop) {
 	return min;
 };
 
-/*
+/**
  *
  *	http://jsfromhell.com/array/shuffle
  *	http://www.brain4.de/programmierecke/js/arrayShuffle.php
@@ -527,7 +517,7 @@ Array.prototype.shuffle = function() {
 	for (var j, x, i = this.length; i; j = parseInt(Math.random() * i), x = this[--i], this[i] = this[j], this[j] = x);
 };
 
-/*
+/**
  *
  *	http://stackoverflow.com/questions/9229645/remove-duplicates-from-javascript-array
  *
@@ -541,7 +531,7 @@ Array.prototype.removeDuplicates = function() {
 	}, [] );
 };
 
-/*
+/**
  *
  *	@param {Number} decimalPlaces
  *			number of decimal places
@@ -560,7 +550,7 @@ Array.prototype.round = function(decimalPlaces) {
 // TODO: integrate sorting methods in a much cleaner way
 var FSort = {
 
-	/*
+	/**
 	 *
 	 *	sort Array in alphabetical order
 	 *
@@ -568,7 +558,7 @@ var FSort = {
 	 *
 	 */
 	alphabetical: function(a, b) {
-		/*
+		/**
 		var A = a.toLowerCase();
 		var B = b.toLowerCase();
 
@@ -592,7 +582,7 @@ var FSort = {
 		return(a == b) ? 0 : (a>b) ? 1 : -1;
 	},
 
-	/*
+	/**
 	 *
 	 *	sort array by distance of object from center of canvas
 	 *
@@ -613,7 +603,7 @@ var FSort = {
 };
 
 
-/**
+/*
  *
  *	FCalculate.js
  *
@@ -623,7 +613,7 @@ var FSort = {
  */
 
 
-/*
+/**
  *
  *	paper.Global
  *
@@ -635,7 +625,7 @@ PaperScope.inject({
 
 
 	//-----------------------------------------------------------------------------
-	/*
+	/**
 	 *	@param {Number} min
 	 *				minmum range
 	 *	@param {Number} max
@@ -659,7 +649,7 @@ PaperScope.inject({
 		return (min + Math.random() * (max - min));
 	},
 
-	/*
+	/**
 	 *	@param {Number} min
 	 *				minmum range
 	 *	@param {Number} max
@@ -675,7 +665,7 @@ PaperScope.inject({
 		return parseInt( paper.random(min,max) );
 	},
 
-	/*
+	/**
 	 *
 	 *	http://www.siafoo.net/snippet/191
 	 *
@@ -704,7 +694,7 @@ PaperScope.inject({
 
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *
 	 *	@param {Number} val
 	 *				the value to constrain
@@ -723,7 +713,7 @@ PaperScope.inject({
 		return (val < min) ? min : ((val > max) ? max : val);
 	},
 
-	/*
+	/**
 	 *
 	 *	@param {Number} val
 	 *				the incoming value to be converted
@@ -742,7 +732,7 @@ PaperScope.inject({
 		return (val - start) / (stop - start);
 	},
 
-	/*
+	/**
 	 *
 	 *	@param {Number} val
 	 *				the incoming value to be converted
@@ -767,7 +757,7 @@ PaperScope.inject({
 
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *
 	 *	@param {Number} val
 	 *			number
@@ -785,7 +775,7 @@ PaperScope.inject({
 		return Math.round(val * multi)/multi;
 	},
 
-	/*
+	/**
 	 *
 	 *	snap from:
 	 *	http://stackoverflow.com/questions/4507784/snap-to-grid-functionality-using-javascript
@@ -808,7 +798,7 @@ PaperScope.inject({
 		return paper.roundDecimal( snapInc * roundFunction(val / snapInc), 2 );
 	},
 
-	/*
+	/**
 	 *
 	 *	@param {Number} start
 	 *			fitst value
@@ -829,7 +819,7 @@ PaperScope.inject({
 
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *
 	 *	@param {Number} val
 	 *			input value
@@ -844,7 +834,7 @@ PaperScope.inject({
 		return val * (180/Math.PI);
 	},
 
-	/*
+	/**
 	 *
 	 *	@param {Number} val
 	 *			input value
@@ -860,7 +850,7 @@ PaperScope.inject({
 	},
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *
 	 *	Calculate secants
 	 *
@@ -877,7 +867,7 @@ PaperScope.inject({
 		return 1/Math.cos(val);
 	},
 
-	/*
+	/**
 	 *
 	 *	Calculate cosecants
 	 *
@@ -895,7 +885,7 @@ PaperScope.inject({
 	},
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *
 	 *	@param {Point} point
 	 *			input point
@@ -907,7 +897,7 @@ PaperScope.inject({
 	// }
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *
 	 *	@param {Number} val
 	 *			input value
@@ -923,7 +913,7 @@ PaperScope.inject({
 	},
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	get common outer tangents of two circles (only works with circles!)
 	 *
 	 *	@param {Path.Circle} arg0
@@ -934,7 +924,7 @@ PaperScope.inject({
 	 *	@return {Array} of points
 	 *
 	 */
-	/*
+	/**
 	 *	TODO: get common outer tangents of two curves
 	 *
 	 *	@param {Curve} arg0
@@ -989,7 +979,7 @@ PaperScope.inject({
 
 });
 
-/**
+/*
  *
  *	FColor.js
  *
@@ -998,14 +988,14 @@ PaperScope.inject({
  */
 
 
-/*
+/**
  *
  *	paper.Color
  *
  */
 paper.Color.inject({
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *
 	 *	@param {Number} component
 	 *						input value to convert
@@ -1019,7 +1009,7 @@ paper.Color.inject({
 	},
 
 
-	/*
+	/**
 	 *
 	 *	http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
 	 *
@@ -1043,7 +1033,7 @@ paper.Color.inject({
 	},
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *
 	 *	@return {Number} value of input color as integer
 	 *
@@ -1064,7 +1054,7 @@ paper.Color.inject({
 		return RgbInt;
 	},
 
-	/*
+	/**
 	 *
 	 *	@param {Number} RgbInt
 	 *			value as integer
@@ -1081,7 +1071,7 @@ paper.Color.inject({
 
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *
 	 *	@param {Number} arg0
 	 *			red as byte value (0-255)
@@ -1105,7 +1095,7 @@ paper.Color.inject({
 
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	desaturate a color (based on hsb model) by percentage
 	 *	NOTE: Color operators aren't working
 	 *
@@ -1128,7 +1118,7 @@ paper.Color.inject({
 		return color;
 	},
 
-	/*
+	/**
 	 *	saturate a color (based on hsb model) by percentage
 	 *	NOTE: Color operators aren't working
 	 *
@@ -1151,7 +1141,7 @@ paper.Color.inject({
 		return color;
 	},
 
-	/*
+	/**
 	 *	darken a color (based on hsl model) by percentage
 	 *	NOTE: Color operators aren't working
 	 *
@@ -1174,7 +1164,7 @@ paper.Color.inject({
 		return color;
 	},
 
-	/*
+	/**
 	 *	dim a color (based on hsl model) by percentage
 	 *	NOTE: Color operators aren't working
 	 *
@@ -1197,7 +1187,7 @@ paper.Color.inject({
 		return color;
 	},
 
-	/*
+	/**
 	 *	lighten a color (based on hsl model) by percentage
 	 *	NOTE: Color operators aren't working
 	 *
@@ -1221,7 +1211,7 @@ paper.Color.inject({
 		return color;
 	},
 
-	/*
+	/**
 	 *	brighten a color (based on hsb model) by percentage
 	 *	NOTE: Color operators aren't working
 	 *
@@ -1246,7 +1236,7 @@ paper.Color.inject({
 	},
 
 
-	/*
+	/**
 	 *	increase color contrast (based on hsb model) by percentage
 	 *	NOTE: Color operators aren't working
 	 *
@@ -1271,7 +1261,7 @@ paper.Color.inject({
 	},
 
 
-	/*
+	/**
 	 *	invert color
 	 *	NOTE: Color operators aren't working
 	 *
@@ -1293,7 +1283,7 @@ paper.Color.inject({
 		return color;
 	},
 
-	/*
+	/**
 	 *	rotate color around hsb/l color wheel other components remain the same
 	 *	NOTE: Color operators aren't working
 	 *
@@ -1311,7 +1301,7 @@ paper.Color.inject({
 	 *		color,
 	 *		color.rotate(120),
 	 *		color.rotate(240)
- 	 * 	];
+	 *	];
 	 *
 	 */
 	rotate: function(degree) {
@@ -1320,7 +1310,7 @@ paper.Color.inject({
 		return color;
 	},
 
-	/*
+	/**
 	 *	interpolate color
 	 *
 	 *	@param {Color} from
@@ -1338,7 +1328,7 @@ paper.Color.inject({
 	 *	var interpolateColor = new Color().interpolate( color1, color2, 0.5 );
 	 *
 	 */
-	/*
+	/**
 	 *
 	 *	@param {Color} to
 	 *			end color
@@ -1357,11 +1347,11 @@ paper.Color.inject({
 	//	TODO: would interpolateTo make more sense?
 	//
 	// interpolateTo: function(toColor, amt) {
-	// 	var color = new Color( this );
-	// 	for( var i=0; i<color._components.length; i++ ) {
-	// 		color._components[i] += ((toColor._components[i] - color._components[i]) * amt);
-	// 	}
-	// 	return color;
+	//	var color = new Color( this );
+	//	for( var i=0; i<color._components.length; i++ ) {
+	//		color._components[i] += ((toColor._components[i] - color._components[i]) * amt);
+	//	}
+	//	return color;
 	// },
 	interpolate: function( arg0, arg1, arg2 ) {
 		var color = new Color( this );
@@ -1387,7 +1377,7 @@ paper.Color.inject({
 	},
 
 
-	/*
+	/**
 	 *
 	 *	@return {Color} random Color based on initialization arguments
 	 *
@@ -1428,7 +1418,7 @@ paper.Color.inject({
 
 
 
-/**
+/*
  *
  *	FConversions.js
  *
@@ -1473,7 +1463,7 @@ var FConversions = {
 };
 
 
-/**
+/*
  *
  *	FPath.js
  *
@@ -1489,7 +1479,7 @@ var FConversions = {
  */
 
 
-/*
+/**
  *
  *	paper.Item
  *
@@ -1498,7 +1488,7 @@ paper.Item.inject({
 	//-----------------------------------------------------------------------------
 	// Methods
 	//-----------------------------------------------------------------------------
-	/*
+	/**
 	 *	@param {Size} spacing
 	 *				spacing.width  = the horizontal snapping value, width of the grid.
 	 *				spacing.height = the vertical snapping value, height of the grid.
@@ -1509,7 +1499,7 @@ paper.Item.inject({
 		this.position.snapGrid(spacing);
 	},
 
-	/*
+	/**
 	 *	snaps point to an isometric grid
 	 *
 	 *	@param {Number} scale
@@ -1523,7 +1513,7 @@ paper.Item.inject({
 
 
 	//-----------------------------------------------------------------------------
-	/*
+	/**
 	 * {@grouptitle Position and Bounding Boxes}
 	 *
 	 *	Returns the distance between the item and the center of the canvas/artboard
@@ -1540,7 +1530,7 @@ paper.Item.inject({
 
 
 	//-----------------------------------------------------------------------------
-	/*
+	/**
 	 *	converts an CompoundPath into a Group otherwise returns original Item
 	 *
 	 */
@@ -1562,14 +1552,14 @@ paper.Path.inject({
 	// Methods
 	//-----------------------------------------------------------------------------
 
-	/*
+	/**
 	 *
 	 *	Center Methods
 	 *	TODO: finish adding center methods
 	 *
 	 */
 
-	/*
+	/**
 	 *	Returns the Centroid of Path
 	 *	http://stackoverflow.com/questions/2792443/finding-the-centroid-of-a-polygon
 	 *
@@ -1612,7 +1602,7 @@ paper.Path.inject({
 		return centroid;
 	},
 
-	/*
+	/**
 	 *	Returns the Circumcenter of a triangle
 	 *
 	 *	TODO: adjust formula to return Circumcenter of any polygon
@@ -1671,54 +1661,54 @@ paper.Path.inject({
 		}
 	},
 
-	/*
+	/**
 	 *
 	 *	TODO: add additional "center" formulas (for polygons)
 	 *	http://mathforum.org/library/drmath/view/57665.html
 	 *
 	 */
 
-	/*
+	/**
 	 *	Returns the Circumcircle of a polygon
 	 *
-	 * 	TODO: fix for triangles...
+	 *	TODO: fix for triangles...
 	 *
 	 *	@return {Path.Circle}
 	 */
 	// getCircumcircle: function() {
-	// 	var that = this;
-	// 	var circumradius = 0;
+	//	var that = this;
+	//	var circumradius = 0;
 
-	// 	var _segmentsTemp = this._segments.splice();
-	// 	function getDistanceToCentroid(segment) {
-	// 		var point = segment.point;
-	// 		var x = point.x - that.getCentroid().x,
-	// 			y = point.y - that.getCentroid().y,
-	// 			d = x * x + y * y;
-	// 		return Math.sqrt(d);
-	// 	};
+	//	var _segmentsTemp = this._segments.splice();
+	//	function getDistanceToCentroid(segment) {
+	//		var point = segment.point;
+	//		var x = point.x - that.getCentroid().x,
+	//			y = point.y - that.getCentroid().y,
+	//			d = x * x + y * y;
+	//		return Math.sqrt(d);
+	//	};
 
-	// 	_segmentsTemp.sort( function(a, b) {
-	// 		return getDistanceToCentroid(a) - getDistanceToCentroid(b);
-	// 	});
+	//	_segmentsTemp.sort( function(a, b) {
+	//		return getDistanceToCentroid(a) - getDistanceToCentroid(b);
+	//	});
 
-	// 	var diff = _segmentsTemp[_segmentsTemp.length-1] - _segmentsTemp[_segmentsTemp.length-2];
-	// 	circumradius = _segmentsTemp[_segmentsTemp.length-1] - diff;
+	//	var diff = _segmentsTemp[_segmentsTemp.length-1] - _segmentsTemp[_segmentsTemp.length-2];
+	//	circumradius = _segmentsTemp[_segmentsTemp.length-1] - diff;
 
-	// 	// for( var i=0; i<_segmentsTemp.length; i++ ) {
-	// 	// 	var seg = _segmentsTemp[i].point;
-	// 	// 	if( seg.getDistance( this.getCentroid()) > circumradius ) {
-	// 	// 		circumradius = seg.getDistance( this.getCentroid());
-	// 	// 	}
-	// 	// }
+	//	// for( var i=0; i<_segmentsTemp.length; i++ ) {
+	//	//	var seg = _segmentsTemp[i].point;
+	//	//	if( seg.getDistance( this.getCentroid()) > circumradius ) {
+	//	//		circumradius = seg.getDistance( this.getCentroid());
+	//	//	}
+	//	// }
 
-	// 	return Path.Circle(
-	// 		this.getCentroid(),
-	// 		circumradius
-	// 	);
+	//	return Path.Circle(
+	//		this.getCentroid(),
+	//		circumradius
+	//	);
 	// },
 
-	/*
+	/**
 	 *	Returns the Incircle of a polygon
 	 *
 	 *	@return {Path.Circle}
@@ -1741,129 +1731,129 @@ paper.Path.inject({
 
 	// TODO: currently implementation returns false point
 	// getIncenter : function() {
-	// 	// vertices
-	// 	if( this.segments.length == 3 ) {
-	// 		var p1 = this.segments[0].point;
-	// 		var p2 = this.segments[1].point;
-	// 		var p3 = this.segments[2].point;
+	//	// vertices
+	//	if( this.segments.length == 3 ) {
+	//		var p1 = this.segments[0].point;
+	//		var p2 = this.segments[1].point;
+	//		var p3 = this.segments[2].point;
 
-	// 		// side lengths
-	// 		var a = p1.getDistance(p2);
-	// 		var b = p2.getDistance(p3);
-	// 		var c = p3.getDistance(p1);
+	//		// side lengths
+	//		var a = p1.getDistance(p2);
+	//		var b = p2.getDistance(p3);
+	//		var c = p3.getDistance(p1);
 
-	// 		var circum = a + b + c;
+	//		var circum = a + b + c;
 
-	// 		return new Point(
-	// 			(a* p1.x + b * p2.x + c * p3.x) / circum,
-	// 			(a * p1.y + b * p2.y + c * p3.y) / circum
-	// 		);
-	// 	}
-	// 	else {
-	// 		console.error( 'Not Path.FTriangle' );
-	// 		return null;
-	// 	}
+	//		return new Point(
+	//			(a* p1.x + b * p2.x + c * p3.x) / circum,
+	//			(a * p1.y + b * p2.y + c * p3.y) / circum
+	//		);
+	//	}
+	//	else {
+	//		console.error( 'Not Path.FTriangle' );
+	//		return null;
+	//	}
 	// },
 
-	/*
+	/**
 	 *	@param b
 	 *			array of barycentric coordinates
 	 */
 	// TODO: currently implementation returns false point
 	// toCartesian : function(bary) {
-	// 	if( this.segments.length == 3 ) {
-	// 		var p1 = this.segments[0].point;
-	// 		var p2 = this.segments[1].point;
-	// 		var p3 = this.segments[2].point;
+	//	if( this.segments.length == 3 ) {
+	//		var p1 = this.segments[0].point;
+	//		var p2 = this.segments[1].point;
+	//		var p3 = this.segments[2].point;
 
-	// 		// side lengths
-	// 		var a = p1.getDistance(p2);
-	// 		var b = p2.getDistance(p3);
-	// 		var c = p3.getDistance(p1);
+	//		// side lengths
+	//		var a = p1.getDistance(p2);
+	//		var b = p2.getDistance(p3);
+	//		var c = p3.getDistance(p1);
 
-	// 		// var area = 0.5 * (p1.x * (p2.y - p3.y) +
-	// 		// 				  p2.x * (p3.y - p1.y) +
-	// 		// 				  p3.x * (p1.y - p2.y));
+	//		// var area = 0.5 * (p1.x * (p2.y - p3.y) +
+	//		//				  p2.x * (p3.y - p1.y) +
+	//		//				  p3.x * (p1.y - p2.y));
 
-	// 		// var r = 2 * area / (a + b + c);
-	// 		// var k = 2 * area / (a*bary[0] + b*bary[1] + c*bary[2]);
+	//		// var r = 2 * area / (a + b + c);
+	//		// var k = 2 * area / (a*bary[0] + b*bary[1] + c*bary[2]);
 
-	// 		// var angleC = Math.acos((a*a + b*b - c*c) / (2*a*b));
+	//		// var angleC = Math.acos((a*a + b*b - c*c) / (2*a*b));
 
-	// 		// var cosC = Math.cos( angleC );
-	// 		// var sinC = Math.sin( angleC );
+	//		// var cosC = Math.cos( angleC );
+	//		// var sinC = Math.sin( angleC );
 
-	// 		// var x =	(k*bary[1] - r + (k*bary[0] - r)*cosC) / sinC;
-	// 		// var y =	k*bary[0] - r;
+	//		// var x =	(k*bary[1] - r + (k*bary[0] - r)*cosC) / sinC;
+	//		// var y =	k*bary[0] - r;
 
-	// 		// return new Point(
-	// 		// 	x + this.getIncenter().x,
-	// 		// 	y + this.getIncenter().y
-	// 		// );
+	//		// return new Point(
+	//		//	x + this.getIncenter().x,
+	//		//	y + this.getIncenter().y
+	//		// );
 
-	// 		return new Point(
-	// 			bary[0] * p1.x + bary[1] * p2.x + bary[2] * p3.x,
-	// 			bary[0] * p1.x + bary[1] * p2.x + bary[2] * p3.x
-	// 		);
-	// 	}
-	// 	else {
-	// 		console.error( 'Not Path.FTriangle' );
-	// 		return null;
-	// 	}
+	//		return new Point(
+	//			bary[0] * p1.x + bary[1] * p2.x + bary[2] * p3.x,
+	//			bary[0] * p1.x + bary[1] * p2.x + bary[2] * p3.x
+	//		);
+	//	}
+	//	else {
+	//		console.error( 'Not Path.FTriangle' );
+	//		return null;
+	//	}
 	// },
 
 
 	// TODO: currently implementation returns false point
 	// getOrthocenter : function() {
-	// 	// vertices
-	// 	if( this.segments.length == 3 ) {
-	// 		var p1 = this.segments[0].point;
-	// 		var p2 = this.segments[1].point;
-	// 		var p3 = this.segments[2].point;
+	//	// vertices
+	//	if( this.segments.length == 3 ) {
+	//		var p1 = this.segments[0].point;
+	//		var p2 = this.segments[1].point;
+	//		var p3 = this.segments[2].point;
 
-	// 		// side lengths
-	// 		var a = p1.getDistance(p2);
-	// 		var b = p2.getDistance(p3);
-	// 		var c = p3.getDistance(p1);
+	//		// side lengths
+	//		var a = p1.getDistance(p2);
+	//		var b = p2.getDistance(p3);
+	//		var c = p3.getDistance(p1);
 
-	// 		var bary = [
-	// 			this.sec(a),
-	// 			this.sec(b),
-	// 			this.sec(c)
-	// 		];
-	// 		return this.toCartesian(bary);
-	// 	}
-	// 	else {
-	// 		console.error( 'Not Path.FTriangle' );
-	// 		return null;
-	// 	}
+	//		var bary = [
+	//			this.sec(a),
+	//			this.sec(b),
+	//			this.sec(c)
+	//		];
+	//		return this.toCartesian(bary);
+	//	}
+	//	else {
+	//		console.error( 'Not Path.FTriangle' );
+	//		return null;
+	//	}
 	// },
 
 
 	// TODO: currently implementation returns false point
 	// getSchifflerPoint : function() {
-	// 	// vertices
-	// 	if( this.segments.length == 3 ) {
-	// 		var p1 = this.segments[0].point;
-	// 		var p2 = this.segments[1].point;
-	// 		var p3 = this.segments[2].point;
+	//	// vertices
+	//	if( this.segments.length == 3 ) {
+	//		var p1 = this.segments[0].point;
+	//		var p2 = this.segments[1].point;
+	//		var p3 = this.segments[2].point;
 
-	// 		// side lengths
-	// 		var a = p1.getDistance(p2);
-	// 		var b = p2.getDistance(p3);
-	// 		var c = p3.getDistance(p1);
+	//		// side lengths
+	//		var a = p1.getDistance(p2);
+	//		var b = p2.getDistance(p3);
+	//		var c = p3.getDistance(p1);
 
-	// 		var bary = [
-	// 			1/(Math.cos(b) + Math.cos(c)),
-	// 			1/(Math.cos(c) + Math.cos(a)),
-	// 			1/(Math.cos(a) + Math.cos(b))
-	// 		];
-	// 		return this.toCartesian(bary, p1,p2,p3);
-	// 	}
-	// 	else {
-	// 		console.error( 'Not Path.FTriangle' );
-	// 		return null;
-	// 	}
+	//		var bary = [
+	//			1/(Math.cos(b) + Math.cos(c)),
+	//			1/(Math.cos(c) + Math.cos(a)),
+	//			1/(Math.cos(a) + Math.cos(b))
+	//		];
+	//		return this.toCartesian(bary, p1,p2,p3);
+	//	}
+	//	else {
+	//		console.error( 'Not Path.FTriangle' );
+	//		return null;
+	//	}
 	// },
 
 
@@ -1871,7 +1861,7 @@ paper.Path.inject({
 	//-----------------------------------------------------------------------------
 	statics: new function() {
 		return {
-			/*
+			/**
 			 *
 			 *	FArrow
 			 *	Create simple arrow
@@ -1915,7 +1905,7 @@ paper.Path.inject({
 			},
 
 
-			/*
+			/**
 			 *
 			 *	FBubble
 			 *	Create a simple speech bubble
@@ -2010,7 +2000,7 @@ paper.Path.inject({
 			},
 
 
-			/*
+			/**
 			 *	FChain
 			 *	Create simple chain (a line with different endpoint sizes)
 			 *
@@ -2031,7 +2021,7 @@ paper.Path.inject({
 			 *	var fchain = new paper.Path.FChain( point1, radius1, point2, radius2 );
 			 *
 			 */
-			/*
+			/**
 			 *
 			 *	@param {Path} arg0
 			 *				PathItem (endpoint1)
@@ -2095,7 +2085,7 @@ paper.Path.inject({
 			},
 
 
-			/*
+			/**
 			 *
 			 *	FCross
 			 *	Create a cross
@@ -2164,7 +2154,7 @@ paper.Path.inject({
 			},
 
 
-			/*
+			/**
 			 *	FDrop
 			 *	Create a (tear)drop
 			 *
@@ -2179,7 +2169,7 @@ paper.Path.inject({
 			 *	var fdrop = new paper.Path.FDrop( centerPoint, scale );
 			 *
 			 */
-			/*
+			/**
 			 *
 			 *	@param {Point} centerPoint
 			 *				position of cross
@@ -2243,7 +2233,7 @@ paper.Path.inject({
 			},
 
 
-			/*
+			/**
 			 *	FTriangle
 			 *	Create a triangle
 			 *
@@ -2278,7 +2268,7 @@ paper.Path.inject({
 });
 
 
-/**
+/*
  *
  *	FPoint.js
  *
@@ -2287,7 +2277,7 @@ paper.Path.inject({
  */
 
 
-/*
+/**
  *
  *	paper.Point
  *
@@ -2304,7 +2294,7 @@ paper.Point.inject({
 	// ------------------------------------------------------------------------
 	// Methods
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *
 	 *	http://gmc.yoyogames.com/index.php?showtopic=290349
 	 *
@@ -2318,7 +2308,7 @@ paper.Point.inject({
 	 *	@return {Point} snapped Point
 	 *
 	 */
-	/*
+	/**
 	 *	snaps point to an isometric grid
 	 *
 	 *	@param {Number} scale
@@ -2355,7 +2345,7 @@ paper.Point.inject({
 		return this;
 	},
 
-	/*
+	/**
 	 *
 	 *  https://bitbucket.org/postspectacular/toxiclibs/src/9d124c80e8af/src.core/toxi/geom/Vec2D.java
 	 *
@@ -2371,7 +2361,7 @@ paper.Point.inject({
 	 *	point.interpolateTo(toPoint, 0.5); // {x: 50, y: 50}
 	 *
 	 */
-	/*
+	/**
 	 *
 	 *	@param {Point} arg0
 	 *			starting Point
@@ -2395,7 +2385,7 @@ paper.Point.inject({
 		return this;
 	},
 
-	/*
+	/**
 	 *	{@grouptitle Distance & Length}
 	 *
 	 *	Returns the distance between the point and the center of the canvas
@@ -2410,14 +2400,14 @@ paper.Point.inject({
 		return this.getDistance( view.bounds.center );
 	},
 
-	/*
+	/**
 	 *
 	 *	Returns the heading angle (radians) of a point
 	 *
 	 *	@return {Number} vector heading of Point
 	 *
 	 *	@example
-	 * 	var point = new Point(0, 90);
+	 *	var point = new Point(0, 90);
 	 *	var result = point.getHeading();
 	 *	console.log( paper.degrees(result) ); // 90
 	 *
@@ -2426,7 +2416,7 @@ paper.Point.inject({
 		return -1 * (Math.atan2(-this.y, this.x));
 	},
 
-	/*
+	/**
 	 *	Get the vector angle (radians) of two points
 	 *
 	 *	@param {Point} point1
@@ -2437,8 +2427,8 @@ paper.Point.inject({
 	 *	@return {Number} vector angle (radians)
 	 *
 	 *	@example
-	 * 	var point1 = new Point(0, 90);
-	 * 	var point2 = new Point(90, 180);
+	 *	var point1 = new Point(0, 90);
+	 *	var point2 = new Point(90, 180);
 	 *	var result = point1.getAngle(point2);
 	 *	console.log( paper.degrees(result) ); // XX
 	 *
@@ -2447,7 +2437,7 @@ paper.Point.inject({
 		return Math.atan2(point2.y - this.y, point2.x - this.x);
 	},
 
-	/*
+	/**
 	 *	Normalize a point between two other points (start and end).
 	 *
 	 *	@param {Point} start
@@ -2470,21 +2460,21 @@ paper.Point.inject({
 		return this;
 	},
 
-		// /*
+		// /**
 	//  *
 	//  *	@return {Point} limit Point
 	//  *
 	//  */
 	// limit: function(lim) {
-	// 	if (this.magSq() > lim * lim) {
-	// 		this.normalize();
-	// 		this.mult * lim;
-	// 		return this;
-	// 	}
-	// 	return this;
+	//	if (this.magSq() > lim * lim) {
+	//		this.normalize();
+	//		this.mult * lim;
+	//		return this;
+	//	}
+	//	return this;
 	// },
 
-	/*
+	/**
 	 *	{@grouptitle Vector Math Functions}
 	 *
 	 *	@return {Number} vector mag squared
@@ -2504,7 +2494,7 @@ paper.Point.inject({
 
 
 
-/**
+/*
  *
  *	FSize.js
  *
@@ -2513,14 +2503,14 @@ paper.Point.inject({
  */
 
 
-/*
+/**
  *
  *	paper.Size
  *
  */
 paper.Size.inject({
 
-	/*
+	/**
 	 *
 	 *	@return {Number} area
 	 *
@@ -2533,7 +2523,7 @@ paper.Size.inject({
 		return (this.width * this.height);
 	},
 
-	/*
+	/**
 	 *
 	 *	@return {Number} area of Item circumcircle
 	 *
@@ -2547,7 +2537,7 @@ paper.Size.inject({
 		return Math.PI * (r*r);
 	},
 
-	/*
+	/**
 	 *
 	 *	@return {Number} area of Item incircle
 	 *
@@ -2561,12 +2551,12 @@ paper.Size.inject({
 		return Math.PI * (r*r);
 	},
 
-	/*
+	/**
 	 *
 	 *	@return {Number} the circumcircle radius of the Size bounding box
 	 *
 	 *	@example
-	 * 	var size = new Size(10, 20);
+	 *	var size = new Size(10, 20);
 	 *	var r = size.getCircumradius(); // 11.180339887498949
 	 *
 	 */
@@ -2576,12 +2566,12 @@ paper.Size.inject({
 		return (Math.sqrt(a * a + b * b) / 2);
 	},
 
-	/*
+	/**
 	 *
 	 *	@return {Number} the incircle radius of the Size bounding box
 	 *
 	 *	@example
-	 * 	var size = new Size(10, 20);
+	 *	var size = new Size(10, 20);
 	 *	var r = size.getIncircleradius();
 	 *	console.log( r ); // XX
 	 *
@@ -2592,14 +2582,14 @@ paper.Size.inject({
 			: this.height/2;
 	},
 
-	/*
+	/**
 	 *
 	 *  Slope is expressed as rise (x) over run (y)
 	 *
 	 *	@return {Number} angle (radians)
 	 *
 	 *	@example
-	 * 	var slope = new Size(10, 20);
+	 *	var slope = new Size(10, 20);
 	 *	var result = size.getSlopeAngle();
 	 *	console.log( paper.degrees(result) ); // 26.56
 	 *
@@ -2610,7 +2600,7 @@ paper.Size.inject({
 
 
 });
-/**
+/*
  *
  *	FString.js
  *
@@ -2619,13 +2609,13 @@ paper.Size.inject({
  */
 
 
-/*	------------------------------------------------------------------------
+/**	------------------------------------------------------------------------
  *
  *	Strings
  *
  *	------------------------------------------------------------------------/
 
-/*
+/**
  *
  *	trims white space from right (end) of String
  *
@@ -2639,7 +2629,7 @@ String.prototype.trimEnd = function() {
 	return this;
 };
 
-/*
+/**
  *
  *	trims all white space from String
  *
@@ -2653,7 +2643,7 @@ String.prototype.trim = function() {
 	return this;
 };
 
-/*
+/**
  *
  *	converts String to Boolean value
  *
@@ -2670,7 +2660,7 @@ String.prototype.toBool = function() {
 
 
 
-/**
+/*
  *
  *	FTextItem.js
  *
@@ -2679,14 +2669,14 @@ String.prototype.toBool = function() {
  */
 
 
-/*
+/**
  *
  *	paper.TextItem
  *
  */
 paper.TextItem.inject({
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *
 	 *	@return {String} content which will will fit within the bounds of the TextItem
 	 *
@@ -2701,7 +2691,7 @@ paper.TextItem.inject({
 
 
 
-/**
+/*
  *
  *	FTime.js
  *
@@ -2712,26 +2702,26 @@ paper.TextItem.inject({
 
 folio.FTime = {
 	// ------------------------------------------------------------------------
- 	// Namespaces
+	// Namespaces
 	// ------------------------------------------------------------------------
 	// Time/Timing Support
- 	FDate: {},
- 	FStopwatch: {},
+	FDate: {},
+	FStopwatch: {},
 
- 	// Animation Support
- 	FStepper: {},
- 	Ease: {}
+	// Animation Support
+	FStepper: {},
+	Ease: {}
 
 
 	// ------------------------------------------------------------------------
- 	// Methods
+	// Methods
 	// ------------------------------------------------------------------------
 
 
 };
 
 
-/**
+/*
  *
  *	Easing.js
  *
@@ -2777,7 +2767,7 @@ folio.FTime = {
 
 
 folio.FTime.Ease = function() {
-	/*
+	/**
 	 *
 	 * values of classic easing functions, similar to CSS
 	 *
@@ -2791,7 +2781,7 @@ folio.FTime.Ease = function() {
 	};
 
 
-	/*
+	/**
 	 *
 	 *	use bezier curve for transition easing function
 	 *
@@ -2803,7 +2793,7 @@ folio.FTime.Ease = function() {
 	 *	spline.get(t) // returns the normalized easing value | t must be in [0, 1] range
 	 *
 	 */
-	/*
+	/**
 	 *
 	 *	use bezier curve for transition easing function
 	 *
@@ -2839,9 +2829,9 @@ folio.FTime.Ease = function() {
 		//
 		// TODO: push these to be global?
 		//
-		/*
+		/**
 		 *	@param {Number} t
-		 *				 	a float from 0.0 - 1.0
+		 *					a float from 0.0 - 1.0
 		 *	@param {Number} arg0
 		 *					x1 or y1
 		 *	@param {Number} arg1
@@ -2854,9 +2844,9 @@ folio.FTime.Ease = function() {
 			return ((A(arg0, arg1)*t + B(arg0, arg1))*t + C(arg0))*t;
 		};
 
-		/*
+		/**
 		 *	@param {Number} t
-		 *				 	a float from 0.0 - 1.0
+		 *					a float from 0.0 - 1.0
 		 *	@param {Number} arg0
 		 *					x1 or y1
 		 *	@param {Number} arg1
@@ -2898,7 +2888,7 @@ folio.FTime.Ease = function() {
 
 	// public
 	return {
-		/*
+		/**
 		 *	see http://easings.net/de for visual examples
 		 *	of each spline method
 		 */
@@ -2938,7 +2928,7 @@ folio.FTime.Ease = function() {
 	};
 
 };
-/**
+/*
  *
  *	FDate.js
  *
@@ -2949,12 +2939,12 @@ folio.FTime.FDate = function() {
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	public
 	 */
 	this.date;
 
-	/*
+	/**
 	 *	private
 	 */
 	var _months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -2965,7 +2955,7 @@ folio.FTime.FDate = function() {
 	// ------------------------------------------------------------------------
 	// Methods
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	private
 	 */
 	var _addZero = function(val) {
@@ -2975,10 +2965,10 @@ folio.FTime.FDate = function() {
 
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	public
 	 */
-	/*
+	/**
 	 *	@return return the current year as 'YYYY'
 	 */
 	this.year = function() {
@@ -2987,7 +2977,7 @@ folio.FTime.FDate = function() {
 		return year;
 	};
 
-	/*
+	/**
 	 *	@return return the current month as 'MM'
 	 */
 	this.month = function() {
@@ -2997,7 +2987,7 @@ folio.FTime.FDate = function() {
 		return month;
 	};
 
-	/*
+	/**
 	 *	@return return the current day as string 'DD'
 	 */
 	this.day = function() {
@@ -3006,7 +2996,7 @@ folio.FTime.FDate = function() {
 		return day;
 	};
 
-	/*
+	/**
 	 *	@return return the current hour as string 'HH'
 	 */
 	this.hour = function() {
@@ -3016,7 +3006,7 @@ folio.FTime.FDate = function() {
 		return hour;
 	};
 
-	/*
+	/**
 	 *	@return return the current minute as string 'mm'
 	 */
 	this.minute = function() {
@@ -3026,7 +3016,7 @@ folio.FTime.FDate = function() {
 		return minute;
 	};
 
-	/*
+	/**
 	 *	@return return the current second as string 'ss'
 	 */
 	this.second = function() {
@@ -3036,16 +3026,16 @@ folio.FTime.FDate = function() {
 		return second;
 	};
 
-	/*
+	/**
 	 *	return the current date as string "yyyyMMdd"
 	 *
 	 *	@return date
 	 */
 	// this.date = function() {
-	// 	return this.year() + this.month() + this.day();
+	//	return this.year() + this.month() + this.day();
 	// };
 
-	/*
+	/**
 	 *	@param format
 	 *			boolean array = [hours, minutes, seconds]
 	 *
@@ -3073,7 +3063,7 @@ folio.FTime.FDate = function() {
 		);
 	};
 
-	/*
+	/**
 	 *	add to time
 	 *
 	 *	@param _d
@@ -3089,7 +3079,7 @@ folio.FTime.FDate = function() {
 		return this.date + (24 * _d + 60 * _h + 60 * _m + 1000 * s);
 	};
 
-	/*
+	/**
 	 *	sub from time
 	 *
 	 *	@param _d
@@ -3110,7 +3100,7 @@ folio.FTime.FDate = function() {
 	// ------------------------------------------------------------------------
 	// Sets
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	set to a specific time
 	 *
 	 *	@param _d
@@ -3133,7 +3123,7 @@ folio.FTime.FDate = function() {
 	// ------------------------------------------------------------------------
 	// Gets
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	@param ms
 	 *			input as milliseconds
 	 *	@param format
@@ -3167,7 +3157,7 @@ folio.FTime.FDate = function() {
 		return str;
 	};
 
-	/*
+	/**
 	 *	@param h
 	 *			input as hours OR input string as hh:mm:ss OR mm:ss
 	 *	@param m
@@ -3192,7 +3182,7 @@ folio.FTime.FDate = function() {
 		return parseInt(3600000 * h + 60000 * m + 1000 * s);
 	};
 
-	/*
+	/**
 	 *	@param strHMS
 	 *			input string as hh:mm:ss
 	 *
@@ -3208,7 +3198,7 @@ folio.FTime.FDate = function() {
 
 
 
-/**
+/*
  *
  *	FStepper.js
  *
@@ -3219,7 +3209,7 @@ folio.FTime.FStepper = function() {
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	private
 	 */
 	var _stepMillis = 1000; // Set to default of 1s OR 1000ms
@@ -3236,7 +3226,7 @@ folio.FTime.FStepper = function() {
 	var _easing = 0.05;
 	var _bEase = true;
 
-	/*
+	/**
 	 *	public
 	 */
 	this.delta = 1.0;
@@ -3247,7 +3237,7 @@ folio.FTime.FStepper = function() {
 	// ------------------------------------------------------------------------
 	// Methods
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *
 	 *	toggle (start/stop) the stepper
 	 *
@@ -3264,7 +3254,7 @@ folio.FTime.FStepper = function() {
 	}
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	TODO: implement ability to add _easing functions
 	 *
 	 *	required function to keep the timing in sync
@@ -3321,7 +3311,7 @@ folio.FTime.FStepper = function() {
 	};
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *
 	 *	toggle stepping in (++)
 	 *
@@ -3334,7 +3324,7 @@ folio.FTime.FStepper = function() {
 		_bOut = false;
 	};
 
-	/*
+	/**
 	 *
 	 *	toggle stepping out (--)
 	 *
@@ -3348,20 +3338,20 @@ folio.FTime.FStepper = function() {
 	};
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	@return if the object is stepping in
 	 */
 	this.isIn = function() {
 		return _bIn;
 	};
-	/*
+	/**
 	 *	@return if the object is stepping out
 	 */
 	this.isOut = function() {
 		return _bOut;
 	};
 
-	/*
+	/**
 	 *	@return if the object has finished it's stepping
 	 */
 	this.isDone = function() {
@@ -3377,7 +3367,7 @@ folio.FTime.FStepper = function() {
 	};
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *
 	 *	stop stepping
 	 *
@@ -3391,14 +3381,14 @@ folio.FTime.FStepper = function() {
 	// ------------------------------------------------------------------------
 	// Sets
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	@param _seconds
 	 *			length of fade in seconds
 	 */
 	this.setSeconds = function(_seconds) {
 		this.setMillis( parseInt(_seconds * 1000.0) );
 	};
-	/*
+	/**
 	 *	@param _millis
 	 *			length of fade in milliseconds
 	 */
@@ -3407,19 +3397,19 @@ folio.FTime.FStepper = function() {
 		_stepMillis /= 1000;
 	};
 
-	/*
+	/**
 	 *	@param _val
 	 *			to ease or not to ease...
 	 *	@param __easing
 	 *			(optional) degree of _easing
 	 */
 	// this.setEasing = function(_val, _easeing) {
-	// 	_bEase = _val;
-	// 	_easing = _easeing;
+	//	_bEase = _val;
+	//	_easing = _easeing;
 	// };
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	@param _val
 	 *			set a value for the delta 0.0 - 1.0
 	 */
@@ -3430,7 +3420,7 @@ folio.FTime.FStepper = function() {
 
 
 
-/**
+/*
  *
  *	FStopwatch.js
  *
@@ -3443,7 +3433,7 @@ folio.FTime.FStopwatch = function() {
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	private
 	 */
 	var _now;
@@ -3456,7 +3446,7 @@ folio.FTime.FStopwatch = function() {
 	// ------------------------------------------------------------------------
 	// Methods
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *
 	 *	toggle (start/stop) the stopwatch
 	 *
@@ -3470,7 +3460,7 @@ folio.FTime.FStopwatch = function() {
 		}
 	};
 
-	/*
+	/**
 	 *
 	 *	start the stopwatch
 	 *
@@ -3482,7 +3472,7 @@ folio.FTime.FStopwatch = function() {
 		_then.setTime(_then.getTime() - _timeInMs);
 	};
 
-	/*
+	/**
 	 *
 	 *	pause the stopwatch
 	 *
@@ -3494,7 +3484,7 @@ folio.FTime.FStopwatch = function() {
 		_timeInMs = _now.getTime() - _then.getTime();
 	};
 
-	/*
+	/**
 	 *
 	 *	reset the stopwatch
 	 *
@@ -3509,7 +3499,7 @@ folio.FTime.FStopwatch = function() {
 	// ------------------------------------------------------------------------
 	// Sets
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *
 	 *	set the stopwatch
 	 *
@@ -3533,7 +3523,7 @@ folio.FTime.FStopwatch = function() {
 	// ------------------------------------------------------------------------
 	// Gets
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *
 	 *	@return the time elapsed
 	 *
@@ -3546,7 +3536,7 @@ folio.FTime.FStopwatch = function() {
 		return _timeInMs;
 	};
 
-	/*
+	/**
 	 *
 	 *	@return whether the stopwatch is running
 	 *
@@ -3564,7 +3554,7 @@ folio.FTime.FStopwatch = function() {
 
 
 
-/**
+/*
  *
  *	FIO.js
  *
@@ -3577,11 +3567,11 @@ folio.FIO = {
 	// ------------------------------------------------------------------------
 	// Methods
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	Local Storage
 	 */
 
-	/*
+	/**
 	 *	save a value using HTML5 Local Storage
 	 *	http://www.w3schools.com/html/html5_webstorage.asp
 	 *
@@ -3599,7 +3589,7 @@ folio.FIO = {
 		}
 	},
 
-	/*
+	/**
 	 *	retrieve saved value (default: as string)
 	 *
 	 *	@param name
@@ -3609,7 +3599,7 @@ folio.FIO = {
 		return localStorage.getItem(name);
 	},
 
-	/*
+	/**
 	 *	retrieve saved value as an int
 	 *
 	 *	@param name
@@ -3619,7 +3609,7 @@ folio.FIO = {
 		return parseInt( getLocal(name) );
 	},
 
-	/*
+	/**
 	 *	retrieve saved value as a float
 	 *
 	 *	@param name
@@ -3629,7 +3619,7 @@ folio.FIO = {
 		return parseFloat( getLocal(name) );
 	},
 
-	/*
+	/**
 	 *	@return a list of all items saved in local storage
 	 *
 	 */
@@ -3638,7 +3628,7 @@ folio.FIO = {
 
 	},
 
-	/*
+	/**
 	 *	delete a saved value from local storage
 	 *
 	 *	@param name
@@ -3651,11 +3641,11 @@ folio.FIO = {
 
 
 
-	/*
+	/**
 	 *	Session Storage
 	 */
 
-	/*
+	/**
 	 *	save a value using HTML5 Session Storage
 	 *	http://www.w3schools.com/html/html5_webstorage.asp
 	 *
@@ -3673,7 +3663,7 @@ folio.FIO = {
 		}
 	},
 
-	/*
+	/**
 	 *	retrieve saved value (default: as string)
 	 *
 	 *	@param name
@@ -3683,7 +3673,7 @@ folio.FIO = {
 		return sessionStorage.getItem(name);
 	},
 
-	/*
+	/**
 	 *	retrieve saved value as an int
 	 *
 	 *	@param name
@@ -3693,7 +3683,7 @@ folio.FIO = {
 		return parseInt( getSession(name) );
 	},
 
-	/*
+	/**
 	 *	retrieve saved value as a float
 	 *
 	 *	@param name
@@ -3703,7 +3693,7 @@ folio.FIO = {
 		return parseFloat( getSession(name) );
 	},
 
-	/*
+	/**
 	 *	@return a list of all items saved in session storage
 	 *
 	 */
@@ -3712,7 +3702,7 @@ folio.FIO = {
 
 	},
 
-	/*
+	/**
 	 *	delete a saved value from session storage
 	 *
 	 *	@param name
@@ -3725,12 +3715,12 @@ folio.FIO = {
 
 
 
-	/*
+	/**
 	 *	Cookies
 	 *	http://www.quirksmode.org/js/cookies.html
 	 */
 
-	/*
+	/**
 	 *	save a value as a cookie
 	 *
 	 *	@param name
@@ -3750,7 +3740,7 @@ folio.FIO = {
 		document.cookie = name + '=' + value + expires + '; path=/';
 	},
 
-	/*
+	/**
 	 *	retrieve a value from a cookie
 	 *
 	 *	@param name
@@ -3767,7 +3757,7 @@ folio.FIO = {
 		return null;
 	},
 
-	/*
+	/**
 	 *	delete a cookie
 	 *
 	 *	@param name
@@ -3779,7 +3769,7 @@ folio.FIO = {
 
 
 
-	/*
+	/**
 	 *	Scriptographer specific
 	 *
 	 *	modified from Jürg Lehni
@@ -3787,7 +3777,7 @@ folio.FIO = {
 	 *
 	 */
 
-	/*
+	/**
 	 *	@param str
 	 *				the String of information to save (JSON encoded)
 	 *	@param fname
@@ -3801,7 +3791,7 @@ folio.FIO = {
 		file.close();
 	},
 
-	/*
+	/**
 	 *	@param fname
 	 *				the name of the file to open
 	 */
@@ -3814,7 +3804,7 @@ folio.FIO = {
 		return data;
 	},
 
-	/*
+	/**
 	 *	@param fname
 	 *				the name of the file to delete
 	 */
@@ -3824,7 +3814,7 @@ folio.FIO = {
 		if (file.exists()) file.remove();
 	},
 
-	/*
+	/**
 	 *	@param fname
 	 *				the name of the file to verify exists
 	 */
@@ -3838,7 +3828,7 @@ folio.FIO = {
 
 
 
-/**
+/*
  *	Circle Packer
  *
  *	Original from onedayitwillmake
@@ -3862,7 +3852,7 @@ folio.FIO = {
  *
  */
 
-/*
+/**
  *
  *	@param {Array} circleItems
  *					Array of Items
@@ -3956,13 +3946,13 @@ folio.FCirclePacker = function(circleItems, iterations) {
 		}
 
 		// if(this.dragCircle && this._mouseEvent) {
-		// 	this.dragCircle.x = this._mouseEvent.offsetX;//stage.mouseX;
-		// 	this.dragCircle.y = this._mouseEvent.offsetY;//stage.mouseY;
+		//	this.dragCircle.x = this._mouseEvent.offsetX;//stage.mouseX;
+		//	this.dragCircle.y = this._mouseEvent.offsetY;//stage.mouseY;
 		// }
 	};
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	TODO: if to be made autonomous, these
 	 *	methods will have to be built in
 	 *
@@ -3971,21 +3961,21 @@ folio.FCirclePacker = function(circleItems, iterations) {
 	 *
 	 */
 	// Item.prototype.distanceToCenter = function() {
-	// 	var dx = this.position.x - activeDocument.activeArtboard.bounds.center.x;
-	// 	var dy = this.position.y - activeDocument.activeArtboard.bounds.center.y;
-	// 	var distance = (dx * dx + dy * dy) + 1;
+	//	var dx = this.position.x - activeDocument.activeArtboard.bounds.center.x;
+	//	var dy = this.position.y - activeDocument.activeArtboard.bounds.center.y;
+	//	var distance = (dx * dx + dy * dy) + 1;
 
-	// 	return distance;
+	//	return distance;
 	// };
 	// Item.sortOnDistanceToCenter = function(a, b) {
-	// 	var valueA = a.distanceToCenter();
-	// 	var valueB = b.distanceToCenter();
-	// 	var comparisonValue = 0;
+	//	var valueA = a.distanceToCenter();
+	//	var valueB = b.distanceToCenter();
+	//	var comparisonValue = 0;
 
-	// 	if (valueA > valueB) comparisonValue = -1;
-	// 	else if (valueA < valueB) comparisonValue = 1;
+	//	if (valueA > valueB) comparisonValue = -1;
+	//	else if (valueA < valueB) comparisonValue = 1;
 
-	// 	return comparisonValue;
+	//	return comparisonValue;
 	// };
 
 
@@ -3993,11 +3983,11 @@ folio.FCirclePacker = function(circleItems, iterations) {
 	// ------------------------------------------------------------------------
 	// sets
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	@param {Array} item
 	 *			Array of Path.Items to add to circle packer
 	 */
-	/*
+	/**
 	 *	@param {Item} item
 	 *			Path.Item to add to circle packer
 	 */
@@ -4010,7 +4000,7 @@ folio.FCirclePacker = function(circleItems, iterations) {
 		}
 	};
 
-	/*
+	/**
 	 *	@param {Number} val
 	 *			damping value
 	 */
@@ -4018,7 +4008,7 @@ folio.FCirclePacker = function(circleItems, iterations) {
 		dampingAmt = val;
 	};
 
-	/*
+	/**
 	 *	@param {Number} val
 	 *			padding around elements
 	 */
@@ -4030,7 +4020,7 @@ folio.FCirclePacker = function(circleItems, iterations) {
 	// ------------------------------------------------------------------------
 	// gets
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	could be dangerous
 	 *
 	 *	@return the Array of items being packed
@@ -4039,7 +4029,7 @@ folio.FCirclePacker = function(circleItems, iterations) {
 		return circleItems;
 	};
 
-	/*
+	/**
 	 *	could be dangerous
 	 *
 	 *	@return an Item from the Array of items being packed
@@ -4065,7 +4055,7 @@ folio.FCirclePacker = function(circleItems, iterations) {
 	};
 
 };
-/**
+/*
  *	Travelling Salesman Problem Algorithm
  *
  *	Taken from "SVG Stipple Generator, v 1.0"
@@ -4085,15 +4075,14 @@ folio.FCirclePacker = function(circleItems, iterations) {
  *
  */
 
-/*
+/**
  *	@param  {PathItem} items
- *	        	an array of PathItems
+ *	       	an array of PathItems
  *	@param  {Number} iterations (optional)
- *	        	tests per frame (higher = better) default: 1000
+ *	       	tests per frame (higher = better) default: 1000
  *
  *	@return {Array} an array of indices for the route through the input items
  *
- *	@example
  */
 folio.FRoute = function(items, iterations) {
 	// ------------------------------------------------------------------------
@@ -4278,7 +4267,7 @@ folio.FRoute = function(items, iterations) {
 
 
 
-/**
+/*
  *
  *	Delaunay Triangulation
  *	Joshua Bell
@@ -4306,7 +4295,7 @@ folio.FRoute = function(items, iterations) {
  *
  */
 
-/*
+/**
  *	@example
  *	var triangulate = new FTriangulate( points );
  *
@@ -4335,7 +4324,7 @@ var EPSILON = 1.0e-6;
 
 
 
-/*
+/**
  *	FTriangulate
  *
  *	@param points
@@ -4355,7 +4344,7 @@ folio.FTriangulate = function( points ) {
 	//-----------------------------------------------------------------------------
 	// Classes
 	//-----------------------------------------------------------------------------
-	/*
+	/**
 	 *	Triangle
 	 *
 	 *	@param p1
@@ -4379,7 +4368,7 @@ folio.FTriangulate = function( points ) {
 		//-----------------------------------------------------------------------------
 		// Methods
 		//-----------------------------------------------------------------------------
-		/*
+		/**
 		 *	vertex (Edge) sharing
 		 *
 		 *	@param other
@@ -4391,7 +4380,7 @@ folio.FTriangulate = function( points ) {
 			p3 == other.p1 || p3 == other.p2 || p3 == other.p3;
 		}
 
-		/*
+		/**
 		 *	@return circle
 		 *			Point of the circle center
 		 */
@@ -4432,7 +4421,7 @@ folio.FTriangulate = function( points ) {
 		};
 
 		//-----------------------------------------------------------------------------
-		/*
+		/**
 		 *	@return center
 		 *			Point of the centroid center
 		 *
@@ -4446,9 +4435,9 @@ folio.FTriangulate = function( points ) {
 		};
 
 		//-----------------------------------------------------------------------------
-		/*
+		/**
 		 *	 @return
-		 *	 		a sorted array (Edge) of the Triangle's Edges (shortest to longest)
+		 *			a sorted array (Edge) of the Triangle's Edges (shortest to longest)
 		 */
 		function distances() {
 			var distances = [];
@@ -4461,7 +4450,7 @@ folio.FTriangulate = function( points ) {
 		};
 
 		//-----------------------------------------------------------------------------
-		/*
+		/**
 		 *	http://www.btinternet.com/~se16/hgb/triangle.htm
 		 */
 		function width() {
@@ -4508,9 +4497,9 @@ folio.FTriangulate = function( points ) {
 		//-----------------------------------------------------------------------------
 		// Gets
 		//-----------------------------------------------------------------------------
-		/*
+		/**
 		 *	 @return
-		 *	  		the points of the triangle as a Point array
+		 *	 		the points of the triangle as a Point array
 		 */
 		function get() {
 			var points = [_p1, _p2, _p3];
@@ -4535,7 +4524,7 @@ folio.FTriangulate = function( points ) {
 
 	};
 
-	/*
+	/**
 	 *	Edge
 	 *	TODO: replace with paper.Segment
 	 *
@@ -4557,7 +4546,7 @@ folio.FTriangulate = function( points ) {
 		//-----------------------------------------------------------------------------
 		// Methods
 		//-----------------------------------------------------------------------------
-		/*
+		/**
 		 *	sorts edge by shortest to longest
 		 *
 		 *	@param o
@@ -4572,9 +4561,9 @@ folio.FTriangulate = function( points ) {
 		//-----------------------------------------------------------------------------
 		// Gets
 		//-----------------------------------------------------------------------------
-		/*
+		/**
 		 *	 @return
-		 *	  		the points of the edge as a Point array
+		 *	 		the points of the edge as a Point array
 		 */
 		function get() {
 			var points = [_p1, _p2];
@@ -4598,7 +4587,7 @@ folio.FTriangulate = function( points ) {
 	//-----------------------------------------------------------------------------
 	// Methods
 	//-----------------------------------------------------------------------------
-	/*
+	/**
 	 *	Triangulation subroutine
 	 *
 	 *	Returned is a list of triangular faces in the Array triangles
@@ -4758,7 +4747,7 @@ folio.FTriangulate = function( points ) {
 	};
 
 	//-----------------------------------------------------------------------------
-	/*
+	/**
 	 *	Return TRUE if a point (xp,yp) is inside the circumcircle made up
 	 *	of the points (x1,y1), (x2,y2), (x3,y3)
 	 *	The circumcircle center is returned in (xc,yc) and the radius r
@@ -4825,7 +4814,7 @@ folio.FTriangulate = function( points ) {
 	};
 
 	//-----------------------------------------------------------------------------
-	/*
+	/**
 	 *	findClosest Triangle
 	 *
 	 *	Returns the closest Triangle based on the input Triangle
@@ -4860,7 +4849,7 @@ folio.FTriangulate = function( points ) {
 	};
 
 	//-----------------------------------------------------------------------------
-	/*
+	/**
 	 *
 	 *	sort Point rray from left to right
 	 *
@@ -4876,7 +4865,7 @@ folio.FTriangulate = function( points ) {
 		else return 0;
 	};
 
-	/*
+	/**
 	 *
 	 *	sort Point array from top to bottom
 	 *
@@ -4892,7 +4881,7 @@ folio.FTriangulate = function( points ) {
 		else return 0;
 	};
 
-	/*
+	/**
 	 *
 	 *	remove Point duplicates
 	 *
@@ -4912,7 +4901,7 @@ folio.FTriangulate = function( points ) {
 		return arr;
 	};
 
-	/*
+	/**
 	 *
 	 *	remove Edge duplicates
 	 *
@@ -4935,23 +4924,23 @@ folio.FTriangulate = function( points ) {
 		// TODO: This is O(n^2), make it O(n) with a hash or some such
 		// var uniqueEdges = [];
 		// for( var i=0; i<edges.length; i++ ) {
-		// 	var edge1 = edges[i];
-		// 	var unique = true;
+		//	var edge1 = edges[i];
+		//	var unique = true;
 
-		// 	for( var j=0; j<edges.length; j++ ) {
-		// 		if( i != j ) {
-		// 			var edge2 = edges[j];
-		// 			if( ( edge1.p1 == edge2.p1 && edge1.p2 == edge2.p2 ) ||
-		// 				( edge1.p1 == edge2.p2 && edge1.p2 == edge2.p1 ) ) {
-		// 				unique = false;
-		// 				break;
-		// 			}
-		// 		}
-		// 	}
+		//	for( var j=0; j<edges.length; j++ ) {
+		//		if( i != j ) {
+		//			var edge2 = edges[j];
+		//			if( ( edge1.p1 == edge2.p1 && edge1.p2 == edge2.p2 ) ||
+		//				( edge1.p1 == edge2.p2 && edge1.p2 == edge2.p1 ) ) {
+		//				unique = false;
+		//				break;
+		//			}
+		//		}
+		//	}
 
-		// 	if( unique ) {
-		// 		uniqueEdges.push( edge1 );
-		// 	}
+		//	if( unique ) {
+		//		uniqueEdges.push( edge1 );
+		//	}
 		// }
 
 		// return uniqueEdges;
@@ -4962,7 +4951,7 @@ folio.FTriangulate = function( points ) {
 	//-----------------------------------------------------------------------------
 	// sets
 	//-----------------------------------------------------------------------------
-	/*
+	/**
 	 *	add point(s) to Triangulation
 	 *
 	 *	@param point
@@ -4996,7 +4985,7 @@ folio.FTriangulate = function( points ) {
 	//-----------------------------------------------------------------------------
 	// Gets
 	//-----------------------------------------------------------------------------
-	/*
+	/**
 	 *	@param index
 	 *			index of Triangle to return (optional)
 	 *
@@ -5012,7 +5001,7 @@ folio.FTriangulate = function( points ) {
 		}
 	};
 
-	/*
+	/**
 	 *	@param index
 	 *			index of Point to return (optional)
 	 *
@@ -5054,7 +5043,7 @@ folio.FTriangulate = function( points ) {
 
 
 
-/*
+/**
  *
  *	HashSet
  *	Phùng Văn Huy

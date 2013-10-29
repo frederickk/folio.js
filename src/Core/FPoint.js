@@ -1,4 +1,4 @@
-/**
+/*
  *
  *	FPoint.js
  *
@@ -7,7 +7,7 @@
  */
 
 
-/*
+/**
  *
  *	paper.Point
  *
@@ -24,7 +24,7 @@ paper.Point.inject({
 	// ------------------------------------------------------------------------
 	// Methods
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *
 	 *	http://gmc.yoyogames.com/index.php?showtopic=290349
 	 *
@@ -38,7 +38,7 @@ paper.Point.inject({
 	 *	@return {Point} snapped Point
 	 *
 	 */
-	/*
+	/**
 	 *	snaps point to an isometric grid
 	 *
 	 *	@param {Number} scale
@@ -75,7 +75,7 @@ paper.Point.inject({
 		return this;
 	},
 
-	/*
+	/**
 	 *
 	 *  https://bitbucket.org/postspectacular/toxiclibs/src/9d124c80e8af/src.core/toxi/geom/Vec2D.java
 	 *
@@ -91,7 +91,7 @@ paper.Point.inject({
 	 *	point.interpolateTo(toPoint, 0.5); // {x: 50, y: 50}
 	 *
 	 */
-	/*
+	/**
 	 *
 	 *	@param {Point} arg0
 	 *			starting Point
@@ -115,7 +115,7 @@ paper.Point.inject({
 		return this;
 	},
 
-	/*
+	/**
 	 *	{@grouptitle Distance & Length}
 	 *
 	 *	Returns the distance between the point and the center of the canvas
@@ -130,14 +130,14 @@ paper.Point.inject({
 		return this.getDistance( view.bounds.center );
 	},
 
-	/*
+	/**
 	 *
 	 *	Returns the heading angle (radians) of a point
 	 *
 	 *	@return {Number} vector heading of Point
 	 *
 	 *	@example
-	 * 	var point = new Point(0, 90);
+	 *	var point = new Point(0, 90);
 	 *	var result = point.getHeading();
 	 *	console.log( paper.degrees(result) ); // 90
 	 *
@@ -146,7 +146,7 @@ paper.Point.inject({
 		return -1 * (Math.atan2(-this.y, this.x));
 	},
 
-	/*
+	/**
 	 *	Get the vector angle (radians) of two points
 	 *
 	 *	@param {Point} point1
@@ -157,8 +157,8 @@ paper.Point.inject({
 	 *	@return {Number} vector angle (radians)
 	 *
 	 *	@example
-	 * 	var point1 = new Point(0, 90);
-	 * 	var point2 = new Point(90, 180);
+	 *	var point1 = new Point(0, 90);
+	 *	var point2 = new Point(90, 180);
 	 *	var result = point1.getAngle(point2);
 	 *	console.log( paper.degrees(result) ); // XX
 	 *
@@ -167,7 +167,7 @@ paper.Point.inject({
 		return Math.atan2(point2.y - this.y, point2.x - this.x);
 	},
 
-	/*
+	/**
 	 *	Normalize a point between two other points (start and end).
 	 *
 	 *	@param {Point} start
@@ -190,21 +190,21 @@ paper.Point.inject({
 		return this;
 	},
 
-		// /*
+		// /**
 	//  *
 	//  *	@return {Point} limit Point
 	//  *
 	//  */
 	// limit: function(lim) {
-	// 	if (this.magSq() > lim * lim) {
-	// 		this.normalize();
-	// 		this.mult * lim;
-	// 		return this;
-	// 	}
-	// 	return this;
+	//	if (this.magSq() > lim * lim) {
+	//		this.normalize();
+	//		this.mult * lim;
+	//		return this;
+	//	}
+	//	return this;
 	// },
 
-	/*
+	/**
 	 *	{@grouptitle Vector Math Functions}
 	 *
 	 *	@return {Number} vector mag squared

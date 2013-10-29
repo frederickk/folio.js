@@ -1,4 +1,4 @@
-/**
+/*
  *
  *	Matrix3D
  *
@@ -32,7 +32,7 @@
 
 
 
-/*
+/**
  *
  *	Matrix3D
  *
@@ -116,7 +116,7 @@ var Matrix3D = function( n11, n12, n13, n14,
 
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *
 	 *	Rotation
 	 *
@@ -157,7 +157,7 @@ var Matrix3D = function( n11, n12, n13, n14,
 		);
 	};
 
-	/*
+	/**
 	 *
 	 *	@param axis
 	 *				FPoint3 xyz
@@ -181,16 +181,16 @@ var Matrix3D = function( n11, n12, n13, n14,
 		var ty = t * y;
 
 		this.concat(
-			tx * x + cos, 		tx * y - sin * z, 	tx * z + sin * y, 	0,
-			tx * y + sin * z, 	ty * y + cos, 		ty * z - sin * x, 	0,
-			tx * z - sin * y, 	ty * z + sin * x, 	t * z * z + cos, 	0,
+			tx * x + cos,		tx * y - sin * z,	tx * z + sin * y,	0,
+			tx * y + sin * z,	ty * y + cos,		ty * z - sin * x,	0,
+			tx * z - sin * y,	ty * z + sin * x,	t * z * z + cos,	0,
 			0, 0, 0, 1
 		);
 	};
 
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	Scaling
 	 */
 	this.scale = function(sx, sy, sz) {
@@ -204,7 +204,7 @@ var Matrix3D = function( n11, n12, n13, n14,
 
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	Translating
 	 */
 	this.translate = function(dx, dy, dz) {
@@ -215,7 +215,7 @@ var Matrix3D = function( n11, n12, n13, n14,
 
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	Transforming
 	 */
 	this.transformPoint = function(point) {
@@ -245,14 +245,14 @@ var Matrix3D = function( n11, n12, n13, n14,
 
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	Position
 	 */
 	this.getPosition = function() {
 		return [ this.n12, this.n13, this.n14 ];
 	};
 
-	/*
+	/**
 	 *
 	 *	@param fpoint3
 	 *				FPoint3 xyz
@@ -265,7 +265,7 @@ var Matrix3D = function( n11, n12, n13, n14,
 		return this;
 	},
 
-	/*
+	/**
 	 *
 	 *	Frustrum
 	 *	https://github.com/mrdoob/three.js/blob/master/src/core/Matrix4.js
@@ -283,16 +283,16 @@ var Matrix3D = function( n11, n12, n13, n14,
 		var c = - ( far + near ) / ( far - near );
 		var d = - 2 * far * near / ( far - near );
 
-		values.n11 = x;	values.n12 = 0;	values.n13 = a;	 	values.n14 = 0;
-		values.n21 = 0;	values.n22 = y;	values.n23 = b;	 	values.n24 = 0;
-		values.n31 = 0;	values.n32 = 0;	values.n33 = c;	 	values.n34 = d;
+		values.n11 = x;	values.n12 = 0;	values.n13 = a;		values.n14 = 0;
+		values.n21 = 0;	values.n22 = y;	values.n23 = b;		values.n24 = 0;
+		values.n31 = 0;	values.n32 = 0;	values.n33 = c;		values.n34 = d;
 		values.n41 = 0;	values.n42 = 0;	values.n43 = - 1;	values.n44 = 0;
 
 		this.concat(values);
 		// this.initialize(values);
 	};
 
-	/*
+	/**
 	 *
 	 *	Presets modified from Three.js
 	 *	https://github.com/mrdoob/three.js/blob/master/src/core/Matrix4.js
@@ -321,10 +321,10 @@ var Matrix3D = function( n11, n12, n13, n14,
 		var y = ( top + bottom ) / h;
 		var z = ( far + near ) / p;
 
-		values.n11 = 2/w;	values.n12 = 0;		values.n13 = 0;	 	values.n14 = -x;
-		values.n21 = 0;		values.n22 = 2/h;	values.n23 = 0;	 	values.n24 = -y;
-		values.n31 = 0;		values.n32 = 0;		values.n33 = -2/p; 	values.n34 = -z;
-		values.n41 = 0;		values.n42 = 0;		values.n43 = 0;	 	values.n44 = 1;
+		values.n11 = 2/w;	values.n12 = 0;		values.n13 = 0;		values.n14 = -x;
+		values.n21 = 0;		values.n22 = 2/h;	values.n23 = 0;		values.n24 = -y;
+		values.n31 = 0;		values.n32 = 0;		values.n33 = -2/p;	values.n34 = -z;
+		values.n41 = 0;		values.n42 = 0;		values.n43 = 0;		values.n44 = 1;
 
 		this.concat(values);
 		// this.initialize(values);

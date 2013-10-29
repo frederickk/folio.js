@@ -1,4 +1,4 @@
-/**
+/*
  *
  *	Core.js
  *
@@ -9,16 +9,16 @@
 
 folio = {
 	// ------------------------------------------------------------------------
- 	// Setup Core Namespaces
+	// Setup Core Namespaces
 	// ------------------------------------------------------------------------
- 	FTime: {},
- 	FIO: {},
- 	F3D: {}
+	FTime: {},
+	FIO: {},
+	F3D: {}
 };
 
 
 
-/*
+/**
  *
  *	Global Scope (Paper.js core)
  *
@@ -30,7 +30,7 @@ PaperScope.inject({
 	//-----------------------------------------------------------------------------
 	// Methods
 	//-----------------------------------------------------------------------------
-	/*
+	/**
 	 *	Java style println output
 	 *
 	 *	@param {Object} obj
@@ -42,7 +42,7 @@ PaperScope.inject({
 	},
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *
 	 *	@param {Number} val
 	 *			input boolean value
@@ -55,7 +55,7 @@ PaperScope.inject({
 	},
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *
 	 *	@param {Object} object
 	 *			object whose type to determine
@@ -83,7 +83,7 @@ PaperScope.inject({
 		}
 	},
 
-	/*
+	/**
 	 *
 	 *	@param {Array} items
 	 *			Array of items to go through
@@ -102,7 +102,7 @@ PaperScope.inject({
 		return path;
 	},
 
-	/*
+	/**
 	 *
 	 *	@param {Array} items
 	 *			Array of items to go through

@@ -111,8 +111,8 @@ function Draw() {
 	// in order to animate the ball, we'll interpolate from
 	// point1 to point2
 	// var pos = points[0].interpolate(
-	// 	points[1],
-	// 	move.delta
+	//	points[1],
+	//	move.delta
 	// );
 	var pos = new Point(
 		paper.interpolate( points[0].x, points[1].x, move.delta ),

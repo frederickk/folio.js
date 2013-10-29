@@ -1,4 +1,4 @@
-/**
+/*
  *
  *	FSize3.js
  *
@@ -8,7 +8,7 @@
 
 
 
-/*
+/**
  *	TODO: finish this
  *
  *	@param arg0
@@ -19,7 +19,7 @@
  *			depth
  */
 folio.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
-	/*
+	/**
 	 *	public
 	 */
 	this.width = arg0 != undefined ? arg0 : 0;
@@ -31,7 +31,7 @@ folio.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
 	// ------------------------------------------------------------------------
 	// Sets
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *
 	 *	@param val
 	 *			set width value
@@ -40,7 +40,7 @@ folio.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
 		this.width = val;
 	};
 
-	/*
+	/**
 	 *
 	 *	@param val
 	 *			set height value
@@ -49,7 +49,7 @@ folio.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
 		this.height = val;
 	};
 
-	/*
+	/**
 	 *
 	 *	@param val
 	 *			set depth value
@@ -70,7 +70,7 @@ folio.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
 	// ------------------------------------------------------------------------
 	// Gets
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	Get a copy of this size
 	 */
 	this.get = function() {
@@ -79,12 +79,12 @@ folio.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
 
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *
 	 *	@return random size
 	 *
 	 */
-	/*
+	/**
 	 *	@param minw
 	 *				minmum width (default: 0)
 	 *	@param maxw
@@ -115,7 +115,7 @@ folio.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
 		return this;
 	};
 
-	/*
+	/**
 	 *
 	 *	@return volume
 	 *

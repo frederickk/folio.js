@@ -1,4 +1,4 @@
-/**
+/*
  *
  *	FStepper.js
  *
@@ -9,7 +9,7 @@ folio.FTime.FStepper = function() {
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	private
 	 */
 	var _stepMillis = 1000; // Set to default of 1s OR 1000ms
@@ -26,7 +26,7 @@ folio.FTime.FStepper = function() {
 	var _easing = 0.05;
 	var _bEase = true;
 
-	/*
+	/**
 	 *	public
 	 */
 	this.delta = 1.0;
@@ -37,7 +37,7 @@ folio.FTime.FStepper = function() {
 	// ------------------------------------------------------------------------
 	// Methods
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *
 	 *	toggle (start/stop) the stepper
 	 *
@@ -54,7 +54,7 @@ folio.FTime.FStepper = function() {
 	}
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	TODO: implement ability to add _easing functions
 	 *
 	 *	required function to keep the timing in sync
@@ -111,7 +111,7 @@ folio.FTime.FStepper = function() {
 	};
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *
 	 *	toggle stepping in (++)
 	 *
@@ -124,7 +124,7 @@ folio.FTime.FStepper = function() {
 		_bOut = false;
 	};
 
-	/*
+	/**
 	 *
 	 *	toggle stepping out (--)
 	 *
@@ -138,20 +138,20 @@ folio.FTime.FStepper = function() {
 	};
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	@return if the object is stepping in
 	 */
 	this.isIn = function() {
 		return _bIn;
 	};
-	/*
+	/**
 	 *	@return if the object is stepping out
 	 */
 	this.isOut = function() {
 		return _bOut;
 	};
 
-	/*
+	/**
 	 *	@return if the object has finished it's stepping
 	 */
 	this.isDone = function() {
@@ -167,7 +167,7 @@ folio.FTime.FStepper = function() {
 	};
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *
 	 *	stop stepping
 	 *
@@ -181,14 +181,14 @@ folio.FTime.FStepper = function() {
 	// ------------------------------------------------------------------------
 	// Sets
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	@param _seconds
 	 *			length of fade in seconds
 	 */
 	this.setSeconds = function(_seconds) {
 		this.setMillis( parseInt(_seconds * 1000.0) );
 	};
-	/*
+	/**
 	 *	@param _millis
 	 *			length of fade in milliseconds
 	 */
@@ -197,19 +197,19 @@ folio.FTime.FStepper = function() {
 		_stepMillis /= 1000;
 	};
 
-	/*
+	/**
 	 *	@param _val
 	 *			to ease or not to ease...
 	 *	@param __easing
 	 *			(optional) degree of _easing
 	 */
 	// this.setEasing = function(_val, _easeing) {
-	// 	_bEase = _val;
-	// 	_easing = _easeing;
+	//	_bEase = _val;
+	//	_easing = _easeing;
 	// };
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	@param _val
 	 *			set a value for the delta 0.0 - 1.0
 	 */

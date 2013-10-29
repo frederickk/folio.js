@@ -98,7 +98,7 @@ function Setup() {
 		new Size(size*0.13, th),
 		'RIGHT'
 	);
- 	Kant.bubble.fillColor = colors[0];
+	Kant.bubble.fillColor = colors[0];
 	Kant.bubble.strokeColor = colors[0];
 
 	// content

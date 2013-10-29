@@ -1,4 +1,4 @@
-/**
+/*
  *	Circle Packer
  *
  *	Original from onedayitwillmake
@@ -22,7 +22,7 @@
  *
  */
 
-/*
+/**
  *
  *	@param {Array} circleItems
  *					Array of Items
@@ -116,13 +116,13 @@ folio.FCirclePacker = function(circleItems, iterations) {
 		}
 
 		// if(this.dragCircle && this._mouseEvent) {
-		// 	this.dragCircle.x = this._mouseEvent.offsetX;//stage.mouseX;
-		// 	this.dragCircle.y = this._mouseEvent.offsetY;//stage.mouseY;
+		//	this.dragCircle.x = this._mouseEvent.offsetX;//stage.mouseX;
+		//	this.dragCircle.y = this._mouseEvent.offsetY;//stage.mouseY;
 		// }
 	};
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	TODO: if to be made autonomous, these
 	 *	methods will have to be built in
 	 *
@@ -131,21 +131,21 @@ folio.FCirclePacker = function(circleItems, iterations) {
 	 *
 	 */
 	// Item.prototype.distanceToCenter = function() {
-	// 	var dx = this.position.x - activeDocument.activeArtboard.bounds.center.x;
-	// 	var dy = this.position.y - activeDocument.activeArtboard.bounds.center.y;
-	// 	var distance = (dx * dx + dy * dy) + 1;
+	//	var dx = this.position.x - activeDocument.activeArtboard.bounds.center.x;
+	//	var dy = this.position.y - activeDocument.activeArtboard.bounds.center.y;
+	//	var distance = (dx * dx + dy * dy) + 1;
 
-	// 	return distance;
+	//	return distance;
 	// };
 	// Item.sortOnDistanceToCenter = function(a, b) {
-	// 	var valueA = a.distanceToCenter();
-	// 	var valueB = b.distanceToCenter();
-	// 	var comparisonValue = 0;
+	//	var valueA = a.distanceToCenter();
+	//	var valueB = b.distanceToCenter();
+	//	var comparisonValue = 0;
 
-	// 	if (valueA > valueB) comparisonValue = -1;
-	// 	else if (valueA < valueB) comparisonValue = 1;
+	//	if (valueA > valueB) comparisonValue = -1;
+	//	else if (valueA < valueB) comparisonValue = 1;
 
-	// 	return comparisonValue;
+	//	return comparisonValue;
 	// };
 
 
@@ -153,11 +153,11 @@ folio.FCirclePacker = function(circleItems, iterations) {
 	// ------------------------------------------------------------------------
 	// sets
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	@param {Array} item
 	 *			Array of Path.Items to add to circle packer
 	 */
-	/*
+	/**
 	 *	@param {Item} item
 	 *			Path.Item to add to circle packer
 	 */
@@ -170,7 +170,7 @@ folio.FCirclePacker = function(circleItems, iterations) {
 		}
 	};
 
-	/*
+	/**
 	 *	@param {Number} val
 	 *			damping value
 	 */
@@ -178,7 +178,7 @@ folio.FCirclePacker = function(circleItems, iterations) {
 		dampingAmt = val;
 	};
 
-	/*
+	/**
 	 *	@param {Number} val
 	 *			padding around elements
 	 */
@@ -190,7 +190,7 @@ folio.FCirclePacker = function(circleItems, iterations) {
 	// ------------------------------------------------------------------------
 	// gets
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	could be dangerous
 	 *
 	 *	@return the Array of items being packed
@@ -199,7 +199,7 @@ folio.FCirclePacker = function(circleItems, iterations) {
 		return circleItems;
 	};
 
-	/*
+	/**
 	 *	could be dangerous
 	 *
 	 *	@return an Item from the Array of items being packed

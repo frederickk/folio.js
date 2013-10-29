@@ -1,4 +1,4 @@
-/**
+/*
  *
  *	FPoint3.js
  *
@@ -8,7 +8,7 @@
 
 
 
-/*
+/**
  *	@param arg0
  *			x coordinate
  *	@param arg1
@@ -20,7 +20,7 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	private
 	 */
 	var _scene = null;
@@ -33,7 +33,7 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 	var _yIndex2D = 0;
 
 
-	/*
+	/**
 	 *	public
 	 */
 	this.x = arg0 != undefined ? arg0 : 0;
@@ -45,7 +45,7 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 	// ------------------------------------------------------------------------
 	// Methods
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	@param scene
 	 *			the scene with which the points are
 	 *			associated with
@@ -70,12 +70,12 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *
 	 *	@return random point
 	 *
 	 */
-	/*
+	/**
 	 *	@param minx
 	 *				minmum x (default: 0)
 	 *	@param maxx
@@ -112,7 +112,7 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 	// ------------------------------------------------------------------------
 	// Sets
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *
 	 *	@param val
 	 *			set x value
@@ -122,7 +122,7 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 		this.x = val;
 	};
 
-	/*
+	/**
 	 *
 	 *	@param val
 	 *			set y value
@@ -132,7 +132,7 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 		this.y = val;
 	};
 
-	/*
+	/**
 	 *
 	 *	@param val
 	 *			set z value
@@ -154,7 +154,7 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 	// ------------------------------------------------------------------------
 	// Gets
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	@return a copy of this point
 	 */
 	this.get = function() {
@@ -163,14 +163,14 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	@return projected 2D x
 	 */
 	this.x2D = function() {
 		return _scene.points2D[_xIndex2D];
 	};
 
-	/*
+	/**
 	 *	@return projected 2D y
 	 */
 	this.y2D = function() {
@@ -184,7 +184,7 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	Calculate the magnitude (length) of the point
 	 *
 	 *	@return the magnitude of the point
@@ -195,13 +195,13 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	Add a point to this point
 	 *
 	 *	@param arg0
 	 *			the FPoint3 to be added
 	 */
-	/*
+	/**
 	 *	Add a point to this point
 	 *
 	 *	@param arg0
@@ -227,13 +227,13 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	Subtract a point to this point
 	 *
 	 *	@param arg0
 	 *			the FPoint3 to be subtracted
 	 */
-	/*
+	/**
 	 *	Subtract a point to this point
 	 *
 	 *	@param arg0
@@ -259,7 +259,7 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	Scale this point by a scalar
 	 *
 	 *	@param n
@@ -274,13 +274,13 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	Multiply each element of one point by the elements of another point.
 	 *
 	 *	@param arg0
 	 *			the FPoint3 to be multiplied
 	 */
-	/*
+	/**
 	 *	Multiply each element of one point by the elements of another point.
 	 *
 	 *	@param arg0
@@ -306,13 +306,13 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	Divide each element of one point by the elements of another point.
 	 *
 	 *	@param arg0
 	 *			the FPoint3 to be divided
 	 */
-	/*
+	/**
 	 *	Divide each element of one point by the elements of another point.
 	 *
 	 *	@param arg0
@@ -338,7 +338,7 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	Calculate the Euclidean distance between two points (considering a point as a vector object)
 	 *
 	 *	@param _fpoint3
@@ -355,7 +355,7 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 * Calculate the angle between two points, using the dot product
 	 *
 	 * @param _fpoint3a
@@ -374,13 +374,13 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 
 
 	// ------------------------------------------------------------------------
-	/*
-   	 *	Normalize the point to length 1 (make it a unit point)
+	/**
+  	 *	Normalize the point to length 1 (make it a unit point)
 	 */
 	this.normalize = function() {
 	    var m = this.mag();
 	    if (m != 0 && m != 1) {
-    	  this.div(m);
+   	  this.div(m);
 	    }
 	};
 
@@ -392,7 +392,7 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	Return a representation of this point as an array.
 	 */
 	this.array = function() {

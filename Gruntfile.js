@@ -32,6 +32,19 @@ module.exports = function(grunt) {
 			.replace(/@DATE/, grunt.template.today('dd. mmmm yyyy')),
 
 		// Configure each task
+		// jshint: {
+		// 	options: {
+		// 		curly: false,
+		// 		quotmark: true,
+		// 		asi: true,
+		// 		trailing: true,
+		// 		eqeqeq: false
+		// 	},
+		// 	target: {
+		// 		src: ['src/**/*.js']
+		// 	}
+		// },
+
 		concat: {
 			options: {
 				banner: '<%= banner %>',
@@ -61,27 +74,28 @@ module.exports = function(grunt) {
 			}
 		},
 
-		jshint: {
-			// options: {
-			// 	trailing: true,
-			// 	eqeqeq: true
-			// },
-			target: {
-				src: ['src/**/*.js']
+		jsdoc: {
+			dist: {
+				src: srcFiles,
+				options: {
+					destination: 'documentation'
+				}
 			}
 		}
+
 	});
 
 
 	// load the NPM modules
+	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.loadNpmTasks('grunt-contrib-jshint');
+	grunt.loadNpmTasks('grunt-jsdoc');
 
 	// register tasks
 	grunt.registerTask('default', ['concat', 'uglify']);
 	grunt.registerTask('paper', ['concat:paper', 'uglify:paper']);
 	grunt.registerTask('scriptographer', ['concat:scriptographer', 'uglify:scriptographer']);
 
-
+	grunt.registerTask('doc', ['jsdoc']);
 };

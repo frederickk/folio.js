@@ -1,4 +1,4 @@
-/**
+/*
  *
  *	Easing.js
  *
@@ -44,7 +44,7 @@
 
 
 folio.FTime.Ease = function() {
-	/*
+	/**
 	 *
 	 * values of classic easing functions, similar to CSS
 	 *
@@ -58,7 +58,7 @@ folio.FTime.Ease = function() {
 	};
 
 
-	/*
+	/**
 	 *
 	 *	use bezier curve for transition easing function
 	 *
@@ -70,7 +70,7 @@ folio.FTime.Ease = function() {
 	 *	spline.get(t) // returns the normalized easing value | t must be in [0, 1] range
 	 *
 	 */
-	/*
+	/**
 	 *
 	 *	use bezier curve for transition easing function
 	 *
@@ -106,9 +106,9 @@ folio.FTime.Ease = function() {
 		//
 		// TODO: push these to be global?
 		//
-		/*
+		/**
 		 *	@param {Number} t
-		 *				 	a float from 0.0 - 1.0
+		 *					a float from 0.0 - 1.0
 		 *	@param {Number} arg0
 		 *					x1 or y1
 		 *	@param {Number} arg1
@@ -121,9 +121,9 @@ folio.FTime.Ease = function() {
 			return ((A(arg0, arg1)*t + B(arg0, arg1))*t + C(arg0))*t;
 		};
 
-		/*
+		/**
 		 *	@param {Number} t
-		 *				 	a float from 0.0 - 1.0
+		 *					a float from 0.0 - 1.0
 		 *	@param {Number} arg0
 		 *					x1 or y1
 		 *	@param {Number} arg1
@@ -165,7 +165,7 @@ folio.FTime.Ease = function() {
 
 	// public
 	return {
-		/*
+		/**
 		 *	see http://easings.net/de for visual examples
 		 *	of each spline method
 		 */
