@@ -67,28 +67,8 @@ See documentation `/distribution/docs` for API specifics.
 Building
 -------------
 
-```shell
-$ cd build/
-$ ./build.sh
 ```
-
-
-Compiled files appear in the distribution folder in two flavors
-
-
-	paper.folio.js
-
-	paper.folio.min.js
-
-
-Documentation can also be built
-
-```shell
-$ cd build/
-$ ./docs.sh
 ```
-
-docs are located in `distribution/docs`
 
 
 
@@ -138,50 +118,5 @@ To build the scriptographer version of Folio:
 $ cd build/
 $ ./build.sh Scriptographer
 ```
-
-
-
-
-<!-- Change Log
---------------
-
-- 9. August 2013
-0.5
-
-Renamed to "folio.js" and implemented documentation creating (same as Paper.js)
-
-
-- 31. July 2013
-0.4
-
-Finally pushed most of the core elements of this library into my unsupported fork of Paper.js (https://github.com/frederickk/Paper.js). This is makes the most sense to me, so that this library can be a bit more focused. In the meantime that means that this library **ONLY WORKS** WITH my Paper.js fork
-
-
-- 29. March 2013
-0.35a
-
-Cleaned out lots of unnecessary files, at some point I'm planning on getting rid of the "Core" of this library and adding it directly to my forked version of Paper.js itself.
-
-Added new examples, Extruder and Lissajous.
-
-Optimized and fixed the JQuery calls when resizing the window, now the canvas and Paper.js get's resized as intended.
-
-
-- 16. February 2013
-0.3a
-
-I've updated the library to work more directly with (and more like) native Paper.js. I've cleaned out some unnecessary namespaces such as FPoint, FColor, and FPath (except for 3D shapes). Once the Folio library is loaded, all of those features that were once include as part of those namespsaces, are now directly injected into Paper.js
-
-Massive TODO is update the 3D aspect, the depth indexing is terrible and the classes themselves are inefficient.
-
-
-- 25. November 2012
-0.2a
-
-Over the past couple of years, I've assembled a library of functions for Scriptographer, and given the recent news, I began porting this rag-tag-collection into a slightly more library for web development. I'm calling this library FrederickkPaper. Mainly because at the moment I'm focusing on Paper.js, in the future I'd like to try and make it more generic for use with other web based creative tools (ProcessingJS, et. al.). In addition to the Scriptographer specfic functions, I've also ported some of the more useful features from my Processing library Frederickk.
-
-For now FrederickkPaper should be seen as very very alpha.
-
-Not all of the code in here was created by me but credit and links are given where credit is due. -->
 
 
