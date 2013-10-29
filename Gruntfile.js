@@ -1,11 +1,9 @@
 module.exports = function(grunt) {
 	// properties
-	var name = '<%= pkg.name %>';
+	var pkg = grunt.file.readJSON("package.json");
 
-	var folioPaper   = './src/folio.js';
-	var folioScripto = './src/folio-scriptographer.js';
-
-	var folioSrc = [
+	var name = '<%= pkg.filename %>';
+	var srcFiles = [
 		'./src/Core/*.js',
 
 		'./src/FTime/FTime.js',
@@ -26,42 +24,40 @@ module.exports = function(grunt) {
 		'./src/Extensions/*.js',
 	];
 
-	// configure each task
 	grunt.initConfig({
-		// pkg is used from templates and therefore
-		// MUST be defined inside initConfig object
+		// Metadata
 		pkg : grunt.file.readJSON('package.json'),
+		banner: grunt.file.read('./src/header.js')
+			.replace(/@VERSION/, pkg.version)
+			.replace(/@DATE/, grunt.template.today('dd. mmmm yyyy')),
 
-		uglify: {
+		// Configure each task
+		concat: {
 			options: {
-				report: 'min'
+				banner: '<%= banner %>',
 			},
 			paper: {
-				dist: {
-					src: '<%= concat.paper.target.dest %>',
-					dest: 'distribution/paper.' + name + '.min.js'
-				}
+				dest: 'distribution/paper.' + name + '.js',
+				src: ['./src/header.js', './src/folio.js', srcFiles]
 			},
 			scriptographer: {
-				dist: {
-					src: '<%= concat.scriptographer.target.dest %>',
-					dest: 'distribution/scriptographer.' + name + '.min.js'
-				}
+				dest: 'distribution/scriptographer.' + name + '.js',
+				src: ['./src/header.js', './src/folio-scriptographer.js', srcFiles]
 			}
 		},
 
-		concat: {
+		uglify: {
+			options: {
+				banner: '<%= banner %>',
+				report: 'min'
+			},
 			paper: {
-				target: {
-					dest: 'distribution/paper.' + name + '.js',
-					src: folioSrc
-				}
+				src: '<%= concat.paper.dest %>',
+				dest: 'distribution/paper.' + name + '.min.js'
 			},
 			scriptographer: {
-				target: {
-					dest: 'distribution/scriptographer.' + name + '.js',
-					src: folioSrc
-				}
+				src: '<%= concat.scriptographer.dest %>',
+				dest: 'distribution/scriptographer.' + name + '.min.js'
 			}
 		},
 
@@ -78,13 +74,14 @@ module.exports = function(grunt) {
 
 
 	// load the NPM modules
-	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.loadNpmTasks('grunt-contrib-jshint');
 
 	// register tasks
-	// grunt.registerTask('default', ['jshint', 'concat', 'uglify']);
-	grunt.registerTask('paper', ['concat', 'uglify']);
+	grunt.registerTask('default', ['concat', 'uglify']);
+	grunt.registerTask('paper', ['concat:paper', 'uglify:paper']);
+	grunt.registerTask('scriptographer', ['concat:scriptographer', 'uglify:scriptographer']);
 
 
 };

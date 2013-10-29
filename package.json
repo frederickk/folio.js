@@ -1,6 +1,7 @@
 {
   "name": "folio.js",
-  "version": "0.5.0",
+  "filename": "folio",
+  "version": "0.6.0",
   "description": "A library intended for use with Paper.js (http://paperjs.org/) ",
   "main": "distribution/paper.folio.js",
   "directories": {
