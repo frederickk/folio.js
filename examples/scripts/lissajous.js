@@ -32,8 +32,8 @@ var values = {
 
 	periodAngle:	null,
 
-	frequencyX: 	null,
-	frequencyY: 	null,
+	frequencyX:	null,
+	frequencyY:	null,
 
 	widthSta:		null,
 	widthEnd:		null,
@@ -86,7 +86,7 @@ function Update(event) {
 		$('#periodAngle').val( f.round(values.periodAngle,1) );
 		$('#frequencyX').val( f.round(values.frequencyX,1) );
 		$('#frequencyY').val( f.round(values.frequencyY,1) );
-		
+
 		$('#widthSta').val( f.round(values.widthSta,1) );
 		$('#widthEnd').val( f.round(values.widthEnd,1) );
 
@@ -192,7 +192,7 @@ var lissajousBezier = function(frequency, scale, periodAngleRads, stepRads) {
 		d2.x = frequency.x * Math.cos( angle*frequency.x + periodAngleRads );
 		d2.y = frequency.y * Math.cos( angle*frequency.y );
 
-		var delta = d1.cross(d2); 
+		var delta = d1.cross(d2);
 
 
 		/*
@@ -271,7 +271,7 @@ var lissajousBezier = function(frequency, scale, periodAngleRads, stepRads) {
 
 // ------------------------------------------------------------------------
 function boundsCheck(pt1, pt2, tolerance) {
-	var brect = new Rectangle( 
+	var brect = new Rectangle(
 		new Point(-(pt2.x+tolerance.x), -(pt2.y+tolerance.y)),
 		new Point(pt2.x+tolerance.x, pt2.y+tolerance.y)
 	);

@@ -1,26 +1,8 @@
-/**
- *  
+/*
+ *
  *	FPath3.js
- *	v0.5
- *  
- *	11. August 2013
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
- *  
- *
- *	3D Path Class
  *
  *	A barebones collection of classes for primitive 3D rendering
- *
- *	code inspired by
- *	http://www.netmagazine.com/tutorials/build-your-own-html5-3d-engine
- *	https://github.com/mrdoob/three.js/
- *
- *	modified/expanded for use in Paper.js by Ken Frederick
  *
  */
 
@@ -191,7 +173,7 @@ folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
 		// push points into 2D path
 		for(var i=0; i<this._fpoints3.length; i++) {
 			var pt3 = this._fpoints3[i];
-			this.add( 
+			this.add(
 				new Point( pt3.x2D(), pt3.y2D() )
 			);
 		}
@@ -201,15 +183,15 @@ folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
 
 // }, new function() { // Scope for drawing
 
-// 	return {
-// 		_draw: function(ctx, param) {
-// 		},
-// 	};
+//	return {
+//		_draw: function(ctx, param) {
+//		},
+//	};
 
 // }, {
 
 // statics: {
 
 // }
-	
+
 });

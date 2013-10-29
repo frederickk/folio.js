@@ -1,26 +1,8 @@
-/**
- *  
+/*
+ *
  *	FSize3.js
- *	v0.5
- *  
- *	11. August 2013
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
- *  
- *
- *	FSize3
  *
  *	A barebones collection of classes for primitive 3D rendering
- *
- *	code inspired by
- *	http://www.netmagazine.com/tutorials/build-your-own-html5-3d-engine
- *	https://github.com/mrdoob/three.js/
- *
- *	modified/expanded for use in Paper.js by Ken Frederick
  *
  */
 
@@ -37,7 +19,7 @@
  *			depth
  */
 folio.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
-	/*
+	/**
 	 *	public
 	 */
 	this.width = arg0 != undefined ? arg0 : 0;
@@ -57,7 +39,7 @@ folio.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
 	this.setWidth = function(val) {
 		this.width = val;
 	};
-	
+
 	/**
 	 *
 	 *	@param val
@@ -98,7 +80,7 @@ folio.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
 
 	// ------------------------------------------------------------------------
 	/**
-	 *	
+	 *
 	 *	@return random size
 	 *
 	 */
@@ -134,7 +116,7 @@ folio.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
 	};
 
 	/**
-	 *	
+	 *
 	 *	@return volume
 	 *
 	 */

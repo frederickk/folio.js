@@ -1,19 +1,7 @@
-/**
- *  
+/*
+ *
  *	FPath3Constuctors.js
- *	v0.5
- *  
- *	11. August 2013
  *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
- *  
- *
- *	FPath3 Constuctors
- *	
  *	A collection of primitive 3D shapes for folio.F3D.FPath3
  *
  *	FBox
@@ -30,20 +18,20 @@ folio.F3D.FPath3.inject({
 		return {
 
 			/**
-			 * 
+			 *
 			 *	FBox
 			 *	Create simple box
 			 *
 			 *	@param {folio.F3D.FScene3D} scene
 			 *				the scene to attach the Box to
 			 *	@param {folio.F3D.FPoint3} fpoint3
-			 *	       		the position of the Box
+			 *	      		the position of the Box
 			 *	@param {folio.F3D.FSize3} fsize3
 			 *				the size of the Box
 			 *
 			 */
 			FBox: function(scene, fpoint3, fsize3) {
-				this._position3 = (fpoint3 != undefined) 
+				this._position3 = (fpoint3 != undefined)
 					? fpoint3
 					: new folio.F3D.FPoint3( 0,0,0 );
 
@@ -124,14 +112,14 @@ folio.F3D.FPath3.inject({
 			},
 
 			/**
-			 * 
+			 *
 			 *	FSphere
 			 *	Create simple sphere
 			 *
 			 *	@param {folio.F3D.FScene3D} scene
 			 *				the scene to attach the Sphere to
 			 *	@param {folio.F3D.FPoint3} fpoint3
-			 *	       		the position of the Sphere
+			 *	      		the position of the Sphere
 			 *	@param {folio.F3D.FSize3} radius
 			 *				the radius of the Sphere
 			 *	@param {Array} detail (optional)
@@ -141,7 +129,7 @@ folio.F3D.FPath3.inject({
 			 *
 			 */
 			FSphere: function(scene, fpoint3, radius, detail) {
-				this._position3 = (fpoint3 != undefined) 
+				this._position3 = (fpoint3 != undefined)
 					? fpoint3
 					: new folio.F3D.FPoint3( 0,0,0 );
 

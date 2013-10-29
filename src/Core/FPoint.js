@@ -1,23 +1,13 @@
- /**
+/*
  *
  *	FPoint.js
- *	v0.5
- *
- *	15. May 2013
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
- *
  *
  *	A collection of extensions for paper.Point
  *
  */
 
 
-/*
+/**
  *
  *	paper.Point
  *
@@ -147,7 +137,7 @@ paper.Point.inject({
 	 *	@return {Number} vector heading of Point
 	 *
 	 *	@example
-	 * 	var point = new Point(0, 90);
+	 *	var point = new Point(0, 90);
 	 *	var result = point.getHeading();
 	 *	console.log( paper.degrees(result) ); // 90
 	 *
@@ -167,8 +157,8 @@ paper.Point.inject({
 	 *	@return {Number} vector angle (radians)
 	 *
 	 *	@example
-	 * 	var point1 = new Point(0, 90);
-	 * 	var point2 = new Point(90, 180);
+	 *	var point1 = new Point(0, 90);
+	 *	var point2 = new Point(90, 180);
 	 *	var result = point1.getAngle(point2);
 	 *	console.log( paper.degrees(result) ); // XX
 	 *
@@ -206,12 +196,12 @@ paper.Point.inject({
 	//  *
 	//  */
 	// limit: function(lim) {
-	// 	if (this.magSq() > lim * lim) {
-	// 		this.normalize();
-	// 		this.mult * lim;
-	// 		return this;
-	// 	}
-	// 	return this;
+	//	if (this.magSq() > lim * lim) {
+	//		this.normalize();
+	//		this.mult * lim;
+	//		return this;
+	//	}
+	//	return this;
 	// },
 
 	/**

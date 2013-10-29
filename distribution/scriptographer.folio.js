@@ -1,10 +1,10 @@
 /*!
  *
  *	folio.js
- *	v0.5
+ *	0.6.0
  *	https://github.com/frederickk/folio.js
  *
- *	11. August 2013
+ *	29. October 2013
  *
  *	Ken Frederick
  *	ken.frederick@gmx.de
@@ -13,8 +13,55 @@
  *	http://blog.kennethfrederick.de/
  *
  *
- *	Folio.js is a library for Paper.js http://paperjs.org/. Folio.js
- *	serves as a collection of functions for supporting animations,
+ *	Folio.js is a library for Paper.js/Scriptographer
+ *	Folio.js serves as a collection of functions for supporting animations,
+ *	rudimentary 3D, additional Path items and lastly a structured
+ *	framework/chain of operations similar to that of Processing,
+ *	OpenFrameworks, Cinder, et. al.
+ *
+ *	Not all of the code in here was created by me
+ *	but credit and links are given where credit is due
+ *
+ *	Additional information and demos can be found here
+ *	http://kennethfrederick.de/folio.js/
+ *	http://kenfrederick.blogspot.de/2012/12/frederickkpaper.html
+ *
+ *
+ *	This library is free software; you can redistribute it and/or
+ *	modify it under the terms of the GNU Lesser General Public
+ *	License as published by the Free Software Foundation; either
+ *	version 2.1 of the License, or (at your option) any later version.
+ *
+ *	http://creativecommons.org/licenses/LGPL/2.1/
+ *
+ *	This library is distributed in the hope that it will be useful,
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the GNU
+ *	Lesser General Public License for more details.
+ *
+ *	You should have received a copy of the GNU Lesser General Public
+ *	License along with this library; if not, write to the Free Software
+ *	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA	02110-1301	USA
+ *
+ */
+
+/*!
+ *
+ *	folio.js
+ *	@VERSION
+ *	https://github.com/frederickk/folio.js
+ *
+ *	@DATE
+ *
+ *	Ken Frederick
+ *	ken.frederick@gmx.de
+ *
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
+ *
+ *
+ *	Folio.js is a library for Paper.js/Scriptographer
+ *	Folio.js serves as a collection of functions for supporting animations,
  *	rudimentary 3D, additional Path items and lastly a structured
  *	framework/chain of operations similar to that of Processing,
  *	OpenFrameworks, Cinder, et. al.
@@ -46,7 +93,6 @@
  */
 
 
-
 // ------------------------------------------------------------------------
 // Global Properties
 // ------------------------------------------------------------------------
@@ -69,7 +115,7 @@ var paper = PaperScope = global;
 
 
 
-/**
+/*
  *	Note from the Scriptographer.org Team
  *
  *	In Scriptographer 2.9, we switched to a top-down coordinate system and
@@ -90,9 +136,9 @@ script.angleUnits = 'degrees';
  *
  *	Scriptographer Global Scope
  *
- * 	The following are components that I have included within my
- * 	unsupported fork of Paper.js, which are not available natively
- * 	within Scriptogpraher
+ *	The following are components that I have included within my
+ *	unsupported fork of Paper.js, which are not available natively
+ *	within Scriptogpraher
  *
  *
  */
@@ -101,7 +147,7 @@ global.inject({
 	enumerable: true,
 
 
-	/**
+	/*
 	 *
 	 *	These are specific methods for the
 	 *	Scriptographer version of folio.js
@@ -134,7 +180,7 @@ global.inject({
 	//-----------------------------------------------------------------------------
 	// Methods
 	//-----------------------------------------------------------------------------
-	/**
+	/*
 	 *	@param {Object} obj
 	 *				any Javascript Object
 	 */
@@ -148,7 +194,7 @@ global.inject({
 	/*
 	 *	animation function that mimics Paper.js
 	 */
-	/**
+	/*
 	 *	@param {Boolean} isOn
 	 *				true if we want to use animations
 	 *	@param {Number} frameRate
@@ -167,7 +213,7 @@ global.inject({
 		}
 	},
 
-	/**
+	/*
 	 *	@param {Number} interval
 	 *				how often in MS to fire event - defaul: 83
 	 */
@@ -189,19 +235,10 @@ global.inject({
 // ------------------------------------------------------------------------
 var folio = folio || {};
 
- /**
+
+/**
  *
  *	Core.js
- *	v0.5
- *
- *	15. May 2013
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
- *
  *
  *	Core Methods and a collection of extensions for paper globally
  *
@@ -210,12 +247,11 @@ var folio = folio || {};
 
 folio = {
 	// ------------------------------------------------------------------------
- 	// Setup Core Namespaces
+	// Setup Core Namespaces
 	// ------------------------------------------------------------------------
- 	FTime: {},
- 	FIO: {},
- 	F3D: {},
- 	FPath: {},
+	FTime: {},
+	FIO: {},
+	F3D: {}
 };
 
 
@@ -232,7 +268,7 @@ PaperScope.inject({
 	//-----------------------------------------------------------------------------
 	// Methods
 	//-----------------------------------------------------------------------------
-	/**
+	/*
 	 *	Java style println output
 	 *
 	 *	@param {Object} obj
@@ -244,7 +280,7 @@ PaperScope.inject({
 	},
 
 	// ------------------------------------------------------------------------
-	/**
+	/*
 	 *
 	 *	@param {Number} val
 	 *			input boolean value
@@ -257,7 +293,7 @@ PaperScope.inject({
 	},
 
 	// ------------------------------------------------------------------------
-	/**
+	/*
 	 *
 	 *	@param {Object} object
 	 *			object whose type to determine
@@ -285,7 +321,7 @@ PaperScope.inject({
 		}
 	},
 
-	/**
+	/*
 	 *
 	 *	@param {Array} items
 	 *			Array of items to go through
@@ -304,7 +340,7 @@ PaperScope.inject({
 		return path;
 	},
 
-	/**
+	/*
 	 *
 	 *	@param {Array} items
 	 *			Array of items to go through
@@ -326,22 +362,12 @@ PaperScope.inject({
 });
 
 
- /**
+
+/**
  *
  *	FArray.js
- *	v0.5
  *
- *	15. May 2013
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
- *
- *
- *	Extensions to JavaScript Array
- *	may be bad form... but whatever
+ *	Extensions to JavaScript Array may be bad form... but whatever
  *
  */
 
@@ -352,7 +378,7 @@ PaperScope.inject({
  *
  */
 
-/**
+/*
  *
  *	@return {Number} median value
  *
@@ -369,7 +395,7 @@ Array.prototype.median = function() {
 	return median;
 };
 
-/**
+/*
  *
  *	@return {Object} unique element
  *
@@ -387,7 +413,7 @@ Array.prototype.unique = function() {
 	return u;
 };
 
-/**
+/*
  *
  *	merges (then shuffles) two Arrays
  *
@@ -403,7 +429,7 @@ Array.prototype.merge = function(arr) {
 	return output;
 };
 
-/**
+/*
  *
  *	@param {Number} start
  *				start position in array
@@ -426,7 +452,7 @@ Array.prototype.max = function(start, stop) {
 	return max;
 };
 
-/**
+/*
  *
  *	@param {Number} start
  *				start position in array
@@ -449,7 +475,7 @@ Array.prototype.min = function(start, stop) {
 	return min;
 };
 
-/**
+/*
  *
  *	http://jsfromhell.com/array/shuffle
  *	http://www.brain4.de/programmierecke/js/arrayShuffle.php
@@ -461,7 +487,7 @@ Array.prototype.shuffle = function() {
 	for (var j, x, i = this.length; i; j = parseInt(Math.random() * i), x = this[--i], this[i] = this[j], this[j] = x);
 };
 
-/**
+/*
  *
  *	http://stackoverflow.com/questions/9229645/remove-duplicates-from-javascript-array
  *
@@ -475,7 +501,7 @@ Array.prototype.removeDuplicates = function() {
 	}, [] );
 };
 
-/**
+/*
  *
  *	@param {Number} decimalPlaces
  *			number of decimal places
@@ -494,7 +520,7 @@ Array.prototype.round = function(decimalPlaces) {
 // TODO: integrate sorting methods in a much cleaner way
 var FSort = {
 
-	/**
+	/*
 	 *
 	 *	sort Array in alphabetical order
 	 *
@@ -526,7 +552,7 @@ var FSort = {
 		return(a == b) ? 0 : (a>b) ? 1 : -1;
 	},
 
-	/**
+	/*
 	 *
 	 *	sort array by distance of object from center of canvas
 	 *
@@ -546,19 +572,10 @@ var FSort = {
 
 };
 
- /**
+
+/**
  *
  *	FCalculate.js
- *	v0.5
- *
- *	15. May 2013
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
- *
  *
  *	A collection of global mathematical operations, similar
  *	to those found in Processing/OpenFrameworks/etc.
@@ -578,7 +595,7 @@ PaperScope.inject({
 
 
 	//-----------------------------------------------------------------------------
-	/**
+	/*
 	 *	@param {Number} min
 	 *				minmum range
 	 *	@param {Number} max
@@ -602,7 +619,7 @@ PaperScope.inject({
 		return (min + Math.random() * (max - min));
 	},
 
-	/**
+	/*
 	 *	@param {Number} min
 	 *				minmum range
 	 *	@param {Number} max
@@ -618,7 +635,7 @@ PaperScope.inject({
 		return parseInt( paper.random(min,max) );
 	},
 
-	/**
+	/*
 	 *
 	 *	http://www.siafoo.net/snippet/191
 	 *
@@ -647,7 +664,7 @@ PaperScope.inject({
 
 
 	// ------------------------------------------------------------------------
-	/**
+	/*
 	 *
 	 *	@param {Number} val
 	 *				the value to constrain
@@ -666,7 +683,7 @@ PaperScope.inject({
 		return (val < min) ? min : ((val > max) ? max : val);
 	},
 
-	/**
+	/*
 	 *
 	 *	@param {Number} val
 	 *				the incoming value to be converted
@@ -685,7 +702,7 @@ PaperScope.inject({
 		return (val - start) / (stop - start);
 	},
 
-	/**
+	/*
 	 *
 	 *	@param {Number} val
 	 *				the incoming value to be converted
@@ -710,7 +727,7 @@ PaperScope.inject({
 
 
 	// ------------------------------------------------------------------------
-	/**
+	/*
 	 *
 	 *	@param {Number} val
 	 *			number
@@ -728,7 +745,7 @@ PaperScope.inject({
 		return Math.round(val * multi)/multi;
 	},
 
-	/**
+	/*
 	 *
 	 *	snap from:
 	 *	http://stackoverflow.com/questions/4507784/snap-to-grid-functionality-using-javascript
@@ -751,7 +768,7 @@ PaperScope.inject({
 		return paper.roundDecimal( snapInc * roundFunction(val / snapInc), 2 );
 	},
 
-	/**
+	/*
 	 *
 	 *	@param {Number} start
 	 *			fitst value
@@ -772,7 +789,7 @@ PaperScope.inject({
 
 
 	// ------------------------------------------------------------------------
-	/**
+	/*
 	 *
 	 *	@param {Number} val
 	 *			input value
@@ -787,7 +804,7 @@ PaperScope.inject({
 		return val * (180/Math.PI);
 	},
 
-	/**
+	/*
 	 *
 	 *	@param {Number} val
 	 *			input value
@@ -803,7 +820,7 @@ PaperScope.inject({
 	},
 
 	// ------------------------------------------------------------------------
-	/**
+	/*
 	 *
 	 *	Calculate secants
 	 *
@@ -820,7 +837,7 @@ PaperScope.inject({
 		return 1/Math.cos(val);
 	},
 
-	/**
+	/*
 	 *
 	 *	Calculate cosecants
 	 *
@@ -838,7 +855,7 @@ PaperScope.inject({
 	},
 
 	// ------------------------------------------------------------------------
-	/**
+	/*
 	 *
 	 *	@param {Point} point
 	 *			input point
@@ -850,7 +867,7 @@ PaperScope.inject({
 	// }
 
 	// ------------------------------------------------------------------------
-	/**
+	/*
 	 *
 	 *	@param {Number} val
 	 *			input value
@@ -866,7 +883,7 @@ PaperScope.inject({
 	},
 
 	// ------------------------------------------------------------------------
-	/**
+	/*
 	 *	get common outer tangents of two circles (only works with circles!)
 	 *
 	 *	@param {Path.Circle} arg0
@@ -877,7 +894,7 @@ PaperScope.inject({
 	 *	@return {Array} of points
 	 *
 	 */
-	/**
+	/*
 	 *	TODO: get common outer tangents of two curves
 	 *
 	 *	@param {Curve} arg0
@@ -931,19 +948,10 @@ PaperScope.inject({
 
 
 });
- /**
+
+/**
  *
  *	FColor.js
- *	v0.5
- *
- *	15. May 2013
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
- *
  *
  *	A collection of extensions for paper.Color
  *
@@ -957,7 +965,7 @@ PaperScope.inject({
  */
 paper.Color.inject({
 	// ------------------------------------------------------------------------
-	/**
+	/*
 	 *
 	 *	@param {Number} component
 	 *						input value to convert
@@ -971,7 +979,7 @@ paper.Color.inject({
 	},
 
 
-	/**
+	/*
 	 *
 	 *	http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
 	 *
@@ -995,7 +1003,7 @@ paper.Color.inject({
 	},
 
 	// ------------------------------------------------------------------------
-	/**
+	/*
 	 *
 	 *	@return {Number} value of input color as integer
 	 *
@@ -1016,7 +1024,7 @@ paper.Color.inject({
 		return RgbInt;
 	},
 
-	/**
+	/*
 	 *
 	 *	@param {Number} RgbInt
 	 *			value as integer
@@ -1033,7 +1041,7 @@ paper.Color.inject({
 
 
 	// ------------------------------------------------------------------------
-	/**
+	/*
 	 *
 	 *	@param {Number} arg0
 	 *			red as byte value (0-255)
@@ -1057,7 +1065,7 @@ paper.Color.inject({
 
 
 	// ------------------------------------------------------------------------
-	/**
+	/*
 	 *	desaturate a color (based on hsb model) by percentage
 	 *	NOTE: Color operators aren't working
 	 *
@@ -1080,7 +1088,7 @@ paper.Color.inject({
 		return color;
 	},
 
-	/**
+	/*
 	 *	saturate a color (based on hsb model) by percentage
 	 *	NOTE: Color operators aren't working
 	 *
@@ -1103,7 +1111,7 @@ paper.Color.inject({
 		return color;
 	},
 
-	/**
+	/*
 	 *	darken a color (based on hsl model) by percentage
 	 *	NOTE: Color operators aren't working
 	 *
@@ -1126,7 +1134,7 @@ paper.Color.inject({
 		return color;
 	},
 
-	/**
+	/*
 	 *	dim a color (based on hsl model) by percentage
 	 *	NOTE: Color operators aren't working
 	 *
@@ -1149,7 +1157,7 @@ paper.Color.inject({
 		return color;
 	},
 
-	/**
+	/*
 	 *	lighten a color (based on hsl model) by percentage
 	 *	NOTE: Color operators aren't working
 	 *
@@ -1173,7 +1181,7 @@ paper.Color.inject({
 		return color;
 	},
 
-	/**
+	/*
 	 *	brighten a color (based on hsb model) by percentage
 	 *	NOTE: Color operators aren't working
 	 *
@@ -1198,7 +1206,7 @@ paper.Color.inject({
 	},
 
 
-	/**
+	/*
 	 *	increase color contrast (based on hsb model) by percentage
 	 *	NOTE: Color operators aren't working
 	 *
@@ -1223,7 +1231,7 @@ paper.Color.inject({
 	},
 
 
-	/**
+	/*
 	 *	invert color
 	 *	NOTE: Color operators aren't working
 	 *
@@ -1245,7 +1253,7 @@ paper.Color.inject({
 		return color;
 	},
 
-	/**
+	/*
 	 *	rotate color around hsb/l color wheel other components remain the same
 	 *	NOTE: Color operators aren't working
 	 *
@@ -1263,7 +1271,7 @@ paper.Color.inject({
 	 *		color,
 	 *		color.rotate(120),
 	 *		color.rotate(240)
- 	 * 	];
+	 *	];
 	 *
 	 */
 	rotate: function(degree) {
@@ -1272,7 +1280,7 @@ paper.Color.inject({
 		return color;
 	},
 
-	/**
+	/*
 	 *	interpolate color
 	 *
 	 *	@param {Color} from
@@ -1290,7 +1298,7 @@ paper.Color.inject({
 	 *	var interpolateColor = new Color().interpolate( color1, color2, 0.5 );
 	 *
 	 */
-	/**
+	/*
 	 *
 	 *	@param {Color} to
 	 *			end color
@@ -1309,11 +1317,11 @@ paper.Color.inject({
 	//	TODO: would interpolateTo make more sense?
 	//
 	// interpolateTo: function(toColor, amt) {
-	// 	var color = new Color( this );
-	// 	for( var i=0; i<color._components.length; i++ ) {
-	// 		color._components[i] += ((toColor._components[i] - color._components[i]) * amt);
-	// 	}
-	// 	return color;
+	//	var color = new Color( this );
+	//	for( var i=0; i<color._components.length; i++ ) {
+	//		color._components[i] += ((toColor._components[i] - color._components[i]) * amt);
+	//	}
+	//	return color;
 	// },
 	interpolate: function( arg0, arg1, arg2 ) {
 		var color = new Color( this );
@@ -1339,7 +1347,7 @@ paper.Color.inject({
 	},
 
 
-	/**
+	/*
 	 *
 	 *	@return {Color} random Color based on initialization arguments
 	 *
@@ -1379,19 +1387,10 @@ paper.Color.inject({
 });
 
 
- /**
+
+/**
  *
  *	FConversions.js
- *	v0.5
- *
- *	15. May 2013
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
- *
  *
  *	A collection of helpful conversion ratios from and to pixels (or points)
  *
@@ -1433,22 +1432,12 @@ var FConversions = {
 
 };
 
+
 /**
  *
  *	FPath.js
- *	v0.5
  *
- *	11. August 2013
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
- *
- *
- *	A collection of shapes for paper.Path
- *	and methods for paper.Item
+ *	A collection of shapes for paper.Path and methods for paper.Item
  *
  *	FArrow
  *	FBubble
@@ -1469,7 +1458,7 @@ paper.Item.inject({
 	//-----------------------------------------------------------------------------
 	// Methods
 	//-----------------------------------------------------------------------------
-	/**
+	/*
 	 *	@param {Size} spacing
 	 *				spacing.width  = the horizontal snapping value, width of the grid.
 	 *				spacing.height = the vertical snapping value, height of the grid.
@@ -1480,7 +1469,7 @@ paper.Item.inject({
 		this.position.snapGrid(spacing);
 	},
 
-	/**
+	/*
 	 *	snaps point to an isometric grid
 	 *
 	 *	@param {Number} scale
@@ -1494,7 +1483,7 @@ paper.Item.inject({
 
 
 	//-----------------------------------------------------------------------------
-	/**
+	/*
 	 * {@grouptitle Position and Bounding Boxes}
 	 *
 	 *	Returns the distance between the item and the center of the canvas/artboard
@@ -1511,7 +1500,7 @@ paper.Item.inject({
 
 
 	//-----------------------------------------------------------------------------
-	/**
+	/*
 	 *	converts an CompoundPath into a Group otherwise returns original Item
 	 *
 	 */
@@ -1540,7 +1529,7 @@ paper.Path.inject({
 	 *
 	 */
 
-	/**
+	/*
 	 *	Returns the Centroid of Path
 	 *	http://stackoverflow.com/questions/2792443/finding-the-centroid-of-a-polygon
 	 *
@@ -1583,7 +1572,7 @@ paper.Path.inject({
 		return centroid;
 	},
 
-	/**
+	/*
 	 *	Returns the Circumcenter of a triangle
 	 *
 	 *	TODO: adjust formula to return Circumcenter of any polygon
@@ -1642,54 +1631,54 @@ paper.Path.inject({
 		}
 	},
 
-	/**
+	/*
 	 *
 	 *	TODO: add additional "center" formulas (for polygons)
 	 *	http://mathforum.org/library/drmath/view/57665.html
 	 *
 	 */
 
-	/**
+	/*
 	 *	Returns the Circumcircle of a polygon
 	 *
-	 * 	TODO: fix for triangles...
+	 *	TODO: fix for triangles...
 	 *
 	 *	@return {Path.Circle}
 	 */
 	// getCircumcircle: function() {
-	// 	var that = this;
-	// 	var circumradius = 0;
+	//	var that = this;
+	//	var circumradius = 0;
 
-	// 	var _segmentsTemp = this._segments.splice();
-	// 	function getDistanceToCentroid(segment) {
-	// 		var point = segment.point;
-	// 		var x = point.x - that.getCentroid().x,
-	// 			y = point.y - that.getCentroid().y,
-	// 			d = x * x + y * y;
-	// 		return Math.sqrt(d);
-	// 	};
+	//	var _segmentsTemp = this._segments.splice();
+	//	function getDistanceToCentroid(segment) {
+	//		var point = segment.point;
+	//		var x = point.x - that.getCentroid().x,
+	//			y = point.y - that.getCentroid().y,
+	//			d = x * x + y * y;
+	//		return Math.sqrt(d);
+	//	};
 
-	// 	_segmentsTemp.sort( function(a, b) {
-	// 		return getDistanceToCentroid(a) - getDistanceToCentroid(b);
-	// 	});
+	//	_segmentsTemp.sort( function(a, b) {
+	//		return getDistanceToCentroid(a) - getDistanceToCentroid(b);
+	//	});
 
-	// 	var diff = _segmentsTemp[_segmentsTemp.length-1] - _segmentsTemp[_segmentsTemp.length-2];
-	// 	circumradius = _segmentsTemp[_segmentsTemp.length-1] - diff;
+	//	var diff = _segmentsTemp[_segmentsTemp.length-1] - _segmentsTemp[_segmentsTemp.length-2];
+	//	circumradius = _segmentsTemp[_segmentsTemp.length-1] - diff;
 
-	// 	// for( var i=0; i<_segmentsTemp.length; i++ ) {
-	// 	// 	var seg = _segmentsTemp[i].point;
-	// 	// 	if( seg.getDistance( this.getCentroid()) > circumradius ) {
-	// 	// 		circumradius = seg.getDistance( this.getCentroid());
-	// 	// 	}
-	// 	// }
+	//	// for( var i=0; i<_segmentsTemp.length; i++ ) {
+	//	//	var seg = _segmentsTemp[i].point;
+	//	//	if( seg.getDistance( this.getCentroid()) > circumradius ) {
+	//	//		circumradius = seg.getDistance( this.getCentroid());
+	//	//	}
+	//	// }
 
-	// 	return Path.Circle(
-	// 		this.getCentroid(),
-	// 		circumradius
-	// 	);
+	//	return Path.Circle(
+	//		this.getCentroid(),
+	//		circumradius
+	//	);
 	// },
 
-	/**
+	/*
 	 *	Returns the Incircle of a polygon
 	 *
 	 *	@return {Path.Circle}
@@ -1712,129 +1701,129 @@ paper.Path.inject({
 
 	// TODO: currently implementation returns false point
 	// getIncenter : function() {
-	// 	// vertices
-	// 	if( this.segments.length == 3 ) {
-	// 		var p1 = this.segments[0].point;
-	// 		var p2 = this.segments[1].point;
-	// 		var p3 = this.segments[2].point;
+	//	// vertices
+	//	if( this.segments.length == 3 ) {
+	//		var p1 = this.segments[0].point;
+	//		var p2 = this.segments[1].point;
+	//		var p3 = this.segments[2].point;
 
-	// 		// side lengths
-	// 		var a = p1.getDistance(p2);
-	// 		var b = p2.getDistance(p3);
-	// 		var c = p3.getDistance(p1);
+	//		// side lengths
+	//		var a = p1.getDistance(p2);
+	//		var b = p2.getDistance(p3);
+	//		var c = p3.getDistance(p1);
 
-	// 		var circum = a + b + c;
+	//		var circum = a + b + c;
 
-	// 		return new Point(
-	// 			(a* p1.x + b * p2.x + c * p3.x) / circum,
-	// 			(a * p1.y + b * p2.y + c * p3.y) / circum
-	// 		);
-	// 	}
-	// 	else {
-	// 		console.error( 'Not Path.FTriangle' );
-	// 		return null;
-	// 	}
+	//		return new Point(
+	//			(a* p1.x + b * p2.x + c * p3.x) / circum,
+	//			(a * p1.y + b * p2.y + c * p3.y) / circum
+	//		);
+	//	}
+	//	else {
+	//		console.error( 'Not Path.FTriangle' );
+	//		return null;
+	//	}
 	// },
 
-	/**
+	/*
 	 *	@param b
 	 *			array of barycentric coordinates
 	 */
 	// TODO: currently implementation returns false point
 	// toCartesian : function(bary) {
-	// 	if( this.segments.length == 3 ) {
-	// 		var p1 = this.segments[0].point;
-	// 		var p2 = this.segments[1].point;
-	// 		var p3 = this.segments[2].point;
+	//	if( this.segments.length == 3 ) {
+	//		var p1 = this.segments[0].point;
+	//		var p2 = this.segments[1].point;
+	//		var p3 = this.segments[2].point;
 
-	// 		// side lengths
-	// 		var a = p1.getDistance(p2);
-	// 		var b = p2.getDistance(p3);
-	// 		var c = p3.getDistance(p1);
+	//		// side lengths
+	//		var a = p1.getDistance(p2);
+	//		var b = p2.getDistance(p3);
+	//		var c = p3.getDistance(p1);
 
-	// 		// var area = 0.5 * (p1.x * (p2.y - p3.y) +
-	// 		// 				  p2.x * (p3.y - p1.y) +
-	// 		// 				  p3.x * (p1.y - p2.y));
+	//		// var area = 0.5 * (p1.x * (p2.y - p3.y) +
+	//		//				  p2.x * (p3.y - p1.y) +
+	//		//				  p3.x * (p1.y - p2.y));
 
-	// 		// var r = 2 * area / (a + b + c);
-	// 		// var k = 2 * area / (a*bary[0] + b*bary[1] + c*bary[2]);
+	//		// var r = 2 * area / (a + b + c);
+	//		// var k = 2 * area / (a*bary[0] + b*bary[1] + c*bary[2]);
 
-	// 		// var angleC = Math.acos((a*a + b*b - c*c) / (2*a*b));
+	//		// var angleC = Math.acos((a*a + b*b - c*c) / (2*a*b));
 
-	// 		// var cosC = Math.cos( angleC );
-	// 		// var sinC = Math.sin( angleC );
+	//		// var cosC = Math.cos( angleC );
+	//		// var sinC = Math.sin( angleC );
 
-	// 		// var x =	(k*bary[1] - r + (k*bary[0] - r)*cosC) / sinC;
-	// 		// var y =	k*bary[0] - r;
+	//		// var x =	(k*bary[1] - r + (k*bary[0] - r)*cosC) / sinC;
+	//		// var y =	k*bary[0] - r;
 
-	// 		// return new Point(
-	// 		// 	x + this.getIncenter().x,
-	// 		// 	y + this.getIncenter().y
-	// 		// );
+	//		// return new Point(
+	//		//	x + this.getIncenter().x,
+	//		//	y + this.getIncenter().y
+	//		// );
 
-	// 		return new Point(
-	// 			bary[0] * p1.x + bary[1] * p2.x + bary[2] * p3.x,
-	// 			bary[0] * p1.x + bary[1] * p2.x + bary[2] * p3.x
-	// 		);
-	// 	}
-	// 	else {
-	// 		console.error( 'Not Path.FTriangle' );
-	// 		return null;
-	// 	}
+	//		return new Point(
+	//			bary[0] * p1.x + bary[1] * p2.x + bary[2] * p3.x,
+	//			bary[0] * p1.x + bary[1] * p2.x + bary[2] * p3.x
+	//		);
+	//	}
+	//	else {
+	//		console.error( 'Not Path.FTriangle' );
+	//		return null;
+	//	}
 	// },
 
 
 	// TODO: currently implementation returns false point
 	// getOrthocenter : function() {
-	// 	// vertices
-	// 	if( this.segments.length == 3 ) {
-	// 		var p1 = this.segments[0].point;
-	// 		var p2 = this.segments[1].point;
-	// 		var p3 = this.segments[2].point;
+	//	// vertices
+	//	if( this.segments.length == 3 ) {
+	//		var p1 = this.segments[0].point;
+	//		var p2 = this.segments[1].point;
+	//		var p3 = this.segments[2].point;
 
-	// 		// side lengths
-	// 		var a = p1.getDistance(p2);
-	// 		var b = p2.getDistance(p3);
-	// 		var c = p3.getDistance(p1);
+	//		// side lengths
+	//		var a = p1.getDistance(p2);
+	//		var b = p2.getDistance(p3);
+	//		var c = p3.getDistance(p1);
 
-	// 		var bary = [
-	// 			this.sec(a),
-	// 			this.sec(b),
-	// 			this.sec(c)
-	// 		];
-	// 		return this.toCartesian(bary);
-	// 	}
-	// 	else {
-	// 		console.error( 'Not Path.FTriangle' );
-	// 		return null;
-	// 	}
+	//		var bary = [
+	//			this.sec(a),
+	//			this.sec(b),
+	//			this.sec(c)
+	//		];
+	//		return this.toCartesian(bary);
+	//	}
+	//	else {
+	//		console.error( 'Not Path.FTriangle' );
+	//		return null;
+	//	}
 	// },
 
 
 	// TODO: currently implementation returns false point
 	// getSchifflerPoint : function() {
-	// 	// vertices
-	// 	if( this.segments.length == 3 ) {
-	// 		var p1 = this.segments[0].point;
-	// 		var p2 = this.segments[1].point;
-	// 		var p3 = this.segments[2].point;
+	//	// vertices
+	//	if( this.segments.length == 3 ) {
+	//		var p1 = this.segments[0].point;
+	//		var p2 = this.segments[1].point;
+	//		var p3 = this.segments[2].point;
 
-	// 		// side lengths
-	// 		var a = p1.getDistance(p2);
-	// 		var b = p2.getDistance(p3);
-	// 		var c = p3.getDistance(p1);
+	//		// side lengths
+	//		var a = p1.getDistance(p2);
+	//		var b = p2.getDistance(p3);
+	//		var c = p3.getDistance(p1);
 
-	// 		var bary = [
-	// 			1/(Math.cos(b) + Math.cos(c)),
-	// 			1/(Math.cos(c) + Math.cos(a)),
-	// 			1/(Math.cos(a) + Math.cos(b))
-	// 		];
-	// 		return this.toCartesian(bary, p1,p2,p3);
-	// 	}
-	// 	else {
-	// 		console.error( 'Not Path.FTriangle' );
-	// 		return null;
-	// 	}
+	//		var bary = [
+	//			1/(Math.cos(b) + Math.cos(c)),
+	//			1/(Math.cos(c) + Math.cos(a)),
+	//			1/(Math.cos(a) + Math.cos(b))
+	//		];
+	//		return this.toCartesian(bary, p1,p2,p3);
+	//	}
+	//	else {
+	//		console.error( 'Not Path.FTriangle' );
+	//		return null;
+	//	}
 	// },
 
 
@@ -1842,7 +1831,7 @@ paper.Path.inject({
 	//-----------------------------------------------------------------------------
 	statics: new function() {
 		return {
-			/**
+			/*
 			 *
 			 *	FArrow
 			 *	Create simple arrow
@@ -1886,7 +1875,7 @@ paper.Path.inject({
 			},
 
 
-			/**
+			/*
 			 *
 			 *	FBubble
 			 *	Create a simple speech bubble
@@ -1981,7 +1970,7 @@ paper.Path.inject({
 			},
 
 
-			/**
+			/*
 			 *	FChain
 			 *	Create simple chain (a line with different endpoint sizes)
 			 *
@@ -2002,7 +1991,7 @@ paper.Path.inject({
 			 *	var fchain = new paper.Path.FChain( point1, radius1, point2, radius2 );
 			 *
 			 */
-			/**
+			/*
 			 *
 			 *	@param {Path} arg0
 			 *				PathItem (endpoint1)
@@ -2066,7 +2055,7 @@ paper.Path.inject({
 			},
 
 
-			/**
+			/*
 			 *
 			 *	FCross
 			 *	Create a cross
@@ -2135,7 +2124,7 @@ paper.Path.inject({
 			},
 
 
-			/**
+			/*
 			 *	FDrop
 			 *	Create a (tear)drop
 			 *
@@ -2150,7 +2139,7 @@ paper.Path.inject({
 			 *	var fdrop = new paper.Path.FDrop( centerPoint, scale );
 			 *
 			 */
-			/**
+			/*
 			 *
 			 *	@param {Point} centerPoint
 			 *				position of cross
@@ -2214,7 +2203,7 @@ paper.Path.inject({
 			},
 
 
-			/**
+			/*
 			 *	FTriangle
 			 *	Create a triangle
 			 *
@@ -2248,19 +2237,10 @@ paper.Path.inject({
 	} // end statics:
 });
 
- /**
+
+/**
  *
  *	FPoint.js
- *	v0.5
- *
- *	15. May 2013
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
- *
  *
  *	A collection of extensions for paper.Point
  *
@@ -2284,7 +2264,7 @@ paper.Point.inject({
 	// ------------------------------------------------------------------------
 	// Methods
 	// ------------------------------------------------------------------------
-	/**
+	/*
 	 *
 	 *	http://gmc.yoyogames.com/index.php?showtopic=290349
 	 *
@@ -2298,7 +2278,7 @@ paper.Point.inject({
 	 *	@return {Point} snapped Point
 	 *
 	 */
-	/**
+	/*
 	 *	snaps point to an isometric grid
 	 *
 	 *	@param {Number} scale
@@ -2335,7 +2315,7 @@ paper.Point.inject({
 		return this;
 	},
 
-	/**
+	/*
 	 *
 	 *  https://bitbucket.org/postspectacular/toxiclibs/src/9d124c80e8af/src.core/toxi/geom/Vec2D.java
 	 *
@@ -2351,7 +2331,7 @@ paper.Point.inject({
 	 *	point.interpolateTo(toPoint, 0.5); // {x: 50, y: 50}
 	 *
 	 */
-	/**
+	/*
 	 *
 	 *	@param {Point} arg0
 	 *			starting Point
@@ -2375,7 +2355,7 @@ paper.Point.inject({
 		return this;
 	},
 
-	/**
+	/*
 	 *	{@grouptitle Distance & Length}
 	 *
 	 *	Returns the distance between the point and the center of the canvas
@@ -2390,14 +2370,14 @@ paper.Point.inject({
 		return this.getDistance( view.bounds.center );
 	},
 
-	/**
+	/*
 	 *
 	 *	Returns the heading angle (radians) of a point
 	 *
 	 *	@return {Number} vector heading of Point
 	 *
 	 *	@example
-	 * 	var point = new Point(0, 90);
+	 *	var point = new Point(0, 90);
 	 *	var result = point.getHeading();
 	 *	console.log( paper.degrees(result) ); // 90
 	 *
@@ -2406,7 +2386,7 @@ paper.Point.inject({
 		return -1 * (Math.atan2(-this.y, this.x));
 	},
 
-	/**
+	/*
 	 *	Get the vector angle (radians) of two points
 	 *
 	 *	@param {Point} point1
@@ -2417,8 +2397,8 @@ paper.Point.inject({
 	 *	@return {Number} vector angle (radians)
 	 *
 	 *	@example
-	 * 	var point1 = new Point(0, 90);
-	 * 	var point2 = new Point(90, 180);
+	 *	var point1 = new Point(0, 90);
+	 *	var point2 = new Point(90, 180);
 	 *	var result = point1.getAngle(point2);
 	 *	console.log( paper.degrees(result) ); // XX
 	 *
@@ -2427,7 +2407,7 @@ paper.Point.inject({
 		return Math.atan2(point2.y - this.y, point2.x - this.x);
 	},
 
-	/**
+	/*
 	 *	Normalize a point between two other points (start and end).
 	 *
 	 *	@param {Point} start
@@ -2450,21 +2430,21 @@ paper.Point.inject({
 		return this;
 	},
 
-		// /**
+		// /*
 	//  *
 	//  *	@return {Point} limit Point
 	//  *
 	//  */
 	// limit: function(lim) {
-	// 	if (this.magSq() > lim * lim) {
-	// 		this.normalize();
-	// 		this.mult * lim;
-	// 		return this;
-	// 	}
-	// 	return this;
+	//	if (this.magSq() > lim * lim) {
+	//		this.normalize();
+	//		this.mult * lim;
+	//		return this;
+	//	}
+	//	return this;
 	// },
 
-	/**
+	/*
 	 *	{@grouptitle Vector Math Functions}
 	 *
 	 *	@return {Number} vector mag squared
@@ -2483,19 +2463,10 @@ paper.Point.inject({
 });
 
 
- /**
+
+/**
  *
  *	FSize.js
- *	v0.5
- *
- *	15. May 2013
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
- *
  *
  *	A collection of extensions for paper.Size
  *
@@ -2509,7 +2480,7 @@ paper.Point.inject({
  */
 paper.Size.inject({
 
-	/**
+	/*
 	 *
 	 *	@return {Number} area
 	 *
@@ -2522,7 +2493,7 @@ paper.Size.inject({
 		return (this.width * this.height);
 	},
 
-	/**
+	/*
 	 *
 	 *	@return {Number} area of Item circumcircle
 	 *
@@ -2536,7 +2507,7 @@ paper.Size.inject({
 		return Math.PI * (r*r);
 	},
 
-	/**
+	/*
 	 *
 	 *	@return {Number} area of Item incircle
 	 *
@@ -2550,12 +2521,12 @@ paper.Size.inject({
 		return Math.PI * (r*r);
 	},
 
-	/**
+	/*
 	 *
 	 *	@return {Number} the circumcircle radius of the Size bounding box
 	 *
 	 *	@example
-	 * 	var size = new Size(10, 20);
+	 *	var size = new Size(10, 20);
 	 *	var r = size.getCircumradius(); // 11.180339887498949
 	 *
 	 */
@@ -2565,12 +2536,12 @@ paper.Size.inject({
 		return (Math.sqrt(a * a + b * b) / 2);
 	},
 
-	/**
+	/*
 	 *
 	 *	@return {Number} the incircle radius of the Size bounding box
 	 *
 	 *	@example
-	 * 	var size = new Size(10, 20);
+	 *	var size = new Size(10, 20);
 	 *	var r = size.getIncircleradius();
 	 *	console.log( r ); // XX
 	 *
@@ -2581,14 +2552,14 @@ paper.Size.inject({
 			: this.height/2;
 	},
 
-	/**
+	/*
 	 *
 	 *  Slope is expressed as rise (x) over run (y)
 	 *
 	 *	@return {Number} angle (radians)
 	 *
 	 *	@example
-	 * 	var slope = new Size(10, 20);
+	 *	var slope = new Size(10, 20);
 	 *	var result = size.getSlopeAngle();
 	 *	console.log( paper.degrees(result) ); // 26.56
 	 *
@@ -2598,22 +2569,12 @@ paper.Size.inject({
 	}
 
 
-}); /**
+});
+/**
  *
  *	FString.js
- *	v0.5
  *
- *	15. May 2013
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
- *
- *
- *	Extensions to JavaScript Array
- *	may be bad form... but whatever
+ *	Extensions to JavaScript Array may be bad form... but whatever
  *
  */
 
@@ -2624,7 +2585,7 @@ paper.Size.inject({
  *
  *	------------------------------------------------------------------------/
 
-/**
+/*
  *
  *	trims white space from right (end) of String
  *
@@ -2638,7 +2599,7 @@ String.prototype.trimEnd = function() {
 	return this;
 };
 
-/**
+/*
  *
  *	trims all white space from String
  *
@@ -2652,7 +2613,7 @@ String.prototype.trim = function() {
 	return this;
 };
 
-/**
+/*
  *
  *	converts String to Boolean value
  *
@@ -2668,21 +2629,12 @@ String.prototype.toBool = function() {
 };
 
 
- /**
+
+/**
  *
- *	Core.js
- *	v0.5
+ *	FTextItem.js
  *
- *	15. May 2013
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
- *
- *
- *	Core Methods
+ *	A collection of extensions for paper.TextItem
  *
  */
 
@@ -2694,7 +2646,7 @@ String.prototype.toBool = function() {
  */
 paper.TextItem.inject({
 	// ------------------------------------------------------------------------
-	/**
+	/*
 	 *
 	 *	@return {String} content which will will fit within the bounds of the TextItem
 	 *
@@ -2708,305 +2660,60 @@ paper.TextItem.inject({
 });
 
 
-/**
- *
- *	FIO.js
- *	v0.5
- *
- *	11. August 2013
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
- *
- *
- *	FIO
- *	A collection of I/O methods;
- *
- */
-
-
-folio.FIO = {
-	// ------------------------------------------------------------------------
-	// Methods
-	// ------------------------------------------------------------------------
-	/*
-	 *	Local Storage
-	 */
-
-	/**
-	 *	save a value using HTML5 Local Storage
-	 *	http://www.w3schools.com/html/html5_webstorage.asp
-	 *
-	 *	@param name
-	 *				the name (key) of what we want to save
-	 *	@param value
-	 *				what we want to save
-	 */
-	saveLocal: function(name, value) {
-		if(window.localStorage) {
-			localStorage.setItem(name, String(value));
-		}
-		else {
-			console.error('localStorage not supported');
-		}
-	},
-
-	/**
-	 *	retrieve saved value (default: as string)
-	 *
-	 *	@param name
-	 *				the name (key) of what we want to retrieve
-	 */
-	getLocal: function(name) {
-		return localStorage.getItem(name);
-	},
-
-	/**
-	 *	retrieve saved value as an int
-	 *
-	 *	@param name
-	 *				the name (key) of what we want to retrieve
-	 */
-	getLocalInt: function(name) {
-		return parseInt( getLocal(name) );
-	},
-
-	/**
-	 *	retrieve saved value as a float
-	 *
-	 *	@param name
-	 *				the name (key) of what we want to retrieve
-	 */
-	getLocalFloat: function(name) {
-		return parseFloat( getLocal(name) );
-	},
-
-	/*
-	 *	@return a list of all items saved in local storage
-	 *
-	 */
-	getAllLocal: function() {
-		return sessionStorage;
-
-	},
-
-	/**
-	 *	delete a saved value from local storage
-	 *
-	 *	@param name
-	 *				the name (key) of what we want to delete
-	 *
-	 */
-	deleteLocal: function(name) {
-		localStorage.removeItem(name);
-	},
-
-
-
-	/*
-	 *	Session Storage
-	 */
-
-	/**
-	 *	save a value using HTML5 Session Storage
-	 *	http://www.w3schools.com/html/html5_webstorage.asp
-	 *
-	 *	@param name
-	 *				the name (key) of what we want to save
-	 *	@param value
-	 *				what we want to save
-	 */
-	saveSession: function(name, value) {
-		if(window.sessionStorage) {
-			sessionStorage.setItem(name, String(value));
-		}
-		else {
-			console.error('sessionStorage not supported');
-		}
-	},
-
-	/**
-	 *	retrieve saved value (default: as string)
-	 *
-	 *	@param name
-	 *				the name (key) of what we want to retrieve
-	 */
-	getSession: function(name) {
-		return sessionStorage.getItem(name);
-	},
-
-	/**
-	 *	retrieve saved value as an int
-	 *
-	 *	@param name
-	 *				the name (key) of what we want to retrieve
-	 */
-	getSessionInt: function(name) {
-		return parseInt( getSession(name) );
-	},
-
-	/**
-	 *	retrieve saved value as a float
-	 *
-	 *	@param name
-	 *				the name (key) of what we want to retrieve
-	 */
-	getSessionFloat: function(name) {
-		return parseFloat( getSession(name) );
-	},
-
-	/**
-	 *	@return a list of all items saved in session storage
-	 *
-	 */
-	getAllSession: function() {
-		return sessionStorage;
-
-	},
-
-	/**
-	 *	delete a saved value from session storage
-	 *
-	 *	@param name
-	 *				the name (key) of what we want to delete
-	 *
-	 */
-	deleteSession: function(name) {
-		sessionStorage.removeItem(name);
-	},
-
-
-
-	/*
-	 *	Cookies
-	 *	http://www.quirksmode.org/js/cookies.html
-	 */
-
-	/**
-	 *	save a value as a cookie
-	 *
-	 *	@param name
-	 *				the name (key) of what we want to save
-	 *	@param value
-	 *				what we want to save
-	 *	@param days
-	 *				how many days do we want to save it for
-	 */
-	saveCookie: function(name, value, days) {
-		if (days) {
-			var date = new Date();
-			date.setTime(date.getTime() + (days*24*60*60*1000));
-			var expires = '; expires=' + date.toGMTString();
-		}
-		else var expires = '';
-		document.cookie = name + '=' + value + expires + '; path=/';
-	},
-
-	/**
-	 *	retrieve a value from a cookie
-	 *
-	 *	@param name
-	 *				the name (key) of what we want to retrieve
-	 */
-	openCookie: function(name) {
-		var nameEQ = name + '=';
-		var ca = document.cookie.split(';');
-		for(var i=0;i < ca.length;i++) {
-			var c = ca[i];
-			while (c.charAt(0)==' ') c = c.substring(1,c.length);
-			if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-		}
-		return null;
-	},
-
-	/**
-	 *	delete a cookie
-	 *
-	 *	@param name
-	 *				the name (key) of what we want to delete
-	 */
-	deleteCookie: function(name) {
-		saveCookie(name, '', -1);
-	}
-
-};
-
 
 /**
- *  
- *	Core.js
- *	v0.5
- *  
- *	15. May 2013
  *
- *	Ken Frederick
- *	ken.frederick@gmx.de
+ *	FTime.js
  *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
- *  
- *  
- *	Core Methods
+ *	Core FTime Methods
  *
  */
 
 
 folio.FTime = {
 	// ------------------------------------------------------------------------
- 	// Namespaces
+	// Namespaces
 	// ------------------------------------------------------------------------
 	// Time/Timing Support
- 	FDate: {},
- 	FStopwatch: {},
- 	
- 	// Animation Support
- 	FStepper: {},
- 	Ease: {}
+	FDate: {},
+	FStopwatch: {},
+
+	// Animation Support
+	FStepper: {},
+	Ease: {}
 
 
 	// ------------------------------------------------------------------------
- 	// Methods
+	// Methods
 	// ------------------------------------------------------------------------
 
 
 };
 
+
 /**
- *	
+ *
  *	Easing.js
- *	v0.5
- *	
+ *
  *	Easing Functions
  *	originally inspired from http://gizma.com/easing/
  *	https://gist.github.com/gre/1650294
- *	
+ *
  *	KeySpline Function
  *	use bezier curve for transition easing function
  *	as inspired from Firefox's nsSMILKeySpline.cpp
  *	https://gist.github.com/gre/1926947#file-keyspline-js
  *	http://greweb.me/2012/02/bezier-curve-based-easing-functions-from-concept-to-implementation/
- *	
+ *
  *	Copyright (c) 2012
- *	
+ *
  *	Gaetan Renaudeau
  *	renaudeau.gaetan@gmail.com
  *
- *	
+ *
  *	modified and augemented for usage with Paper.js
  *
- *	7. August 2013
  *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
- *
- *
- *	
  *	MIT License
  *
  *	Permission is hereby granted, free of charge, to any person obtaining a
@@ -3015,10 +2722,10 @@ folio.FTime = {
  *	the rights to use, copy, modify, merge, publish, distribute, sublicense,
  *	and/or sell copies of the Software, and to permit persons to whom the
  *	Software is furnished to do so, subject to the following conditions:
- *	
+ *
  *	The above copyright notice and this permission notice shall be included in
  *	all copies or substantial portions of the Software.
- *	
+ *
  *	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  *	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  *	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
@@ -3030,13 +2737,13 @@ folio.FTime = {
 
 
 folio.FTime.Ease = function() {
-	/**
-	 * 
+	/*
+	 *
 	 * values of classic easing functions, similar to CSS
-	 * 
+	 *
 	 */
 	var splineValues = {
-		ease:		[ 0.25, 0.1, 0.25, 1.0 ], 
+		ease:		[ 0.25, 0.1, 0.25, 1.0 ],
 		linear:		[ 0.00, 0.0, 1.00, 1.0 ],
 		// in:			[ 0.42, 0.0, 1.00, 1.0 ],
 		out:		[ 0.00, 0.0, 0.58, 1.0 ],
@@ -3044,34 +2751,34 @@ folio.FTime.Ease = function() {
 	};
 
 
-	/**
-	 * 
+	/*
+	 *
 	 *	use bezier curve for transition easing function
-	 *	
+	 *
 	 *	@param {Array} arg0
-	 *					an array (4) of normalized X,Y values [ x1, y1, x2, y2 ] 
-	 *	
+	 *					an array (4) of normalized X,Y values [ x1, y1, x2, y2 ]
+	 *
 	 *	@example
 	 *	var spline = new KeySpline(0.25, 0.1, 0.25, 1.0)
 	 *	spline.get(t) // returns the normalized easing value | t must be in [0, 1] range
-	 *	
+	 *
 	 */
-	/**
-	 * 
+	/*
+	 *
 	 *	use bezier curve for transition easing function
-	 *	
+	 *
 	 *	@param {Point} arg0
 	 *					Point 1
 	 *	@param {Point} arg1
 	 *					Point 2
-	 *	
+	 *
 	 *	@example
 	 *	var spline = new KeySpline(
 	 *		new Point( 80, 80 ),
 	 *		new Point( 10, 45 )
 	 *	);
 	 *	spline.get(t) // returns the normalized easing value | t must be in [0, 1] range
-	 *	
+	 *
 	 */
 	function KeySpline(arg0, arg1) {
 		var values;
@@ -3087,41 +2794,41 @@ folio.FTime.Ease = function() {
 		function A(arg0, arg1) { return 1.0 - 3.0 * arg1 + 3.0 * arg0; };
 		function B(arg0, arg1) { return 3.0 * arg1 - 6.0 * arg0; };
 		function C(arg0) { return 3.0 * arg0; };
-	 
+
 
 		//
 		// TODO: push these to be global?
-		// 
-		/**
+		//
+		/*
 		 *	@param {Number} t
-		 *				 	a float from 0.0 - 1.0
+		 *					a float from 0.0 - 1.0
 		 *	@param {Number} arg0
 		 *					x1 or y1
 		 *	@param {Number} arg1
 		 *					x2 or y2
-		 *					
+		 *
 		 *	@return x(t)
-		 *	
+		 *
 		 */
 		function CalcBezier(t, arg0, arg1) {
 			return ((A(arg0, arg1)*t + B(arg0, arg1))*t + C(arg0))*t;
 		};
-	 
-		/**
+
+		/*
 		 *	@param {Number} t
-		 *				 	a float from 0.0 - 1.0
+		 *					a float from 0.0 - 1.0
 		 *	@param {Number} arg0
 		 *					x1 or y1
 		 *	@param {Number} arg1
 		 *					x2 or y2
-		 *					
+		 *
 		 *	@return dx/dt
-		 *	
+		 *
 		 */
 		function GetSlope(t, arg0, arg1) {
 			return 3.0 * A(arg0, arg1)*t*t + 2.0 * B(arg0, arg1) * t + C(arg0);
 		};
-	 
+
 		function GetTForX(t) {
 			// Newton raphson iteration
 			var aGuessT = t;
@@ -3151,7 +2858,7 @@ folio.FTime.Ease = function() {
 
 	// public
 	return {
-		/**
+		/*
 		 *	see http://easings.net/de for visual examples
 		 *	of each spline method
 		 */
@@ -3187,24 +2894,13 @@ folio.FTime.Ease = function() {
 
 
 		spline: KeySpline
-		// values: splineValues 
+		// values: splineValues
 	};
 
-};/**
- *  
+};
+/**
+ *
  *	FDate.js
- *	v0.5
- *  
- *	11. August 2013
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
- *
- *
- *	FDate
  *
  */
 
@@ -3242,26 +2938,26 @@ folio.FTime.FDate = function() {
 	/*
 	 *	public
 	 */
-	/**
+	/*
 	 *	@return return the current year as 'YYYY'
 	 */
 	this.year = function() {
 		if(this.date === undefined) this.date = new Date();
-		var year = String( this.date.getFullYear() ); 
+		var year = String( this.date.getFullYear() );
 		return year;
 	};
 
-	/**
+	/*
 	 *	@return return the current month as 'MM'
 	 */
 	this.month = function() {
 		if(this.date === undefined) this.date = new Date();
-		var month = String( this.date.getMonth() ); 
+		var month = String( this.date.getMonth() );
 		hour = _addZero(month);
 		return month;
 	};
 
-	/**
+	/*
 	 *	@return return the current day as string 'DD'
 	 */
 	this.day = function() {
@@ -3270,46 +2966,46 @@ folio.FTime.FDate = function() {
 		return day;
 	};
 
-	/**
+	/*
 	 *	@return return the current hour as string 'HH'
 	 */
 	this.hour = function() {
 		if(this.date === undefined) this.date = new Date();
-		var hour = String( this.date.getHours() ); 
+		var hour = String( this.date.getHours() );
 		hour = _addZero(hour);
 		return hour;
 	};
 
-	/**
+	/*
 	 *	@return return the current minute as string 'mm'
 	 */
 	this.minute = function() {
 		if(this.date === undefined) this.date = new Date();
-		var minute = String( this.date.getMinutes() ); 
+		var minute = String( this.date.getMinutes() );
 		minute = _addZero(minute);
 		return minute;
 	};
 
-	/**
+	/*
 	 *	@return return the current second as string 'ss'
 	 */
 	this.second = function() {
 		if(this.date === undefined) this.date = new Date();
-		var second = String( this.date.getSeconds() ); 
+		var second = String( this.date.getSeconds() );
 		second = _addZero(second);
 		return second;
 	};
 
-	/**
+	/*
 	 *	return the current date as string "yyyyMMdd"
-	 * 
+	 *
 	 *	@return date
 	 */
 	// this.date = function() {
-	// 	return this.year() + this.month() + this.day();
+	//	return this.year() + this.month() + this.day();
 	// };
 
-	/**
+	/*
 	 *	@param format
 	 *			boolean array = [hours, minutes, seconds]
 	 *
@@ -3337,7 +3033,7 @@ folio.FTime.FDate = function() {
 		);
 	};
 
-	/**
+	/*
 	 *	add to time
 	 *
 	 *	@param _d
@@ -3353,7 +3049,7 @@ folio.FTime.FDate = function() {
 		return this.date + (24 * _d + 60 * _h + 60 * _m + 1000 * s);
 	};
 
-	/**
+	/*
 	 *	sub from time
 	 *
 	 *	@param _d
@@ -3370,11 +3066,11 @@ folio.FTime.FDate = function() {
 	};
 
 
- 
+
 	// ------------------------------------------------------------------------
 	// Sets
 	// ------------------------------------------------------------------------
-	/**
+	/*
 	 *	set to a specific time
 	 *
 	 *	@param _d
@@ -3397,7 +3093,7 @@ folio.FTime.FDate = function() {
 	// ------------------------------------------------------------------------
 	// Gets
 	// ------------------------------------------------------------------------
-	/**
+	/*
 	 *	@param ms
 	 *			input as milliseconds
 	 *	@param format
@@ -3431,7 +3127,7 @@ folio.FTime.FDate = function() {
 		return str;
 	};
 
-	/**
+	/*
 	 *	@param h
 	 *			input as hours OR input string as hh:mm:ss OR mm:ss
 	 *	@param m
@@ -3456,7 +3152,7 @@ folio.FTime.FDate = function() {
 		return parseInt(3600000 * h + 60000 * m + 1000 * s);
 	};
 
-	/**
+	/*
 	 *	@param strHMS
 	 *			input string as hh:mm:ss
 	 *
@@ -3471,21 +3167,10 @@ folio.FTime.FDate = function() {
 };
 
 
+
 /**
- *  
+ *
  *	FStepper.js
- *	v0.5
- *  
- *	11. August 2013
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
- *  
- *  
- *	FStepper
  *
  */
 
@@ -3498,10 +3183,10 @@ folio.FTime.FStepper = function() {
 	 *	private
 	 */
 	var _stepMillis = 1000; // Set to default of 1s OR 1000ms
-	
+
 	var _timeStart = 0.0;
 	var _timeEnd = 0.0;
-	
+
 	var _bToggleStart = 0;
 	var _bBeginStpper = false;
 	var _bIn = false;
@@ -3518,14 +3203,14 @@ folio.FTime.FStepper = function() {
 	this.counter = -1;
 
 
-	
+
 	// ------------------------------------------------------------------------
 	// Methods
 	// ------------------------------------------------------------------------
-	/**
-	 *	
+	/*
+	 *
 	 *	toggle (start/stop) the stepper
-	 *	
+	 *
 	 */
 	this.toggle = function() {
 		if (_bToggleStart == 0) {
@@ -3539,7 +3224,7 @@ folio.FTime.FStepper = function() {
 	}
 
 	// ------------------------------------------------------------------------
-	/**
+	/*
 	 *	TODO: implement ability to add _easing functions
 	 *
 	 *	required function to keep the timing in sync
@@ -3596,10 +3281,10 @@ folio.FTime.FStepper = function() {
 	};
 
 	// ------------------------------------------------------------------------
-	/**
-	 *	
+	/*
+	 *
 	 *	toggle stepping in (++)
-	 *	
+	 *
 	 */
 	this.stepIn = function() {
 		if(_bIn) return;
@@ -3609,10 +3294,10 @@ folio.FTime.FStepper = function() {
 		_bOut = false;
 	};
 
-	/**
-	 *	
+	/*
+	 *
 	 *	toggle stepping out (--)
-	 *	
+	 *
 	 */
 	this.stepOut = function() {
 		if(_bOut) return;
@@ -3623,20 +3308,20 @@ folio.FTime.FStepper = function() {
 	};
 
 	// ------------------------------------------------------------------------
-	/**
+	/*
 	 *	@return if the object is stepping in
 	 */
 	this.isIn = function() {
 		return _bIn;
 	};
-	/**
+	/*
 	 *	@return if the object is stepping out
 	 */
 	this.isOut = function() {
 		return _bOut;
 	};
 
-	/**
+	/*
 	 *	@return if the object has finished it's stepping
 	 */
 	this.isDone = function() {
@@ -3652,10 +3337,10 @@ folio.FTime.FStepper = function() {
 	};
 
 	// ------------------------------------------------------------------------
-	/**
-	 *	
+	/*
+	 *
 	 *	stop stepping
-	 *	
+	 *
 	 */
 	this.stop = function() {
 		_bBeginStpper = _bIn = _bOut = false;
@@ -3666,35 +3351,35 @@ folio.FTime.FStepper = function() {
 	// ------------------------------------------------------------------------
 	// Sets
 	// ------------------------------------------------------------------------
-	/**
+	/*
 	 *	@param _seconds
-	 *			length of fade in seconds 
+	 *			length of fade in seconds
 	 */
 	this.setSeconds = function(_seconds) {
 		this.setMillis( parseInt(_seconds * 1000.0) );
 	};
-	/**
+	/*
 	 *	@param _millis
-	 *			length of fade in milliseconds 
+	 *			length of fade in milliseconds
 	 */
 	this.setMillis = function(_millis) {
 		_stepMillis = _millis;
 		_stepMillis /= 1000;
 	};
 
-	/**
+	/*
 	 *	@param _val
 	 *			to ease or not to ease...
 	 *	@param __easing
 	 *			(optional) degree of _easing
 	 */
 	// this.setEasing = function(_val, _easeing) {
-	// 	_bEase = _val;
-	// 	_easing = _easeing;
+	//	_bEase = _val;
+	//	_easing = _easeing;
 	// };
 
 	// ------------------------------------------------------------------------
-	/**
+	/*
 	 *	@param _val
 	 *			set a value for the delta 0.0 - 1.0
 	 */
@@ -3704,21 +3389,11 @@ folio.FTime.FStepper = function() {
 };
 
 
+
 /**
- *  
+ *
  *	FStopwatch.js
- *	v0.5
- *  
- *	11. August 2013
  *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
- *
- *
- *	FStopwatch
  *	A simple stopwatch
  *
  */
@@ -3741,10 +3416,10 @@ folio.FTime.FStopwatch = function() {
 	// ------------------------------------------------------------------------
 	// Methods
 	// ------------------------------------------------------------------------
-	/**
-	 *	
+	/*
+	 *
 	 *	toggle (start/stop) the stopwatch
-	 *	
+	 *
 	 */
 	this.toggle = function() {
 		if (_bStart == 0) {
@@ -3755,10 +3430,10 @@ folio.FTime.FStopwatch = function() {
 		}
 	};
 
-	/**
-	 *	
+	/*
+	 *
 	 *	start the stopwatch
-	 *	
+	 *
 	 */
 	this.start = function() {
 		// start
@@ -3767,10 +3442,10 @@ folio.FTime.FStopwatch = function() {
 		_then.setTime(_then.getTime() - _timeInMs);
 	};
 
-	/**
-	 *	
+	/*
+	 *
 	 *	pause the stopwatch
-	 *	
+	 *
 	 */
 	this.pause = function() {
 		// pause
@@ -3779,10 +3454,10 @@ folio.FTime.FStopwatch = function() {
 		_timeInMs = _now.getTime() - _then.getTime();
 	};
 
-	/**
-	 *	
+	/*
+	 *
 	 *	reset the stopwatch
-	 *	
+	 *
 	 */
 	this.reset = function() {
 		_bStart = 0;
@@ -3794,15 +3469,15 @@ folio.FTime.FStopwatch = function() {
 	// ------------------------------------------------------------------------
 	// Sets
 	// ------------------------------------------------------------------------
-	/**
-	 *	
+	/*
+	 *
 	 *	set the stopwatch
 	 *
 	 *	@param ms
 	 *			milliseconds to start the stopwatch with
 	 *	@param run
 	 *			whether the stopwatch should start or not
-	 *	
+	 *
 	 */
 	this.set = function(ms, run) {
 		_timeInMs = ms;
@@ -3818,10 +3493,10 @@ folio.FTime.FStopwatch = function() {
 	// ------------------------------------------------------------------------
 	// Gets
 	// ------------------------------------------------------------------------
-	/**
-	 *	
+	/*
+	 *
 	 *	@return the time elapsed
-	 *	
+	 *
 	 */
 	this.get = function() {
 		if (_bStart == 1)  {
@@ -3831,10 +3506,10 @@ folio.FTime.FStopwatch = function() {
 		return _timeInMs;
 	};
 
-	/**
-	 *	
+	/*
+	 *
 	 *	@return whether the stopwatch is running
-	 *	
+	 *
 	 */
 	this.isRunning = function() {
 		return (_bStart) ? true : false;
@@ -3848,6 +3523,508 @@ folio.FTime.FStopwatch = function() {
 };
 
 
+
+/**
+ *
+ *	FIO.js
+ *
+ *	A collection of I/O methods
+ *
+ */
+
+
+folio.FIO = {
+	// ------------------------------------------------------------------------
+	// Methods
+	// ------------------------------------------------------------------------
+	/*
+	 *	Local Storage
+	 */
+
+	/*
+	 *	save a value using HTML5 Local Storage
+	 *	http://www.w3schools.com/html/html5_webstorage.asp
+	 *
+	 *	@param name
+	 *				the name (key) of what we want to save
+	 *	@param value
+	 *				what we want to save
+	 */
+	saveLocal: function(name, value) {
+		if(window.localStorage) {
+			localStorage.setItem(name, String(value));
+		}
+		else {
+			console.error('localStorage not supported');
+		}
+	},
+
+	/*
+	 *	retrieve saved value (default: as string)
+	 *
+	 *	@param name
+	 *				the name (key) of what we want to retrieve
+	 */
+	getLocal: function(name) {
+		return localStorage.getItem(name);
+	},
+
+	/*
+	 *	retrieve saved value as an int
+	 *
+	 *	@param name
+	 *				the name (key) of what we want to retrieve
+	 */
+	getLocalInt: function(name) {
+		return parseInt( getLocal(name) );
+	},
+
+	/*
+	 *	retrieve saved value as a float
+	 *
+	 *	@param name
+	 *				the name (key) of what we want to retrieve
+	 */
+	getLocalFloat: function(name) {
+		return parseFloat( getLocal(name) );
+	},
+
+	/*
+	 *	@return a list of all items saved in local storage
+	 *
+	 */
+	getAllLocal: function() {
+		return sessionStorage;
+
+	},
+
+	/*
+	 *	delete a saved value from local storage
+	 *
+	 *	@param name
+	 *				the name (key) of what we want to delete
+	 *
+	 */
+	deleteLocal: function(name) {
+		localStorage.removeItem(name);
+	},
+
+
+
+	/*
+	 *	Session Storage
+	 */
+
+	/*
+	 *	save a value using HTML5 Session Storage
+	 *	http://www.w3schools.com/html/html5_webstorage.asp
+	 *
+	 *	@param name
+	 *				the name (key) of what we want to save
+	 *	@param value
+	 *				what we want to save
+	 */
+	saveSession: function(name, value) {
+		if(window.sessionStorage) {
+			sessionStorage.setItem(name, String(value));
+		}
+		else {
+			console.error('sessionStorage not supported');
+		}
+	},
+
+	/*
+	 *	retrieve saved value (default: as string)
+	 *
+	 *	@param name
+	 *				the name (key) of what we want to retrieve
+	 */
+	getSession: function(name) {
+		return sessionStorage.getItem(name);
+	},
+
+	/*
+	 *	retrieve saved value as an int
+	 *
+	 *	@param name
+	 *				the name (key) of what we want to retrieve
+	 */
+	getSessionInt: function(name) {
+		return parseInt( getSession(name) );
+	},
+
+	/*
+	 *	retrieve saved value as a float
+	 *
+	 *	@param name
+	 *				the name (key) of what we want to retrieve
+	 */
+	getSessionFloat: function(name) {
+		return parseFloat( getSession(name) );
+	},
+
+	/*
+	 *	@return a list of all items saved in session storage
+	 *
+	 */
+	getAllSession: function() {
+		return sessionStorage;
+
+	},
+
+	/*
+	 *	delete a saved value from session storage
+	 *
+	 *	@param name
+	 *				the name (key) of what we want to delete
+	 *
+	 */
+	deleteSession: function(name) {
+		sessionStorage.removeItem(name);
+	},
+
+
+
+	/*
+	 *	Cookies
+	 *	http://www.quirksmode.org/js/cookies.html
+	 */
+
+	/*
+	 *	save a value as a cookie
+	 *
+	 *	@param name
+	 *				the name (key) of what we want to save
+	 *	@param value
+	 *				what we want to save
+	 *	@param days
+	 *				how many days do we want to save it for
+	 */
+	saveCookie: function(name, value, days) {
+		if (days) {
+			var date = new Date();
+			date.setTime(date.getTime() + (days*24*60*60*1000));
+			var expires = '; expires=' + date.toGMTString();
+		}
+		else var expires = '';
+		document.cookie = name + '=' + value + expires + '; path=/';
+	},
+
+	/*
+	 *	retrieve a value from a cookie
+	 *
+	 *	@param name
+	 *				the name (key) of what we want to retrieve
+	 */
+	openCookie: function(name) {
+		var nameEQ = name + '=';
+		var ca = document.cookie.split(';');
+		for(var i=0;i < ca.length;i++) {
+			var c = ca[i];
+			while (c.charAt(0)==' ') c = c.substring(1,c.length);
+			if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+		}
+		return null;
+	},
+
+	/*
+	 *	delete a cookie
+	 *
+	 *	@param name
+	 *				the name (key) of what we want to delete
+	 */
+	deleteCookie: function(name) {
+		saveCookie(name, '', -1);
+	},
+
+
+
+	/*
+	 *	Scriptographer specific
+	 *
+	 *	modified from Jürg Lehni
+	 *	http://scriptographer.org/forum/help/save-array-data-to-external-file/
+	 *
+	 */
+
+	/*
+	 *	@param str
+	 *				the String of information to save (JSON encoded)
+	 *	@param fname
+	 *				the name of the file to save to
+	 */
+	saveFile: function(str, fname) {
+		var file = new File(script.file.parent, fname);
+		if (file.exists()) file.remove();
+		file.open();
+		file.write( Json.encode(str) );
+		file.close();
+	},
+
+	/*
+	 *	@param fname
+	 *				the name of the file to open
+	 */
+	openFile: function(fname) {
+		var file = new File(script.file.parent, fname);
+		file.open();
+		var data = Json.decode( file.readAll() );
+		file.close();
+
+		return data;
+	},
+
+	/*
+	 *	@param fname
+	 *				the name of the file to delete
+	 */
+	deleteFile: function(fname) {
+		var file = new File(script.file.parent, fname);
+		// If file exists, we need to remove it first in order to overwrite its content.
+		if (file.exists()) file.remove();
+	},
+
+	/*
+	 *	@param fname
+	 *				the name of the file to verify exists
+	 */
+	checkFile: function(fname) {
+		var file = new File(script.file.parent, fname);
+		if (file.exists()) return true;
+		else return false
+	}
+
+};
+
+
+
+/**
+ *	Circle Packer
+ *
+ *	Original from onedayitwillmake
+ *	http://onedayitwillmake.com/CirclePackJS/
+ *
+ *	MIT License
+ *	http://www.opensource.org/licenses/mit-license.php
+ *
+ *
+ *	Rewritten from AS3 to Javascript
+ *	Jackson Rollins
+ *	http://jacksonkr.com/
+ *
+ *
+ *	Rewritten for Scriptographer/PaperJS
+ *	Ken Frederick
+ *	ken.frederick@gmx.de
+ *
+ *	http://kennethfrederick.de/
+ *	http://blog.kennethfrederick.de/
+ *
+ */
+
+/*
+ *
+ *	@param {Array} circleItems
+ *					Array of Items
+ *	@param {Number} iterations
+ *					(optional) number of iterations per cycle (default: 11)
+ *
+ */
+folio.FCirclePacker = function(circleItems, iterations) {
+	// ------------------------------------------------------------------------
+	// Properties
+	// ------------------------------------------------------------------------
+	circleItems = circleItems;
+	iterations = (iterations != undefined)
+		? iterations
+		: 11;
+
+	var dampingAmt = 0.1; // the lower the slower
+	var padding = 0;
+
+
+
+	// ------------------------------------------------------------------------
+	// Methods
+	// ------------------------------------------------------------------------
+	var update = function() {
+		circleItems = circleItems.sort( folio.distanceToCenter );
+		var pp = new Point();
+
+		// Push items away from each other
+		for (var i = circleItems.length - 1; i >= 0; --i) {
+			var ci = circleItems[i];
+			var ciPt = ci.position;
+
+			for (var j = i + 1; j < circleItems.length; j++) {
+				var cj = circleItems[j];
+				var cjPt = cj.position;
+
+				if (i == j) continue;
+
+				var dx = cjPt.x - ciPt.x;
+				var dy = cjPt.y - ciPt.y;
+
+				// this alogroithm is designed for circles,
+				// so we assume every object is either a
+				// circle or a square polygon packing is a much
+				// larger challenge http://en.wikipedia.org/wiki/Packing_problem
+				// hence why we just halve the "width" in
+				// order to get the object's radius
+				var r = (ci.bounds.size.width / 2) + (cj.bounds.size.width / 2) + padding;
+
+				var d = (dx * dx) + (dy * dy);
+
+				if (d < (r * r) - 0.01) {
+					pp.x = dx;
+					pp.y = dy;
+					pp = pp.normalize(1.0);
+					pp = pp.multiply( (r - Math.sqrt(d)) * 0.5 );
+
+					try {
+						// if(cj != this.dragCircle) {
+						cjPt.x += pp.x;
+						cjPt.y += pp.y;
+						// }
+						// if(ci != this.dragCircle) {
+						ciPt.x -= pp.x;
+						ciPt.y -= pp.y;
+						// }
+					}
+					catch(err) {
+						// not a valid item, get rid of it
+						circleItems.slice(j, 1);
+						break;
+					}
+
+				}
+			}
+		}
+
+		// push items toward center
+		var damping = dampingAmt / Number(iterations);
+
+		for (var i = 0; i < circleItems.length; i++) {
+			var c = circleItems[i];
+			var cPt = c.position
+			// if(c == this.dragCircle) continue;
+			pp.x = cPt.x - artboard.bounds.center.x;
+			pp.y = cPt.y - artboard.bounds.center.y;
+			pp = pp.multiply(damping);
+			cPt.x -= pp.x;
+			cPt.y -= pp.y;
+		}
+
+		// if(this.dragCircle && this._mouseEvent) {
+		//	this.dragCircle.x = this._mouseEvent.offsetX;//stage.mouseX;
+		//	this.dragCircle.y = this._mouseEvent.offsetY;//stage.mouseY;
+		// }
+	};
+
+	// ------------------------------------------------------------------------
+	/*
+	 *	TODO: if to be made autonomous, these
+	 *	methods will have to be built in
+	 *
+	 *	Extend Path with some additional Methods
+	 *	Necessary for CirclePacker()
+	 *
+	 */
+	// Item.prototype.distanceToCenter = function() {
+	//	var dx = this.position.x - activeDocument.activeArtboard.bounds.center.x;
+	//	var dy = this.position.y - activeDocument.activeArtboard.bounds.center.y;
+	//	var distance = (dx * dx + dy * dy) + 1;
+
+	//	return distance;
+	// };
+	// Item.sortOnDistanceToCenter = function(a, b) {
+	//	var valueA = a.distanceToCenter();
+	//	var valueB = b.distanceToCenter();
+	//	var comparisonValue = 0;
+
+	//	if (valueA > valueB) comparisonValue = -1;
+	//	else if (valueA < valueB) comparisonValue = 1;
+
+	//	return comparisonValue;
+	// };
+
+
+
+	// ------------------------------------------------------------------------
+	// sets
+	// ------------------------------------------------------------------------
+	/*
+	 *	@param {Array} item
+	 *			Array of Path.Items to add to circle packer
+	 */
+	/*
+	 *	@param {Item} item
+	 *			Path.Item to add to circle packer
+	 */
+	var add = function(item) {
+		if( typeof item === 'array' ) {
+			circleItems = circleItems.concat( item );
+		}
+		else {
+			circleItems.push( item );
+		}
+	};
+
+	/*
+	 *	@param {Number} val
+	 *			damping value
+	 */
+	var setDamping = function(val) {
+		dampingAmt = val;
+	};
+
+	/*
+	 *	@param {Number} val
+	 *			padding around elements
+	 */
+	var setPadding = function(val) {
+		padding = val;
+	};
+
+
+	// ------------------------------------------------------------------------
+	// gets
+	// ------------------------------------------------------------------------
+	/*
+	 *	could be dangerous
+	 *
+	 *	@return the Array of items being packed
+	 */
+	var getItems = function() {
+		return circleItems;
+	};
+
+	/*
+	 *	could be dangerous
+	 *
+	 *	@return an Item from the Array of items being packed
+	 */
+	var getItem = function(index) {
+		return circleItems[index];
+	};
+
+
+
+	// ------------------------------------------------------------------------
+	// gets
+	// ------------------------------------------------------------------------
+	return {
+		update:		update,
+
+		add:		add,
+		setDamping:	setDamping,
+		setPadding:	setPadding,
+
+		getItems:	getItems,
+		getItem:	getItem
+	};
+
+};
 /**
  *	Travelling Salesman Problem Algorithm
  *
@@ -3867,11 +4044,12 @@ folio.FTime.FStopwatch = function() {
  *	http://blog.kennethfrederick.de/
  *
  */
-/**
+
+/*
  *	@param  {PathItem} items
- *	        	an array of PathItems
+ *	       	an array of PathItems
  *	@param  {Number} iterations (optional)
- *	        	tests per frame (higher = better) default: 1000
+ *	       	tests per frame (higher = better) default: 1000
  *
  *	@return {Array} an array of indices for the route through the input items
  *
@@ -4059,15 +4237,16 @@ folio.FRoute = function(items, iterations) {
 };
 
 
+
 /**
- *	
+ *
  *	Delaunay Triangulation
  *	Joshua Bell
  *	inexorabletash@hotmail.com
  *
  *	http://www.travellermap.com/
  *	Inspired by: http://www.codeguru.com/cpp/data/mfc_database/misc/article.php/c8901/
- *	
+ *
  *
  *	Modifications for specific use with Paper.js/Scriptographer
  *
@@ -4078,16 +4257,16 @@ folio.FRoute = function(items, iterations) {
  *
  *
  *	Credit given where credit is due
- *	
  *
- *	This work is hereby released into the Public Domain. To view a copy of the public 
- *	domain dedication, visit http://creativecommons.org/licenses/publicdomain/ or send 
- *	a letter to Creative Commons, 171 Second Street, Suite 300, San Francisco, 
+ *
+ *	This work is hereby released into the Public Domain. To view a copy of the public
+ *	domain dedication, visit http://creativecommons.org/licenses/publicdomain/ or send
+ *	a letter to Creative Commons, 171 Second Street, Suite 300, San Francisco,
  *	California, 94105, USA.
- *	
+ *
  */
 
-/**
+/*
  *	@example
  *	var triangulate = new FTriangulate( points );
  *
@@ -4116,9 +4295,9 @@ var EPSILON = 1.0e-6;
 
 
 
-/**
+/*
  *	FTriangulate
- *	
+ *
  *	@param points
  *			input vertices (Points)
  *
@@ -4136,9 +4315,9 @@ folio.FTriangulate = function( points ) {
 	//-----------------------------------------------------------------------------
 	// Classes
 	//-----------------------------------------------------------------------------
-	/**
+	/*
 	 *	Triangle
-	 *	
+	 *
 	 *	@param p1
 	 *				first Point of Triangle
 	 *	@param p2
@@ -4160,19 +4339,19 @@ folio.FTriangulate = function( points ) {
 		//-----------------------------------------------------------------------------
 		// Methods
 		//-----------------------------------------------------------------------------
-		/**
+		/*
 		 *	vertex (Edge) sharing
-		 *	
+		 *
 		 *	@param other
 		 *				the triangle to check for vertex (Edge) sharing
 		 */
 		function sharesVertex(other) {
 			return p1 == other.p1 || p1 == other.p2 || p1 == other.p3 ||
-			p2 == other.p1 || p2 == other.p2 || p2 == other.p3 || 
+			p2 == other.p1 || p2 == other.p2 || p2 == other.p3 ||
 			p3 == other.p1 || p3 == other.p2 || p3 == other.p3;
 		}
 
-		/**
+		/*
 		 *	@return circle
 		 *			Point of the circle center
 		 */
@@ -4195,7 +4374,7 @@ folio.FTriangulate = function( points ) {
 				mx1 = (_p1.x + _p2.x) / 2.0;
 				my1 = (_p1.y + _p2.y) / 2.0;
 				circle.x = (_p3.x + _p2.x) / 2.0;
-				circle.y = m1 *	(circle.x - mx1) + my1;	
+				circle.y = m1 *	(circle.x - mx1) + my1;
 
 			}
 			else {
@@ -4213,7 +4392,7 @@ folio.FTriangulate = function( points ) {
 		};
 
 		//-----------------------------------------------------------------------------
-		/**
+		/*
 		 *	@return center
 		 *			Point of the centroid center
 		 *
@@ -4227,9 +4406,9 @@ folio.FTriangulate = function( points ) {
 		};
 
 		//-----------------------------------------------------------------------------
-		/**
+		/*
 		 *	 @return
-		 *	 		a sorted array (Edge) of the Triangle's Edges (shortest to longest)
+		 *			a sorted array (Edge) of the Triangle's Edges (shortest to longest)
 		 */
 		function distances() {
 			var distances = [];
@@ -4242,7 +4421,7 @@ folio.FTriangulate = function( points ) {
 		};
 
 		//-----------------------------------------------------------------------------
-		/**
+		/*
 		 *	http://www.btinternet.com/~se16/hgb/triangle.htm
 		 */
 		function width() {
@@ -4276,7 +4455,7 @@ folio.FTriangulate = function( points ) {
 		};
 
 		//-----------------------------------------------------------------------------
-		function area() { 
+		function area() {
 			var area = 0;
 			area += (_p1.x + _p3.x) * (_p3.y - _p1.y);
 			area += (_p2.x + _p1.x) * (_p1.y - _p2.y);
@@ -4289,9 +4468,9 @@ folio.FTriangulate = function( points ) {
 		//-----------------------------------------------------------------------------
 		// Gets
 		//-----------------------------------------------------------------------------
-		/**
+		/*
 		 *	 @return
-		 *	  		the points of the triangle as a Point array 
+		 *	 		the points of the triangle as a Point array
 		 */
 		function get() {
 			var points = [_p1, _p2, _p3];
@@ -4316,10 +4495,10 @@ folio.FTriangulate = function( points ) {
 
 	};
 
-	/**
+	/*
 	 *	Edge
 	 *	TODO: replace with paper.Segment
-	 *	
+	 *
 	 *	@param p1
 	 *				first Point of Edge
 	 *	@param p2
@@ -4338,9 +4517,9 @@ folio.FTriangulate = function( points ) {
 		//-----------------------------------------------------------------------------
 		// Methods
 		//-----------------------------------------------------------------------------
-		/**
+		/*
 		 *	sorts edge by shortest to longest
-		 *	
+		 *
 		 *	@param o
 		 *				Edge to compare against
 		 */
@@ -4353,9 +4532,9 @@ folio.FTriangulate = function( points ) {
 		//-----------------------------------------------------------------------------
 		// Gets
 		//-----------------------------------------------------------------------------
-		/**
+		/*
 		 *	 @return
-		 *	  		the points of the edge as a Point array 
+		 *	 		the points of the edge as a Point array
 		 */
 		function get() {
 			var points = [_p1, _p2];
@@ -4379,15 +4558,15 @@ folio.FTriangulate = function( points ) {
 	//-----------------------------------------------------------------------------
 	// Methods
 	//-----------------------------------------------------------------------------
-	/**
+	/*
 	 *	Triangulation subroutine
 	 *
-	 *	Returned is a list of triangular faces in the Array triangles 
+	 *	Returned is a list of triangular faces in the Array triangles
 	 *	These triangles are arranged in a consistent clockwise order.
 	 *
 	 *	@return triangles
 	 *			return Array of Triangles in clockwise order
-	 *		
+	 *
 	 */
 	function init() {
 		_triangles = [];
@@ -4408,8 +4587,8 @@ folio.FTriangulate = function( points ) {
 			var xmax = xmin;
 			var ymax = ymin;
 
-			// z is used for storing misc. info i.e. normalized brightness data	
-			var z = (_points[0]).z; 
+			// z is used for storing misc. info i.e. normalized brightness data
+			var z = (_points[0]).z;
 
 			for( var i=0; i<_points.length; i++ ) {
 				var p = _points[i];
@@ -4448,7 +4627,7 @@ folio.FTriangulate = function( points ) {
 				var p = _points[i];
 				edges = [];
 
-				
+
 				// Set up the edge buffer.
 				// If the point (xp,yp) lies inside the circumcircle then the
 				// three edges of that triangle are added to the edge buffer
@@ -4539,12 +4718,12 @@ folio.FTriangulate = function( points ) {
 	};
 
 	//-----------------------------------------------------------------------------
-	/**
+	/*
 	 *	Return TRUE if a point (xp,yp) is inside the circumcircle made up
 	 *	of the points (x1,y1), (x2,y2), (x3,y3)
 	 *	The circumcircle center is returned in (xc,yc) and the radius r
 	 *	NOTE: A point on the edge is inside the circumcircle
-	 * 
+	 *
 	 * @param p
 	 *				Point to check
 	 * @param t
@@ -4580,7 +4759,7 @@ folio.FTriangulate = function( points ) {
 			mx1 = (t.p1.x + t.p2.x) / 2.0;
 			my1 = (t.p1.y + t.p2.y) / 2.0;
 			circle.x = (t.p3.x + t.p2.x) / 2.0;
-			circle.y = m1 * (circle.x - mx1) + my1;	
+			circle.y = m1 * (circle.x - mx1) + my1;
 		}
 		else {
 			m1 = - (t.p2.x-t.p1.x) / (t.p2.y-t.p1.y);
@@ -4606,13 +4785,13 @@ folio.FTriangulate = function( points ) {
 	};
 
 	//-----------------------------------------------------------------------------
-	/**
+	/*
 	 *	findClosest Triangle
 	 *
-	 *	Returns the closest Triangle based on the input Triangle 
+	 *	Returns the closest Triangle based on the input Triangle
 	 *
 	 *	@param other
-	 *			the input Triangle to find it's closest neighbor 
+	 *			the input Triangle to find it's closest neighbor
 	 *
 	 *	@return
 	 *			closest Triangle
@@ -4630,7 +4809,7 @@ folio.FTriangulate = function( points ) {
 				var d2 = other.getCentroid.getDistance( jFind.getCentroid );
 
 				if( d2 < d1 ) {
-					result = jFind;      
+					result = jFind;
 					break;
 				}
 
@@ -4641,8 +4820,8 @@ folio.FTriangulate = function( points ) {
 	};
 
 	//-----------------------------------------------------------------------------
-	/**
-	 *	
+	/*
+	 *
 	 *	sort Point rray from left to right
 	 *
 	 *	@param a
@@ -4657,8 +4836,8 @@ folio.FTriangulate = function( points ) {
 		else return 0;
 	};
 
-	/**
-	 *	
+	/*
+	 *
 	 *	sort Point array from top to bottom
 	 *
 	 *	@param a
@@ -4673,8 +4852,8 @@ folio.FTriangulate = function( points ) {
 		else return 0;
 	};
 
-	/**
-	 *	
+	/*
+	 *
 	 *	remove Point duplicates
 	 *
 	 *	@param {Array} arr
@@ -4693,8 +4872,8 @@ folio.FTriangulate = function( points ) {
 		return arr;
 	};
 
-	/**
-	 *	
+	/*
+	 *
 	 *	remove Edge duplicates
 	 *
 	 *	@param {Array} arr
@@ -4716,23 +4895,23 @@ folio.FTriangulate = function( points ) {
 		// TODO: This is O(n^2), make it O(n) with a hash or some such
 		// var uniqueEdges = [];
 		// for( var i=0; i<edges.length; i++ ) {
-		// 	var edge1 = edges[i];
-		// 	var unique = true;
+		//	var edge1 = edges[i];
+		//	var unique = true;
 
-		// 	for( var j=0; j<edges.length; j++ ) {
-		// 		if( i != j ) {
-		// 			var edge2 = edges[j];
-		// 			if( ( edge1.p1 == edge2.p1 && edge1.p2 == edge2.p2 ) ||
-		// 				( edge1.p1 == edge2.p2 && edge1.p2 == edge2.p1 ) ) {
-		// 				unique = false;
-		// 				break;
-		// 			}
-		// 		}
-		// 	}
-			
-		// 	if( unique ) {
-		// 		uniqueEdges.push( edge1 );
-		// 	}
+		//	for( var j=0; j<edges.length; j++ ) {
+		//		if( i != j ) {
+		//			var edge2 = edges[j];
+		//			if( ( edge1.p1 == edge2.p1 && edge1.p2 == edge2.p2 ) ||
+		//				( edge1.p1 == edge2.p2 && edge1.p2 == edge2.p1 ) ) {
+		//				unique = false;
+		//				break;
+		//			}
+		//		}
+		//	}
+
+		//	if( unique ) {
+		//		uniqueEdges.push( edge1 );
+		//	}
 		// }
 
 		// return uniqueEdges;
@@ -4743,7 +4922,7 @@ folio.FTriangulate = function( points ) {
 	//-----------------------------------------------------------------------------
 	// sets
 	//-----------------------------------------------------------------------------
-	/**
+	/*
 	 *	add point(s) to Triangulation
 	 *
 	 *	@param point
@@ -4777,12 +4956,12 @@ folio.FTriangulate = function( points ) {
 	//-----------------------------------------------------------------------------
 	// Gets
 	//-----------------------------------------------------------------------------
-	/**
+	/*
 	 *	@param index
 	 *			index of Triangle to return (optional)
 	 *
 	 *	@return
-	 *			the Triangles as array 
+	 *			the Triangles as array
 	 */
 	function getTriangles(index) {
 		if( index != null ) {
@@ -4793,12 +4972,12 @@ folio.FTriangulate = function( points ) {
 		}
 	};
 
-	/**
+	/*
 	 *	@param index
 	 *			index of Point to return (optional)
 	 *
 	 *	@return
-	 *			the points as a Point array 
+	 *			the points as a Point array
 	 */
 	function getPoints(index) {
 		if( index != null ) {
@@ -4825,7 +5004,7 @@ folio.FTriangulate = function( points ) {
 		add: addPoint,
 
 		// gets
-		getTriangles: getTriangles, 
+		getTriangles: getTriangles,
 		getPoints: getPoints,
 		getClosest: findClosest
 	};
@@ -4835,14 +5014,14 @@ folio.FTriangulate = function( points ) {
 
 
 
-/**
+/*
  *
  *	HashSet
  *	Phùng Văn Huy
  *	huyphungvan@gmail.com
  *
  *	http://code.huypv.net/2010/04/hashset-implementation-in-javascript.html
- *	
+ *
  *
  *	Modifications
  *

@@ -271,7 +271,7 @@ var Clock = function(_pt, _radius) {
 
 	/*
 	 *	@param time
-	 * 			[hours, minutes, seconds]
+	 *			[hours, minutes, seconds]
 	 */
 	this.setTime = function(time) {
 		// Angles for Math.sin() and Math.cos() start at 3 o'clock;

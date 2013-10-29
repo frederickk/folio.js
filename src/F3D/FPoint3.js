@@ -1,26 +1,8 @@
-/**
- *  
+/*
+ *
  *	FPoint3.js
- *	v0.5
- *  
- *	11. August 2013
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
- *  
- *
- *	FPoint3
  *
  *	A barebones collection of classes for primitive 3D rendering
- *
- *	code inspired by
- *	http://www.netmagazine.com/tutorials/build-your-own-html5-3d-engine
- *	https://github.com/mrdoob/three.js/
- *
- *	modified/expanded for use in Paper.js by Ken Frederick
  *
  */
 
@@ -38,7 +20,7 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	private
 	 */
 	var _scene = null;
@@ -46,12 +28,12 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 	var _xIndex = 0;
 	var _yIndex = 0;
 	var _zIndex = 0;
-	
+
 	var _xIndex2D = 0;
 	var _yIndex2D = 0;
 
 
-	/*
+	/**
 	 *	public
 	 */
 	this.x = arg0 != undefined ? arg0 : 0;
@@ -89,7 +71,7 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 
 	// ------------------------------------------------------------------------
 	/**
-	 *	
+	 *
 	 *	@return random point
 	 *
 	 */
@@ -139,7 +121,7 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 		if( _scene != null ) _scene.points3D[_xIndex] = val;
 		this.x = val;
 	};
-	
+
 	/**
 	 *
 	 *	@param val
@@ -393,12 +375,12 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 
 	// ------------------------------------------------------------------------
 	/**
-   	 *	Normalize the point to length 1 (make it a unit point)
+  	 *	Normalize the point to length 1 (make it a unit point)
 	 */
 	this.normalize = function() {
 	    var m = this.mag();
 	    if (m != 0 && m != 1) {
-    	  this.div(m);
+   	  this.div(m);
 	    }
 	};
 

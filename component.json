@@ -1,17 +1,12 @@
 {
-  "name": "folio",
-  "version": "0.3.5",
+  "name": "folio.js",
+  "version": "0.6.0",
   "author": {
     "name": "Ken Frederick",
     "url": "http://blog.kennethfrederick.de/"
   },
   "homepage": "https://github.com/frederickk/folio.js/",
-  "main": [
-    "./distribution/paper.folio.js",
-    "./distribution/paper.folio.min.js",
-    "./FolioTemplate",
-    "./examples"
-  ],
+  "main": "./distribution/paper.folio.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/frederickk/folio.git"
@@ -28,6 +23,26 @@
   "ignore": [
     "**/.*",
     "node_modules",
-    "components"
-  ]
+    "components",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "authors": [
+    "Ken Frederick"
+  ],
+  "description": "A library intended for use with Paper.js (http://paperjs.org/)",
+  "keywords": [
+    "\"paperjs\"",
+    "\"scriptographer\"",
+    "\"javascript\"",
+    "\"library\"",
+    "\"generative\"",
+    "\"tools\"",
+    "\"design\"",
+    "\"svg\"",
+    "\"html\""
+  ],
+  "license": "MIT",
+  "private": true
 }

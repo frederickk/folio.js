@@ -1,18 +1,7 @@
-/**
- *  
+/*
+ *
  *	FStopwatch.js
- *	v0.5
- *  
- *	11. August 2013
  *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
- *
- *
- *	FStopwatch
  *	A simple stopwatch
  *
  */
@@ -22,7 +11,7 @@ folio.FTime.FStopwatch = function() {
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	private
 	 */
 	var _now;
@@ -36,9 +25,9 @@ folio.FTime.FStopwatch = function() {
 	// Methods
 	// ------------------------------------------------------------------------
 	/**
-	 *	
+	 *
 	 *	toggle (start/stop) the stopwatch
-	 *	
+	 *
 	 */
 	this.toggle = function() {
 		if (_bStart == 0) {
@@ -50,9 +39,9 @@ folio.FTime.FStopwatch = function() {
 	};
 
 	/**
-	 *	
+	 *
 	 *	start the stopwatch
-	 *	
+	 *
 	 */
 	this.start = function() {
 		// start
@@ -62,9 +51,9 @@ folio.FTime.FStopwatch = function() {
 	};
 
 	/**
-	 *	
+	 *
 	 *	pause the stopwatch
-	 *	
+	 *
 	 */
 	this.pause = function() {
 		// pause
@@ -74,9 +63,9 @@ folio.FTime.FStopwatch = function() {
 	};
 
 	/**
-	 *	
+	 *
 	 *	reset the stopwatch
-	 *	
+	 *
 	 */
 	this.reset = function() {
 		_bStart = 0;
@@ -89,14 +78,14 @@ folio.FTime.FStopwatch = function() {
 	// Sets
 	// ------------------------------------------------------------------------
 	/**
-	 *	
+	 *
 	 *	set the stopwatch
 	 *
 	 *	@param ms
 	 *			milliseconds to start the stopwatch with
 	 *	@param run
 	 *			whether the stopwatch should start or not
-	 *	
+	 *
 	 */
 	this.set = function(ms, run) {
 		_timeInMs = ms;
@@ -113,9 +102,9 @@ folio.FTime.FStopwatch = function() {
 	// Gets
 	// ------------------------------------------------------------------------
 	/**
-	 *	
+	 *
 	 *	@return the time elapsed
-	 *	
+	 *
 	 */
 	this.get = function() {
 		if (_bStart == 1)  {
@@ -126,9 +115,9 @@ folio.FTime.FStopwatch = function() {
 	};
 
 	/**
-	 *	
+	 *
 	 *	@return whether the stopwatch is running
-	 *	
+	 *
 	 */
 	this.isRunning = function() {
 		return (_bStart) ? true : false;

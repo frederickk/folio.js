@@ -55,14 +55,14 @@ var components = {
 	},
 
 	// bDarkened: {
-	// 	type: 'checkbox',
-	// 	label: 'Darken Color'
+	//	type: 'checkbox',
+	//	label: 'Darken Color'
 	// },
 	// darkenColorPct: {
-	// 	type: 'number',
-	// 	units: 'percent',
-	// 	steppers: true,
-	// 	increment: 1
+	//	type: 'number',
+	//	units: 'percent',
+	//	steppers: true,
+	//	increment: 1
 	// },
 	angle: {
 		type: 'number',
@@ -156,7 +156,7 @@ function Draw() {
 			for( var c=obj.children.length-1; c>=0; c-- ) {
 				var child = obj.children[c].clone();
 				// TODO: children items get filled with
-				// 		 the alternate extrusion color
+				//		 the alternate extrusion color
 				var temp = recursiveExtrude( child, extrudeAngle, values.colorExtrude1 );
 				extrusion.appendTop( temp );
 				child.remove();
@@ -393,37 +393,37 @@ function onMouseUp(event) {
 // ------------------------------------------------------------------------
 function onMouseDown(event) {
 	// if( clicks[0] && clicks[1] ) {
-	// 	clicks = [false, false];
-	// 	clickPts = [];
-	// 	slopeLine.remove();
+	//	clicks = [false, false];
+	//	clickPts = [];
+	//	slopeLine.remove();
 	// }
 	// else if( !clicks[0] ) {
-	// 	clickPts[0] = event.point;
-	// 	clicks[0] = true;
+	//	clickPts[0] = event.point;
+	//	clicks[0] = true;
 	// }
 	// else if( clicks[0] ) {
-	// 	clickPts[1] = event.point;
-	// 	clicks[1] = true;
+	//	clickPts[1] = event.point;
+	//	clicks[1] = true;
 
-	// 	slopeLine = new Path();
-	// 	slopeLine.add( new Segment(clickPts[0]) );
-	// 	slopeLine.add( new Segment(clickPts[1]) );
-	// 	slopeLine.strokeColor = values.colorExtrude1;
-	// 	slopeLine.strokeWidth = 6;
+	//	slopeLine = new Path();
+	//	slopeLine.add( new Segment(clickPts[0]) );
+	//	slopeLine.add( new Segment(clickPts[1]) );
+	//	slopeLine.strokeColor = values.colorExtrude1;
+	//	slopeLine.strokeWidth = 6;
 
-	// 	// clicks = [false, false, false];
+	//	// clicks = [false, false, false];
 
-	// 	// calculate angle and distance
-	// 	var angle = slopeToAngle( slopeLine.bounds );
-	// 	var distance = slopeLine.segments[0].point.getDistance( slopeLine.segments[1].point );
+	//	// calculate angle and distance
+	//	var angle = slopeToAngle( slopeLine.bounds );
+	//	var distance = slopeLine.segments[0].point.getDistance( slopeLine.segments[1].point );
 
-	// 	// push to components
-	// 	values.angle = ( f.degrees( angle ) );
-	// 	values.distance = distance;
+	//	// push to components
+	//	values.angle = ( f.degrees( angle ) );
+	//	values.distance = distance;
 
-	// 	// extrusion slope as
-	// 	// drawn by mouse
-	// 	bDrawn = true;
+	//	// extrusion slope as
+	//	// drawn by mouse
+	//	bDrawn = true;
 
 	// }
 

@@ -1,23 +1,13 @@
- /**
+/*
  *
- *	Core.js
- *	v0.5
+ *	FTextItem.js
  *
- *	15. May 2013
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
- *
- *
- *	Core Methods
+ *	A collection of extensions for paper.TextItem
  *
  */
 
 
-/*
+/**
  *
  *	paper.TextItem
  *

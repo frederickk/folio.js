@@ -1,23 +1,13 @@
- /**
+/*
  *
  *	FColor.js
- *	v0.5
- *
- *	15. May 2013
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
- *
  *
  *	A collection of extensions for paper.Color
  *
  */
 
 
-/*
+/**
  *
  *	paper.Color
  *
@@ -330,7 +320,7 @@ paper.Color.inject({
 	 *		color,
 	 *		color.rotate(120),
 	 *		color.rotate(240)
- 	 * 	];
+	 *	];
 	 *
 	 */
 	rotate: function(degree) {
@@ -376,11 +366,11 @@ paper.Color.inject({
 	//	TODO: would interpolateTo make more sense?
 	//
 	// interpolateTo: function(toColor, amt) {
-	// 	var color = new Color( this );
-	// 	for( var i=0; i<color._components.length; i++ ) {
-	// 		color._components[i] += ((toColor._components[i] - color._components[i]) * amt);
-	// 	}
-	// 	return color;
+	//	var color = new Color( this );
+	//	for( var i=0; i<color._components.length; i++ ) {
+	//		color._components[i] += ((toColor._components[i] - color._components[i]) * amt);
+	//	}
+	//	return color;
 	// },
 	interpolate: function( arg0, arg1, arg2 ) {
 		var color = new Color( this );

@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: FTime/FDate.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: FTime/FDate.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>/*
+ *
+ *	FDate.js
+ *
+ */
+
+
+folio.FTime.FDate = function() {
+	// ------------------------------------------------------------------------
+	// Properties
+	// ------------------------------------------------------------------------
+	/**
+	 *	public
+	 */
+	this.date;
+
+	/**
+	 *	private
+	 */
+	var _months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+	var _shortMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+
+
+	// ------------------------------------------------------------------------
+	// Methods
+	// ------------------------------------------------------------------------
+	/**
+	 *	private
+	 */
+	var _addZero = function(val) {
+		if (val.length == 1) val = '0' + val;
+		return val;
+	};
+
+
+	// ------------------------------------------------------------------------
+	/**
+	 *	public
+	 */
+	/**
+	 *	@return return the current year as 'YYYY'
+	 */
+	this.year = function() {
+		if(this.date === undefined) this.date = new Date();
+		var year = String( this.date.getFullYear() );
+		return year;
+	};
+
+	/**
+	 *	@return return the current month as 'MM'
+	 */
+	this.month = function() {
+		if(this.date === undefined) this.date = new Date();
+		var month = String( this.date.getMonth() );
+		hour = _addZero(month);
+		return month;
+	};
+
+	/**
+	 *	@return return the current day as string 'DD'
+	 */
+	this.day = function() {
+		if(this.date === undefined) this.date = new Date();
+		var day = String( this.date.getDate() );
+		return day;
+	};
+
+	/**
+	 *	@return return the current hour as string 'HH'
+	 */
+	this.hour = function() {
+		if(this.date === undefined) this.date = new Date();
+		var hour = String( this.date.getHours() );
+		hour = _addZero(hour);
+		return hour;
+	};
+
+	/**
+	 *	@return return the current minute as string 'mm'
+	 */
+	this.minute = function() {
+		if(this.date === undefined) this.date = new Date();
+		var minute = String( this.date.getMinutes() );
+		minute = _addZero(minute);
+		return minute;
+	};
+
+	/**
+	 *	@return return the current second as string 'ss'
+	 */
+	this.second = function() {
+		if(this.date === undefined) this.date = new Date();
+		var second = String( this.date.getSeconds() );
+		second = _addZero(second);
+		return second;
+	};
+
+	/**
+	 *	return the current date as string "yyyyMMdd"
+	 *
+	 *	@return date
+	 */
+	// this.date = function() {
+	//	return this.year() + this.month() + this.day();
+	// };
+
+	/**
+	 *	@param format
+	 *			boolean array = [hours, minutes, seconds]
+	 *
+	 *	@return the current time
+	 */
+	this.now = function(format) {
+		var disp = [];
+		if( format === undefined ) disp = [true, true, true];
+		else disp = format;
+
+		var str = '';
+		if(disp[0]) str += this.hour();
+		if(disp[0] && disp[1]) str += ':';
+		if(disp[1]) str += this.minute();
+		if(disp[1] && disp[2]) str += ':';
+		if(disp[2]) str += this.second();
+		return str;
+	};
+
+	this.nowMilliseconds = function() {
+		return this.toMillsecond(
+			this.hour(),
+			this.minute(),
+			this.second()
+		);
+	};
+
+	/**
+	 *	add to time
+	 *
+	 *	@param _d
+	 *			input days
+	 *	@param _h
+	 *			input hours
+	 *	@param _m
+	 *			input minutes
+	 *	@param _s
+	 *			input seconds
+	 */
+	this.add = function(_d, _h, _m, _s) {
+		return this.date + (24 * _d + 60 * _h + 60 * _m + 1000 * s);
+	};
+
+	/**
+	 *	sub from time
+	 *
+	 *	@param _d
+	 *			input days
+	 *	@param _h
+	 *			input hours
+	 *	@param _m
+	 *			input minutes
+	 *	@param _s
+	 *			input seconds
+	 */
+	this.sub = function(_d, _h, _m, _s) {
+		return this.date - (24 * _d + 60 * _h + 60 * _m + 1000 * s);
+	};
+
+
+
+	// ------------------------------------------------------------------------
+	// Sets
+	// ------------------------------------------------------------------------
+	/**
+	 *	set to a specific time
+	 *
+	 *	@param _d
+	 *			input days
+	 *	@param _h
+	 *			input hours
+	 *	@param _m
+	 *			input minutes
+	 *	@param _s
+	 *			input seconds
+	 */
+	this.set = function(_d, _h, _m, _s) {
+		this.time = new Date();
+		this.time.setTime( (24 * _d + 60 * _h + 60 * _m + 1000 * s) );
+		return this.time;
+	};
+
+
+
+	// ------------------------------------------------------------------------
+	// Gets
+	// ------------------------------------------------------------------------
+	/**
+	 *	@param ms
+	 *			input as milliseconds
+	 *	@param format
+	 *			boolean array = [hours, minutes, seconds]
+	 *
+	 *	@return human readable default is hh:mm:ss
+	 */
+	this.get = function(ms, format) {
+		var disp;
+		if( format === undefined ) disp = new Array(true, true, true);
+		else disp = format;
+
+		var seconds = parseInt( (ms / 1000) % 60 );
+		var minutes = parseInt( ((ms / 1000) / 60) % 60 );
+		var hours   = parseInt( (((ms / 1000) / 60) / 60) % 24 );
+
+		var hh, mm, ss;
+		if(hours &lt; 10) hh = '0' + hours;
+		else hh =  '' + hours;
+		if(minutes &lt; 10) mm = '0' + minutes;
+		else mm =  '' + minutes;
+		if(seconds &lt; 10) ss = '0' + seconds;
+		else ss =  '' + seconds;
+
+		var str = '';
+		if(disp[0]) str += hh;
+		if(disp[0] && disp[1]) str += ':';
+		if(disp[1]) str += mm;
+		if(disp[1] && disp[2]) str += ':';
+		if(disp[2]) str += ss;
+		return str;
+	};
+
+	/**
+	 *	@param h
+	 *			input as hours OR input string as hh:mm:ss OR mm:ss
+	 *	@param m
+	 *			input as minutes
+	 *	@param s
+	 *			input as seconds
+	 *
+	 *	@return time in milliseconds
+	 */
+	this.toMillsecond = function(_h, _m, _s) {
+		var h,m,s;
+		if(_m === undefined && _s === undefined) {
+			h = this.toArray(_h)[0];
+			m = this.toArray(_h)[1];
+			s = this.toArray(_h)[2];
+		}
+		else {
+			h = _h;
+			m = _m;
+			s = _s;
+		}
+		return parseInt(3600000 * h + 60000 * m + 1000 * s);
+	};
+
+	/**
+	 *	@param strHMS
+	 *			input string as hh:mm:ss
+	 *
+	 *	@return array of time [0] hours [1] minutes [2] seconds
+	 */
+	this.toArray = function(strHMS) {
+		var temp = strHMS.split(':');
+		return [ temp[0], temp[1], temp[2] ];
+	};
+
+
+};
+
+
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Global</h3><ul><li><a href="global.html#boolToInt">boolToInt</a></li><li><a href="global.html#brighten">brighten</a></li><li><a href="global.html#bytes">bytes</a></li><li><a href="global.html#clamp">clamp</a></li><li><a href="global.html#colorToHex">colorToHex</a></li><li><a href="global.html#colorToInt">colorToInt</a></li><li><a href="global.html#componentToHex">componentToHex</a></li><li><a href="global.html#contrast">contrast</a></li><li><a href="global.html#cosec">cosec</a></li><li><a href="global.html#darken">darken</a></li><li><a href="global.html#degrees">degrees</a></li><li><a href="global.html#desaturate">desaturate</a></li><li><a href="global.html#dim">dim</a></li><li><a href="global.html#EPSILON">EPSILON</a></li><li><a href="global.html#FArrow">FArrow</a></li><li><a href="global.html#FBubble">FBubble</a></li><li><a href="global.html#FChain">FChain</a></li><li><a href="global.html#FCross">FCross</a></li><li><a href="global.html#FDrop">FDrop</a></li><li><a href="global.html#findById">findById</a></li><li><a href="global.html#findByName">findByName</a></li><li><a href="global.html#FTriangle">FTriangle</a></li><li><a href="global.html#getAngle">getAngle</a></li><li><a href="global.html#getArea">getArea</a></li><li><a href="global.html#getCentroid">getCentroid</a></li><li><a href="global.html#getCircumarea">getCircumarea</a></li><li><a href="global.html#getCircumcenter">getCircumcenter</a></li><li><a href="global.html#getCircumradius">getCircumradius</a></li><li><a href="global.html#getCommonTangents">getCommonTangents</a></li><li><a href="global.html#getDistanceToCenter">getDistanceToCenter</a></li><li><a href="global.html#getHeading">getHeading</a></li><li><a href="global.html#getIncircle">getIncircle</a></li><li><a href="global.html#getIncirclearea">getIncirclearea</a></li><li><a href="global.html#getIncircleradius">getIncircleradius</a></li><li><a href="global.html#getSlopeAngle">getSlopeAngle</a></li><li><a href="global.html#getType">getType</a></li><li><a href="global.html#HashSet">HashSet</a></li><li><a href="global.html#integer">integer</a></li><li><a href="global.html#interpolate">interpolate</a></li><li><a href="global.html#interpolateTo">interpolateTo</a></li><li><a href="global.html#invert">invert</a></li><li><a href="global.html#lighten">lighten</a></li><li><a href="global.html#linear">linear</a></li><li><a href="global.html#magSq">magSq</a></li><li><a href="global.html#map">map</a></li><li><a href="global.html#norm">norm</a></li><li><a href="global.html#normalize">normalize</a></li><li><a href="global.html#println">println</a></li><li><a href="global.html#radians">radians</a></li><li><a href="global.html#random">random</a></li><li><a href="global.html#randomBias">randomBias</a></li><li><a href="global.html#randomInt">randomInt</a></li><li><a href="global.html#rotate">rotate</a></li><li><a href="global.html#round">round</a></li><li><a href="global.html#saturate">saturate</a></li><li><a href="global.html#sec">sec</a></li><li><a href="global.html#snap">snap</a></li><li><a href="global.html#snapGrid">snapGrid</a></li><li><a href="global.html#snapIso">snapIso</a></li><li><a href="global.html#sq">sq</a></li><li><a href="global.html#statics">statics</a></li><li><a href="global.html#toGroup">toGroup</a></li><li><a href="global.html#trimToFit">trimToFit</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Tue Oct 29 2013 21:43:13 GMT+0100 (MEZ)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

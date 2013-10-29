@@ -211,7 +211,7 @@ function reflectPoint(point, axis) {
  *	@param {Path} path
  *			path to fill with hatching
  *	@param {Array} options
- *			{ max: 100, 			// maximum no. of lines
+ *			{ max: 100,			// maximum no. of lines
  *			  min: 10,				// minimum no. of lines)
  *			  value: 0.1,			// density 0.0 - 1.0
  *
@@ -222,7 +222,7 @@ function reflectPoint(point, axis) {
  *			  background: true,		// create a background shape from path
  *			  fillColor: 'blue',	// color of background (default: path.fillColor)
  *
- *			  clipMask: true 		// create a mask shape from path
+ *			  clipMask: true		// create a mask shape from path
  *			}
  */
 function hatchFill(path, options) {
@@ -286,8 +286,8 @@ function hatchFill(path, options) {
 			linePt1,
 			linePt2
 			// ( options.interpolate != undefined )
-			// 	? linePt1.interpolateTo( linePt2, options.interpolate )
-			// 	: linePt2
+			//	? linePt1.interpolateTo( linePt2, options.interpolate )
+			//	: linePt2
 		);
 		line.strokeWidth = (options.strokeWidth != null)
 			? options.strokeWidth

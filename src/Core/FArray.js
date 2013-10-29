@@ -1,24 +1,13 @@
- /**
+/*
  *
  *	FArray.js
- *	v0.5
  *
- *	15. May 2013
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
- *
- *
- *	Extensions to JavaScript Array
- *	may be bad form... but whatever
+ *	Extensions to JavaScript Array may be bad form... but whatever
  *
  */
 
 
-/*
+/**
  *
  *	Array
  *

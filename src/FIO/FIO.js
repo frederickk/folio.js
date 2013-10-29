@@ -1,19 +1,8 @@
-/**
+/*
  *
  *	FIO.js
- *	v0.5
  *
- *	11. August 2013
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
- *
- *
- *	FIO
- *	A collection of I/O methods;
+ *	A collection of I/O methods
  *
  */
 
@@ -22,7 +11,7 @@ folio.FIO = {
 	// ------------------------------------------------------------------------
 	// Methods
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	Local Storage
 	 */
 
@@ -74,7 +63,7 @@ folio.FIO = {
 		return parseFloat( getLocal(name) );
 	},
 
-	/*
+	/**
 	 *	@return a list of all items saved in local storage
 	 *
 	 */
@@ -96,7 +85,7 @@ folio.FIO = {
 
 
 
-	/*
+	/**
 	 *	Session Storage
 	 */
 
@@ -170,7 +159,7 @@ folio.FIO = {
 
 
 
-	/*
+	/**
 	 *	Cookies
 	 *	http://www.quirksmode.org/js/cookies.html
 	 */
@@ -220,6 +209,63 @@ folio.FIO = {
 	 */
 	deleteCookie: function(name) {
 		saveCookie(name, '', -1);
+	},
+
+
+
+	/**
+	 *	Scriptographer specific
+	 *
+	 *	modified from Jürg Lehni
+	 *	http://scriptographer.org/forum/help/save-array-data-to-external-file/
+	 *
+	 */
+
+	/**
+	 *	@param str
+	 *				the String of information to save (JSON encoded)
+	 *	@param fname
+	 *				the name of the file to save to
+	 */
+	saveFile: function(str, fname) {
+		var file = new File(script.file.parent, fname);
+		if (file.exists()) file.remove();
+		file.open();
+		file.write( Json.encode(str) );
+		file.close();
+	},
+
+	/**
+	 *	@param fname
+	 *				the name of the file to open
+	 */
+	openFile: function(fname) {
+		var file = new File(script.file.parent, fname);
+		file.open();
+		var data = Json.decode( file.readAll() );
+		file.close();
+
+		return data;
+	},
+
+	/**
+	 *	@param fname
+	 *				the name of the file to delete
+	 */
+	deleteFile: function(fname) {
+		var file = new File(script.file.parent, fname);
+		// If file exists, we need to remove it first in order to overwrite its content.
+		if (file.exists()) file.remove();
+	},
+
+	/**
+	 *	@param fname
+	 *				the name of the file to verify exists
+	 */
+	checkFile: function(fname) {
+		var file = new File(script.file.parent, fname);
+		if (file.exists()) return true;
+		else return false
 	}
 
 };

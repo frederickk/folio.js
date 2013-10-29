@@ -1,16 +1,6 @@
- /**
+/*
  *
  *	Core.js
- *	v0.5
- *
- *	15. May 2013
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
- *
  *
  *	Core Methods and a collection of extensions for paper globally
  *
@@ -19,17 +9,16 @@
 
 folio = {
 	// ------------------------------------------------------------------------
- 	// Setup Core Namespaces
+	// Setup Core Namespaces
 	// ------------------------------------------------------------------------
- 	FTime: {},
- 	FIO: {},
- 	F3D: {},
- 	FPath: {},
+	FTime: {},
+	FIO: {},
+	F3D: {}
 };
 
 
 
-/*
+/**
  *
  *	Global Scope (Paper.js core)
  *

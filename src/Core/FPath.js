@@ -1,19 +1,8 @@
-/**
+/*
  *
  *	FPath.js
- *	v0.5
  *
- *	11. August 2013
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
- *
- *
- *	A collection of shapes for paper.Path
- *	and methods for paper.Item
+ *	A collection of shapes for paper.Path and methods for paper.Item
  *
  *	FArrow
  *	FBubble
@@ -207,7 +196,7 @@ paper.Path.inject({
 		}
 	},
 
-	/**
+	/*
 	 *
 	 *	TODO: add additional "center" formulas (for polygons)
 	 *	http://mathforum.org/library/drmath/view/57665.html
@@ -217,41 +206,41 @@ paper.Path.inject({
 	/**
 	 *	Returns the Circumcircle of a polygon
 	 *
-	 * 	TODO: fix for triangles...
+	 *	TODO: fix for triangles...
 	 *
 	 *	@return {Path.Circle}
 	 */
 	// getCircumcircle: function() {
-	// 	var that = this;
-	// 	var circumradius = 0;
+	//	var that = this;
+	//	var circumradius = 0;
 
-	// 	var _segmentsTemp = this._segments.splice();
-	// 	function getDistanceToCentroid(segment) {
-	// 		var point = segment.point;
-	// 		var x = point.x - that.getCentroid().x,
-	// 			y = point.y - that.getCentroid().y,
-	// 			d = x * x + y * y;
-	// 		return Math.sqrt(d);
-	// 	};
+	//	var _segmentsTemp = this._segments.splice();
+	//	function getDistanceToCentroid(segment) {
+	//		var point = segment.point;
+	//		var x = point.x - that.getCentroid().x,
+	//			y = point.y - that.getCentroid().y,
+	//			d = x * x + y * y;
+	//		return Math.sqrt(d);
+	//	};
 
-	// 	_segmentsTemp.sort( function(a, b) {
-	// 		return getDistanceToCentroid(a) - getDistanceToCentroid(b);
-	// 	});
+	//	_segmentsTemp.sort( function(a, b) {
+	//		return getDistanceToCentroid(a) - getDistanceToCentroid(b);
+	//	});
 
-	// 	var diff = _segmentsTemp[_segmentsTemp.length-1] - _segmentsTemp[_segmentsTemp.length-2];
-	// 	circumradius = _segmentsTemp[_segmentsTemp.length-1] - diff;
+	//	var diff = _segmentsTemp[_segmentsTemp.length-1] - _segmentsTemp[_segmentsTemp.length-2];
+	//	circumradius = _segmentsTemp[_segmentsTemp.length-1] - diff;
 
-	// 	// for( var i=0; i<_segmentsTemp.length; i++ ) {
-	// 	// 	var seg = _segmentsTemp[i].point;
-	// 	// 	if( seg.getDistance( this.getCentroid()) > circumradius ) {
-	// 	// 		circumradius = seg.getDistance( this.getCentroid());
-	// 	// 	}
-	// 	// }
+	//	// for( var i=0; i<_segmentsTemp.length; i++ ) {
+	//	//	var seg = _segmentsTemp[i].point;
+	//	//	if( seg.getDistance( this.getCentroid()) > circumradius ) {
+	//	//		circumradius = seg.getDistance( this.getCentroid());
+	//	//	}
+	//	// }
 
-	// 	return Path.Circle(
-	// 		this.getCentroid(),
-	// 		circumradius
-	// 	);
+	//	return Path.Circle(
+	//		this.getCentroid(),
+	//		circumradius
+	//	);
 	// },
 
 	/**
@@ -277,28 +266,28 @@ paper.Path.inject({
 
 	// TODO: currently implementation returns false point
 	// getIncenter : function() {
-	// 	// vertices
-	// 	if( this.segments.length == 3 ) {
-	// 		var p1 = this.segments[0].point;
-	// 		var p2 = this.segments[1].point;
-	// 		var p3 = this.segments[2].point;
+	//	// vertices
+	//	if( this.segments.length == 3 ) {
+	//		var p1 = this.segments[0].point;
+	//		var p2 = this.segments[1].point;
+	//		var p3 = this.segments[2].point;
 
-	// 		// side lengths
-	// 		var a = p1.getDistance(p2);
-	// 		var b = p2.getDistance(p3);
-	// 		var c = p3.getDistance(p1);
+	//		// side lengths
+	//		var a = p1.getDistance(p2);
+	//		var b = p2.getDistance(p3);
+	//		var c = p3.getDistance(p1);
 
-	// 		var circum = a + b + c;
+	//		var circum = a + b + c;
 
-	// 		return new Point(
-	// 			(a* p1.x + b * p2.x + c * p3.x) / circum,
-	// 			(a * p1.y + b * p2.y + c * p3.y) / circum
-	// 		);
-	// 	}
-	// 	else {
-	// 		console.error( 'Not Path.FTriangle' );
-	// 		return null;
-	// 	}
+	//		return new Point(
+	//			(a* p1.x + b * p2.x + c * p3.x) / circum,
+	//			(a * p1.y + b * p2.y + c * p3.y) / circum
+	//		);
+	//	}
+	//	else {
+	//		console.error( 'Not Path.FTriangle' );
+	//		return null;
+	//	}
 	// },
 
 	/**
@@ -307,99 +296,99 @@ paper.Path.inject({
 	 */
 	// TODO: currently implementation returns false point
 	// toCartesian : function(bary) {
-	// 	if( this.segments.length == 3 ) {
-	// 		var p1 = this.segments[0].point;
-	// 		var p2 = this.segments[1].point;
-	// 		var p3 = this.segments[2].point;
+	//	if( this.segments.length == 3 ) {
+	//		var p1 = this.segments[0].point;
+	//		var p2 = this.segments[1].point;
+	//		var p3 = this.segments[2].point;
 
-	// 		// side lengths
-	// 		var a = p1.getDistance(p2);
-	// 		var b = p2.getDistance(p3);
-	// 		var c = p3.getDistance(p1);
+	//		// side lengths
+	//		var a = p1.getDistance(p2);
+	//		var b = p2.getDistance(p3);
+	//		var c = p3.getDistance(p1);
 
-	// 		// var area = 0.5 * (p1.x * (p2.y - p3.y) +
-	// 		// 				  p2.x * (p3.y - p1.y) +
-	// 		// 				  p3.x * (p1.y - p2.y));
+	//		// var area = 0.5 * (p1.x * (p2.y - p3.y) +
+	//		//				  p2.x * (p3.y - p1.y) +
+	//		//				  p3.x * (p1.y - p2.y));
 
-	// 		// var r = 2 * area / (a + b + c);
-	// 		// var k = 2 * area / (a*bary[0] + b*bary[1] + c*bary[2]);
+	//		// var r = 2 * area / (a + b + c);
+	//		// var k = 2 * area / (a*bary[0] + b*bary[1] + c*bary[2]);
 
-	// 		// var angleC = Math.acos((a*a + b*b - c*c) / (2*a*b));
+	//		// var angleC = Math.acos((a*a + b*b - c*c) / (2*a*b));
 
-	// 		// var cosC = Math.cos( angleC );
-	// 		// var sinC = Math.sin( angleC );
+	//		// var cosC = Math.cos( angleC );
+	//		// var sinC = Math.sin( angleC );
 
-	// 		// var x =	(k*bary[1] - r + (k*bary[0] - r)*cosC) / sinC;
-	// 		// var y =	k*bary[0] - r;
+	//		// var x =	(k*bary[1] - r + (k*bary[0] - r)*cosC) / sinC;
+	//		// var y =	k*bary[0] - r;
 
-	// 		// return new Point(
-	// 		// 	x + this.getIncenter().x,
-	// 		// 	y + this.getIncenter().y
-	// 		// );
+	//		// return new Point(
+	//		//	x + this.getIncenter().x,
+	//		//	y + this.getIncenter().y
+	//		// );
 
-	// 		return new Point(
-	// 			bary[0] * p1.x + bary[1] * p2.x + bary[2] * p3.x,
-	// 			bary[0] * p1.x + bary[1] * p2.x + bary[2] * p3.x
-	// 		);
-	// 	}
-	// 	else {
-	// 		console.error( 'Not Path.FTriangle' );
-	// 		return null;
-	// 	}
+	//		return new Point(
+	//			bary[0] * p1.x + bary[1] * p2.x + bary[2] * p3.x,
+	//			bary[0] * p1.x + bary[1] * p2.x + bary[2] * p3.x
+	//		);
+	//	}
+	//	else {
+	//		console.error( 'Not Path.FTriangle' );
+	//		return null;
+	//	}
 	// },
 
 
 	// TODO: currently implementation returns false point
 	// getOrthocenter : function() {
-	// 	// vertices
-	// 	if( this.segments.length == 3 ) {
-	// 		var p1 = this.segments[0].point;
-	// 		var p2 = this.segments[1].point;
-	// 		var p3 = this.segments[2].point;
+	//	// vertices
+	//	if( this.segments.length == 3 ) {
+	//		var p1 = this.segments[0].point;
+	//		var p2 = this.segments[1].point;
+	//		var p3 = this.segments[2].point;
 
-	// 		// side lengths
-	// 		var a = p1.getDistance(p2);
-	// 		var b = p2.getDistance(p3);
-	// 		var c = p3.getDistance(p1);
+	//		// side lengths
+	//		var a = p1.getDistance(p2);
+	//		var b = p2.getDistance(p3);
+	//		var c = p3.getDistance(p1);
 
-	// 		var bary = [
-	// 			this.sec(a),
-	// 			this.sec(b),
-	// 			this.sec(c)
-	// 		];
-	// 		return this.toCartesian(bary);
-	// 	}
-	// 	else {
-	// 		console.error( 'Not Path.FTriangle' );
-	// 		return null;
-	// 	}
+	//		var bary = [
+	//			this.sec(a),
+	//			this.sec(b),
+	//			this.sec(c)
+	//		];
+	//		return this.toCartesian(bary);
+	//	}
+	//	else {
+	//		console.error( 'Not Path.FTriangle' );
+	//		return null;
+	//	}
 	// },
 
 
 	// TODO: currently implementation returns false point
 	// getSchifflerPoint : function() {
-	// 	// vertices
-	// 	if( this.segments.length == 3 ) {
-	// 		var p1 = this.segments[0].point;
-	// 		var p2 = this.segments[1].point;
-	// 		var p3 = this.segments[2].point;
+	//	// vertices
+	//	if( this.segments.length == 3 ) {
+	//		var p1 = this.segments[0].point;
+	//		var p2 = this.segments[1].point;
+	//		var p3 = this.segments[2].point;
 
-	// 		// side lengths
-	// 		var a = p1.getDistance(p2);
-	// 		var b = p2.getDistance(p3);
-	// 		var c = p3.getDistance(p1);
+	//		// side lengths
+	//		var a = p1.getDistance(p2);
+	//		var b = p2.getDistance(p3);
+	//		var c = p3.getDistance(p1);
 
-	// 		var bary = [
-	// 			1/(Math.cos(b) + Math.cos(c)),
-	// 			1/(Math.cos(c) + Math.cos(a)),
-	// 			1/(Math.cos(a) + Math.cos(b))
-	// 		];
-	// 		return this.toCartesian(bary, p1,p2,p3);
-	// 	}
-	// 	else {
-	// 		console.error( 'Not Path.FTriangle' );
-	// 		return null;
-	// 	}
+	//		var bary = [
+	//			1/(Math.cos(b) + Math.cos(c)),
+	//			1/(Math.cos(c) + Math.cos(a)),
+	//			1/(Math.cos(a) + Math.cos(b))
+	//		];
+	//		return this.toCartesian(bary, p1,p2,p3);
+	//	}
+	//	else {
+	//		console.error( 'Not Path.FTriangle' );
+	//		return null;
+	//	}
 	// },
 
 

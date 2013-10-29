@@ -1,4 +1,4 @@
-/**
+/*
  *	Circle Packer
  *
  *	Original from onedayitwillmake
@@ -20,9 +20,7 @@
  *	http://kennethfrederick.de/
  *	http://blog.kennethfrederick.de/
  *
- *
  */
-
 
 /**
  *
@@ -118,8 +116,8 @@ folio.FCirclePacker = function(circleItems, iterations) {
 		}
 
 		// if(this.dragCircle && this._mouseEvent) {
-		// 	this.dragCircle.x = this._mouseEvent.offsetX;//stage.mouseX;
-		// 	this.dragCircle.y = this._mouseEvent.offsetY;//stage.mouseY;
+		//	this.dragCircle.x = this._mouseEvent.offsetX;//stage.mouseX;
+		//	this.dragCircle.y = this._mouseEvent.offsetY;//stage.mouseY;
 		// }
 	};
 
@@ -133,21 +131,21 @@ folio.FCirclePacker = function(circleItems, iterations) {
 	 *
 	 */
 	// Item.prototype.distanceToCenter = function() {
-	// 	var dx = this.position.x - activeDocument.activeArtboard.bounds.center.x;
-	// 	var dy = this.position.y - activeDocument.activeArtboard.bounds.center.y;
-	// 	var distance = (dx * dx + dy * dy) + 1;
+	//	var dx = this.position.x - activeDocument.activeArtboard.bounds.center.x;
+	//	var dy = this.position.y - activeDocument.activeArtboard.bounds.center.y;
+	//	var distance = (dx * dx + dy * dy) + 1;
 
-	// 	return distance;
+	//	return distance;
 	// };
 	// Item.sortOnDistanceToCenter = function(a, b) {
-	// 	var valueA = a.distanceToCenter();
-	// 	var valueB = b.distanceToCenter();
-	// 	var comparisonValue = 0;
+	//	var valueA = a.distanceToCenter();
+	//	var valueB = b.distanceToCenter();
+	//	var comparisonValue = 0;
 
-	// 	if (valueA > valueB) comparisonValue = -1;
-	// 	else if (valueA < valueB) comparisonValue = 1;
+	//	if (valueA > valueB) comparisonValue = -1;
+	//	else if (valueA < valueB) comparisonValue = 1;
 
-	// 	return comparisonValue;
+	//	return comparisonValue;
 	// };
 
 
@@ -192,7 +190,7 @@ folio.FCirclePacker = function(circleItems, iterations) {
 	// ------------------------------------------------------------------------
 	// gets
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	could be dangerous
 	 *
 	 *	@return the Array of items being packed
@@ -201,7 +199,7 @@ folio.FCirclePacker = function(circleItems, iterations) {
 		return circleItems;
 	};
 
-	/*
+	/**
 	 *	could be dangerous
 	 *
 	 *	@return an Item from the Array of items being packed

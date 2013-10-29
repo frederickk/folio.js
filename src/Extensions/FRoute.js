@@ -1,4 +1,4 @@
-/**
+/*
  *	Travelling Salesman Problem Algorithm
  *
  *	Taken from "SVG Stipple Generator, v 1.0"
@@ -17,15 +17,15 @@
  *	http://blog.kennethfrederick.de/
  *
  */
+
 /**
  *	@param  {PathItem} items
- *	        	an array of PathItems
+ *	       	an array of PathItems
  *	@param  {Number} iterations (optional)
- *	        	tests per frame (higher = better) default: 1000
+ *	       	tests per frame (higher = better) default: 1000
  *
  *	@return {Array} an array of indices for the route through the input items
  *
- *	@example
  */
 folio.FRoute = function(items, iterations) {
 	// ------------------------------------------------------------------------

@@ -1,26 +1,8 @@
-/**
- *  
- *	FScene3D.js
- *	v0.5
- *  
- *	11. August 2013
+/*
  *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
- *  
- *  
- *	3D Scene Class
+ *	FScene3.js
  *
  *	A barebones collection of classes for primitive 3D rendering
- *
- *	code inspired by
- *	http://www.netmagazine.com/tutorials/build-your-own-html5-3d-engine
- *	https://github.com/mrdoob/three.js/
- *
- *	modified/expanded for use in Paper.js by Ken Frederick
  *
  */
 
@@ -29,14 +11,14 @@
 /**
  *
  *	TODO:	leave as is and accept or redo entire engine
- *			possibly look into using three.js as the engine	
+ *			possibly look into using three.js as the engine
  *
  */
 folio.F3D.FScene3D = this.FScene3D = function() {
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	private
 	 */
 	var _mode = 'PERSPECTIVE'; // default
@@ -54,7 +36,7 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 	var _groupBot = null;
 	var _groupTop = null;
 
-	/*
+	/**
 	 *	public
 	 */
 	this.bounds = new folio.F3D.FSize3(0,0,0);
@@ -74,7 +56,7 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 	 *	configured like this?
 	 */
 	this._ortho = function() {
-		_matrix.makeOrtho( 
+		_matrix.makeOrtho(
 			-_half.height,	// left
 			_half.height,	// right
 			_half.height,	// top
@@ -88,7 +70,7 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 	 *	_perspective( for perspective projection
 	 */
 	this._perspective = function() {
-		_matrix.makePerspective( 
+		_matrix.makePerspective(
 			50,		// fov
 			0.5 * this.bounds.width/this.bounds.height,	// aspect
 			_half.depth,		// near
@@ -101,13 +83,13 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 	/**
 	 *	@param width
 	 *				width of scene
- 	 *				default: view.bounds.width
+	 *				default: view.bounds.width
 	 *	@param height
 	 *				height of scene
- 	 *				default: view.bounds.height
+	 *				default: view.bounds.height
 	 *	@param focalLength
 	 *				focal length of scene
- 	 *				default: 1000
+	 *				default: 1000
 	 *	@param mode
 	 *				'PERSPECTIVE' objects scale to perspective
 	 *				'ORTHO' objects do not scale (isometric)
@@ -175,7 +157,7 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 			var x = transformed[ i3 ];
 			var y = transformed[ i3+1 ];
 			var z = transformed[ i3+2 ];
-			
+
 			var scale = this.bounds.depth/(z+this.bounds.depth);
 
 			this.points2D[ i2 ]   = x*scale+_half.width;
@@ -189,7 +171,7 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 		for(var i=0; i<_fpath3Arr.length; i++) {
 			var fpath3 = _fpath3Arr[i];
 
-			var avgz = this.averageZ( 
+			var avgz = this.averageZ(
 				transformed,
 				tindex,
 				tindex+(fpath3._fpoints3.length*3)
@@ -210,7 +192,7 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 		_groupTop.removeChildren(); // clear out in between draws
 		for(var i=0; i<depthArr.length; i++) {
 			var path = _fpath3Arr[ depthArr[i].index ].get();
-			
+
 			if(path.name == 'Z-TOP') _groupTop.appendTop( path );
 			else if(path.name == 'Z-BOTTOM') _groupBot.appendTop( path );
 			else if(path != null) _groupBot.appendTop( path );
@@ -265,12 +247,12 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 	 *	@return average value of z
 	 *
 	 */
- 	this.averageZ = function(pointsArr, start, stop) {
+	this.averageZ = function(pointsArr, start, stop) {
 		var avgz = 0;
 		for(var i=start; i<stop; i+=2) {
-		// 	// console.log( 'x\t' + pointsArr[i] );
-		// 	// console.log( 'y\t' + pointsArr[i+1] );
-		// 	// console.log( 'z\t' + pointsArr[i+2] );
+		//	// console.log( 'x\t' + pointsArr[i] );
+		//	// console.log( 'y\t' + pointsArr[i+1] );
+		//	// console.log( 'z\t' + pointsArr[i+2] );
 			avgz += parseInt( pointsArr[i+2] );
 		}
 		var num = (stop-start)/3;
@@ -282,7 +264,7 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 	 *	comparator to sort object by z value
 	 *
 	 */
- 	function compare(a,b) {
+	function compare(a,b) {
 		if (a.z < b.z) return -1;
 		if (a.z > b.z) return 1;
 		return 0;
@@ -322,7 +304,7 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 			item.setScene(this);
 		}
 	};
-	
+
 	// ------------------------------------------------------------------------
 	/**
 	 *	@param val
@@ -355,7 +337,7 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	@return scene path items as _groupBot 
+	 *	@return scene path items as _groupBot
 	 *
 	 */
 	this.get = function() {

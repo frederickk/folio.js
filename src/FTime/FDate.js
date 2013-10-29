@@ -1,18 +1,6 @@
-/**
- *  
+/*
+ *
  *	FDate.js
- *	v0.5
- *  
- *	11. August 2013
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
- *
- *
- *	FDate
  *
  */
 
@@ -21,12 +9,12 @@ folio.FTime.FDate = function() {
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	public
 	 */
 	this.date;
 
-	/*
+	/**
 	 *	private
 	 */
 	var _months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -37,7 +25,7 @@ folio.FTime.FDate = function() {
 	// ------------------------------------------------------------------------
 	// Methods
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	private
 	 */
 	var _addZero = function(val) {
@@ -47,7 +35,7 @@ folio.FTime.FDate = function() {
 
 
 	// ------------------------------------------------------------------------
-	/*
+	/**
 	 *	public
 	 */
 	/**
@@ -55,7 +43,7 @@ folio.FTime.FDate = function() {
 	 */
 	this.year = function() {
 		if(this.date === undefined) this.date = new Date();
-		var year = String( this.date.getFullYear() ); 
+		var year = String( this.date.getFullYear() );
 		return year;
 	};
 
@@ -64,7 +52,7 @@ folio.FTime.FDate = function() {
 	 */
 	this.month = function() {
 		if(this.date === undefined) this.date = new Date();
-		var month = String( this.date.getMonth() ); 
+		var month = String( this.date.getMonth() );
 		hour = _addZero(month);
 		return month;
 	};
@@ -83,7 +71,7 @@ folio.FTime.FDate = function() {
 	 */
 	this.hour = function() {
 		if(this.date === undefined) this.date = new Date();
-		var hour = String( this.date.getHours() ); 
+		var hour = String( this.date.getHours() );
 		hour = _addZero(hour);
 		return hour;
 	};
@@ -93,7 +81,7 @@ folio.FTime.FDate = function() {
 	 */
 	this.minute = function() {
 		if(this.date === undefined) this.date = new Date();
-		var minute = String( this.date.getMinutes() ); 
+		var minute = String( this.date.getMinutes() );
 		minute = _addZero(minute);
 		return minute;
 	};
@@ -103,18 +91,18 @@ folio.FTime.FDate = function() {
 	 */
 	this.second = function() {
 		if(this.date === undefined) this.date = new Date();
-		var second = String( this.date.getSeconds() ); 
+		var second = String( this.date.getSeconds() );
 		second = _addZero(second);
 		return second;
 	};
 
 	/**
 	 *	return the current date as string "yyyyMMdd"
-	 * 
+	 *
 	 *	@return date
 	 */
 	// this.date = function() {
-	// 	return this.year() + this.month() + this.day();
+	//	return this.year() + this.month() + this.day();
 	// };
 
 	/**
@@ -178,7 +166,7 @@ folio.FTime.FDate = function() {
 	};
 
 
- 
+
 	// ------------------------------------------------------------------------
 	// Sets
 	// ------------------------------------------------------------------------
