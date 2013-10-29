@@ -67,8 +67,32 @@ See documentation `/distribution/docs` for API specifics.
 Building
 -------------
 
+Folio.js uses [Grunt](http://gruntjs.com/) 0.4.1 to build the library. If you don't have Grunt installed you'll have to do so, and I recommend installing it globally. You might need to use `sudo npm`, depending on your configuration.
+
+```shell
+npm install -g grunt-cli
 ```
+
+Using terminal, enter into the folio.js directory.
+
+```shell
+cd folio.js
 ```
+
+Then you'll have to install dependencies with npm
+
+```shell
+npm install
+```
+
+Once you've installed all of the dependencies, to build the library for both Paper.js and Scriptographer simply enter:
+
+```shell
+grunt
+```
+The results will be built into the `distribution/` folder
+
+Alternatively type `grunt watch` to have the build run automatically when you make changes to source files.
 
 
 
@@ -115,8 +139,7 @@ Animate(
 To build the scriptographer version of Folio:
 
 ```shell
-$ cd build/
-$ ./build.sh Scriptographer
+grunt scriptographer
 ```
 
 
