@@ -1,16 +1,6 @@
- /**
+/**
  *
  *	FColor.js
- *	v0.5
- *
- *	15. May 2013
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
- *
  *
  *	A collection of extensions for paper.Color
  *
@@ -24,7 +14,7 @@
  */
 paper.Color.inject({
 	// ------------------------------------------------------------------------
-	/**
+	/*
 	 *
 	 *	@param {Number} component
 	 *						input value to convert
@@ -38,7 +28,7 @@ paper.Color.inject({
 	},
 
 
-	/**
+	/*
 	 *
 	 *	http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
 	 *
@@ -62,7 +52,7 @@ paper.Color.inject({
 	},
 
 	// ------------------------------------------------------------------------
-	/**
+	/*
 	 *
 	 *	@return {Number} value of input color as integer
 	 *
@@ -83,7 +73,7 @@ paper.Color.inject({
 		return RgbInt;
 	},
 
-	/**
+	/*
 	 *
 	 *	@param {Number} RgbInt
 	 *			value as integer
@@ -100,7 +90,7 @@ paper.Color.inject({
 
 
 	// ------------------------------------------------------------------------
-	/**
+	/*
 	 *
 	 *	@param {Number} arg0
 	 *			red as byte value (0-255)
@@ -124,7 +114,7 @@ paper.Color.inject({
 
 
 	// ------------------------------------------------------------------------
-	/**
+	/*
 	 *	desaturate a color (based on hsb model) by percentage
 	 *	NOTE: Color operators aren't working
 	 *
@@ -147,7 +137,7 @@ paper.Color.inject({
 		return color;
 	},
 
-	/**
+	/*
 	 *	saturate a color (based on hsb model) by percentage
 	 *	NOTE: Color operators aren't working
 	 *
@@ -170,7 +160,7 @@ paper.Color.inject({
 		return color;
 	},
 
-	/**
+	/*
 	 *	darken a color (based on hsl model) by percentage
 	 *	NOTE: Color operators aren't working
 	 *
@@ -193,7 +183,7 @@ paper.Color.inject({
 		return color;
 	},
 
-	/**
+	/*
 	 *	dim a color (based on hsl model) by percentage
 	 *	NOTE: Color operators aren't working
 	 *
@@ -216,7 +206,7 @@ paper.Color.inject({
 		return color;
 	},
 
-	/**
+	/*
 	 *	lighten a color (based on hsl model) by percentage
 	 *	NOTE: Color operators aren't working
 	 *
@@ -240,7 +230,7 @@ paper.Color.inject({
 		return color;
 	},
 
-	/**
+	/*
 	 *	brighten a color (based on hsb model) by percentage
 	 *	NOTE: Color operators aren't working
 	 *
@@ -265,7 +255,7 @@ paper.Color.inject({
 	},
 
 
-	/**
+	/*
 	 *	increase color contrast (based on hsb model) by percentage
 	 *	NOTE: Color operators aren't working
 	 *
@@ -290,7 +280,7 @@ paper.Color.inject({
 	},
 
 
-	/**
+	/*
 	 *	invert color
 	 *	NOTE: Color operators aren't working
 	 *
@@ -312,7 +302,7 @@ paper.Color.inject({
 		return color;
 	},
 
-	/**
+	/*
 	 *	rotate color around hsb/l color wheel other components remain the same
 	 *	NOTE: Color operators aren't working
 	 *
@@ -339,7 +329,7 @@ paper.Color.inject({
 		return color;
 	},
 
-	/**
+	/*
 	 *	interpolate color
 	 *
 	 *	@param {Color} from
@@ -357,7 +347,7 @@ paper.Color.inject({
 	 *	var interpolateColor = new Color().interpolate( color1, color2, 0.5 );
 	 *
 	 */
-	/**
+	/*
 	 *
 	 *	@param {Color} to
 	 *			end color
@@ -406,7 +396,7 @@ paper.Color.inject({
 	},
 
 
-	/**
+	/*
 	 *
 	 *	@return {Color} random Color based on initialization arguments
 	 *

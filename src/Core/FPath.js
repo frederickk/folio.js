@@ -1,19 +1,8 @@
 /**
  *
  *	FPath.js
- *	v0.5
  *
- *	11. August 2013
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
- *
- *
- *	A collection of shapes for paper.Path
- *	and methods for paper.Item
+ *	A collection of shapes for paper.Path and methods for paper.Item
  *
  *	FArrow
  *	FBubble
@@ -34,7 +23,7 @@ paper.Item.inject({
 	//-----------------------------------------------------------------------------
 	// Methods
 	//-----------------------------------------------------------------------------
-	/**
+	/*
 	 *	@param {Size} spacing
 	 *				spacing.width  = the horizontal snapping value, width of the grid.
 	 *				spacing.height = the vertical snapping value, height of the grid.
@@ -45,7 +34,7 @@ paper.Item.inject({
 		this.position.snapGrid(spacing);
 	},
 
-	/**
+	/*
 	 *	snaps point to an isometric grid
 	 *
 	 *	@param {Number} scale
@@ -59,7 +48,7 @@ paper.Item.inject({
 
 
 	//-----------------------------------------------------------------------------
-	/**
+	/*
 	 * {@grouptitle Position and Bounding Boxes}
 	 *
 	 *	Returns the distance between the item and the center of the canvas/artboard
@@ -76,7 +65,7 @@ paper.Item.inject({
 
 
 	//-----------------------------------------------------------------------------
-	/**
+	/*
 	 *	converts an CompoundPath into a Group otherwise returns original Item
 	 *
 	 */
@@ -105,7 +94,7 @@ paper.Path.inject({
 	 *
 	 */
 
-	/**
+	/*
 	 *	Returns the Centroid of Path
 	 *	http://stackoverflow.com/questions/2792443/finding-the-centroid-of-a-polygon
 	 *
@@ -148,7 +137,7 @@ paper.Path.inject({
 		return centroid;
 	},
 
-	/**
+	/*
 	 *	Returns the Circumcenter of a triangle
 	 *
 	 *	TODO: adjust formula to return Circumcenter of any polygon
@@ -207,14 +196,14 @@ paper.Path.inject({
 		}
 	},
 
-	/**
+	/*
 	 *
 	 *	TODO: add additional "center" formulas (for polygons)
 	 *	http://mathforum.org/library/drmath/view/57665.html
 	 *
 	 */
 
-	/**
+	/*
 	 *	Returns the Circumcircle of a polygon
 	 *
 	 * 	TODO: fix for triangles...
@@ -254,7 +243,7 @@ paper.Path.inject({
 	// 	);
 	// },
 
-	/**
+	/*
 	 *	Returns the Incircle of a polygon
 	 *
 	 *	@return {Path.Circle}
@@ -301,7 +290,7 @@ paper.Path.inject({
 	// 	}
 	// },
 
-	/**
+	/*
 	 *	@param b
 	 *			array of barycentric coordinates
 	 */
@@ -407,7 +396,7 @@ paper.Path.inject({
 	//-----------------------------------------------------------------------------
 	statics: new function() {
 		return {
-			/**
+			/*
 			 *
 			 *	FArrow
 			 *	Create simple arrow
@@ -451,7 +440,7 @@ paper.Path.inject({
 			},
 
 
-			/**
+			/*
 			 *
 			 *	FBubble
 			 *	Create a simple speech bubble
@@ -546,7 +535,7 @@ paper.Path.inject({
 			},
 
 
-			/**
+			/*
 			 *	FChain
 			 *	Create simple chain (a line with different endpoint sizes)
 			 *
@@ -567,7 +556,7 @@ paper.Path.inject({
 			 *	var fchain = new paper.Path.FChain( point1, radius1, point2, radius2 );
 			 *
 			 */
-			/**
+			/*
 			 *
 			 *	@param {Path} arg0
 			 *				PathItem (endpoint1)
@@ -631,7 +620,7 @@ paper.Path.inject({
 			},
 
 
-			/**
+			/*
 			 *
 			 *	FCross
 			 *	Create a cross
@@ -700,7 +689,7 @@ paper.Path.inject({
 			},
 
 
-			/**
+			/*
 			 *	FDrop
 			 *	Create a (tear)drop
 			 *
@@ -715,7 +704,7 @@ paper.Path.inject({
 			 *	var fdrop = new paper.Path.FDrop( centerPoint, scale );
 			 *
 			 */
-			/**
+			/*
 			 *
 			 *	@param {Point} centerPoint
 			 *				position of cross
@@ -779,7 +768,7 @@ paper.Path.inject({
 			},
 
 
-			/**
+			/*
 			 *	FTriangle
 			 *	Create a triangle
 			 *

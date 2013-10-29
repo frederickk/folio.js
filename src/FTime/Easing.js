@@ -1,36 +1,26 @@
 /**
- *	
+ *
  *	Easing.js
- *	v0.5
- *	
+ *
  *	Easing Functions
  *	originally inspired from http://gizma.com/easing/
  *	https://gist.github.com/gre/1650294
- *	
+ *
  *	KeySpline Function
  *	use bezier curve for transition easing function
  *	as inspired from Firefox's nsSMILKeySpline.cpp
  *	https://gist.github.com/gre/1926947#file-keyspline-js
  *	http://greweb.me/2012/02/bezier-curve-based-easing-functions-from-concept-to-implementation/
- *	
+ *
  *	Copyright (c) 2012
- *	
+ *
  *	Gaetan Renaudeau
  *	renaudeau.gaetan@gmail.com
  *
- *	
+ *
  *	modified and augemented for usage with Paper.js
  *
- *	7. August 2013
  *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
- *
- *
- *	
  *	MIT License
  *
  *	Permission is hereby granted, free of charge, to any person obtaining a
@@ -39,10 +29,10 @@
  *	the rights to use, copy, modify, merge, publish, distribute, sublicense,
  *	and/or sell copies of the Software, and to permit persons to whom the
  *	Software is furnished to do so, subject to the following conditions:
- *	
+ *
  *	The above copyright notice and this permission notice shall be included in
  *	all copies or substantial portions of the Software.
- *	
+ *
  *	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  *	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  *	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
@@ -54,13 +44,13 @@
 
 
 folio.FTime.Ease = function() {
-	/**
-	 * 
+	/*
+	 *
 	 * values of classic easing functions, similar to CSS
-	 * 
+	 *
 	 */
 	var splineValues = {
-		ease:		[ 0.25, 0.1, 0.25, 1.0 ], 
+		ease:		[ 0.25, 0.1, 0.25, 1.0 ],
 		linear:		[ 0.00, 0.0, 1.00, 1.0 ],
 		// in:			[ 0.42, 0.0, 1.00, 1.0 ],
 		out:		[ 0.00, 0.0, 0.58, 1.0 ],
@@ -68,34 +58,34 @@ folio.FTime.Ease = function() {
 	};
 
 
-	/**
-	 * 
+	/*
+	 *
 	 *	use bezier curve for transition easing function
-	 *	
+	 *
 	 *	@param {Array} arg0
-	 *					an array (4) of normalized X,Y values [ x1, y1, x2, y2 ] 
-	 *	
+	 *					an array (4) of normalized X,Y values [ x1, y1, x2, y2 ]
+	 *
 	 *	@example
 	 *	var spline = new KeySpline(0.25, 0.1, 0.25, 1.0)
 	 *	spline.get(t) // returns the normalized easing value | t must be in [0, 1] range
-	 *	
+	 *
 	 */
-	/**
-	 * 
+	/*
+	 *
 	 *	use bezier curve for transition easing function
-	 *	
+	 *
 	 *	@param {Point} arg0
 	 *					Point 1
 	 *	@param {Point} arg1
 	 *					Point 2
-	 *	
+	 *
 	 *	@example
 	 *	var spline = new KeySpline(
 	 *		new Point( 80, 80 ),
 	 *		new Point( 10, 45 )
 	 *	);
 	 *	spline.get(t) // returns the normalized easing value | t must be in [0, 1] range
-	 *	
+	 *
 	 */
 	function KeySpline(arg0, arg1) {
 		var values;
@@ -111,41 +101,41 @@ folio.FTime.Ease = function() {
 		function A(arg0, arg1) { return 1.0 - 3.0 * arg1 + 3.0 * arg0; };
 		function B(arg0, arg1) { return 3.0 * arg1 - 6.0 * arg0; };
 		function C(arg0) { return 3.0 * arg0; };
-	 
+
 
 		//
 		// TODO: push these to be global?
-		// 
-		/**
+		//
+		/*
 		 *	@param {Number} t
 		 *				 	a float from 0.0 - 1.0
 		 *	@param {Number} arg0
 		 *					x1 or y1
 		 *	@param {Number} arg1
 		 *					x2 or y2
-		 *					
+		 *
 		 *	@return x(t)
-		 *	
+		 *
 		 */
 		function CalcBezier(t, arg0, arg1) {
 			return ((A(arg0, arg1)*t + B(arg0, arg1))*t + C(arg0))*t;
 		};
-	 
-		/**
+
+		/*
 		 *	@param {Number} t
 		 *				 	a float from 0.0 - 1.0
 		 *	@param {Number} arg0
 		 *					x1 or y1
 		 *	@param {Number} arg1
 		 *					x2 or y2
-		 *					
+		 *
 		 *	@return dx/dt
-		 *	
+		 *
 		 */
 		function GetSlope(t, arg0, arg1) {
 			return 3.0 * A(arg0, arg1)*t*t + 2.0 * B(arg0, arg1) * t + C(arg0);
 		};
-	 
+
 		function GetTForX(t) {
 			// Newton raphson iteration
 			var aGuessT = t;
@@ -175,7 +165,7 @@ folio.FTime.Ease = function() {
 
 	// public
 	return {
-		/**
+		/*
 		 *	see http://easings.net/de for visual examples
 		 *	of each spline method
 		 */
@@ -211,7 +201,7 @@ folio.FTime.Ease = function() {
 
 
 		spline: KeySpline
-		// values: splineValues 
+		// values: splineValues
 	};
 
 };

@@ -1,16 +1,6 @@
- /**
+/**
  *
  *	FPoint.js
- *	v0.5
- *
- *	15. May 2013
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
- *
  *
  *	A collection of extensions for paper.Point
  *
@@ -34,7 +24,7 @@ paper.Point.inject({
 	// ------------------------------------------------------------------------
 	// Methods
 	// ------------------------------------------------------------------------
-	/**
+	/*
 	 *
 	 *	http://gmc.yoyogames.com/index.php?showtopic=290349
 	 *
@@ -48,7 +38,7 @@ paper.Point.inject({
 	 *	@return {Point} snapped Point
 	 *
 	 */
-	/**
+	/*
 	 *	snaps point to an isometric grid
 	 *
 	 *	@param {Number} scale
@@ -85,7 +75,7 @@ paper.Point.inject({
 		return this;
 	},
 
-	/**
+	/*
 	 *
 	 *  https://bitbucket.org/postspectacular/toxiclibs/src/9d124c80e8af/src.core/toxi/geom/Vec2D.java
 	 *
@@ -101,7 +91,7 @@ paper.Point.inject({
 	 *	point.interpolateTo(toPoint, 0.5); // {x: 50, y: 50}
 	 *
 	 */
-	/**
+	/*
 	 *
 	 *	@param {Point} arg0
 	 *			starting Point
@@ -125,7 +115,7 @@ paper.Point.inject({
 		return this;
 	},
 
-	/**
+	/*
 	 *	{@grouptitle Distance & Length}
 	 *
 	 *	Returns the distance between the point and the center of the canvas
@@ -140,7 +130,7 @@ paper.Point.inject({
 		return this.getDistance( view.bounds.center );
 	},
 
-	/**
+	/*
 	 *
 	 *	Returns the heading angle (radians) of a point
 	 *
@@ -156,7 +146,7 @@ paper.Point.inject({
 		return -1 * (Math.atan2(-this.y, this.x));
 	},
 
-	/**
+	/*
 	 *	Get the vector angle (radians) of two points
 	 *
 	 *	@param {Point} point1
@@ -177,7 +167,7 @@ paper.Point.inject({
 		return Math.atan2(point2.y - this.y, point2.x - this.x);
 	},
 
-	/**
+	/*
 	 *	Normalize a point between two other points (start and end).
 	 *
 	 *	@param {Point} start
@@ -200,7 +190,7 @@ paper.Point.inject({
 		return this;
 	},
 
-		// /**
+		// /*
 	//  *
 	//  *	@return {Point} limit Point
 	//  *
@@ -214,7 +204,7 @@ paper.Point.inject({
 	// 	return this;
 	// },
 
-	/**
+	/*
 	 *	{@grouptitle Vector Math Functions}
 	 *
 	 *	@return {Number} vector mag squared

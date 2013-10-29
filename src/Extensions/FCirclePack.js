@@ -20,11 +20,9 @@
  *	http://kennethfrederick.de/
  *	http://blog.kennethfrederick.de/
  *
- *
  */
 
-
-/**
+/*
  *
  *	@param {Array} circleItems
  *					Array of Items
@@ -124,7 +122,7 @@ folio.FCirclePacker = function(circleItems, iterations) {
 	};
 
 	// ------------------------------------------------------------------------
-	/**
+	/*
 	 *	TODO: if to be made autonomous, these
 	 *	methods will have to be built in
 	 *
@@ -155,11 +153,11 @@ folio.FCirclePacker = function(circleItems, iterations) {
 	// ------------------------------------------------------------------------
 	// sets
 	// ------------------------------------------------------------------------
-	/**
+	/*
 	 *	@param {Array} item
 	 *			Array of Path.Items to add to circle packer
 	 */
-	/**
+	/*
 	 *	@param {Item} item
 	 *			Path.Item to add to circle packer
 	 */
@@ -172,7 +170,7 @@ folio.FCirclePacker = function(circleItems, iterations) {
 		}
 	};
 
-	/**
+	/*
 	 *	@param {Number} val
 	 *			damping value
 	 */
@@ -180,7 +178,7 @@ folio.FCirclePacker = function(circleItems, iterations) {
 		dampingAmt = val;
 	};
 
-	/**
+	/*
 	 *	@param {Number} val
 	 *			padding around elements
 	 */

@@ -180,7 +180,7 @@ var folio = folio || {};
 
 
 
-		/**
+		/*
 		 *
 		 *	Supporting Methods
 		 *

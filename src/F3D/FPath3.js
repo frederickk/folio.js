@@ -1,32 +1,14 @@
 /**
- *  
+ *
  *	FPath3.js
- *	v0.5
- *  
- *	11. August 2013
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
- *  
- *
- *	3D Path Class
  *
  *	A barebones collection of classes for primitive 3D rendering
- *
- *	code inspired by
- *	http://www.netmagazine.com/tutorials/build-your-own-html5-3d-engine
- *	https://github.com/mrdoob/three.js/
- *
- *	modified/expanded for use in Paper.js by Ken Frederick
  *
  */
 
 
 
-folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
+folio.F3D.FPath3 = Path.extend(/* @lends Path# */{
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
@@ -50,7 +32,7 @@ folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
 	// ------------------------------------------------------------------------
 	// Methods
 	// ------------------------------------------------------------------------
-	/**
+	/*
 	 *
 	 *	@param scene
 	 *				the scene to attach this path to
@@ -85,7 +67,7 @@ folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
 	// ------------------------------------------------------------------------
 	// Sets
 	// ------------------------------------------------------------------------
-	/**
+	/*
 	 *	@param scene
 	 *			scene to associate points with
 	 */
@@ -98,7 +80,7 @@ folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
 		}
 	},
 
-	/**
+	/*
 	 *	@param _fpoint3
 	 *			add FPoint3 to path
 	 */
@@ -112,11 +94,11 @@ folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
 
 
 	// ------------------------------------------------------------------------
-	/**
+	/*
 	 *	@param arg0
 	 *			FPoint3 for transformation
 	 */
-	/**
+	/*
 	 *	@param arg0
 	 *			x point
 	 *	@param arg1
@@ -155,7 +137,7 @@ folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
 		}
 	},
 
-	/**
+	/*
 	 *	@param val
 	 *			degree value for x axis rotation
 	 */
@@ -163,7 +145,7 @@ folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
 		this._rotation.x = val;
 	},
 
-	/**
+	/*
 	 *	@param val
 	 *			degree value for y axis rotation
 	 */
@@ -171,7 +153,7 @@ folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
 		this._rotation.y = val;
 	},
 
-	/**
+	/*
 	 *	@param val
 	 *			degree value for z axis rotation
 	 */
@@ -191,7 +173,7 @@ folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
 		// push points into 2D path
 		for(var i=0; i<this._fpoints3.length; i++) {
 			var pt3 = this._fpoints3[i];
-			this.add( 
+			this.add(
 				new Point( pt3.x2D(), pt3.y2D() )
 			);
 		}
@@ -211,5 +193,5 @@ folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
 // statics: {
 
 // }
-	
+
 });

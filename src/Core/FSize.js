@@ -1,16 +1,6 @@
- /**
+/**
  *
  *	FSize.js
- *	v0.5
- *
- *	15. May 2013
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
- *
  *
  *	A collection of extensions for paper.Size
  *
@@ -24,7 +14,7 @@
  */
 paper.Size.inject({
 
-	/**
+	/*
 	 *
 	 *	@return {Number} area
 	 *
@@ -37,7 +27,7 @@ paper.Size.inject({
 		return (this.width * this.height);
 	},
 
-	/**
+	/*
 	 *
 	 *	@return {Number} area of Item circumcircle
 	 *
@@ -51,7 +41,7 @@ paper.Size.inject({
 		return Math.PI * (r*r);
 	},
 
-	/**
+	/*
 	 *
 	 *	@return {Number} area of Item incircle
 	 *
@@ -65,7 +55,7 @@ paper.Size.inject({
 		return Math.PI * (r*r);
 	},
 
-	/**
+	/*
 	 *
 	 *	@return {Number} the circumcircle radius of the Size bounding box
 	 *
@@ -80,7 +70,7 @@ paper.Size.inject({
 		return (Math.sqrt(a * a + b * b) / 2);
 	},
 
-	/**
+	/*
 	 *
 	 *	@return {Number} the incircle radius of the Size bounding box
 	 *
@@ -96,7 +86,7 @@ paper.Size.inject({
 			: this.height/2;
 	},
 
-	/**
+	/*
 	 *
 	 *  Slope is expressed as rise (x) over run (y)
 	 *

@@ -1,18 +1,6 @@
 /**
- *  
+ *
  *	FDate.js
- *	v0.5
- *  
- *	11. August 2013
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
- *
- *
- *	FDate
  *
  */
 
@@ -50,26 +38,26 @@ folio.FTime.FDate = function() {
 	/*
 	 *	public
 	 */
-	/**
+	/*
 	 *	@return return the current year as 'YYYY'
 	 */
 	this.year = function() {
 		if(this.date === undefined) this.date = new Date();
-		var year = String( this.date.getFullYear() ); 
+		var year = String( this.date.getFullYear() );
 		return year;
 	};
 
-	/**
+	/*
 	 *	@return return the current month as 'MM'
 	 */
 	this.month = function() {
 		if(this.date === undefined) this.date = new Date();
-		var month = String( this.date.getMonth() ); 
+		var month = String( this.date.getMonth() );
 		hour = _addZero(month);
 		return month;
 	};
 
-	/**
+	/*
 	 *	@return return the current day as string 'DD'
 	 */
 	this.day = function() {
@@ -78,46 +66,46 @@ folio.FTime.FDate = function() {
 		return day;
 	};
 
-	/**
+	/*
 	 *	@return return the current hour as string 'HH'
 	 */
 	this.hour = function() {
 		if(this.date === undefined) this.date = new Date();
-		var hour = String( this.date.getHours() ); 
+		var hour = String( this.date.getHours() );
 		hour = _addZero(hour);
 		return hour;
 	};
 
-	/**
+	/*
 	 *	@return return the current minute as string 'mm'
 	 */
 	this.minute = function() {
 		if(this.date === undefined) this.date = new Date();
-		var minute = String( this.date.getMinutes() ); 
+		var minute = String( this.date.getMinutes() );
 		minute = _addZero(minute);
 		return minute;
 	};
 
-	/**
+	/*
 	 *	@return return the current second as string 'ss'
 	 */
 	this.second = function() {
 		if(this.date === undefined) this.date = new Date();
-		var second = String( this.date.getSeconds() ); 
+		var second = String( this.date.getSeconds() );
 		second = _addZero(second);
 		return second;
 	};
 
-	/**
+	/*
 	 *	return the current date as string "yyyyMMdd"
-	 * 
+	 *
 	 *	@return date
 	 */
 	// this.date = function() {
 	// 	return this.year() + this.month() + this.day();
 	// };
 
-	/**
+	/*
 	 *	@param format
 	 *			boolean array = [hours, minutes, seconds]
 	 *
@@ -145,7 +133,7 @@ folio.FTime.FDate = function() {
 		);
 	};
 
-	/**
+	/*
 	 *	add to time
 	 *
 	 *	@param _d
@@ -161,7 +149,7 @@ folio.FTime.FDate = function() {
 		return this.date + (24 * _d + 60 * _h + 60 * _m + 1000 * s);
 	};
 
-	/**
+	/*
 	 *	sub from time
 	 *
 	 *	@param _d
@@ -178,11 +166,11 @@ folio.FTime.FDate = function() {
 	};
 
 
- 
+
 	// ------------------------------------------------------------------------
 	// Sets
 	// ------------------------------------------------------------------------
-	/**
+	/*
 	 *	set to a specific time
 	 *
 	 *	@param _d
@@ -205,7 +193,7 @@ folio.FTime.FDate = function() {
 	// ------------------------------------------------------------------------
 	// Gets
 	// ------------------------------------------------------------------------
-	/**
+	/*
 	 *	@param ms
 	 *			input as milliseconds
 	 *	@param format
@@ -239,7 +227,7 @@ folio.FTime.FDate = function() {
 		return str;
 	};
 
-	/**
+	/*
 	 *	@param h
 	 *			input as hours OR input string as hh:mm:ss OR mm:ss
 	 *	@param m
@@ -264,7 +252,7 @@ folio.FTime.FDate = function() {
 		return parseInt(3600000 * h + 60000 * m + 1000 * s);
 	};
 
-	/**
+	/*
 	 *	@param strHMS
 	 *			input string as hh:mm:ss
 	 *

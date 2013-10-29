@@ -1,19 +1,7 @@
 /**
- *  
+ *
  *	FPath3Constuctors.js
- *	v0.5
- *  
- *	11. August 2013
  *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
- *  
- *
- *	FPath3 Constuctors
- *	
  *	A collection of primitive 3D shapes for folio.F3D.FPath3
  *
  *	FBox
@@ -29,8 +17,8 @@ folio.F3D.FPath3.inject({
 	statics: new function() {
 		return {
 
-			/**
-			 * 
+			/*
+			 *
 			 *	FBox
 			 *	Create simple box
 			 *
@@ -43,7 +31,7 @@ folio.F3D.FPath3.inject({
 			 *
 			 */
 			FBox: function(scene, fpoint3, fsize3) {
-				this._position3 = (fpoint3 != undefined) 
+				this._position3 = (fpoint3 != undefined)
 					? fpoint3
 					: new folio.F3D.FPoint3( 0,0,0 );
 
@@ -123,8 +111,8 @@ folio.F3D.FPath3.inject({
 				return new Group(sides);
 			},
 
-			/**
-			 * 
+			/*
+			 *
 			 *	FSphere
 			 *	Create simple sphere
 			 *
@@ -141,7 +129,7 @@ folio.F3D.FPath3.inject({
 			 *
 			 */
 			FSphere: function(scene, fpoint3, radius, detail) {
-				this._position3 = (fpoint3 != undefined) 
+				this._position3 = (fpoint3 != undefined)
 					? fpoint3
 					: new folio.F3D.FPoint3( 0,0,0 );
 

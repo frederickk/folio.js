@@ -1,19 +1,8 @@
- /**
+/**
  *
  *	FArray.js
- *	v0.5
  *
- *	15. May 2013
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
- *
- *
- *	Extensions to JavaScript Array
- *	may be bad form... but whatever
+ *	Extensions to JavaScript Array may be bad form... but whatever
  *
  */
 
@@ -24,7 +13,7 @@
  *
  */
 
-/**
+/*
  *
  *	@return {Number} median value
  *
@@ -41,7 +30,7 @@ Array.prototype.median = function() {
 	return median;
 };
 
-/**
+/*
  *
  *	@return {Object} unique element
  *
@@ -59,7 +48,7 @@ Array.prototype.unique = function() {
 	return u;
 };
 
-/**
+/*
  *
  *	merges (then shuffles) two Arrays
  *
@@ -75,7 +64,7 @@ Array.prototype.merge = function(arr) {
 	return output;
 };
 
-/**
+/*
  *
  *	@param {Number} start
  *				start position in array
@@ -98,7 +87,7 @@ Array.prototype.max = function(start, stop) {
 	return max;
 };
 
-/**
+/*
  *
  *	@param {Number} start
  *				start position in array
@@ -121,7 +110,7 @@ Array.prototype.min = function(start, stop) {
 	return min;
 };
 
-/**
+/*
  *
  *	http://jsfromhell.com/array/shuffle
  *	http://www.brain4.de/programmierecke/js/arrayShuffle.php
@@ -133,7 +122,7 @@ Array.prototype.shuffle = function() {
 	for (var j, x, i = this.length; i; j = parseInt(Math.random() * i), x = this[--i], this[i] = this[j], this[j] = x);
 };
 
-/**
+/*
  *
  *	http://stackoverflow.com/questions/9229645/remove-duplicates-from-javascript-array
  *
@@ -147,7 +136,7 @@ Array.prototype.removeDuplicates = function() {
 	}, [] );
 };
 
-/**
+/*
  *
  *	@param {Number} decimalPlaces
  *			number of decimal places
@@ -166,7 +155,7 @@ Array.prototype.round = function(decimalPlaces) {
 // TODO: integrate sorting methods in a much cleaner way
 var FSort = {
 
-	/**
+	/*
 	 *
 	 *	sort Array in alphabetical order
 	 *
@@ -198,7 +187,7 @@ var FSort = {
 		return(a == b) ? 0 : (a>b) ? 1 : -1;
 	},
 
-	/**
+	/*
 	 *
 	 *	sort array by distance of object from center of canvas
 	 *

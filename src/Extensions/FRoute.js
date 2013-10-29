@@ -17,7 +17,8 @@
  *	http://blog.kennethfrederick.de/
  *
  */
-/**
+
+/*
  *	@param  {PathItem} items
  *	        	an array of PathItems
  *	@param  {Number} iterations (optional)

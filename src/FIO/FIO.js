@@ -1,19 +1,8 @@
 /**
  *
  *	FIO.js
- *	v0.5
  *
- *	11. August 2013
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
- *
- *
- *	FIO
- *	A collection of I/O methods;
+ *	A collection of I/O methods
  *
  */
 
@@ -26,7 +15,7 @@ folio.FIO = {
 	 *	Local Storage
 	 */
 
-	/**
+	/*
 	 *	save a value using HTML5 Local Storage
 	 *	http://www.w3schools.com/html/html5_webstorage.asp
 	 *
@@ -44,7 +33,7 @@ folio.FIO = {
 		}
 	},
 
-	/**
+	/*
 	 *	retrieve saved value (default: as string)
 	 *
 	 *	@param name
@@ -54,7 +43,7 @@ folio.FIO = {
 		return localStorage.getItem(name);
 	},
 
-	/**
+	/*
 	 *	retrieve saved value as an int
 	 *
 	 *	@param name
@@ -64,7 +53,7 @@ folio.FIO = {
 		return parseInt( getLocal(name) );
 	},
 
-	/**
+	/*
 	 *	retrieve saved value as a float
 	 *
 	 *	@param name
@@ -83,7 +72,7 @@ folio.FIO = {
 
 	},
 
-	/**
+	/*
 	 *	delete a saved value from local storage
 	 *
 	 *	@param name
@@ -100,7 +89,7 @@ folio.FIO = {
 	 *	Session Storage
 	 */
 
-	/**
+	/*
 	 *	save a value using HTML5 Session Storage
 	 *	http://www.w3schools.com/html/html5_webstorage.asp
 	 *
@@ -118,7 +107,7 @@ folio.FIO = {
 		}
 	},
 
-	/**
+	/*
 	 *	retrieve saved value (default: as string)
 	 *
 	 *	@param name
@@ -128,7 +117,7 @@ folio.FIO = {
 		return sessionStorage.getItem(name);
 	},
 
-	/**
+	/*
 	 *	retrieve saved value as an int
 	 *
 	 *	@param name
@@ -138,7 +127,7 @@ folio.FIO = {
 		return parseInt( getSession(name) );
 	},
 
-	/**
+	/*
 	 *	retrieve saved value as a float
 	 *
 	 *	@param name
@@ -148,7 +137,7 @@ folio.FIO = {
 		return parseFloat( getSession(name) );
 	},
 
-	/**
+	/*
 	 *	@return a list of all items saved in session storage
 	 *
 	 */
@@ -157,7 +146,7 @@ folio.FIO = {
 
 	},
 
-	/**
+	/*
 	 *	delete a saved value from session storage
 	 *
 	 *	@param name
@@ -175,7 +164,7 @@ folio.FIO = {
 	 *	http://www.quirksmode.org/js/cookies.html
 	 */
 
-	/**
+	/*
 	 *	save a value as a cookie
 	 *
 	 *	@param name
@@ -195,7 +184,7 @@ folio.FIO = {
 		document.cookie = name + '=' + value + expires + '; path=/';
 	},
 
-	/**
+	/*
 	 *	retrieve a value from a cookie
 	 *
 	 *	@param name
@@ -212,7 +201,7 @@ folio.FIO = {
 		return null;
 	},
 
-	/**
+	/*
 	 *	delete a cookie
 	 *
 	 *	@param name
@@ -220,6 +209,63 @@ folio.FIO = {
 	 */
 	deleteCookie: function(name) {
 		saveCookie(name, '', -1);
+	},
+
+
+
+	/*
+	 *	Scriptographer specific
+	 *
+	 *	modified from Jürg Lehni
+	 *	http://scriptographer.org/forum/help/save-array-data-to-external-file/
+	 *
+	 */
+
+	/*
+	 *	@param str
+	 *				the String of information to save (JSON encoded)
+	 *	@param fname
+	 *				the name of the file to save to
+	 */
+	saveFile: function(str, fname) {
+		var file = new File(script.file.parent, fname);
+		if (file.exists()) file.remove();
+		file.open();
+		file.write( Json.encode(str) );
+		file.close();
+	},
+
+	/*
+	 *	@param fname
+	 *				the name of the file to open
+	 */
+	openFile: function(fname) {
+		var file = new File(script.file.parent, fname);
+		file.open();
+		var data = Json.decode( file.readAll() );
+		file.close();
+
+		return data;
+	},
+
+	/*
+	 *	@param fname
+	 *				the name of the file to delete
+	 */
+	deleteFile: function(fname) {
+		var file = new File(script.file.parent, fname);
+		// If file exists, we need to remove it first in order to overwrite its content.
+		if (file.exists()) file.remove();
+	},
+
+	/*
+	 *	@param fname
+	 *				the name of the file to verify exists
+	 */
+	checkFile: function(fname) {
+		var file = new File(script.file.parent, fname);
+		if (file.exists()) return true;
+		else return false
 	}
 
 };

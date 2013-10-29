@@ -1,16 +1,6 @@
- /**
+/**
  *
  *	Core.js
- *	v0.5
- *
- *	15. May 2013
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
- *
  *
  *	Core Methods and a collection of extensions for paper globally
  *
@@ -23,8 +13,7 @@ folio = {
 	// ------------------------------------------------------------------------
  	FTime: {},
  	FIO: {},
- 	F3D: {},
- 	FPath: {},
+ 	F3D: {}
 };
 
 
@@ -41,7 +30,7 @@ PaperScope.inject({
 	//-----------------------------------------------------------------------------
 	// Methods
 	//-----------------------------------------------------------------------------
-	/**
+	/*
 	 *	Java style println output
 	 *
 	 *	@param {Object} obj
@@ -53,7 +42,7 @@ PaperScope.inject({
 	},
 
 	// ------------------------------------------------------------------------
-	/**
+	/*
 	 *
 	 *	@param {Number} val
 	 *			input boolean value
@@ -66,7 +55,7 @@ PaperScope.inject({
 	},
 
 	// ------------------------------------------------------------------------
-	/**
+	/*
 	 *
 	 *	@param {Object} object
 	 *			object whose type to determine
@@ -94,7 +83,7 @@ PaperScope.inject({
 		}
 	},
 
-	/**
+	/*
 	 *
 	 *	@param {Array} items
 	 *			Array of items to go through
@@ -113,7 +102,7 @@ PaperScope.inject({
 		return path;
 	},
 
-	/**
+	/*
 	 *
 	 *	@param {Array} items
 	 *			Array of items to go through

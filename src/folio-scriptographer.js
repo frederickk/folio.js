@@ -69,7 +69,7 @@ var paper = PaperScope = global;
 
 
 
-/**
+/*
  *	Note from the Scriptographer.org Team
  *
  *	In Scriptographer 2.9, we switched to a top-down coordinate system and
@@ -101,7 +101,7 @@ global.inject({
 	enumerable: true,
 
 
-	/**
+	/*
 	 *
 	 *	These are specific methods for the
 	 *	Scriptographer version of folio.js
@@ -134,7 +134,7 @@ global.inject({
 	//-----------------------------------------------------------------------------
 	// Methods
 	//-----------------------------------------------------------------------------
-	/**
+	/*
 	 *	@param {Object} obj
 	 *				any Javascript Object
 	 */
@@ -148,7 +148,7 @@ global.inject({
 	/*
 	 *	animation function that mimics Paper.js
 	 */
-	/**
+	/*
 	 *	@param {Boolean} isOn
 	 *				true if we want to use animations
 	 *	@param {Number} frameRate
@@ -167,7 +167,7 @@ global.inject({
 		}
 	},
 
-	/**
+	/*
 	 *	@param {Number} interval
 	 *				how often in MS to fire event - defaul: 83
 	 */

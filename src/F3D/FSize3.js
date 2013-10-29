@@ -1,32 +1,14 @@
 /**
- *  
+ *
  *	FSize3.js
- *	v0.5
- *  
- *	11. August 2013
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
- *  
- *
- *	FSize3
  *
  *	A barebones collection of classes for primitive 3D rendering
- *
- *	code inspired by
- *	http://www.netmagazine.com/tutorials/build-your-own-html5-3d-engine
- *	https://github.com/mrdoob/three.js/
- *
- *	modified/expanded for use in Paper.js by Ken Frederick
  *
  */
 
 
 
-/**
+/*
  *	TODO: finish this
  *
  *	@param arg0
@@ -49,7 +31,7 @@ folio.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
 	// ------------------------------------------------------------------------
 	// Sets
 	// ------------------------------------------------------------------------
-	/**
+	/*
 	 *
 	 *	@param val
 	 *			set width value
@@ -57,8 +39,8 @@ folio.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
 	this.setWidth = function(val) {
 		this.width = val;
 	};
-	
-	/**
+
+	/*
 	 *
 	 *	@param val
 	 *			set height value
@@ -67,7 +49,7 @@ folio.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
 		this.height = val;
 	};
 
-	/**
+	/*
 	 *
 	 *	@param val
 	 *			set depth value
@@ -88,7 +70,7 @@ folio.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
 	// ------------------------------------------------------------------------
 	// Gets
 	// ------------------------------------------------------------------------
-	/**
+	/*
 	 *	Get a copy of this size
 	 */
 	this.get = function() {
@@ -97,12 +79,12 @@ folio.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
 
 
 	// ------------------------------------------------------------------------
-	/**
-	 *	
+	/*
+	 *
 	 *	@return random size
 	 *
 	 */
-	/**
+	/*
 	 *	@param minw
 	 *				minmum width (default: 0)
 	 *	@param maxw
@@ -133,8 +115,8 @@ folio.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
 		return this;
 	};
 
-	/**
-	 *	
+	/*
+	 *
 	 *	@return volume
 	 *
 	 */
