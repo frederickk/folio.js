@@ -14,12 +14,13 @@ module.exports = function(grunt) {
 
 		'./src/FIO/*.js',
 
-		'./src/Core/F3D/Matrix3D.js',
-		'./src/Core/F3D/FPath3.js',
-		'./src/Core/F3D/FPath3Constructors.js',
-		'./src/Core/F3D/FPoint3.js',
-		'./src/Core/F3D/FScene3.js',
-		'./src/Core/F3D/FSize3.js',
+		'./src/F3D/Matrix3D.js',
+		'./src/F3D/F3D.js',
+		'./src/F3D/FPath3.js',
+		'./src/F3D/FPath3Constructors.js',
+		'./src/F3D/FPoint3.js',
+		'./src/F3D/FScene3.js',
+		'./src/F3D/FSize3.js',
 
 		'./src/Extensions/*.js',
 	];

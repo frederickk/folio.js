@@ -56,7 +56,7 @@ PaperScope.inject({
 	 *	@return {Number} random number as float
 	 *
 	 *	@example
-	 *	var rand = Calculation.random(30, 90);
+	 *	var rand = random(30, 90);
 	 *
 	 */
 	random: function(min, max) {
@@ -80,7 +80,7 @@ PaperScope.inject({
 	 *	@return {Number} random number as integer
 	 *
 	 *	@example
-	 *	var randInt = Calculation.randomInt(30, 90);
+	 *	var randInt = randomInt(30, 90);
 	 *
 	 */
 	randomInt: function(min, max) {
@@ -128,7 +128,7 @@ PaperScope.inject({
 	 *	@return {Number} original value that is not less than the minimum and no greater than the maximum
 	 *
 	 *	@example
-	 *	var clamped = Calculation.clamp(120, 0, 90); // 90
+	 *	var clamped = clamp(120, 0, 90); // 90
 	 *
 	 */
 	clamp: function(val, min, max) {
@@ -147,7 +147,7 @@ PaperScope.inject({
 	 *	@return {Number} float value between 0.0 and 1.0
 	 *
 	 *	@example
-	 *	var normed = Calculation.norm(45, 0, 90); // 0.5
+	 *	var normed = norm(45, 0, 90); // 0.5
 	 *
 	 */
 	normalize: function(val, start, stop) {
@@ -170,7 +170,7 @@ PaperScope.inject({
 	 *	@return {Number} re-mapped value
 	 *
 	 *	@example
-	 *	var mapped = Calculation.map(180, 0, 360, 0.0, 2.0); // 1
+	 *	var mapped = map(180, 0, 360, 0.0, 2.0); // 1
 	 *
 	 */
 	map: function(val, istart, istop, ostart, ostop) {
@@ -189,7 +189,7 @@ PaperScope.inject({
 	 *	@return {Number} float value with desired decimal places
 	 *
 	 *	@example
-	 *	var rounded = Calculation.roundDecimal(0.586, 2); // 0.59
+	 *	var rounded = roundDecimal(0.586, 2); // 0.59
 	 *
 	 */
 	round: function(val, decimalPlaces) {
@@ -212,7 +212,7 @@ PaperScope.inject({
 	 *	@return {Number} snapped value
 	 *
 	 *	@example
-	 *	var snapped = Calculation.snap(0.66, 0.2); // 0.6
+	 *	var snapped = snap(0.66, 0.2); // 0.6
 	 *
 	 */
 	snap: function(val, snapInc, roundFunction) {
@@ -232,7 +232,7 @@ PaperScope.inject({
 	 *	@return {Number} value between start and stop
 	 *
 	 *	@example
-	 *	var interpolateed = Calculation.interpolate(0, 100, 0.5); // 50
+	 *	var interpolateed = interpolate(0, 100, 0.5); // 50
 	 *
 	 */
 	interpolate: function(start, stop, val) {
@@ -249,7 +249,7 @@ PaperScope.inject({
 	 *	@return {Number} val as degree
 	 *
 	 *	@example
-	 *	var deg = Calculation.degrees(Math.PI); // 180
+	 *	var deg = degrees(Math.PI); // 180
 	 *
 	 */
 	degrees: function(val) {
@@ -264,7 +264,7 @@ PaperScope.inject({
 	 *	@return {Number} val as radians
 	 *
 	 *	@example
-	 *	var rad = Calculation.radians(180); // Math.PI
+	 *	var rad = radians(180); // Math.PI
 	 *
 	 */
 	radians: function(val) {
@@ -282,7 +282,7 @@ PaperScope.inject({
 	 *			input value
 	 *
 	 *	@example
-	 *	var s = Calculation.sec(180);
+	 *	var s = sec(180);
 	 *
 	 */
 	sec: function(val) {
@@ -299,7 +299,7 @@ PaperScope.inject({
 	 *			input value
 	 *
 	 *	@example
-	 *	var cs = Calculation.cosec(180);
+	 *	var cs = cosec(180);
 	 *
 	 */
 	cosec: function(val) {
@@ -327,7 +327,7 @@ PaperScope.inject({
 	 *	@return {Number} squared value of val
 	 *
 	 *	@example
-	 *	var squared = Calculation.sq(30); // 900
+	 *	var squared = sq(30); // 900
 	 *
 	 */
 	sq: function(val) {
@@ -410,13 +410,13 @@ PaperScope.inject({
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Global</h3><ul><li><a href="global.html#boolToInt">boolToInt</a></li><li><a href="global.html#brighten">brighten</a></li><li><a href="global.html#bytes">bytes</a></li><li><a href="global.html#clamp">clamp</a></li><li><a href="global.html#colorToHex">colorToHex</a></li><li><a href="global.html#colorToInt">colorToInt</a></li><li><a href="global.html#componentToHex">componentToHex</a></li><li><a href="global.html#contrast">contrast</a></li><li><a href="global.html#cosec">cosec</a></li><li><a href="global.html#darken">darken</a></li><li><a href="global.html#degrees">degrees</a></li><li><a href="global.html#desaturate">desaturate</a></li><li><a href="global.html#dim">dim</a></li><li><a href="global.html#EPSILON">EPSILON</a></li><li><a href="global.html#FArrow">FArrow</a></li><li><a href="global.html#FBubble">FBubble</a></li><li><a href="global.html#FChain">FChain</a></li><li><a href="global.html#FCross">FCross</a></li><li><a href="global.html#FDrop">FDrop</a></li><li><a href="global.html#findById">findById</a></li><li><a href="global.html#findByName">findByName</a></li><li><a href="global.html#FTriangle">FTriangle</a></li><li><a href="global.html#getAngle">getAngle</a></li><li><a href="global.html#getArea">getArea</a></li><li><a href="global.html#getCentroid">getCentroid</a></li><li><a href="global.html#getCircumarea">getCircumarea</a></li><li><a href="global.html#getCircumcenter">getCircumcenter</a></li><li><a href="global.html#getCircumradius">getCircumradius</a></li><li><a href="global.html#getCommonTangents">getCommonTangents</a></li><li><a href="global.html#getDistanceToCenter">getDistanceToCenter</a></li><li><a href="global.html#getHeading">getHeading</a></li><li><a href="global.html#getIncircle">getIncircle</a></li><li><a href="global.html#getIncirclearea">getIncirclearea</a></li><li><a href="global.html#getIncircleradius">getIncircleradius</a></li><li><a href="global.html#getSlopeAngle">getSlopeAngle</a></li><li><a href="global.html#getType">getType</a></li><li><a href="global.html#HashSet">HashSet</a></li><li><a href="global.html#integer">integer</a></li><li><a href="global.html#interpolate">interpolate</a></li><li><a href="global.html#interpolateTo">interpolateTo</a></li><li><a href="global.html#invert">invert</a></li><li><a href="global.html#lighten">lighten</a></li><li><a href="global.html#linear">linear</a></li><li><a href="global.html#magSq">magSq</a></li><li><a href="global.html#map">map</a></li><li><a href="global.html#norm">norm</a></li><li><a href="global.html#normalize">normalize</a></li><li><a href="global.html#println">println</a></li><li><a href="global.html#radians">radians</a></li><li><a href="global.html#random">random</a></li><li><a href="global.html#randomBias">randomBias</a></li><li><a href="global.html#randomInt">randomInt</a></li><li><a href="global.html#rotate">rotate</a></li><li><a href="global.html#round">round</a></li><li><a href="global.html#saturate">saturate</a></li><li><a href="global.html#sec">sec</a></li><li><a href="global.html#snap">snap</a></li><li><a href="global.html#snapGrid">snapGrid</a></li><li><a href="global.html#snapIso">snapIso</a></li><li><a href="global.html#sq">sq</a></li><li><a href="global.html#statics">statics</a></li><li><a href="global.html#toGroup">toGroup</a></li><li><a href="global.html#trimToFit">trimToFit</a></li></ul>
+    <h2><a href="index.html">Index</a></h2><h3>Global</h3><ul><li><a href="global.html#boolToInt">boolToInt</a></li><li><a href="global.html#brighten">brighten</a></li><li><a href="global.html#bytes">bytes</a></li><li><a href="global.html#clamp">clamp</a></li><li><a href="global.html#colorToHex">colorToHex</a></li><li><a href="global.html#colorToInt">colorToInt</a></li><li><a href="global.html#componentToHex">componentToHex</a></li><li><a href="global.html#contrast">contrast</a></li><li><a href="global.html#cosec">cosec</a></li><li><a href="global.html#darken">darken</a></li><li><a href="global.html#degrees">degrees</a></li><li><a href="global.html#desaturate">desaturate</a></li><li><a href="global.html#dim">dim</a></li><li><a href="global.html#EPSILON">EPSILON</a></li><li><a href="global.html#FArrow">FArrow</a></li><li><a href="global.html#FBox">FBox</a></li><li><a href="global.html#FBubble">FBubble</a></li><li><a href="global.html#FChain">FChain</a></li><li><a href="global.html#FCross">FCross</a></li><li><a href="global.html#FDrop">FDrop</a></li><li><a href="global.html#findById">findById</a></li><li><a href="global.html#findByName">findByName</a></li><li><a href="global.html#FSphere">FSphere</a></li><li><a href="global.html#FTriangle">FTriangle</a></li><li><a href="global.html#getAngle">getAngle</a></li><li><a href="global.html#getArea">getArea</a></li><li><a href="global.html#getCentroid">getCentroid</a></li><li><a href="global.html#getCircumarea">getCircumarea</a></li><li><a href="global.html#getCircumcenter">getCircumcenter</a></li><li><a href="global.html#getCircumradius">getCircumradius</a></li><li><a href="global.html#getCommonTangents">getCommonTangents</a></li><li><a href="global.html#getDistanceToCenter">getDistanceToCenter</a></li><li><a href="global.html#getHeading">getHeading</a></li><li><a href="global.html#getIncircle">getIncircle</a></li><li><a href="global.html#getIncirclearea">getIncirclearea</a></li><li><a href="global.html#getIncircleradius">getIncircleradius</a></li><li><a href="global.html#getPosition">getPosition</a></li><li><a href="global.html#getSlopeAngle">getSlopeAngle</a></li><li><a href="global.html#getType">getType</a></li><li><a href="global.html#HashSet">HashSet</a></li><li><a href="global.html#integer">integer</a></li><li><a href="global.html#interpolate">interpolate</a></li><li><a href="global.html#interpolateTo">interpolateTo</a></li><li><a href="global.html#invert">invert</a></li><li><a href="global.html#lighten">lighten</a></li><li><a href="global.html#linear">linear</a></li><li><a href="global.html#magSq">magSq</a></li><li><a href="global.html#makeFrustum">makeFrustum</a></li><li><a href="global.html#makePerspective">makePerspective</a></li><li><a href="global.html#map">map</a></li><li><a href="global.html#Matrix3D">Matrix3D</a></li><li><a href="global.html#norm">norm</a></li><li><a href="global.html#normalize">normalize</a></li><li><a href="global.html#println">println</a></li><li><a href="global.html#radians">radians</a></li><li><a href="global.html#random">random</a></li><li><a href="global.html#randomBias">randomBias</a></li><li><a href="global.html#randomInt">randomInt</a></li><li><a href="global.html#rotate">rotate</a></li><li><a href="global.html#rotateX">rotateX</a></li><li><a href="global.html#round">round</a></li><li><a href="global.html#saturate">saturate</a></li><li><a href="global.html#scale">scale</a></li><li><a href="global.html#sec">sec</a></li><li><a href="global.html#setPosition">setPosition</a></li><li><a href="global.html#setRotateAxis">setRotateAxis</a></li><li><a href="global.html#snap">snap</a></li><li><a href="global.html#snapGrid">snapGrid</a></li><li><a href="global.html#snapIso">snapIso</a></li><li><a href="global.html#sq">sq</a></li><li><a href="global.html#statics">statics</a></li><li><a href="global.html#toGroup">toGroup</a></li><li><a href="global.html#transformPoint">transformPoint</a></li><li><a href="global.html#translate">translate</a></li><li><a href="global.html#trimToFit">trimToFit</a></li></ul>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Tue Oct 29 2013 21:55:24 GMT+0100 (MEZ)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Tue Oct 29 2013 22:46:00 GMT+0100 (MEZ)
 </footer>
 
 <script> prettyPrint(); </script>

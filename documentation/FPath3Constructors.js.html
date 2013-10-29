@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: F3D/FPath3Constructors.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: F3D/FPath3Constructors.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>/*
+ *
+ *	FPath3Constuctors.js
+ *
+ *	A collection of primitive 3D shapes for folio.F3D.FPath3
+ *
+ *	FBox
+ *	FSphere
+ *
+ */
+
+
+
+folio.F3D.FPath3.inject({
+
+	//-----------------------------------------------------------------------------
+	statics: new function() {
+		return {
+
+			/**
+			 *
+			 *	FBox
+			 *	Create simple box
+			 *
+			 *	@param {folio.F3D.FScene3D} scene
+			 *				the scene to attach the Box to
+			 *	@param {folio.F3D.FPoint3} fpoint3
+			 *	      		the position of the Box
+			 *	@param {folio.F3D.FSize3} fsize3
+			 *				the size of the Box
+			 *
+			 */
+			FBox: function(scene, fpoint3, fsize3) {
+				this._position3 = (fpoint3 != undefined)
+					? fpoint3
+					: new folio.F3D.FPoint3( 0,0,0 );
+
+				this._size = (fsize3 != undefined)
+					? fsize3
+					: new folio.F3D.FSize3( 10,10,10 );
+
+				var sides = new Array(6);
+				var faceFRONT = [
+					new folio.F3D.FPoint3(-0.5, -0.5, -0.5),	// corner
+					new folio.F3D.FPoint3( 0.5, -0.5, -0.5),	// corner
+					new folio.F3D.FPoint3( 0.5,	0.5, -0.5),	// corner
+					new folio.F3D.FPoint3(-0.5,	0.5, -0.5)	// corner
+				],
+					faceTOP = [
+					new folio.F3D.FPoint3(-0.5, -0.5,	0.5),	// corner
+					new folio.F3D.FPoint3( 0.5, -0.5,	0.5),	// corner
+					new folio.F3D.FPoint3( 0.5, -0.5, -0.5),	// corner
+					new folio.F3D.FPoint3(-0.5, -0.5, -0.5)	// corner
+				],
+					faceBOTTOM = [
+					new folio.F3D.FPoint3(-0.5, 0.5,	0.5),	// corner
+					new folio.F3D.FPoint3( 0.5, 0.5,	0.5),	// corner
+					new folio.F3D.FPoint3( 0.5, 0.5, -0.5),	// corner
+					new folio.F3D.FPoint3(-0.5, 0.5, -0.5)	// corner
+				],
+					faceLEFT = [
+					new folio.F3D.FPoint3(-0.5, -0.5, -0.5),	// corner
+					new folio.F3D.FPoint3(-0.5, -0.5,	0.5),	// corner
+					new folio.F3D.FPoint3(-0.5,	0.5,	0.5),	// corner
+					new folio.F3D.FPoint3(-0.5,	0.5, -0.5)	// corner
+				],
+					faceRIGHT = [
+					new folio.F3D.FPoint3( 0.5, -0.5, -0.5),	// corner
+					new folio.F3D.FPoint3( 0.5, -0.5,	0.5),	// corner
+					new folio.F3D.FPoint3( 0.5,	0.5,	0.5),	// corner
+					new folio.F3D.FPoint3( 0.5,	0.5, -0.5)	// corner
+				],
+					faceBACK = [
+					new folio.F3D.FPoint3(-0.5, -0.5,	0.5),	// corner
+					new folio.F3D.FPoint3( 0.5, -0.5,	0.5),	// corner
+					new folio.F3D.FPoint3( 0.5,	0.5,	0.5),	// corner
+					new folio.F3D.FPoint3(-0.5,	0.5,	0.5)	// corner
+				];
+
+				var faces = [
+					['front',	faceFRONT],
+					['top',		faceTOP],
+					['bottom',	faceBOTTOM],
+					['left',	faceLEFT],
+					['right',	faceRIGHT],
+					['back',	faceBACK]
+				];
+
+				var vertices = [];
+				for(var i=0; i&lt;faces.length; i++) {
+					sides[i] = new folio.F3D.FPath3();
+					// sides[i].name = faces[i][0];
+					sides[i].name = 'Z-TOP'; // hack until FScene3D is fixed
+
+					vertices = faces[i][1];
+					for(var j=0; j&lt;vertices.length; j++) {
+						sides[i].add3( new folio.F3D.FPoint3(
+							vertices[j].x * this._size.width,
+							vertices[j].y * this._size.height,
+							vertices[j].z * this._size.depth
+						));
+					}
+
+					// sides[i].fillColor = new Color( 0.0, 1.0, 0.7, 0.8 );
+					sides[i].closed = true;
+					sides[i].translate( fpoint3 );
+
+					scene.addItem( sides[i] );
+				}
+
+				return new Group(sides);
+			},
+
+			/**
+			 *
+			 *	FSphere
+			 *	Create simple sphere
+			 *
+			 *	@param {folio.F3D.FScene3D} scene
+			 *				the scene to attach the Sphere to
+			 *	@param {folio.F3D.FPoint3} fpoint3
+			 *	      		the position of the Sphere
+			 *	@param {folio.F3D.FSize3} radius
+			 *				the radius of the Sphere
+			 *	@param {Array} detail (optional)
+			 *				the longitude and latitude detail
+			 *				default: [6,6]
+			 *				*** anything over [21,21] and you should probably be using Three.js ***
+			 *
+			 */
+			FSphere: function(scene, fpoint3, radius, detail) {
+				this._position3 = (fpoint3 != undefined)
+					? fpoint3
+					: new folio.F3D.FPoint3( 0,0,0 );
+
+				this._size = (radius != undefined)
+					? new folio.F3D.FSize3( radius, radius, radius )
+					: new folio.F3D.FSize3( 10,10,10 );
+
+				var _c = 0.5;
+
+				var latlon;
+				if (detail != undefined) {
+					if (detail instanceof Array) {
+						latlon = detail;
+					}
+					else {
+						latlon = [detail, detail];
+					}
+				}
+				else {
+					latlon = [6,6];
+				}
+
+
+				var vertices = [];
+				for(var i=0; i&lt;=latlon[0]; i++) {
+					var lat0 = (Math.PI * (-_c + ( (i-1)/latlon[0]) ));
+					var z0   = Math.sin(lat0);
+					var zr0  = Math.cos(lat0);
+
+					var lat1 = (Math.PI * (-_c + ( i/latlon[0]) ));
+					var z1   = Math.sin(lat1);
+					var zr1  = Math.cos(lat1);
+
+					for(var j=0; j&lt;=latlon[1]; j++) {
+						var lng = ((Math.PI*2) * ( (j-1)/latlon[1] ));
+						var x = Math.cos(lng);
+						var y = Math.sin(lng);
+
+						vertices.push( new folio.F3D.FPoint3( x*zr0, y*zr0, z0 ) );
+						vertices.push( new folio.F3D.FPoint3( x*zr1, y*zr1, z1 ) );
+					} // _longs
+				} // _lats
+				var sides = new Array(vertices.length-2);
+
+				for(var i=0; i&lt;vertices.length-2; i++) {
+					sides[i] = new folio.F3D.FPath3();
+					sides[i].name = 'face'+i;
+
+					sides[i].add3( new folio.F3D.FPoint3(
+						vertices[i].x*(this._size.width*0.5),
+						vertices[i].y*(this._size.height*0.5),
+						vertices[i].z*(this._size.depth*0.5)
+					));
+					sides[i].add3( new folio.F3D.FPoint3(
+						vertices[i+1].x*(this._size.width*0.5),
+						vertices[i+1].y*(this._size.height*0.5),
+						vertices[i+1].z*(this._size.depth*0.5)
+					));
+					sides[i].add3( new folio.F3D.FPoint3(
+						vertices[i+2].x*(this._size.width*0.5),
+						vertices[i+2].y*(this._size.height*0.5),
+						vertices[i+2].z*(this._size.depth*0.5)
+					));
+
+					// sides[i].fillColor = new Color( 0.0, 1.0, 0.7, 0.8 );
+					sides[i].closed = true;
+					sides[i].translate( fpoint3 );
+
+					scene.addItem( sides[i] );
+				}
+
+				return new Group(sides);
+			}
+
+
+		}; // end return
+
+	} // end statics:
+});
+
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Global</h3><ul><li><a href="global.html#boolToInt">boolToInt</a></li><li><a href="global.html#brighten">brighten</a></li><li><a href="global.html#bytes">bytes</a></li><li><a href="global.html#clamp">clamp</a></li><li><a href="global.html#colorToHex">colorToHex</a></li><li><a href="global.html#colorToInt">colorToInt</a></li><li><a href="global.html#componentToHex">componentToHex</a></li><li><a href="global.html#contrast">contrast</a></li><li><a href="global.html#cosec">cosec</a></li><li><a href="global.html#darken">darken</a></li><li><a href="global.html#degrees">degrees</a></li><li><a href="global.html#desaturate">desaturate</a></li><li><a href="global.html#dim">dim</a></li><li><a href="global.html#EPSILON">EPSILON</a></li><li><a href="global.html#FArrow">FArrow</a></li><li><a href="global.html#FBox">FBox</a></li><li><a href="global.html#FBubble">FBubble</a></li><li><a href="global.html#FChain">FChain</a></li><li><a href="global.html#FCross">FCross</a></li><li><a href="global.html#FDrop">FDrop</a></li><li><a href="global.html#findById">findById</a></li><li><a href="global.html#findByName">findByName</a></li><li><a href="global.html#FSphere">FSphere</a></li><li><a href="global.html#FTriangle">FTriangle</a></li><li><a href="global.html#getAngle">getAngle</a></li><li><a href="global.html#getArea">getArea</a></li><li><a href="global.html#getCentroid">getCentroid</a></li><li><a href="global.html#getCircumarea">getCircumarea</a></li><li><a href="global.html#getCircumcenter">getCircumcenter</a></li><li><a href="global.html#getCircumradius">getCircumradius</a></li><li><a href="global.html#getCommonTangents">getCommonTangents</a></li><li><a href="global.html#getDistanceToCenter">getDistanceToCenter</a></li><li><a href="global.html#getHeading">getHeading</a></li><li><a href="global.html#getIncircle">getIncircle</a></li><li><a href="global.html#getIncirclearea">getIncirclearea</a></li><li><a href="global.html#getIncircleradius">getIncircleradius</a></li><li><a href="global.html#getPosition">getPosition</a></li><li><a href="global.html#getSlopeAngle">getSlopeAngle</a></li><li><a href="global.html#getType">getType</a></li><li><a href="global.html#HashSet">HashSet</a></li><li><a href="global.html#integer">integer</a></li><li><a href="global.html#interpolate">interpolate</a></li><li><a href="global.html#interpolateTo">interpolateTo</a></li><li><a href="global.html#invert">invert</a></li><li><a href="global.html#lighten">lighten</a></li><li><a href="global.html#linear">linear</a></li><li><a href="global.html#magSq">magSq</a></li><li><a href="global.html#makeFrustum">makeFrustum</a></li><li><a href="global.html#makePerspective">makePerspective</a></li><li><a href="global.html#map">map</a></li><li><a href="global.html#Matrix3D">Matrix3D</a></li><li><a href="global.html#norm">norm</a></li><li><a href="global.html#normalize">normalize</a></li><li><a href="global.html#println">println</a></li><li><a href="global.html#radians">radians</a></li><li><a href="global.html#random">random</a></li><li><a href="global.html#randomBias">randomBias</a></li><li><a href="global.html#randomInt">randomInt</a></li><li><a href="global.html#rotate">rotate</a></li><li><a href="global.html#rotateX">rotateX</a></li><li><a href="global.html#round">round</a></li><li><a href="global.html#saturate">saturate</a></li><li><a href="global.html#scale">scale</a></li><li><a href="global.html#sec">sec</a></li><li><a href="global.html#setPosition">setPosition</a></li><li><a href="global.html#setRotateAxis">setRotateAxis</a></li><li><a href="global.html#snap">snap</a></li><li><a href="global.html#snapGrid">snapGrid</a></li><li><a href="global.html#snapIso">snapIso</a></li><li><a href="global.html#sq">sq</a></li><li><a href="global.html#statics">statics</a></li><li><a href="global.html#toGroup">toGroup</a></li><li><a href="global.html#transformPoint">transformPoint</a></li><li><a href="global.html#translate">translate</a></li><li><a href="global.html#trimToFit">trimToFit</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Tue Oct 29 2013 22:46:00 GMT+0100 (MEZ)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

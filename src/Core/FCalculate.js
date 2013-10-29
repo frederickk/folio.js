@@ -29,7 +29,7 @@ PaperScope.inject({
 	 *	@return {Number} random number as float
 	 *
 	 *	@example
-	 *	var rand = Calculation.random(30, 90);
+	 *	var rand = random(30, 90);
 	 *
 	 */
 	random: function(min, max) {
@@ -53,7 +53,7 @@ PaperScope.inject({
 	 *	@return {Number} random number as integer
 	 *
 	 *	@example
-	 *	var randInt = Calculation.randomInt(30, 90);
+	 *	var randInt = randomInt(30, 90);
 	 *
 	 */
 	randomInt: function(min, max) {
@@ -101,7 +101,7 @@ PaperScope.inject({
 	 *	@return {Number} original value that is not less than the minimum and no greater than the maximum
 	 *
 	 *	@example
-	 *	var clamped = Calculation.clamp(120, 0, 90); // 90
+	 *	var clamped = clamp(120, 0, 90); // 90
 	 *
 	 */
 	clamp: function(val, min, max) {
@@ -120,7 +120,7 @@ PaperScope.inject({
 	 *	@return {Number} float value between 0.0 and 1.0
 	 *
 	 *	@example
-	 *	var normed = Calculation.norm(45, 0, 90); // 0.5
+	 *	var normed = norm(45, 0, 90); // 0.5
 	 *
 	 */
 	normalize: function(val, start, stop) {
@@ -143,7 +143,7 @@ PaperScope.inject({
 	 *	@return {Number} re-mapped value
 	 *
 	 *	@example
-	 *	var mapped = Calculation.map(180, 0, 360, 0.0, 2.0); // 1
+	 *	var mapped = map(180, 0, 360, 0.0, 2.0); // 1
 	 *
 	 */
 	map: function(val, istart, istop, ostart, ostop) {
@@ -162,7 +162,7 @@ PaperScope.inject({
 	 *	@return {Number} float value with desired decimal places
 	 *
 	 *	@example
-	 *	var rounded = Calculation.roundDecimal(0.586, 2); // 0.59
+	 *	var rounded = roundDecimal(0.586, 2); // 0.59
 	 *
 	 */
 	round: function(val, decimalPlaces) {
@@ -185,7 +185,7 @@ PaperScope.inject({
 	 *	@return {Number} snapped value
 	 *
 	 *	@example
-	 *	var snapped = Calculation.snap(0.66, 0.2); // 0.6
+	 *	var snapped = snap(0.66, 0.2); // 0.6
 	 *
 	 */
 	snap: function(val, snapInc, roundFunction) {
@@ -205,7 +205,7 @@ PaperScope.inject({
 	 *	@return {Number} value between start and stop
 	 *
 	 *	@example
-	 *	var interpolateed = Calculation.interpolate(0, 100, 0.5); // 50
+	 *	var interpolateed = interpolate(0, 100, 0.5); // 50
 	 *
 	 */
 	interpolate: function(start, stop, val) {
@@ -222,7 +222,7 @@ PaperScope.inject({
 	 *	@return {Number} val as degree
 	 *
 	 *	@example
-	 *	var deg = Calculation.degrees(Math.PI); // 180
+	 *	var deg = degrees(Math.PI); // 180
 	 *
 	 */
 	degrees: function(val) {
@@ -237,7 +237,7 @@ PaperScope.inject({
 	 *	@return {Number} val as radians
 	 *
 	 *	@example
-	 *	var rad = Calculation.radians(180); // Math.PI
+	 *	var rad = radians(180); // Math.PI
 	 *
 	 */
 	radians: function(val) {
@@ -255,7 +255,7 @@ PaperScope.inject({
 	 *			input value
 	 *
 	 *	@example
-	 *	var s = Calculation.sec(180);
+	 *	var s = sec(180);
 	 *
 	 */
 	sec: function(val) {
@@ -272,7 +272,7 @@ PaperScope.inject({
 	 *			input value
 	 *
 	 *	@example
-	 *	var cs = Calculation.cosec(180);
+	 *	var cs = cosec(180);
 	 *
 	 */
 	cosec: function(val) {
@@ -300,7 +300,7 @@ PaperScope.inject({
 	 *	@return {Number} squared value of val
 	 *
 	 *	@example
-	 *	var squared = Calculation.sq(30); // 900
+	 *	var squared = sq(30); // 900
 	 *
 	 */
 	sq: function(val) {

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: Core/FString.js</title>
+    <title>JSDoc: Source: F3D/FPath3.js</title>
     
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Source: Core/FString.js</h1>
+    <h1 class="page-title">Source: F3D/FPath3.js</h1>
     
     
 
@@ -27,63 +27,201 @@
         <article>
             <pre class="prettyprint source"><code>/*
  *
- *	FString.js
+ *	FPath3.js
  *
- *	Extensions to JavaScript Array may be bad form... but whatever
- *
- */
-
-
-/**	------------------------------------------------------------------------
- *
- *	Strings
- *
- *	------------------------------------------------------------------------/
-
-/**
- *
- *	trims white space from right (end) of String
- *
- *	@return {String} trimmed input String
+ *	A barebones collection of classes for primitive 3D rendering
  *
  */
-String.prototype.trimEnd = function() {
-	for (var i=this.length-1; this.charAt(i) ==' '; i--) {
-		this.substring(0, i);
-	}
-	return this;
-};
-
-/**
- *
- *	trims all white space from String
- *
- *	@return {String} trimmed input string
- *
- */
-String.prototype.trim = function() {
-	this.replace(/(^\s*)|(\s*$)/gi,'');
-	this.replace(/[ ]{2,}/gi,' ');
-	this.replace(/\n /,'\n');
-	return this;
-};
-
-/**
- *
- *	converts String to Boolean value
- *
- *	@return {Boolean}
- *
- */
-String.prototype.toBool = function() {
-	switch(this.toLowerCase()) {
-		case 'true': case 'yes': case '1': return true;
-		case 'false': case 'no': case '0': case null: return false;
-		default: return Boolean(this);
-	}
-};
 
 
+
+folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
+	// ------------------------------------------------------------------------
+	// Properties
+	// ------------------------------------------------------------------------
+	_class: 'FPath3',
+	_serializeFields: {
+		segments: [],
+		closed: false,
+
+		// F3D
+		scene: null,
+		matrix: null,
+		size: null,
+		position3: null,
+		fpoints3: [],
+		rotation: null,
+		translation: null
+	},
+
+
+
+	// ------------------------------------------------------------------------
+	// Methods
+	// ------------------------------------------------------------------------
+	/**
+	 *
+	 *	@param scene
+	 *				the scene to attach this path to
+	 *
+	 */
+	initialize: function FPath3(scene) {
+		this._closed = false;
+		this._segments = [];
+
+		this._scene = scene;
+		this._matrix = new Matrix3D();
+		this._size = new folio.F3D.FSize3();
+		this._position3 = new folio.F3D.FPoint3();
+
+		// setup 3D points array
+		this._fpoints3 = [];
+
+		// setup transformation
+		this._rotation = new folio.F3D.FPoint3();
+		this._translation = new folio.F3D.FPoint3();
+
+		// set generic name
+		this.name = 'FPath3';
+
+		Path.call(this);
+
+		this._initialize();
+	},
+
+
+
+	// ------------------------------------------------------------------------
+	// Sets
+	// ------------------------------------------------------------------------
+	/**
+	 *	@param scene
+	 *			scene to associate points with
+	 */
+	setScene: function(scene) {
+		// the scene
+		this._scene = scene;
+
+		for(var i=0; i&lt;this._fpoints3.length; i++) {
+			this._fpoints3[i].setup( this._scene );
+		}
+	},
+
+	/**
+	 *	@param _fpoint3
+	 *			add FPoint3 to path
+	 */
+	add3: function(fpoint3) {
+		this._fpoints3[ this._fpoints3.length ] = fpoint3;
+	},
+
+
+	// setSegments: function(segments) {
+	// }
+
+
+	// ------------------------------------------------------------------------
+	/**
+	 *	@param arg0
+	 *			FPoint3 for transformation
+	 */
+	/**
+	 *	@param arg0
+	 *			x point
+	 *	@param arg1
+	 *			y point
+	 *	@param arg2
+	 *			z point
+	 */
+	translate: function(arg0, arg1, arg2) {
+		if(typeof arg0 == 'number') {
+			this._translation.x = arg0;
+			this._translation.y = arg1;
+			this._translation.z = arg2;
+		}
+		else if(typeof arg0 == 'object') { // FPoint3
+			this._translation.x = arg0.x;
+			this._translation.y = arg0.y;
+			this._translation.z = arg0.z;
+		}
+		else {
+			this._translation.x = (arg0 != undefined)
+				? arg0
+				: 0;
+			this._translation.y = (arg1 != undefined)
+				? arg1
+				: 0;
+			this._translation.z = (arg2 != undefined)
+				? arg2
+				: 0;
+		}
+
+		for(var i=0; i&lt;this._fpoints3.length; i++) {
+			var pt3 = this._fpoints3[i];
+			pt3.setX( (pt3.x + this._translation.x) );
+			pt3.setY( (pt3.y + this._translation.y) );
+			pt3.setZ( (pt3.z + this._translation.z) );
+		}
+	},
+
+	/**
+	 *	@param val
+	 *			degree value for x axis rotation
+	 */
+	rotateX:  function(val) {
+		this._rotation.x = val;
+	},
+
+	/**
+	 *	@param val
+	 *			degree value for y axis rotation
+	 */
+	rotateY:  function(val) {
+		this._rotation.y = val;
+	},
+
+	/**
+	 *	@param val
+	 *			degree value for z axis rotation
+	 */
+	rotateZ:  function(val) {
+		this._rotation.z = val;
+	},
+
+
+
+	// ------------------------------------------------------------------------
+	// Gets
+	// ------------------------------------------------------------------------
+	get: function() {
+		// clear segments
+		this._segments = [];
+
+		// push points into 2D path
+		for(var i=0; i&lt;this._fpoints3.length; i++) {
+			var pt3 = this._fpoints3[i];
+			this.add(
+				new Point( pt3.x2D(), pt3.y2D() )
+			);
+		}
+		return this;
+	},
+
+
+// }, new function() { // Scope for drawing
+
+//	return {
+//		_draw: function(ctx, param) {
+//		},
+//	};
+
+// }, {
+
+// statics: {
+
+// }
+
+});
 </code></pre>
         </article>
     </section>

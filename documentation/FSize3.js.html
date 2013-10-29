@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: Core/FString.js</title>
+    <title>JSDoc: Source: F3D/FSize3.js</title>
     
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Source: Core/FString.js</h1>
+    <h1 class="page-title">Source: F3D/FSize3.js</h1>
     
     
 
@@ -27,60 +27,131 @@
         <article>
             <pre class="prettyprint source"><code>/*
  *
- *	FString.js
+ *	FSize3.js
  *
- *	Extensions to JavaScript Array may be bad form... but whatever
+ *	A barebones collection of classes for primitive 3D rendering
  *
  */
 
 
-/**	------------------------------------------------------------------------
- *
- *	Strings
- *
- *	------------------------------------------------------------------------/
 
 /**
+ *	TODO: finish this
  *
- *	trims white space from right (end) of String
- *
- *	@return {String} trimmed input String
- *
+ *	@param arg0
+ *			width
+ *	@param arg1
+ *			height
+ *	@param arg2
+ *			depth
  */
-String.prototype.trimEnd = function() {
-	for (var i=this.length-1; this.charAt(i) ==' '; i--) {
-		this.substring(0, i);
-	}
-	return this;
-};
+folio.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
+	/**
+	 *	public
+	 */
+	this.width = arg0 != undefined ? arg0 : 0;
+	this.height = arg1 != undefined ? arg1 : 0;
+	this.depth = arg2 != undefined ? arg2 : 0;
 
-/**
- *
- *	trims all white space from String
- *
- *	@return {String} trimmed input string
- *
- */
-String.prototype.trim = function() {
-	this.replace(/(^\s*)|(\s*$)/gi,'');
-	this.replace(/[ ]{2,}/gi,' ');
-	this.replace(/\n /,'\n');
-	return this;
-};
 
-/**
- *
- *	converts String to Boolean value
- *
- *	@return {Boolean}
- *
- */
-String.prototype.toBool = function() {
-	switch(this.toLowerCase()) {
-		case 'true': case 'yes': case '1': return true;
-		case 'false': case 'no': case '0': case null: return false;
-		default: return Boolean(this);
-	}
+
+	// ------------------------------------------------------------------------
+	// Sets
+	// ------------------------------------------------------------------------
+	/**
+	 *
+	 *	@param val
+	 *			set width value
+	 */
+	this.setWidth = function(val) {
+		this.width = val;
+	};
+
+	/**
+	 *
+	 *	@param val
+	 *			set height value
+	 */
+	this.setHeight = function(val) {
+		this.height = val;
+	};
+
+	/**
+	 *
+	 *	@param val
+	 *			set depth value
+	 */
+	this.setDepth = function(val) {
+		this.depth = val;
+	};
+
+	// ------------------------------------------------------------------------
+	this.set = function(arg0, arg1, arg2) {
+		this.setWidth(arg0);
+		this.setHeight(arg1);
+		this.setDepth(arg2);
+	};
+
+
+
+	// ------------------------------------------------------------------------
+	// Gets
+	// ------------------------------------------------------------------------
+	/**
+	 *	Get a copy of this size
+	 */
+	this.get = function() {
+		return new folio.F3D.FSize3(this.width, this.height, this.depth);
+	};
+
+
+	// ------------------------------------------------------------------------
+	/**
+	 *
+	 *	@return random size
+	 *
+	 */
+	/**
+	 *	@param minw
+	 *				minmum width (default: 0)
+	 *	@param maxw
+	 *				maximum width (default: view.bounds.width)
+	 *	@param minh
+	 *				minmum height (default: 0)
+	 *	@param maxh
+	 *				maximum height (default: view.bounds.height)
+	 *	@param mind
+	 *				minmum depth (default: 0)
+	 *	@param maxd
+	 *				maximum depth (default: 1000)
+	 *
+	 *	@return random size
+	 *
+	 */
+	this.random = function(minw, maxw, minh, maxh, mind, maxd) {
+		minw = (minw != undefined) ? minw : 0;
+		maxw = (maxw != undefined) ? maxw : view.bounds.width;
+		minh = (minh != undefined) ? minh : 0;
+		maxh = (maxh != undefined) ? maxh : view.bounds.height;
+		mind = (mind != undefined) ? mind : 0;
+		maxd = (maxd != undefined) ? maxd : 1000;
+
+		this.width = paper.random(minw, maxw);
+		this.height = paper.random(minh, maxh);
+		this.depth = paper.random(mind, maxd);
+		return this;
+	};
+
+	/**
+	 *
+	 *	@return volume
+	 *
+	 */
+	this.volume = function() {
+		return (this.width * this.height * this.depth);
+	};
+
+
 };
 
 

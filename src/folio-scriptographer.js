@@ -41,11 +41,6 @@ script.angleUnits = 'degrees';
  *
  *	Scriptographer Global Scope
  *
- *	The following are components that I have included within my
- *	unsupported fork of Paper.js, which are not available natively
- *	within Scriptogpraher
- *
- *
  */
 // Script.inject({
 global.inject({
