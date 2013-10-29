@@ -136,7 +136,7 @@ Animate(
 );
 ```
 
-To build the scriptographer version of Folio:
+To only build the scriptographer version of Folio:
 
 ```shell
 grunt scriptographer
