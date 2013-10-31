@@ -1,6 +1,7 @@
 {
   "name": "folio.js",
-  "version": "0.6.0",
+  "filename": "folio",
+  "version": "0.6.1",
   "author": {
     "name": "Ken Frederick",
     "url": "http://blog.kennethfrederick.de/"
