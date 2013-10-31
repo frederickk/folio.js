@@ -4,7 +4,7 @@
  *	0.6.0
  *	https://github.com/frederickk/folio.js
  *
- *	29. October 2013
+ *	31. October 2013
  *
  *	Ken Frederick
  *	ken.frederick@gmx.de
@@ -258,10 +258,10 @@ window.onload = function() {
 
 	// ------------------------------------------------------------------------
 	var resizeTimeout;
-	$(window).resize(function() {
+	window.onresize = function() {
 		clearTimeout(resizeTimeout);
 		resizeTimeout = setTimeout(resizeCanvas, 100);
-	});
+	};
 	resizeCanvas();
 
 };
