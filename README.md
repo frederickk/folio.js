@@ -120,7 +120,7 @@ Within `/templates/scriptographer.folio` are a number of files to be found `scri
 Documentation
 -------------
 
-A (not yet) comprehensive documentation of [Folio.js](http://kennethfrederick.de/foliojs/) functions can be found in the `documentation/` folder. You can build documentation by following the build steps above, once inside the [Folio.js](http://kennethfrederick.de/foliojs/) directy simply enter:
+A (not yet) comprehensive documentation of [Folio.js](http://kennethfrederick.de/foliojs/) functions can be found in the `documentation/` folder. You can build documentation by following the build steps below, once inside the [Folio.js](http://kennethfrederick.de/foliojs/) directy simply enter:
 
 ```shell
 $ grunt doc
