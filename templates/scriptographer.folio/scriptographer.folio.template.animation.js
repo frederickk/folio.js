@@ -1,5 +1,5 @@
 /**
- *	folio.js Template 0.0
+ *	folio.js Animation Template 0.0
  *
  *
  *	Ken Frederick
@@ -8,14 +8,14 @@
  *	http://cargocollective.com/kenfrederick/
  *	http://kenfrederick.blogspot.com/
  *
- *	
+ *
  */
 
 
 // ------------------------------------------------------------------------
 // Libraries
 // ------------------------------------------------------------------------
-include('PATH/TO/folio.js.js');
+include('PATH/TO/scriptographer.folio.js');
 
 
 
@@ -40,6 +40,14 @@ function Setup() {
 
 
 // ------------------------------------------------------------------------
+// Update
+// ------------------------------------------------------------------------
+function Update(event) {
+};
+
+
+
+// ------------------------------------------------------------------------
 // Draw
 // ------------------------------------------------------------------------
 function Draw() {
@@ -57,5 +65,7 @@ function Draw() {
 // Invocation
 // ------------------------------------------------------------------------
 Setup();
+// set to true, to enable animation
+Animate(false);
 Draw();
 

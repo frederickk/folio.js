@@ -22,14 +22,14 @@ Folio Template & Framework
 
 The Folio template takes advantage of [injecting Paper.js directly into the DOM](http://Paper.js.org/tutorials/getting-started/using-javascript-directly/). This enables the possibility of sharing JavaScript variables created in the HTML directly with Paper.js and visa versa.
 
-Within `/FolioTemplate` are a number of files to be found `/FolioTemplate.html` (and `/FolioWebappTemplate.html`). In addition to the HTML files is a script template file `/scripts/scripts/FolioTemplate.js` This includes all of the chain of operations methods `Setup()`, `Update()`, and `Draw()` as well as hooks for Mouse and Keyboard interactions.
+Within `/FolioTemplate` are a number of files to be found `/FolioTemplate.html` (and `/FolioWebappTemplate.html`). In addition to the HTML files is a script template file `/scripts/scripts/paper.folio.template.js` This includes all of the chain of operations methods `Setup()`, `Update()`, and `Draw()` as well as hooks for Mouse and Keyboard interactions.
 
 The template makes getting [Paper.js](http://paperjs.org/) up and running quicker. When using the template and/or renaming it be sure to uppdate all corresponding filenames.
 
 I recommend a file structure as such:
 
 	/root/ FolioTemplate.html
-	└── scripts/FolioTemplate.js
+	└── scripts/paper.folio.template.js
 		└── // any additional Paper.js scripts
 	└── js/
 		└── // additional JavaScript libraries JQuery, Angular, etc.
