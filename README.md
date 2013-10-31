@@ -20,10 +20,10 @@ To run the [Scriptographer](http://scriptographer.org/) examples, simply add the
 
 Additional examples will be added as time permits.
 
+
+
 Usage
 -------------
-
-[Scriptographer](http://scriptographer.org/).
 
 ##### Paper.js #####
 
