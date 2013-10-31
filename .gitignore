@@ -15,5 +15,5 @@ Thumbs.db
 
 # Folders #
 ###################
-FolioTemplate/bower_components
+templates/paper.folio/bower_components
 node_modules/

@@ -163,10 +163,10 @@ window.onload = function() {
 
 	// ------------------------------------------------------------------------
 	var resizeTimeout;
-	$(window).resize(function() {
+	window.onresize = function() {
 		clearTimeout(resizeTimeout);
 		resizeTimeout = setTimeout(resizeCanvas, 100);
-	});
+	};
 	resizeCanvas();
 
 };
