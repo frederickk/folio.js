@@ -162,7 +162,7 @@ PaperScope.inject({
 	 *	@return {Number} float value with desired decimal places
 	 *
 	 *	@example
-	 *	var rounded = roundDecimal(0.586, 2); // 0.59
+	 *	var rounded = round(0.586, 2); // 0.59
 	 *
 	 */
 	round: function(val, decimalPlaces) {
@@ -180,7 +180,7 @@ PaperScope.inject({
 	 *	@return {Number} closest multiple relative to base and val
 	 */
 	roundMultiple: function(val, base) {
-		return floor(val/base)*base+base;
+		return Math.floor(val/base)*base+base;
 	},
 
 	/**
