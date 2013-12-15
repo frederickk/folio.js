@@ -14,15 +14,17 @@ module.exports = function(grunt) {
 
 		'./src/FIO/*.js',
 
+		'./src/Extensions/*.js',
+	];
+	// temporary until 3D in Scriptographer is solved
+	var src3DFiles = [
 		'./src/F3D/Matrix3D.js',
 		'./src/F3D/F3D.js',
 		'./src/F3D/FPath3.js',
 		'./src/F3D/FPath3Constructors.js',
 		'./src/F3D/FPoint3.js',
 		'./src/F3D/FScene3.js',
-		'./src/F3D/FSize3.js',
-
-		'./src/Extensions/*.js',
+		'./src/F3D/FSize3.js'
 	];
 
 	grunt.initConfig({
@@ -52,7 +54,7 @@ module.exports = function(grunt) {
 			},
 			paper: {
 				dest: 'distribution/paper.' + name + '.js',
-				src: ['./src/header.js', './src/folio.js', srcFiles]
+				src: ['./src/header.js', './src/folio.js', srcFiles, src3DFiles]
 			},
 			scriptographer: {
 				dest: 'distribution/scriptographer.' + name + '.js',
