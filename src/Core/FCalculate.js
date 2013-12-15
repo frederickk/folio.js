@@ -202,7 +202,7 @@ PaperScope.inject({
 	 */
 	snap: function(val, snapInc, roundFunction) {
 		var roundFunction = roundFunction || Math.round;
-		return paper.roundDecimal( snapInc * roundFunction(val / snapInc), 2 );
+		return paper.round( snapInc * roundFunction(val / snapInc), 2 );
 	},
 
 	/**
