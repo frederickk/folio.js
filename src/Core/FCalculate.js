@@ -208,7 +208,7 @@ PaperScope.inject({
 	/**
 	 *
 	 *	@param {Number} start
-	 *			fitst value
+	 *			first value
 	 *	@param {Number} stop
 	 *			second value
 	 *	@param {Number} val
@@ -217,13 +217,43 @@ PaperScope.inject({
 	 *	@return {Number} value between start and stop
 	 *
 	 *	@example
-	 *	var interpolateed = interpolate(0, 100, 0.5); // 50
+	 *	var interpolated = interpolate(0, 100, 0.5); // 50
 	 *
 	 */
 	interpolate: function(start, stop, val) {
 		return start + (stop-start) * val;
 	},
 
+	// ------------------------------------------------------------------------
+	/**
+	 *	http://nayuki.eigenstate.org/res/calculate-divisors-javascript.js
+	 *
+	 *	@param {Number} val
+	 *			number
+	 *
+	 *	@return {Array} divisors (in ascending order) of the given integer
+	 *
+	 *	@example
+	 *	divisor(1) = [1]
+	 *	divisor(5) = [1, 5]
+	 *	divisor(12) = [1, 2, 3, 4, 6, 12]
+	 */
+	divisor: function(val) {
+		// if (va; < 1) throw 'Argument error';
+		var small = [];
+		var large = [];
+		var end = Math.floor(Math.sqrt(val));
+		for (var i=1; i<=end; i++) {
+			if (val % i == 0) {
+				small.push(i);
+				if (i * i != val) {
+					large.push(val / i); // Don't include a square root twice
+				}
+			}
+		}
+		large.reverse();
+		return small.concat(large);
+	},
 
 	// ------------------------------------------------------------------------
 	/**
