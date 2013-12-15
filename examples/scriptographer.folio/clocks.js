@@ -1,3 +1,4 @@
+console.log( 'FTime Example Loaded' );
 /**
  *	FTime Example 0.0
  *	Clocks
@@ -17,7 +18,7 @@
 // ------------------------------------------------------------------------
 // Libraries
 // ------------------------------------------------------------------------
-include('../libraries/folio/scriptographer.folio.js');
+include('../../distribution/scriptographer.folio.js');
 
 
 

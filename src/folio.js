@@ -4,7 +4,6 @@
  *	REQUIRED LIBRARIES!
  *
  *	Paper.js @ http://paperjs.org/
- *	JQuery @	http://jquery.com/download/
  *
  */
 

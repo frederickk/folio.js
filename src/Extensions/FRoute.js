@@ -20,9 +20,9 @@
 
 /**
  *	@param  {PathItem} items
- *	       	an array of PathItems
+ *		   	an array of PathItems
  *	@param  {Number} iterations (optional)
- *	       	tests per frame (higher = better) default: 1000
+ *		   	tests per frame (higher = better) default: 1000
  *
  *	@return {Array} an array of indices for the route through the input items
  *

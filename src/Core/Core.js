@@ -44,7 +44,7 @@ PaperScope.inject({
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	@param {Number} val
+	 *	@param {Boolean} val
 	 *			input boolean value
 	 *
 	 *	@return {Number} val as integer
@@ -52,6 +52,19 @@ PaperScope.inject({
 	 */
 	boolToInt: function(val) {
 		return (val) ? 1 : 0;
+	},
+
+	// ------------------------------------------------------------------------
+	/**
+	 *
+	 *	@param {Number} val
+	 *			input number value
+	 *
+	 *	@return {Number} val as boolean
+	 *
+	 */
+	numToBool: function(val) {
+		return (val != 0) ? true : false;
 	},
 
 	// ------------------------------------------------------------------------

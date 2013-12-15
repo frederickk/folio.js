@@ -25,7 +25,7 @@ folio.F3D.FPath3.inject({
 			 *	@param {folio.F3D.FScene3D} scene
 			 *				the scene to attach the Box to
 			 *	@param {folio.F3D.FPoint3} fpoint3
-			 *	      		the position of the Box
+			 *		  		the position of the Box
 			 *	@param {folio.F3D.FSize3} fsize3
 			 *				the size of the Box
 			 *
@@ -119,7 +119,7 @@ folio.F3D.FPath3.inject({
 			 *	@param {folio.F3D.FScene3D} scene
 			 *				the scene to attach the Sphere to
 			 *	@param {folio.F3D.FPoint3} fpoint3
-			 *	      		the position of the Sphere
+			 *		  		the position of the Sphere
 			 *	@param {folio.F3D.FSize3} radius
 			 *				the radius of the Sphere
 			 *	@param {Array} detail (optional)

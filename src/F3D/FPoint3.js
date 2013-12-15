@@ -378,10 +378,10 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
   	 *	Normalize the point to length 1 (make it a unit point)
 	 */
 	this.normalize = function() {
-	    var m = this.mag();
-	    if (m != 0 && m != 1) {
+		var m = this.mag();
+		if (m != 0 && m != 1) {
    	  this.div(m);
-	    }
+		}
 	};
 
 

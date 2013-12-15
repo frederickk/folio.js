@@ -172,7 +172,19 @@ PaperScope.inject({
 
 	/**
 	 *
-	 *	snap from:
+	 * @param  {Number} val
+	 *		 	number
+	 * @param  {Number} base
+	 *		 	base value for finding multiple
+	 *
+	 *	@return {Number} closest multiple relative to base and val
+	 */
+	roundMultiple: function(val, base) {
+		return floor(val/base)*base+base;
+	},
+
+	/**
+	 *
 	 *	http://stackoverflow.com/questions/4507784/snap-to-grid-functionality-using-javascript
 	 *
 	 *	@param {Number} val
@@ -189,7 +201,7 @@ PaperScope.inject({
 	 *
 	 */
 	snap: function(val, snapInc, roundFunction) {
-		if (roundFunction === undefined) roundFunction = Math.round;
+		var roundFunction = roundFunction || Math.round;
 		return paper.roundDecimal( snapInc * roundFunction(val / snapInc), 2 );
 	},
 

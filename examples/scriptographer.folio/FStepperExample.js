@@ -8,15 +8,16 @@
  *	http://blog.kennethfrederick.de/
  *
  *
- *	An example of lerping points, sunrise, sunset
+ *	An example of interpolating points, sunrise, sunset
  *
  */
+
 
 
 // ------------------------------------------------------------------------
 // Libraries
 // ------------------------------------------------------------------------
-include('../libraries/folio/scriptographer.folio.js');
+include('../../distribution/scriptographer.folio.js');
 
 
 
@@ -121,24 +122,25 @@ function Update(event) {
 function Draw() {
 	background.fillColor = colors[1];
 
-	// in order to animate the ball, we'll lerp from
+	// in order to animate the ball, we'll interpolate from
 	// point1 to point2
-	var pos = points[0].lerp(
+	var pos = points[0].interpolate(
 		points[1],
 		move.delta
 	);
-	var col = colors[0].lerp(
-		new RGBColor(1.0, 1.0, 1.0),
-		blend.delta
-	);
+	// var col = colors[0].interpolate(
+	// 	new RGBColor(1.0, 1.0, 1.0),
+	// 	blend.delta
+	// );
+	var col = new RGBColor(1.0, 1.0, 1.0);
 	// blend the colors from one to the other
 	ball.fillColor = col;
 
 	// move the ball on an arc
 	pos.x *= Math.cos(move.delta);
-	pos.y *= -Math.sin(move.delta)*2;
+	pos.y *= -Math.sin(move.delta);
 	ball.position = pos;
-	ball.translate( new Point(0, view.bounds.height) );
+	ball.translate( new Point(0, background.bounds.height) );
 
 };
 

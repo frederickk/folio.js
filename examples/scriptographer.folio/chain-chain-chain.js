@@ -1,3 +1,4 @@
+console.log( 'Chain-Chain-Chain Loaded' );
 /**
  *	FColor Example
  *	Chain-Chain-Chain
@@ -17,7 +18,7 @@
 // ------------------------------------------------------------------------
 // libraries
 // ------------------------------------------------------------------------
-include('../libraries/folio/scriptographer.folio.js');
+include('../../distribution/scriptographer.folio.js');
 
 
 
