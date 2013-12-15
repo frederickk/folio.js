@@ -1,10 +1,10 @@
 /**!
  *
  *	folio.js
- *	0.6.0
+ *	0.6.1
  *	https://github.com/frederickk/folio.js
  *
- *	31. October 2013
+ *	15. December 2013
  *
  *	Ken Frederick
  *	ken.frederick@gmx.de
@@ -99,7 +99,6 @@
  *	REQUIRED LIBRARIES!
  *
  *	Paper.js @ http://paperjs.org/
- *	JQuery @	http://jquery.com/download/
  *
  */
 
@@ -312,7 +311,7 @@ PaperScope.inject({
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	@param {Number} val
+	 *	@param {Boolean} val
 	 *			input boolean value
 	 *
 	 *	@return {Number} val as integer
@@ -320,6 +319,19 @@ PaperScope.inject({
 	 */
 	boolToInt: function(val) {
 		return (val) ? 1 : 0;
+	},
+
+	// ------------------------------------------------------------------------
+	/**
+	 *
+	 *	@param {Number} val
+	 *			input number value
+	 *
+	 *	@return {Number} val as boolean
+	 *
+	 */
+	numToBool: function(val) {
+		return (val != 0) ? true : false;
 	},
 
 	// ------------------------------------------------------------------------
@@ -777,7 +789,19 @@ PaperScope.inject({
 
 	/**
 	 *
-	 *	snap from:
+	 * @param  {Number} val
+	 *		 	number
+	 * @param  {Number} base
+	 *		 	base value for finding multiple
+	 *
+	 *	@return {Number} closest multiple relative to base and val
+	 */
+	roundMultiple: function(val, base) {
+		return floor(val/base)*base+base;
+	},
+
+	/**
+	 *
 	 *	http://stackoverflow.com/questions/4507784/snap-to-grid-functionality-using-javascript
 	 *
 	 *	@param {Number} val
@@ -794,7 +818,7 @@ PaperScope.inject({
 	 *
 	 */
 	snap: function(val, snapInc, roundFunction) {
-		if (roundFunction === undefined) roundFunction = Math.round;
+		var roundFunction = roundFunction || Math.round;
 		return paper.roundDecimal( snapInc * roundFunction(val / snapInc), 2 );
 	},
 
@@ -4434,7 +4458,7 @@ folio.F3D.FPath3.inject({
 			 *	@param {folio.F3D.FScene3D} scene
 			 *				the scene to attach the Box to
 			 *	@param {folio.F3D.FPoint3} fpoint3
-			 *	      		the position of the Box
+			 *		  		the position of the Box
 			 *	@param {folio.F3D.FSize3} fsize3
 			 *				the size of the Box
 			 *
@@ -4528,7 +4552,7 @@ folio.F3D.FPath3.inject({
 			 *	@param {folio.F3D.FScene3D} scene
 			 *				the scene to attach the Sphere to
 			 *	@param {folio.F3D.FPoint3} fpoint3
-			 *	      		the position of the Sphere
+			 *		  		the position of the Sphere
 			 *	@param {folio.F3D.FSize3} radius
 			 *				the radius of the Sphere
 			 *	@param {Array} detail (optional)
@@ -5000,10 +5024,10 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
   	 *	Normalize the point to length 1 (make it a unit point)
 	 */
 	this.normalize = function() {
-	    var m = this.mag();
-	    if (m != 0 && m != 1) {
+		var m = this.mag();
+		if (m != 0 && m != 1) {
    	  this.div(m);
-	    }
+		}
 	};
 
 
@@ -5792,9 +5816,9 @@ folio.FCirclePacker = function(circleItems, iterations) {
 
 /**
  *	@param  {PathItem} items
- *	       	an array of PathItems
+ *		   	an array of PathItems
  *	@param  {Number} iterations (optional)
- *	       	tests per frame (higher = better) default: 1000
+ *		   	tests per frame (higher = better) default: 1000
  *
  *	@return {Array} an array of indices for the route through the input items
  *

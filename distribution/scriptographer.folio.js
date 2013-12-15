@@ -1,10 +1,10 @@
 /**!
  *
  *	folio.js
- *	0.6.0
+ *	0.6.1
  *	https://github.com/frederickk/folio.js
  *
- *	31. October 2013
+ *	15. December 2013
  *
  *	Ken Frederick
  *	ken.frederick@gmx.de
@@ -277,7 +277,7 @@ PaperScope.inject({
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	@param {Number} val
+	 *	@param {Boolean} val
 	 *			input boolean value
 	 *
 	 *	@return {Number} val as integer
@@ -285,6 +285,19 @@ PaperScope.inject({
 	 */
 	boolToInt: function(val) {
 		return (val) ? 1 : 0;
+	},
+
+	// ------------------------------------------------------------------------
+	/**
+	 *
+	 *	@param {Number} val
+	 *			input number value
+	 *
+	 *	@return {Number} val as boolean
+	 *
+	 */
+	numToBool: function(val) {
+		return (val != 0) ? true : false;
 	},
 
 	// ------------------------------------------------------------------------
@@ -742,7 +755,19 @@ PaperScope.inject({
 
 	/**
 	 *
-	 *	snap from:
+	 * @param  {Number} val
+	 *		 	number
+	 * @param  {Number} base
+	 *		 	base value for finding multiple
+	 *
+	 *	@return {Number} closest multiple relative to base and val
+	 */
+	roundMultiple: function(val, base) {
+		return floor(val/base)*base+base;
+	},
+
+	/**
+	 *
 	 *	http://stackoverflow.com/questions/4507784/snap-to-grid-functionality-using-javascript
 	 *
 	 *	@param {Number} val
@@ -759,7 +784,7 @@ PaperScope.inject({
 	 *
 	 */
 	snap: function(val, snapInc, roundFunction) {
-		if (roundFunction === undefined) roundFunction = Math.round;
+		var roundFunction = roundFunction || Math.round;
 		return paper.roundDecimal( snapInc * roundFunction(val / snapInc), 2 );
 	},
 
@@ -4157,1354 +4182,1354 @@ var Matrix3D = function( n11, n12, n13, n14,
  */
 
 
-// folio.F3D = {
-// 	// ------------------------------------------------------------------------
-// 	// Namespaces
-// 	// ------------------------------------------------------------------------
-// 	FScene3: {},
-
-// 	FPoint3: {},
-// 	FSize3: {},
-// 	FPath3: function() {},
-
-
-// 	// ------------------------------------------------------------------------
-// 	// Methods
-// 	// ------------------------------------------------------------------------
-// };
-
-
-// /*
-//  *
-//  *	FPath3.js
-//  *
-//  *	A barebones collection of classes for primitive 3D rendering
-//  *
-//  */
-
-
-
-// folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
-// 	// ------------------------------------------------------------------------
-// 	// Properties
-// 	// ------------------------------------------------------------------------
-// 	_class: 'FPath3',
-// 	_serializeFields: {
-// 		segments: [],
-// 		closed: false,
-
-// 		// F3D
-// 		scene: null,
-// 		matrix: null,
-// 		size: null,
-// 		position3: null,
-// 		fpoints3: [],
-// 		rotation: null,
-// 		translation: null
-// 	},
-
-
-
-// 	// ------------------------------------------------------------------------
-// 	// Methods
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *
-// 	 *	@param scene
-// 	 *				the scene to attach this path to
-// 	 *
-// 	 */
-// 	initialize: function FPath3(scene) {
-// 		this._closed = false;
-// 		this._segments = [];
-
-// 		this._scene = scene;
-// 		this._matrix = new Matrix3D();
-// 		this._size = new folio.F3D.FSize3();
-// 		this._position3 = new folio.F3D.FPoint3();
-
-// 		// setup 3D points array
-// 		this._fpoints3 = [];
-
-// 		// setup transformation
-// 		this._rotation = new folio.F3D.FPoint3();
-// 		this._translation = new folio.F3D.FPoint3();
-
-// 		// set generic name
-// 		this.name = 'FPath3';
-
-// 		Path.call(this);
-
-// 		this._initialize();
-// 	},
-
-
-
-// 	// ------------------------------------------------------------------------
-// 	// Sets
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	@param scene
-// 	 *			scene to associate points with
-// 	 */
-// 	setScene: function(scene) {
-// 		// the scene
-// 		this._scene = scene;
-
-// 		for(var i=0; i<this._fpoints3.length; i++) {
-// 			this._fpoints3[i].setup( this._scene );
-// 		}
-// 	},
-
-// 	/**
-// 	 *	@param _fpoint3
-// 	 *			add FPoint3 to path
-// 	 */
-// 	add3: function(fpoint3) {
-// 		this._fpoints3[ this._fpoints3.length ] = fpoint3;
-// 	},
-
-
-// 	// setSegments: function(segments) {
-// 	// }
-
-
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	@param arg0
-// 	 *			FPoint3 for transformation
-// 	 */
-// 	/**
-// 	 *	@param arg0
-// 	 *			x point
-// 	 *	@param arg1
-// 	 *			y point
-// 	 *	@param arg2
-// 	 *			z point
-// 	 */
-// 	translate: function(arg0, arg1, arg2) {
-// 		if(typeof arg0 == 'number') {
-// 			this._translation.x = arg0;
-// 			this._translation.y = arg1;
-// 			this._translation.z = arg2;
-// 		}
-// 		else if(typeof arg0 == 'object') { // FPoint3
-// 			this._translation.x = arg0.x;
-// 			this._translation.y = arg0.y;
-// 			this._translation.z = arg0.z;
-// 		}
-// 		else {
-// 			this._translation.x = (arg0 != undefined)
-// 				? arg0
-// 				: 0;
-// 			this._translation.y = (arg1 != undefined)
-// 				? arg1
-// 				: 0;
-// 			this._translation.z = (arg2 != undefined)
-// 				? arg2
-// 				: 0;
-// 		}
-
-// 		for(var i=0; i<this._fpoints3.length; i++) {
-// 			var pt3 = this._fpoints3[i];
-// 			pt3.setX( (pt3.x + this._translation.x) );
-// 			pt3.setY( (pt3.y + this._translation.y) );
-// 			pt3.setZ( (pt3.z + this._translation.z) );
-// 		}
-// 	},
-
-// 	/**
-// 	 *	@param val
-// 	 *			degree value for x axis rotation
-// 	 */
-// 	rotateX:  function(val) {
-// 		this._rotation.x = val;
-// 	},
-
-// 	/**
-// 	 *	@param val
-// 	 *			degree value for y axis rotation
-// 	 */
-// 	rotateY:  function(val) {
-// 		this._rotation.y = val;
-// 	},
-
-// 	/**
-// 	 *	@param val
-// 	 *			degree value for z axis rotation
-// 	 */
-// 	rotateZ:  function(val) {
-// 		this._rotation.z = val;
-// 	},
-
-
-
-// 	// ------------------------------------------------------------------------
-// 	// Gets
-// 	// ------------------------------------------------------------------------
-// 	get: function() {
-// 		// clear segments
-// 		this._segments = [];
-
-// 		// push points into 2D path
-// 		for(var i=0; i<this._fpoints3.length; i++) {
-// 			var pt3 = this._fpoints3[i];
-// 			this.add(
-// 				new Point( pt3.x2D(), pt3.y2D() )
-// 			);
-// 		}
-// 		return this;
-// 	},
-
-
-// // }, new function() { // Scope for drawing
-
-// //	return {
-// //		_draw: function(ctx, param) {
-// //		},
-// //	};
-
-// // }, {
-
-// // statics: {
-
-// // }
-
-// });
-
-// /*
-//  *
-//  *	FPath3Constuctors.js
-//  *
-//  *	A collection of primitive 3D shapes for folio.F3D.FPath3
-//  *
-//  *	FBox
-//  *	FSphere
-//  *
-//  */
-
-
-
-// folio.F3D.FPath3.inject({
-
-// 	//-----------------------------------------------------------------------------
-// 	statics: new function() {
-// 		return {
-
-// 			/**
-// 			 *
-// 			 *	FBox
-// 			 *	Create simple box
-// 			 *
-// 			 *	@param {folio.F3D.FScene3D} scene
-// 			 *				the scene to attach the Box to
-// 			 *	@param {folio.F3D.FPoint3} fpoint3
-// 			 *	      		the position of the Box
-// 			 *	@param {folio.F3D.FSize3} fsize3
-// 			 *				the size of the Box
-// 			 *
-// 			 */
-// 			FBox: function(scene, fpoint3, fsize3) {
-// 				this._position3 = (fpoint3 != undefined)
-// 					? fpoint3
-// 					: new folio.F3D.FPoint3( 0,0,0 );
-
-// 				this._size = (fsize3 != undefined)
-// 					? fsize3
-// 					: new folio.F3D.FSize3( 10,10,10 );
-
-// 				var sides = new Array(6);
-// 				var faceFRONT = [
-// 					new folio.F3D.FPoint3(-0.5, -0.5, -0.5),	// corner
-// 					new folio.F3D.FPoint3( 0.5, -0.5, -0.5),	// corner
-// 					new folio.F3D.FPoint3( 0.5,	0.5, -0.5),	// corner
-// 					new folio.F3D.FPoint3(-0.5,	0.5, -0.5)	// corner
-// 				],
-// 					faceTOP = [
-// 					new folio.F3D.FPoint3(-0.5, -0.5,	0.5),	// corner
-// 					new folio.F3D.FPoint3( 0.5, -0.5,	0.5),	// corner
-// 					new folio.F3D.FPoint3( 0.5, -0.5, -0.5),	// corner
-// 					new folio.F3D.FPoint3(-0.5, -0.5, -0.5)	// corner
-// 				],
-// 					faceBOTTOM = [
-// 					new folio.F3D.FPoint3(-0.5, 0.5,	0.5),	// corner
-// 					new folio.F3D.FPoint3( 0.5, 0.5,	0.5),	// corner
-// 					new folio.F3D.FPoint3( 0.5, 0.5, -0.5),	// corner
-// 					new folio.F3D.FPoint3(-0.5, 0.5, -0.5)	// corner
-// 				],
-// 					faceLEFT = [
-// 					new folio.F3D.FPoint3(-0.5, -0.5, -0.5),	// corner
-// 					new folio.F3D.FPoint3(-0.5, -0.5,	0.5),	// corner
-// 					new folio.F3D.FPoint3(-0.5,	0.5,	0.5),	// corner
-// 					new folio.F3D.FPoint3(-0.5,	0.5, -0.5)	// corner
-// 				],
-// 					faceRIGHT = [
-// 					new folio.F3D.FPoint3( 0.5, -0.5, -0.5),	// corner
-// 					new folio.F3D.FPoint3( 0.5, -0.5,	0.5),	// corner
-// 					new folio.F3D.FPoint3( 0.5,	0.5,	0.5),	// corner
-// 					new folio.F3D.FPoint3( 0.5,	0.5, -0.5)	// corner
-// 				],
-// 					faceBACK = [
-// 					new folio.F3D.FPoint3(-0.5, -0.5,	0.5),	// corner
-// 					new folio.F3D.FPoint3( 0.5, -0.5,	0.5),	// corner
-// 					new folio.F3D.FPoint3( 0.5,	0.5,	0.5),	// corner
-// 					new folio.F3D.FPoint3(-0.5,	0.5,	0.5)	// corner
-// 				];
-
-// 				var faces = [
-// 					['front',	faceFRONT],
-// 					['top',		faceTOP],
-// 					['bottom',	faceBOTTOM],
-// 					['left',	faceLEFT],
-// 					['right',	faceRIGHT],
-// 					['back',	faceBACK]
-// 				];
-
-// 				var vertices = [];
-// 				for(var i=0; i<faces.length; i++) {
-// 					sides[i] = new folio.F3D.FPath3();
-// 					// sides[i].name = faces[i][0];
-// 					sides[i].name = 'Z-TOP'; // hack until FScene3D is fixed
-
-// 					vertices = faces[i][1];
-// 					for(var j=0; j<vertices.length; j++) {
-// 						sides[i].add3( new folio.F3D.FPoint3(
-// 							vertices[j].x * this._size.width,
-// 							vertices[j].y * this._size.height,
-// 							vertices[j].z * this._size.depth
-// 						));
-// 					}
-
-// 					// sides[i].fillColor = new Color( 0.0, 1.0, 0.7, 0.8 );
-// 					sides[i].closed = true;
-// 					sides[i].translate( fpoint3 );
-
-// 					scene.addItem( sides[i] );
-// 				}
-
-// 				return new Group(sides);
-// 			},
-
-// 			/**
-// 			 *
-// 			 *	FSphere
-// 			 *	Create simple sphere
-// 			 *
-// 			 *	@param {folio.F3D.FScene3D} scene
-// 			 *				the scene to attach the Sphere to
-// 			 *	@param {folio.F3D.FPoint3} fpoint3
-// 			 *	      		the position of the Sphere
-// 			 *	@param {folio.F3D.FSize3} radius
-// 			 *				the radius of the Sphere
-// 			 *	@param {Array} detail (optional)
-// 			 *				the longitude and latitude detail
-// 			 *				default: [6,6]
-// 			 *				*** anything over [21,21] and you should probably be using Three.js ***
-// 			 *
-// 			 */
-// 			FSphere: function(scene, fpoint3, radius, detail) {
-// 				this._position3 = (fpoint3 != undefined)
-// 					? fpoint3
-// 					: new folio.F3D.FPoint3( 0,0,0 );
-
-// 				this._size = (radius != undefined)
-// 					? new folio.F3D.FSize3( radius, radius, radius )
-// 					: new folio.F3D.FSize3( 10,10,10 );
-
-// 				var _c = 0.5;
-
-// 				var latlon;
-// 				if (detail != undefined) {
-// 					if (detail instanceof Array) {
-// 						latlon = detail;
-// 					}
-// 					else {
-// 						latlon = [detail, detail];
-// 					}
-// 				}
-// 				else {
-// 					latlon = [6,6];
-// 				}
-
-
-// 				var vertices = [];
-// 				for(var i=0; i<=latlon[0]; i++) {
-// 					var lat0 = (Math.PI * (-_c + ( (i-1)/latlon[0]) ));
-// 					var z0   = Math.sin(lat0);
-// 					var zr0  = Math.cos(lat0);
-
-// 					var lat1 = (Math.PI * (-_c + ( i/latlon[0]) ));
-// 					var z1   = Math.sin(lat1);
-// 					var zr1  = Math.cos(lat1);
-
-// 					for(var j=0; j<=latlon[1]; j++) {
-// 						var lng = ((Math.PI*2) * ( (j-1)/latlon[1] ));
-// 						var x = Math.cos(lng);
-// 						var y = Math.sin(lng);
-
-// 						vertices.push( new folio.F3D.FPoint3( x*zr0, y*zr0, z0 ) );
-// 						vertices.push( new folio.F3D.FPoint3( x*zr1, y*zr1, z1 ) );
-// 					} // _longs
-// 				} // _lats
-// 				var sides = new Array(vertices.length-2);
-
-// 				for(var i=0; i<vertices.length-2; i++) {
-// 					sides[i] = new folio.F3D.FPath3();
-// 					sides[i].name = 'face'+i;
-
-// 					sides[i].add3( new folio.F3D.FPoint3(
-// 						vertices[i].x*(this._size.width*0.5),
-// 						vertices[i].y*(this._size.height*0.5),
-// 						vertices[i].z*(this._size.depth*0.5)
-// 					));
-// 					sides[i].add3( new folio.F3D.FPoint3(
-// 						vertices[i+1].x*(this._size.width*0.5),
-// 						vertices[i+1].y*(this._size.height*0.5),
-// 						vertices[i+1].z*(this._size.depth*0.5)
-// 					));
-// 					sides[i].add3( new folio.F3D.FPoint3(
-// 						vertices[i+2].x*(this._size.width*0.5),
-// 						vertices[i+2].y*(this._size.height*0.5),
-// 						vertices[i+2].z*(this._size.depth*0.5)
-// 					));
-
-// 					// sides[i].fillColor = new Color( 0.0, 1.0, 0.7, 0.8 );
-// 					sides[i].closed = true;
-// 					sides[i].translate( fpoint3 );
-
-// 					scene.addItem( sides[i] );
-// 				}
-
-// 				return new Group(sides);
-// 			}
-
-
-// 		}; // end return
-
-// 	} // end statics:
-// });
-
-
-// /*
-//  *
-//  *	FPoint3.js
-//  *
-//  *	A barebones collection of classes for primitive 3D rendering
-//  *
-//  */
-
-
-
-// /**
-//  *	@param arg0
-//  *			x coordinate
-//  *	@param arg1
-//  *			y coordinate
-//  *	@param arg2
-//  *			z coordinate
-//  */
-// folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
-// 	// ------------------------------------------------------------------------
-// 	// Properties
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	private
-// 	 */
-// 	var _scene = null;
-
-// 	var _xIndex = 0;
-// 	var _yIndex = 0;
-// 	var _zIndex = 0;
-
-// 	var _xIndex2D = 0;
-// 	var _yIndex2D = 0;
-
-
-// 	/**
-// 	 *	public
-// 	 */
-// 	this.x = arg0 != undefined ? arg0 : 0;
-// 	this.y = arg1 != undefined ? arg1 : 0;
-// 	this.z = arg2 != undefined ? arg2 : 0;
-
-
-
-// 	// ------------------------------------------------------------------------
-// 	// Methods
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	@param scene
-// 	 *			the scene with which the points are
-// 	 *			associated with
-// 	 */
-// 	this.setup = function(scene) {
-// 		// setup scene
-// 		_scene = scene;
-
-// 		var index = _scene.setupPoint(this.x, this.y, this.z);
-// 		var i3 = index*3;
-// 		var i2 = index*2;
-
-// 		// 3D indicies
-// 		_xIndex = i3;
-// 		_yIndex = i3+1;
-// 		_zIndex = i3+2;
-
-// 		// 2D indicies
-// 		_xIndex2D = i2;
-// 		_yIndex2D = i2+1;
-// 	};
-
-
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *
-// 	 *	@return random point
-// 	 *
-// 	 */
-// 	/**
-// 	 *	@param minx
-// 	 *				minmum x (default: 0)
-// 	 *	@param maxx
-// 	 *				maximum x (default: view.bounds.width)
-// 	 *	@param miny
-// 	 *				minmum y (default: 0)
-// 	 *	@param maxy
-// 	 *				maximum y (default: view.bounds.height)
-// 	 *	@param minz
-// 	 *				minmum z (default: 0)
-// 	 *	@param maxz
-// 	 *				maximum z (default: 1000)
-// 	 *
-// 	 *	@return random point
-// 	 *
-// 	 */
-// 	this.random = function(minx, maxx, miny, maxy, minz, maxz) {
-// 		minx = (minx != undefined) ? minx : 0;
-// 		maxx = (maxx != undefined) ? maxx : view.bounds.width;
-// 		miny = (miny != undefined) ? miny : 0;
-// 		maxy = (maxy != undefined) ? maxy : view.bounds.height;
-// 		minz = (minz != undefined) ? miny : 0;
-// 		maxz = (maxz != undefined) ? maxy : 1000;
-
-// 		this.x = paper.random(minx, maxx);
-// 		this.y = paper.random(miny, maxy);
-// 		this.z = paper.random(minz, maxz);
-
-// 		return new folio.F3D.FPoint3(this.x, this.y, this.z);
-// 	};
-
-
-
-// 	// ------------------------------------------------------------------------
-// 	// Sets
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *
-// 	 *	@param val
-// 	 *			set x value
-// 	 */
-// 	this.setX = function(val) {
-// 		if( _scene != null ) _scene.points3D[_xIndex] = val;
-// 		this.x = val;
-// 	};
-
-// 	/**
-// 	 *
-// 	 *	@param val
-// 	 *			set y value
-// 	 */
-// 	this.setY = function(val) {
-// 		if( _scene != null ) _scene.points3D[_yIndex] = val;
-// 		this.y = val;
-// 	};
-
-// 	/**
-// 	 *
-// 	 *	@param val
-// 	 *			set z value
-// 	 */
-// 	this.setZ = function(val) {
-// 		if( _scene != null ) _scene.points3D[_zIndex] = val;
-// 		this.z = val;
-// 	};
-
-// 	// ------------------------------------------------------------------------
-// 	this.set = function(arg0, arg1, arg2) {
-// 		this.setX(arg0);
-// 		this.setY(arg1);
-// 		this.setZ(arg2);
-// 	};
-
-
-
-// 	// ------------------------------------------------------------------------
-// 	// Gets
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	@return a copy of this point
-// 	 */
-// 	this.get = function() {
-// 		return new folio.F3D.FPoint3(this.x, this.y, this.z);
-// 	};
-
-
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	@return projected 2D x
-// 	 */
-// 	this.x2D = function() {
-// 		return _scene.points2D[_xIndex2D];
-// 	};
-
-// 	/**
-// 	 *	@return projected 2D y
-// 	 */
-// 	this.y2D = function() {
-// 		return _scene.points2D[_yIndex2D];
-// 	};
-
-// 	// ------------------------------------------------------------------------
-// 	this.getSceneIndex = function() {
-// 		return _sceneIndex;
-// 	};
-
-
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	Calculate the magnitude (length) of the point
-// 	 *
-// 	 *	@return the magnitude of the point
-// 	 */
-// 	this.mag = function() {
-// 		return Math.sqrt(this.x*this.x + this.y*this.y + this.z*this.z);
-// 	};
-
-
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	Add a point to this point
-// 	 *
-// 	 *	@param arg0
-// 	 *			the FPoint3 to be added
-// 	 */
-// 	/**
-// 	 *	Add a point to this point
-// 	 *
-// 	 *	@param arg0
-// 	 *			the x point to be added
-// 	 *	@param arg1
-// 	 *			the y point to be added
-// 	 *	@param arg2
-// 	 *			the z point to be added
-// 	 */
-// 	this.add = function(arg0, arg1, arg2) {
-// 		if(typeof arg0 == 'number') {
-// 			this.x += arg0;
-// 			this.y += arg1;
-// 			this.z += arg2;
-// 		}
-// 		else if(typeof arg0 == 'object') { // FPoint3
-// 			this.x += arg0.x();
-// 			this.y += arg0.y();
-// 			this.z += arg0.z();
-// 		}
-// 		this.set(this.x, this.y, this.z);
-// 	};
-
-
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	Subtract a point to this point
-// 	 *
-// 	 *	@param arg0
-// 	 *			the FPoint3 to be subtracted
-// 	 */
-// 	*
-// 	 *	Subtract a point to this point
-// 	 *
-// 	 *	@param arg0
-// 	 *			the x point to be subtracted
-// 	 *	@param arg1
-// 	 *			the y point to be subtracted
-// 	 *	@param arg2
-// 	 *			the z point to be subtracted
-
-// 	this.sub = function(arg0, arg1, arg2) {
-// 		if(typeof arg0 == 'number') {
-// 			this.x -= arg0;
-// 			this.y -= arg1;
-// 			this.z -= arg2;
-// 		}
-// 		else if(typeof arg0 == 'object') { // FPoint3
-// 			this.x -= arg0.x();
-// 			this.y -= arg0.y();
-// 			this.z -= arg0.z();
-// 		}
-// 		this.set(this.x, this.y, this.z);
-// 	};
-
-
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	Scale this point by a scalar
-// 	 *
-// 	 *	@param n
-// 	 *			the value to scale by
-// 	 */
-// 	this.scale = function(n) {
-// 		this.x *= n;
-// 		this.y *= n;
-// 		this.z *= n;
-// 		this.set(this.x, this.y, this.z);
-// 	};
-
-
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	Multiply each element of one point by the elements of another point.
-// 	 *
-// 	 *	@param arg0
-// 	 *			the FPoint3 to be multiplied
-// 	 */
-// 	/**
-// 	 *	Multiply each element of one point by the elements of another point.
-// 	 *
-// 	 *	@param arg0
-// 	 *			the x point to be multiplied
-// 	 *	@param arg1
-// 	 *			the y point to be multiplied
-// 	 *	@param arg2
-// 	 *			the z point to be multiplied
-// 	 */
-// 	this.mult = function(arg0, arg1, arg2) {
-// 		if(typeof arg0 == 'number') {
-// 			this.x *= arg0;
-// 			this.y *= arg1;
-// 			this.z *= arg2;
-// 		}
-// 		else if(typeof arg0 == 'object') { // FPoint3
-// 			this.x *= arg0.x();
-// 			this.y *= arg0.y();
-// 			this.z *= arg0.z();
-// 		}
-// 		this.set(this.x, this.y, this.z);
-// 	};
-
-
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	Divide each element of one point by the elements of another point.
-// 	 *
-// 	 *	@param arg0
-// 	 *			the FPoint3 to be divided
-// 	 */
-// 	/**
-// 	 *	Divide each element of one point by the elements of another point.
-// 	 *
-// 	 *	@param arg0
-// 	 *			the x point to be divided
-// 	 *	@param arg1
-// 	 *			the y point to be divided
-// 	 *	@param arg2
-// 	 *			the z point to be divided
-// 	 */
-// 	this.div = function(arg0, arg1, arg2) {
-// 		if(typeof arg0 == 'number') {
-// 			this.x /= arg0;
-// 			this.y /= arg1;
-// 			this.z /= arg2;
-// 		}
-// 		else if(typeof arg0 == 'object') { // FPoint3
-// 			this.x /= arg0.x();
-// 			this.y /= arg0.y();
-// 			this.z /= arg0.z();
-// 		}
-// 		this.set(this.x, this.y, this.z);
-// 	};
-
-
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	Calculate the Euclidean distance between two points (considering a point as a vector object)
-// 	 *
-// 	 *	@param _fpoint3
-// 	 *			another point
-// 	 *
-// 	 *	@return the Euclidean distance between
-// 	 */
-// 	this.getDistance = function(_fpoint3) {
-// 		var dx = this.x - _fpoint3.x();
-// 		var dy = this.y - _fpoint3.y();
-// 		var dz = this.z - _fpoint3.z();
-// 		return Math.sqrt(dx*dx + dy*dy + dz*dz);
-// 	};
-
-
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 * Calculate the angle between two points, using the dot product
-// 	 *
-// 	 * @param _fpoint3a
-// 	 *				a point
-// 	 * @param _fpoint3b
-// 	 *				another point
-// 	 *
-// 	 * @return the angle between the points
-// 	 */
-// 	this.angleBetween = function(_fpoint3a, _fpoint3b) {
-// 		var dot = _fpoint3a.x() * _fpoint3b.x() + _fpoint3a.y() * _fpoint3b.y() + _fpoint3a.z() * _fpoint3b.z();
-// 		var _f1mag = Math.sqrt(_fpoint3a.x() * _fpoint3a.x() + _fpoint3a.y() * _fpoint3a.y() + _fpoint3a.z() * _fpoint3a.z());
-// 		var _f2mag = Math.sqrt(_fpoint3b.x() * _fpoint3b.x() + _fpoint3b.y() * _fpoint3b.y() + _fpoint3b.z() * _fpoint3b.z());
-// 		return Math.acos(dot / (_f1mag * _f2mag));
-// 	};
-
-
-// 	// ------------------------------------------------------------------------
-// 	/**
-//   	 *	Normalize the point to length 1 (make it a unit point)
-// 	 */
-// 	this.normalize = function() {
-// 	    var m = this.mag();
-// 	    if (m != 0 && m != 1) {
-//    	  this.div(m);
-// 	    }
-// 	};
-
-
-// 	// ------------------------------------------------------------------------
-// 	this.toString = function() {
-// 		return '[ ' + this.x + ', ' + this.y + ', ' + this.z + ' ]';
-// 	};
-
-
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	Return a representation of this point as an array.
-// 	 */
-// 	this.array = function() {
-// 		return [this.x, this.y, this.z];
-// 	};
-
-// };
-
-
-
-// /*
-//  *
-//  *	FScene3.js
-//  *
-//  *	A barebones collection of classes for primitive 3D rendering
-//  *
-//  */
-
-
-
-// /**
-//  *
-//  *	TODO:	leave as is and accept or redo entire engine
-//  *			possibly look into using three.js as the engine
-//  *
-//  */
-// folio.F3D.FScene3D = this.FScene3D = function() {
-// 	// ------------------------------------------------------------------------
-// 	// Properties
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	private
-// 	 */
-// 	var _mode = 'PERSPECTIVE'; // default
-// 	var _matrix = null;
-
-// 	var _half = new folio.F3D.FSize3(0,0,0);
-
-// 	// transfomrations
-// 	var _sceneScale = 1;
-// 	var _rotation = new folio.F3D.FPoint3(0,0,0);
-
-// 	// items
-// 	var _numPoints = 0;
-// 	var _fpath3Arr = null;
-// 	var _groupBot = null;
-// 	var _groupTop = null;
-
-// 	/**
-// 	 *	public
-// 	 */
-// 	this.bounds = new folio.F3D.FSize3(0,0,0);
-
-// 	this.points3D = [];
-// 	this.points2D = [];
-
-
-
-// 	// ------------------------------------------------------------------------
-// 	// Methods
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	matrix for isometric projection
-// 	 *
-// 	 *	TODO: figure out why this has to be
-// 	 *	configured like this?
-// 	 */
-// 	this._ortho = function() {
-// 		_matrix.makeOrtho(
-// 			-_half.height,	// left
-// 			_half.height,	// right
-// 			_half.height,	// top
-// 			-_half.height,	// bottom
-// 			-_half.height,	// near
-// 			_half.height	// far
-// 		);
-// 	};
-
-// 	/**
-// 	 *	_perspective( for perspective projection
-// 	 */
-// 	this._perspective = function() {
-// 		_matrix.makePerspective(
-// 			50,		// fov
-// 			0.5 * this.bounds.width/this.bounds.height,	// aspect
-// 			_half.depth,		// near
-// 			this.bounds.depth*2	// far
-// 		);
-// 	};
-
-
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	@param width
-// 	 *				width of scene
-// 	 *				default: view.bounds.width
-// 	 *	@param height
-// 	 *				height of scene
-// 	 *				default: view.bounds.height
-// 	 *	@param focalLength
-// 	 *				focal length of scene
-// 	 *				default: 1000
-// 	 *	@param mode
-// 	 *				'PERSPECTIVE' objects scale to perspective
-// 	 *				'ORTHO' objects do not scale (isometric)
-// 	 *
-// 	 */
-// 	this.setup = function(width, height, focalLength, mode) {
-// 		// setup point arrays
-// 		this.points3D = [];
-// 		this.points2D = [];
-
-// 		// setup items array
-// 		_fpath3Arr = [];
-
-// 		// setup matrix
-// 		_matrix = new Matrix3D();
-
-// 		// setup world
-// 		this.bounds.width  = width || paper.view.bounds.width;
-// 		this.bounds.height = height || paper.view.bounds.height;
-// 		this.bounds.depth = focalLength || 1000;
-
-// 		_half.width = this.bounds.width*0.5;
-// 		_half.height = this.bounds.height*0.5;
-// 		_half.depth = this.bounds.depth*0.5;
-
-// 		// set mode
-// 		this.setMode(mode);
-
-// 		// setup up group for items
-// 		_groupBot = new Group();
-// 		_groupTop = new Group();
-// 	};
-
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	draws FPath3 objects
-// 	 *
-// 	 *	@return group of FPath3 objects
-// 	 *
-// 	 */
-// 	this.draw = function() {
-// 		// transformation matrix
-// 		_matrix.identity();
-
-// 		// set perspective mode
-// 		if(_mode == 'ORTHO') this._ortho();
-// 		else this._perspective();
-
-// 		// implement transformations
-// 		_matrix.scale(_sceneScale, _sceneScale, _sceneScale);
-// 		_matrix.rotateX( _rotation.x );
-// 		_matrix.rotateY( _rotation.y );
-// 		_matrix.rotateZ( _rotation.z );
-// 		_matrix.translate(0, 0, this.bounds.depth);
-
-// 		// transformed points
-// 		var transformed = _matrix.transformArray(this.points3D);
-
-// 		// cycle through transformed 3D points
-// 		// pull out screen 2D points
-// 		for(var i=0; i<_numPoints; i++) {
-// 			var i3 = i*3;
-// 			var i2 = i*2;
-
-// 			var x = transformed[ i3 ];
-// 			var y = transformed[ i3+1 ];
-// 			var z = transformed[ i3+2 ];
-
-// 			var scale = this.bounds.depth/(z+this.bounds.depth);
-
-// 			this.points2D[ i2 ]   = x*scale+_half.width;
-// 			this.points2D[ i2+1 ] = y*scale+_half.height;
-// 		}
-
-// 		// determine depth order of items
-// 		// very crude and rudimentary
-// 		var tindex = 0;
-// 		var depthArr = []; // temp array to correlate transformed points to items
-// 		for(var i=0; i<_fpath3Arr.length; i++) {
-// 			var fpath3 = _fpath3Arr[i];
-
-// 			var avgz = this.averageZ(
-// 				transformed,
-// 				tindex,
-// 				tindex+(fpath3._fpoints3.length*3)
-// 			);
-
-// 			var temp = {
-// 				index: i,
-// 				z: avgz
-// 			};
-// 			depthArr.push(temp);
-
-// 			tindex += (fpath3._fpoints3.length*3)-1;
-// 		}
-// 		depthArr.sort(compare);
-
-// 		// put the object into the group based on their z depth
-// 		_groupBot.removeChildren(); // clear out in between draws
-// 		_groupTop.removeChildren(); // clear out in between draws
-// 		for(var i=0; i<depthArr.length; i++) {
-// 			var path = _fpath3Arr[ depthArr[i].index ].get();
-
-// 			if(path.name == 'Z-TOP') _groupTop.appendTop( path );
-// 			else if(path.name == 'Z-BOTTOM') _groupBot.appendTop( path );
-// 			else if(path != null) _groupBot.appendTop( path );
-// 		}
-
-// 		// TODO: fix this scaling issue
-// 		if(_mode == 'ORTHO') {
-// 			_groupTop.scale(200, _groupBot.position);
-// 			_groupBot.scale(200, _groupBot.position);
-// 		}
-
-// 		return new Group( _groupBot,_groupTop );
-// 	};
-
-
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	@param arg0
-// 	 *				x coordinate
-// 	 *	@param arg1
-// 	 *				y coordinate
-// 	 *	@param arg2
-// 	 *				z coordinate
-// 	 *
-// 	 *	@return total number of points added to scene
-// 	 *
-// 	 */
-// 	this.setupPoint = function(arg0, arg1, arg2) {
-// 		var returnVal = _numPoints;
-
-// 		this.points2D[ this.points2D.length ] = 0;
-// 		this.points2D[ this.points2D.length ] = 0;
-
-// 		this.points3D[ this.points3D.length ] = arg0;
-// 		this.points3D[ this.points3D.length ] = arg1;
-// 		this.points3D[ this.points3D.length ] = arg2;
-
-// 		_numPoints++;
-
-// 		return returnVal;
-// 	};
-
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	@param pointsArr
-// 	 *				the array of points x[0], y[1], z[2]
-// 	 *	@param start
-// 	 *				start position in array
-// 	 *	@param stop
-// 	 *				stop position in array
-// 	 *
-// 	 *	@return average value of z
-// 	 *
-// 	 */
-// 	this.averageZ = function(pointsArr, start, stop) {
-// 		var avgz = 0;
-// 		for(var i=start; i<stop; i+=2) {
-// 		//	// console.log( 'x\t' + pointsArr[i] );
-// 		//	// console.log( 'y\t' + pointsArr[i+1] );
-// 		//	// console.log( 'z\t' + pointsArr[i+2] );
-// 			avgz += parseInt( pointsArr[i+2] );
-// 		}
-// 		var num = (stop-start)/3;
-// 		return avgz/num;
-// 	};
-
-// 	/**
-// 	 *
-// 	 *	comparator to sort object by z value
-// 	 *
-// 	 */
-// 	function compare(a,b) {
-// 		if (a.z < b.z) return -1;
-// 		if (a.z > b.z) return 1;
-// 		return 0;
-// 	};
-
-
-
-// 	// ------------------------------------------------------------------------
-// 	// Sets
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	@param mode
-// 	 *				'PERSPECTIVE' objects scale to perspective
-// 	 *				'ORTHO' objects do not scale (isometric)
-// 	 */
-// 	this.setMode = function(mode) {
-// 		_mode = mode != undefined ? mode : 'PERSPECTIVE';
-// 	};
-
-// 	/**
-// 	 *	@param item
-// 	 *			an FPath3 item to add to the scene
-// 	 */
-// 	/**
-// 	 *	@param item
-// 	 *			an array of FPath3 items to add to the scene
-// 	 */
-// 	this.addItem = function(item) {
-// 		if(item.length > 0) {
-// 			for(var i=0; i<item.length; i++) {
-// 				_fpath3Arr[ _fpath3Arr.length ] = item[i];
-// 				item[i].setScene(this);
-// 			}
-// 		}
-// 		else {
-// 			_fpath3Arr[ _fpath3Arr.length ] = item;
-// 			item.setScene(this);
-// 		}
-// 	};
-
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	@param val
-// 	 *			degree value for x axis rotation
-// 	 */
-// 	this.rotateX = function(val) {
-// 		_rotation.setX(val);
-// 	};
-
-// 	/**
-// 	 *	@param val
-// 	 *			degree value for y axis rotation
-// 	 */
-// 	this.rotateY = function(val) {
-// 		_rotation.setY(val);
-// 	};
-
-// 	/**
-// 	 *	@param val
-// 	 *			degree value for z axis rotation
-// 	 */
-// 	this.rotateZ = function(val) {
-// 		_rotation.setZ(val);
-// 	};
-
-
-
-// 	// ------------------------------------------------------------------------
-// 	// Gets
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *
-// 	 *	@return scene path items as _groupBot
-// 	 *
-// 	 */
-// 	this.get = function() {
-// 		return _groupBot;
-// 	};
-
-// 	/**
-// 	 *
-// 	 *	@return scene size as array [width, height, depth]
-// 	 *
-// 	 */
-// 	this.getBounds = function() {
-// 		return [ this.bounds.width, this.bounds.height, this.bounds.depth ];
-// 	};
-
-// 	/**
-// 	 *
-// 	 *	@return scene transformation _matrix
-// 	 *
-// 	 */
-// 	this.getMatrix = function() {
-// 		return _matrix;
-// 	};
-
-// 	/**
-// 	 *
-// 	 *	@return scene focal length (depth)
-// 	 *
-// 	 */
-// 	this.getFocalLength = function() {
-// 		return this.bounds.depth;
-// 	};
-
-// 	/**
-// 	 *
-// 	 *	@return scene scale
-// 	 *
-// 	 */
-// 	this.getScale = function() {
-// 		return _sceneScale;
-// 	};
-
-
-// };
-
-
-
-// /*
-//  *
-//  *	FSize3.js
-//  *
-//  *	A barebones collection of classes for primitive 3D rendering
-//  *
-//  */
-
-
-
-// /**
-//  *	TODO: finish this
-//  *
-//  *	@param arg0
-//  *			width
-//  *	@param arg1
-//  *			height
-//  *	@param arg2
-//  *			depth
-//  */
-// folio.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
-// 	/**
-// 	 *	public
-// 	 */
-// 	this.width = arg0 != undefined ? arg0 : 0;
-// 	this.height = arg1 != undefined ? arg1 : 0;
-// 	this.depth = arg2 != undefined ? arg2 : 0;
-
-
-
-// 	// ------------------------------------------------------------------------
-// 	// Sets
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *
-// 	 *	@param val
-// 	 *			set width value
-// 	 */
-// 	this.setWidth = function(val) {
-// 		this.width = val;
-// 	};
-
-// 	/**
-// 	 *
-// 	 *	@param val
-// 	 *			set height value
-// 	 */
-// 	this.setHeight = function(val) {
-// 		this.height = val;
-// 	};
-
-// 	/**
-// 	 *
-// 	 *	@param val
-// 	 *			set depth value
-// 	 */
-// 	this.setDepth = function(val) {
-// 		this.depth = val;
-// 	};
-
-// 	// ------------------------------------------------------------------------
-// 	this.set = function(arg0, arg1, arg2) {
-// 		this.setWidth(arg0);
-// 		this.setHeight(arg1);
-// 		this.setDepth(arg2);
-// 	};
-
-
-
-// 	// ------------------------------------------------------------------------
-// 	// Gets
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *	Get a copy of this size
-// 	 */
-// 	this.get = function() {
-// 		return new folio.F3D.FSize3(this.width, this.height, this.depth);
-// 	};
-
-
-// 	// ------------------------------------------------------------------------
-// 	/**
-// 	 *
-// 	 *	@return random size
-// 	 *
-// 	 */
-// 	/**
-// 	 *	@param minw
-// 	 *				minmum width (default: 0)
-// 	 *	@param maxw
-// 	 *				maximum width (default: view.bounds.width)
-// 	 *	@param minh
-// 	 *				minmum height (default: 0)
-// 	 *	@param maxh
-// 	 *				maximum height (default: view.bounds.height)
-// 	 *	@param mind
-// 	 *				minmum depth (default: 0)
-// 	 *	@param maxd
-// 	 *				maximum depth (default: 1000)
-// 	 *
-// 	 *	@return random size
-// 	 *
-// 	 */
-// 	this.random = function(minw, maxw, minh, maxh, mind, maxd) {
-// 		minw = (minw != undefined) ? minw : 0;
-// 		maxw = (maxw != undefined) ? maxw : view.bounds.width;
-// 		minh = (minh != undefined) ? minh : 0;
-// 		maxh = (maxh != undefined) ? maxh : view.bounds.height;
-// 		mind = (mind != undefined) ? mind : 0;
-// 		maxd = (maxd != undefined) ? maxd : 1000;
-
-// 		this.width = paper.random(minw, maxw);
-// 		this.height = paper.random(minh, maxh);
-// 		this.depth = paper.random(mind, maxd);
-// 		return this;
-// 	};
-
-// 	/**
-// 	 *
-// 	 *	@return volume
-// 	 *
-// 	 */
-// 	this.volume = function() {
-// 		return (this.width * this.height * this.depth);
-// 	};
-
-
-// };
+folio.F3D = {
+	// ------------------------------------------------------------------------
+	// Namespaces
+	// ------------------------------------------------------------------------
+	FScene3: {},
+
+	FPoint3: {},
+	FSize3: {},
+	FPath3: function() {},
+
+
+	// ------------------------------------------------------------------------
+	// Methods
+	// ------------------------------------------------------------------------
+};
+
+
+/*
+ *
+ *	FPath3.js
+ *
+ *	A barebones collection of classes for primitive 3D rendering
+ *
+ */
+
+
+
+folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
+	// ------------------------------------------------------------------------
+	// Properties
+	// ------------------------------------------------------------------------
+	_class: 'FPath3',
+	_serializeFields: {
+		segments: [],
+		closed: false,
+
+		// F3D
+		scene: null,
+		matrix: null,
+		size: null,
+		position3: null,
+		fpoints3: [],
+		rotation: null,
+		translation: null
+	},
+
+
+
+	// ------------------------------------------------------------------------
+	// Methods
+	// ------------------------------------------------------------------------
+	/**
+	 *
+	 *	@param scene
+	 *				the scene to attach this path to
+	 *
+	 */
+	initialize: function FPath3(scene) {
+		this._closed = false;
+		this._segments = [];
+
+		this._scene = scene;
+		this._matrix = new Matrix3D();
+		this._size = new folio.F3D.FSize3();
+		this._position3 = new folio.F3D.FPoint3();
+
+		// setup 3D points array
+		this._fpoints3 = [];
+
+		// setup transformation
+		this._rotation = new folio.F3D.FPoint3();
+		this._translation = new folio.F3D.FPoint3();
+
+		// set generic name
+		this.name = 'FPath3';
+
+		Path.call(this);
+
+		this._initialize();
+	},
+
+
+
+	// ------------------------------------------------------------------------
+	// Sets
+	// ------------------------------------------------------------------------
+	/**
+	 *	@param scene
+	 *			scene to associate points with
+	 */
+	setScene: function(scene) {
+		// the scene
+		this._scene = scene;
+
+		for(var i=0; i<this._fpoints3.length; i++) {
+			this._fpoints3[i].setup( this._scene );
+		}
+	},
+
+	/**
+	 *	@param _fpoint3
+	 *			add FPoint3 to path
+	 */
+	add3: function(fpoint3) {
+		this._fpoints3[ this._fpoints3.length ] = fpoint3;
+	},
+
+
+	// setSegments: function(segments) {
+	// }
+
+
+	// ------------------------------------------------------------------------
+	/**
+	 *	@param arg0
+	 *			FPoint3 for transformation
+	 */
+	/**
+	 *	@param arg0
+	 *			x point
+	 *	@param arg1
+	 *			y point
+	 *	@param arg2
+	 *			z point
+	 */
+	translate: function(arg0, arg1, arg2) {
+		if(typeof arg0 == 'number') {
+			this._translation.x = arg0;
+			this._translation.y = arg1;
+			this._translation.z = arg2;
+		}
+		else if(typeof arg0 == 'object') { // FPoint3
+			this._translation.x = arg0.x;
+			this._translation.y = arg0.y;
+			this._translation.z = arg0.z;
+		}
+		else {
+			this._translation.x = (arg0 != undefined)
+				? arg0
+				: 0;
+			this._translation.y = (arg1 != undefined)
+				? arg1
+				: 0;
+			this._translation.z = (arg2 != undefined)
+				? arg2
+				: 0;
+		}
+
+		for(var i=0; i<this._fpoints3.length; i++) {
+			var pt3 = this._fpoints3[i];
+			pt3.setX( (pt3.x + this._translation.x) );
+			pt3.setY( (pt3.y + this._translation.y) );
+			pt3.setZ( (pt3.z + this._translation.z) );
+		}
+	},
+
+	/**
+	 *	@param val
+	 *			degree value for x axis rotation
+	 */
+	rotateX:  function(val) {
+		this._rotation.x = val;
+	},
+
+	/**
+	 *	@param val
+	 *			degree value for y axis rotation
+	 */
+	rotateY:  function(val) {
+		this._rotation.y = val;
+	},
+
+	/**
+	 *	@param val
+	 *			degree value for z axis rotation
+	 */
+	rotateZ:  function(val) {
+		this._rotation.z = val;
+	},
+
+
+
+	// ------------------------------------------------------------------------
+	// Gets
+	// ------------------------------------------------------------------------
+	get: function() {
+		// clear segments
+		this._segments = [];
+
+		// push points into 2D path
+		for(var i=0; i<this._fpoints3.length; i++) {
+			var pt3 = this._fpoints3[i];
+			this.add(
+				new Point( pt3.x2D(), pt3.y2D() )
+			);
+		}
+		return this;
+	},
+
+
+// }, new function() { // Scope for drawing
+
+//	return {
+//		_draw: function(ctx, param) {
+//		},
+//	};
+
+// }, {
+
+// statics: {
+
+// }
+
+});
+
+/*
+ *
+ *	FPath3Constuctors.js
+ *
+ *	A collection of primitive 3D shapes for folio.F3D.FPath3
+ *
+ *	FBox
+ *	FSphere
+ *
+ */
+
+
+
+folio.F3D.FPath3.inject({
+
+	//-----------------------------------------------------------------------------
+	statics: new function() {
+		return {
+
+			/**
+			 *
+			 *	FBox
+			 *	Create simple box
+			 *
+			 *	@param {folio.F3D.FScene3D} scene
+			 *				the scene to attach the Box to
+			 *	@param {folio.F3D.FPoint3} fpoint3
+			 *		  		the position of the Box
+			 *	@param {folio.F3D.FSize3} fsize3
+			 *				the size of the Box
+			 *
+			 */
+			FBox: function(scene, fpoint3, fsize3) {
+				this._position3 = (fpoint3 != undefined)
+					? fpoint3
+					: new folio.F3D.FPoint3( 0,0,0 );
+
+				this._size = (fsize3 != undefined)
+					? fsize3
+					: new folio.F3D.FSize3( 10,10,10 );
+
+				var sides = new Array(6);
+				var faceFRONT = [
+					new folio.F3D.FPoint3(-0.5, -0.5, -0.5),	// corner
+					new folio.F3D.FPoint3( 0.5, -0.5, -0.5),	// corner
+					new folio.F3D.FPoint3( 0.5,	0.5, -0.5),	// corner
+					new folio.F3D.FPoint3(-0.5,	0.5, -0.5)	// corner
+				],
+					faceTOP = [
+					new folio.F3D.FPoint3(-0.5, -0.5,	0.5),	// corner
+					new folio.F3D.FPoint3( 0.5, -0.5,	0.5),	// corner
+					new folio.F3D.FPoint3( 0.5, -0.5, -0.5),	// corner
+					new folio.F3D.FPoint3(-0.5, -0.5, -0.5)	// corner
+				],
+					faceBOTTOM = [
+					new folio.F3D.FPoint3(-0.5, 0.5,	0.5),	// corner
+					new folio.F3D.FPoint3( 0.5, 0.5,	0.5),	// corner
+					new folio.F3D.FPoint3( 0.5, 0.5, -0.5),	// corner
+					new folio.F3D.FPoint3(-0.5, 0.5, -0.5)	// corner
+				],
+					faceLEFT = [
+					new folio.F3D.FPoint3(-0.5, -0.5, -0.5),	// corner
+					new folio.F3D.FPoint3(-0.5, -0.5,	0.5),	// corner
+					new folio.F3D.FPoint3(-0.5,	0.5,	0.5),	// corner
+					new folio.F3D.FPoint3(-0.5,	0.5, -0.5)	// corner
+				],
+					faceRIGHT = [
+					new folio.F3D.FPoint3( 0.5, -0.5, -0.5),	// corner
+					new folio.F3D.FPoint3( 0.5, -0.5,	0.5),	// corner
+					new folio.F3D.FPoint3( 0.5,	0.5,	0.5),	// corner
+					new folio.F3D.FPoint3( 0.5,	0.5, -0.5)	// corner
+				],
+					faceBACK = [
+					new folio.F3D.FPoint3(-0.5, -0.5,	0.5),	// corner
+					new folio.F3D.FPoint3( 0.5, -0.5,	0.5),	// corner
+					new folio.F3D.FPoint3( 0.5,	0.5,	0.5),	// corner
+					new folio.F3D.FPoint3(-0.5,	0.5,	0.5)	// corner
+				];
+
+				var faces = [
+					['front',	faceFRONT],
+					['top',		faceTOP],
+					['bottom',	faceBOTTOM],
+					['left',	faceLEFT],
+					['right',	faceRIGHT],
+					['back',	faceBACK]
+				];
+
+				var vertices = [];
+				for(var i=0; i<faces.length; i++) {
+					sides[i] = new folio.F3D.FPath3();
+					// sides[i].name = faces[i][0];
+					sides[i].name = 'Z-TOP'; // hack until FScene3D is fixed
+
+					vertices = faces[i][1];
+					for(var j=0; j<vertices.length; j++) {
+						sides[i].add3( new folio.F3D.FPoint3(
+							vertices[j].x * this._size.width,
+							vertices[j].y * this._size.height,
+							vertices[j].z * this._size.depth
+						));
+					}
+
+					// sides[i].fillColor = new Color( 0.0, 1.0, 0.7, 0.8 );
+					sides[i].closed = true;
+					sides[i].translate( fpoint3 );
+
+					scene.addItem( sides[i] );
+				}
+
+				return new Group(sides);
+			},
+
+			/**
+			 *
+			 *	FSphere
+			 *	Create simple sphere
+			 *
+			 *	@param {folio.F3D.FScene3D} scene
+			 *				the scene to attach the Sphere to
+			 *	@param {folio.F3D.FPoint3} fpoint3
+			 *		  		the position of the Sphere
+			 *	@param {folio.F3D.FSize3} radius
+			 *				the radius of the Sphere
+			 *	@param {Array} detail (optional)
+			 *				the longitude and latitude detail
+			 *				default: [6,6]
+			 *				*** anything over [21,21] and you should probably be using Three.js ***
+			 *
+			 */
+			FSphere: function(scene, fpoint3, radius, detail) {
+				this._position3 = (fpoint3 != undefined)
+					? fpoint3
+					: new folio.F3D.FPoint3( 0,0,0 );
+
+				this._size = (radius != undefined)
+					? new folio.F3D.FSize3( radius, radius, radius )
+					: new folio.F3D.FSize3( 10,10,10 );
+
+				var _c = 0.5;
+
+				var latlon;
+				if (detail != undefined) {
+					if (detail instanceof Array) {
+						latlon = detail;
+					}
+					else {
+						latlon = [detail, detail];
+					}
+				}
+				else {
+					latlon = [6,6];
+				}
+
+
+				var vertices = [];
+				for(var i=0; i<=latlon[0]; i++) {
+					var lat0 = (Math.PI * (-_c + ( (i-1)/latlon[0]) ));
+					var z0   = Math.sin(lat0);
+					var zr0  = Math.cos(lat0);
+
+					var lat1 = (Math.PI * (-_c + ( i/latlon[0]) ));
+					var z1   = Math.sin(lat1);
+					var zr1  = Math.cos(lat1);
+
+					for(var j=0; j<=latlon[1]; j++) {
+						var lng = ((Math.PI*2) * ( (j-1)/latlon[1] ));
+						var x = Math.cos(lng);
+						var y = Math.sin(lng);
+
+						vertices.push( new folio.F3D.FPoint3( x*zr0, y*zr0, z0 ) );
+						vertices.push( new folio.F3D.FPoint3( x*zr1, y*zr1, z1 ) );
+					} // _longs
+				} // _lats
+				var sides = new Array(vertices.length-2);
+
+				for(var i=0; i<vertices.length-2; i++) {
+					sides[i] = new folio.F3D.FPath3();
+					sides[i].name = 'face'+i;
+
+					sides[i].add3( new folio.F3D.FPoint3(
+						vertices[i].x*(this._size.width*0.5),
+						vertices[i].y*(this._size.height*0.5),
+						vertices[i].z*(this._size.depth*0.5)
+					));
+					sides[i].add3( new folio.F3D.FPoint3(
+						vertices[i+1].x*(this._size.width*0.5),
+						vertices[i+1].y*(this._size.height*0.5),
+						vertices[i+1].z*(this._size.depth*0.5)
+					));
+					sides[i].add3( new folio.F3D.FPoint3(
+						vertices[i+2].x*(this._size.width*0.5),
+						vertices[i+2].y*(this._size.height*0.5),
+						vertices[i+2].z*(this._size.depth*0.5)
+					));
+
+					// sides[i].fillColor = new Color( 0.0, 1.0, 0.7, 0.8 );
+					sides[i].closed = true;
+					sides[i].translate( fpoint3 );
+
+					scene.addItem( sides[i] );
+				}
+
+				return new Group(sides);
+			}
+
+
+		}; // end return
+
+	} // end statics:
+});
+
+
+/*
+ *
+ *	FPoint3.js
+ *
+ *	A barebones collection of classes for primitive 3D rendering
+ *
+ */
+
+
+
+/**
+ *	@param arg0
+ *			x coordinate
+ *	@param arg1
+ *			y coordinate
+ *	@param arg2
+ *			z coordinate
+ */
+folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
+	// ------------------------------------------------------------------------
+	// Properties
+	// ------------------------------------------------------------------------
+	/**
+	 *	private
+	 */
+	var _scene = null;
+
+	var _xIndex = 0;
+	var _yIndex = 0;
+	var _zIndex = 0;
+
+	var _xIndex2D = 0;
+	var _yIndex2D = 0;
+
+
+	/**
+	 *	public
+	 */
+	this.x = arg0 != undefined ? arg0 : 0;
+	this.y = arg1 != undefined ? arg1 : 0;
+	this.z = arg2 != undefined ? arg2 : 0;
+
+
+
+	// ------------------------------------------------------------------------
+	// Methods
+	// ------------------------------------------------------------------------
+	/**
+	 *	@param scene
+	 *			the scene with which the points are
+	 *			associated with
+	 */
+	this.setup = function(scene) {
+		// setup scene
+		_scene = scene;
+
+		var index = _scene.setupPoint(this.x, this.y, this.z);
+		var i3 = index*3;
+		var i2 = index*2;
+
+		// 3D indicies
+		_xIndex = i3;
+		_yIndex = i3+1;
+		_zIndex = i3+2;
+
+		// 2D indicies
+		_xIndex2D = i2;
+		_yIndex2D = i2+1;
+	};
+
+
+	// ------------------------------------------------------------------------
+	/**
+	 *
+	 *	@return random point
+	 *
+	 */
+	/**
+	 *	@param minx
+	 *				minmum x (default: 0)
+	 *	@param maxx
+	 *				maximum x (default: view.bounds.width)
+	 *	@param miny
+	 *				minmum y (default: 0)
+	 *	@param maxy
+	 *				maximum y (default: view.bounds.height)
+	 *	@param minz
+	 *				minmum z (default: 0)
+	 *	@param maxz
+	 *				maximum z (default: 1000)
+	 *
+	 *	@return random point
+	 *
+	 */
+	this.random = function(minx, maxx, miny, maxy, minz, maxz) {
+		minx = (minx != undefined) ? minx : 0;
+		maxx = (maxx != undefined) ? maxx : view.bounds.width;
+		miny = (miny != undefined) ? miny : 0;
+		maxy = (maxy != undefined) ? maxy : view.bounds.height;
+		minz = (minz != undefined) ? miny : 0;
+		maxz = (maxz != undefined) ? maxy : 1000;
+
+		this.x = paper.random(minx, maxx);
+		this.y = paper.random(miny, maxy);
+		this.z = paper.random(minz, maxz);
+
+		return new folio.F3D.FPoint3(this.x, this.y, this.z);
+	};
+
+
+
+	// ------------------------------------------------------------------------
+	// Sets
+	// ------------------------------------------------------------------------
+	/**
+	 *
+	 *	@param val
+	 *			set x value
+	 */
+	this.setX = function(val) {
+		if( _scene != null ) _scene.points3D[_xIndex] = val;
+		this.x = val;
+	};
+
+	/**
+	 *
+	 *	@param val
+	 *			set y value
+	 */
+	this.setY = function(val) {
+		if( _scene != null ) _scene.points3D[_yIndex] = val;
+		this.y = val;
+	};
+
+	/**
+	 *
+	 *	@param val
+	 *			set z value
+	 */
+	this.setZ = function(val) {
+		if( _scene != null ) _scene.points3D[_zIndex] = val;
+		this.z = val;
+	};
+
+	// ------------------------------------------------------------------------
+	this.set = function(arg0, arg1, arg2) {
+		this.setX(arg0);
+		this.setY(arg1);
+		this.setZ(arg2);
+	};
+
+
+
+	// ------------------------------------------------------------------------
+	// Gets
+	// ------------------------------------------------------------------------
+	/**
+	 *	@return a copy of this point
+	 */
+	this.get = function() {
+		return new folio.F3D.FPoint3(this.x, this.y, this.z);
+	};
+
+
+	// ------------------------------------------------------------------------
+	/**
+	 *	@return projected 2D x
+	 */
+	this.x2D = function() {
+		return _scene.points2D[_xIndex2D];
+	};
+
+	/**
+	 *	@return projected 2D y
+	 */
+	this.y2D = function() {
+		return _scene.points2D[_yIndex2D];
+	};
+
+	// ------------------------------------------------------------------------
+	this.getSceneIndex = function() {
+		return _sceneIndex;
+	};
+
+
+	// ------------------------------------------------------------------------
+	/**
+	 *	Calculate the magnitude (length) of the point
+	 *
+	 *	@return the magnitude of the point
+	 */
+	this.mag = function() {
+		return Math.sqrt(this.x*this.x + this.y*this.y + this.z*this.z);
+	};
+
+
+	// ------------------------------------------------------------------------
+	/**
+	 *	Add a point to this point
+	 *
+	 *	@param arg0
+	 *			the FPoint3 to be added
+	 */
+	/**
+	 *	Add a point to this point
+	 *
+	 *	@param arg0
+	 *			the x point to be added
+	 *	@param arg1
+	 *			the y point to be added
+	 *	@param arg2
+	 *			the z point to be added
+	 */
+	this.add = function(arg0, arg1, arg2) {
+		if(typeof arg0 == 'number') {
+			this.x += arg0;
+			this.y += arg1;
+			this.z += arg2;
+		}
+		else if(typeof arg0 == 'object') { // FPoint3
+			this.x += arg0.x();
+			this.y += arg0.y();
+			this.z += arg0.z();
+		}
+		this.set(this.x, this.y, this.z);
+	};
+
+
+	// ------------------------------------------------------------------------
+	/**
+	 *	Subtract a point to this point
+	 *
+	 *	@param arg0
+	 *			the FPoint3 to be subtracted
+	 */
+	/**
+	 *	Subtract a point to this point
+	 *
+	 *	@param arg0
+	 *			the x point to be subtracted
+	 *	@param arg1
+	 *			the y point to be subtracted
+	 *	@param arg2
+	 *			the z point to be subtracted
+	 */
+	this.sub = function(arg0, arg1, arg2) {
+		if(typeof arg0 == 'number') {
+			this.x -= arg0;
+			this.y -= arg1;
+			this.z -= arg2;
+		}
+		else if(typeof arg0 == 'object') { // FPoint3
+			this.x -= arg0.x();
+			this.y -= arg0.y();
+			this.z -= arg0.z();
+		}
+		this.set(this.x, this.y, this.z);
+	};
+
+
+	// ------------------------------------------------------------------------
+	/**
+	 *	Scale this point by a scalar
+	 *
+	 *	@param n
+	 *			the value to scale by
+	 */
+	this.scale = function(n) {
+		this.x *= n;
+		this.y *= n;
+		this.z *= n;
+		this.set(this.x, this.y, this.z);
+	};
+
+
+	// ------------------------------------------------------------------------
+	/**
+	 *	Multiply each element of one point by the elements of another point.
+	 *
+	 *	@param arg0
+	 *			the FPoint3 to be multiplied
+	 */
+	/**
+	 *	Multiply each element of one point by the elements of another point.
+	 *
+	 *	@param arg0
+	 *			the x point to be multiplied
+	 *	@param arg1
+	 *			the y point to be multiplied
+	 *	@param arg2
+	 *			the z point to be multiplied
+	 */
+	this.mult = function(arg0, arg1, arg2) {
+		if(typeof arg0 == 'number') {
+			this.x *= arg0;
+			this.y *= arg1;
+			this.z *= arg2;
+		}
+		else if(typeof arg0 == 'object') { // FPoint3
+			this.x *= arg0.x();
+			this.y *= arg0.y();
+			this.z *= arg0.z();
+		}
+		this.set(this.x, this.y, this.z);
+	};
+
+
+	// ------------------------------------------------------------------------
+	/**
+	 *	Divide each element of one point by the elements of another point.
+	 *
+	 *	@param arg0
+	 *			the FPoint3 to be divided
+	 */
+	/**
+	 *	Divide each element of one point by the elements of another point.
+	 *
+	 *	@param arg0
+	 *			the x point to be divided
+	 *	@param arg1
+	 *			the y point to be divided
+	 *	@param arg2
+	 *			the z point to be divided
+	 */
+	this.div = function(arg0, arg1, arg2) {
+		if(typeof arg0 == 'number') {
+			this.x /= arg0;
+			this.y /= arg1;
+			this.z /= arg2;
+		}
+		else if(typeof arg0 == 'object') { // FPoint3
+			this.x /= arg0.x();
+			this.y /= arg0.y();
+			this.z /= arg0.z();
+		}
+		this.set(this.x, this.y, this.z);
+	};
+
+
+	// ------------------------------------------------------------------------
+	/**
+	 *	Calculate the Euclidean distance between two points (considering a point as a vector object)
+	 *
+	 *	@param _fpoint3
+	 *			another point
+	 *
+	 *	@return the Euclidean distance between
+	 */
+	this.getDistance = function(_fpoint3) {
+		var dx = this.x - _fpoint3.x();
+		var dy = this.y - _fpoint3.y();
+		var dz = this.z - _fpoint3.z();
+		return Math.sqrt(dx*dx + dy*dy + dz*dz);
+	};
+
+
+	// ------------------------------------------------------------------------
+	/**
+	 * Calculate the angle between two points, using the dot product
+	 *
+	 * @param _fpoint3a
+	 *				a point
+	 * @param _fpoint3b
+	 *				another point
+	 *
+	 * @return the angle between the points
+	 */
+	this.angleBetween = function(_fpoint3a, _fpoint3b) {
+		var dot = _fpoint3a.x() * _fpoint3b.x() + _fpoint3a.y() * _fpoint3b.y() + _fpoint3a.z() * _fpoint3b.z();
+		var _f1mag = Math.sqrt(_fpoint3a.x() * _fpoint3a.x() + _fpoint3a.y() * _fpoint3a.y() + _fpoint3a.z() * _fpoint3a.z());
+		var _f2mag = Math.sqrt(_fpoint3b.x() * _fpoint3b.x() + _fpoint3b.y() * _fpoint3b.y() + _fpoint3b.z() * _fpoint3b.z());
+		return Math.acos(dot / (_f1mag * _f2mag));
+	};
+
+
+	// ------------------------------------------------------------------------
+	/**
+  	 *	Normalize the point to length 1 (make it a unit point)
+	 */
+	this.normalize = function() {
+		var m = this.mag();
+		if (m != 0 && m != 1) {
+   	  this.div(m);
+		}
+	};
+
+
+	// ------------------------------------------------------------------------
+	this.toString = function() {
+		return '[ ' + this.x + ', ' + this.y + ', ' + this.z + ' ]';
+	};
+
+
+	// ------------------------------------------------------------------------
+	/**
+	 *	Return a representation of this point as an array.
+	 */
+	this.array = function() {
+		return [this.x, this.y, this.z];
+	};
+
+};
+
+
+
+/*
+ *
+ *	FScene3.js
+ *
+ *	A barebones collection of classes for primitive 3D rendering
+ *
+ */
+
+
+
+/**
+ *
+ *	TODO:	leave as is and accept or redo entire engine
+ *			possibly look into using three.js as the engine
+ *
+ */
+folio.F3D.FScene3D = this.FScene3D = function() {
+	// ------------------------------------------------------------------------
+	// Properties
+	// ------------------------------------------------------------------------
+	/**
+	 *	private
+	 */
+	var _mode = 'PERSPECTIVE'; // default
+	var _matrix = null;
+
+	var _half = new folio.F3D.FSize3(0,0,0);
+
+	// transfomrations
+	var _sceneScale = 1;
+	var _rotation = new folio.F3D.FPoint3(0,0,0);
+
+	// items
+	var _numPoints = 0;
+	var _fpath3Arr = null;
+	var _groupBot = null;
+	var _groupTop = null;
+
+	/**
+	 *	public
+	 */
+	this.bounds = new folio.F3D.FSize3(0,0,0);
+
+	this.points3D = [];
+	this.points2D = [];
+
+
+
+	// ------------------------------------------------------------------------
+	// Methods
+	// ------------------------------------------------------------------------
+	/**
+	 *	matrix for isometric projection
+	 *
+	 *	TODO: figure out why this has to be
+	 *	configured like this?
+	 */
+	this._ortho = function() {
+		_matrix.makeOrtho(
+			-_half.height,	// left
+			_half.height,	// right
+			_half.height,	// top
+			-_half.height,	// bottom
+			-_half.height,	// near
+			_half.height	// far
+		);
+	};
+
+	/**
+	 *	_perspective( for perspective projection
+	 */
+	this._perspective = function() {
+		_matrix.makePerspective(
+			50,		// fov
+			0.5 * this.bounds.width/this.bounds.height,	// aspect
+			_half.depth,		// near
+			this.bounds.depth*2	// far
+		);
+	};
+
+
+	// ------------------------------------------------------------------------
+	/**
+	 *	@param width
+	 *				width of scene
+	 *				default: view.bounds.width
+	 *	@param height
+	 *				height of scene
+	 *				default: view.bounds.height
+	 *	@param focalLength
+	 *				focal length of scene
+	 *				default: 1000
+	 *	@param mode
+	 *				'PERSPECTIVE' objects scale to perspective
+	 *				'ORTHO' objects do not scale (isometric)
+	 *
+	 */
+	this.setup = function(width, height, focalLength, mode) {
+		// setup point arrays
+		this.points3D = [];
+		this.points2D = [];
+
+		// setup items array
+		_fpath3Arr = [];
+
+		// setup matrix
+		_matrix = new Matrix3D();
+
+		// setup world
+		this.bounds.width  = width || paper.view.bounds.width;
+		this.bounds.height = height || paper.view.bounds.height;
+		this.bounds.depth = focalLength || 1000;
+
+		_half.width = this.bounds.width*0.5;
+		_half.height = this.bounds.height*0.5;
+		_half.depth = this.bounds.depth*0.5;
+
+		// set mode
+		this.setMode(mode);
+
+		// setup up group for items
+		_groupBot = new Group();
+		_groupTop = new Group();
+	};
+
+	// ------------------------------------------------------------------------
+	/**
+	 *	draws FPath3 objects
+	 *
+	 *	@return group of FPath3 objects
+	 *
+	 */
+	this.draw = function() {
+		// transformation matrix
+		_matrix.identity();
+
+		// set perspective mode
+		if(_mode == 'ORTHO') this._ortho();
+		else this._perspective();
+
+		// implement transformations
+		_matrix.scale(_sceneScale, _sceneScale, _sceneScale);
+		_matrix.rotateX( _rotation.x );
+		_matrix.rotateY( _rotation.y );
+		_matrix.rotateZ( _rotation.z );
+		_matrix.translate(0, 0, this.bounds.depth);
+
+		// transformed points
+		var transformed = _matrix.transformArray(this.points3D);
+
+		// cycle through transformed 3D points
+		// pull out screen 2D points
+		for(var i=0; i<_numPoints; i++) {
+			var i3 = i*3;
+			var i2 = i*2;
+
+			var x = transformed[ i3 ];
+			var y = transformed[ i3+1 ];
+			var z = transformed[ i3+2 ];
+
+			var scale = this.bounds.depth/(z+this.bounds.depth);
+
+			this.points2D[ i2 ]   = x*scale+_half.width;
+			this.points2D[ i2+1 ] = y*scale+_half.height;
+		}
+
+		// determine depth order of items
+		// very crude and rudimentary
+		var tindex = 0;
+		var depthArr = []; // temp array to correlate transformed points to items
+		for(var i=0; i<_fpath3Arr.length; i++) {
+			var fpath3 = _fpath3Arr[i];
+
+			var avgz = this.averageZ(
+				transformed,
+				tindex,
+				tindex+(fpath3._fpoints3.length*3)
+			);
+
+			var temp = {
+				index: i,
+				z: avgz
+			};
+			depthArr.push(temp);
+
+			tindex += (fpath3._fpoints3.length*3)-1;
+		}
+		depthArr.sort(compare);
+
+		// put the object into the group based on their z depth
+		_groupBot.removeChildren(); // clear out in between draws
+		_groupTop.removeChildren(); // clear out in between draws
+		for(var i=0; i<depthArr.length; i++) {
+			var path = _fpath3Arr[ depthArr[i].index ].get();
+
+			if(path.name == 'Z-TOP') _groupTop.appendTop( path );
+			else if(path.name == 'Z-BOTTOM') _groupBot.appendTop( path );
+			else if(path != null) _groupBot.appendTop( path );
+		}
+
+		// TODO: fix this scaling issue
+		if(_mode == 'ORTHO') {
+			_groupTop.scale(200, _groupBot.position);
+			_groupBot.scale(200, _groupBot.position);
+		}
+
+		return new Group( _groupBot,_groupTop );
+	};
+
+
+	// ------------------------------------------------------------------------
+	/**
+	 *	@param arg0
+	 *				x coordinate
+	 *	@param arg1
+	 *				y coordinate
+	 *	@param arg2
+	 *				z coordinate
+	 *
+	 *	@return total number of points added to scene
+	 *
+	 */
+	this.setupPoint = function(arg0, arg1, arg2) {
+		var returnVal = _numPoints;
+
+		this.points2D[ this.points2D.length ] = 0;
+		this.points2D[ this.points2D.length ] = 0;
+
+		this.points3D[ this.points3D.length ] = arg0;
+		this.points3D[ this.points3D.length ] = arg1;
+		this.points3D[ this.points3D.length ] = arg2;
+
+		_numPoints++;
+
+		return returnVal;
+	};
+
+	// ------------------------------------------------------------------------
+	/**
+	 *	@param pointsArr
+	 *				the array of points x[0], y[1], z[2]
+	 *	@param start
+	 *				start position in array
+	 *	@param stop
+	 *				stop position in array
+	 *
+	 *	@return average value of z
+	 *
+	 */
+	this.averageZ = function(pointsArr, start, stop) {
+		var avgz = 0;
+		for(var i=start; i<stop; i+=2) {
+		//	// console.log( 'x\t' + pointsArr[i] );
+		//	// console.log( 'y\t' + pointsArr[i+1] );
+		//	// console.log( 'z\t' + pointsArr[i+2] );
+			avgz += parseInt( pointsArr[i+2] );
+		}
+		var num = (stop-start)/3;
+		return avgz/num;
+	};
+
+	/**
+	 *
+	 *	comparator to sort object by z value
+	 *
+	 */
+	function compare(a,b) {
+		if (a.z < b.z) return -1;
+		if (a.z > b.z) return 1;
+		return 0;
+	};
+
+
+
+	// ------------------------------------------------------------------------
+	// Sets
+	// ------------------------------------------------------------------------
+	/**
+	 *	@param mode
+	 *				'PERSPECTIVE' objects scale to perspective
+	 *				'ORTHO' objects do not scale (isometric)
+	 */
+	this.setMode = function(mode) {
+		_mode = mode != undefined ? mode : 'PERSPECTIVE';
+	};
+
+	/**
+	 *	@param item
+	 *			an FPath3 item to add to the scene
+	 */
+	/**
+	 *	@param item
+	 *			an array of FPath3 items to add to the scene
+	 */
+	this.addItem = function(item) {
+		if(item.length > 0) {
+			for(var i=0; i<item.length; i++) {
+				_fpath3Arr[ _fpath3Arr.length ] = item[i];
+				item[i].setScene(this);
+			}
+		}
+		else {
+			_fpath3Arr[ _fpath3Arr.length ] = item;
+			item.setScene(this);
+		}
+	};
+
+	// ------------------------------------------------------------------------
+	/**
+	 *	@param val
+	 *			degree value for x axis rotation
+	 */
+	this.rotateX = function(val) {
+		_rotation.setX(val);
+	};
+
+	/**
+	 *	@param val
+	 *			degree value for y axis rotation
+	 */
+	this.rotateY = function(val) {
+		_rotation.setY(val);
+	};
+
+	/**
+	 *	@param val
+	 *			degree value for z axis rotation
+	 */
+	this.rotateZ = function(val) {
+		_rotation.setZ(val);
+	};
+
+
+
+	// ------------------------------------------------------------------------
+	// Gets
+	// ------------------------------------------------------------------------
+	/**
+	 *
+	 *	@return scene path items as _groupBot
+	 *
+	 */
+	this.get = function() {
+		return _groupBot;
+	};
+
+	/**
+	 *
+	 *	@return scene size as array [width, height, depth]
+	 *
+	 */
+	this.getBounds = function() {
+		return [ this.bounds.width, this.bounds.height, this.bounds.depth ];
+	};
+
+	/**
+	 *
+	 *	@return scene transformation _matrix
+	 *
+	 */
+	this.getMatrix = function() {
+		return _matrix;
+	};
+
+	/**
+	 *
+	 *	@return scene focal length (depth)
+	 *
+	 */
+	this.getFocalLength = function() {
+		return this.bounds.depth;
+	};
+
+	/**
+	 *
+	 *	@return scene scale
+	 *
+	 */
+	this.getScale = function() {
+		return _sceneScale;
+	};
+
+
+};
+
+
+
+/*
+ *
+ *	FSize3.js
+ *
+ *	A barebones collection of classes for primitive 3D rendering
+ *
+ */
+
+
+
+/**
+ *	TODO: finish this
+ *
+ *	@param arg0
+ *			width
+ *	@param arg1
+ *			height
+ *	@param arg2
+ *			depth
+ */
+folio.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
+	/**
+	 *	public
+	 */
+	this.width = arg0 != undefined ? arg0 : 0;
+	this.height = arg1 != undefined ? arg1 : 0;
+	this.depth = arg2 != undefined ? arg2 : 0;
+
+
+
+	// ------------------------------------------------------------------------
+	// Sets
+	// ------------------------------------------------------------------------
+	/**
+	 *
+	 *	@param val
+	 *			set width value
+	 */
+	this.setWidth = function(val) {
+		this.width = val;
+	};
+
+	/**
+	 *
+	 *	@param val
+	 *			set height value
+	 */
+	this.setHeight = function(val) {
+		this.height = val;
+	};
+
+	/**
+	 *
+	 *	@param val
+	 *			set depth value
+	 */
+	this.setDepth = function(val) {
+		this.depth = val;
+	};
+
+	// ------------------------------------------------------------------------
+	this.set = function(arg0, arg1, arg2) {
+		this.setWidth(arg0);
+		this.setHeight(arg1);
+		this.setDepth(arg2);
+	};
+
+
+
+	// ------------------------------------------------------------------------
+	// Gets
+	// ------------------------------------------------------------------------
+	/**
+	 *	Get a copy of this size
+	 */
+	this.get = function() {
+		return new folio.F3D.FSize3(this.width, this.height, this.depth);
+	};
+
+
+	// ------------------------------------------------------------------------
+	/**
+	 *
+	 *	@return random size
+	 *
+	 */
+	/**
+	 *	@param minw
+	 *				minmum width (default: 0)
+	 *	@param maxw
+	 *				maximum width (default: view.bounds.width)
+	 *	@param minh
+	 *				minmum height (default: 0)
+	 *	@param maxh
+	 *				maximum height (default: view.bounds.height)
+	 *	@param mind
+	 *				minmum depth (default: 0)
+	 *	@param maxd
+	 *				maximum depth (default: 1000)
+	 *
+	 *	@return random size
+	 *
+	 */
+	this.random = function(minw, maxw, minh, maxh, mind, maxd) {
+		minw = (minw != undefined) ? minw : 0;
+		maxw = (maxw != undefined) ? maxw : view.bounds.width;
+		minh = (minh != undefined) ? minh : 0;
+		maxh = (maxh != undefined) ? maxh : view.bounds.height;
+		mind = (mind != undefined) ? mind : 0;
+		maxd = (maxd != undefined) ? maxd : 1000;
+
+		this.width = paper.random(minw, maxw);
+		this.height = paper.random(minh, maxh);
+		this.depth = paper.random(mind, maxd);
+		return this;
+	};
+
+	/**
+	 *
+	 *	@return volume
+	 *
+	 */
+	this.volume = function() {
+		return (this.width * this.height * this.depth);
+	};
+
+
+};
 
 
 
@@ -5757,9 +5782,9 @@ folio.FCirclePacker = function(circleItems, iterations) {
 
 /**
  *	@param  {PathItem} items
- *	       	an array of PathItems
+ *		   	an array of PathItems
  *	@param  {Number} iterations (optional)
- *	       	tests per frame (higher = better) default: 1000
+ *		   	tests per frame (higher = better) default: 1000
  *
  *	@return {Array} an array of indices for the route through the input items
  *
