@@ -1,8 +1,8 @@
 /*
  *
- *	Core.js
+ *  Core.js
  *
- *	Core Methods and a collection of extensions for paper globally
+ *  Core Methods and a collection of extensions for paper globally
  *
  */
 
@@ -20,7 +20,7 @@ folio = {
 
 /**
  *
- *	Global Scope (Paper.js core)
+ *  Global Scope (Paper.js core)
  *
  */
 PaperScope.inject({
@@ -31,23 +31,23 @@ PaperScope.inject({
 	// Methods
 	//-----------------------------------------------------------------------------
 	/**
-	 *	Java style println output
+	 *  Java style println output
 	 *
-	 *	@param {Object} obj
-	 *				any Javascript Object
+	 *  @param {Object} obj
+	 *              any Javascript Object
 	 */
 	println: function(obj) {
-		console.log( obj );
-		console.log( '\n' );
+		console.log(obj);
+		console.log('\n');
 	},
 
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	@param {Boolean} val
-	 *			input boolean value
+	 *  @param {Boolean} val
+	 *          input boolean value
 	 *
-	 *	@return {Number} val as integer
+	 *  @return {Number} val as integer
 	 *
 	 */
 	boolToInt: function(val) {
@@ -57,10 +57,10 @@ PaperScope.inject({
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	@param {Number} val
-	 *			input number value
+	 *  @param {Number} val
+	 *          input number value
 	 *
-	 *	@return {Number} val as boolean
+	 *  @return {Number} val as boolean
 	 *
 	 */
 	numToBool: function(val) {
@@ -70,14 +70,14 @@ PaperScope.inject({
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	@param {Object} object
-	 *			object whose type to determine
+	 *  @param {Object} object
+	 *          object whose type to determine
 	 *
-	 *	@return {String} Paper.js object type
+	 *  @return {String} Paper.js object type
 	 *
 	 */
 	getType: function(object) {
-		if( typeof object == 'object' ) {
+		if (typeof object == 'object') {
 			if (object instanceof paper.Point) return 'Point';
 			else if (object instanceof paper.Size) return 'Size';
 			else if (object instanceof paper.Rectangle) return 'Rectangle';
@@ -89,7 +89,7 @@ PaperScope.inject({
 			else if (object instanceof paper.CompoundPath) return 'CompoundPath';
 			else if (object instanceof paper.Symbol) return 'Symbol';
 			else if (object instanceof paper.TextItem) return 'TextItem';
-			else return 'undefined'
+			else return 'undefined';
 		}
 		else {
 			return typeof object;
@@ -98,38 +98,38 @@ PaperScope.inject({
 
 	/**
 	 *
-	 *	@param {Array} items
-	 *			Array of items to go through
-	 *	@param {String} name
-	 *			name of Item to find
+	 *  @param {Array} items
+	 *          Array of items to go through
+	 *  @param {String} name
+	 *          name of Item to find
 	 *
-	 *	@return {Path} path with the name that matches
+	 *  @return {Path} path with the name that matches
 	 *
 	 */
 	findByName: function(items, name) {
 		var path;
-		for(var i=0; i<items.length; i++) {
+		for (var i = 0; i < items.length; i++) {
 			var item = items[i];
-			if(item.name == name) path = item; // break;
+			if (item.name == name) path = item; // break;
 		}
 		return path;
 	},
 
 	/**
 	 *
-	 *	@param {Array} items
-	 *			Array of items to go through
-	 *	@param {Number} name
-	 *			name of Item to find
+	 *  @param {Array} items
+	 *          Array of items to go through
+	 *  @param {Number} name
+	 *          name of Item to find
 	 *
-	 *	@return {Path} path with the id that matches
+	 *  @return {Path} path with the id that matches
 	 *
 	 */
 	findById: function(items, id) {
 		var path;
-		for(var i=0; i<items.length; i++) {
+		for (var i = 0; i < items.length; i++) {
 			var item = items[i];
-			if(item.id == id) path = item; // break;
+			if (item.id == id) path = item; // break;
 		}
 		return path;
 	}
