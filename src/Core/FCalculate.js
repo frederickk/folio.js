@@ -80,8 +80,8 @@ PaperScope.inject({
 		var _map = [90.0, 9.00, 4.00, 2.33, 1.50, 1.00, 0.66, 0.43, 0.25, 0.11, 0.01];
 		bias = Math.max(0, Math.min(bias, 1)) * 10;
 
-		var i = parseInt(Math.floor(bias))
-		var n = _map[i]
+		var i = parseInt(Math.floor(bias));
+		var n = _map[i];
 		if(bias < 10) n += (_map[i+1]-n) * (bias-i);
 
 		return Math.pow( Math.random(),n ) * (maxr-minr) + minr;
@@ -98,7 +98,8 @@ PaperScope.inject({
 	 *	@param {Number} max
 	 *				maximum limit
 	 *
-	 *	@return {Number} original value that is not less than the minimum and no greater than the maximum
+	 *	@return {Number} original value that is not less than the
+	 *	                 minimum and no greater than the maximum
 	 *
 	 *	@example
 	 *	var clamped = clamp(120, 0, 90); // 90
@@ -239,7 +240,6 @@ PaperScope.inject({
 	 *	divisor(12) = [1, 2, 3, 4, 6, 12]
 	 */
 	divisor: function(val) {
-		// if (va; < 1) throw 'Argument error';
 		var small = [];
 		var large = [];
 		var end = Math.floor(Math.sqrt(val));
@@ -247,7 +247,7 @@ PaperScope.inject({
 			if (val % i == 0) {
 				small.push(i);
 				if (i * i != val) {
-					large.push(val / i); // Don't include a square root twice
+					large.push(val / i);
 				}
 			}
 		}
@@ -410,7 +410,7 @@ PaperScope.inject({
 			arg1.position.y + r2 * Math.sin(angle1 - angle2)
 		);
 
-		return [pt1, pt2, pt3, pt4]
+		return [pt1, pt2, pt3, pt4];
 	}
 
 
