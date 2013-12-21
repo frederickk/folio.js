@@ -49,8 +49,6 @@ paper.Item.inject({
 
 	//-----------------------------------------------------------------------------
 	/**
-	 * {@grouptitle Position and Bounding Boxes}
-	 *
 	 *	Returns the distance between the item and the center of the canvas/artboard
 	 *
 	 *	@return {Number}
@@ -291,7 +289,7 @@ paper.Path.inject({
 	// },
 
 	/**
-	 *	@param b
+	 *	@param {} xb
 	 *			array of barycentric coordinates
 	 */
 	// TODO: currently implementation returns false point
