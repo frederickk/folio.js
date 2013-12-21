@@ -116,8 +116,6 @@ paper.Point.inject({
 	},
 
 	/**
-	 *	{@grouptitle Distance & Length}
-	 *
 	 *	Returns the distance between the point and the center of the canvas
 	 *
 	 *	@return {Number}
@@ -205,8 +203,6 @@ paper.Point.inject({
 	// },
 
 	/**
-	 *	{@grouptitle Vector Math Functions}
-	 *
 	 *	@return {Number} vector mag squared
 	 *
 	 *	@example

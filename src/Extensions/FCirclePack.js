@@ -29,6 +29,8 @@
  *	@param {Number} iterations
  *					(optional) number of iterations per cycle (default: 11)
  *
+ *  @return {Array}
+ *
  */
 folio.FCirclePacker = function(circleItems, iterations) {
 	// ------------------------------------------------------------------------
@@ -106,7 +108,7 @@ folio.FCirclePacker = function(circleItems, iterations) {
 
 		for (var i = 0; i < circleItems.length; i++) {
 			var c = circleItems[i];
-			var cPt = c.position
+			var cPt = c.position;
 			// if(c == this.dragCircle) continue;
 			pp.x = cPt.x - artboard.bounds.center.x;
 			pp.y = cPt.y - artboard.bounds.center.y;
@@ -193,7 +195,7 @@ folio.FCirclePacker = function(circleItems, iterations) {
 	/**
 	 *	could be dangerous
 	 *
-	 *	@return the Array of items being packed
+	 *	@return {Array} the items being packed
 	 */
 	var getItems = function() {
 		return circleItems;
@@ -202,7 +204,10 @@ folio.FCirclePacker = function(circleItems, iterations) {
 	/**
 	 *	could be dangerous
 	 *
-	 *	@return an Item from the Array of items being packed
+	 * @param {Number} index
+	 *        	index number of Item being packed
+	 *
+	 *	@return {Item} Item from items being packed
 	 */
 	var getItem = function(index) {
 		return circleItems[index];
@@ -225,3 +230,4 @@ folio.FCirclePacker = function(circleItems, iterations) {
 	};
 
 };
+

@@ -24,7 +24,7 @@
  *	@param  {Number} iterations (optional)
  *		   	tests per frame (higher = better) default: 1000
  *
- *	@return {Array} an array of indices for the route through the input items
+ *	@return {Array}
  *
  */
 folio.FRoute = function(items, iterations) {
@@ -118,7 +118,7 @@ folio.FRoute = function(items, iterations) {
 					RouteStep++;
 				}
 				else {
-					console.log("Now optimizing plot path" );
+					console.log('Now optimizing plot path');
 				}
 			}
 
