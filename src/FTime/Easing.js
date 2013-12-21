@@ -86,6 +86,8 @@ folio.FTime.Ease = function() {
 	 *	);
 	 *	spline.get(t) // returns the normalized easing value | t must be in [0, 1] range
 	 *
+	 * @return {Array}
+	 *
 	 */
 	function KeySpline(arg0, arg1) {
 		var values;
@@ -114,7 +116,7 @@ folio.FTime.Ease = function() {
 		 *	@param {Number} arg1
 		 *					x2 or y2
 		 *
-		 *	@return x(t)
+		 *	@return {Number} x(t)
 		 *
 		 */
 		function CalcBezier(t, arg0, arg1) {
@@ -129,7 +131,7 @@ folio.FTime.Ease = function() {
 		 *	@param {Number} arg1
 		 *					x2 or y2
 		 *
-		 *	@return dx/dt
+		 *	@return {Number} dx/dt
 		 *
 		 */
 		function GetSlope(t, arg0, arg1) {
@@ -165,7 +167,7 @@ folio.FTime.Ease = function() {
 
 	// public
 	return {
-		/**
+		/*
 		 *	see http://easings.net/de for visual examples
 		 *	of each spline method
 		 */
