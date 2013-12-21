@@ -53,7 +53,7 @@ folio.FRoute = function(items, iterations) {
 			//	by flagging nodes that will be shown.
 			//	console.log("Optimizing plotting path");
 			var RouteNodesLength = 0;
-			var RouteNodesTemp = new Array(items.length);
+			var RouteNodesTemp = [items.length];
 
 			for(var i=0; i<items.length; ++i) {
 
@@ -72,7 +72,7 @@ folio.FRoute = function(items, iterations) {
 			}
 
 			// These are the ONLY points to be drawn in the tour.
-			RouteNodes = new Array(RouteNodesLength);
+			RouteNodes = [RouteNodesLength];
 			var tempCounter = 0;
 			for(var i=0; i<items.length; ++i) {
 				if(RouteNodesTemp[i]) {

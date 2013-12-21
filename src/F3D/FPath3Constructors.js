@@ -39,7 +39,7 @@ folio.F3D.FPath3.inject({
 					? fsize3
 					: new folio.F3D.FSize3( 10,10,10 );
 
-				var sides = new Array(6);
+				var sides = [6];
 				var faceFRONT = [
 					new folio.F3D.FPoint3(-0.5, -0.5, -0.5),	// corner
 					new folio.F3D.FPoint3( 0.5, -0.5, -0.5),	// corner
@@ -172,7 +172,7 @@ folio.F3D.FPath3.inject({
 						vertices.push( new folio.F3D.FPoint3( x*zr1, y*zr1, z1 ) );
 					} // _longs
 				} // _lats
-				var sides = new Array(vertices.length-2);
+				var sides = [vertices.length-2];
 
 				for(var i=0; i<vertices.length-2; i++) {
 					sides[i] = new folio.F3D.FPath3();

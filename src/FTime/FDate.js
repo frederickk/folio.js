@@ -203,7 +203,7 @@ folio.FTime.FDate = function() {
 	 */
 	this.get = function(ms, format) {
 		var disp;
-		if( format === undefined ) disp = new Array(true, true, true);
+		if( format === undefined ) disp = [true, true, true];
 		else disp = format;
 
 		var seconds = parseInt( (ms / 1000) % 60 );

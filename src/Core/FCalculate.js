@@ -77,7 +77,7 @@ PaperScope.inject({
 	 *
 	 */
 	randomBias: function(minr, maxr, bias) {
-		var _map = new Array(90.0, 9.00, 4.00, 2.33, 1.50, 1.00, 0.66, 0.43, 0.25, 0.11, 0.01);
+		var _map = [90.0, 9.00, 4.00, 2.33, 1.50, 1.00, 0.66, 0.43, 0.25, 0.11, 0.01];
 		bias = Math.max(0, Math.min(bias, 1)) * 10;
 
 		var i = parseInt(Math.floor(bias))
