@@ -1,5 +1,4 @@
 /*
- *
  *	Delaunay Triangulation
  *	Joshua Bell
  *	inexorabletash@hotmail.com
