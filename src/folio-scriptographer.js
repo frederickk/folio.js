@@ -106,9 +106,8 @@ global.inject({
 
 		if( isOn ) {
 			var updater = setInterval( function() {
-				onFrame(interval, Update)
-				},
-				interval
+				onFrame(interval, Update);
+			}, interval
 			);
 		}
 	},
@@ -127,7 +126,7 @@ global.inject({
 		if (func != undefined) func(_event);
 
 		_event.delta = _event.time;
-	},
+	}
 
 });
 
