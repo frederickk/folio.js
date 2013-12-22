@@ -21,22 +21,6 @@
 			function randomHex() {
 				return ('#'+Math.floor(Math.random()*16777215).toString(16)).toUpperCase();
 			};
-
-			$(function() {
-				$('#periodAngle').val( parseInt(Math.random()*360) );
-
-				$('#frequencyX').val( paper.randomInt(25,41.5) );
-				$('#frequencyY').val( paper.randomInt(1,25) );
-
-				$('#widthSta').val( 1 );
-				$('#widthEnd').val( paper.randomInt(1,30) );
-
-				$('#colSta').val( randomHex() ); //'#00ffb2' );
-				$('#colEnd').val( randomHex() ); //'#ff00b2' );
-
-				$('#opacSta').val( round( paper.random(1,61.8),2 ) );
-				$('#opacEnd').val( 61.8 );
-			});
 		</script>
 
 
@@ -120,10 +104,29 @@
 			</form>
 		</div>
 
+		<script>
+			document.getElementById('periodAngle').value = parseInt(Math.random()*360);
+
+			document.getElementById('frequencyX').value =  paper.randomInt(25,41.5);
+			document.getElementById('frequencyY').value =  paper.randomInt(1,25);
+
+			document.getElementById('widthSta').value =  1;
+			document.getElementById('widthEnd').value =  paper.randomInt(1,30);
+
+			document.getElementById('colSta').value =  randomHex(); //'#00ffb2';
+			document.getElementById('colEnd').value =  randomHex(); //'#ff00b2';
+
+			document.getElementById('opacSta').value =  round( paper.random(1,61.8),2 );
+			document.getElementById('opacEnd').value =  61.8;
+		</script>
+
+
 
 		<!-- IMAGES -->
 		<div id="rasters">
 		</div>
+
+
 
 
 	</body>

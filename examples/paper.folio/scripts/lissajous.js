@@ -83,12 +83,13 @@ function Update(event) {
 		values.widthSta += 0.05;
 		values.widthEnd += 0.1;
 
-		$('#periodAngle').val( f.round(values.periodAngle,1) );
-		$('#frequencyX').val( f.round(values.frequencyX,1) );
-		$('#frequencyY').val( f.round(values.frequencyY,1) );
+		document.getElementById('periodAngle').value = f.round(values.periodAngle,1);
 
-		$('#widthSta').val( f.round(values.widthSta,1) );
-		$('#widthEnd').val( f.round(values.widthEnd,1) );
+		document.getElementById('frequencyX').value =  f.round(values.frequencyX,1);
+		document.getElementById('frequencyY').value =  f.round(values.frequencyY,1);
+
+		document.getElementById('widthSta').value =  f.round(values.widthSta,1);
+		document.getElementById('widthEnd').value =  f.round(values.widthEnd,1);
 
 		Draw();
 	}
@@ -119,23 +120,23 @@ function Draw() {
 function setParameters() {
 	// gather values from form fields
 	// set period angle
-	values.periodAngle = parseFloat( $('#periodAngle').val() );
+	values.periodAngle = parseFloat( document.getElementById('periodAngle').value );
 
 	// set frequency
-	values.frequencyX = parseFloat( $('#frequencyX').val() );
-	values.frequencyY = parseFloat( $('#frequencyY').val() );
+	values.frequencyX = parseFloat( document.getElementById('frequencyX').value );
+	values.frequencyY = parseFloat( document.getElementById('frequencyY').value );
 
 	// set colors
-	values.widthSta = parseFloat( $('#widthSta').val() );
-	values.widthEnd = parseFloat( $('#widthEnd').val() );
+	values.widthSta = parseFloat( document.getElementById('widthSta').value );
+	values.widthEnd = parseFloat( document.getElementById('widthEnd').value );
 
 	// set colors
-	values.colSta = new Color( $('#colSta').val() );
-	values.colEnd = new Color( $('#colEnd').val() );
+	values.colSta = new Color( document.getElementById('colSta').value );
+	values.colEnd = new Color( document.getElementById('colEnd').value );
 
 	// set opacity
-	values.opacSta = parseFloat( $('#opacSta').val() );
-	values.opacEnd = parseFloat( $('#opacEnd').val() );
+	values.opacSta = parseFloat( document.getElementById('opacSta').value );
+	values.opacEnd = parseFloat( document.getElementById('opacEnd').value );
 
 
 	// set frequency
@@ -333,8 +334,8 @@ function onMouseMove(event) {
 // ------------------------------------------------------------------------
 function onMouseDrag(event) {
 	if(Key.isDown('shift')) {
-        $('#periodAngle').val( parseInt(event.point.x/view.bounds.width * 360) );
-        values.periodAngle = parseFloat( $('#periodAngle').val() );
+        document.getElementById('periodAngle').value = parseInt(event.point.x/view.bounds.width * 360);
+        values.periodAngle = parseFloat( document.getElementById('periodAngle').value );
     }
     else {
 		frequency.x = (event.point.x/view.bounds.width * values.frequencyX);

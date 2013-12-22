@@ -117,9 +117,9 @@ function Update(event) {
 // ------------------------------------------------------------------------
 function Draw() {
 	// get values from interface components
-	values.colorExtrude1 = new Color( $('#colorExtrude1').val() );
-	values.angle = $('#angle').val();
-	values.distance = $('#distance').val();
+	values.colorExtrude1 = '#ffffff' ;//new Color( $('#colorExtrude1').val() );
+	values.angle = 45; //$('#angle').val();
+	values.distance = 100; //$('#distance').val();
 
 
 	// calculate late extrusion length

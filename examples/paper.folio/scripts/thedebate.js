@@ -24,7 +24,7 @@ var f = folio;
 var ftime = f.FTime;
 
 
-var speakers = new Array(2);
+var speakers = [];
 var size;
 
 var colors = [

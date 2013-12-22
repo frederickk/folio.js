@@ -8,7 +8,7 @@ console.log( 'Spectrum Loaded' );
  *	http://kennethfrederick.de/
  *	http://blog.kennethfrederick.de/
  *
- *	
+ *
  *	An exmaple of blending colors using Color.interpolate
  *
  */
@@ -33,7 +33,7 @@ var spectrumColors = [
 ];
 
 // colors holder
-var colors = new Array(2);
+var colors = [];
 
 var index = 0;
 var delta = 0.0;
@@ -150,7 +150,7 @@ function onKeyUp(event) {
 
 
 
-		
+
 
 
 
