@@ -11,13 +11,10 @@ folio.FTime.FStopwatch = function() {
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
-	/**
-	 *	private
-	 */
-	var _now;
-	var _then;
-	var _timeInMs = 0;
-	var _bStart = 0;
+	var now;
+	var then;
+	var timeInMs = 0;
+	var bStart = 0;
 
 
 
@@ -29,12 +26,12 @@ folio.FTime.FStopwatch = function() {
 	 *	toggle (start/stop) the stopwatch
 	 *
 	 */
-	this.toggle = function() {
-		if (_bStart == 0) {
-			this.start();
+	var toggle = function() {
+		if (bStart == 0) {
+			start();
 		}
 		else {
-			this.pause();
+			pause();
 		}
 	};
 
@@ -43,11 +40,11 @@ folio.FTime.FStopwatch = function() {
 	 *	start the stopwatch
 	 *
 	 */
-	this.start = function() {
+	var start = function() {
 		// start
-		_bStart = 1;
-		_then = new Date();
-		_then.setTime(_then.getTime() - _timeInMs);
+		bStart = 1;
+		then = new Date();
+		then.setTime(then.getTime() - timeInMs);
 	};
 
 	/**
@@ -55,11 +52,11 @@ folio.FTime.FStopwatch = function() {
 	 *	pause the stopwatch
 	 *
 	 */
-	this.pause = function() {
+	var pause = function() {
 		// pause
-		_bStart = 0;
-		_now = new Date();
-		_timeInMs = _now.getTime() - _then.getTime();
+		bStart = 0;
+		now = new Date();
+		timeInMs = now.getTime() - then.getTime();
 	};
 
 	/**
@@ -67,9 +64,9 @@ folio.FTime.FStopwatch = function() {
 	 *	reset the stopwatch
 	 *
 	 */
-	this.reset = function() {
-		_bStart = 0;
-		_timeInMs = 0;
+	var reset = function() {
+		bStart = 0;
+		timeInMs = 0;
 	};
 
 
@@ -81,19 +78,19 @@ folio.FTime.FStopwatch = function() {
 	 *
 	 *	set the stopwatch
 	 *
-	 *	@param ms
+	 *	@param {Number} ms
 	 *			milliseconds to start the stopwatch with
-	 *	@param run
+	 *	@param {Boolean} run
 	 *			whether the stopwatch should start or not
 	 *
 	 */
-	this.set = function(ms, run) {
-		_timeInMs = ms;
-		(run == true) ? _bStart = 0 : _bStart = 1;
+	var set = function(ms, run) {
+		timeInMs = ms;
+		(run == true) ? bStart = 0 : bStart = 1;
 
-		_then = new Date();
-		_then.setTime(_then.getTime() - _timeInMs);
-		this.toggle();
+		then = new Date();
+		then.setTime(then.getTime() - timeInMs);
+		toggle();
 	};
 
 
@@ -103,30 +100,38 @@ folio.FTime.FStopwatch = function() {
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	@return the time elapsed
+	 *	@return {Number} the time elapsed in milliseconds
 	 *
 	 */
-	this.get = function() {
-		if (_bStart == 1)  {
-			_now = new Date();
-			_timeInMs = _now.getTime() - _then.getTime();
+	var get = function() {
+		if (bStart == 1)  {
+			now = new Date();
+			timeInMs = now.getTime() - then.getTime();
 		}
-		return _timeInMs;
+		return timeInMs;
 	};
 
 	/**
 	 *
-	 *	@return whether the stopwatch is running
+	 *	@return {Boolean} whether the stopwatch is running
 	 *
 	 */
-	this.isRunning = function() {
-		return (_bStart) ? true : false;
+	var isRunning = function() {
+		return (bStart) ? true : false;
 	};
 
 
-	// return {
+	return {
+		toggle: toggle,
+		start: start,
+		pause: pause,
+		reset: reset,
 
-	// };
+		set: set,
+
+		get: get,
+		isRunning: isRunning
+	};
 
 };
 
