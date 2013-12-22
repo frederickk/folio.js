@@ -48,7 +48,7 @@ folio.FTime.FStepper = function() {
 			stepIn();
 		}
 		return bToggleStart;
-	}
+	};
 
 	// ------------------------------------------------------------------------
 	/**
