@@ -74,8 +74,8 @@ function Update(event) {
 function Draw() {
 	// pull in color values from input fields
 	// uses jquery to get values
-	colors[0] = new Color( $("#hexcolor1").val() );
-	colors[1] = new Color( $("#hexcolor2").val() );
+	colors[0] = new Color( document.getElementById('hexcolor1').value );
+	colors[1] = new Color( document.getElementById('hexcolor2').value );
 
 	background.fillColor = colors[1];
 	background.bounds.size = view.bounds.size;

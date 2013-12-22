@@ -72,10 +72,8 @@
 				return ('#'+Math.floor(Math.random()*16777215).toString(16)).toUpperCase();
 			};
 
-			(function() {
-				$("#hexcolor1").val( randomHex() );
-				$("#hexcolor2").val( randomHex() );
-			})();
+			document.getElementById('hexcolor1').value = randomHex();
+			document.getElementById('hexcolor2').value =randomHex();
 		</script>
 
 
