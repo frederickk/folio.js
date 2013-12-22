@@ -9,160 +9,137 @@ folio.FTime.FDate = function() {
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
-	/**
-	 *	public
-	 */
-	this.date;
-
-	/**
-	 *	private
-	 */
-	var _months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-	var _shortMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+	var dateObj = new Date();
+	var monthsArr = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+	var shortMonthsArr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 
 
 	// ------------------------------------------------------------------------
 	// Methods
 	// ------------------------------------------------------------------------
-	/**
-	 *	private
-	 */
-	var _addZero = function(val) {
+	var addZero = function(val) {
 		if (val.length == 1) val = '0' + val;
 		return val;
 	};
 
-
-	// ------------------------------------------------------------------------
 	/**
-	 *	public
+	 *	@return {String} return the current year as 'YYYY'
 	 */
-	/**
-	 *	@return return the current year as 'YYYY'
-	 */
-	this.year = function() {
-		if(this.date === undefined) this.date = new Date();
-		var year = String( this.date.getFullYear() );
+	var year = function() {
+		if(dateObj === undefined) dateObj = new Date();
+		var year = String( dateObj.getFullYear() );
 		return year;
 	};
 
 	/**
-	 *	@return return the current month as 'MM'
+	 *	@return {String} return the current month as 'MM'
 	 */
-	this.month = function() {
-		if(this.date === undefined) this.date = new Date();
-		var month = String( this.date.getMonth() );
-		hour = _addZero(month);
-		return month;
+	var month = function() {
+		if(dateObj === undefined) dateObj = new Date();
+		return String( dateObj.getMonth() );
 	};
 
 	/**
-	 *	@return return the current day as string 'DD'
+	 *	@return {String} return the current day as 'DD'
 	 */
-	this.day = function() {
-		if(this.date === undefined) this.date = new Date();
-		var day = String( this.date.getDate() );
-		return day;
+	var day = function() {
+		if(dateObj === undefined) dateObj = new Date();
+		return String( dateObj.getDate() );
 	};
 
 	/**
-	 *	@return return the current hour as string 'HH'
+	 *	@return {String} return the current hour as 'HH'
 	 */
-	this.hour = function() {
-		if(this.date === undefined) this.date = new Date();
-		var hour = String( this.date.getHours() );
-		hour = _addZero(hour);
-		return hour;
+	var hour = function() {
+		if(dateObj === undefined) dateObj = new Date();
+		var hour = String( dateObj.getHours() );
+		return addZero(hour);
 	};
 
 	/**
-	 *	@return return the current minute as string 'mm'
+	 *	@return {String} return the current minute as 'mm'
 	 */
-	this.minute = function() {
-		if(this.date === undefined) this.date = new Date();
-		var minute = String( this.date.getMinutes() );
-		minute = _addZero(minute);
-		return minute;
+	var minute = function() {
+		if(dateObj === undefined) dateObj = new Date();
+		var minute = String( dateObj.getMinutes() );
+		return addZero(minute);
 	};
 
 	/**
-	 *	@return return the current second as string 'ss'
+	 *	@return {String} return the current second as 'ss'
 	 */
-	this.second = function() {
-		if(this.date === undefined) this.date = new Date();
-		var second = String( this.date.getSeconds() );
-		second = _addZero(second);
-		return second;
+	var second = function() {
+		if(dateObj === undefined) dateObj = new Date();
+		var second = String( dateObj.getSeconds() );
+		return addZero(second);
 	};
 
 	/**
-	 *	return the current date as string "yyyyMMdd"
-	 *
-	 *	@return date
+	 *	@return {String} return the current date as "yyyyMMdd"
 	 */
-	// this.date = function() {
-	//	return this.year() + this.month() + this.day();
-	// };
+	var date = function() {
+		return year() + month() + day();
+	};
 
 	/**
-	 *	@param format
+	 *	@param {Array} format
 	 *			boolean array = [hours, minutes, seconds]
 	 *
-	 *	@return the current time
+	 *	@return {String} the current time
 	 */
-	this.now = function(format) {
-		var disp = [];
-		if( format === undefined ) disp = [true, true, true];
-		else disp = format;
-
+	var now = function(format) {
+		var disp = format || [true, true, true];
 		var str = '';
-		if(disp[0]) str += this.hour();
+		if(disp[0]) str += hour();
 		if(disp[0] && disp[1]) str += ':';
-		if(disp[1]) str += this.minute();
+		if(disp[1]) str += minute();
 		if(disp[1] && disp[2]) str += ':';
-		if(disp[2]) str += this.second();
+		if(disp[2]) str += second();
 		return str;
 	};
 
-	this.nowMilliseconds = function() {
-		return this.toMillsecond(
-			this.hour(),
-			this.minute(),
-			this.second()
-		);
+	/**
+	 *	@return {Number} the current time in milliseconds
+	 */
+	var nowMilliseconds = function() {
+		return toMillsecond( hour(), minute(), second() );
 	};
 
 	/**
 	 *	add to time
 	 *
-	 *	@param _d
-	 *			input days
-	 *	@param _h
-	 *			input hours
-	 *	@param _m
-	 *			input minutes
-	 *	@param _s
-	 *			input seconds
+	 *	@param {Number} d
+	 *			days
+	 *	@param {Number} h
+	 *			hours
+	 *	@param {Number} m
+	 *			minutes
+	 *	@param {Number} s
+	 *			seconds
+	 *
+	 * @return {[type]} [description]
 	 */
-	this.add = function(_d, _h, _m, _s) {
-		return this.date + (24 * _d + 60 * _h + 60 * _m + 1000 * s);
+	var add = function(d, h, m, s) {
+		return dateObj + (24 * d + 60 * h + 60 * m + 1000 * s);
 	};
 
 	/**
-	 *	sub from time
+	 *	subtract from time
 	 *
-	 *	@param _d
-	 *			input days
-	 *	@param _h
-	 *			input hours
-	 *	@param _m
-	 *			input minutes
-	 *	@param _s
-	 *			input seconds
+	 *	@param {Number} d
+	 *			days
+	 *	@param {Number} h
+	 *			hours
+	 *	@param {Number} m
+	 *			minutes
+	 *	@param {Number} s
+	 *			seconds
+	 *
+	 * @return {[type]} [description]
 	 */
-	this.sub = function(_d, _h, _m, _s) {
-		return this.date - (24 * _d + 60 * _h + 60 * _m + 1000 * s);
+	var sub = function(d, h, m, s) {
+		return dateObj - (24 * d + 60 * h + 60 * m + 1000 * s);
 	};
 
 
@@ -173,19 +150,21 @@ folio.FTime.FDate = function() {
 	/**
 	 *	set to a specific time
 	 *
-	 *	@param _d
-	 *			input days
-	 *	@param _h
-	 *			input hours
-	 *	@param _m
-	 *			input minutes
-	 *	@param _s
-	 *			input seconds
+	 *	@param {Number} d
+	 *			days
+	 *	@param {Number} h
+	 *			hours
+	 *	@param {Number} m
+	 *			minutes
+	 *	@param {Number} s
+	 *			seconds
+	 *
+	 * @return {[type]} [description]
 	 */
-	this.set = function(_d, _h, _m, _s) {
-		this.time = new Date();
-		this.time.setTime( (24 * _d + 60 * _h + 60 * _m + 1000 * s) );
-		return this.time;
+	var set = function(d, h, m, s) {
+		time = new Date();
+		time.setTime( (24 * d + 60 * h + 60 * m + 1000 * s) );
+		return time;
 	};
 
 
@@ -194,18 +173,15 @@ folio.FTime.FDate = function() {
 	// Gets
 	// ------------------------------------------------------------------------
 	/**
-	 *	@param ms
-	 *			input as milliseconds
-	 *	@param format
+	 *	@param {Number} ms
+	 *			as milliseconds
+	 *	@param {Array} format
 	 *			boolean array = [hours, minutes, seconds]
 	 *
-	 *	@return human readable default is hh:mm:ss
+	 *	@return {String} human readable default is hh:mm:ss
 	 */
-	this.get = function(ms, format) {
-		var disp;
-		if( format === undefined ) disp = [true, true, true];
-		else disp = format;
-
+	var get = function(ms, format) {
+		var disp = format || [true, true, true];
 		var seconds = parseInt( (ms / 1000) % 60 );
 		var minutes = parseInt( ((ms / 1000) / 60) % 60 );
 		var hours   = parseInt( (((ms / 1000) / 60) / 60) % 24 );
@@ -228,41 +204,63 @@ folio.FTime.FDate = function() {
 	};
 
 	/**
-	 *	@param h
-	 *			input as hours OR input string as hh:mm:ss OR mm:ss
-	 *	@param m
-	 *			input as minutes
-	 *	@param s
-	 *			input as seconds
+	 *	@param {String} h
+	 *			as hh:mm:ss OR mm:ss
 	 *
-	 *	@return time in milliseconds
+	 *	@return {Number} time in milliseconds
 	 */
-	this.toMillsecond = function(_h, _m, _s) {
-		var h,m,s;
-		if(_m === undefined && _s === undefined) {
-			h = this.toArray(_h)[0];
-			m = this.toArray(_h)[1];
-			s = this.toArray(_h)[2];
-		}
-		else {
-			h = _h;
-			m = _m;
-			s = _s;
+	/**
+	 *	@param {Number} h
+	 *			hours
+	 *	@param {Number} m
+	 *			minutes
+	 *	@param {Number} s
+	 *			seconds
+	 *
+	 *	@return {Number} time in milliseconds
+	 */
+	var toMillsecond = function(h, m, s) {
+		if( m === undefined &&  s === undefined ) {
+			h = toArray(h)[0];
+			m = toArray(h)[1];
+			s = toArray(h)[2];
 		}
 		return parseInt(3600000 * h + 60000 * m + 1000 * s);
 	};
 
 	/**
-	 *	@param strHMS
-	 *			input string as hh:mm:ss
+	 *	@param {String} str
+	 *			string as hh:mm:ss
 	 *
-	 *	@return array of time [0] hours [1] minutes [2] seconds
+	 *	@return {Array} array of time [0] hours [1] minutes [2] seconds
 	 */
-	this.toArray = function(strHMS) {
-		var temp = strHMS.split(':');
-		return [ temp[0], temp[1], temp[2] ];
+	var toArray = function(str) {
+		var hms = str.split(':');
+		return [ hms[0], hms[1], hms[2] ];
 	};
 
+
+	//-----------------------------------------------------------------------------
+	return {
+		year: year,
+		month: month,
+		day: day,
+		hour: hour,
+		minute: minute,
+		second: second,
+		date: date:,
+		now: now,
+		nowMilliseconds: nowMilliseconds,
+
+		add: add,
+		sub: sub,
+
+		set: set,
+		get: get,
+
+		toMillsecond: toMillsecond,
+		toArray: toArray
+	};
 
 };
 
