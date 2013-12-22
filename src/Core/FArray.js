@@ -52,8 +52,8 @@ Array.prototype.unique = function() {
  *
  *	merges (then shuffles) two Arrays
  *
- *	@param {Array} arr2
- *				Array object 2
+ *	@param {Array} arr
+ *				Array object
  *
  *	@return {Array} new merged Array object
  *

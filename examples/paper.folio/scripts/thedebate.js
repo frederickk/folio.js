@@ -20,28 +20,24 @@ console.log( 'The Debate Loaded' );
 // ------------------------------------------------------------------------
 // the core folio namespace
 var f = folio;
-
 var ftime = f.FTime;
 
 
 var speakers = [];
 var size;
 
-var colors = [
-	'#000000', // black
-	'#FFFFFF', // white
-	'#E94125', // red
-	'#00BFF2', // blue
-	'#E9D800'  // yellow
-];
+var colors = {
+	black:	'#000000', // black
+	white:	'#FFFFFF', // white
+	red:	'#E94125', // red
+	blue:	'#00BFF2', // blue
+	yellow:	'#E9D800'  // yellow
+};
+
 
 // our speakers
 var Kant;
 var husserl;
-
-// kant left[0]		kant right[1]
-// husserl right[2]	husserl left[3]
-var rasters = [];
 
 // pre generated kant-ent (har har)
 // http://www.diveintopython.net/xml_processing/index.html
@@ -72,24 +68,15 @@ function Setup() {
 	}
 
 
-	// Get our images (left & right)
-	rasters[0] = new Raster('kant_left');
-	rasters[1] = new Raster('kant_right');
-	rasters[2] = new Raster('husserl_right');
-	rasters[3] = new Raster('husserl_left');
-
-	for(var i=0; i<rasters.length; i++) {
-		rasters[i].position.y = view.bounds.height-70;
-	}
-
-
-	/**
+	/*
 	 *
 	 *	Kant
 	 *
 	 */
 	Kant = new Speaker('Kant');
-	Kant.image = rasters[0];
+	Kant.sprites = ['kant_left','kant_right'];
+	Kant.image = new Raster( Kant.sprites[1] );
+	Kant.image.position.y = view.bounds.height;
 
 	var th = Math.abs(((view.bounds.rightCenter.y+(size*0.25))+size/2)-(view.bounds.height-95));
 	Kant.bubble = new Path.FBubble(
@@ -98,16 +85,16 @@ function Setup() {
 		new Size(size*0.13, th),
 		'RIGHT'
 	);
-	Kant.bubble.fillColor = colors[0];
-	Kant.bubble.strokeColor = colors[0];
+	Kant.bubble.fillColor = colors.black;
+	Kant.bubble.strokeColor = colors.black;
 
 	// content
 	Kant.text = new PointText( Kant.bubble.position );
 	Kant.text.justification = 'center';
 	Kant.text.characterStyle = {
-		font: 'Century Schoolbook',
+		font: 'Georgia',
 		fontSize: typeSize,
-		fillColor: colors[1]
+		fillColor: colors.white
 	};
 	Kant.textIndex = 0;
 
@@ -130,13 +117,15 @@ function Setup() {
 	speakers[0] = Kant;
 
 
-	/**
+	/*
 	 *
 	 *	Husserl
 	 *
 	 */
 	Husserl = new Speaker('Husserl');
-	Husserl.image = rasters[3];
+	Husserl.sprites = ['husserl_left','husserl_right'];
+	Husserl.image = new Raster( Husserl.sprites[0] );
+	Husserl.image.position.y = view.bounds.height;
 
 	// bubble shape
 	var th = Math.abs(((view.bounds.leftCenter.y-(size*0.45))+size/2)-(view.bounds.height-95));
@@ -146,17 +135,17 @@ function Setup() {
 		new Size(size*0.13, th),
 		'LEFT'
 	);
-	Husserl.bubble.fillColor = colors[1];
-	Husserl.bubble.strokeColor = colors[1];
+	Husserl.bubble.fillColor = colors.white;
+	Husserl.bubble.strokeColor = colors.white;
 
 	// content
 	Husserl.text = new PointText( Husserl.bubble.position );
 	Husserl.text.position.y -= typeSize*2.5;
 	Husserl.text.justification = 'center';
 	Husserl.text.characterStyle = {
-		font: 'Century Schoolbook',
+		font: 'Georgia',
 		fontSize: typeSize,
-		fillColor: colors[0]
+		fillColor: colors.black
 	};
 	Husserl.textIndex = 0;
 
@@ -177,22 +166,20 @@ function Setup() {
 
 	// push to array
 	speakers[1] = Husserl;
-	// console.log( 'Husserl' );
-	// console.log( Husserl );
 
 
 
 	// Let's see who starts the 'debate'
-	if( paper.randomInt(0,2) == 1 ) {
+	// if( paper.randomInt(0,2) === 1 ) {
 		Kant.move.toggle();
-		Kant.bubble.moveAbove( Husserl.bubble );
-		Kant.text.moveAbove( Kant.bubble );
-	}
-	else {
+		// Kant.bubble.moveAbove( Husserl.bubble );
+		// Kant.text.moveAbove( Kant.bubble );
+	// }
+	// else {
 		Husserl.move.toggle();
-		Husserl.bubble.moveAbove( Kant.bubble );
-		Husserl.text.moveAbove( Husserl.bubble );
-	}
+		// Husserl.bubble.moveAbove( Kant.bubble );
+		// Husserl.text.moveAbove( Husserl.bubble );
+	// }
 
 };
 
@@ -216,25 +203,16 @@ function Update(event) {
 			s.move.toggle();
 			s.content = s.paragraph[ paper.randomInt(0,s.paragraph.length) ];
 
-			var index = (i == 0) ? 0 : 2;
-			if(s.move.isOut()) {
-				s.image = rasters[ index ];
-				rasters[ index ].visible = true;
-				rasters[ index+1 ].visible = false;
-			}
-			else {
-				s.image = rasters[ index+1 ];
-				rasters[ index ].visible = false;
-				rasters[ index+1 ].visible = true;
-			}
-
 			var sj = speakers[j];
 			sj.bubble.moveAbove(s.bubble);
 			sj.text.moveAbove(sj.bubble);
 			sj.image.moveAbove(sj.bubble);
 		}
 
-		s.image.position.x = s.bubble.segments[4].point.x - (139/2);
+		console.log( s.move.counter() );
+		// s.image.source = s.sprites
+		s.image.position.x = s.bubble.segments[4].point.x;
+
 		if(!s.move.isDone()) {
 			s.image.position.y += bounce;
 			s.image.position.x += sway;
@@ -260,7 +238,7 @@ function Draw() {
 		// text
 		var str = s.content;
 		var word = str.split(' ');
-		var d = s.move.delta;
+		var d = s.move.delta();
 
 		if( s.move.isOut ) s.textIndex = parseInt( Math.abs((d-1)*(word.length)) );
 		else s.textIndex = parseInt(d*word.length);
@@ -270,18 +248,18 @@ function Draw() {
 
 		// bubble
 		var x;
-		if(i % 2 == 0) {
+		if(i % 2 === 0) {
 			x = paper.interpolate(
 				view.bounds.leftCenter.x + s.bubble.bounds.width*0.66,
 				view.bounds.rightCenter.x - s.bubble.bounds.width*0.66,
-				s.move.delta
+				s.move.delta()
 			);
 		}
 		else {
 			x = paper.interpolate(
 				view.bounds.rightCenter.x - s.bubble.bounds.width*0.66,
 				view.bounds.leftCenter.x + s.bubble.bounds.width*0.66,
-				s.move.delta
+				s.move.delta()
 			);
 		}
 		s.bubble.position.x = x;
@@ -303,41 +281,42 @@ function reset() {
 	Kant.bubble.position = view.bounds.rightCenter;
 	Kant.bubble.position.y += Kant.bubble.bounds.height*0.25;
 	Kant.text.position = Kant.bubble.position;
+	Kant.image.position.y = view.bounds.height;
 
 	Husserl.bubble.position = view.bounds.leftCenter;
 	Husserl.bubble.position.y += -(Husserl.bubble.bounds.height*0.25)+((size*0.83)/2);
 	Husserl.text.position = Husserl.bubble.position;
 	Husserl.text.position.y -= (180/2);
-
-	for(var i=0; i<rasters.length; i++) {
-		rasters[i].position.y = view.bounds.height-70;
-	}
+	Husserl.image.position.y = view.bounds.height;
 
 };
 
 
 // ------------------------------------------------------------------------
-var Speaker = function(_name) {
-	this.name = _name;
+var Speaker = function(name) {
+	return {
+		name: name,
 
-	// face
-	this.image = null;
+		// face
+		sprites: [],
+		image: null,
 
-	// FSteppers
-	this.move = null;
-	this.fade = null;
-	this.color = null;
+		// FSteppers
+		move: null,
+		fade: null,
+		color: null,
 
-	// bubble shape
-	this.bubble = null;
+		// bubble shape
+		bubble: null,
 
-	// content
-	this.paragraph = '';
-	this.content = '';
-	this.text = null;
+		// content
+		paragraph: '',
+		content: '',
+		text: null,
 
-	this.textIndex = 0;
-	this.textPindex = -1;
+		textIndex: 0,
+		textPindex: -1
+	}
 };
 
 

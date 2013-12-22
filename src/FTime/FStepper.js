@@ -15,7 +15,7 @@ folio.FTime.FStepper = function() {
 	var timeEnd = 0.0;
 
 	var bToggleStart = 0;
-	var bBeginStpper = false;
+	var bBeginStepper = false;
 	var bIn = false;
 	var bOut = false;
 	var bDone = true;
@@ -24,7 +24,7 @@ folio.FTime.FStepper = function() {
 	var bEase = true;
 
 	var delta = 1.0;
-	var counter = -1;
+	var counter = 0;
 
 
 
@@ -39,7 +39,7 @@ folio.FTime.FStepper = function() {
 	 *
 	 */
 	var toggle = function() {
-		if (bToggleStart == 0) {
+		if (bToggleStart === 0) {
 			bToggleStart = 1;
 			stepOut();
 		}
@@ -59,8 +59,8 @@ folio.FTime.FStepper = function() {
 	 *			the elapsed time of the application in seconds
 	 */
 	var update = function(currentSeconds) {
-		if(bBeginStpper) {
-			bBeginStpper = false;
+		if(bBeginStepper) {
+			bBeginStepper = false;
 			timeStart = currentSeconds;
 			if(bIn) {
 				timeEnd = paper.round( (currentSeconds + ((1.0 - delta) * stepMillis)), 3 );
@@ -106,11 +106,11 @@ folio.FTime.FStepper = function() {
 	 *
 	 */
 	var stepIn = function() {
-		if(bIn) return;
-		if(delta == 1.0) return;
-		bBeginStpper = true;
+		bBeginStepper = true;
 		bIn = true;
 		bOut = false;
+		if(bIn) return;
+		if(delta === 1.0) return;
 	};
 
 	/**
@@ -119,11 +119,11 @@ folio.FTime.FStepper = function() {
 	 *
 	 */
 	var stepOut = function() {
-		if(bOut) return;
-		if(delta == 0.0) return;
-		bBeginStpper = true;
+		bBeginStepper = true;
 		bOut = true;
 		bIn = false;
+		if(bOut) return;
+		if(delta === 0.0) return;
 	};
 
 	// ------------------------------------------------------------------------
@@ -162,9 +162,22 @@ folio.FTime.FStepper = function() {
 	 *
 	 */
 	var stop = function() {
-		bBeginStpper = bIn = bOut = false;
+		bBeginStepper = bIn = bOut = false;
 	};
 
+	/**
+	 *	@return {Number}
+	 */
+	var getDelta = function() {
+		return delta;
+	};
+
+	/**
+	 *	@return {Number}
+	 */
+	var getCounter = function() {
+		return counter;
+	};
 
 
 	// ------------------------------------------------------------------------
@@ -197,8 +210,8 @@ folio.FTime.FStepper = function() {
 
 	// ------------------------------------------------------------------------
 	return {
-		delta: delta,
-		counter: counter,
+		delta: getDelta,
+		counter: getCounter,
 
 		toggle: toggle,
 		update: update,

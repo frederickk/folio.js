@@ -63,10 +63,6 @@ function Setup() {
 
 	// parameters
 	setParameters();
-
-	// draw initial empty curve
-	// kinda hacky... whatever
-	lb = new lissajousBezier();
 };
 
 
@@ -102,7 +98,7 @@ function Update(event) {
 // ------------------------------------------------------------------------
 function Draw() {
 	// remove previous curve
-	lb.remove();
+	if( lb ) lb.remove();
 
 	// lissajous curve
 	lb = new lissajousBezier(frequency, factor, radians(values.periodAngle));

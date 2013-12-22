@@ -112,23 +112,23 @@ function Draw() {
 	// point1 to point2
 	// var pos = points[0].interpolate(
 	//	points[1],
-	//	move.delta
+	//	move.delta()
 	// );
 	var pos = new Point(
-		paper.interpolate( points[0].x, points[1].x, move.delta ),
-		paper.interpolate( points[0].y, points[1].y, move.delta )
+		paper.interpolate( points[0].x, points[1].x, move.delta() ),
+		paper.interpolate( points[0].y, points[1].y, move.delta() )
 	);
 
 	// move the ball on an arc
-	pos.x *= Math.cos(move.delta);
-	pos.y *= -Math.sin(move.delta)*2;
+	pos.x *= Math.cos(move.delta());
+	pos.y *= -Math.sin(move.delta())*2;
 	ball.position = pos;
 	ball.translate( 0, view.bounds.height );
 
 	// blend the colors from one to the other
 	var col = colors[0].interpolate(
 		new Color(1.0, 1.0, 1.0),
-		blend.delta
+		blend.delta()
 	);
 	ball.fillColor = col;
 };

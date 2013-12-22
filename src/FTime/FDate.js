@@ -248,7 +248,7 @@ folio.FTime.FDate = function() {
 		hour: hour,
 		minute: minute,
 		second: second,
-		date: date:,
+		date: date,
 		now: now,
 		nowMilliseconds: nowMilliseconds,
 

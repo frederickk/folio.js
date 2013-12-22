@@ -54,11 +54,11 @@ module.exports = function(grunt) {
 			},
 			paper: {
 				dest: 'distribution/paper.' + name + '.js',
-				src: ['./src/header.js', './src/folio.js', srcFiles, src3DFiles]
+				src: ['./src/folio.js', srcFiles, src3DFiles]
 			},
 			scriptographer: {
 				dest: 'distribution/scriptographer.' + name + '.js',
-				src: ['./src/header.js', './src/folio-scriptographer.js', srcFiles]
+				src: ['./src/folio-scriptographer.js', srcFiles]
 			}
 		},
 

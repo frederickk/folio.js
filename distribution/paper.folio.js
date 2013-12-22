@@ -4,7 +4,7 @@
  *	0.6.1
  *	https://github.com/frederickk/folio.js
  *
- *	15. December 2013
+ *	21. December 2013
  *
  *	Ken Frederick
  *	ken.frederick@gmx.de
@@ -44,54 +44,6 @@
  *	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA	02110-1301	USA
  *
  */
-
-/**!
- *
- *	folio.js
- *	@VERSION
- *	https://github.com/frederickk/folio.js
- *
- *	@DATE
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
- *
- *
- *	Folio.js is a library for Paper.js/Scriptographer
- *	Folio.js serves as a collection of functions for supporting animations,
- *	rudimentary 3D, additional Path items and lastly a structured
- *	framework/chain of operations similar to that of Processing,
- *	OpenFrameworks, Cinder, et. al.
- *
- *	Not all of the code in here was created by me
- *	but credit and links are given where credit is due
- *
- *	Additional information and demos can be found here
- *	http://kennethfrederick.de/folio.js/
- *	http://kenfrederick.blogspot.de/2012/12/frederickkpaper.html
- *
- *
- *	This library is free software; you can redistribute it and/or
- *	modify it under the terms of the GNU Lesser General Public
- *	License as published by the Free Software Foundation; either
- *	version 2.1 of the License, or (at your option) any later version.
- *
- *	http://creativecommons.org/licenses/LGPL/2.1/
- *
- *	This library is distributed in the hope that it will be useful,
- *	but WITHOUT ANY WARRANTY; without even the implied warranty of
- *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the GNU
- *	Lesser General Public License for more details.
- *
- *	You should have received a copy of the GNU Lesser General Public
- *	License along with this library; if not, write to the Free Software
- *	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA	02110-1301	USA
- *
- */
-
 
 // ------------------------------------------------------------------------
 /**!
@@ -267,9 +219,9 @@ window.onload = function() {
 
 /*
  *
- *	Core.js
+ *  Core.js
  *
- *	Core Methods and a collection of extensions for paper globally
+ *  Core Methods and a collection of extensions for paper globally
  *
  */
 
@@ -287,7 +239,7 @@ folio = {
 
 /**
  *
- *	Global Scope (Paper.js core)
+ *  Global Scope (Paper.js core)
  *
  */
 PaperScope.inject({
@@ -298,23 +250,23 @@ PaperScope.inject({
 	// Methods
 	//-----------------------------------------------------------------------------
 	/**
-	 *	Java style println output
+	 *  Java style println output
 	 *
-	 *	@param {Object} obj
-	 *				any Javascript Object
+	 *  @param {Object} obj
+	 *              any Javascript Object
 	 */
 	println: function(obj) {
-		console.log( obj );
-		console.log( '\n' );
+		console.log(obj);
+		console.log('\n');
 	},
 
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	@param {Boolean} val
-	 *			input boolean value
+	 *  @param {Boolean} val
+	 *          input boolean value
 	 *
-	 *	@return {Number} val as integer
+	 *  @return {Number} val as integer
 	 *
 	 */
 	boolToInt: function(val) {
@@ -324,10 +276,10 @@ PaperScope.inject({
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	@param {Number} val
-	 *			input number value
+	 *  @param {Number} val
+	 *          input number value
 	 *
-	 *	@return {Number} val as boolean
+	 *  @return {Number} val as boolean
 	 *
 	 */
 	numToBool: function(val) {
@@ -337,14 +289,14 @@ PaperScope.inject({
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	@param {Object} object
-	 *			object whose type to determine
+	 *  @param {Object} object
+	 *          object whose type to determine
 	 *
-	 *	@return {String} Paper.js object type
+	 *  @return {String} Paper.js object type
 	 *
 	 */
 	getType: function(object) {
-		if( typeof object == 'object' ) {
+		if (typeof object == 'object') {
 			if (object instanceof paper.Point) return 'Point';
 			else if (object instanceof paper.Size) return 'Size';
 			else if (object instanceof paper.Rectangle) return 'Rectangle';
@@ -356,7 +308,7 @@ PaperScope.inject({
 			else if (object instanceof paper.CompoundPath) return 'CompoundPath';
 			else if (object instanceof paper.Symbol) return 'Symbol';
 			else if (object instanceof paper.TextItem) return 'TextItem';
-			else return 'undefined'
+			else return 'undefined';
 		}
 		else {
 			return typeof object;
@@ -365,38 +317,38 @@ PaperScope.inject({
 
 	/**
 	 *
-	 *	@param {Array} items
-	 *			Array of items to go through
-	 *	@param {String} name
-	 *			name of Item to find
+	 *  @param {Array} items
+	 *          Array of items to go through
+	 *  @param {String} name
+	 *          name of Item to find
 	 *
-	 *	@return {Path} path with the name that matches
+	 *  @return {Path} path with the name that matches
 	 *
 	 */
 	findByName: function(items, name) {
 		var path;
-		for(var i=0; i<items.length; i++) {
+		for (var i = 0; i < items.length; i++) {
 			var item = items[i];
-			if(item.name == name) path = item; // break;
+			if (item.name == name) path = item; // break;
 		}
 		return path;
 	},
 
 	/**
 	 *
-	 *	@param {Array} items
-	 *			Array of items to go through
-	 *	@param {Number} name
-	 *			name of Item to find
+	 *  @param {Array} items
+	 *          Array of items to go through
+	 *  @param {Number} name
+	 *          name of Item to find
 	 *
-	 *	@return {Path} path with the id that matches
+	 *  @return {Path} path with the id that matches
 	 *
 	 */
 	findById: function(items, id) {
 		var path;
-		for(var i=0; i<items.length; i++) {
+		for (var i = 0; i < items.length; i++) {
 			var item = items[i];
-			if(item.id == id) path = item; // break;
+			if (item.id == id) path = item; // break;
 		}
 		return path;
 	}
@@ -459,8 +411,8 @@ Array.prototype.unique = function() {
  *
  *	merges (then shuffles) two Arrays
  *
- *	@param {Array} arr2
- *				Array object 2
+ *	@param {Array} arr
+ *				Array object
  *
  *	@return {Array} new merged Array object
  *
@@ -614,7 +566,6 @@ var FSort = {
 
 };
 
-
 /*
  *
  *	FCalculate.js
@@ -694,11 +645,11 @@ PaperScope.inject({
 	 *
 	 */
 	randomBias: function(minr, maxr, bias) {
-		var _map = new Array(90.0, 9.00, 4.00, 2.33, 1.50, 1.00, 0.66, 0.43, 0.25, 0.11, 0.01);
+		var _map = [90.0, 9.00, 4.00, 2.33, 1.50, 1.00, 0.66, 0.43, 0.25, 0.11, 0.01];
 		bias = Math.max(0, Math.min(bias, 1)) * 10;
 
-		var i = parseInt(Math.floor(bias))
-		var n = _map[i]
+		var i = parseInt(Math.floor(bias));
+		var n = _map[i];
 		if(bias < 10) n += (_map[i+1]-n) * (bias-i);
 
 		return Math.pow( Math.random(),n ) * (maxr-minr) + minr;
@@ -715,7 +666,8 @@ PaperScope.inject({
 	 *	@param {Number} max
 	 *				maximum limit
 	 *
-	 *	@return {Number} original value that is not less than the minimum and no greater than the maximum
+	 *	@return {Number} original value that is not less than the
+	 *	                 minimum and no greater than the maximum
 	 *
 	 *	@example
 	 *	var clamped = clamp(120, 0, 90); // 90
@@ -856,7 +808,6 @@ PaperScope.inject({
 	 *	divisor(12) = [1, 2, 3, 4, 6, 12]
 	 */
 	divisor: function(val) {
-		// if (va; < 1) throw 'Argument error';
 		var small = [];
 		var large = [];
 		var end = Math.floor(Math.sqrt(val));
@@ -864,7 +815,7 @@ PaperScope.inject({
 			if (val % i == 0) {
 				small.push(i);
 				if (i * i != val) {
-					large.push(val / i); // Don't include a square root twice
+					large.push(val / i);
 				}
 			}
 		}
@@ -1027,7 +978,7 @@ PaperScope.inject({
 			arg1.position.y + r2 * Math.sin(angle1 - angle2)
 		);
 
-		return [pt1, pt2, pt3, pt4]
+		return [pt1, pt2, pt3, pt4];
 	}
 
 
@@ -1568,8 +1519,6 @@ paper.Item.inject({
 
 	//-----------------------------------------------------------------------------
 	/**
-	 * {@grouptitle Position and Bounding Boxes}
-	 *
 	 *	Returns the distance between the item and the center of the canvas/artboard
 	 *
 	 *	@return {Number}
@@ -1810,7 +1759,7 @@ paper.Path.inject({
 	// },
 
 	/**
-	 *	@param b
+	 *	@param {} xb
 	 *			array of barycentric coordinates
 	 */
 	// TODO: currently implementation returns false point
@@ -2440,8 +2389,6 @@ paper.Point.inject({
 	},
 
 	/**
-	 *	{@grouptitle Distance & Length}
-	 *
 	 *	Returns the distance between the point and the center of the canvas
 	 *
 	 *	@return {Number}
@@ -2529,8 +2476,6 @@ paper.Point.inject({
 	// },
 
 	/**
-	 *	{@grouptitle Vector Math Functions}
-	 *
 	 *	@return {Number} vector mag squared
 	 *
 	 *	@example
@@ -2654,6 +2599,7 @@ paper.Size.inject({
 
 
 });
+
 /*
  *
  *	FString.js
@@ -2863,6 +2809,8 @@ folio.FTime.Ease = function() {
 	 *	);
 	 *	spline.get(t) // returns the normalized easing value | t must be in [0, 1] range
 	 *
+	 * @return {Array}
+	 *
 	 */
 	function KeySpline(arg0, arg1) {
 		var values;
@@ -2891,7 +2839,7 @@ folio.FTime.Ease = function() {
 		 *	@param {Number} arg1
 		 *					x2 or y2
 		 *
-		 *	@return x(t)
+		 *	@return {Number} x(t)
 		 *
 		 */
 		function CalcBezier(t, arg0, arg1) {
@@ -2906,7 +2854,7 @@ folio.FTime.Ease = function() {
 		 *	@param {Number} arg1
 		 *					x2 or y2
 		 *
-		 *	@return dx/dt
+		 *	@return {Number} dx/dt
 		 *
 		 */
 		function GetSlope(t, arg0, arg1) {
@@ -2942,7 +2890,7 @@ folio.FTime.Ease = function() {
 
 	// public
 	return {
-		/**
+		/*
 		 *	see http://easings.net/de for visual examples
 		 *	of each spline method
 		 */
@@ -2982,6 +2930,7 @@ folio.FTime.Ease = function() {
 	};
 
 };
+
 /*
  *
  *	FDate.js
@@ -2993,160 +2942,137 @@ folio.FTime.FDate = function() {
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
-	/**
-	 *	public
-	 */
-	this.date;
-
-	/**
-	 *	private
-	 */
-	var _months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-	var _shortMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+	var dateObj = new Date();
+	var monthsArr = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+	var shortMonthsArr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 
 
 	// ------------------------------------------------------------------------
 	// Methods
 	// ------------------------------------------------------------------------
-	/**
-	 *	private
-	 */
-	var _addZero = function(val) {
+	var addZero = function(val) {
 		if (val.length == 1) val = '0' + val;
 		return val;
 	};
 
-
-	// ------------------------------------------------------------------------
 	/**
-	 *	public
+	 *	@return {String} return the current year as 'YYYY'
 	 */
-	/**
-	 *	@return return the current year as 'YYYY'
-	 */
-	this.year = function() {
-		if(this.date === undefined) this.date = new Date();
-		var year = String( this.date.getFullYear() );
+	var year = function() {
+		if(dateObj === undefined) dateObj = new Date();
+		var year = String( dateObj.getFullYear() );
 		return year;
 	};
 
 	/**
-	 *	@return return the current month as 'MM'
+	 *	@return {String} return the current month as 'MM'
 	 */
-	this.month = function() {
-		if(this.date === undefined) this.date = new Date();
-		var month = String( this.date.getMonth() );
-		hour = _addZero(month);
-		return month;
+	var month = function() {
+		if(dateObj === undefined) dateObj = new Date();
+		return String( dateObj.getMonth() );
 	};
 
 	/**
-	 *	@return return the current day as string 'DD'
+	 *	@return {String} return the current day as 'DD'
 	 */
-	this.day = function() {
-		if(this.date === undefined) this.date = new Date();
-		var day = String( this.date.getDate() );
-		return day;
+	var day = function() {
+		if(dateObj === undefined) dateObj = new Date();
+		return String( dateObj.getDate() );
 	};
 
 	/**
-	 *	@return return the current hour as string 'HH'
+	 *	@return {String} return the current hour as 'HH'
 	 */
-	this.hour = function() {
-		if(this.date === undefined) this.date = new Date();
-		var hour = String( this.date.getHours() );
-		hour = _addZero(hour);
-		return hour;
+	var hour = function() {
+		if(dateObj === undefined) dateObj = new Date();
+		var hour = String( dateObj.getHours() );
+		return addZero(hour);
 	};
 
 	/**
-	 *	@return return the current minute as string 'mm'
+	 *	@return {String} return the current minute as 'mm'
 	 */
-	this.minute = function() {
-		if(this.date === undefined) this.date = new Date();
-		var minute = String( this.date.getMinutes() );
-		minute = _addZero(minute);
-		return minute;
+	var minute = function() {
+		if(dateObj === undefined) dateObj = new Date();
+		var minute = String( dateObj.getMinutes() );
+		return addZero(minute);
 	};
 
 	/**
-	 *	@return return the current second as string 'ss'
+	 *	@return {String} return the current second as 'ss'
 	 */
-	this.second = function() {
-		if(this.date === undefined) this.date = new Date();
-		var second = String( this.date.getSeconds() );
-		second = _addZero(second);
-		return second;
+	var second = function() {
+		if(dateObj === undefined) dateObj = new Date();
+		var second = String( dateObj.getSeconds() );
+		return addZero(second);
 	};
 
 	/**
-	 *	return the current date as string "yyyyMMdd"
-	 *
-	 *	@return date
+	 *	@return {String} return the current date as "yyyyMMdd"
 	 */
-	// this.date = function() {
-	//	return this.year() + this.month() + this.day();
-	// };
+	var date = function() {
+		return year() + month() + day();
+	};
 
 	/**
-	 *	@param format
+	 *	@param {Array} format
 	 *			boolean array = [hours, minutes, seconds]
 	 *
-	 *	@return the current time
+	 *	@return {String} the current time
 	 */
-	this.now = function(format) {
-		var disp = [];
-		if( format === undefined ) disp = [true, true, true];
-		else disp = format;
-
+	var now = function(format) {
+		var disp = format || [true, true, true];
 		var str = '';
-		if(disp[0]) str += this.hour();
+		if(disp[0]) str += hour();
 		if(disp[0] && disp[1]) str += ':';
-		if(disp[1]) str += this.minute();
+		if(disp[1]) str += minute();
 		if(disp[1] && disp[2]) str += ':';
-		if(disp[2]) str += this.second();
+		if(disp[2]) str += second();
 		return str;
 	};
 
-	this.nowMilliseconds = function() {
-		return this.toMillsecond(
-			this.hour(),
-			this.minute(),
-			this.second()
-		);
+	/**
+	 *	@return {Number} the current time in milliseconds
+	 */
+	var nowMilliseconds = function() {
+		return toMillsecond( hour(), minute(), second() );
 	};
 
 	/**
 	 *	add to time
 	 *
-	 *	@param _d
-	 *			input days
-	 *	@param _h
-	 *			input hours
-	 *	@param _m
-	 *			input minutes
-	 *	@param _s
-	 *			input seconds
+	 *	@param {Number} d
+	 *			days
+	 *	@param {Number} h
+	 *			hours
+	 *	@param {Number} m
+	 *			minutes
+	 *	@param {Number} s
+	 *			seconds
+	 *
+	 * @return {[type]} [description]
 	 */
-	this.add = function(_d, _h, _m, _s) {
-		return this.date + (24 * _d + 60 * _h + 60 * _m + 1000 * s);
+	var add = function(d, h, m, s) {
+		return dateObj + (24 * d + 60 * h + 60 * m + 1000 * s);
 	};
 
 	/**
-	 *	sub from time
+	 *	subtract from time
 	 *
-	 *	@param _d
-	 *			input days
-	 *	@param _h
-	 *			input hours
-	 *	@param _m
-	 *			input minutes
-	 *	@param _s
-	 *			input seconds
+	 *	@param {Number} d
+	 *			days
+	 *	@param {Number} h
+	 *			hours
+	 *	@param {Number} m
+	 *			minutes
+	 *	@param {Number} s
+	 *			seconds
+	 *
+	 * @return {[type]} [description]
 	 */
-	this.sub = function(_d, _h, _m, _s) {
-		return this.date - (24 * _d + 60 * _h + 60 * _m + 1000 * s);
+	var sub = function(d, h, m, s) {
+		return dateObj - (24 * d + 60 * h + 60 * m + 1000 * s);
 	};
 
 
@@ -3157,19 +3083,21 @@ folio.FTime.FDate = function() {
 	/**
 	 *	set to a specific time
 	 *
-	 *	@param _d
-	 *			input days
-	 *	@param _h
-	 *			input hours
-	 *	@param _m
-	 *			input minutes
-	 *	@param _s
-	 *			input seconds
+	 *	@param {Number} d
+	 *			days
+	 *	@param {Number} h
+	 *			hours
+	 *	@param {Number} m
+	 *			minutes
+	 *	@param {Number} s
+	 *			seconds
+	 *
+	 * @return {[type]} [description]
 	 */
-	this.set = function(_d, _h, _m, _s) {
-		this.time = new Date();
-		this.time.setTime( (24 * _d + 60 * _h + 60 * _m + 1000 * s) );
-		return this.time;
+	var set = function(d, h, m, s) {
+		time = new Date();
+		time.setTime( (24 * d + 60 * h + 60 * m + 1000 * s) );
+		return time;
 	};
 
 
@@ -3178,18 +3106,15 @@ folio.FTime.FDate = function() {
 	// Gets
 	// ------------------------------------------------------------------------
 	/**
-	 *	@param ms
-	 *			input as milliseconds
-	 *	@param format
+	 *	@param {Number} ms
+	 *			as milliseconds
+	 *	@param {Array} format
 	 *			boolean array = [hours, minutes, seconds]
 	 *
-	 *	@return human readable default is hh:mm:ss
+	 *	@return {String} human readable default is hh:mm:ss
 	 */
-	this.get = function(ms, format) {
-		var disp;
-		if( format === undefined ) disp = new Array(true, true, true);
-		else disp = format;
-
+	var get = function(ms, format) {
+		var disp = format || [true, true, true];
 		var seconds = parseInt( (ms / 1000) % 60 );
 		var minutes = parseInt( ((ms / 1000) / 60) % 60 );
 		var hours   = parseInt( (((ms / 1000) / 60) / 60) % 24 );
@@ -3212,41 +3137,63 @@ folio.FTime.FDate = function() {
 	};
 
 	/**
-	 *	@param h
-	 *			input as hours OR input string as hh:mm:ss OR mm:ss
-	 *	@param m
-	 *			input as minutes
-	 *	@param s
-	 *			input as seconds
+	 *	@param {String} h
+	 *			as hh:mm:ss OR mm:ss
 	 *
-	 *	@return time in milliseconds
+	 *	@return {Number} time in milliseconds
 	 */
-	this.toMillsecond = function(_h, _m, _s) {
-		var h,m,s;
-		if(_m === undefined && _s === undefined) {
-			h = this.toArray(_h)[0];
-			m = this.toArray(_h)[1];
-			s = this.toArray(_h)[2];
-		}
-		else {
-			h = _h;
-			m = _m;
-			s = _s;
+	/**
+	 *	@param {Number} h
+	 *			hours
+	 *	@param {Number} m
+	 *			minutes
+	 *	@param {Number} s
+	 *			seconds
+	 *
+	 *	@return {Number} time in milliseconds
+	 */
+	var toMillsecond = function(h, m, s) {
+		if( m === undefined &&  s === undefined ) {
+			h = toArray(h)[0];
+			m = toArray(h)[1];
+			s = toArray(h)[2];
 		}
 		return parseInt(3600000 * h + 60000 * m + 1000 * s);
 	};
 
 	/**
-	 *	@param strHMS
-	 *			input string as hh:mm:ss
+	 *	@param {String} str
+	 *			string as hh:mm:ss
 	 *
-	 *	@return array of time [0] hours [1] minutes [2] seconds
+	 *	@return {Array} array of time [0] hours [1] minutes [2] seconds
 	 */
-	this.toArray = function(strHMS) {
-		var temp = strHMS.split(':');
-		return [ temp[0], temp[1], temp[2] ];
+	var toArray = function(str) {
+		var hms = str.split(':');
+		return [ hms[0], hms[1], hms[2] ];
 	};
 
+
+	//-----------------------------------------------------------------------------
+	return {
+		year: year,
+		month: month,
+		day: day,
+		hour: hour,
+		minute: minute,
+		second: second,
+		date: date,
+		now: now,
+		nowMilliseconds: nowMilliseconds,
+
+		add: add,
+		sub: sub,
+
+		set: set,
+		get: get,
+
+		toMillsecond: toMillsecond,
+		toArray: toArray
+	};
 
 };
 
@@ -3263,28 +3210,22 @@ folio.FTime.FStepper = function() {
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
-	/**
-	 *	private
-	 */
-	var _stepMillis = 1000; // Set to default of 1s OR 1000ms
+	var stepMillis = 1000; // Set to default of 1s OR 1000ms
 
-	var _timeStart = 0.0;
-	var _timeEnd = 0.0;
+	var timeStart = 0.0;
+	var timeEnd = 0.0;
 
-	var _bToggleStart = 0;
-	var _bBeginStpper = false;
-	var _bIn = false;
-	var _bOut = false;
-	var _bDone = true;
+	var bToggleStart = 0;
+	var bBeginStepper = false;
+	var bIn = false;
+	var bOut = false;
+	var bDone = true;
 
-	var _easing = 0.05;
-	var _bEase = true;
+	var easing = 0.05;
+	var bEase = true;
 
-	/**
-	 *	public
-	 */
-	this.delta = 1.0;
-	this.counter = -1;
+	var delta = 1.0;
+	var counter = 0;
 
 
 
@@ -3295,70 +3236,65 @@ folio.FTime.FStepper = function() {
 	 *
 	 *	toggle (start/stop) the stepper
 	 *
+	 * @return {Number} start status
+	 *
 	 */
-	this.toggle = function() {
-		if (_bToggleStart == 0) {
-			_bToggleStart = 1;
-			this.stepOut();
+	var toggle = function() {
+		if (bToggleStart === 0) {
+			bToggleStart = 1;
+			stepOut();
 		}
 		else {
-			_bToggleStart = 0;
-			this.stepIn();
+			bToggleStart = 0;
+			stepIn();
 		}
-	}
+		return bToggleStart;
+	};
 
 	// ------------------------------------------------------------------------
 	/**
-	 *	TODO: implement ability to add _easing functions
-	 *
 	 *	required function to keep the timing in sync
 	 *	with the application
 	 *
-	 *	@param currentTime
+	 *	@param {Number} currentSeconds
 	 *			the elapsed time of the application in seconds
 	 */
-	this.update = function(currentTime) {
-		if(_bBeginStpper) {
-			_bBeginStpper = false;
-			_timeStart = currentTime;
-			if(_bIn) {
-				_timeEnd = paper.round( (currentTime + ((1.0 - this.delta) * _stepMillis)), 3 );
+	var update = function(currentSeconds) {
+		if(bBeginStepper) {
+			bBeginStepper = false;
+			timeStart = currentSeconds;
+			if(bIn) {
+				timeEnd = paper.round( (currentSeconds + ((1.0 - delta) * stepMillis)), 3 );
 			}
 			else {
-				_timeEnd = paper.round( (currentTime + (this.delta*_stepMillis)), 3 );
+				timeEnd = paper.round( (currentSeconds + (delta*stepMillis)), 3 );
 			}
-			if(_timeEnd <= currentTime) {
-				if(_bIn) {
-					_bIn = false;
-					this.delta = 1.0;
+			if(timeEnd <= currentSeconds) {
+				if(bIn) {
+					bIn = false;
+					delta = 1.0;
 				}
 				else {
-					_bOut = false;
-					this.delta = 0.0;
+					bOut = false;
+					delta = 0.0;
 				}
 			}
 		}
-		if(_bIn) {
-			this.delta = paper.round( (1.0 - ((_timeEnd - currentTime) / _stepMillis)), 3 );
-			// if(_bEase) {
-			// }
-
-			if(currentTime == _timeEnd) {
-				_bIn = false;
-				this.delta = 1.0;
-				this.counter++;
+		if(bIn) {
+			delta = paper.round( (1.0 - ((timeEnd - currentSeconds) / stepMillis)), 3 );
+			if(currentSeconds == timeEnd) {
+				bIn = false;
+				delta = 1.0;
+				counter++;
 				return;
 			}
 		}
-		else if(_bOut) {
-			this.delta = paper.round( ((_timeEnd - currentTime) / _stepMillis), 3 );
-			// if(_bEase) {
-			// }
-
-			if(currentTime == _timeEnd) {
-				_bIn = false;
-				this.delta = 0.0;
-				this.counter++;
+		else if(bOut) {
+			delta = paper.round( ((timeEnd - currentSeconds) / stepMillis), 3 );
+			if(currentSeconds == timeEnd) {
+				bIn = false;
+				delta = 0.0;
+				counter++;
 				return;
 			}
 		}
@@ -3370,12 +3306,12 @@ folio.FTime.FStepper = function() {
 	 *	toggle stepping in (++)
 	 *
 	 */
-	this.stepIn = function() {
-		if(_bIn) return;
-		if(this.delta == 1.0) return;
-		_bBeginStpper = true;
-		_bIn = true;
-		_bOut = false;
+	var stepIn = function() {
+		bBeginStepper = true;
+		bIn = true;
+		bOut = false;
+		if(bIn) return;
+		if(delta === 1.0) return;
 	};
 
 	/**
@@ -3383,39 +3319,39 @@ folio.FTime.FStepper = function() {
 	 *	toggle stepping out (--)
 	 *
 	 */
-	this.stepOut = function() {
-		if(_bOut) return;
-		if(this.delta == 0.0) return;
-		_bBeginStpper = true;
-		_bOut = true;
-		_bIn = false;
+	var stepOut = function() {
+		bBeginStepper = true;
+		bOut = true;
+		bIn = false;
+		if(bOut) return;
+		if(delta === 0.0) return;
 	};
 
 	// ------------------------------------------------------------------------
 	/**
-	 *	@return if the object is stepping in
+	 *	@return {Boolean} if the object is stepping in
 	 */
-	this.isIn = function() {
-		return _bIn;
+	var isIn = function() {
+		return bIn;
 	};
 	/**
-	 *	@return if the object is stepping out
+	 *	@return {Boolean} if the object is stepping out
 	 */
-	this.isOut = function() {
-		return _bOut;
+	var isOut = function() {
+		return bOut;
 	};
 
 	/**
-	 *	@return if the object has finished it's stepping
+	 *	@return {Boolean} if the object has finished it's stepping
 	 */
-	this.isDone = function() {
-		if(this.delta < 1.0 && this.delta > 0.0) return false;
-		else if(this.delta > 1.0) {
-			this.delta = 1.0;
+	var isDone = function() {
+		if(delta < 1.0 && delta > 0.0) return false;
+		else if(delta > 1.0) {
+			delta = 1.0;
 			return true;
 		}
-		else if(this.delta < 0.0) {
-			this.delta = 0.0;
+		else if(delta < 0.0) {
+			delta = 0.0;
 			return true;
 		}
 	};
@@ -3426,50 +3362,75 @@ folio.FTime.FStepper = function() {
 	 *	stop stepping
 	 *
 	 */
-	this.stop = function() {
-		_bBeginStpper = _bIn = _bOut = false;
+	var stop = function() {
+		bBeginStepper = bIn = bOut = false;
 	};
 
+	/**
+	 *	@return {Number}
+	 */
+	var getDelta = function() {
+		return delta;
+	};
+
+	/**
+	 *	@return {Number}
+	 */
+	var getCounter = function() {
+		return counter;
+	};
 
 
 	// ------------------------------------------------------------------------
 	// Sets
 	// ------------------------------------------------------------------------
 	/**
-	 *	@param _seconds
+	 *	@param {Number} seconds
 	 *			length of fade in seconds
 	 */
-	this.setSeconds = function(_seconds) {
-		this.setMillis( parseInt(_seconds * 1000.0) );
+	var setSeconds = function(seconds) {
+		setMillis( parseInt(seconds * 1000.0) );
 	};
 	/**
-	 *	@param _millis
+	 *	@param {Number} millis
 	 *			length of fade in milliseconds
 	 */
-	this.setMillis = function(_millis) {
-		_stepMillis = _millis;
-		_stepMillis /= 1000;
+	var setMillis = function(millis) {
+		stepMillis = millis;
+		stepMillis /= 1000;
 	};
 
 	/**
-	 *	@param _val
-	 *			to ease or not to ease...
-	 *	@param __easing
-	 *			(optional) degree of _easing
-	 */
-	// this.setEasing = function(_val, _easeing) {
-	//	_bEase = _val;
-	//	_easing = _easeing;
-	// };
-
-	// ------------------------------------------------------------------------
-	/**
-	 *	@param _val
+	 *	@param {Number} val
 	 *			set a value for the delta 0.0 - 1.0
 	 */
-	this.setDelta = function(_val) {
-		this.delta = _val;
+	var setDelta = function(val) {
+		delta = val;
 	};
+
+
+	// ------------------------------------------------------------------------
+	return {
+		delta: getDelta,
+		counter: getCounter,
+
+		toggle: toggle,
+		update: update,
+		stepIn: stepIn,
+		stepOut: stepOut,
+
+		isIn: isIn,
+		isOut: isOut,
+		isDone: isDone,
+
+		stop: stop,
+
+		setSeconds: setSeconds,
+		setMillis: setMillis,
+		setDelta: setDelta
+	};
+
+
 };
 
 
@@ -3487,13 +3448,10 @@ folio.FTime.FStopwatch = function() {
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
-	/**
-	 *	private
-	 */
-	var _now;
-	var _then;
-	var _timeInMs = 0;
-	var _bStart = 0;
+	var now;
+	var then;
+	var timeInMs = 0;
+	var bStart = 0;
 
 
 
@@ -3505,12 +3463,12 @@ folio.FTime.FStopwatch = function() {
 	 *	toggle (start/stop) the stopwatch
 	 *
 	 */
-	this.toggle = function() {
-		if (_bStart == 0) {
-			this.start();
+	var toggle = function() {
+		if (bStart == 0) {
+			start();
 		}
 		else {
-			this.pause();
+			pause();
 		}
 	};
 
@@ -3519,11 +3477,11 @@ folio.FTime.FStopwatch = function() {
 	 *	start the stopwatch
 	 *
 	 */
-	this.start = function() {
+	var start = function() {
 		// start
-		_bStart = 1;
-		_then = new Date();
-		_then.setTime(_then.getTime() - _timeInMs);
+		bStart = 1;
+		then = new Date();
+		then.setTime(then.getTime() - timeInMs);
 	};
 
 	/**
@@ -3531,11 +3489,11 @@ folio.FTime.FStopwatch = function() {
 	 *	pause the stopwatch
 	 *
 	 */
-	this.pause = function() {
+	var pause = function() {
 		// pause
-		_bStart = 0;
-		_now = new Date();
-		_timeInMs = _now.getTime() - _then.getTime();
+		bStart = 0;
+		now = new Date();
+		timeInMs = now.getTime() - then.getTime();
 	};
 
 	/**
@@ -3543,9 +3501,9 @@ folio.FTime.FStopwatch = function() {
 	 *	reset the stopwatch
 	 *
 	 */
-	this.reset = function() {
-		_bStart = 0;
-		_timeInMs = 0;
+	var reset = function() {
+		bStart = 0;
+		timeInMs = 0;
 	};
 
 
@@ -3557,19 +3515,19 @@ folio.FTime.FStopwatch = function() {
 	 *
 	 *	set the stopwatch
 	 *
-	 *	@param ms
+	 *	@param {Number} ms
 	 *			milliseconds to start the stopwatch with
-	 *	@param run
+	 *	@param {Boolean} run
 	 *			whether the stopwatch should start or not
 	 *
 	 */
-	this.set = function(ms, run) {
-		_timeInMs = ms;
-		(run == true) ? _bStart = 0 : _bStart = 1;
+	var set = function(ms, run) {
+		timeInMs = ms;
+		(run == true) ? bStart = 0 : bStart = 1;
 
-		_then = new Date();
-		_then.setTime(_then.getTime() - _timeInMs);
-		this.toggle();
+		then = new Date();
+		then.setTime(then.getTime() - timeInMs);
+		toggle();
 	};
 
 
@@ -3579,30 +3537,39 @@ folio.FTime.FStopwatch = function() {
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	@return the time elapsed
+	 *	@return {Number} the time elapsed in milliseconds
 	 *
 	 */
-	this.get = function() {
-		if (_bStart == 1)  {
-			_now = new Date();
-			_timeInMs = _now.getTime() - _then.getTime();
+	var get = function() {
+		if (bStart == 1)  {
+			now = new Date();
+			timeInMs = now.getTime() - then.getTime();
 		}
-		return _timeInMs;
+		return timeInMs;
 	};
 
 	/**
 	 *
-	 *	@return whether the stopwatch is running
+	 *	@return {Boolean} whether the stopwatch is running
 	 *
 	 */
-	this.isRunning = function() {
-		return (_bStart) ? true : false;
+	var isRunning = function() {
+		return (bStart) ? true : false;
 	};
 
 
-	// return {
+	// ------------------------------------------------------------------------
+	return {
+		toggle: toggle,
+		start: start,
+		pause: pause,
+		reset: reset,
 
-	// };
+		set: set,
+
+		get: get,
+		isRunning: isRunning
+	};
 
 };
 
@@ -3629,9 +3596,9 @@ folio.FIO = {
 	 *	save a value using HTML5 Local Storage
 	 *	http://www.w3schools.com/html/html5_webstorage.asp
 	 *
-	 *	@param name
+	 *	@param {String} name
 	 *				the name (key) of what we want to save
-	 *	@param value
+	 *	@param {Object} value
 	 *				what we want to save
 	 */
 	saveLocal: function(name, value) {
@@ -3646,8 +3613,10 @@ folio.FIO = {
 	/**
 	 *	retrieve saved value (default: as string)
 	 *
-	 *	@param name
+	 *	@param {String} name
 	 *				the name (key) of what we want to retrieve
+	 *
+	 * @return {String} float value
 	 */
 	getLocal: function(name) {
 		return localStorage.getItem(name);
@@ -3656,8 +3625,10 @@ folio.FIO = {
 	/**
 	 *	retrieve saved value as an int
 	 *
-	 *	@param name
+	 *	@param {String} name
 	 *				the name (key) of what we want to retrieve
+	 *
+	 * @return {Number} int value
 	 */
 	getLocalInt: function(name) {
 		return parseInt( getLocal(name) );
@@ -3666,15 +3637,17 @@ folio.FIO = {
 	/**
 	 *	retrieve saved value as a float
 	 *
-	 *	@param name
+	 *	@param {String} name
 	 *				the name (key) of what we want to retrieve
+	 *
+	 * @return {Number} float value
 	 */
 	getLocalFloat: function(name) {
 		return parseFloat( getLocal(name) );
 	},
 
 	/**
-	 *	@return a list of all items saved in local storage
+	 *	@return {Array} a list of all items saved in local storage
 	 *
 	 */
 	getAllLocal: function() {
@@ -3685,9 +3658,8 @@ folio.FIO = {
 	/**
 	 *	delete a saved value from local storage
 	 *
-	 *	@param name
+	 *	@param {String} name
 	 *				the name (key) of what we want to delete
-	 *
 	 */
 	deleteLocal: function(name) {
 		localStorage.removeItem(name);
@@ -3703,9 +3675,9 @@ folio.FIO = {
 	 *	save a value using HTML5 Session Storage
 	 *	http://www.w3schools.com/html/html5_webstorage.asp
 	 *
-	 *	@param name
+	 *	@param {String} name
 	 *				the name (key) of what we want to save
-	 *	@param value
+	 *	@param {Object} value
 	 *				what we want to save
 	 */
 	saveSession: function(name, value) {
@@ -3720,8 +3692,10 @@ folio.FIO = {
 	/**
 	 *	retrieve saved value (default: as string)
 	 *
-	 *	@param name
+	 *	@param {String} name
 	 *				the name (key) of what we want to retrieve
+	 *
+	 * @return {String} string value
 	 */
 	getSession: function(name) {
 		return sessionStorage.getItem(name);
@@ -3730,8 +3704,10 @@ folio.FIO = {
 	/**
 	 *	retrieve saved value as an int
 	 *
-	 *	@param name
+	 *	@param {String} name
 	 *				the name (key) of what we want to retrieve
+	 *
+	 * @return {Number} int value
 	 */
 	getSessionInt: function(name) {
 		return parseInt( getSession(name) );
@@ -3740,15 +3716,17 @@ folio.FIO = {
 	/**
 	 *	retrieve saved value as a float
 	 *
-	 *	@param name
+	 *	@param {String} name
 	 *				the name (key) of what we want to retrieve
+	 *
+	 * @return {Number} float value
 	 */
 	getSessionFloat: function(name) {
 		return parseFloat( getSession(name) );
 	},
 
 	/**
-	 *	@return a list of all items saved in session storage
+	 *	@return {Arrat} a list of all items saved in session storage
 	 *
 	 */
 	getAllSession: function() {
@@ -3759,7 +3737,7 @@ folio.FIO = {
 	/**
 	 *	delete a saved value from session storage
 	 *
-	 *	@param name
+	 *	@param {String} name
 	 *				the name (key) of what we want to delete
 	 *
 	 */
@@ -3777,11 +3755,11 @@ folio.FIO = {
 	/**
 	 *	save a value as a cookie
 	 *
-	 *	@param name
+	 *	@param {String} name
 	 *				the name (key) of what we want to save
-	 *	@param value
+	 *	@param {Object} value
 	 *				what we want to save
-	 *	@param days
+	 *	@param {Number} days
 	 *				how many days do we want to save it for
 	 */
 	saveCookie: function(name, value, days) {
@@ -3797,7 +3775,7 @@ folio.FIO = {
 	/**
 	 *	retrieve a value from a cookie
 	 *
-	 *	@param name
+	 *	@param {String} name
 	 *				the name (key) of what we want to retrieve
 	 */
 	openCookie: function(name) {
@@ -3808,13 +3786,13 @@ folio.FIO = {
 			while (c.charAt(0)==' ') c = c.substring(1,c.length);
 			if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
 		}
-		return null;
+		// return null;
 	},
 
 	/**
 	 *	delete a cookie
 	 *
-	 *	@param name
+	 *	@param {String} name
 	 *				the name (key) of what we want to delete
 	 */
 	deleteCookie: function(name) {
@@ -3832,9 +3810,9 @@ folio.FIO = {
 	 */
 
 	/**
-	 *	@param str
+	 *	@param {String} str
 	 *				the String of information to save (JSON encoded)
-	 *	@param fname
+	 *	@param {String} fname
 	 *				the name of the file to save to
 	 */
 	saveFile: function(str, fname) {
@@ -3846,8 +3824,10 @@ folio.FIO = {
 	},
 
 	/**
-	 *	@param fname
+	 *	@param {String} fname
 	 *				the name of the file to open
+	 *
+	 * @return {Object} JSon output
 	 */
 	openFile: function(fname) {
 		var file = new File(script.file.parent, fname);
@@ -3859,7 +3839,7 @@ folio.FIO = {
 	},
 
 	/**
-	 *	@param fname
+	 *	@param {String} fname
 	 *				the name of the file to delete
 	 */
 	deleteFile: function(fname) {
@@ -3869,13 +3849,15 @@ folio.FIO = {
 	},
 
 	/**
-	 *	@param fname
+	 *	@param {String} fname
 	 *				the name of the file to verify exists
+	 *
+	 * @return {Boolean} true if exists, false otherwise
 	 */
 	checkFile: function(fname) {
 		var file = new File(script.file.parent, fname);
 		if (file.exists()) return true;
-		else return false
+		else return false;
 	}
 
 };
@@ -3912,6 +3894,8 @@ folio.FIO = {
  *					Array of Items
  *	@param {Number} iterations
  *					(optional) number of iterations per cycle (default: 11)
+ *
+ *  @return {Array}
  *
  */
 folio.FCirclePacker = function(circleItems, iterations) {
@@ -3990,7 +3974,7 @@ folio.FCirclePacker = function(circleItems, iterations) {
 
 		for (var i = 0; i < circleItems.length; i++) {
 			var c = circleItems[i];
-			var cPt = c.position
+			var cPt = c.position;
 			// if(c == this.dragCircle) continue;
 			pp.x = cPt.x - artboard.bounds.center.x;
 			pp.y = cPt.y - artboard.bounds.center.y;
@@ -4077,7 +4061,7 @@ folio.FCirclePacker = function(circleItems, iterations) {
 	/**
 	 *	could be dangerous
 	 *
-	 *	@return the Array of items being packed
+	 *	@return {Array} the items being packed
 	 */
 	var getItems = function() {
 		return circleItems;
@@ -4086,7 +4070,10 @@ folio.FCirclePacker = function(circleItems, iterations) {
 	/**
 	 *	could be dangerous
 	 *
-	 *	@return an Item from the Array of items being packed
+	 * @param {Number} index
+	 *        	index number of Item being packed
+	 *
+	 *	@return {Item} Item from items being packed
 	 */
 	var getItem = function(index) {
 		return circleItems[index];
@@ -4109,6 +4096,8 @@ folio.FCirclePacker = function(circleItems, iterations) {
 	};
 
 };
+
+
 /*
  *	Travelling Salesman Problem Algorithm
  *
@@ -4135,7 +4124,7 @@ folio.FCirclePacker = function(circleItems, iterations) {
  *	@param  {Number} iterations (optional)
  *		   	tests per frame (higher = better) default: 1000
  *
- *	@return {Array} an array of indices for the route through the input items
+ *	@return {Array}
  *
  */
 folio.FRoute = function(items, iterations) {
@@ -4164,7 +4153,7 @@ folio.FRoute = function(items, iterations) {
 			//	by flagging nodes that will be shown.
 			//	console.log("Optimizing plotting path");
 			var RouteNodesLength = 0;
-			var RouteNodesTemp = new Array(items.length);
+			var RouteNodesTemp = [items.length];
 
 			for(var i=0; i<items.length; ++i) {
 
@@ -4183,7 +4172,7 @@ folio.FRoute = function(items, iterations) {
 			}
 
 			// These are the ONLY points to be drawn in the tour.
-			RouteNodes = new Array(RouteNodesLength);
+			RouteNodes = [RouteNodesLength];
 			var tempCounter = 0;
 			for(var i=0; i<items.length; ++i) {
 				if(RouteNodesTemp[i]) {
@@ -4229,7 +4218,7 @@ folio.FRoute = function(items, iterations) {
 					RouteStep++;
 				}
 				else {
-					console.log("Now optimizing plot path" );
+					console.log('Now optimizing plot path');
 				}
 			}
 
@@ -4322,7 +4311,6 @@ folio.FRoute = function(items, iterations) {
 
 
 /*
- *
  *	Delaunay Triangulation
  *	Joshua Bell
  *	inexorabletash@hotmail.com
@@ -4381,7 +4369,7 @@ var EPSILON = 1.0e-6;
 /**
  *	FTriangulate
  *
- *	@param points
+ *	@param {Array} points
  *			input vertices (Points)
  *
  */
@@ -4401,11 +4389,11 @@ folio.FTriangulate = function( points ) {
 	/**
 	 *	Triangle
 	 *
-	 *	@param p1
+	 *	@param {Point} p1
 	 *				first Point of Triangle
-	 *	@param p2
+	 *	@param {Point} p2
 	 *				second Point of Triangle
-	 *	@param p3
+	 *	@param {Point} p3
 	 *				third Point of Triangle
 	 */
 	// TODO: remove this and rely on Path.Triangle
@@ -4425,17 +4413,19 @@ folio.FTriangulate = function( points ) {
 		/**
 		 *	vertex (Edge) sharing
 		 *
-		 *	@param other
+		 *	@param {Triangle} other
 		 *				the triangle to check for vertex (Edge) sharing
+		 *
+		 * @return {Triangle} the triangle that shares the given vertex (Edge)
 		 */
 		function sharesVertex(other) {
 			return p1 == other.p1 || p1 == other.p2 || p1 == other.p3 ||
 			p2 == other.p1 || p2 == other.p2 || p2 == other.p3 ||
 			p3 == other.p1 || p3 == other.p2 || p3 == other.p3;
-		}
+		};
 
 		/**
-		 *	@return circle
+		 *	@return {Point} circle
 		 *			Point of the circle center
 		 */
 		function circumcenter() {
@@ -4449,7 +4439,7 @@ folio.FTriangulate = function( points ) {
 				mx2 = (_p2.x + _p3.x) / 2.0;
 				my2 = (_p2.y + _p3.y) / 2.0;
 				circle.x = (_p2.x + _p1.x) / 2.0;
-				circle.y = m2 *	(circle.x - mx2) + my2;
+				circle.y = m2 * (circle.x - mx2) + my2;
 
 			}
 			else if ( Math.abs(_p3.y-_p2.y) < EPSILON ) {
@@ -4457,7 +4447,7 @@ folio.FTriangulate = function( points ) {
 				mx1 = (_p1.x + _p2.x) / 2.0;
 				my1 = (_p1.y + _p2.y) / 2.0;
 				circle.x = (_p3.x + _p2.x) / 2.0;
-				circle.y = m1 *	(circle.x - mx1) + my1;
+				circle.y = m1 * (circle.x - mx1) + my1;
 
 			}
 			else {
@@ -4467,8 +4457,8 @@ folio.FTriangulate = function( points ) {
 				mx2 = (_p2.x + _p3.x) / 2.0;
 				my1 = (_p1.y + _p2.y) / 2.0;
 				my2 = (_p2.y + _p3.y) / 2.0;
-				circle.x = (m1 *	mx1 - m2 *	mx2 + my2 - my1) / (m1 - m2);
-				circle.y = m1 *	(circle.x - mx1) + my1;
+				circle.x = (m1 * mx1 - m2 * mx2 + my2 - my1) / (m1 - m2);
+				circle.y = m1 * (circle.x - mx1) + my1;
 			}
 
 			return circle;
@@ -4476,8 +4466,7 @@ folio.FTriangulate = function( points ) {
 
 		//-----------------------------------------------------------------------------
 		/**
-		 *	@return center
-		 *			Point of the centroid center
+		 *	@return {Point} the centroid center
 		 *
 		 *	http://www.mathwords.com/c/centroid_formula.htm
 		 */
@@ -4490,8 +4479,7 @@ folio.FTriangulate = function( points ) {
 
 		//-----------------------------------------------------------------------------
 		/**
-		 *	 @return
-		 *			a sorted array (Edge) of the Triangle's Edges (shortest to longest)
+		 *	@return {Array} a sorted array (Edge) of the Triangle's Edges (shortest to longest)
 		 */
 		function distances() {
 			var distances = [];
@@ -4506,6 +4494,8 @@ folio.FTriangulate = function( points ) {
 		//-----------------------------------------------------------------------------
 		/**
 		 *	http://www.btinternet.com/~se16/hgb/triangle.htm
+		 *
+		 * @return {Number} triangle width
 		 */
 		function width() {
 			var x1 = 0;
@@ -4522,6 +4512,11 @@ folio.FTriangulate = function( points ) {
 			return f;
 		};
 
+		/**
+		 *	http://www.btinternet.com/~se16/hgb/triangle.htm
+		 *
+		 * @return {Number} triangle height
+		 */
 		function height() {
 			var y1 = 0;
 			if(_p1.y < _p2.y && _p1.y < _p3.y) y1 = _p1.y;
@@ -4552,8 +4547,7 @@ folio.FTriangulate = function( points ) {
 		// Gets
 		//-----------------------------------------------------------------------------
 		/**
-		 *	 @return
-		 *	 		the points of the triangle as a Point array
+		 *	@return {Array} the points of the triangle as a Point array
 		 */
 		function get() {
 			var points = [_p1, _p2, _p3];
@@ -4582,9 +4576,9 @@ folio.FTriangulate = function( points ) {
 	 *	Edge
 	 *	TODO: replace with paper.Segment
 	 *
-	 *	@param p1
+	 *	@param {Point} p1
 	 *				first Point of Edge
-	 *	@param p2
+	 *	@param {Point} p2
 	 *				second Point of Edge
 	 */
 	var Edge = function( p1, p2 ) {
@@ -4603,8 +4597,10 @@ folio.FTriangulate = function( points ) {
 		/**
 		 *	sorts edge by shortest to longest
 		 *
-		 *	@param o
+		 *	@param {Edge} other
 		 *				Edge to compare against
+		 *
+		 * @return {Number}
 		 */
 		function compareTo(other) {
 			return _dist < other.dist ? -1 : _dist > other.dist ? 1 : 0;
@@ -4616,8 +4612,9 @@ folio.FTriangulate = function( points ) {
 		// Gets
 		//-----------------------------------------------------------------------------
 		/**
-		 *	 @return
-		 *	 		the points of the edge as a Point array
+		 *
+		 *	@return {Array} the points of the edge as a Point array
+		 *
 		 */
 		function get() {
 			var points = [_p1, _p2];
@@ -4647,7 +4644,7 @@ folio.FTriangulate = function( points ) {
 	 *	Returned is a list of triangular faces in the Array triangles
 	 *	These triangles are arranged in a consistent clockwise order.
 	 *
-	 *	@return triangles
+	 *	@return {Array} triangles
 	 *			return Array of Triangles in clockwise order
 	 *
 	 */
@@ -4807,11 +4804,11 @@ folio.FTriangulate = function( points ) {
 	 *	The circumcircle center is returned in (xc,yc) and the radius r
 	 *	NOTE: A point on the edge is inside the circumcircle
 	 *
-	 * @param p
+	 * @param {Point} p
 	 *				Point to check
-	 * @param t
+	 * @param {Triangle} t
 	 *				Triangle to check
-	 * @param circle
+	 * @param {Item} circle
 	 *				circle to check
 	 *
 	 */
@@ -4873,11 +4870,10 @@ folio.FTriangulate = function( points ) {
 	 *
 	 *	Returns the closest Triangle based on the input Triangle
 	 *
-	 *	@param other
+	 *	@param {Triangle} other
 	 *			the input Triangle to find it's closest neighbor
 	 *
-	 *	@return
-	 *			closest Triangle
+	 *	@return {Triangle} closest Triangle
 	 */
 	function findClosest(other) {
 		var result;
@@ -4907,10 +4903,8 @@ folio.FTriangulate = function( points ) {
 	 *
 	 *	sort Point rray from left to right
 	 *
-	 *	@param a
-	 *			Point A
-	 *	@param b
-	 *			Point A
+	 *	@param {Point} a
+	 *	@param {Point} b
 	 *
 	 */
 	function sortLeftToRight(a,b) {
@@ -4923,10 +4917,8 @@ folio.FTriangulate = function( points ) {
 	 *
 	 *	sort Point array from top to bottom
 	 *
-	 *	@param a
-	 *			Point A
-	 *	@param b
-	 *			Point A
+	 *	@param {Point} a
+	 *	@param {Point} b
 	 *
 	 */
 	function sortTopToBottom(a,b) {
@@ -4942,8 +4934,7 @@ folio.FTriangulate = function( points ) {
 	 *	@param {Array} arr
 	 *			array to remove duplicate points from
 	 *
-	 *	@return
-	 *			the cleaned up array
+	 *	@return {Array} the cleaned up array
 	 *
 	 */
 	function uniquePoints(arr){
@@ -4962,8 +4953,7 @@ folio.FTriangulate = function( points ) {
 	 *	@param {Array} arr
 	 *			array to remove duplicate edges from
 	 *
-	 *	@return
-	 *			the cleaned up array
+	 *	@return {Array} the cleaned up array
 	 *
 	 */
 	function uniqueEdges(arr) {
@@ -5008,7 +4998,7 @@ folio.FTriangulate = function( points ) {
 	/**
 	 *	add point(s) to Triangulation
 	 *
-	 *	@param point
+	 *	@param {Point} point
 	 *			a single Point or array of Points
 	 *
 	 */
@@ -5040,11 +5030,10 @@ folio.FTriangulate = function( points ) {
 	// Gets
 	//-----------------------------------------------------------------------------
 	/**
-	 *	@param index
+	 *	@param {Number} index
 	 *			index of Triangle to return (optional)
 	 *
-	 *	@return
-	 *			the Triangles as array
+	 *	@return {Array} the Triangles as array
 	 */
 	function getTriangles(index) {
 		if( index != null ) {
@@ -5056,11 +5045,10 @@ folio.FTriangulate = function( points ) {
 	};
 
 	/**
-	 *	@param index
+	 *	@param {Number} index
 	 *			index of Point to return (optional)
 	 *
-	 *	@return
-	 *			the points as a Point array
+	 *	@return {Array} the points as a Point array
 	 */
 	function getPoints(index) {
 		if( index != null ) {
@@ -5097,7 +5085,7 @@ folio.FTriangulate = function( points ) {
 
 
 
-/**
+/*Ô
  *
  *	HashSet
  *	Phùng Văn Huy
@@ -5118,7 +5106,7 @@ var HashSet = function() {
 	//-----------------------------------------------------------------------------
 	// Properties
 	//-----------------------------------------------------------------------------
-	var _arr = new Array();
+	var _arr = [];
 
 
 
@@ -5212,7 +5200,7 @@ var HashSet = function() {
 
 
 
-/**
+/*
  *
  *	Matrix3D
  *
@@ -5296,7 +5284,7 @@ var Matrix3D = function( n11, n12, n13, n14,
 
 
 	// ------------------------------------------------------------------------
-	/**
+	/*
 	 *
 	 *	Rotation
 	 *
@@ -5339,9 +5327,9 @@ var Matrix3D = function( n11, n12, n13, n14,
 
 	/**
 	 *
-	 *	@param axis
+	 *	@param {FPoint3} axis
 	 *				FPoint3 xyz
-	 *	@param angle
+	 *	@param {Number} angle
 	 *				rotation angle in degrees
 	 *
 	 */
@@ -5370,7 +5358,7 @@ var Matrix3D = function( n11, n12, n13, n14,
 
 
 	// ------------------------------------------------------------------------
-	/**
+	/*
 	 *	Scaling
 	 */
 	this.scale = function(sx, sy, sz) {
@@ -5384,7 +5372,7 @@ var Matrix3D = function( n11, n12, n13, n14,
 
 
 	// ------------------------------------------------------------------------
-	/**
+	/*
 	 *	Translating
 	 */
 	this.translate = function(dx, dy, dz) {
@@ -5395,7 +5383,7 @@ var Matrix3D = function( n11, n12, n13, n14,
 
 
 	// ------------------------------------------------------------------------
-	/**
+	/*
 	 *	Transforming
 	 */
 	this.transformPoint = function(point) {
@@ -5425,7 +5413,7 @@ var Matrix3D = function( n11, n12, n13, n14,
 
 
 	// ------------------------------------------------------------------------
-	/**
+	/*
 	 *	Position
 	 */
 	this.getPosition = function() {
@@ -5434,7 +5422,7 @@ var Matrix3D = function( n11, n12, n13, n14,
 
 	/**
 	 *
-	 *	@param fpoint3
+	 *	@param {FPoint3} fpoint3
 	 *				FPoint3 xyz
 	 *
 	 */
@@ -5443,9 +5431,9 @@ var Matrix3D = function( n11, n12, n13, n14,
 		this.n13 = fpoint3.y;
 		this.n14 = fpoint3.z;
 		return this;
-	},
+	};
 
-	/**
+	/*
 	 *
 	 *	Frustrum
 	 *	https://github.com/mrdoob/three.js/blob/master/src/core/Matrix4.js
@@ -5472,7 +5460,7 @@ var Matrix3D = function( n11, n12, n13, n14,
 		// this.initialize(values);
 	};
 
-	/**
+	/*
 	 *
 	 *	Presets modified from Three.js
 	 *	https://github.com/mrdoob/three.js/blob/master/src/core/Matrix4.js
@@ -5798,7 +5786,7 @@ folio.F3D.FPath3.inject({
 					? fsize3
 					: new folio.F3D.FSize3( 10,10,10 );
 
-				var sides = new Array(6);
+				var sides = [6];
 				var faceFRONT = [
 					new folio.F3D.FPoint3(-0.5, -0.5, -0.5),	// corner
 					new folio.F3D.FPoint3( 0.5, -0.5, -0.5),	// corner
@@ -5931,7 +5919,7 @@ folio.F3D.FPath3.inject({
 						vertices.push( new folio.F3D.FPoint3( x*zr1, y*zr1, z1 ) );
 					} // _longs
 				} // _lats
-				var sides = new Array(vertices.length-2);
+				var sides = [vertices.length-2];
 
 				for(var i=0; i<vertices.length-2; i++) {
 					sides[i] = new folio.F3D.FPath3();

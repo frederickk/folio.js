@@ -32,7 +32,7 @@
 
 
 
-/**
+/*
  *
  *	Matrix3D
  *
@@ -116,7 +116,7 @@ var Matrix3D = function( n11, n12, n13, n14,
 
 
 	// ------------------------------------------------------------------------
-	/**
+	/*
 	 *
 	 *	Rotation
 	 *
@@ -159,9 +159,9 @@ var Matrix3D = function( n11, n12, n13, n14,
 
 	/**
 	 *
-	 *	@param axis
+	 *	@param {FPoint3} axis
 	 *				FPoint3 xyz
-	 *	@param angle
+	 *	@param {Number} angle
 	 *				rotation angle in degrees
 	 *
 	 */
@@ -190,7 +190,7 @@ var Matrix3D = function( n11, n12, n13, n14,
 
 
 	// ------------------------------------------------------------------------
-	/**
+	/*
 	 *	Scaling
 	 */
 	this.scale = function(sx, sy, sz) {
@@ -204,7 +204,7 @@ var Matrix3D = function( n11, n12, n13, n14,
 
 
 	// ------------------------------------------------------------------------
-	/**
+	/*
 	 *	Translating
 	 */
 	this.translate = function(dx, dy, dz) {
@@ -215,7 +215,7 @@ var Matrix3D = function( n11, n12, n13, n14,
 
 
 	// ------------------------------------------------------------------------
-	/**
+	/*
 	 *	Transforming
 	 */
 	this.transformPoint = function(point) {
@@ -245,7 +245,7 @@ var Matrix3D = function( n11, n12, n13, n14,
 
 
 	// ------------------------------------------------------------------------
-	/**
+	/*
 	 *	Position
 	 */
 	this.getPosition = function() {
@@ -254,7 +254,7 @@ var Matrix3D = function( n11, n12, n13, n14,
 
 	/**
 	 *
-	 *	@param fpoint3
+	 *	@param {FPoint3} fpoint3
 	 *				FPoint3 xyz
 	 *
 	 */
@@ -263,9 +263,9 @@ var Matrix3D = function( n11, n12, n13, n14,
 		this.n13 = fpoint3.y;
 		this.n14 = fpoint3.z;
 		return this;
-	},
+	};
 
-	/**
+	/*
 	 *
 	 *	Frustrum
 	 *	https://github.com/mrdoob/three.js/blob/master/src/core/Matrix4.js
@@ -292,7 +292,7 @@ var Matrix3D = function( n11, n12, n13, n14,
 		// this.initialize(values);
 	};
 
-	/**
+	/*
 	 *
 	 *	Presets modified from Three.js
 	 *	https://github.com/mrdoob/three.js/blob/master/src/core/Matrix4.js
