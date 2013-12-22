@@ -9,28 +9,22 @@ folio.FTime.FStepper = function() {
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
-	/**
-	 *	private
-	 */
-	var _stepMillis = 1000; // Set to default of 1s OR 1000ms
+	var stepMillis = 1000; // Set to default of 1s OR 1000ms
 
-	var _timeStart = 0.0;
-	var _timeEnd = 0.0;
+	var timeStart = 0.0;
+	var timeEnd = 0.0;
 
-	var _bToggleStart = 0;
-	var _bBeginStpper = false;
-	var _bIn = false;
-	var _bOut = false;
-	var _bDone = true;
+	var bToggleStart = 0;
+	var bBeginStpper = false;
+	var bIn = false;
+	var bOut = false;
+	var bDone = true;
 
-	var _easing = 0.05;
-	var _bEase = true;
+	var easing = 0.05;
+	var bEase = true;
 
-	/**
-	 *	public
-	 */
-	this.delta = 1.0;
-	this.counter = -1;
+	var delta = 1.0;
+	var counter = -1;
 
 
 
@@ -41,70 +35,65 @@ folio.FTime.FStepper = function() {
 	 *
 	 *	toggle (start/stop) the stepper
 	 *
+	 * @return {Number} start status
+	 *
 	 */
-	this.toggle = function() {
-		if (_bToggleStart == 0) {
-			_bToggleStart = 1;
-			this.stepOut();
+	var toggle = function() {
+		if (bToggleStart == 0) {
+			bToggleStart = 1;
+			stepOut();
 		}
 		else {
-			_bToggleStart = 0;
-			this.stepIn();
+			bToggleStart = 0;
+			stepIn();
 		}
+		return bToggleStart;
 	}
 
 	// ------------------------------------------------------------------------
 	/**
-	 *	TODO: implement ability to add _easing functions
-	 *
 	 *	required function to keep the timing in sync
 	 *	with the application
 	 *
-	 *	@param currentTime
+	 *	@param {Number} currentSeconds
 	 *			the elapsed time of the application in seconds
 	 */
-	this.update = function(currentTime) {
-		if(_bBeginStpper) {
-			_bBeginStpper = false;
-			_timeStart = currentTime;
-			if(_bIn) {
-				_timeEnd = paper.round( (currentTime + ((1.0 - this.delta) * _stepMillis)), 3 );
+	var update = function(currentSeconds) {
+		if(bBeginStpper) {
+			bBeginStpper = false;
+			timeStart = currentSeconds;
+			if(bIn) {
+				timeEnd = paper.round( (currentSeconds + ((1.0 - delta) * stepMillis)), 3 );
 			}
 			else {
-				_timeEnd = paper.round( (currentTime + (this.delta*_stepMillis)), 3 );
+				timeEnd = paper.round( (currentSeconds + (delta*stepMillis)), 3 );
 			}
-			if(_timeEnd <= currentTime) {
-				if(_bIn) {
-					_bIn = false;
-					this.delta = 1.0;
+			if(timeEnd <= currentSeconds) {
+				if(bIn) {
+					bIn = false;
+					delta = 1.0;
 				}
 				else {
-					_bOut = false;
-					this.delta = 0.0;
+					bOut = false;
+					delta = 0.0;
 				}
 			}
 		}
-		if(_bIn) {
-			this.delta = paper.round( (1.0 - ((_timeEnd - currentTime) / _stepMillis)), 3 );
-			// if(_bEase) {
-			// }
-
-			if(currentTime == _timeEnd) {
-				_bIn = false;
-				this.delta = 1.0;
-				this.counter++;
+		if(bIn) {
+			delta = paper.round( (1.0 - ((timeEnd - currentSeconds) / stepMillis)), 3 );
+			if(currentSeconds == timeEnd) {
+				bIn = false;
+				delta = 1.0;
+				counter++;
 				return;
 			}
 		}
-		else if(_bOut) {
-			this.delta = paper.round( ((_timeEnd - currentTime) / _stepMillis), 3 );
-			// if(_bEase) {
-			// }
-
-			if(currentTime == _timeEnd) {
-				_bIn = false;
-				this.delta = 0.0;
-				this.counter++;
+		else if(bOut) {
+			delta = paper.round( ((timeEnd - currentSeconds) / stepMillis), 3 );
+			if(currentSeconds == timeEnd) {
+				bIn = false;
+				delta = 0.0;
+				counter++;
 				return;
 			}
 		}
@@ -116,12 +105,12 @@ folio.FTime.FStepper = function() {
 	 *	toggle stepping in (++)
 	 *
 	 */
-	this.stepIn = function() {
-		if(_bIn) return;
-		if(this.delta == 1.0) return;
-		_bBeginStpper = true;
-		_bIn = true;
-		_bOut = false;
+	var stepIn = function() {
+		if(bIn) return;
+		if(delta == 1.0) return;
+		bBeginStpper = true;
+		bIn = true;
+		bOut = false;
 	};
 
 	/**
@@ -129,39 +118,39 @@ folio.FTime.FStepper = function() {
 	 *	toggle stepping out (--)
 	 *
 	 */
-	this.stepOut = function() {
-		if(_bOut) return;
-		if(this.delta == 0.0) return;
-		_bBeginStpper = true;
-		_bOut = true;
-		_bIn = false;
+	var stepOut = function() {
+		if(bOut) return;
+		if(delta == 0.0) return;
+		bBeginStpper = true;
+		bOut = true;
+		bIn = false;
 	};
 
 	// ------------------------------------------------------------------------
 	/**
-	 *	@return if the object is stepping in
+	 *	@return {Boolean} if the object is stepping in
 	 */
-	this.isIn = function() {
-		return _bIn;
+	var isIn = function() {
+		return bIn;
 	};
 	/**
-	 *	@return if the object is stepping out
+	 *	@return {Boolean} if the object is stepping out
 	 */
-	this.isOut = function() {
-		return _bOut;
+	var isOut = function() {
+		return bOut;
 	};
 
 	/**
-	 *	@return if the object has finished it's stepping
+	 *	@return {Boolean} if the object has finished it's stepping
 	 */
-	this.isDone = function() {
-		if(this.delta < 1.0 && this.delta > 0.0) return false;
-		else if(this.delta > 1.0) {
-			this.delta = 1.0;
+	var isDone = function() {
+		if(delta < 1.0 && delta > 0.0) return false;
+		else if(delta > 1.0) {
+			delta = 1.0;
 			return true;
 		}
-		else if(this.delta < 0.0) {
-			this.delta = 0.0;
+		else if(delta < 0.0) {
+			delta = 0.0;
 			return true;
 		}
 	};
@@ -172,8 +161,8 @@ folio.FTime.FStepper = function() {
 	 *	stop stepping
 	 *
 	 */
-	this.stop = function() {
-		_bBeginStpper = _bIn = _bOut = false;
+	var stop = function() {
+		bBeginStpper = bIn = bOut = false;
 	};
 
 
@@ -182,40 +171,52 @@ folio.FTime.FStepper = function() {
 	// Sets
 	// ------------------------------------------------------------------------
 	/**
-	 *	@param _seconds
+	 *	@param {Number} seconds
 	 *			length of fade in seconds
 	 */
-	this.setSeconds = function(_seconds) {
-		this.setMillis( parseInt(_seconds * 1000.0) );
+	var setSeconds = function(seconds) {
+		setMillis( parseInt(seconds * 1000.0) );
 	};
 	/**
-	 *	@param _millis
+	 *	@param {Number} millis
 	 *			length of fade in milliseconds
 	 */
-	this.setMillis = function(_millis) {
-		_stepMillis = _millis;
-		_stepMillis /= 1000;
+	var setMillis = function(millis) {
+		stepMillis = millis;
+		stepMillis /= 1000;
 	};
 
 	/**
-	 *	@param _val
-	 *			to ease or not to ease...
-	 *	@param __easing
-	 *			(optional) degree of _easing
-	 */
-	// this.setEasing = function(_val, _easeing) {
-	//	_bEase = _val;
-	//	_easing = _easeing;
-	// };
-
-	// ------------------------------------------------------------------------
-	/**
-	 *	@param _val
+	 *	@param {Number} val
 	 *			set a value for the delta 0.0 - 1.0
 	 */
-	this.setDelta = function(_val) {
-		this.delta = _val;
+	var setDelta = function(val) {
+		delta = val;
 	};
+
+
+	// ------------------------------------------------------------------------
+	return {
+		delta: delta,
+		counter: counter,
+
+		toggle: toggle,
+		update: update,
+		stepIn: stepIn,
+		stepOut: stepOut,
+
+		isIn: isIn,
+		isOut: isOut,
+		isDone: isDone,
+
+		stop: stop,
+
+		setSeconds: setSeconds,
+		setMillis: setMillis,
+		setDelta: setDelta
+	};
+
+
 };
 
 

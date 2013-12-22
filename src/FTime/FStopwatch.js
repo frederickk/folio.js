@@ -121,6 +121,7 @@ folio.FTime.FStopwatch = function() {
 	};
 
 
+	// ------------------------------------------------------------------------
 	return {
 		toggle: toggle,
 		start: start,
