@@ -178,7 +178,7 @@ folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
 			);
 		}
 		return this;
-	},
+	}
 
 
 // }, new function() { // Scope for drawing

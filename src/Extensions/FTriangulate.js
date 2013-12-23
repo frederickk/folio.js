@@ -25,7 +25,23 @@
  *
  */
 
+
+
+// ------------------------------------------------------------------------
+// constants
+// ------------------------------------------------------------------------
+var EPSILON = 1.0e-6;
+
+
+
 /**
+ *	FTriangulate
+ *
+ *	@param {Array} points
+ *			input vertices (Points)
+ *
+ * @return {Array}
+ *
  *	@example
  *	var triangulate = new FTriangulate( points );
  *
@@ -42,24 +58,6 @@
  *		face.strokeColor = 'white';
  *
  *	}
- *
- */
-
-
-
-// ------------------------------------------------------------------------
-// constants
-// ------------------------------------------------------------------------
-var EPSILON = 1.0e-6;
-
-
-
-/**
- *	FTriangulate
- *
- *	@param {Array} points
- *			input vertices (Points)
- *
  */
 folio.FTriangulate = function( points ) {
 	//-----------------------------------------------------------------------------

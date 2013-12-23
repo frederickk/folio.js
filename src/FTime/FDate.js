@@ -118,7 +118,7 @@ folio.FTime.FDate = function() {
 	 *	@param {Number} s
 	 *			seconds
 	 *
-	 * @return {[type]} [description]
+	 * @return {Object} new time
 	 */
 	var add = function(d, h, m, s) {
 		return dateObj + (24 * d + 60 * h + 60 * m + 1000 * s);
@@ -136,7 +136,7 @@ folio.FTime.FDate = function() {
 	 *	@param {Number} s
 	 *			seconds
 	 *
-	 * @return {[type]} [description]
+	 * @return {Object} new time
 	 */
 	var sub = function(d, h, m, s) {
 		return dateObj - (24 * d + 60 * h + 60 * m + 1000 * s);
@@ -159,7 +159,7 @@ folio.FTime.FDate = function() {
 	 *	@param {Number} s
 	 *			seconds
 	 *
-	 * @return {[type]} [description]
+	 * @return {Object} time
 	 */
 	var set = function(d, h, m, s) {
 		time = new Date();

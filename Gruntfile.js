@@ -64,8 +64,11 @@ module.exports = function(grunt) {
 
 		uglify: {
 			options: {
-				banner: '<%= banner %>',
-				report: 'min'
+				report: 'min',
+				preserveComments: false,
+				mangle: {
+					except: ['paper']
+				}
 			},
 			paper: {
 				src: '<%= concat.paper.dest %>',
@@ -74,19 +77,6 @@ module.exports = function(grunt) {
 			scriptographer: {
 				src: '<%= concat.scriptographer.dest %>',
 				dest: 'distribution/scriptographer.' + name + '.min.js'
-			}
-		},
-
-		'closure-compiler': {
-			frontend: {
-				closurePath: '/src/to/closure-compiler',
-				js: '<%= concat.paper.dest %>',
-				jsOutputFile: 'distribution/frontend.min.js',
-				maxBuffer: 500,
-				options: {
-					compilation_level: 'ADVANCED_OPTIMIZATIONS',
-					language_in: 'ECMASCRIPT5_STRICT'
-				}
 			}
 		},
 
@@ -106,7 +96,6 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.loadNpmTasks('grunt-closure-compiler');
 	grunt.loadNpmTasks('grunt-jsdoc');
 
 	// register tasks

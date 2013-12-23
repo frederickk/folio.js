@@ -4,7 +4,7 @@
  *	0.6.1
  *	https://github.com/frederickk/folio.js
  *
- *	21. December 2013
+ *	23. December 2013
  *
  *	Ken Frederick
  *	ken.frederick@gmx.de
@@ -478,7 +478,7 @@ Array.prototype.min = function(start, stop) {
  *
  */
 Array.prototype.shuffle = function() {
-	for (var j, x, i = this.length; i; j = parseInt(Math.random() * i), x = this[--i], this[i] = this[j], this[j] = x);
+	for (var j, x, i=this.length; i; j=parseInt(Math.random() * i), x=this[--i], this[i]=this[j], this[j]=x);
 };
 
 /**
@@ -1575,8 +1575,7 @@ paper.Path.inject({
 		var a = 0.0;
 
 		var points = [];
-		var i = 0;
-		for ( i; i<this._segments.length-1; ++i ) {
+		for ( var i=0; i<this._segments.length-1; ++i ) {
 			points[0] = this._segments[i].point;
 			points[1] = this._segments[i+1].point;
 
@@ -1700,7 +1699,7 @@ paper.Path.inject({
 
 	//	// for( var i=0; i<_segmentsTemp.length; i++ ) {
 	//	//	var seg = _segmentsTemp[i].point;
-	//	//	if( seg.getDistance( this.getCentroid()) > circumradius ) {
+	//	//	if( seg.getDistance( this.getCentroid() ) > circumradius ) {
 	//	//		circumradius = seg.getDistance( this.getCentroid());
 	//	//	}
 	//	// }
@@ -1721,8 +1720,8 @@ paper.Path.inject({
 
 		for( var i=0; i<this._segments.length; i++ ) {
 			var seg = this._segments[i].point;
-			if( seg.getDistance( this.getCentroid()) < incircleradius ) {
-				incircleradius = seg.getDistance( this.getCentroid());
+			if( seg.getDistance( this.getCentroid() ) < incircleradius ) {
+				incircleradius = seg.getDistance( this.getCentroid() );
 			}
 		}
 
@@ -1888,7 +1887,7 @@ paper.Path.inject({
 				var path = new Path.Line( headPoint, tailPoint );
 
 				// the arrow head
-				arrowHeadSize = (arrowHeadSize != undefined) ? arrowHeadSize : new Size(headPoint.getDistance(tailPoint)*0.381924,headPoint.getDistance(tailPoint)*0.381924);
+				var arrowHeadSize = arrowHeadSize || new Size(headPoint.getDistance(tailPoint)*0.381924,headPoint.getDistance(tailPoint)*0.381924);
 
 				// rotate arrow head around to correct position
 				var a = Math.atan2( headPoint.x-tailPoint.x, tailPoint.y-headPoint.y );
@@ -1938,12 +1937,12 @@ paper.Path.inject({
 				var path = new Path();
 				path.name = 'bubble';
 
-				bubbleTagSize = (bubbleTagSize != undefined) ? bubbleTagSize : defaultFBubbleTagSize;
+				var bubbleTagSize = bubbleTagSize || defaultFBubbleTagSize;
 				if(bubbleSize.width < 10) {
 					bubbleSize.width = 10;
 					bubbleTagSize = new Size(10,10);
 				}
-				bubbleTagCenter = (bubbleTagCenter != undefined) ? bubbleTagCenter : 'RANDOM';
+				var bubbleTagCenter = bubbleTagCenter || 'RANDOM';
 
 				// left side of bubble
 				path.add( new Point(0,0) );
@@ -2081,7 +2080,7 @@ paper.Path.inject({
 						obj1.position.y + Math.sin( paper.radians(angle) ) * (obj1.bounds.height/2)
 					);
 					path.arcTo(tp1, tangents[0]);
-					path.closed;
+					path.closed = true;
 				}
 				return path;
 
@@ -2112,8 +2111,8 @@ paper.Path.inject({
 			 *
 			 */
 			FCross: function( centerPoint, size, strokeWidth, crossType ) {
-				(strokeWidth != undefined) ? strokeWidth : 1.0;
-				(crossType != undefined) ? crossType : 'LINE';
+				var strokeWidth = strokeWidth || 1.0;
+				var crossType = crossType || 'LINE';
 
 				// var centerPoint = new Point(_x,_y);
 				// var size = new Size(_width,_height);
@@ -3051,7 +3050,7 @@ folio.FTime.FDate = function() {
 	 *	@param {Number} s
 	 *			seconds
 	 *
-	 * @return {[type]} [description]
+	 * @return {Object} new time
 	 */
 	var add = function(d, h, m, s) {
 		return dateObj + (24 * d + 60 * h + 60 * m + 1000 * s);
@@ -3069,7 +3068,7 @@ folio.FTime.FDate = function() {
 	 *	@param {Number} s
 	 *			seconds
 	 *
-	 * @return {[type]} [description]
+	 * @return {Object} new time
 	 */
 	var sub = function(d, h, m, s) {
 		return dateObj - (24 * d + 60 * h + 60 * m + 1000 * s);
@@ -3092,7 +3091,7 @@ folio.FTime.FDate = function() {
 	 *	@param {Number} s
 	 *			seconds
 	 *
-	 * @return {[type]} [description]
+	 * @return {Object} time
 	 */
 	var set = function(d, h, m, s) {
 		time = new Date();
@@ -4337,7 +4336,23 @@ folio.FRoute = function(items, iterations) {
  *
  */
 
+
+
+// ------------------------------------------------------------------------
+// constants
+// ------------------------------------------------------------------------
+var EPSILON = 1.0e-6;
+
+
+
 /**
+ *	FTriangulate
+ *
+ *	@param {Array} points
+ *			input vertices (Points)
+ *
+ * @return {Array}
+ *
  *	@example
  *	var triangulate = new FTriangulate( points );
  *
@@ -4354,24 +4369,6 @@ folio.FRoute = function(items, iterations) {
  *		face.strokeColor = 'white';
  *
  *	}
- *
- */
-
-
-
-// ------------------------------------------------------------------------
-// constants
-// ------------------------------------------------------------------------
-var EPSILON = 1.0e-6;
-
-
-
-/**
- *	FTriangulate
- *
- *	@param {Array} points
- *			input vertices (Points)
- *
  */
 folio.FTriangulate = function( points ) {
 	//-----------------------------------------------------------------------------
@@ -5166,7 +5163,7 @@ var HashSet = function() {
 
 
 
-/*
+/**
  *
  *	Matrix3D
  *
@@ -5538,7 +5535,7 @@ folio.F3D = {
 
 	FPoint3: {},
 	FSize3: {},
-	FPath3: function() {},
+	FPath3: function() {}
 
 
 	// ------------------------------------------------------------------------
@@ -5727,7 +5724,7 @@ folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
 			);
 		}
 		return this;
-	},
+	}
 
 
 // }, new function() { // Scope for drawing
