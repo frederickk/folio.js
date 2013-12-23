@@ -77,6 +77,19 @@ module.exports = function(grunt) {
 			}
 		},
 
+		'closure-compiler': {
+			frontend: {
+				closurePath: '/src/to/closure-compiler',
+				js: '<%= concat.paper.dest %>',
+				jsOutputFile: 'distribution/frontend.min.js',
+				maxBuffer: 500,
+				options: {
+					compilation_level: 'ADVANCED_OPTIMIZATIONS',
+					language_in: 'ECMASCRIPT5_STRICT'
+				}
+			}
+		},
+
 		jsdoc: {
 			dist: {
 				src: srcFiles,
@@ -93,6 +106,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.loadNpmTasks('grunt-closure-compiler');
 	grunt.loadNpmTasks('grunt-jsdoc');
 
 	// register tasks
