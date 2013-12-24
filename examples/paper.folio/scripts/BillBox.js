@@ -35,11 +35,11 @@ folio.F3D.FPath3.inject({
 			 *	@param {folio.F3D.FScene3D} scene
 			 *				the scene to attach the Box to
 			 *	@param {folio.F3D.FPoint3} fpoint3
-			 *	      		the position of the Box
+			 *		  		the position of the Box
 			 *	@param {folio.F3D.FSize3} fsize3
 			 *				the size of the Box
 			 *	@param {Array} vertices
-			 *	      		an array of vertice numbers [1,9,15,17,11,7]
+			 *		  		an array of vertice numbers [1,9,15,17,11,7]
 			 *
 			 */
 			BillBox: function(scene, fpoint3, fsize3, vertices) {

@@ -205,7 +205,7 @@ folio.FCirclePacker = function(circleItems, iterations) {
 	 *	could be dangerous
 	 *
 	 * @param {Number} index
-	 *        	index number of Item being packed
+	 *			index number of Item being packed
 	 *
 	 *	@return {Item} Item from items being packed
 	 */

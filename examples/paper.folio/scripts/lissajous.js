@@ -330,13 +330,13 @@ function onMouseMove(event) {
 // ------------------------------------------------------------------------
 function onMouseDrag(event) {
 	if(Key.isDown('shift')) {
-        document.getElementById('periodAngle').value = parseInt(event.point.x/view.bounds.width * 360);
-        values.periodAngle = parseFloat( document.getElementById('periodAngle').value );
-    }
-    else {
+		document.getElementById('periodAngle').value = parseInt(event.point.x/view.bounds.width * 360);
+		values.periodAngle = parseFloat( document.getElementById('periodAngle').value );
+	}
+	else {
 		frequency.x = (event.point.x/view.bounds.width * values.frequencyX);
 		frequency.y = (event.point.y/view.bounds.height * values.frequencyY);
-    }
+	}
 
 	Draw();
 };

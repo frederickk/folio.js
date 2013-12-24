@@ -25,7 +25,7 @@ var grid;
 // Setup
 // ------------------------------------------------------------------------
 function Setup() {
-	var raster = new Raster(document.getElementById('image').value);
+	var raster = new Raster('image') ;//document.getElementById('image').value);
 	raster.position = view.center;
 
 	var shapes = [];
@@ -119,13 +119,13 @@ var Grid = function(img, properties) {
 	// Sets
 	//
 	function setColor(item, clr) {
-		var clrDark       = clr.darken(darkenPercent),
-			pixelGray     = clr.gray,
+		var clrDark	      = clr.darken(darkenPercent),
+			pixelGray	  = clr.gray,
 
-			origin        = new Point(item.position.x, item.position.y - item.bounds.height/2),
+			origin		  = new Point(item.position.x, item.position.y - item.bounds.height/2),
 			destination	  = new Point(item.position.x, item.position.y + item.bounds.height/2),
 
-			gradient      = new Gradient([clr, clrDark]),
+			gradient	  = new Gradient([clr, clrDark]),
 			gradientColor = new GradientColor(gradient, origin, destination);
 
 		if(item.name === 'cross') {

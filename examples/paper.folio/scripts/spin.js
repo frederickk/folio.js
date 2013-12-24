@@ -37,9 +37,9 @@ function Setup() {
 	document.getElementById('rings').value = num;
 
 	spun = Spin( raster, {
-		rings:     num,
+		rings:	 num,
 		rotations: [parseInt(document.getElementById('angleSta').value), parseInt(document.getElementById('angleEnd').value)],
-		scale:     document.getElementById('bScale').checked,
+		scale:	 document.getElementById('bScale').checked,
 		opacity:   document.getElementById('bTrans').checked,
 		callback:  function(){}
  	});
@@ -85,9 +85,9 @@ function Draw() {
  *
  * @example
  * var s = new Spin( raster, {
- * 		rings:     9,
+ * 		rings:	 9,
  * 		rotations: [1,90], // degrees
- * 		scale:     true,
+ * 		scale:	 true,
  * 		opacity:   true,
  * 		callback:  function(){}
  * });
@@ -148,7 +148,7 @@ var Spin = function(obj, properties) {
 // Events
 // ------------------------------------------------------------------------
 function onResize(event) {
-	// view.size = event.size;
+	view.size = event.size;
 };
 
 // ------------------------------------------------------------------------

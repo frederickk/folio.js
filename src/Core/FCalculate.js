@@ -99,7 +99,7 @@ PaperScope.inject({
 	 *				maximum limit
 	 *
 	 *	@return {Number} original value that is not less than the
-	 *	                 minimum and no greater than the maximum
+	 *					 minimum and no greater than the maximum
 	 *
 	 *	@example
 	 *	var clamped = clamp(120, 0, 90); // 90

@@ -253,7 +253,7 @@ PaperScope.inject({
 	 *  Java style println output
 	 *
 	 *  @param {Object} obj
-	 *              any Javascript Object
+	 *			  any Javascript Object
 	 */
 	println: function(obj) {
 		console.log(obj);
@@ -264,7 +264,7 @@ PaperScope.inject({
 	/**
 	 *
 	 *  @param {Boolean} val
-	 *          input boolean value
+	 *		  input boolean value
 	 *
 	 *  @return {Number} val as integer
 	 *
@@ -277,7 +277,7 @@ PaperScope.inject({
 	/**
 	 *
 	 *  @param {Number} val
-	 *          input number value
+	 *		  input number value
 	 *
 	 *  @return {Number} val as boolean
 	 *
@@ -290,7 +290,7 @@ PaperScope.inject({
 	/**
 	 *
 	 *  @param {Object} object
-	 *          object whose type to determine
+	 *		  object whose type to determine
 	 *
 	 *  @return {String} Paper.js object type
 	 *
@@ -318,9 +318,9 @@ PaperScope.inject({
 	/**
 	 *
 	 *  @param {Array} items
-	 *          Array of items to go through
+	 *		  Array of items to go through
 	 *  @param {String} name
-	 *          name of Item to find
+	 *		  name of Item to find
 	 *
 	 *  @return {Path} path with the name that matches
 	 *
@@ -337,9 +337,9 @@ PaperScope.inject({
 	/**
 	 *
 	 *  @param {Array} items
-	 *          Array of items to go through
+	 *		  Array of items to go through
 	 *  @param {Number} name
-	 *          name of Item to find
+	 *		  name of Item to find
 	 *
 	 *  @return {Path} path with the id that matches
 	 *
@@ -667,7 +667,7 @@ PaperScope.inject({
 	 *				maximum limit
 	 *
 	 *	@return {Number} original value that is not less than the
-	 *	                 minimum and no greater than the maximum
+	 *					 minimum and no greater than the maximum
 	 *
 	 *	@example
 	 *	var clamped = clamp(120, 0, 90); // 90
@@ -3587,7 +3587,7 @@ folio.FIO = {
 	// ------------------------------------------------------------------------
 	// Methods
 	// ------------------------------------------------------------------------
-	/**
+	/*
 	 *	Local Storage
 	 */
 
@@ -3666,7 +3666,8 @@ folio.FIO = {
 
 
 
-	/**
+	// ------------------------------------------------------------------------
+	/*
 	 *	Session Storage
 	 */
 
@@ -3746,7 +3747,8 @@ folio.FIO = {
 
 
 
-	/**
+	// ------------------------------------------------------------------------
+	/*
 	 *	Cookies
 	 *	http://www.quirksmode.org/js/cookies.html
 	 */
@@ -3800,7 +3802,8 @@ folio.FIO = {
 
 
 
-	/**
+	// ------------------------------------------------------------------------
+	/*
 	 *	Scriptographer specific
 	 *
 	 *	modified from Jürg Lehni
@@ -3858,6 +3861,7 @@ folio.FIO = {
 		if (file.exists()) return true;
 		else return false;
 	}
+
 
 };
 
@@ -4070,7 +4074,7 @@ folio.FCirclePacker = function(circleItems, iterations) {
 	 *	could be dangerous
 	 *
 	 * @param {Number} index
-	 *        	index number of Item being packed
+	 *			index number of Item being packed
 	 *
 	 *	@return {Item} Item from items being packed
 	 */
