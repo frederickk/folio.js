@@ -9,8 +9,6 @@ console.log( 'Spin' );
  *	http://kennethfrederick.de/
  *	http://blog.kennethfrederick.de/
  *
- *
- *
  */
 
 
@@ -80,19 +78,19 @@ function Draw() {
 // Methods
 // ------------------------------------------------------------------------
 /**
- * [Spin description]
+ * Spin
+ *
  * @param {Item} obj
  * @param {Array} properties
  *
  * @example
  * var s = new Spin( raster, {
-			rings:     9,
-			rotations: [1,90], // degrees
-			scale:     true,
-			opacity:   true,
-			callback:  function(){}
+ * 		rings:     9,
+ * 		rotations: [1,90], // degrees
+ * 		scale:     true,
+ * 		opacity:   true,
+ * 		callback:  function(){}
  * });
- *
  *
  */
 var Spin = function(obj, properties) {
