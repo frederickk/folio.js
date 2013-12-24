@@ -49,7 +49,10 @@ function Setup() {
 			rotation: parseFloat(document.getElementById('rotation').value),
 			scale: document.getElementById('bScale').checked
 		});
-		grid.position = view.center;
+		grid.position = new Point(
+			view.center.x,
+			view.center.y-15
+		);
 
 		raster.remove();
 	};

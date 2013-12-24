@@ -777,8 +777,8 @@ input {
   -moz-border-radius: 2px;
   -webkit-border-radius: 2px;
   border-radius: 2px;
-  background-color: #f1f1f1;
-  border: 6px solid #f1f1f1;
+  background-color: #e9e8e7;
+  border: 6px solid #e9e8e7;
 }
 input[type="checkbox"] {
   -webkit-appearance: none;
