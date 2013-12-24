@@ -25,13 +25,35 @@ var grid;
 // Setup
 // ------------------------------------------------------------------------
 function Setup() {
-	var raster = new Raster('mr_eastwood');
+	var raster = new Raster(document.getElementById('image').value);
+	raster.position = view.center;
 
-	grid = new Grid(raster, {
-		shapes: ['rectangle', 'triangle', 'circle', 'cross']
-	});
-	grid.position = view.center;
-	raster.remove();
+	var shapes = [];
+	if(document.getElementById('bTriangle').checked) shapes = shapes.concat('triangle');
+	if(document.getElementById('bCircle').checked) shapes = shapes.concat('circle');
+	if(document.getElementById('bSquare').checked) shapes = shapes.concat('square');
+	if(document.getElementById('bCross').checked) shapes = shapes.concat('cross');
+
+	var res = ( parseInt(document.getElementById('resolution').value) <= 20 )
+		? 20
+		: parseInt(document.getElementById('resolution').value);
+	document.getElementById('resolution').value = res;
+
+
+
+	raster.onLoad = function() {
+		if( grid ) grid.remove();
+		grid = new Grid(raster, {
+			shapes: shapes,
+			resolution: res,
+			rotation: parseFloat(document.getElementById('rotation').value),
+			scale: document.getElementById('bScale').checked
+		});
+		grid.position = view.center;
+
+		raster.remove();
+	};
+
 };
 
 
@@ -75,19 +97,20 @@ var Grid = function(img, properties) {
 		for(var y=resolution; y<img.height; y+=resolution) {
 			for(var x=resolution; x<img.width; x+=resolution) {
 				form = getShape( getType() );
-				form.position = new Point(x,y);
-				form.scale( (scale) ? pixelGray : 1.0, form.position );
-				form.rotate( rotation, form.position );
-				form.rotate( (rotation) ? pixelGray*360 : 0.0, form.position );
 
-				setColor(form, img.getPixel(x,y));
+				var col = img.getPixel(x,y);
+				setColor(form, col);
+
+				form.position = new Point(x,y);
+				form.scale( (scale) ? 1-col.gray : 1.0, form.position );
+				form.rotate( rotation, form.position );
+				// form.rotate( (rotation) ? col.gray*360 : 0.0, form.position );
 
 				group.appendTop(form);
 			}
 		}
 		return group;
 	};
-
 
 	//
 	// Sets
@@ -111,6 +134,7 @@ var Grid = function(img, properties) {
 		else {
 			item.fillColor = gradientColor;
 		}
+
 	};
 
 
