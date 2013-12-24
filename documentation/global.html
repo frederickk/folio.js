@@ -121,7 +121,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FPath.js.html">Core/FPath.js</a>, <a href="FPath.js.html#line394">line 394</a>
+        <a href="FPath.js.html">Core/FPath.js</a>, <a href="FPath.js.html#line393">line 393</a>
     </li></ul></dd>
     
     
@@ -289,7 +289,7 @@
     
     <div class="description">
         brighten a color (based on hsb model) by percentage
-	NOTE: Color operators aren't working
+NOTE: Color operators aren't working when not using paperScript
     </div>
     
 
@@ -417,11 +417,11 @@
     
         <h5>Example</h5>
         
-    <pre class="prettyprint"><code>	var color = new Color( 0.0, 1.0, 0.7 );
-	color.brighten(0.2);
+    <pre class="prettyprint"><code>var color = new Color( 0.0, 1.0, 0.7 );
+color.brighten(0.2);
 
-	var color = new Color( 0.0, 1.0, 0.7 );
-	var brightened = color.brighten(0.2);</code></pre>
+var color = new Color( 0.0, 1.0, 0.7 );
+var brightened = color.brighten(0.2);</code></pre>
 
     
 </dd>
@@ -786,7 +786,7 @@
             
 <div class="param-desc">
     original value that is not less than the
-	                 minimum and no greater than the maximum
+				 minimum and no greater than the maximum
 </div>
 
 
@@ -808,7 +808,7 @@
     
         <h5>Example</h5>
         
-    <pre class="prettyprint"><code>	var clamped = clamp(120, 0, 90); // 90</code></pre>
+    <pre class="prettyprint"><code>var clamped = clamp(120, 0, 90); // 90</code></pre>
 
     
 </dd>
@@ -1138,7 +1138,7 @@
     
     <div class="description">
         increase color contrast (based on hsb model) by percentage
-	NOTE: Color operators aren't working
+NOTE: Color operators aren't working when not using paperScript
     </div>
     
 
@@ -1219,7 +1219,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FColor.js.html">Core/FColor.js</a>, <a href="FColor.js.html#line275">line 275</a>
+        <a href="FColor.js.html">Core/FColor.js</a>, <a href="FColor.js.html#line274">line 274</a>
     </li></ul></dd>
     
     
@@ -1266,11 +1266,11 @@
     
         <h5>Example</h5>
         
-    <pre class="prettyprint"><code>	var color = new Color( 0.0, 1.0, 0.7 );
-	color.contrast(0.2);
+    <pre class="prettyprint"><code>var color = new Color( 0.0, 1.0, 0.7 );
+color.contrast(0.2);
 
-	var color = new Color( 0.0, 1.0, 0.7 );
-	var contrasted = color.contrast(0.2);</code></pre>
+var color = new Color( 0.0, 1.0, 0.7 );
+var contrasted = color.contrast(0.2);</code></pre>
 
     
 </dd>
@@ -1288,7 +1288,7 @@
     <div class="description">
         Calculate cosecants
 
-	http://www.ssicom.org/js/x974284.htm
+http://www.ssicom.org/js/x974284.htm
     </div>
     
 
@@ -1394,7 +1394,7 @@
     
         <h5>Example</h5>
         
-    <pre class="prettyprint"><code>	var cs = cosec(180);</code></pre>
+    <pre class="prettyprint"><code>var cs = cosec(180);</code></pre>
 
     
 </dd>
@@ -1411,7 +1411,7 @@
     
     <div class="description">
         darken a color (based on hsl model) by percentage
-	NOTE: Color operators aren't working
+NOTE: Color operators aren't working when not using paperScript
     </div>
     
 
@@ -1539,11 +1539,11 @@
     
         <h5>Example</h5>
         
-    <pre class="prettyprint"><code>	var color = new Color( 0.0, 1.0, 0.7 );
-	color.darken(0.2); // { red: 0, green: 0.76, blue: 0.532 }
+    <pre class="prettyprint"><code>var color = new Color( 0.0, 1.0, 0.7 );
+color.darken(0.2); // { red: 0, green: 0.76, blue: 0.532 }
 
-	var color = new Color( 0.0, 1.0, 0.7 );
-	var darkened = color.darken(0.2); // { red: 0, green: 0.76, blue: 0.532 }</code></pre>
+var color = new Color( 0.0, 1.0, 0.7 );
+var darkened = color.darken(0.2); // { red: 0, green: 0.76, blue: 0.532 }</code></pre>
 
     
 </dd>
@@ -1683,7 +1683,7 @@
     
         <h5>Example</h5>
         
-    <pre class="prettyprint"><code>	var deg = degrees(Math.PI); // 180</code></pre>
+    <pre class="prettyprint"><code>var deg = degrees(Math.PI); // 180</code></pre>
 
     
 </dd>
@@ -1700,7 +1700,7 @@
     
     <div class="description">
         desaturate a color (based on hsb model) by percentage
-	NOTE: Color operators aren't working
+NOTE: Color operators aren't working when not using paperScript
     </div>
     
 
@@ -1828,11 +1828,11 @@
     
         <h5>Example</h5>
         
-    <pre class="prettyprint"><code>	var color = new Color( 0.0, 1.0, 0.7 );
-	color.desaturate(0.2); // { red: 0, green: 0.76, blue: 0.532 }
+    <pre class="prettyprint"><code>var color = new Color( 0.0, 1.0, 0.7 );
+color.desaturate(0.2); // { red: 0, green: 0.76, blue: 0.532 }
 
-	var color = new Color( 0.0, 1.0, 0.7 );
-	var desaturated = color.desaturate(0.2); // { red: 0, green: 0.76, blue: 0.532 }</code></pre>
+var color = new Color( 0.0, 1.0, 0.7 );
+var desaturated = color.desaturate(0.2); // { red: 0, green: 0.76, blue: 0.532 }</code></pre>
 
     
 </dd>
@@ -1849,7 +1849,7 @@
     
     <div class="description">
         dim a color (based on hsl model) by percentage
-	NOTE: Color operators aren't working
+NOTE: Color operators aren't working when not using paperScript
     </div>
     
 
@@ -1977,11 +1977,11 @@
     
         <h5>Example</h5>
         
-    <pre class="prettyprint"><code>	var color = new Color( 0.0, 1.0, 0.7 );
-	color.dim(0.2); // { red: 0, green: 0.76, blue: 0.532 }
+    <pre class="prettyprint"><code>var color = new Color( 0.0, 1.0, 0.7 );
+color.dim(0.2); // { red: 0, green: 0.76, blue: 0.532 }
 
-	var color = new Color( 0.0, 1.0, 0.7 );
-	var dimmed = color.dim(0.2); // { red: 0, green: 0.76, blue: 0.532 }</code></pre>
+var color = new Color( 0.0, 1.0, 0.7 );
+var dimmed = color.dim(0.2); // { red: 0, green: 0.76, blue: 0.532 }</code></pre>
 
     
 </dd>
@@ -2125,9 +2125,9 @@
     
         <h5>Example</h5>
         
-    <pre class="prettyprint"><code>	divisor(1) = [1]
-	divisor(5) = [1, 5]
-	divisor(12) = [1, 2, 3, 4, 6, 12]</code></pre>
+    <pre class="prettyprint"><code>divisor(1) = [1]
+divisor(5) = [1, 5]
+divisor(12) = [1, 2, 3, 4, 6, 12]</code></pre>
 
     
 </dd>
@@ -2144,7 +2144,7 @@
     
     <div class="description">
         FArrow
-	Create simple arrow
+Create simple arrow
     </div>
     
 
@@ -2271,7 +2271,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FPath.js.html">Core/FPath.js</a>, <a href="FPath.js.html#line415">line 415</a>
+        <a href="FPath.js.html">Core/FPath.js</a>, <a href="FPath.js.html#line414">line 414</a>
     </li></ul></dd>
     
     
@@ -2296,10 +2296,10 @@
     
         <h5>Example</h5>
         
-    <pre class="prettyprint"><code>	var headPoint = new paper.Point( 9,9 );
-	var tailPoint = new paper.Point( 90,90 );
-	var arrowHeadSize = new paper.Size( 18,18 );
-	var farrow = new paper.Path.FArrow( headPoint, tailPoint, arrowHeadSize );</code></pre>
+    <pre class="prettyprint"><code>var headPoint = new paper.Point( 9,9 );
+var tailPoint = new paper.Point( 90,90 );
+var arrowHeadSize = new paper.Size( 18,18 );
+var farrow = new paper.Path.FArrow( headPoint, tailPoint, arrowHeadSize );</code></pre>
 
     
 </dd>
@@ -2316,7 +2316,7 @@
     
     <div class="description">
         FBubble
-	Create a simple speech bubble
+Create a simple speech bubble
     </div>
     
 
@@ -2436,10 +2436,10 @@
             
             
             <td class="description last">(optional)
-				'RANDOM'	randomly x-position the point (default)
-				'LEFT'		left align the x-position of the point
-				'CENTER'	center align the x-position of the point
-				'RIGHT'		right align the x-position of the point</td>
+			'RANDOM'	randomly x-position the point (default)
+			'LEFT'		left align the x-position of the point
+			'CENTER'	center align the x-position of the point
+			'RIGHT'		right align the x-position of the point</td>
         </tr>
 	
 	
@@ -2470,7 +2470,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FPath.js.html">Core/FPath.js</a>, <a href="FPath.js.html#line466">line 466</a>
+        <a href="FPath.js.html">Core/FPath.js</a>, <a href="FPath.js.html#line465">line 465</a>
     </li></ul></dd>
     
     
@@ -2495,11 +2495,11 @@
     
         <h5>Example</h5>
         
-    <pre class="prettyprint"><code>	var bubblePoint = new paper.Point( 45,45 );
-	var bubbleSize = new paper.Size( 90,60 );
-	var bubbleTagSize = new paper.Size( 9,9 );
-	var bubbleTagCenter = 'CENTER';
-	var b = new paper.Path.FBubble( bubblePoint, bubbleSize, bubbleTagSize, bubbleTagCenter );</code></pre>
+    <pre class="prettyprint"><code>var bubblePoint = new paper.Point( 45,45 );
+var bubbleSize = new paper.Size( 90,60 );
+var bubbleTagSize = new paper.Size( 9,9 );
+var bubbleTagCenter = 'CENTER';
+var b = new paper.Path.FBubble( bubblePoint, bubbleSize, bubbleTagSize, bubbleTagCenter );</code></pre>
 
     
 </dd>
@@ -2615,7 +2615,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FPath.js.html">Core/FPath.js</a>, <a href="FPath.js.html#line569">line 569</a>
+        <a href="FPath.js.html">Core/FPath.js</a>, <a href="FPath.js.html#line568">line 568</a>
     </li></ul></dd>
     
     
@@ -2640,9 +2640,9 @@
     
         <h5>Example</h5>
         
-    <pre class="prettyprint"><code>	var path1 = new paper.Path.Circle( new Point(9,9), 9 );
-	var path2 = new paper.Path.Circle( new Point(90,90), 90 );
-	var fchain = new paper.Path.FChain( path1, path2 );</code></pre>
+    <pre class="prettyprint"><code>var path1 = new paper.Path.Circle( new Point(9,9), 9 );
+var path2 = new paper.Path.Circle( new Point(90,90), 90 );
+var fchain = new paper.Path.FChain( path1, path2 );</code></pre>
 
     
 </dd>
@@ -2659,7 +2659,7 @@
     
     <div class="description">
         FCross
-	Create a cross
+Create a cross
     </div>
     
 
@@ -2779,8 +2779,8 @@
             
             
             <td class="description last">(optional)
-				'SHARP'		sharp edged cross (fill)
-				'LINE'		simple built of lines (stroke)</td>
+			'SHARP'		sharp edged cross (fill)
+			'LINE'		simple built of lines (stroke)</td>
         </tr>
 	
 	
@@ -2811,7 +2811,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FPath.js.html">Core/FPath.js</a>, <a href="FPath.js.html#line643">line 643</a>
+        <a href="FPath.js.html">Core/FPath.js</a>, <a href="FPath.js.html#line642">line 642</a>
     </li></ul></dd>
     
     
@@ -2836,11 +2836,11 @@
     
         <h5>Example</h5>
         
-    <pre class="prettyprint"><code>	var centerPoint = new paper.Point( 45,45 );
-	var size = new paper.Size( 45,45 );
-	var strokeWidth = 18;
-	var crossType = 'LINE';
-	var fcross = new paper.Path.FCross( centerPoint, size, strokeWidth, crossType );</code></pre>
+    <pre class="prettyprint"><code>var centerPoint = new paper.Point( 45,45 );
+var size = new paper.Size( 45,45 );
+var strokeWidth = 18;
+var crossType = 'LINE';
+var fcross = new paper.Path.FCross( centerPoint, size, strokeWidth, crossType );</code></pre>
 
     
 </dd>
@@ -2956,7 +2956,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FPath.js.html">Core/FPath.js</a>, <a href="FPath.js.html#line717">line 717</a>
+        <a href="FPath.js.html">Core/FPath.js</a>, <a href="FPath.js.html#line716">line 716</a>
     </li></ul></dd>
     
     
@@ -2981,9 +2981,9 @@
     
         <h5>Example</h5>
         
-    <pre class="prettyprint"><code>	var centerPoint = new paper.Point( 45,45 );
-	var scale = new paper.Size( 30,61.8 );
-	var fdrop = new paper.Path.FDrop( centerPoint, scale );</code></pre>
+    <pre class="prettyprint"><code>var centerPoint = new paper.Point( 45,45 );
+var scale = new paper.Size( 30,61.8 );
+var fdrop = new paper.Path.FDrop( centerPoint, scale );</code></pre>
 
     
 </dd>
@@ -3316,7 +3316,7 @@
     
     <div class="description">
         FTriangle
-	Create a triangle
+Create a triangle
     </div>
     
 
@@ -3443,7 +3443,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FPath.js.html">Core/FPath.js</a>, <a href="FPath.js.html#line786">line 786</a>
+        <a href="FPath.js.html">Core/FPath.js</a>, <a href="FPath.js.html#line785">line 785</a>
     </li></ul></dd>
     
     
@@ -3468,10 +3468,10 @@
     
         <h5>Example</h5>
         
-    <pre class="prettyprint"><code>	var p1 = new paper.Point( 9,9 );
-	var p2 = new paper.Point( 90,45 );
-	var p3 = new paper.Point( 45,90 );
-	var ftriangle = new paper.Path.FTriangle( p1, p2, p3 );</code></pre>
+    <pre class="prettyprint"><code>var p1 = new paper.Point( 9,9 );
+var p2 = new paper.Point( 90,45 );
+var p3 = new paper.Point( 45,90 );
+var ftriangle = new paper.Path.FTriangle( p1, p2, p3 );</code></pre>
 
     
 </dd>
@@ -3638,10 +3638,10 @@
     
         <h5>Example</h5>
         
-    <pre class="prettyprint"><code>	var point1 = new Point(0, 90);
-	var point2 = new Point(90, 180);
-	var result = point1.getAngle(point2);
-	console.log( paper.degrees(result) ); // XX</code></pre>
+    <pre class="prettyprint"><code>var point1 = new Point(0, 90);
+var point2 = new Point(90, 180);
+var result = point1.getAngle(point2);
+console.log( paper.degrees(result) ); // XX</code></pre>
 
     
 </dd>
@@ -3733,8 +3733,8 @@
     
         <h5>Example</h5>
         
-    <pre class="prettyprint"><code>	var size = new Size(10, 20);
-	var a = size.getArea(); // 200</code></pre>
+    <pre class="prettyprint"><code>var size = new Size(10, 20);
+var a = size.getArea(); // 200</code></pre>
 
     
 </dd>
@@ -3751,7 +3751,7 @@
     
     <div class="description">
         Returns the Centroid of Path
-	http://stackoverflow.com/questions/2792443/finding-the-centroid-of-a-polygon
+http://stackoverflow.com/questions/2792443/finding-the-centroid-of-a-polygon
     </div>
     
 
@@ -3784,7 +3784,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FPath.js.html">Core/FPath.js</a>, <a href="FPath.js.html#line101">line 101</a>
+        <a href="FPath.js.html">Core/FPath.js</a>, <a href="FPath.js.html#line100">line 100</a>
     </li></ul></dd>
     
     
@@ -3914,8 +3914,8 @@
     
         <h5>Example</h5>
         
-    <pre class="prettyprint"><code>	var size = new Size(10, 20);
-	var a = size.getCircumarea(); // 200</code></pre>
+    <pre class="prettyprint"><code>var size = new Size(10, 20);
+var a = size.getCircumarea(); // 200</code></pre>
 
     
 </dd>
@@ -3933,7 +3933,7 @@
     <div class="description">
         Returns the Circumcenter of a triangle
 
-	TODO: adjust formula to return Circumcenter of any polygon
+TODO: adjust formula to return Circumcenter of any polygon
     </div>
     
 
@@ -3966,7 +3966,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FPath.js.html">Core/FPath.js</a>, <a href="FPath.js.html#line144">line 144</a>
+        <a href="FPath.js.html">Core/FPath.js</a>, <a href="FPath.js.html#line143">line 143</a>
     </li></ul></dd>
     
     
@@ -4096,8 +4096,8 @@
     
         <h5>Example</h5>
         
-    <pre class="prettyprint"><code>	var size = new Size(10, 20);
-	var r = size.getCircumradius(); // 11.180339887498949</code></pre>
+    <pre class="prettyprint"><code>var size = new Size(10, 20);
+var r = size.getCircumradius(); // 11.180339887498949</code></pre>
 
     
 </dd>
@@ -4274,10 +4274,6 @@
 <dd>
     
     
-    <div class="description">
-        Returns the distance between the item and the center of the canvas/artboard
-    </div>
-    
 
     
     
@@ -4308,7 +4304,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FPath.js.html">Core/FPath.js</a>, <a href="FPath.js.html#line57">line 57</a>
+        <a href="FPath.js.html">Core/FPath.js</a>, <a href="FPath.js.html#line56">line 56</a>
     </li></ul></dd>
     
     
@@ -4332,6 +4328,10 @@
     <h5>Returns:</h5>
     
             
+<div class="param-desc">
+    the distance between the item and the center of the canvas/artboard
+</div>
+
 
 
 <dl>
@@ -4529,9 +4529,9 @@
     
         <h5>Example</h5>
         
-    <pre class="prettyprint"><code>	var point = new Point(0, 90);
-	var result = point.getHeading();
-	console.log( paper.degrees(result) ); // 90</code></pre>
+    <pre class="prettyprint"><code>var point = new Point(0, 90);
+var result = point.getHeading();
+console.log( paper.degrees(result) ); // 90</code></pre>
 
     
 </dd>
@@ -4580,7 +4580,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FPath.js.html">Core/FPath.js</a>, <a href="FPath.js.html#line248">line 248</a>
+        <a href="FPath.js.html">Core/FPath.js</a>, <a href="FPath.js.html#line247">line 247</a>
     </li></ul></dd>
     
     
@@ -4710,8 +4710,8 @@
     
         <h5>Example</h5>
         
-    <pre class="prettyprint"><code>	var size = new Size(10, 20);
-	var a = size.getIncirclearea(); // 200</code></pre>
+    <pre class="prettyprint"><code>var size = new Size(10, 20);
+var a = size.getIncirclearea(); // 200</code></pre>
 
     
 </dd>
@@ -4803,9 +4803,9 @@
     
         <h5>Example</h5>
         
-    <pre class="prettyprint"><code>	var size = new Size(10, 20);
-	var r = size.getIncircleradius();
-	console.log( r ); // XX</code></pre>
+    <pre class="prettyprint"><code>var size = new Size(10, 20);
+var r = size.getIncircleradius();
+console.log( r ); // XX</code></pre>
 
     
 </dd>
@@ -4901,9 +4901,9 @@
     
         <h5>Example</h5>
         
-    <pre class="prettyprint"><code>	var slope = new Size(10, 20);
-	var result = size.getSlopeAngle();
-	console.log( paper.degrees(result) ); // 26.56</code></pre>
+    <pre class="prettyprint"><code>var slope = new Size(10, 20);
+var result = size.getSlopeAngle();
+console.log( paper.degrees(result) ); // 26.56</code></pre>
 
     
 </dd>
@@ -5359,7 +5359,7 @@
     
         <h5>Example</h5>
         
-    <pre class="prettyprint"><code>	var interpolated = interpolate(0, 100, 0.5); // 50</code></pre>
+    <pre class="prettyprint"><code>var interpolated = interpolate(0, 100, 0.5); // 50</code></pre>
 
     
 </dd>
@@ -5475,7 +5475,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FColor.js.html">Core/FColor.js</a>, <a href="FColor.js.html#line375">line 375</a>
+        <a href="FColor.js.html">Core/FColor.js</a>, <a href="FColor.js.html#line373">line 373</a>
     </li></ul></dd>
     
     
@@ -5522,9 +5522,9 @@
     
         <h5>Example</h5>
         
-    <pre class="prettyprint"><code>	var color1 = new Color( 0.0, 1.0, 0.7 );
-	var color2 = new Color( 0.0, 0.7, 1.0 );
-	var interpolateColor = color1.interpolate( color2, 0.5 );</code></pre>
+    <pre class="prettyprint"><code>var color1 = new Color( 0.0, 1.0, 0.7 );
+var color2 = new Color( 0.0, 0.7, 1.0 );
+var interpolateColor = color1.interpolate( color2, 0.5 );</code></pre>
 
     
 </dd>
@@ -5710,10 +5710,10 @@
     
         <h5>Example</h5>
         
-    <pre class="prettyprint"><code>	var start = new Point(0, 30);
-	var end = new Point(360, 90);
-	var interpolate = new Point.interpolateTo( start, end, 0.5 );
-	console.log( interpolate ); // { x: 180, y: 60 }</code></pre>
+    <pre class="prettyprint"><code>var start = new Point(0, 30);
+var end = new Point(360, 90);
+var interpolate = new Point.interpolateTo( start, end, 0.5 );
+console.log( interpolate ); // { x: 180, y: 60 }</code></pre>
 
     
 </dd>
@@ -5730,7 +5730,7 @@
     
     <div class="description">
         invert color
-	NOTE: Color operators aren't working
+NOTE: Color operators aren't working when not using paperScript
     </div>
     
 
@@ -5763,7 +5763,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FColor.js.html">Core/FColor.js</a>, <a href="FColor.js.html#line297">line 297</a>
+        <a href="FColor.js.html">Core/FColor.js</a>, <a href="FColor.js.html#line295">line 295</a>
     </li></ul></dd>
     
     
@@ -5810,11 +5810,11 @@
     
         <h5>Example</h5>
         
-    <pre class="prettyprint"><code>	var color = new Color( 0.0, 1.0, 0.7 );
-	color.invert();
+    <pre class="prettyprint"><code>var color = new Color( 0.0, 1.0, 0.7 );
+color.invert();
 
-	var color = new Color( 0.0, 1.0, 0.7 );
-	var inverted = color.invert();</code></pre>
+var color = new Color( 0.0, 1.0, 0.7 );
+var inverted = color.invert();</code></pre>
 
     
 </dd>
@@ -5831,7 +5831,7 @@
     
     <div class="description">
         lighten a color (based on hsl model) by percentage
-	NOTE: Color operators aren't working
+NOTE: Color operators aren't working when not using paperScript
     </div>
     
 
@@ -5959,11 +5959,11 @@
     
         <h5>Example</h5>
         
-    <pre class="prettyprint"><code>	var color = new Color( 0.0, 1.0, 0.7 );
-	color.lighten(0.2); // { red: 0, green: 0.76, blue: 0.532 }
+    <pre class="prettyprint"><code>var color = new Color( 0.0, 1.0, 0.7 );
+color.lighten(0.2); // { red: 0, green: 0.76, blue: 0.532 }
 
-	var color = new Color( 0.0, 1.0, 0.7 );
-	var lightened = color.lighten(0.2); // { red: 0, green: 0.76, blue: 0.532 }</code></pre>
+var color = new Color( 0.0, 1.0, 0.7 );
+var lightened = color.lighten(0.2); // { red: 0, green: 0.76, blue: 0.532 }</code></pre>
 
     
 </dd>
@@ -6055,9 +6055,9 @@
     
         <h5>Example</h5>
         
-    <pre class="prettyprint"><code>	var point = new Point(0, 90);
-	var result = point.magSq();
-	console.log(result); // 8100</code></pre>
+    <pre class="prettyprint"><code>var point = new Point(0, 90);
+var result = point.magSq();
+console.log(result); // 8100</code></pre>
 
     
 </dd>
@@ -6289,7 +6289,7 @@
     
         <h5>Example</h5>
         
-    <pre class="prettyprint"><code>	var mapped = map(180, 0, 360, 0.0, 2.0); // 1</code></pre>
+    <pre class="prettyprint"><code>var mapped = map(180, 0, 360, 0.0, 2.0); // 1</code></pre>
 
     
 </dd>
@@ -6456,10 +6456,10 @@
     
         <h5>Example</h5>
         
-    <pre class="prettyprint"><code>	var point = new Point(30, 270);
-	var start = new Point(90, 180);
-	var stop = new Point(180, 360);
-	point.norm(start, stop); // { x: -0.66667, y: 0.5 }')</code></pre>
+    <pre class="prettyprint"><code>var point = new Point(30, 270);
+var start = new Point(90, 180);
+var stop = new Point(180, 360);
+point.norm(start, stop); // { x: -0.66667, y: 0.5 }')</code></pre>
 
     
 </dd>
@@ -6645,7 +6645,7 @@
     
         <h5>Example</h5>
         
-    <pre class="prettyprint"><code>	var normed = norm(45, 0, 90); // 0.5</code></pre>
+    <pre class="prettyprint"><code>var normed = norm(45, 0, 90); // 0.5</code></pre>
 
     
 </dd>
@@ -7037,7 +7037,7 @@
     
         <h5>Example</h5>
         
-    <pre class="prettyprint"><code>	var rad = radians(180); // Math.PI</code></pre>
+    <pre class="prettyprint"><code>var rad = radians(180); // Math.PI</code></pre>
 
     
 </dd>
@@ -7200,7 +7200,7 @@
     
         <h5>Example</h5>
         
-    <pre class="prettyprint"><code>	var rand = random(30, 90);</code></pre>
+    <pre class="prettyprint"><code>var rand = random(30, 90);</code></pre>
 
     
 </dd>
@@ -7245,7 +7245,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FColor.js.html">Core/FColor.js</a>, <a href="FColor.js.html#line425">line 425</a>
+        <a href="FColor.js.html">Core/FColor.js</a>, <a href="FColor.js.html#line422">line 422</a>
     </li></ul></dd>
     
     
@@ -7292,25 +7292,25 @@
     
         <h5>Example</h5>
         
-    <pre class="prettyprint"><code>	var color = new Color().random();
-	// all values between 0.0 and 1.0
-	// [ red: 0.1, green: 0.5, blue: 1.0 ]
+    <pre class="prettyprint"><code>var color = new Color().random();
+// all values between 0.0 and 1.0
+// [ red: 0.1, green: 0.5, blue: 1.0 ]
 
-	var color = new Color(0.5).random();
-	// value between 0.5 and 1.0
-	// [ gray: 0.7 ]
+var color = new Color(0.5).random();
+// value between 0.5 and 1.0
+// [ gray: 0.7 ]
 
-	var color = new Color(0.3, 0.6, 0.9).random();
-	// red value between 0.4 and 1.0, etc.
-	// [ red: 0.4, green: 0.7, blue: 1.0 ]
+var color = new Color(0.3, 0.6, 0.9).random();
+// red value between 0.4 and 1.0, etc.
+// [ red: 0.4, green: 0.7, blue: 1.0 ]
 
-	var color = new Color({ hue: 90, saturation: 1, brightness: 0.8 }).random();
-	// hue value between 90 and 360, etc.
-	// [ hue: 154, saturation: 1, brightness: 0.9 ]
+var color = new Color({ hue: 90, saturation: 1, brightness: 0.8 }).random();
+// hue value between 90 and 360, etc.
+// [ hue: 154, saturation: 1, brightness: 0.9 ]
 
-	var color = new Color({ hue: 90, saturation: 1, lightness: 0.8 }).random();
-	// hue value between 90 and 360, etc.
-	// [ hue: 274, saturation: 1, lightness: 0.9 ]</code></pre>
+var color = new Color({ hue: 90, saturation: 1, lightness: 0.8 }).random();
+// hue value between 90 and 360, etc.
+// [ hue: 274, saturation: 1, lightness: 0.9 ]</code></pre>
 
     
 </dd>
@@ -7423,8 +7423,8 @@
             
             
             <td class="description last">bias represents the preference towards lower or higher numbers,
-				as a number between 0.0 and 1.0. For example:
-				random(0, 10, bias=0.9) will return 9 much more often than 1.</td>
+			as a number between 0.0 and 1.0. For example:
+			random(0, 10, bias=0.9) will return 9 much more often than 1.</td>
         </tr>
 	
 	
@@ -7660,7 +7660,7 @@
     
         <h5>Example</h5>
         
-    <pre class="prettyprint"><code>	var randInt = randomInt(30, 90);</code></pre>
+    <pre class="prettyprint"><code>var randInt = randomInt(30, 90);</code></pre>
 
     
 </dd>
@@ -7677,7 +7677,7 @@
     
     <div class="description">
         rotate color around hsb/l color wheel other components remain the same
-	NOTE: Color operators aren't working
+NOTE: Color operators aren't working when not using paperScript
     </div>
     
 
@@ -7758,7 +7758,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FColor.js.html">Core/FColor.js</a>, <a href="FColor.js.html#line326">line 326</a>
+        <a href="FColor.js.html">Core/FColor.js</a>, <a href="FColor.js.html#line324">line 324</a>
     </li></ul></dd>
     
     
@@ -7805,15 +7805,15 @@
     
         <h5>Example</h5>
         
-    <pre class="prettyprint"><code>	var color = new Color( 0.0, 1.0, 0.7 );
-	var compliment = color.rotate(180);
+    <pre class="prettyprint"><code>var color = new Color( 0.0, 1.0, 0.7 );
+var compliment = color.rotate(180);
 
-	var color = new Color( 0.0, 1.0, 0.7 );
-	var triad = [
-		color,
-		color.rotate(120),
-		color.rotate(240)
-	];</code></pre>
+var color = new Color( 0.0, 1.0, 0.7 );
+var triad = [
+	color,
+	color.rotate(120),
+	color.rotate(240)
+];</code></pre>
 
     
 </dd>
@@ -7976,7 +7976,7 @@
     
         <h5>Example</h5>
         
-    <pre class="prettyprint"><code>	var rounded = round(0.586, 2); // 0.59</code></pre>
+    <pre class="prettyprint"><code>var rounded = round(0.586, 2); // 0.59</code></pre>
 
     
 </dd>
@@ -8151,7 +8151,7 @@
     
     <div class="description">
         saturate a color (based on hsb model) by percentage
-	NOTE: Color operators aren't working
+NOTE: Color operators aren't working when not using paperScript
     </div>
     
 
@@ -8279,11 +8279,11 @@
     
         <h5>Example</h5>
         
-    <pre class="prettyprint"><code>	var color = new Color( 0.0, 1.0, 0.7 );
-	color.saturate(0.2); // { red: 0, green: 0.76, blue: 0.532 }
+    <pre class="prettyprint"><code>var color = new Color( 0.0, 1.0, 0.7 );
+color.saturate(0.2); // { red: 0, green: 0.76, blue: 0.532 }
 
-	var color = new Color( 0.0, 1.0, 0.7 );
-	var saturated = color.saturate(0.2); // { red: 0, green: 0.76, blue: 0.532 }</code></pre>
+var color = new Color( 0.0, 1.0, 0.7 );
+var saturated = color.saturate(0.2); // { red: 0, green: 0.76, blue: 0.532 }</code></pre>
 
     
 </dd>
@@ -8301,7 +8301,7 @@
     <div class="description">
         Calculate secants
 
-	http://www.ssicom.org/js/x974780.htm
+http://www.ssicom.org/js/x974780.htm
     </div>
     
 
@@ -8407,7 +8407,7 @@
     
         <h5>Example</h5>
         
-    <pre class="prettyprint"><code>	var s = sec(180);</code></pre>
+    <pre class="prettyprint"><code>var s = sec(180);</code></pre>
 
     
 </dd>
@@ -8597,7 +8597,7 @@
     
         <h5>Example</h5>
         
-    <pre class="prettyprint"><code>	var snapped = snap(0.66, 0.2); // 0.6</code></pre>
+    <pre class="prettyprint"><code>var snapped = snap(0.66, 0.2); // 0.6</code></pre>
 
     
 </dd>
@@ -8687,7 +8687,7 @@
             
             
             <td class="description last">{ grid: true }
-				{ isometric: true }</td>
+			{ isometric: true }</td>
         </tr>
 	
 	
@@ -8823,7 +8823,7 @@
             
             
             <td class="description last">spacing.width  = the horizontal snapping value, width of the grid.
-				spacing.height = the vertical snapping value, height of the grid.</td>
+			spacing.height = the vertical snapping value, height of the grid.</td>
         </tr>
 	
 	
@@ -9131,7 +9131,7 @@
     
         <h5>Example</h5>
         
-    <pre class="prettyprint"><code>	var squared = sq(30); // 900</code></pre>
+    <pre class="prettyprint"><code>var squared = sq(30); // 900</code></pre>
 
     
 </dd>
@@ -9180,7 +9180,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FPath.js.html">Core/FPath.js</a>, <a href="FPath.js.html#line70">line 70</a>
+        <a href="FPath.js.html">Core/FPath.js</a>, <a href="FPath.js.html#line69">line 69</a>
     </li></ul></dd>
     
     
@@ -9314,7 +9314,7 @@
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Mon Dec 23 2013 19:39:06 GMT-0800 (PST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Tue Dec 24 2013 12:02:57 GMT-0800 (PST)
 </footer>
 
 <script> prettyPrint(); </script>

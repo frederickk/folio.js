@@ -1,26 +1,26 @@
 /*
  *
- *	FSize3.js
+ * FSize3.js
  *
- *	A barebones collection of classes for primitive 3D rendering
+ * A barebones collection of classes for primitive 3D rendering
  *
  */
 
 
 
 /**
- *	TODO: finish this
+ * TODO: finish this
  *
- *	@param arg0
- *			width
- *	@param arg1
- *			height
- *	@param arg2
- *			depth
+ * @param arg0
+ * 		width
+ * @param arg1
+ * 		height
+ * @param arg2
+ * 		depth
  */
 folio.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
 	/**
-	 *	public
+	 * public
 	 */
 	this.width = arg0 != undefined ? arg0 : 0;
 	this.height = arg1 != undefined ? arg1 : 0;
@@ -33,8 +33,8 @@ folio.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	@param val
-	 *			set width value
+	 * @param val
+	 * 		set width value
 	 */
 	this.setWidth = function(val) {
 		this.width = val;
@@ -42,8 +42,8 @@ folio.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
 
 	/**
 	 *
-	 *	@param val
-	 *			set height value
+	 * @param val
+	 * 		set height value
 	 */
 	this.setHeight = function(val) {
 		this.height = val;
@@ -51,8 +51,8 @@ folio.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
 
 	/**
 	 *
-	 *	@param val
-	 *			set depth value
+	 * @param val
+	 * 		set depth value
 	 */
 	this.setDepth = function(val) {
 		this.depth = val;
@@ -71,7 +71,7 @@ folio.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
 	// Gets
 	// ------------------------------------------------------------------------
 	/**
-	 *	Get a copy of this size
+	 * Get a copy of this size
 	 */
 	this.get = function() {
 		return new folio.F3D.FSize3(this.width, this.height, this.depth);
@@ -81,24 +81,24 @@ folio.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	@return random size
+	 * @return random size
 	 *
 	 */
 	/**
-	 *	@param minw
-	 *				minmum width (default: 0)
-	 *	@param maxw
-	 *				maximum width (default: view.bounds.width)
-	 *	@param minh
-	 *				minmum height (default: 0)
-	 *	@param maxh
-	 *				maximum height (default: view.bounds.height)
-	 *	@param mind
-	 *				minmum depth (default: 0)
-	 *	@param maxd
-	 *				maximum depth (default: 1000)
+	 * @param minw
+	 * 			minmum width (default: 0)
+	 * @param maxw
+	 * 			maximum width (default: view.bounds.width)
+	 * @param minh
+	 * 			minmum height (default: 0)
+	 * @param maxh
+	 * 			maximum height (default: view.bounds.height)
+	 * @param mind
+	 * 			minmum depth (default: 0)
+	 * @param maxd
+	 * 			maximum depth (default: 1000)
 	 *
-	 *	@return random size
+	 * @return random size
 	 *
 	 */
 	this.random = function(minw, maxw, minh, maxh, mind, maxd) {
@@ -117,7 +117,7 @@ folio.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
 
 	/**
 	 *
-	 *	@return volume
+	 * @return volume
 	 *
 	 */
 	this.volume = function() {

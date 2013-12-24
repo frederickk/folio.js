@@ -1,22 +1,22 @@
 /*
  *
- *	FTextItem.js
+ * FTextItem.js
  *
- *	A collection of extensions for paper.TextItem
+ * A collection of extensions for paper.TextItem
  *
  */
 
 
 /**
  *
- *	paper.TextItem
+ * paper.TextItem
  *
  */
 paper.TextItem.inject({
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	@return {String} content which will will fit within the bounds of the TextItem
+	 * @return {String} content which will will fit within the bounds of the TextItem
 	 *
 	 */
 	trimToFit: function() {

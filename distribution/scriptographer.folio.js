@@ -1,47 +1,47 @@
 /**!
  *
- *	folio.js
- *	0.6.1
- *	https://github.com/frederickk/folio.js
+ * folio.js
+ * 0.6.1
+ * https://github.com/frederickk/folio.js
  *
- *	23. December 2013
+ * 24. December 2013
  *
- *	Ken Frederick
- *	ken.frederick@gmx.de
+ * Ken Frederick
+ * ken.frederick@gmx.de
  *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
- *
- *
- *	Folio.js is a library for Paper.js/Scriptographer
- *	Folio.js serves as a collection of functions for supporting animations,
- *	rudimentary 3D, additional Path items and lastly a structured
- *	framework/chain of operations similar to that of Processing,
- *	OpenFrameworks, Cinder, et. al.
- *
- *	Not all of the code in here was created by me
- *	but credit and links are given where credit is due
- *
- *	Additional information and demos can be found here
- *	http://kennethfrederick.de/folio.js/
- *	http://kenfrederick.blogspot.de/2012/12/frederickkpaper.html
+ * http://kennethfrederick.de/
+ * http://blog.kennethfrederick.de/
  *
  *
- *	This library is free software; you can redistribute it and/or
- *	modify it under the terms of the GNU Lesser General Public
- *	License as published by the Free Software Foundation; either
- *	version 2.1 of the License, or (at your option) any later version.
+ * Folio.js is a library for Paper.js/Scriptographer
+ * Folio.js serves as a collection of functions for supporting animations,
+ * rudimentary 3D, additional Path items and lastly a structured
+ * framework/chain of operations similar to that of Processing,
+ * OpenFrameworks, Cinder, et. al.
  *
- *	http://creativecommons.org/licenses/LGPL/2.1/
+ * Not all of the code in here was created by me
+ * but credit and links are given where credit is due
  *
- *	This library is distributed in the hope that it will be useful,
- *	but WITHOUT ANY WARRANTY; without even the implied warranty of
- *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the GNU
- *	Lesser General Public License for more details.
+ * Additional information and demos can be found here
+ * http://kennethfrederick.de/folio.js/
+ * http://kenfrederick.blogspot.de/2012/12/frederickkpaper.html
  *
- *	You should have received a copy of the GNU Lesser General Public
- *	License along with this library; if not, write to the Free Software
- *	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA	02110-1301	USA
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * http://creativecommons.org/licenses/LGPL/2.1/
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA	02110-1301	USA
  *
  */
 
@@ -49,34 +49,34 @@
 // Global Properties
 // ------------------------------------------------------------------------
 /**
- *	the Path.Rectangle of the artboard
- *	mimic Paper.js
+ * the Path.Rectangle of the artboard
+ * mimic Paper.js
  */
 var view = artboard = activeDocument.activeArtboard;
 
 /**
- *	holder for Raster
+ * holder for Raster
  */
 var raster;
 
 /**
- *	shim for using same code base for
- *	both versions of folio.js
+ * shim for using same code base for
+ * both versions of folio.js
  */
 var paper = PaperScope = global;
 
 
 
 /**
- *	Note from the Scriptographer.org Team
+ * Note from the Scriptographer.org Team
  *
- *	In Scriptographer 2.9, we switched to a top-down coordinate system and
- *	degrees for angle units as an easier alternative to radians.
+ * In Scriptographer 2.9, we switched to a top-down coordinate system and
+ * degrees for angle units as an easier alternative to radians.
  *
- *	For backward compatibility we offer the possibility to still use the old
- *	bottom-up coordinate system and radians for angle units, by setting the two
- *	values bellow. Read more about this transition on our website:
- *	http://scriptographer.org/news/version-2.9.064-arrived/
+ * For backward compatibility we offer the possibility to still use the old
+ * bottom-up coordinate system and radians for angle units, by setting the two
+ * values bellow. Read more about this transition on our website:
+ * http://scriptographer.org/news/version-2.9.064-arrived/
  */
 
 script.coordinateSystem = 'top-down';
@@ -86,7 +86,7 @@ script.angleUnits = 'degrees';
 
 /**
  *
- *	Scriptographer Global Scope
+ * Scriptographer Global Scope
  *
  */
 // Script.inject({
@@ -96,14 +96,14 @@ global.inject({
 
 	/**
 	 *
-	 *	These are specific methods for the
-	 *	Scriptographer version of folio.js
+	 * These are specific methods for the
+	 * Scriptographer version of folio.js
 	 *
 	 */
 
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	// Properties
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	// constants
 	EPSILON: 1.0e-6,
 
@@ -124,12 +124,12 @@ global.inject({
 
 
 
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	// Methods
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	/**
-	 *	@param {Object} obj
-	 *				any Javascript Object
+	 * @param {Object} obj
+	 * 			any Javascript Object
 	 */
 	println: function(obj) {
 		console.log( obj );
@@ -137,15 +137,15 @@ global.inject({
 	},
 
 
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	/**
-	 *	animation function that mimics Paper.js
+	 * animation function that mimics Paper.js
 	 */
 	/**
-	 *	@param {Boolean} isOn
-	 *				true if we want to use animations
-	 *	@param {Number} frameRate
-	 *				the frame rate for the animatons default is 12
+	 * @param {Boolean} isOn
+	 * 			true if we want to use animations
+	 * @param {Number} frameRate
+	 * 			the frame rate for the animatons default is 12
 	 */
 	Animate: function(isOn, frameRate) {
 		frameRate = (frameRate === undefined) ? FRAMERATE : frameRate;
@@ -160,8 +160,8 @@ global.inject({
 	},
 
 	/**
-	 *	@param {Number} interval
-	 *				how often in MS to fire event - defaul: 83
+	 * @param {Number} interval
+	 * 			how often in MS to fire event - defaul: 83
 	 */
 	onFrame: function(interval, func) {
 		interval = (interval === undefined) ? 2 : interval;
@@ -184,9 +184,9 @@ var folio = folio || {};
 
 /*
  *
- *  Core.js
+ * Core.js
  *
- *  Core Methods and a collection of extensions for paper globally
+ * Core Methods and a collection of extensions for paper globally
  *
  */
 
@@ -204,21 +204,21 @@ folio = {
 
 /**
  *
- *  Global Scope (Paper.js core)
+ * Global Scope (Paper.js core)
  *
  */
 PaperScope.inject({
 	enumerable: true,
 
 
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	// Methods
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	/**
-	 *  Java style println output
+	 * Java style println output
 	 *
-	 *  @param {Object} obj
-	 *			  any Javascript Object
+	 * @param {Object} obj
+	 * 		  any Javascript Object
 	 */
 	println: function(obj) {
 		console.log(obj);
@@ -228,10 +228,10 @@ PaperScope.inject({
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *  @param {Boolean} val
-	 *		  input boolean value
+	 * @param {Boolean} val
+	 * 	  input boolean value
 	 *
-	 *  @return {Number} val as integer
+	 * @return {Number} val as integer
 	 *
 	 */
 	boolToInt: function(val) {
@@ -241,10 +241,10 @@ PaperScope.inject({
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *  @param {Number} val
-	 *		  input number value
+	 * @param {Number} val
+	 * 	  input number value
 	 *
-	 *  @return {Number} val as boolean
+	 * @return {Number} val as boolean
 	 *
 	 */
 	numToBool: function(val) {
@@ -254,10 +254,10 @@ PaperScope.inject({
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *  @param {Object} object
-	 *		  object whose type to determine
+	 * @param {Object} object
+	 * 	  object whose type to determine
 	 *
-	 *  @return {String} Paper.js object type
+	 * @return {String} Paper.js object type
 	 *
 	 */
 	getType: function(object) {
@@ -282,12 +282,12 @@ PaperScope.inject({
 
 	/**
 	 *
-	 *  @param {Array} items
-	 *		  Array of items to go through
-	 *  @param {String} name
-	 *		  name of Item to find
+	 * @param {Array} items
+	 * 	  Array of items to go through
+	 * @param {String} name
+	 * 	  name of Item to find
 	 *
-	 *  @return {Path} path with the name that matches
+	 * @return {Path} path with the name that matches
 	 *
 	 */
 	findByName: function(items, name) {
@@ -301,12 +301,12 @@ PaperScope.inject({
 
 	/**
 	 *
-	 *  @param {Array} items
-	 *		  Array of items to go through
-	 *  @param {Number} name
-	 *		  name of Item to find
+	 * @param {Array} items
+	 * 	  Array of items to go through
+	 * @param {Number} name
+	 * 	  name of Item to find
 	 *
-	 *  @return {Path} path with the id that matches
+	 * @return {Path} path with the id that matches
 	 *
 	 */
 	findById: function(items, id) {
@@ -324,22 +324,20 @@ PaperScope.inject({
 
 /*
  *
- *	FArray.js
+ * FArray.js
  *
- *	Extensions to JavaScript Array may be bad form... but whatever
- *
- */
-
-
-/**
- *
- *	Array
+ * Extensions to JavaScript Array may be bad form... but whatever
  *
  */
 
+
+//
+// Array
+//
+
 /**
  *
- *	@return {Number} median value
+ * @return {Number} median value
  *
  */
 Array.prototype.median = function() {
@@ -356,7 +354,7 @@ Array.prototype.median = function() {
 
 /**
  *
- *	@return {Object} unique element
+ * @return {Object} unique element
  *
  */
 Array.prototype.unique = function() {
@@ -374,12 +372,12 @@ Array.prototype.unique = function() {
 
 /**
  *
- *	merges (then shuffles) two Arrays
+ * merges (then shuffles) two Arrays
  *
- *	@param {Array} arr
- *				Array object
+ * @param {Array} arr
+ * 			Array object
  *
- *	@return {Array} new merged Array object
+ * @return {Array} new merged Array object
  *
  */
 Array.prototype.merge = function(arr) {
@@ -390,12 +388,12 @@ Array.prototype.merge = function(arr) {
 
 /**
  *
- *	@param {Number} start
- *				start position in array
- *	@param {Number} stop
- *				stop position in array
+ * @param {Number} start
+ * 			start position in array
+ * @param {Number} stop
+ * 			stop position in array
  *
- *	@return {Number} maximum value within array
+ * @return {Number} maximum value within array
  *
  */
 Array.prototype.max = function(start, stop) {
@@ -413,12 +411,12 @@ Array.prototype.max = function(start, stop) {
 
 /**
  *
- *	@param {Number} start
- *				start position in array
- *	@param {Number} stop
- *				stop position in array
+ * @param {Number} start
+ * 			start position in array
+ * @param {Number} stop
+ * 			stop position in array
  *
- *	@return {Number} minimum value within array
+ * @return {Number} minimum value within array
  *
  */
 Array.prototype.min = function(start, stop) {
@@ -436,10 +434,10 @@ Array.prototype.min = function(start, stop) {
 
 /**
  *
- *	http://jsfromhell.com/array/shuffle
- *	http://www.brain4.de/programmierecke/js/arrayShuffle.php
+ * http://jsfromhell.com/array/shuffle
+ * http://www.brain4.de/programmierecke/js/arrayShuffle.php
  *
- *	@return {Array} original array but with the order "shuffled"
+ * @return {Array} original array but with the order "shuffled"
  *
  */
 Array.prototype.shuffle = function() {
@@ -448,9 +446,9 @@ Array.prototype.shuffle = function() {
 
 /**
  *
- *	http://stackoverflow.com/questions/9229645/remove-duplicates-from-javascript-array
+ * http://stackoverflow.com/questions/9229645/remove-duplicates-from-javascript-array
  *
- *	@return {Array} original array without duplicates
+ * @return {Array} original array without duplicates
  *
  */
 Array.prototype.removeDuplicates = function() {
@@ -462,10 +460,10 @@ Array.prototype.removeDuplicates = function() {
 
 /**
  *
- *	@param {Number} decimalPlaces
- *			number of decimal places
+ * @param {Number} decimalPlaces
+ * 		number of decimal places
  *
- *	@return {Array} original array with rounded values
+ * @return {Array} original array with rounded values
  *
  */
 Array.prototype.round = function(decimalPlaces) {
@@ -481,9 +479,9 @@ var FSort = {
 
 	/**
 	 *
-	 *	sort Array in alphabetical order
+	 * sort Array in alphabetical order
 	 *
-	 *	http://www.brain4.de/programmierecke/js/arraySort.php
+	 * http://www.brain4.de/programmierecke/js/arraySort.php
 	 *
 	 */
 	alphabetical: function(a, b) {
@@ -513,7 +511,7 @@ var FSort = {
 
 	/**
 	 *
-	 *	sort array by distance of object from center of canvas
+	 * sort array by distance of object from center of canvas
 	 *
 	 */
 	distanceToCenter: function(a, b) {
@@ -533,17 +531,17 @@ var FSort = {
 
 /*
  *
- *	FCalculate.js
+ * FCalculate.js
  *
- *	A collection of global mathematical operations, similar
- *	to those found in Processing/OpenFrameworks/etc.
+ * A collection of global mathematical operations, similar
+ * to those found in Processing/OpenFrameworks/etc.
  *
  */
 
 
 /**
  *
- *	paper.Global
+ * paper.Global
  *
  */
 PaperScope.inject({
@@ -552,17 +550,17 @@ PaperScope.inject({
 	enumerable: true,
 
 
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	/**
-	 *	@param {Number} min
-	 *				minmum range
-	 *	@param {Number} max
-	 *				maximum range
+	 * @param {Number} min
+	 * 			minmum range
+	 * @param {Number} max
+	 * 			maximum range
 	 *
-	 *	@return {Number} random number as float
+	 * @return {Number} random number as float
 	 *
-	 *	@example
-	 *	var rand = random(30, 90);
+	 * @example
+	 * var rand = random(30, 90);
 	 *
 	 */
 	random: function(min, max) {
@@ -578,15 +576,15 @@ PaperScope.inject({
 	},
 
 	/**
-	 *	@param {Number} min
-	 *				minmum range
-	 *	@param {Number} max
-	 *				maximum range
+	 * @param {Number} min
+	 * 			minmum range
+	 * @param {Number} max
+	 * 			maximum range
 	 *
-	 *	@return {Number} random number as integer
+	 * @return {Number} random number as integer
 	 *
-	 *	@example
-	 *	var randInt = randomInt(30, 90);
+	 * @example
+	 * var randInt = randomInt(30, 90);
 	 *
 	 */
 	randomInt: function(min, max) {
@@ -595,18 +593,18 @@ PaperScope.inject({
 
 	/**
 	 *
-	 *	http://www.siafoo.net/snippet/191
+	 * http://www.siafoo.net/snippet/191
 	 *
-	 *	@param {Number} minr
-	 *				minmum range
-	 *	@param {Number} maxr
-	 *				maximum range
-	 *	@param {Number} bias
-	 *				bias represents the preference towards lower or higher numbers,
-	 *				as a number between 0.0 and 1.0. For example:
-	 *				random(0, 10, bias=0.9) will return 9 much more often than 1.
+	 * @param {Number} minr
+	 * 			minmum range
+	 * @param {Number} maxr
+	 * 			maximum range
+	 * @param {Number} bias
+	 * 			bias represents the preference towards lower or higher numbers,
+	 * 			as a number between 0.0 and 1.0. For example:
+	 * 			random(0, 10, bias=0.9) will return 9 much more often than 1.
 	 *
-	 *	@return {Number} a random, albeit biased, number
+	 * @return {Number} a random, albeit biased, number
 	 *
 	 */
 	randomBias: function(minr, maxr, bias) {
@@ -624,18 +622,18 @@ PaperScope.inject({
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	@param {Number} val
-	 *				the value to constrain
-	 *	@param {Number} min
-	 *				minimum limit
-	 *	@param {Number} max
-	 *				maximum limit
+	 * @param {Number} val
+	 * 			the value to constrain
+	 * @param {Number} min
+	 * 			minimum limit
+	 * @param {Number} max
+	 * 			maximum limit
 	 *
-	 *	@return {Number} original value that is not less than the
-	 *					 minimum and no greater than the maximum
+	 * @return {Number} original value that is not less than the
+	 * 				 minimum and no greater than the maximum
 	 *
-	 *	@example
-	 *	var clamped = clamp(120, 0, 90); // 90
+	 * @example
+	 * var clamped = clamp(120, 0, 90); // 90
 	 *
 	 */
 	clamp: function(val, min, max) {
@@ -644,17 +642,17 @@ PaperScope.inject({
 
 	/**
 	 *
-	 *	@param {Number} val
-	 *				the incoming value to be converted
-	 *	@param {Number} start
-	 *				lower bound of the value's current range
-	 *	@param {Number} stop
-	 *				upper bound of the value's current range
+	 * @param {Number} val
+	 * 			the incoming value to be converted
+	 * @param {Number} start
+	 * 			lower bound of the value's current range
+	 * @param {Number} stop
+	 * 			upper bound of the value's current range
 	 *
-	 *	@return {Number} float value between 0.0 and 1.0
+	 * @return {Number} float value between 0.0 and 1.0
 	 *
-	 *	@example
-	 *	var normed = norm(45, 0, 90); // 0.5
+	 * @example
+	 * var normed = norm(45, 0, 90); // 0.5
 	 *
 	 */
 	normalize: function(val, start, stop) {
@@ -663,21 +661,21 @@ PaperScope.inject({
 
 	/**
 	 *
-	 *	@param {Number} val
-	 *				the incoming value to be converted
-	 *	@param {Number} istart
-	 *				lower bound of the value's current range
-	 *	@param {Number} istop
-	 *				upper bound of the value's current range
-	 *	@param {Number} ostart
-	 *				lower bound of the value's target range
-	 *	@param {Number} ostop
-	 *				upper bound of the value's target range
+	 * @param {Number} val
+	 * 			the incoming value to be converted
+	 * @param {Number} istart
+	 * 			lower bound of the value's current range
+	 * @param {Number} istop
+	 * 			upper bound of the value's current range
+	 * @param {Number} ostart
+	 * 			lower bound of the value's target range
+	 * @param {Number} ostop
+	 * 			upper bound of the value's target range
 	 *
-	 *	@return {Number} re-mapped value
+	 * @return {Number} re-mapped value
 	 *
-	 *	@example
-	 *	var mapped = map(180, 0, 360, 0.0, 2.0); // 1
+	 * @example
+	 * var mapped = map(180, 0, 360, 0.0, 2.0); // 1
 	 *
 	 */
 	map: function(val, istart, istop, ostart, ostop) {
@@ -688,15 +686,15 @@ PaperScope.inject({
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	@param {Number} val
-	 *			number
-	 *	@param {Number} decimalPlaces
-	 *			number of decimal places
+	 * @param {Number} val
+	 * 		number
+	 * @param {Number} decimalPlaces
+	 * 		number of decimal places
 	 *
-	 *	@return {Number} float value with desired decimal places
+	 * @return {Number} float value with desired decimal places
 	 *
-	 *	@example
-	 *	var rounded = round(0.586, 2); // 0.59
+	 * @example
+	 * var rounded = round(0.586, 2); // 0.59
 	 *
 	 */
 	round: function(val, decimalPlaces) {
@@ -707,11 +705,11 @@ PaperScope.inject({
 	/**
 	 *
 	 * @param  {Number} val
-	 *		 	number
+	 * 	 	number
 	 * @param  {Number} base
-	 *		 	base value for finding multiple
+	 * 	 	base value for finding multiple
 	 *
-	 *	@return {Number} closest multiple relative to base and val
+	 * @return {Number} closest multiple relative to base and val
 	 */
 	roundMultiple: function(val, base) {
 		return Math.floor(val/base)*base+base;
@@ -719,19 +717,19 @@ PaperScope.inject({
 
 	/**
 	 *
-	 *	http://stackoverflow.com/questions/4507784/snap-to-grid-functionality-using-javascript
+	 * http://stackoverflow.com/questions/4507784/snap-to-grid-functionality-using-javascript
 	 *
-	 *	@param {Number} val
-	 *			value to snap
-	 *	@param {Number} snapInc
-	 *			increment to snap value to
-	 *	@param {Function} roundFunction
-	 *			(optiona) rounding function
+	 * @param {Number} val
+	 * 		value to snap
+	 * @param {Number} snapInc
+	 * 		increment to snap value to
+	 * @param {Function} roundFunction
+	 * 		(optiona) rounding function
 	 *
-	 *	@return {Number} snapped value
+	 * @return {Number} snapped value
 	 *
-	 *	@example
-	 *	var snapped = snap(0.66, 0.2); // 0.6
+	 * @example
+	 * var snapped = snap(0.66, 0.2); // 0.6
 	 *
 	 */
 	snap: function(val, snapInc, roundFunction) {
@@ -741,17 +739,17 @@ PaperScope.inject({
 
 	/**
 	 *
-	 *	@param {Number} start
-	 *			first value
-	 *	@param {Number} stop
-	 *			second value
-	 *	@param {Number} val
-	 *			float: between 0.0 and 1.0
+	 * @param {Number} start
+	 * 		first value
+	 * @param {Number} stop
+	 * 		second value
+	 * @param {Number} val
+	 * 		float: between 0.0 and 1.0
 	 *
-	 *	@return {Number} value between start and stop
+	 * @return {Number} value between start and stop
 	 *
-	 *	@example
-	 *	var interpolated = interpolate(0, 100, 0.5); // 50
+	 * @example
+	 * var interpolated = interpolate(0, 100, 0.5); // 50
 	 *
 	 */
 	interpolate: function(start, stop, val) {
@@ -760,17 +758,17 @@ PaperScope.inject({
 
 	// ------------------------------------------------------------------------
 	/**
-	 *	http://nayuki.eigenstate.org/res/calculate-divisors-javascript.js
+	 * http://nayuki.eigenstate.org/res/calculate-divisors-javascript.js
 	 *
-	 *	@param {Number} val
-	 *			number
+	 * @param {Number} val
+	 * 		number
 	 *
-	 *	@return {Array} divisors (in ascending order) of the given integer
+	 * @return {Array} divisors (in ascending order) of the given integer
 	 *
-	 *	@example
-	 *	divisor(1) = [1]
-	 *	divisor(5) = [1, 5]
-	 *	divisor(12) = [1, 2, 3, 4, 6, 12]
+	 * @example
+	 * divisor(1) = [1]
+	 * divisor(5) = [1, 5]
+	 * divisor(12) = [1, 2, 3, 4, 6, 12]
 	 */
 	divisor: function(val) {
 		var small = [];
@@ -791,13 +789,13 @@ PaperScope.inject({
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	@param {Number} val
-	 *			input value
+	 * @param {Number} val
+	 * 		input value
 	 *
-	 *	@return {Number} val as degree
+	 * @return {Number} val as degree
 	 *
-	 *	@example
-	 *	var deg = degrees(Math.PI); // 180
+	 * @example
+	 * var deg = degrees(Math.PI); // 180
 	 *
 	 */
 	degrees: function(val) {
@@ -806,13 +804,13 @@ PaperScope.inject({
 
 	/**
 	 *
-	 *	@param {Number} val
-	 *			input value
+	 * @param {Number} val
+	 * 		input value
 	 *
-	 *	@return {Number} val as radians
+	 * @return {Number} val as radians
 	 *
-	 *	@example
-	 *	var rad = radians(180); // Math.PI
+	 * @example
+	 * var rad = radians(180); // Math.PI
 	 *
 	 */
 	radians: function(val) {
@@ -822,15 +820,15 @@ PaperScope.inject({
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	Calculate secants
+	 * Calculate secants
 	 *
-	 *	http://www.ssicom.org/js/x974780.htm
+	 * http://www.ssicom.org/js/x974780.htm
 	 *
-	 *	@param {Number} val
-	 *			input value
+	 * @param {Number} val
+	 * 		input value
 	 *
-	 *	@example
-	 *	var s = sec(180);
+	 * @example
+	 * var s = sec(180);
 	 *
 	 */
 	sec: function(val) {
@@ -839,15 +837,15 @@ PaperScope.inject({
 
 	/**
 	 *
-	 *	Calculate cosecants
+	 * Calculate cosecants
 	 *
-	 *	http://www.ssicom.org/js/x974284.htm
+	 * http://www.ssicom.org/js/x974284.htm
 	 *
-	 *	@param {Number} val
-	 *			input value
+	 * @param {Number} val
+	 * 		input value
 	 *
-	 *	@example
-	 *	var cs = cosec(180);
+	 * @example
+	 * var cs = cosec(180);
 	 *
 	 */
 	cosec: function(val) {
@@ -857,10 +855,10 @@ PaperScope.inject({
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	@param {Point} point
-	 *			input point
+	 * @param {Point} point
+	 * 		input point
 	 *
-	 *	@return {Number} slope ratio
+	 * @return {Number} slope ratio
 	 *
 	 */
 	// slope: function(point) {
@@ -869,13 +867,13 @@ PaperScope.inject({
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	@param {Number} val
-	 *			input value
+	 * @param {Number} val
+	 * 		input value
 	 *
-	 *	@return {Number} squared value of val
+	 * @return {Number} squared value of val
 	 *
-	 *	@example
-	 *	var squared = sq(30); // 900
+	 * @example
+	 * var squared = sq(30); // 900
 	 *
 	 */
 	sq: function(val) {
@@ -884,25 +882,25 @@ PaperScope.inject({
 
 	// ------------------------------------------------------------------------
 	/**
-	 *	get common outer tangents of two circles (only works with circles!)
+	 * get common outer tangents of two circles (only works with circles!)
 	 *
-	 *	@param {Path.Circle} arg0
-	 *				the first Circle
-	 *	@param {Path.Circle} arg1
-	 *				the second Circle
+	 * @param {Path.Circle} arg0
+	 * 			the first Circle
+	 * @param {Path.Circle} arg1
+	 * 			the second Circle
 	 *
-	 *	@return {Array} of points
+	 * @return {Array} of points
 	 *
 	 */
 	/**
-	 *	TODO: get common outer tangents of two curves
+	 * TODO: get common outer tangents of two curves
 	 *
-	 *	@param {Curve} arg0
-	 *				the first Curve
-	 *	@param {Curve} arg1
-	 *				the second Curve
+	 * @param {Curve} arg0
+	 * 			the first Curve
+	 * @param {Curve} arg1
+	 * 			the second Curve
 	 *
-	 *	@return {Array} of points
+	 * @return {Array} of points
 	 *
 	 */
 	getCommonTangents: function(arg0, arg1) {
@@ -918,8 +916,8 @@ PaperScope.inject({
 		var dist = arg0.position.getDistance( arg1.position );
 
 		if (dist <= Math.abs(r2 - r1)) {
-			//	The circles are coinciding
-			//	There are no valid tangents.
+			// The circles are coinciding
+			// There are no valid tangents.
 			return;
 		}
 
@@ -951,26 +949,26 @@ PaperScope.inject({
 
 /*
  *
- *	FColor.js
+ * FColor.js
  *
- *	A collection of extensions for paper.Color
+ * A collection of extensions for paper.Color
  *
  */
 
 
 /**
  *
- *	paper.Color
+ * paper.Color
  *
  */
 paper.Color.inject({
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	@param {Number} component
-	 *						input value to convert
+	 * @param {Number} component
+	 * 					input value to convert
 	 *
-	 *	@return {String} hex value of input color as string
+	 * @return {String} hex value of input color as string
 	 *
 	 */
 	componentToHex: function( component ) {
@@ -981,9 +979,9 @@ paper.Color.inject({
 
 	/**
 	 *
-	 *	http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
+	 * http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
 	 *
-	 *	@return {String} hex value of input color as string
+	 * @return {String} hex value of input color as string
 	 *
 	 */
 	colorToHex: function() {
@@ -1005,7 +1003,7 @@ paper.Color.inject({
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	@return {Number} value of input color as integer
+	 * @return {Number} value of input color as integer
 	 *
 	 */
 	colorToInt: function() {
@@ -1026,10 +1024,10 @@ paper.Color.inject({
 
 	/**
 	 *
-	 *	@param {Number} RgbInt
-	 *			value as integer
+	 * @param {Number} RgbInt
+	 * 		value as integer
 	 *
-	 *	@return {Color} value of integer as Color
+	 * @return {Color} value of integer as Color
 	 *
 	 */
 	integer: function(RgbInt) {
@@ -1043,16 +1041,16 @@ paper.Color.inject({
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	@param {Number} arg0
-	 *			red as byte value (0-255)
-	 *	@param {Number} arg1
-	 *			green as byte value (0-255)
-	 *	@param {Number} arg2
-	 *			blue as byte value (0-255)
-	 *	@param {Number} arg3
-	 *			alpha as byte value (0-255)
+	 * @param {Number} arg0
+	 * 		red as byte value (0-255)
+	 * @param {Number} arg1
+	 * 		green as byte value (0-255)
+	 * @param {Number} arg2
+	 * 		blue as byte value (0-255)
+	 * @param {Number} arg3
+	 * 		alpha as byte value (0-255)
 	 *
-	 *	@return {Color}
+	 * @return {Color}
 	 *
 	 */
 	bytes: function(arg0, arg1, arg2, arg3) {
@@ -1066,20 +1064,20 @@ paper.Color.inject({
 
 	// ------------------------------------------------------------------------
 	/**
-	 *	desaturate a color (based on hsb model) by percentage
-	 *	NOTE: Color operators aren't working
+	 * desaturate a color (based on hsb model) by percentage
+	 * NOTE: Color operators aren't working when not using paperScript
 	 *
-	 *	@param {Number} amt
-	 *			(0.0 - 1.0) factor to desaturate color
+	 * @param {Number} amt
+	 * 		(0.0 - 1.0) factor to desaturate color
 	 *
-	 *	@return {Color} desaturated Color by input amount
+	 * @return {Color} desaturated Color by input amount
 	 *
-	 *	@example
-	 *	var color = new Color( 0.0, 1.0, 0.7 );
-	 *	color.desaturate(0.2); // { red: 0, green: 0.76, blue: 0.532 }
+	 * @example
+	 * var color = new Color( 0.0, 1.0, 0.7 );
+	 * color.desaturate(0.2); // { red: 0, green: 0.76, blue: 0.532 }
 	 *
-	 *	var color = new Color( 0.0, 1.0, 0.7 );
-	 *	var desaturated = color.desaturate(0.2); // { red: 0, green: 0.76, blue: 0.532 }
+	 * var color = new Color( 0.0, 1.0, 0.7 );
+	 * var desaturated = color.desaturate(0.2); // { red: 0, green: 0.76, blue: 0.532 }
 	 *
 	 */
 	desaturate: function(amt) {
@@ -1089,20 +1087,20 @@ paper.Color.inject({
 	},
 
 	/**
-	 *	saturate a color (based on hsb model) by percentage
-	 *	NOTE: Color operators aren't working
+	 * saturate a color (based on hsb model) by percentage
+	 * NOTE: Color operators aren't working when not using paperScript
 	 *
-	 *	@param {Number} amt
-	 *			(0.0 - 1.0) factor to saturate color
+	 * @param {Number} amt
+	 * 		(0.0 - 1.0) factor to saturate color
 	 *
-	 *	@return {Color} saturated Color by input amount
+	 * @return {Color} saturated Color by input amount
 	 *
-	 *	@example
-	 *	var color = new Color( 0.0, 1.0, 0.7 );
-	 *	color.saturate(0.2); // { red: 0, green: 0.76, blue: 0.532 }
+	 * @example
+	 * var color = new Color( 0.0, 1.0, 0.7 );
+	 * color.saturate(0.2); // { red: 0, green: 0.76, blue: 0.532 }
 	 *
-	 *	var color = new Color( 0.0, 1.0, 0.7 );
-	 *	var saturated = color.saturate(0.2); // { red: 0, green: 0.76, blue: 0.532 }
+	 * var color = new Color( 0.0, 1.0, 0.7 );
+	 * var saturated = color.saturate(0.2); // { red: 0, green: 0.76, blue: 0.532 }
 	 *
 	 */
 	saturate: function(amt) {
@@ -1112,20 +1110,20 @@ paper.Color.inject({
 	},
 
 	/**
-	 *	darken a color (based on hsl model) by percentage
-	 *	NOTE: Color operators aren't working
+	 * darken a color (based on hsl model) by percentage
+	 * NOTE: Color operators aren't working when not using paperScript
 	 *
-	 *	@param {Number} amt
-	 *			(0.0 - 1.0) factor to darken color
+	 * @param {Number} amt
+	 * 		(0.0 - 1.0) factor to darken color
 	 *
-	 *	@return {Color} darkened Color by input amount
+	 * @return {Color} darkened Color by input amount
 	 *
-	 *	@example
-	 *	var color = new Color( 0.0, 1.0, 0.7 );
-	 *	color.darken(0.2); // { red: 0, green: 0.76, blue: 0.532 }
+	 * @example
+	 * var color = new Color( 0.0, 1.0, 0.7 );
+	 * color.darken(0.2); // { red: 0, green: 0.76, blue: 0.532 }
 	 *
-	 *	var color = new Color( 0.0, 1.0, 0.7 );
-	 *	var darkened = color.darken(0.2); // { red: 0, green: 0.76, blue: 0.532 }
+	 * var color = new Color( 0.0, 1.0, 0.7 );
+	 * var darkened = color.darken(0.2); // { red: 0, green: 0.76, blue: 0.532 }
 	 *
 	 */
 	darken: function(amt) {
@@ -1135,20 +1133,20 @@ paper.Color.inject({
 	},
 
 	/**
-	 *	dim a color (based on hsl model) by percentage
-	 *	NOTE: Color operators aren't working
+	 * dim a color (based on hsl model) by percentage
+	 * NOTE: Color operators aren't working when not using paperScript
 	 *
-	 *	@param {Number} amt
-	 *			(0.0 - 1.0) factor to dim color
+	 * @param {Number} amt
+	 * 		(0.0 - 1.0) factor to dim color
 	 *
-	 *	@return {Color} dimmed Color by input amount
+	 * @return {Color} dimmed Color by input amount
 	 *
-	 *	@example
-	 *	var color = new Color( 0.0, 1.0, 0.7 );
-	 *	color.dim(0.2); // { red: 0, green: 0.76, blue: 0.532 }
+	 * @example
+	 * var color = new Color( 0.0, 1.0, 0.7 );
+	 * color.dim(0.2); // { red: 0, green: 0.76, blue: 0.532 }
 	 *
-	 *	var color = new Color( 0.0, 1.0, 0.7 );
-	 *	var dimmed = color.dim(0.2); // { red: 0, green: 0.76, blue: 0.532 }
+	 * var color = new Color( 0.0, 1.0, 0.7 );
+	 * var dimmed = color.dim(0.2); // { red: 0, green: 0.76, blue: 0.532 }
 	 *
 	 */
 	dim: function(amt) {
@@ -1158,20 +1156,20 @@ paper.Color.inject({
 	},
 
 	/**
-	 *	lighten a color (based on hsl model) by percentage
-	 *	NOTE: Color operators aren't working
+	 * lighten a color (based on hsl model) by percentage
+	 * NOTE: Color operators aren't working when not using paperScript
 	 *
-	 *	@param {Number} amt
-	 *			(0.0 - 1.0) factor to lighten color
+	 * @param {Number} amt
+	 * 		(0.0 - 1.0) factor to lighten color
 	 *
-	 *	@return {Color} lightened Color by input amount
+	 * @return {Color} lightened Color by input amount
 	 *
-	 *	@example
-	 *	var color = new Color( 0.0, 1.0, 0.7 );
-	 *	color.lighten(0.2); // { red: 0, green: 0.76, blue: 0.532 }
+	 * @example
+	 * var color = new Color( 0.0, 1.0, 0.7 );
+	 * color.lighten(0.2); // { red: 0, green: 0.76, blue: 0.532 }
 	 *
-	 *	var color = new Color( 0.0, 1.0, 0.7 );
-	 *	var lightened = color.lighten(0.2); // { red: 0, green: 0.76, blue: 0.532 }
+	 * var color = new Color( 0.0, 1.0, 0.7 );
+	 * var lightened = color.lighten(0.2); // { red: 0, green: 0.76, blue: 0.532 }
 	 *
 	 */
 	lighten: function(amt) {
@@ -1182,20 +1180,20 @@ paper.Color.inject({
 	},
 
 	/**
-	 *	brighten a color (based on hsb model) by percentage
-	 *	NOTE: Color operators aren't working
+	 * brighten a color (based on hsb model) by percentage
+	 * NOTE: Color operators aren't working when not using paperScript
 	 *
-	 *	@param {Number} amt
-	 *			(0.0 - 1.0) factor to brighten color
+	 * @param {Number} amt
+	 * 		(0.0 - 1.0) factor to brighten color
 	 *
-	 *	@return {Color} brightened Color by input amount
+	 * @return {Color} brightened Color by input amount
 	 *
-	 *	@example
-	 *	var color = new Color( 0.0, 1.0, 0.7 );
-	 *	color.brighten(0.2);
+	 * @example
+	 * var color = new Color( 0.0, 1.0, 0.7 );
+	 * color.brighten(0.2);
 	 *
-	 *	var color = new Color( 0.0, 1.0, 0.7 );
-	 *	var brightened = color.brighten(0.2);
+	 * var color = new Color( 0.0, 1.0, 0.7 );
+	 * var brightened = color.brighten(0.2);
 	 *
 	 */
 	brighten: function(amt) {
@@ -1205,22 +1203,21 @@ paper.Color.inject({
 		return color;
 	},
 
-
 	/**
-	 *	increase color contrast (based on hsb model) by percentage
-	 *	NOTE: Color operators aren't working
+	 * increase color contrast (based on hsb model) by percentage
+	 * NOTE: Color operators aren't working when not using paperScript
 	 *
-	 *	@param {Number} amt
-	 *			(0.0 - 1.0) factor to increase contrast
+	 * @param {Number} amt
+	 * 		(0.0 - 1.0) factor to increase contrast
 	 *
-	 *	@return {Color} Color by input amount
+	 * @return {Color} Color by input amount
 	 *
-	 *	@example
-	 *	var color = new Color( 0.0, 1.0, 0.7 );
-	 *	color.contrast(0.2);
+	 * @example
+	 * var color = new Color( 0.0, 1.0, 0.7 );
+	 * color.contrast(0.2);
 	 *
-	 *	var color = new Color( 0.0, 1.0, 0.7 );
-	 *	var contrasted = color.contrast(0.2);
+	 * var color = new Color( 0.0, 1.0, 0.7 );
+	 * var contrasted = color.contrast(0.2);
 	 *
 	 */
 	contrast: function(amt) {
@@ -1230,19 +1227,18 @@ paper.Color.inject({
 			: color.lighten(amt);
 	},
 
-
 	/**
-	 *	invert color
-	 *	NOTE: Color operators aren't working
+	 * invert color
+	 * NOTE: Color operators aren't working when not using paperScript
 	 *
-	 *	@return {Color} inverted Color
+	 * @return {Color} inverted Color
 	 *
-	 *	@example
-	 *	var color = new Color( 0.0, 1.0, 0.7 );
-	 *	color.invert();
+	 * @example
+	 * var color = new Color( 0.0, 1.0, 0.7 );
+	 * color.invert();
 	 *
-	 *	var color = new Color( 0.0, 1.0, 0.7 );
-	 *	var inverted = color.invert();
+	 * var color = new Color( 0.0, 1.0, 0.7 );
+	 * var inverted = color.invert();
 	 *
 	 */
 	invert: function() {
@@ -1254,24 +1250,24 @@ paper.Color.inject({
 	},
 
 	/**
-	 *	rotate color around hsb/l color wheel other components remain the same
-	 *	NOTE: Color operators aren't working
+	 * rotate color around hsb/l color wheel other components remain the same
+	 * NOTE: Color operators aren't working when not using paperScript
 	 *
-	 *	@param {Number} degree
-	 *			(0.0 - 360.0) rotation degree
+	 * @param {Number} degree
+	 * 		(0.0 - 360.0) rotation degree
 	 *
-	 *	@return {Color} rotated Color
+	 * @return {Color} rotated Color
 	 *
-	 *	@example
-	 *	var color = new Color( 0.0, 1.0, 0.7 );
-	 *	var compliment = color.rotate(180);
+	 * @example
+	 * var color = new Color( 0.0, 1.0, 0.7 );
+	 * var compliment = color.rotate(180);
 	 *
-	 *	var color = new Color( 0.0, 1.0, 0.7 );
-	 *	var triad = [
-	 *		color,
-	 *		color.rotate(120),
-	 *		color.rotate(240)
-	 *	];
+	 * var color = new Color( 0.0, 1.0, 0.7 );
+	 * var triad = [
+	 * 	color,
+	 * 	color.rotate(120),
+	 * 	color.rotate(240)
+	 * ];
 	 *
 	 */
 	rotate: function(degree) {
@@ -1281,36 +1277,36 @@ paper.Color.inject({
 	},
 
 	/**
-	 *	interpolate color
+	 * interpolate color
 	 *
-	 *	@param {Color} from
-	 *			start color
-	 *	@param {Color} to
-	 *			end color
-	 *	@param {Number} amt
-	 *			float: between 0.0 and 1.0
+	 * @param {Color} from
+	 * 		start color
+	 * @param {Color} to
+	 * 		end color
+	 * @param {Number} amt
+	 * 		float: between 0.0 and 1.0
 	 *
-	 *	@return {Color} interpolated color
+	 * @return {Color} interpolated color
 	 *
-	 *	@example
-	 *	var color1 = new Color( 0.0, 1.0, 0.7 );
-	 *	var color2 = new Color( 0.0, 0.7, 1.0 );
-	 *	var interpolateColor = new Color().interpolate( color1, color2, 0.5 );
+	 * @example
+	 * var color1 = new Color( 0.0, 1.0, 0.7 );
+	 * var color2 = new Color( 0.0, 0.7, 1.0 );
+	 * var interpolateColor = new Color().interpolate( color1, color2, 0.5 );
 	 *
 	 */
 	/**
 	 *
-	 *	@param {Color} to
-	 *			end color
-	 *	@param {Number} amt
-	 *			float: between 0.0 and 1.0
+	 * @param {Color} to
+	 * 		end color
+	 * @param {Number} amt
+	 * 		float: between 0.0 and 1.0
 	 *
-	 *	@return {Color} interpolated color
+	 * @return {Color} interpolated color
 	 *
-	 *	@example
-	 *	var color1 = new Color( 0.0, 1.0, 0.7 );
-	 *	var color2 = new Color( 0.0, 0.7, 1.0 );
-	 *	var interpolateColor = color1.interpolate( color2, 0.5 );
+	 * @example
+	 * var color1 = new Color( 0.0, 1.0, 0.7 );
+	 * var color2 = new Color( 0.0, 0.7, 1.0 );
+	 * var interpolateColor = color1.interpolate( color2, 0.5 );
 	 *
 	 */
 	//
@@ -1346,31 +1342,30 @@ paper.Color.inject({
 		return color;
 	},
 
-
 	/**
 	 *
-	 *	@return {Color} random Color based on initialization arguments
+	 * @return {Color} random Color based on initialization arguments
 	 *
-	 *	@example
-	 *	var color = new Color().random();
-	 *	// all values between 0.0 and 1.0
-	 *	// [ red: 0.1, green: 0.5, blue: 1.0 ]
+	 * @example
+	 * var color = new Color().random();
+	 * // all values between 0.0 and 1.0
+	 * // [ red: 0.1, green: 0.5, blue: 1.0 ]
 	 *
-	 *	var color = new Color(0.5).random();
-	 *	// value between 0.5 and 1.0
-	 *	// [ gray: 0.7 ]
+	 * var color = new Color(0.5).random();
+	 * // value between 0.5 and 1.0
+	 * // [ gray: 0.7 ]
 	 *
-	 *	var color = new Color(0.3, 0.6, 0.9).random();
-	 *	// red value between 0.4 and 1.0, etc.
-	 *	// [ red: 0.4, green: 0.7, blue: 1.0 ]
+	 * var color = new Color(0.3, 0.6, 0.9).random();
+	 * // red value between 0.4 and 1.0, etc.
+	 * // [ red: 0.4, green: 0.7, blue: 1.0 ]
 	 *
-	 *	var color = new Color({ hue: 90, saturation: 1, brightness: 0.8 }).random();
-	 *	// hue value between 90 and 360, etc.
-	 *	// [ hue: 154, saturation: 1, brightness: 0.9 ]
+	 * var color = new Color({ hue: 90, saturation: 1, brightness: 0.8 }).random();
+	 * // hue value between 90 and 360, etc.
+	 * // [ hue: 154, saturation: 1, brightness: 0.9 ]
 	 *
-	 *	var color = new Color({ hue: 90, saturation: 1, lightness: 0.8 }).random();
-	 *	// hue value between 90 and 360, etc.
-	 *	// [ hue: 274, saturation: 1, lightness: 0.9 ]
+	 * var color = new Color({ hue: 90, saturation: 1, lightness: 0.8 }).random();
+	 * // hue value between 90 and 360, etc.
+	 * // [ hue: 274, saturation: 1, lightness: 0.9 ]
 	 *
 	 */
 	random: function() {
@@ -1390,9 +1385,9 @@ paper.Color.inject({
 
 /*
  *
- *	FConversions.js
+ * FConversions.js
  *
- *	A collection of helpful conversion ratios from and to pixels (or points)
+ * A collection of helpful conversion ratios from and to pixels (or points)
  *
  */
 
@@ -1435,33 +1430,33 @@ var FConversions = {
 
 /*
  *
- *	FPath.js
+ * FPath.js
  *
- *	A collection of shapes for paper.Path and methods for paper.Item
+ * A collection of shapes for paper.Path and methods for paper.Item
  *
- *	FArrow
- *	FBubble
- *	FChain
- *	FCross
- *	FDrop
- *	FTriangle
+ * FArrow
+ * FBubble
+ * FChain
+ * FCross
+ * FDrop
+ * FTriangle
  *
  */
 
 
 /*
  *
- *	paper.Item
+ * paper.Item
  *
  */
 paper.Item.inject({
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	// Methods
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	/**
-	 *	@param {Size} spacing
-	 *				spacing.width  = the horizontal snapping value, width of the grid.
-	 *				spacing.height = the vertical snapping value, height of the grid.
+	 * @param {Size} spacing
+	 * 			spacing.width  = the horizontal snapping value, width of the grid.
+	 * 			spacing.height = the vertical snapping value, height of the grid.
 	 *
 	 */
 	snapGrid: function(spacing) {
@@ -1470,10 +1465,10 @@ paper.Item.inject({
 	},
 
 	/**
-	 *	snaps point to an isometric grid
+	 * snaps point to an isometric grid
 	 *
-	 *	@param {Number} scale
-	 *				scale of the grid (1.0 = 32x16)
+	 * @param {Number} scale
+	 * 			scale of the grid (1.0 = 32x16)
 	 *
 	 */
 	snapIso: function(scale) {
@@ -1482,11 +1477,10 @@ paper.Item.inject({
 	},
 
 
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	/**
-	 *	Returns the distance between the item and the center of the canvas/artboard
 	 *
-	 *	@return {Number}
+	 * @return {Number} the distance between the item and the center of the canvas/artboard
 	 *
 	 */
 	getDistanceToCenter: function() {
@@ -1497,9 +1491,9 @@ paper.Item.inject({
 	},
 
 
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	/**
-	 *	converts an CompoundPath into a Group otherwise returns original Item
+	 * converts an CompoundPath into a Group otherwise returns original Item
 	 *
 	 */
 	toGroup: function() {
@@ -1516,22 +1510,22 @@ paper.Item.inject({
 
 
 paper.Path.inject({
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	// Methods
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 
 	/*
 	 *
-	 *	Center Methods
-	 *	TODO: finish adding center methods
+	 * Center Methods
+	 * TODO: finish adding center methods
 	 *
 	 */
 
 	/**
-	 *	Returns the Centroid of Path
-	 *	http://stackoverflow.com/questions/2792443/finding-the-centroid-of-a-polygon
+	 * Returns the Centroid of Path
+	 * http://stackoverflow.com/questions/2792443/finding-the-centroid-of-a-polygon
 	 *
-	 *	@return {Point}
+	 * @return {Point}
 	 */
 	getCentroid: function() {
 		var centroid = new Point(0,0);
@@ -1570,11 +1564,11 @@ paper.Path.inject({
 	},
 
 	/**
-	 *	Returns the Circumcenter of a triangle
+	 * Returns the Circumcenter of a triangle
 	 *
-	 *	TODO: adjust formula to return Circumcenter of any polygon
+	 * TODO: adjust formula to return Circumcenter of any polygon
 	 *
-	 *	@return {Point}
+	 * @return {Point}
 	 */
 	getCircumcenter: function() {
 		if( this._segments.length === 3 ) {
@@ -1630,17 +1624,17 @@ paper.Path.inject({
 
 	/*
 	 *
-	 *	TODO: add additional "center" formulas (for polygons)
-	 *	http://mathforum.org/library/drmath/view/57665.html
+	 * TODO: add additional "center" formulas (for polygons)
+	 * http://mathforum.org/library/drmath/view/57665.html
 	 *
 	 */
 
 	/**
-	 *	Returns the Circumcircle of a polygon
+	 * Returns the Circumcircle of a polygon
 	 *
-	 *	TODO: fix for triangles...
+	 * TODO: fix for triangles...
 	 *
-	 *	@return {Path.Circle}
+	 * @return {Path.Circle}
 	 */
 	// getCircumcircle: function() {
 	//	var that = this;
@@ -1676,9 +1670,9 @@ paper.Path.inject({
 	// },
 
 	/**
-	 *	Returns the Incircle of a polygon
+	 * Returns the Incircle of a polygon
 	 *
-	 *	@return {Path.Circle}
+	 * @return {Path.Circle}
 	 */
 	getIncircle: function() {
 		var incircleradius = Number.MAX_VALUE;
@@ -1723,8 +1717,8 @@ paper.Path.inject({
 	// },
 
 	/**
-	 *	@param {} xb
-	 *			array of barycentric coordinates
+	 * @param {} xb
+	 * 		array of barycentric coordinates
 	 */
 	// TODO: currently implementation returns false point
 	// toCartesian : function(bary) {
@@ -1825,26 +1819,26 @@ paper.Path.inject({
 
 
 
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	statics: new function() {
 		return {
 			/**
 			 *
-			 *	FArrow
-			 *	Create simple arrow
+			 * FArrow
+			 * Create simple arrow
 			 *
-			 *	@param {Point} headPoint
-			 *				the head of the arrow
-			 *	@param {Point} tailPoint
-			 *				the tail of the arrow
-			 *	@param {Size} arrowHeadSize
-			 *				(optional) length of the arrow head
+			 * @param {Point} headPoint
+			 * 			the head of the arrow
+			 * @param {Point} tailPoint
+			 * 			the tail of the arrow
+			 * @param {Size} arrowHeadSize
+			 * 			(optional) length of the arrow head
 			 *
-			 *	@example
-			 *	var headPoint = new paper.Point( 9,9 );
-			 *	var tailPoint = new paper.Point( 90,90 );
-			 *	var arrowHeadSize = new paper.Size( 18,18 );
-			 *	var farrow = new paper.Path.FArrow( headPoint, tailPoint, arrowHeadSize );
+			 * @example
+			 * var headPoint = new paper.Point( 9,9 );
+			 * var tailPoint = new paper.Point( 90,90 );
+			 * var arrowHeadSize = new paper.Size( 18,18 );
+			 * var farrow = new paper.Path.FArrow( headPoint, tailPoint, arrowHeadSize );
 			 *
 			 */
 			FArrow: function( headPoint, tailPoint, arrowHeadSize ) {
@@ -1874,28 +1868,28 @@ paper.Path.inject({
 
 			/**
 			 *
-			 *	FBubble
-			 *	Create a simple speech bubble
+			 * FBubble
+			 * Create a simple speech bubble
 			 *
-			 *	@param {Point} bubblePoint
-			 *				the position of the bubble
-			 *	@param {Size} bubbleSize
-			 *				the size of the bubble
-			 *	@param {Size} bubbleTagSize
-			 *				the size of the tag
-			 *	@param {String} bubbleTagCenter
-			 *				(optional)
-			 *				'RANDOM'	randomly x-position the point (default)
-			 *				'LEFT'		left align the x-position of the point
-			 *				'CENTER'	center align the x-position of the point
-			 *				'RIGHT'		right align the x-position of the point
+			 * @param {Point} bubblePoint
+			 * 			the position of the bubble
+			 * @param {Size} bubbleSize
+			 * 			the size of the bubble
+			 * @param {Size} bubbleTagSize
+			 * 			the size of the tag
+			 * @param {String} bubbleTagCenter
+			 * 			(optional)
+			 * 			'RANDOM'	randomly x-position the point (default)
+			 * 			'LEFT'		left align the x-position of the point
+			 * 			'CENTER'	center align the x-position of the point
+			 * 			'RIGHT'		right align the x-position of the point
 			 *
-			 *	@example
-			 *	var bubblePoint = new paper.Point( 45,45 );
-			 *	var bubbleSize = new paper.Size( 90,60 );
-			 *	var bubbleTagSize = new paper.Size( 9,9 );
-			 *	var bubbleTagCenter = 'CENTER';
-			 *	var b = new paper.Path.FBubble( bubblePoint, bubbleSize, bubbleTagSize, bubbleTagCenter );
+			 * @example
+			 * var bubblePoint = new paper.Point( 45,45 );
+			 * var bubbleSize = new paper.Size( 90,60 );
+			 * var bubbleTagSize = new paper.Size( 9,9 );
+			 * var bubbleTagCenter = 'CENTER';
+			 * var b = new paper.Path.FBubble( bubblePoint, bubbleSize, bubbleTagSize, bubbleTagCenter );
 			 *
 			 */
 			FBubble: function(bubblePoint, bubbleSize, bubbleTagSize, bubbleTagCenter) {
@@ -1968,37 +1962,37 @@ paper.Path.inject({
 
 
 			/**
-			 *	FChain
-			 *	Create simple chain (a line with different endpoint sizes)
+			 * FChain
+			 * Create simple chain (a line with different endpoint sizes)
 			 *
-			 *	@param {Point} arg0
-			 *				point1 The first point (endpoint1)
-			 *	@param {Number} arg1
-			 *				radius of endpoint1
-			 *	@param {Point} arg2
-			 *				point2 The second point (endpoint2)
-			 *	@param {Number} arg3
-			 *				radius of endpoint2
+			 * @param {Point} arg0
+			 * 			point1 The first point (endpoint1)
+			 * @param {Number} arg1
+			 * 			radius of endpoint1
+			 * @param {Point} arg2
+			 * 			point2 The second point (endpoint2)
+			 * @param {Number} arg3
+			 * 			radius of endpoint2
 			 *
-			 *	@example
-			 *	var point1 = new paper.Point( 9,9 );
-			 *	var radius1 = 9;
-			 *	var point2 = new paper.Point( 90,90 );
-			 *	var radius2 = 90;
-			 *	var fchain = new paper.Path.FChain( point1, radius1, point2, radius2 );
+			 * @example
+			 * var point1 = new paper.Point( 9,9 );
+			 * var radius1 = 9;
+			 * var point2 = new paper.Point( 90,90 );
+			 * var radius2 = 90;
+			 * var fchain = new paper.Path.FChain( point1, radius1, point2, radius2 );
 			 *
 			 */
 			/**
 			 *
-			 *	@param {Path} arg0
-			 *				PathItem (endpoint1)
-			 *	@param {Path} arg1
-			 *				PathItem (endpoint2)
+			 * @param {Path} arg0
+			 * 			PathItem (endpoint1)
+			 * @param {Path} arg1
+			 * 			PathItem (endpoint2)
 			 *
-			 *	@example
-			 *	var path1 = new paper.Path.Circle( new Point(9,9), 9 );
-			 *	var path2 = new paper.Path.Circle( new Point(90,90), 90 );
-			 *	var fchain = new paper.Path.FChain( path1, path2 );
+			 * @example
+			 * var path1 = new paper.Path.Circle( new Point(9,9), 9 );
+			 * var path2 = new paper.Path.Circle( new Point(90,90), 90 );
+			 * var fchain = new paper.Path.FChain( path1, path2 );
 			 *
 			 */
 			FChain: function(arg0, arg1, arg2, arg3) {
@@ -2054,25 +2048,25 @@ paper.Path.inject({
 
 			/**
 			 *
-			 *	FCross
-			 *	Create a cross
+			 * FCross
+			 * Create a cross
 			 *
-			 *	@param {Point} centerPoint
-			 *				position of cross
-			 *	@param {Size} size
-			 *				size [width,height] of cross
-			 *	@param {Number} strokeWidth
-			 *				thickness of the cross
-			 *	@param {String} crossType (optional)
-			 *				'SHARP'		sharp edged cross (fill)
-			 *				'LINE'		simple built of lines (stroke)
+			 * @param {Point} centerPoint
+			 * 			position of cross
+			 * @param {Size} size
+			 * 			size [width,height] of cross
+			 * @param {Number} strokeWidth
+			 * 			thickness of the cross
+			 * @param {String} crossType (optional)
+			 * 			'SHARP'		sharp edged cross (fill)
+			 * 			'LINE'		simple built of lines (stroke)
 			 *
-			 *	@example
-			 *	var centerPoint = new paper.Point( 45,45 );
-			 *	var size = new paper.Size( 45,45 );
-			 *	var strokeWidth = 18;
-			 *	var crossType = 'LINE';
-			 *	var fcross = new paper.Path.FCross( centerPoint, size, strokeWidth, crossType );
+			 * @example
+			 * var centerPoint = new paper.Point( 45,45 );
+			 * var size = new paper.Size( 45,45 );
+			 * var strokeWidth = 18;
+			 * var crossType = 'LINE';
+			 * var fcross = new paper.Path.FCross( centerPoint, size, strokeWidth, crossType );
 			 *
 			 */
 			FCross: function( centerPoint, size, strokeWidth, crossType ) {
@@ -2122,31 +2116,31 @@ paper.Path.inject({
 
 
 			/**
-			 *	FDrop
-			 *	Create a (tear)drop
+			 * FDrop
+			 * Create a (tear)drop
 			 *
-			 *	@param {Point} centerPoint
-			 *				position of cross
-			 *	@param {Number} arg1
-			 *				scale drop, maintains intended proportion
+			 * @param {Point} centerPoint
+			 * 			position of cross
+			 * @param {Number} arg1
+			 * 			scale drop, maintains intended proportion
 			 *
-			 *	@example
-			 *	var centerPoint = new paper.Point( 45,45 );
-			 *	var scale = 45;
-			 *	var fdrop = new paper.Path.FDrop( centerPoint, scale );
+			 * @example
+			 * var centerPoint = new paper.Point( 45,45 );
+			 * var scale = 45;
+			 * var fdrop = new paper.Path.FDrop( centerPoint, scale );
 			 *
 			 */
 			/**
 			 *
-			 *	@param {Point} centerPoint
-			 *				position of cross
-			 *	@param {Size} arg1
-			 *				scale drop, custom proportion
+			 * @param {Point} centerPoint
+			 * 			position of cross
+			 * @param {Size} arg1
+			 * 			scale drop, custom proportion
 			 *
-			 *	@example
-			 *	var centerPoint = new paper.Point( 45,45 );
-			 *	var scale = new paper.Size( 30,61.8 );
-			 *	var fdrop = new paper.Path.FDrop( centerPoint, scale );
+			 * @example
+			 * var centerPoint = new paper.Point( 45,45 );
+			 * var scale = new paper.Size( 30,61.8 );
+			 * var fdrop = new paper.Path.FDrop( centerPoint, scale );
 			 *
 			 */
 			FDrop: function( centerPoint, arg1 ) {
@@ -2201,21 +2195,21 @@ paper.Path.inject({
 
 
 			/**
-			 *	FTriangle
-			 *	Create a triangle
+			 * FTriangle
+			 * Create a triangle
 			 *
-			 *	@param {Point} p1
-			 *				first point of triangle
-			 *	@param {Point} p2
-			 *				second point of triangle
-			 *	@param {Point} p3
-			 *				third point of triangle
+			 * @param {Point} p1
+			 * 			first point of triangle
+			 * @param {Point} p2
+			 * 			second point of triangle
+			 * @param {Point} p3
+			 * 			third point of triangle
 			 *
-			 *	@example
-			 *	var p1 = new paper.Point( 9,9 );
-			 *	var p2 = new paper.Point( 90,45 );
-			 *	var p3 = new paper.Point( 45,90 );
-			 *	var ftriangle = new paper.Path.FTriangle( p1, p2, p3 );
+			 * @example
+			 * var p1 = new paper.Point( 9,9 );
+			 * var p2 = new paper.Point( 90,45 );
+			 * var p3 = new paper.Point( 45,90 );
+			 * var ftriangle = new paper.Path.FTriangle( p1, p2, p3 );
 			 *
 			 */
 			FTriangle: function( p1, p2, p3 ) {
@@ -2237,16 +2231,16 @@ paper.Path.inject({
 
 /*
  *
- *	FPoint.js
+ * FPoint.js
  *
- *	A collection of extensions for paper.Point
+ * A collection of extensions for paper.Point
  *
  */
 
 
 /**
  *
- *	paper.Point
+ * paper.Point
  *
  */
 paper.Point.inject({
@@ -2263,28 +2257,28 @@ paper.Point.inject({
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	http://gmc.yoyogames.com/index.php?showtopic=290349
+	 * http://gmc.yoyogames.com/index.php?showtopic=290349
 	 *
-	 *	@param {Size} spacing
-	 *				scale.width  = x scale of the grid.
-	 *				scale.height = y scale of the grid.
-	 *	@param {Object} options
-	 *				{ grid: true }
-	 *				{ isometric: true }
+	 * @param {Size} spacing
+	 * 			scale.width  = x scale of the grid.
+	 * 			scale.height = y scale of the grid.
+	 * @param {Object} options
+	 * 			{ grid: true }
+	 * 			{ isometric: true }
 	 *
-	 *	@return {Point} snapped Point
+	 * @return {Point} snapped Point
 	 *
 	 */
 	/**
-	 *	snaps point to an isometric grid
+	 * snaps point to an isometric grid
 	 *
-	 *	@param {Number} scale
-	 *				scale of the grid
-	 *	@param {Object} options
-	 *				{ grid: true }
-	 *				{ isometric: true }
+	 * @param {Number} scale
+	 * 			scale of the grid
+	 * @param {Object} options
+	 * 			{ grid: true }
+	 * 			{ isometric: true }
 	 *
-	 *	@return {Point} snapped Point
+	 * @return {Point} snapped Point
 	 *
 	 */
 	snap: function(scale, options) {
@@ -2314,36 +2308,36 @@ paper.Point.inject({
 
 	/**
 	 *
-	 *  https://bitbucket.org/postspectacular/toxiclibs/src/9d124c80e8af/src.core/toxi/geom/Vec2D.java
+	 * https://bitbucket.org/postspectacular/toxiclibs/src/9d124c80e8af/src.core/toxi/geom/Vec2D.java
 	 *
-	 *	@param {Point} toPoint
-	 *			interpolates the point towards a given target point
-	 *	@param {Number} amt
-	 *			(0.0 - 1.0) interpolation factor
-	 *	@return {Point} interpolated Point
+	 * @param {Point} toPoint
+	 * 		interpolates the point towards a given target point
+	 * @param {Number} amt
+	 * 		(0.0 - 1.0) interpolation factor
+	 * @return {Point} interpolated Point
 	 *
-	 *	@example
-	 *	var point = new Point(0, 0);
-	 *	var toPoint = new Point(100, 100);
-	 *	point.interpolateTo(toPoint, 0.5); // {x: 50, y: 50}
+	 * @example
+	 * var point = new Point(0, 0);
+	 * var toPoint = new Point(100, 100);
+	 * point.interpolateTo(toPoint, 0.5); // {x: 50, y: 50}
 	 *
 	 */
 	/**
 	 *
-	 *	@param {Point} arg0
-	 *			starting Point
-	 *	@param {Point} arg1
-	 *			ending Point
-	 *	@param {Number} arg2
-	 *			(0.0 - 1.0) interpolate factor
+	 * @param {Point} arg0
+	 * 		starting Point
+	 * @param {Point} arg1
+	 * 		ending Point
+	 * @param {Number} arg2
+	 * 		(0.0 - 1.0) interpolate factor
 	 *
-	 *	@return {Point} new interpolated Point
+	 * @return {Point} new interpolated Point
 	 *
-	 *	@example
-	 *	var start = new Point(0, 30);
-	 *	var end = new Point(360, 90);
-	 *	var interpolate = new Point.interpolateTo( start, end, 0.5 );
-	 *	console.log( interpolate ); // { x: 180, y: 60 }
+	 * @example
+	 * var start = new Point(0, 30);
+	 * var end = new Point(360, 90);
+	 * var interpolate = new Point.interpolateTo( start, end, 0.5 );
+	 * console.log( interpolate ); // { x: 180, y: 60 }
 	 *
 	 */
 	interpolateTo: function(toPoint, amt) {
@@ -2353,9 +2347,9 @@ paper.Point.inject({
 	},
 
 	/**
-	 *	Returns the distance between the point and the center of the canvas
+	 * Returns the distance between the point and the center of the canvas
 	 *
-	 *	@return {Number}
+	 * @return {Number}
 	 *
 	 */
 	getDistanceToCenter: function() {
@@ -2367,14 +2361,14 @@ paper.Point.inject({
 
 	/**
 	 *
-	 *	Returns the heading angle (radians) of a point
+	 * Returns the heading angle (radians) of a point
 	 *
-	 *	@return {Number} vector heading of Point
+	 * @return {Number} vector heading of Point
 	 *
-	 *	@example
-	 *	var point = new Point(0, 90);
-	 *	var result = point.getHeading();
-	 *	console.log( paper.degrees(result) ); // 90
+	 * @example
+	 * var point = new Point(0, 90);
+	 * var result = point.getHeading();
+	 * console.log( paper.degrees(result) ); // 90
 	 *
 	 */
 	getHeading: function() {
@@ -2382,20 +2376,20 @@ paper.Point.inject({
 	},
 
 	/**
-	 *	Get the vector angle (radians) of two points
+	 * Get the vector angle (radians) of two points
 	 *
-	 *	@param {Point} point1
-	 *			first point
-	 *	@param {Point} point2
-	 *			second point
+	 * @param {Point} point1
+	 * 		first point
+	 * @param {Point} point2
+	 * 		second point
 	 *
-	 *	@return {Number} vector angle (radians)
+	 * @return {Number} vector angle (radians)
 	 *
-	 *	@example
-	 *	var point1 = new Point(0, 90);
-	 *	var point2 = new Point(90, 180);
-	 *	var result = point1.getAngle(point2);
-	 *	console.log( paper.degrees(result) ); // XX
+	 * @example
+	 * var point1 = new Point(0, 90);
+	 * var point2 = new Point(90, 180);
+	 * var result = point1.getAngle(point2);
+	 * console.log( paper.degrees(result) ); // XX
 	 *
 	 */
 	getAngle: function(point2) {
@@ -2403,20 +2397,20 @@ paper.Point.inject({
 	},
 
 	/**
-	 *	Normalize a point between two other points (start and end).
+	 * Normalize a point between two other points (start and end).
 	 *
-	 *	@param {Point} start
-	 *				start Point
-	 *	@param {Point} stop
-	 *				stop Point
+	 * @param {Point} start
+	 * 			start Point
+	 * @param {Point} stop
+	 * 			stop Point
 	 *
-	 *	@return {Point} normalized Point
+	 * @return {Point} normalized Point
 	 *
-	 *	@example
-	 *	var point = new Point(30, 270);
-	 *	var start = new Point(90, 180);
-	 *	var stop = new Point(180, 360);
-	 *	point.norm(start, stop); // { x: -0.66667, y: 0.5 }')
+	 * @example
+	 * var point = new Point(30, 270);
+	 * var start = new Point(90, 180);
+	 * var stop = new Point(180, 360);
+	 * point.norm(start, stop); // { x: -0.66667, y: 0.5 }')
 	 *
 	 */
 	norm: function(start, stop) {
@@ -2427,7 +2421,7 @@ paper.Point.inject({
 
 		// /**
 	//  *
-	//  *	@return {Point} limit Point
+	//  * @return {Point} limit Point
 	//  *
 	//  */
 	// limit: function(lim) {
@@ -2440,12 +2434,12 @@ paper.Point.inject({
 	// },
 
 	/**
-	 *	@return {Number} vector mag squared
+	 * @return {Number} vector mag squared
 	 *
-	 *	@example
-	 *	var point = new Point(0, 90);
-	 *	var result = point.magSq();
-	 *	console.log(result); // 8100
+	 * @example
+	 * var point = new Point(0, 90);
+	 * var result = point.magSq();
+	 * console.log(result); // 8100
 	 *
 	 */
 	magSq: function() {
@@ -2459,27 +2453,27 @@ paper.Point.inject({
 
 /*
  *
- *	FSize.js
+ * FSize.js
  *
- *	A collection of extensions for paper.Size
+ * A collection of extensions for paper.Size
  *
  */
 
 
 /**
  *
- *	paper.Size
+ * paper.Size
  *
  */
 paper.Size.inject({
 
 	/**
 	 *
-	 *	@return {Number} area
+	 * @return {Number} area
 	 *
-	 *	@example
-	 *	var size = new Size(10, 20);
-	 *	var a = size.getArea(); // 200
+	 * @example
+	 * var size = new Size(10, 20);
+	 * var a = size.getArea(); // 200
 	 *
 	 */
 	getArea: function() {
@@ -2488,11 +2482,11 @@ paper.Size.inject({
 
 	/**
 	 *
-	 *	@return {Number} area of Item circumcircle
+	 * @return {Number} area of Item circumcircle
 	 *
-	 *	@example
-	 *	var size = new Size(10, 20);
-	 *	var a = size.getCircumarea(); // 200
+	 * @example
+	 * var size = new Size(10, 20);
+	 * var a = size.getCircumarea(); // 200
 	 *
 	 */
 	 getCircumarea: function() {
@@ -2502,11 +2496,11 @@ paper.Size.inject({
 
 	/**
 	 *
-	 *	@return {Number} area of Item incircle
+	 * @return {Number} area of Item incircle
 	 *
-	 *	@example
-	 *	var size = new Size(10, 20);
-	 *	var a = size.getIncirclearea(); // 200
+	 * @example
+	 * var size = new Size(10, 20);
+	 * var a = size.getIncirclearea(); // 200
 	 *
 	 */
 	 getIncirclearea: function() {
@@ -2516,11 +2510,11 @@ paper.Size.inject({
 
 	/**
 	 *
-	 *	@return {Number} the circumcircle radius of the Size bounding box
+	 * @return {Number} the circumcircle radius of the Size bounding box
 	 *
-	 *	@example
-	 *	var size = new Size(10, 20);
-	 *	var r = size.getCircumradius(); // 11.180339887498949
+	 * @example
+	 * var size = new Size(10, 20);
+	 * var r = size.getCircumradius(); // 11.180339887498949
 	 *
 	 */
 	getCircumradius: function() {
@@ -2531,12 +2525,12 @@ paper.Size.inject({
 
 	/**
 	 *
-	 *	@return {Number} the incircle radius of the Size bounding box
+	 * @return {Number} the incircle radius of the Size bounding box
 	 *
-	 *	@example
-	 *	var size = new Size(10, 20);
-	 *	var r = size.getIncircleradius();
-	 *	console.log( r ); // XX
+	 * @example
+	 * var size = new Size(10, 20);
+	 * var r = size.getIncircleradius();
+	 * console.log( r ); // XX
 	 *
 	 */
 	getIncircleradius: function() {
@@ -2547,14 +2541,14 @@ paper.Size.inject({
 
 	/**
 	 *
-	 *  Slope is expressed as rise (x) over run (y)
+	 * Slope is expressed as rise (x) over run (y)
 	 *
-	 *	@return {Number} angle (radians)
+	 * @return {Number} angle (radians)
 	 *
-	 *	@example
-	 *	var slope = new Size(10, 20);
-	 *	var result = size.getSlopeAngle();
-	 *	console.log( paper.degrees(result) ); // 26.56
+	 * @example
+	 * var slope = new Size(10, 20);
+	 * var result = size.getSlopeAngle();
+	 * console.log( paper.degrees(result) ); // 26.56
 	 *
 	 */
 	getSlopeAngle: function() {
@@ -2566,24 +2560,24 @@ paper.Size.inject({
 
 /*
  *
- *	FString.js
+ * FString.js
  *
- *	Extensions to JavaScript Array may be bad form... but whatever
+ * Extensions to JavaScript Array may be bad form... but whatever
  *
  */
 
 
-/**	------------------------------------------------------------------------
+/** ------------------------------------------------------------------------
  *
- *	Strings
+ * Strings
  *
- *	------------------------------------------------------------------------/
+ * ------------------------------------------------------------------------/
 
 /**
  *
- *	trims white space from right (end) of String
+ * trims white space from right (end) of String
  *
- *	@return {String} trimmed input String
+ * @return {String} trimmed input String
  *
  */
 String.prototype.trimEnd = function() {
@@ -2595,9 +2589,9 @@ String.prototype.trimEnd = function() {
 
 /**
  *
- *	trims all white space from String
+ * trims all white space from String
  *
- *	@return {String} trimmed input string
+ * @return {String} trimmed input string
  *
  */
 String.prototype.trim = function() {
@@ -2609,9 +2603,9 @@ String.prototype.trim = function() {
 
 /**
  *
- *	converts String to Boolean value
+ * converts String to Boolean value
  *
- *	@return {Boolean}
+ * @return {Boolean}
  *
  */
 String.prototype.toBool = function() {
@@ -2626,23 +2620,23 @@ String.prototype.toBool = function() {
 
 /*
  *
- *	FTextItem.js
+ * FTextItem.js
  *
- *	A collection of extensions for paper.TextItem
+ * A collection of extensions for paper.TextItem
  *
  */
 
 
 /**
  *
- *	paper.TextItem
+ * paper.TextItem
  *
  */
 paper.TextItem.inject({
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	@return {String} content which will will fit within the bounds of the TextItem
+	 * @return {String} content which will will fit within the bounds of the TextItem
 	 *
 	 */
 	trimToFit: function() {
@@ -2657,9 +2651,9 @@ paper.TextItem.inject({
 
 /*
  *
- *	FTime.js
+ * FTime.js
  *
- *	Core FTime Methods
+ * Core FTime Methods
  *
  */
 
@@ -2687,51 +2681,52 @@ folio.FTime = {
 
 /*
  *
- *	Easing.js
+ * Easing.js
  *
- *	Easing Functions
- *	originally inspired from http://gizma.com/easing/
- *	https://gist.github.com/gre/1650294
+ * Easing Functions
+ * originally inspired from http://gizma.com/easing/
+ * https://gist.github.com/gre/1650294
  *
- *	KeySpline Function
- *	use bezier curve for transition easing function
- *	as inspired from Firefox's nsSMILKeySpline.cpp
- *	https://gist.github.com/gre/1926947#file-keyspline-js
- *	http://greweb.me/2012/02/bezier-curve-based-easing-functions-from-concept-to-implementation/
+ * KeySpline Function
+ * use bezier curve for transition easing function
+ * as inspired from Firefox's nsSMILKeySpline.cpp
+ * https://gist.github.com/gre/1926947#file-keyspline-js
+ * http://greweb.me/2012/02/bezier-curve-based-easing-functions-from-concept-to-implementation/
  *
- *	Copyright (c) 2012
+ * Copyright (c) 2012
  *
- *	Gaetan Renaudeau
- *	renaudeau.gaetan@gmail.com
- *
- *
- *	modified and augemented for usage with Paper.js
+ * Gaetan Renaudeau
+ * renaudeau.gaetan@gmail.com
  *
  *
- *	MIT License
+ * modified and augemented for usage with Paper.js
  *
- *	Permission is hereby granted, free of charge, to any person obtaining a
- *	copy of this software and associated documentation files (the "Software"),
- *	to deal in the Software without restriction, including without limitation
- *	the rights to use, copy, modify, merge, publish, distribute, sublicense,
- *	and/or sell copies of the Software, and to permit persons to whom the
- *	Software is furnished to do so, subject to the following conditions:
  *
- *	The above copyright notice and this permission notice shall be included in
- *	all copies or substantial portions of the Software.
+ * MIT License
  *
- *	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- *	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- *	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
- *	THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- *	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- *	FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- *	DEALINGS IN THE SOFTWARE.
+ * Permission is hereby granted, free of charge, to any person obtaining a
+ * copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+ * DEALINGS IN THE SOFTWARE.
+ *
  */
 
 
 folio.FTime.Ease = function() {
-	/**
+	/*
 	 *
 	 * values of classic easing functions, similar to CSS
 	 *
@@ -2747,31 +2742,31 @@ folio.FTime.Ease = function() {
 
 	/**
 	 *
-	 *	use bezier curve for transition easing function
+	 * use bezier curve for transition easing function
 	 *
-	 *	@param {Array} arg0
-	 *					an array (4) of normalized X,Y values [ x1, y1, x2, y2 ]
+	 * @param {Array} arg0
+	 * 				an array (4) of normalized X,Y values [ x1, y1, x2, y2 ]
 	 *
-	 *	@example
-	 *	var spline = new KeySpline(0.25, 0.1, 0.25, 1.0)
-	 *	spline.get(t) // returns the normalized easing value | t must be in [0, 1] range
+	 * @example
+	 * var spline = new KeySpline(0.25, 0.1, 0.25, 1.0)
+	 * spline.get(t) // returns the normalized easing value | t must be in [0, 1] range
 	 *
 	 */
 	/**
 	 *
-	 *	use bezier curve for transition easing function
+	 * use bezier curve for transition easing function
 	 *
-	 *	@param {Point} arg0
-	 *					Point 1
-	 *	@param {Point} arg1
-	 *					Point 2
+	 * @param {Point} arg0
+	 * 				Point 1
+	 * @param {Point} arg1
+	 * 				Point 2
 	 *
-	 *	@example
-	 *	var spline = new KeySpline(
-	 *		new Point( 80, 80 ),
-	 *		new Point( 10, 45 )
-	 *	);
-	 *	spline.get(t) // returns the normalized easing value | t must be in [0, 1] range
+	 * @example
+	 * var spline = new KeySpline(
+	 * 	new Point( 80, 80 ),
+	 * 	new Point( 10, 45 )
+	 * );
+	 * spline.get(t) // returns the normalized easing value | t must be in [0, 1] range
 	 *
 	 * @return {Array}
 	 *
@@ -2796,14 +2791,14 @@ folio.FTime.Ease = function() {
 		// TODO: push these to be global?
 		//
 		/**
-		 *	@param {Number} t
-		 *					a float from 0.0 - 1.0
-		 *	@param {Number} arg0
-		 *					x1 or y1
-		 *	@param {Number} arg1
-		 *					x2 or y2
+		 * @param {Number} t
+		 * 				a float from 0.0 - 1.0
+		 * @param {Number} arg0
+		 * 				x1 or y1
+		 * @param {Number} arg1
+		 * 				x2 or y2
 		 *
-		 *	@return {Number} x(t)
+		 * @return {Number} x(t)
 		 *
 		 */
 		function CalcBezier(t, arg0, arg1) {
@@ -2811,14 +2806,14 @@ folio.FTime.Ease = function() {
 		};
 
 		/**
-		 *	@param {Number} t
-		 *					a float from 0.0 - 1.0
-		 *	@param {Number} arg0
-		 *					x1 or y1
-		 *	@param {Number} arg1
-		 *					x2 or y2
+		 * @param {Number} t
+		 * 				a float from 0.0 - 1.0
+		 * @param {Number} arg0
+		 * 				x1 or y1
+		 * @param {Number} arg1
+		 * 				x2 or y2
 		 *
-		 *	@return {Number} dx/dt
+		 * @return {Number} dx/dt
 		 *
 		 */
 		function GetSlope(t, arg0, arg1) {
@@ -2852,11 +2847,10 @@ folio.FTime.Ease = function() {
 	};
 
 
-	// public
 	return {
 		/*
-		 *	see http://easings.net/de for visual examples
-		 *	of each spline method
+		 * see http://easings.net/de for visual examples
+		 * of each spline method
 		 */
 		linear: function(t) { return t },
 
@@ -2897,7 +2891,7 @@ folio.FTime.Ease = function() {
 
 /*
  *
- *	FDate.js
+ * FDate.js
  *
  */
 
@@ -2921,7 +2915,7 @@ folio.FTime.FDate = function() {
 	};
 
 	/**
-	 *	@return {String} return the current year as 'YYYY'
+	 * @return {String} return the current year as 'YYYY'
 	 */
 	var year = function() {
 		if(dateObj === undefined) dateObj = new Date();
@@ -2930,7 +2924,7 @@ folio.FTime.FDate = function() {
 	};
 
 	/**
-	 *	@return {String} return the current month as 'MM'
+	 * @return {String} return the current month as 'MM'
 	 */
 	var month = function() {
 		if(dateObj === undefined) dateObj = new Date();
@@ -2938,7 +2932,7 @@ folio.FTime.FDate = function() {
 	};
 
 	/**
-	 *	@return {String} return the current day as 'DD'
+	 * @return {String} return the current day as 'DD'
 	 */
 	var day = function() {
 		if(dateObj === undefined) dateObj = new Date();
@@ -2946,7 +2940,7 @@ folio.FTime.FDate = function() {
 	};
 
 	/**
-	 *	@return {String} return the current hour as 'HH'
+	 * @return {String} return the current hour as 'HH'
 	 */
 	var hour = function() {
 		if(dateObj === undefined) dateObj = new Date();
@@ -2955,7 +2949,7 @@ folio.FTime.FDate = function() {
 	};
 
 	/**
-	 *	@return {String} return the current minute as 'mm'
+	 * @return {String} return the current minute as 'mm'
 	 */
 	var minute = function() {
 		if(dateObj === undefined) dateObj = new Date();
@@ -2964,7 +2958,7 @@ folio.FTime.FDate = function() {
 	};
 
 	/**
-	 *	@return {String} return the current second as 'ss'
+	 * @return {String} return the current second as 'ss'
 	 */
 	var second = function() {
 		if(dateObj === undefined) dateObj = new Date();
@@ -2973,17 +2967,17 @@ folio.FTime.FDate = function() {
 	};
 
 	/**
-	 *	@return {String} return the current date as "yyyyMMdd"
+	 * @return {String} return the current date as "yyyyMMdd"
 	 */
 	var date = function() {
 		return year() + month() + day();
 	};
 
 	/**
-	 *	@param {Array} format
-	 *			boolean array = [hours, minutes, seconds]
+	 * @param {Array} format
+	 * 		boolean array = [hours, minutes, seconds]
 	 *
-	 *	@return {String} the current time
+	 * @return {String} the current time
 	 */
 	var now = function(format) {
 		var disp = format || [true, true, true];
@@ -2997,23 +2991,23 @@ folio.FTime.FDate = function() {
 	};
 
 	/**
-	 *	@return {Number} the current time in milliseconds
+	 * @return {Number} the current time in milliseconds
 	 */
 	var nowMilliseconds = function() {
 		return toMillsecond( hour(), minute(), second() );
 	};
 
 	/**
-	 *	add to time
+	 * add to time
 	 *
-	 *	@param {Number} d
-	 *			days
-	 *	@param {Number} h
-	 *			hours
-	 *	@param {Number} m
-	 *			minutes
-	 *	@param {Number} s
-	 *			seconds
+	 * @param {Number} d
+	 * 		days
+	 * @param {Number} h
+	 * 		hours
+	 * @param {Number} m
+	 * 		minutes
+	 * @param {Number} s
+	 * 		seconds
 	 *
 	 * @return {Object} new time
 	 */
@@ -3022,16 +3016,16 @@ folio.FTime.FDate = function() {
 	};
 
 	/**
-	 *	subtract from time
+	 * subtract from time
 	 *
-	 *	@param {Number} d
-	 *			days
-	 *	@param {Number} h
-	 *			hours
-	 *	@param {Number} m
-	 *			minutes
-	 *	@param {Number} s
-	 *			seconds
+	 * @param {Number} d
+	 * 		days
+	 * @param {Number} h
+	 * 		hours
+	 * @param {Number} m
+	 * 		minutes
+	 * @param {Number} s
+	 * 		seconds
 	 *
 	 * @return {Object} new time
 	 */
@@ -3045,16 +3039,16 @@ folio.FTime.FDate = function() {
 	// Sets
 	// ------------------------------------------------------------------------
 	/**
-	 *	set to a specific time
+	 * set to a specific time
 	 *
-	 *	@param {Number} d
-	 *			days
-	 *	@param {Number} h
-	 *			hours
-	 *	@param {Number} m
-	 *			minutes
-	 *	@param {Number} s
-	 *			seconds
+	 * @param {Number} d
+	 * 		days
+	 * @param {Number} h
+	 * 		hours
+	 * @param {Number} m
+	 * 		minutes
+	 * @param {Number} s
+	 * 		seconds
 	 *
 	 * @return {Object} time
 	 */
@@ -3070,12 +3064,12 @@ folio.FTime.FDate = function() {
 	// Gets
 	// ------------------------------------------------------------------------
 	/**
-	 *	@param {Number} ms
-	 *			as milliseconds
-	 *	@param {Array} format
-	 *			boolean array = [hours, minutes, seconds]
+	 * @param {Number} ms
+	 * 		as milliseconds
+	 * @param {Array} format
+	 * 		boolean array = [hours, minutes, seconds]
 	 *
-	 *	@return {String} human readable default is hh:mm:ss
+	 * @return {String} human readable default is hh:mm:ss
 	 */
 	var get = function(ms, format) {
 		var disp = format || [true, true, true];
@@ -3101,20 +3095,20 @@ folio.FTime.FDate = function() {
 	};
 
 	/**
-	 *	@param {String} h
-	 *			as hh:mm:ss OR mm:ss
+	 * @param {String} h
+	 * 		as hh:mm:ss OR mm:ss
 	 *
-	 *	@return {Number} time in milliseconds
+	 * @return {Number} time in milliseconds
 	 */
 	/**
-	 *	@param {Number} h
-	 *			hours
-	 *	@param {Number} m
-	 *			minutes
-	 *	@param {Number} s
-	 *			seconds
+	 * @param {Number} h
+	 * 		hours
+	 * @param {Number} m
+	 * 		minutes
+	 * @param {Number} s
+	 * 		seconds
 	 *
-	 *	@return {Number} time in milliseconds
+	 * @return {Number} time in milliseconds
 	 */
 	var toMillsecond = function(h, m, s) {
 		if( m === undefined &&  s === undefined ) {
@@ -3126,10 +3120,10 @@ folio.FTime.FDate = function() {
 	};
 
 	/**
-	 *	@param {String} str
-	 *			string as hh:mm:ss
+	 * @param {String} str
+	 * 		string as hh:mm:ss
 	 *
-	 *	@return {Array} array of time [0] hours [1] minutes [2] seconds
+	 * @return {Array} array of time [0] hours [1] minutes [2] seconds
 	 */
 	var toArray = function(str) {
 		var hms = str.split(':');
@@ -3137,7 +3131,7 @@ folio.FTime.FDate = function() {
 	};
 
 
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	return {
 		year: year,
 		month: month,
@@ -3165,7 +3159,7 @@ folio.FTime.FDate = function() {
 
 /*
  *
- *	FStepper.js
+ * FStepper.js
  *
  */
 
@@ -3198,7 +3192,7 @@ folio.FTime.FStepper = function() {
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	toggle (start/stop) the stepper
+	 * toggle (start/stop) the stepper
 	 *
 	 * @return {Number} start status
 	 *
@@ -3217,11 +3211,11 @@ folio.FTime.FStepper = function() {
 
 	// ------------------------------------------------------------------------
 	/**
-	 *	required function to keep the timing in sync
-	 *	with the application
+	 * required function to keep the timing in sync
+	 * with the application
 	 *
-	 *	@param {Number} currentSeconds
-	 *			the elapsed time of the application in seconds
+	 * @param {Number} currentSeconds
+	 * 		the elapsed time of the application in seconds
 	 */
 	var update = function(currentSeconds) {
 		if(bBeginStepper) {
@@ -3267,7 +3261,7 @@ folio.FTime.FStepper = function() {
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	toggle stepping in (++)
+	 * toggle stepping in (++)
 	 *
 	 */
 	var stepIn = function() {
@@ -3280,7 +3274,7 @@ folio.FTime.FStepper = function() {
 
 	/**
 	 *
-	 *	toggle stepping out (--)
+	 * toggle stepping out (--)
 	 *
 	 */
 	var stepOut = function() {
@@ -3293,20 +3287,20 @@ folio.FTime.FStepper = function() {
 
 	// ------------------------------------------------------------------------
 	/**
-	 *	@return {Boolean} if the object is stepping in
+	 * @return {Boolean} if the object is stepping in
 	 */
 	var isIn = function() {
 		return bIn;
 	};
 	/**
-	 *	@return {Boolean} if the object is stepping out
+	 * @return {Boolean} if the object is stepping out
 	 */
 	var isOut = function() {
 		return bOut;
 	};
 
 	/**
-	 *	@return {Boolean} if the object has finished it's stepping
+	 * @return {Boolean} if the object has finished it's stepping
 	 */
 	var isDone = function() {
 		if(delta < 1.0 && delta > 0.0) return false;
@@ -3323,7 +3317,7 @@ folio.FTime.FStepper = function() {
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	stop stepping
+	 * stop stepping
 	 *
 	 */
 	var stop = function() {
@@ -3331,14 +3325,14 @@ folio.FTime.FStepper = function() {
 	};
 
 	/**
-	 *	@return {Number}
+	 * @return {Number}
 	 */
 	var getDelta = function() {
 		return delta;
 	};
 
 	/**
-	 *	@return {Number}
+	 * @return {Number}
 	 */
 	var getCounter = function() {
 		return counter;
@@ -3349,15 +3343,15 @@ folio.FTime.FStepper = function() {
 	// Sets
 	// ------------------------------------------------------------------------
 	/**
-	 *	@param {Number} seconds
-	 *			length of fade in seconds
+	 * @param {Number} seconds
+	 * 		length of fade in seconds
 	 */
 	var setSeconds = function(seconds) {
 		setMillis( parseInt(seconds * 1000.0) );
 	};
 	/**
-	 *	@param {Number} millis
-	 *			length of fade in milliseconds
+	 * @param {Number} millis
+	 * 		length of fade in milliseconds
 	 */
 	var setMillis = function(millis) {
 		stepMillis = millis;
@@ -3365,8 +3359,8 @@ folio.FTime.FStepper = function() {
 	};
 
 	/**
-	 *	@param {Number} val
-	 *			set a value for the delta 0.0 - 1.0
+	 * @param {Number} val
+	 * 		set a value for the delta 0.0 - 1.0
 	 */
 	var setDelta = function(val) {
 		delta = val;
@@ -3401,9 +3395,9 @@ folio.FTime.FStepper = function() {
 
 /*
  *
- *	FStopwatch.js
+ * FStopwatch.js
  *
- *	A simple stopwatch
+ * A simple stopwatch
  *
  */
 
@@ -3424,7 +3418,7 @@ folio.FTime.FStopwatch = function() {
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	toggle (start/stop) the stopwatch
+	 * toggle (start/stop) the stopwatch
 	 *
 	 */
 	var toggle = function() {
@@ -3438,7 +3432,7 @@ folio.FTime.FStopwatch = function() {
 
 	/**
 	 *
-	 *	start the stopwatch
+	 * start the stopwatch
 	 *
 	 */
 	var start = function() {
@@ -3450,7 +3444,7 @@ folio.FTime.FStopwatch = function() {
 
 	/**
 	 *
-	 *	pause the stopwatch
+	 * pause the stopwatch
 	 *
 	 */
 	var pause = function() {
@@ -3462,7 +3456,7 @@ folio.FTime.FStopwatch = function() {
 
 	/**
 	 *
-	 *	reset the stopwatch
+	 * reset the stopwatch
 	 *
 	 */
 	var reset = function() {
@@ -3477,12 +3471,12 @@ folio.FTime.FStopwatch = function() {
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	set the stopwatch
+	 * set the stopwatch
 	 *
-	 *	@param {Number} ms
-	 *			milliseconds to start the stopwatch with
-	 *	@param {Boolean} run
-	 *			whether the stopwatch should start or not
+	 * @param {Number} ms
+	 * 		milliseconds to start the stopwatch with
+	 * @param {Boolean} run
+	 * 		whether the stopwatch should start or not
 	 *
 	 */
 	var set = function(ms, run) {
@@ -3501,7 +3495,7 @@ folio.FTime.FStopwatch = function() {
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	@return {Number} the time elapsed in milliseconds
+	 * @return {Number} the time elapsed in milliseconds
 	 *
 	 */
 	var get = function() {
@@ -3514,7 +3508,7 @@ folio.FTime.FStopwatch = function() {
 
 	/**
 	 *
-	 *	@return {Boolean} whether the stopwatch is running
+	 * @return {Boolean} whether the stopwatch is running
 	 *
 	 */
 	var isRunning = function() {
@@ -3541,9 +3535,9 @@ folio.FTime.FStopwatch = function() {
 
 /*
  *
- *	FIO.js
+ * FIO.js
  *
- *	A collection of I/O methods
+ * A collection of I/O methods
  *
  */
 
@@ -3553,17 +3547,17 @@ folio.FIO = {
 	// Methods
 	// ------------------------------------------------------------------------
 	/*
-	 *	Local Storage
+	 * Local Storage
 	 */
 
 	/**
-	 *	save a value using HTML5 Local Storage
-	 *	http://www.w3schools.com/html/html5_webstorage.asp
+	 * save a value using HTML5 Local Storage
+	 * http://www.w3schools.com/html/html5_webstorage.asp
 	 *
-	 *	@param {String} name
-	 *				the name (key) of what we want to save
-	 *	@param {Object} value
-	 *				what we want to save
+	 * @param {String} name
+	 * 			the name (key) of what we want to save
+	 * @param {Object} value
+	 * 			what we want to save
 	 */
 	saveLocal: function(name, value) {
 		if(window.localStorage) {
@@ -3575,10 +3569,10 @@ folio.FIO = {
 	},
 
 	/**
-	 *	retrieve saved value (default: as string)
+	 * retrieve saved value (default: as string)
 	 *
-	 *	@param {String} name
-	 *				the name (key) of what we want to retrieve
+	 * @param {String} name
+	 * 			the name (key) of what we want to retrieve
 	 *
 	 * @return {String} float value
 	 */
@@ -3587,10 +3581,10 @@ folio.FIO = {
 	},
 
 	/**
-	 *	retrieve saved value as an int
+	 * retrieve saved value as an int
 	 *
-	 *	@param {String} name
-	 *				the name (key) of what we want to retrieve
+	 * @param {String} name
+	 * 			the name (key) of what we want to retrieve
 	 *
 	 * @return {Number} int value
 	 */
@@ -3599,10 +3593,10 @@ folio.FIO = {
 	},
 
 	/**
-	 *	retrieve saved value as a float
+	 * retrieve saved value as a float
 	 *
-	 *	@param {String} name
-	 *				the name (key) of what we want to retrieve
+	 * @param {String} name
+	 * 			the name (key) of what we want to retrieve
 	 *
 	 * @return {Number} float value
 	 */
@@ -3611,7 +3605,7 @@ folio.FIO = {
 	},
 
 	/**
-	 *	@return {Array} a list of all items saved in local storage
+	 * @return {Array} a list of all items saved in local storage
 	 *
 	 */
 	getAllLocal: function() {
@@ -3620,10 +3614,10 @@ folio.FIO = {
 	},
 
 	/**
-	 *	delete a saved value from local storage
+	 * delete a saved value from local storage
 	 *
-	 *	@param {String} name
-	 *				the name (key) of what we want to delete
+	 * @param {String} name
+	 * 			the name (key) of what we want to delete
 	 */
 	deleteLocal: function(name) {
 		localStorage.removeItem(name);
@@ -3633,17 +3627,17 @@ folio.FIO = {
 
 	// ------------------------------------------------------------------------
 	/*
-	 *	Session Storage
+	 * Session Storage
 	 */
 
 	/**
-	 *	save a value using HTML5 Session Storage
-	 *	http://www.w3schools.com/html/html5_webstorage.asp
+	 * save a value using HTML5 Session Storage
+	 * http://www.w3schools.com/html/html5_webstorage.asp
 	 *
-	 *	@param {String} name
-	 *				the name (key) of what we want to save
-	 *	@param {Object} value
-	 *				what we want to save
+	 * @param {String} name
+	 * 			the name (key) of what we want to save
+	 * @param {Object} value
+	 * 			what we want to save
 	 */
 	saveSession: function(name, value) {
 		if(window.sessionStorage) {
@@ -3655,10 +3649,10 @@ folio.FIO = {
 	},
 
 	/**
-	 *	retrieve saved value (default: as string)
+	 * retrieve saved value (default: as string)
 	 *
-	 *	@param {String} name
-	 *				the name (key) of what we want to retrieve
+	 * @param {String} name
+	 * 			the name (key) of what we want to retrieve
 	 *
 	 * @return {String} string value
 	 */
@@ -3667,10 +3661,10 @@ folio.FIO = {
 	},
 
 	/**
-	 *	retrieve saved value as an int
+	 * retrieve saved value as an int
 	 *
-	 *	@param {String} name
-	 *				the name (key) of what we want to retrieve
+	 * @param {String} name
+	 * 			the name (key) of what we want to retrieve
 	 *
 	 * @return {Number} int value
 	 */
@@ -3679,10 +3673,10 @@ folio.FIO = {
 	},
 
 	/**
-	 *	retrieve saved value as a float
+	 * retrieve saved value as a float
 	 *
-	 *	@param {String} name
-	 *				the name (key) of what we want to retrieve
+	 * @param {String} name
+	 * 			the name (key) of what we want to retrieve
 	 *
 	 * @return {Number} float value
 	 */
@@ -3691,7 +3685,7 @@ folio.FIO = {
 	},
 
 	/**
-	 *	@return {Arrat} a list of all items saved in session storage
+	 * @return {Arrat} a list of all items saved in session storage
 	 *
 	 */
 	getAllSession: function() {
@@ -3700,10 +3694,10 @@ folio.FIO = {
 	},
 
 	/**
-	 *	delete a saved value from session storage
+	 * delete a saved value from session storage
 	 *
-	 *	@param {String} name
-	 *				the name (key) of what we want to delete
+	 * @param {String} name
+	 * 			the name (key) of what we want to delete
 	 *
 	 */
 	deleteSession: function(name) {
@@ -3714,19 +3708,19 @@ folio.FIO = {
 
 	// ------------------------------------------------------------------------
 	/*
-	 *	Cookies
-	 *	http://www.quirksmode.org/js/cookies.html
+	 * Cookies
+	 * http://www.quirksmode.org/js/cookies.html
 	 */
 
 	/**
-	 *	save a value as a cookie
+	 * save a value as a cookie
 	 *
-	 *	@param {String} name
-	 *				the name (key) of what we want to save
-	 *	@param {Object} value
-	 *				what we want to save
-	 *	@param {Number} days
-	 *				how many days do we want to save it for
+	 * @param {String} name
+	 * 			the name (key) of what we want to save
+	 * @param {Object} value
+	 * 			what we want to save
+	 * @param {Number} days
+	 * 			how many days do we want to save it for
 	 */
 	saveCookie: function(name, value, days) {
 		if (days) {
@@ -3739,10 +3733,10 @@ folio.FIO = {
 	},
 
 	/**
-	 *	retrieve a value from a cookie
+	 * retrieve a value from a cookie
 	 *
-	 *	@param {String} name
-	 *				the name (key) of what we want to retrieve
+	 * @param {String} name
+	 * 			the name (key) of what we want to retrieve
 	 */
 	openCookie: function(name) {
 		var nameEQ = name + '=';
@@ -3756,10 +3750,10 @@ folio.FIO = {
 	},
 
 	/**
-	 *	delete a cookie
+	 * delete a cookie
 	 *
-	 *	@param {String} name
-	 *				the name (key) of what we want to delete
+	 * @param {String} name
+	 * 			the name (key) of what we want to delete
 	 */
 	deleteCookie: function(name) {
 		saveCookie(name, '', -1);
@@ -3769,18 +3763,18 @@ folio.FIO = {
 
 	// ------------------------------------------------------------------------
 	/*
-	 *	Scriptographer specific
+	 * Scriptographer specific
 	 *
-	 *	modified from Jürg Lehni
-	 *	http://scriptographer.org/forum/help/save-array-data-to-external-file/
+	 * modified from Jürg Lehni
+	 * http://scriptographer.org/forum/help/save-array-data-to-external-file/
 	 *
 	 */
 
 	/**
-	 *	@param {String} str
-	 *				the String of information to save (JSON encoded)
-	 *	@param {String} fname
-	 *				the name of the file to save to
+	 * @param {String} str
+	 * 			the String of information to save (JSON encoded)
+	 * @param {String} fname
+	 * 			the name of the file to save to
 	 */
 	saveFile: function(str, fname) {
 		var file = new File(script.file.parent, fname);
@@ -3791,8 +3785,8 @@ folio.FIO = {
 	},
 
 	/**
-	 *	@param {String} fname
-	 *				the name of the file to open
+	 * @param {String} fname
+	 * 			the name of the file to open
 	 *
 	 * @return {Object} JSon output
 	 */
@@ -3806,8 +3800,8 @@ folio.FIO = {
 	},
 
 	/**
-	 *	@param {String} fname
-	 *				the name of the file to delete
+	 * @param {String} fname
+	 * 			the name of the file to delete
 	 */
 	deleteFile: function(fname) {
 		var file = new File(script.file.parent, fname);
@@ -3816,8 +3810,8 @@ folio.FIO = {
 	},
 
 	/**
-	 *	@param {String} fname
-	 *				the name of the file to verify exists
+	 * @param {String} fname
+	 * 			the name of the file to verify exists
 	 *
 	 * @return {Boolean} true if exists, false otherwise
 	 */
@@ -3833,37 +3827,38 @@ folio.FIO = {
 
 
 /*
- *	Circle Packer
+ * Circle Packer
  *
- *	Original from onedayitwillmake
- *	http://onedayitwillmake.com/CirclePackJS/
+ * Original from onedayitwillmake
+ * http://onedayitwillmake.com/CirclePackJS/
  *
- *	MIT License
- *	http://www.opensource.org/licenses/mit-license.php
- *
- *
- *	Rewritten from AS3 to Javascript
- *	Jackson Rollins
- *	http://jacksonkr.com/
+ * MIT License
+ * http://www.opensource.org/licenses/mit-license.php
  *
  *
- *	Rewritten for Scriptographer/PaperJS
- *	Ken Frederick
- *	ken.frederick@gmx.de
+ * Rewritten from AS3 to Javascript
+ * Jackson Rollins
+ * http://jacksonkr.com/
  *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
+ *
+ * Rewritten for Scriptographer/PaperJS
+ * Ken Frederick
+ * ken.frederick@gmx.de
+ *
+ * http://kennethfrederick.de/
+ * http://blog.kennethfrederick.de/
  *
  */
 
 /**
+ * FCirclePacker
  *
- *	@param {Array} circleItems
- *					Array of Items
- *	@param {Number} iterations
- *					(optional) number of iterations per cycle (default: 11)
+ * @param {Array} circleItems
+ * 				Array of Items
+ * @param {Number} iterations
+ * 				(optional) number of iterations per cycle (default: 11)
  *
- *  @return {Array}
+ * @return {Array}
  *
  */
 folio.FCirclePacker = function(circleItems, iterations) {
@@ -3903,8 +3898,9 @@ folio.FCirclePacker = function(circleItems, iterations) {
 
 				// this alogroithm is designed for circles,
 				// so we assume every object is either a
-				// circle or a square polygon packing is a much
-				// larger challenge http://en.wikipedia.org/wiki/Packing_problem
+				// circle or a square.
+				// polygon packing is a much larger challenge
+				// http://en.wikipedia.org/wiki/Packing_problem
 				// hence why we just halve the "width" in
 				// order to get the object's radius
 				var r = (ci.bounds.size.width / 2) + (cj.bounds.size.width / 2) + padding;
@@ -3959,11 +3955,11 @@ folio.FCirclePacker = function(circleItems, iterations) {
 
 	// ------------------------------------------------------------------------
 	/**
-	 *	TODO: if to be made autonomous, these
-	 *	methods will have to be built in
+	 * TODO: if to be made autonomous, these
+	 * methods will have to be built in
 	 *
-	 *	Extend Path with some additional Methods
-	 *	Necessary for CirclePacker()
+	 * Extend Path with some additional Methods
+	 * Necessary for CirclePacker()
 	 *
 	 */
 	// Item.prototype.distanceToCenter = function() {
@@ -3990,12 +3986,12 @@ folio.FCirclePacker = function(circleItems, iterations) {
 	// sets
 	// ------------------------------------------------------------------------
 	/**
-	 *	@param {Array} item
-	 *			Array of Path.Items to add to circle packer
+	 * @param {Array} item
+	 * 		Array of Path.Items to add to circle packer
 	 */
 	/**
-	 *	@param {Item} item
-	 *			Path.Item to add to circle packer
+	 * @param {Item} item
+	 * 		Path.Item to add to circle packer
 	 */
 	var add = function(item) {
 		if( typeof item === 'array' ) {
@@ -4007,16 +4003,16 @@ folio.FCirclePacker = function(circleItems, iterations) {
 	};
 
 	/**
-	 *	@param {Number} val
-	 *			damping value
+	 * @param {Number} val
+	 * 		damping value
 	 */
 	var setDamping = function(val) {
 		dampingAmt = val;
 	};
 
 	/**
-	 *	@param {Number} val
-	 *			padding around elements
+	 * @param {Number} val
+	 * 		padding around elements
 	 */
 	var setPadding = function(val) {
 		padding = val;
@@ -4027,21 +4023,19 @@ folio.FCirclePacker = function(circleItems, iterations) {
 	// gets
 	// ------------------------------------------------------------------------
 	/**
-	 *	could be dangerous
 	 *
-	 *	@return {Array} the items being packed
+	 * @return {Array} the items being packed
+	 *
 	 */
 	var getItems = function() {
 		return circleItems;
 	};
 
 	/**
-	 *	could be dangerous
-	 *
 	 * @param {Number} index
-	 *			index number of Item being packed
+	 * 		index number of Item being packed
 	 *
-	 *	@return {Item} Item from items being packed
+	 * @return {Item} Item from items being packed
 	 */
 	var getItem = function(index) {
 		return circleItems[index];
@@ -4067,32 +4061,32 @@ folio.FCirclePacker = function(circleItems, iterations) {
 
 
 /*
- *	Travelling Salesman Problem Algorithm
+ * Travelling Salesman Problem Algorithm
  *
- *	Taken from "SVG Stipple Generator, v 1.0"
- *	Copyright (C) 2012 by Windell H. Oskay
+ * Taken from "SVG Stipple Generator, v 1.0"
+ * Copyright (C) 2012 by Windell H. Oskay
  *
- *	http://www.evilmadscientist.com
- *	http://www.evilmadscientist.com/go/stipple
+ * http://www.evilmadscientist.com
+ * http://www.evilmadscientist.com/go/stipple
  *
  *
- *	Modified/Simplified for Paper.js
+ * Modified/Simplified for Paper.js
  *
- *	Ken Frederick
- *	ken.frederick@gmx.de
+ * Ken Frederick
+ * ken.frederick@gmx.de
  *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
+ * http://kennethfrederick.de/
+ * http://blog.kennethfrederick.de/
  *
  */
 
 /**
- *	@param  {PathItem} items
- *		   	an array of PathItems
- *	@param  {Number} iterations (optional)
- *		   	tests per frame (higher = better) default: 1000
+ * @param  {PathItem} items
+ * 	   	an array of PathItems
+ * @param  {Number} iterations (optional)
+ * 	   	tests per frame (higher = better) default: 1000
  *
- *	@return {Array}
+ * @return {Array}
  *
  */
 folio.FRoute = function(items, iterations) {
@@ -4279,29 +4273,29 @@ folio.FRoute = function(items, iterations) {
 
 
 /*
- *	Delaunay Triangulation
- *	Joshua Bell
- *	inexorabletash@hotmail.com
+ * Delaunay Triangulation
+ * Joshua Bell
+ * inexorabletash@hotmail.com
  *
- *	http://www.travellermap.com/
- *	Inspired by: http://www.codeguru.com/cpp/data/mfc_database/misc/article.php/c8901/
- *
- *
- *	Modifications for specific use with Paper.js/Scriptographer
- *
- *	Ken Frederick
- *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
+ * http://www.travellermap.com/
+ * Inspired by: http://www.codeguru.com/cpp/data/mfc_database/misc/article.php/c8901/
  *
  *
- *	Credit given where credit is due
+ * Modifications for specific use with Paper.js/Scriptographer
+ *
+ * Ken Frederick
+ *
+ * http://kennethfrederick.de/
+ * http://blog.kennethfrederick.de/
  *
  *
- *	This work is hereby released into the Public Domain. To view a copy of the public
- *	domain dedication, visit http://creativecommons.org/licenses/publicdomain/ or send
- *	a letter to Creative Commons, 171 Second Street, Suite 300, San Francisco,
- *	California, 94105, USA.
+ * Credit given where credit is due
+ *
+ *
+ * This work is hereby released into the Public Domain. To view a copy of the public
+ * domain dedication, visit http://creativecommons.org/licenses/publicdomain/ or send
+ * a letter to Creative Commons, 171 Second Street, Suite 300, San Francisco,
+ * California, 94105, USA.
  *
  */
 
@@ -4315,72 +4309,72 @@ var EPSILON = 1.0e-6;
 
 
 /**
- *	FTriangulate
+ * FTriangulate
  *
- *	@param {Array} points
- *			input vertices (Points)
+ * @param {Array} points
+ * 		input vertices (Points)
  *
  * @return {Array}
  *
- *	@example
- *	var triangulate = new FTriangulate( points );
+ * @example
+ * var triangulate = new FTriangulate( points );
  *
- *	// draw faces
- *	for( var i=0; i<triangulate.length; i++ ) {
- *		var triangle = triangulate[i];
+ * // draw faces
+ * for( var i=0; i<triangulate.length; i++ ) {
+ * 	var triangle = triangulate[i];
  *
- *		// draw triangle
- *		face = new Path();
- *		face.add( triangle.p1 );
- *		face.add( triangle.p2 );
- *		face.add( triangle.p3 );
- *		face.closed = true;
- *		face.strokeColor = 'white';
+ * 	// draw triangle
+ * 	face = new Path();
+ * 	face.add( triangle.p1 );
+ * 	face.add( triangle.p2 );
+ * 	face.add( triangle.p3 );
+ * 	face.closed = true;
+ * 	face.strokeColor = 'white';
  *
- *	}
+ * }
  */
 folio.FTriangulate = function( points ) {
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	// Properties
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	var _triangles;
 	var _points = points;
 	var _pointsNew = [];
 
 
 
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	// Classes
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	/**
-	 *	Triangle
+	 * Triangle
 	 *
-	 *	@param {Point} p1
-	 *				first Point of Triangle
-	 *	@param {Point} p2
-	 *				second Point of Triangle
-	 *	@param {Point} p3
-	 *				third Point of Triangle
+	 * @param {Point} p1
+	 * 			first Point of Triangle
+	 * @param {Point} p2
+	 * 			second Point of Triangle
+	 * @param {Point} p3
+	 * 			third Point of Triangle
 	 */
 	// TODO: remove this and rely on Path.Triangle
 	var Triangle = function( p1, p2, p3 ) {
-		//-----------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------
 		// Properties
-		//-----------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------
 		var _p1 = p1;
 		var _p2 = p2;
 		var _p3 = p3;
 
 
 
-		//-----------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------
 		// Methods
-		//-----------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------
 		/**
-		 *	vertex (Edge) sharing
+		 * vertex (Edge) sharing
 		 *
-		 *	@param {Triangle} other
-		 *				the triangle to check for vertex (Edge) sharing
+		 * @param {Triangle} other
+		 * 			the triangle to check for vertex (Edge) sharing
 		 *
 		 * @return {Triangle} the triangle that shares the given vertex (Edge)
 		 */
@@ -4391,8 +4385,8 @@ folio.FTriangulate = function( points ) {
 		};
 
 		/**
-		 *	@return {Point} circle
-		 *			Point of the circle center
+		 * @return {Point} circle
+		 * 		Point of the circle center
 		 */
 		function circumcenter() {
 			var circle = new Point();
@@ -4430,11 +4424,11 @@ folio.FTriangulate = function( points ) {
 			return circle;
 		};
 
-		//-----------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------
 		/**
-		 *	@return {Point} the centroid center
+		 * @return {Point} the centroid center
 		 *
-		 *	http://www.mathwords.com/c/centroid_formula.htm
+		 * http://www.mathwords.com/c/centroid_formula.htm
 		 */
 		function centroid() {
 			return new Point(
@@ -4443,9 +4437,9 @@ folio.FTriangulate = function( points ) {
 			);
 		};
 
-		//-----------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------
 		/**
-		 *	@return {Array} a sorted array (Edge) of the Triangle's Edges (shortest to longest)
+		 * @return {Array} a sorted array (Edge) of the Triangle's Edges (shortest to longest)
 		 */
 		function distances() {
 			var distances = [];
@@ -4457,9 +4451,9 @@ folio.FTriangulate = function( points ) {
 			return distances;
 		};
 
-		//-----------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------
 		/**
-		 *	http://www.btinternet.com/~se16/hgb/triangle.htm
+		 * http://www.btinternet.com/~se16/hgb/triangle.htm
 		 *
 		 * @return {Number} triangle width
 		 */
@@ -4479,7 +4473,7 @@ folio.FTriangulate = function( points ) {
 		};
 
 		/**
-		 *	http://www.btinternet.com/~se16/hgb/triangle.htm
+		 * http://www.btinternet.com/~se16/hgb/triangle.htm
 		 *
 		 * @return {Number} triangle height
 		 */
@@ -4498,7 +4492,7 @@ folio.FTriangulate = function( points ) {
 			return g;
 		};
 
-		//-----------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------
 		function area() {
 			var area = 0;
 			area += (_p1.x + _p3.x) * (_p3.y - _p1.y);
@@ -4509,18 +4503,18 @@ folio.FTriangulate = function( points ) {
 
 
 
-		//-----------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------
 		// Gets
-		//-----------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------
 		/**
-		 *	@return {Array} the points of the triangle as a Point array
+		 * @return {Array} the points of the triangle as a Point array
 		 */
 		function get() {
 			var points = [_p1, _p2, _p3];
 			return points;
 		};
 
-		//-----------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------
 		return {
 			p1: _p1,
 			p2: _p2,
@@ -4539,32 +4533,32 @@ folio.FTriangulate = function( points ) {
 	};
 
 	/**
-	 *	Edge
-	 *	TODO: replace with paper.Segment
+	 * Edge
+	 * TODO: replace with paper.Segment
 	 *
-	 *	@param {Point} p1
-	 *				first Point of Edge
-	 *	@param {Point} p2
-	 *				second Point of Edge
+	 * @param {Point} p1
+	 * 			first Point of Edge
+	 * @param {Point} p2
+	 * 			second Point of Edge
 	 */
 	var Edge = function( p1, p2 ) {
-		//-----------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------
 		// Properties
-		//-----------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------
 		var _p1 = p1;
 		var _p2 = p2;
 		var _dist = _p1.getDistance(_p2);
 
 
 
-		//-----------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------
 		// Methods
-		//-----------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------
 		/**
-		 *	sorts edge by shortest to longest
+		 * sorts edge by shortest to longest
 		 *
-		 *	@param {Edge} other
-		 *				Edge to compare against
+		 * @param {Edge} other
+		 * 			Edge to compare against
 		 *
 		 * @return {Number}
 		 */
@@ -4574,12 +4568,12 @@ folio.FTriangulate = function( points ) {
 
 
 
-		//-----------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------
 		// Gets
-		//-----------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------
 		/**
 		 *
-		 *	@return {Array} the points of the edge as a Point array
+		 * @return {Array} the points of the edge as a Point array
 		 *
 		 */
 		function get() {
@@ -4588,7 +4582,7 @@ folio.FTriangulate = function( points ) {
 		};
 
 
-		//-----------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------
 		return {
 			p1: _p1,
 			p2: _p2,
@@ -4601,17 +4595,17 @@ folio.FTriangulate = function( points ) {
 
 
 
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	// Methods
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	/**
-	 *	Triangulation subroutine
+	 * Triangulation subroutine
 	 *
-	 *	Returned is a list of triangular faces in the Array triangles
-	 *	These triangles are arranged in a consistent clockwise order.
+	 * Returned is a list of triangular faces in the Array triangles
+	 * These triangles are arranged in a consistent clockwise order.
 	 *
-	 *	@return {Array} triangles
-	 *			return Array of Triangles in clockwise order
+	 * @return {Array} triangles
+	 * 		return Array of Triangles in clockwise order
 	 *
 	 */
 	function init() {
@@ -4763,19 +4757,19 @@ folio.FTriangulate = function( points ) {
 		// return _triangles;
 	};
 
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	/**
-	 *	Return TRUE if a point (xp,yp) is inside the circumcircle made up
-	 *	of the points (x1,y1), (x2,y2), (x3,y3)
-	 *	The circumcircle center is returned in (xc,yc) and the radius r
-	 *	NOTE: A point on the edge is inside the circumcircle
+	 * Return TRUE if a point (xp,yp) is inside the circumcircle made up
+	 * of the points (x1,y1), (x2,y2), (x3,y3)
+	 * The circumcircle center is returned in (xc,yc) and the radius r
+	 * NOTE: A point on the edge is inside the circumcircle
 	 *
 	 * @param {Point} p
-	 *				Point to check
+	 * 			Point to check
 	 * @param {Triangle} t
-	 *				Triangle to check
+	 * 			Triangle to check
 	 * @param {Item} circle
-	 *				circle to check
+	 * 			circle to check
 	 *
 	 */
 	function circumCircle( p, t, circle ) {
@@ -4830,16 +4824,16 @@ folio.FTriangulate = function( points ) {
 		return drsqr <= rsqr;
 	};
 
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	/**
-	 *	findClosest Triangle
+	 * findClosest Triangle
 	 *
-	 *	Returns the closest Triangle based on the input Triangle
+	 * Returns the closest Triangle based on the input Triangle
 	 *
-	 *	@param {Triangle} other
-	 *			the input Triangle to find it's closest neighbor
+	 * @param {Triangle} other
+	 * 		the input Triangle to find it's closest neighbor
 	 *
-	 *	@return {Triangle} closest Triangle
+	 * @return {Triangle} closest Triangle
 	 */
 	function findClosest(other) {
 		var result;
@@ -4864,13 +4858,13 @@ folio.FTriangulate = function( points ) {
 		return result;
 	};
 
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	/**
 	 *
-	 *	sort Point rray from left to right
+	 * sort Point rray from left to right
 	 *
-	 *	@param {Point} a
-	 *	@param {Point} b
+	 * @param {Point} a
+	 * @param {Point} b
 	 *
 	 */
 	function sortLeftToRight(a,b) {
@@ -4881,10 +4875,10 @@ folio.FTriangulate = function( points ) {
 
 	/**
 	 *
-	 *	sort Point array from top to bottom
+	 * sort Point array from top to bottom
 	 *
-	 *	@param {Point} a
-	 *	@param {Point} b
+	 * @param {Point} a
+	 * @param {Point} b
 	 *
 	 */
 	function sortTopToBottom(a,b) {
@@ -4895,12 +4889,12 @@ folio.FTriangulate = function( points ) {
 
 	/**
 	 *
-	 *	remove Point duplicates
+	 * remove Point duplicates
 	 *
-	 *	@param {Array} arr
-	 *			array to remove duplicate points from
+	 * @param {Array} arr
+	 * 		array to remove duplicate points from
 	 *
-	 *	@return {Array} the cleaned up array
+	 * @return {Array} the cleaned up array
 	 *
 	 */
 	function uniquePoints(arr){
@@ -4914,12 +4908,12 @@ folio.FTriangulate = function( points ) {
 
 	/**
 	 *
-	 *	remove Edge duplicates
+	 * remove Edge duplicates
 	 *
-	 *	@param {Array} arr
-	 *			array to remove duplicate edges from
+	 * @param {Array} arr
+	 * 		array to remove duplicate edges from
 	 *
-	 *	@return {Array} the cleaned up array
+	 * @return {Array} the cleaned up array
 	 *
 	 */
 	function uniqueEdges(arr) {
@@ -4958,14 +4952,14 @@ folio.FTriangulate = function( points ) {
 
 
 
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	// sets
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	/**
-	 *	add point(s) to Triangulation
+	 * add point(s) to Triangulation
 	 *
-	 *	@param {Point} point
-	 *			a single Point or array of Points
+	 * @param {Point} point
+	 * 		a single Point or array of Points
 	 *
 	 */
 	function addPoint(point) {
@@ -4992,14 +4986,14 @@ folio.FTriangulate = function( points ) {
 
 
 
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	// Gets
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	/**
-	 *	@param {Number} index
-	 *			index of Triangle to return (optional)
+	 * @param {Number} index
+	 * 		index of Triangle to return (optional)
 	 *
-	 *	@return {Array} the Triangles as array
+	 * @return {Array} the Triangles as array
 	 */
 	function getTriangles(index) {
 		if( index != null ) {
@@ -5011,10 +5005,10 @@ folio.FTriangulate = function( points ) {
 	};
 
 	/**
-	 *	@param {Number} index
-	 *			index of Point to return (optional)
+	 * @param {Number} index
+	 * 		index of Point to return (optional)
 	 *
-	 *	@return {Array} the points as a Point array
+	 * @return {Array} the points as a Point array
 	 */
 	function getPoints(index) {
 		if( index != null ) {
@@ -5027,15 +5021,15 @@ folio.FTriangulate = function( points ) {
 
 
 
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	// Invocation
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	init();
 
 
 
 
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	return {
 		// sets
 		add: addPoint,
@@ -5053,32 +5047,32 @@ folio.FTriangulate = function( points ) {
 
 /*Ô
  *
- *	HashSet
- *	Phùng Văn Huy
- *	huyphungvan@gmail.com
+ * HashSet
+ * Phùng Văn Huy
+ * huyphungvan@gmail.com
  *
- *	http://code.huypv.net/2010/04/hashset-implementation-in-javascript.html
+ * http://code.huypv.net/2010/04/hashset-implementation-in-javascript.html
  *
  *
- *	Modifications
+ * Modifications
  *
- *	Ken Frederick
+ * Ken Frederick
  *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
+ * http://kennethfrederick.de/
+ * http://blog.kennethfrederick.de/
  *
  */
 var HashSet = function() {
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	// Properties
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	var _arr = [];
 
 
 
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	// Methods
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	function _add(e) {
 		var arr = _arr;
 		var i = arr.indexOf(e);
@@ -5109,16 +5103,16 @@ var HashSet = function() {
 
 
 
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	// Gets
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	function _toString() {
 		return _arr.join(',');
 	};
 
 
 
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	return {
 		add: _add,
 		get: _get,

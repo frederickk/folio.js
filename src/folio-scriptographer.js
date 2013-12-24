@@ -2,34 +2,34 @@
 // Global Properties
 // ------------------------------------------------------------------------
 /**
- *	the Path.Rectangle of the artboard
- *	mimic Paper.js
+ * the Path.Rectangle of the artboard
+ * mimic Paper.js
  */
 var view = artboard = activeDocument.activeArtboard;
 
 /**
- *	holder for Raster
+ * holder for Raster
  */
 var raster;
 
 /**
- *	shim for using same code base for
- *	both versions of folio.js
+ * shim for using same code base for
+ * both versions of folio.js
  */
 var paper = PaperScope = global;
 
 
 
 /**
- *	Note from the Scriptographer.org Team
+ * Note from the Scriptographer.org Team
  *
- *	In Scriptographer 2.9, we switched to a top-down coordinate system and
- *	degrees for angle units as an easier alternative to radians.
+ * In Scriptographer 2.9, we switched to a top-down coordinate system and
+ * degrees for angle units as an easier alternative to radians.
  *
- *	For backward compatibility we offer the possibility to still use the old
- *	bottom-up coordinate system and radians for angle units, by setting the two
- *	values bellow. Read more about this transition on our website:
- *	http://scriptographer.org/news/version-2.9.064-arrived/
+ * For backward compatibility we offer the possibility to still use the old
+ * bottom-up coordinate system and radians for angle units, by setting the two
+ * values bellow. Read more about this transition on our website:
+ * http://scriptographer.org/news/version-2.9.064-arrived/
  */
 
 script.coordinateSystem = 'top-down';
@@ -39,7 +39,7 @@ script.angleUnits = 'degrees';
 
 /**
  *
- *	Scriptographer Global Scope
+ * Scriptographer Global Scope
  *
  */
 // Script.inject({
@@ -49,14 +49,14 @@ global.inject({
 
 	/**
 	 *
-	 *	These are specific methods for the
-	 *	Scriptographer version of folio.js
+	 * These are specific methods for the
+	 * Scriptographer version of folio.js
 	 *
 	 */
 
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	// Properties
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	// constants
 	EPSILON: 1.0e-6,
 
@@ -77,12 +77,12 @@ global.inject({
 
 
 
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	// Methods
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	/**
-	 *	@param {Object} obj
-	 *				any Javascript Object
+	 * @param {Object} obj
+	 * 			any Javascript Object
 	 */
 	println: function(obj) {
 		console.log( obj );
@@ -90,15 +90,15 @@ global.inject({
 	},
 
 
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	/**
-	 *	animation function that mimics Paper.js
+	 * animation function that mimics Paper.js
 	 */
 	/**
-	 *	@param {Boolean} isOn
-	 *				true if we want to use animations
-	 *	@param {Number} frameRate
-	 *				the frame rate for the animatons default is 12
+	 * @param {Boolean} isOn
+	 * 			true if we want to use animations
+	 * @param {Number} frameRate
+	 * 			the frame rate for the animatons default is 12
 	 */
 	Animate: function(isOn, frameRate) {
 		frameRate = (frameRate === undefined) ? FRAMERATE : frameRate;
@@ -113,8 +113,8 @@ global.inject({
 	},
 
 	/**
-	 *	@param {Number} interval
-	 *				how often in MS to fire event - defaul: 83
+	 * @param {Number} interval
+	 * 			how often in MS to fire event - defaul: 83
 	 */
 	onFrame: function(interval, func) {
 		interval = (interval === undefined) ? 2 : interval;

@@ -1,6 +1,6 @@
 /*
  *
- *	FStepper.js
+ * FStepper.js
  *
  */
 
@@ -33,7 +33,7 @@ folio.FTime.FStepper = function() {
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	toggle (start/stop) the stepper
+	 * toggle (start/stop) the stepper
 	 *
 	 * @return {Number} start status
 	 *
@@ -52,11 +52,11 @@ folio.FTime.FStepper = function() {
 
 	// ------------------------------------------------------------------------
 	/**
-	 *	required function to keep the timing in sync
-	 *	with the application
+	 * required function to keep the timing in sync
+	 * with the application
 	 *
-	 *	@param {Number} currentSeconds
-	 *			the elapsed time of the application in seconds
+	 * @param {Number} currentSeconds
+	 * 		the elapsed time of the application in seconds
 	 */
 	var update = function(currentSeconds) {
 		if(bBeginStepper) {
@@ -102,7 +102,7 @@ folio.FTime.FStepper = function() {
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	toggle stepping in (++)
+	 * toggle stepping in (++)
 	 *
 	 */
 	var stepIn = function() {
@@ -115,7 +115,7 @@ folio.FTime.FStepper = function() {
 
 	/**
 	 *
-	 *	toggle stepping out (--)
+	 * toggle stepping out (--)
 	 *
 	 */
 	var stepOut = function() {
@@ -128,20 +128,20 @@ folio.FTime.FStepper = function() {
 
 	// ------------------------------------------------------------------------
 	/**
-	 *	@return {Boolean} if the object is stepping in
+	 * @return {Boolean} if the object is stepping in
 	 */
 	var isIn = function() {
 		return bIn;
 	};
 	/**
-	 *	@return {Boolean} if the object is stepping out
+	 * @return {Boolean} if the object is stepping out
 	 */
 	var isOut = function() {
 		return bOut;
 	};
 
 	/**
-	 *	@return {Boolean} if the object has finished it's stepping
+	 * @return {Boolean} if the object has finished it's stepping
 	 */
 	var isDone = function() {
 		if(delta < 1.0 && delta > 0.0) return false;
@@ -158,7 +158,7 @@ folio.FTime.FStepper = function() {
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	stop stepping
+	 * stop stepping
 	 *
 	 */
 	var stop = function() {
@@ -166,14 +166,14 @@ folio.FTime.FStepper = function() {
 	};
 
 	/**
-	 *	@return {Number}
+	 * @return {Number}
 	 */
 	var getDelta = function() {
 		return delta;
 	};
 
 	/**
-	 *	@return {Number}
+	 * @return {Number}
 	 */
 	var getCounter = function() {
 		return counter;
@@ -184,15 +184,15 @@ folio.FTime.FStepper = function() {
 	// Sets
 	// ------------------------------------------------------------------------
 	/**
-	 *	@param {Number} seconds
-	 *			length of fade in seconds
+	 * @param {Number} seconds
+	 * 		length of fade in seconds
 	 */
 	var setSeconds = function(seconds) {
 		setMillis( parseInt(seconds * 1000.0) );
 	};
 	/**
-	 *	@param {Number} millis
-	 *			length of fade in milliseconds
+	 * @param {Number} millis
+	 * 		length of fade in milliseconds
 	 */
 	var setMillis = function(millis) {
 		stepMillis = millis;
@@ -200,8 +200,8 @@ folio.FTime.FStepper = function() {
 	};
 
 	/**
-	 *	@param {Number} val
-	 *			set a value for the delta 0.0 - 1.0
+	 * @param {Number} val
+	 * 		set a value for the delta 0.0 - 1.0
 	 */
 	var setDelta = function(val) {
 		delta = val;

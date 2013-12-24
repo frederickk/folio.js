@@ -1,21 +1,19 @@
 /*
  *
- *	FArray.js
+ * FArray.js
  *
- *	Extensions to JavaScript Array may be bad form... but whatever
- *
- */
-
-
-/**
- *
- *	Array
+ * Extensions to JavaScript Array may be bad form... but whatever
  *
  */
 
+
+//
+// Array
+//
+
 /**
  *
- *	@return {Number} median value
+ * @return {Number} median value
  *
  */
 Array.prototype.median = function() {
@@ -32,7 +30,7 @@ Array.prototype.median = function() {
 
 /**
  *
- *	@return {Object} unique element
+ * @return {Object} unique element
  *
  */
 Array.prototype.unique = function() {
@@ -50,12 +48,12 @@ Array.prototype.unique = function() {
 
 /**
  *
- *	merges (then shuffles) two Arrays
+ * merges (then shuffles) two Arrays
  *
- *	@param {Array} arr
- *				Array object
+ * @param {Array} arr
+ * 			Array object
  *
- *	@return {Array} new merged Array object
+ * @return {Array} new merged Array object
  *
  */
 Array.prototype.merge = function(arr) {
@@ -66,12 +64,12 @@ Array.prototype.merge = function(arr) {
 
 /**
  *
- *	@param {Number} start
- *				start position in array
- *	@param {Number} stop
- *				stop position in array
+ * @param {Number} start
+ * 			start position in array
+ * @param {Number} stop
+ * 			stop position in array
  *
- *	@return {Number} maximum value within array
+ * @return {Number} maximum value within array
  *
  */
 Array.prototype.max = function(start, stop) {
@@ -89,12 +87,12 @@ Array.prototype.max = function(start, stop) {
 
 /**
  *
- *	@param {Number} start
- *				start position in array
- *	@param {Number} stop
- *				stop position in array
+ * @param {Number} start
+ * 			start position in array
+ * @param {Number} stop
+ * 			stop position in array
  *
- *	@return {Number} minimum value within array
+ * @return {Number} minimum value within array
  *
  */
 Array.prototype.min = function(start, stop) {
@@ -112,10 +110,10 @@ Array.prototype.min = function(start, stop) {
 
 /**
  *
- *	http://jsfromhell.com/array/shuffle
- *	http://www.brain4.de/programmierecke/js/arrayShuffle.php
+ * http://jsfromhell.com/array/shuffle
+ * http://www.brain4.de/programmierecke/js/arrayShuffle.php
  *
- *	@return {Array} original array but with the order "shuffled"
+ * @return {Array} original array but with the order "shuffled"
  *
  */
 Array.prototype.shuffle = function() {
@@ -124,9 +122,9 @@ Array.prototype.shuffle = function() {
 
 /**
  *
- *	http://stackoverflow.com/questions/9229645/remove-duplicates-from-javascript-array
+ * http://stackoverflow.com/questions/9229645/remove-duplicates-from-javascript-array
  *
- *	@return {Array} original array without duplicates
+ * @return {Array} original array without duplicates
  *
  */
 Array.prototype.removeDuplicates = function() {
@@ -138,10 +136,10 @@ Array.prototype.removeDuplicates = function() {
 
 /**
  *
- *	@param {Number} decimalPlaces
- *			number of decimal places
+ * @param {Number} decimalPlaces
+ * 		number of decimal places
  *
- *	@return {Array} original array with rounded values
+ * @return {Array} original array with rounded values
  *
  */
 Array.prototype.round = function(decimalPlaces) {
@@ -157,9 +155,9 @@ var FSort = {
 
 	/**
 	 *
-	 *	sort Array in alphabetical order
+	 * sort Array in alphabetical order
 	 *
-	 *	http://www.brain4.de/programmierecke/js/arraySort.php
+	 * http://www.brain4.de/programmierecke/js/arraySort.php
 	 *
 	 */
 	alphabetical: function(a, b) {
@@ -189,7 +187,7 @@ var FSort = {
 
 	/**
 	 *
-	 *	sort array by distance of object from center of canvas
+	 * sort array by distance of object from center of canvas
 	 *
 	 */
 	distanceToCenter: function(a, b) {

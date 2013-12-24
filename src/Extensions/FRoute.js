@@ -1,30 +1,30 @@
 /*
- *	Travelling Salesman Problem Algorithm
+ * Travelling Salesman Problem Algorithm
  *
- *	Taken from "SVG Stipple Generator, v 1.0"
- *	Copyright (C) 2012 by Windell H. Oskay
+ * Taken from "SVG Stipple Generator, v 1.0"
+ * Copyright (C) 2012 by Windell H. Oskay
  *
- *	http://www.evilmadscientist.com
- *	http://www.evilmadscientist.com/go/stipple
+ * http://www.evilmadscientist.com
+ * http://www.evilmadscientist.com/go/stipple
  *
  *
- *	Modified/Simplified for Paper.js
+ * Modified/Simplified for Paper.js
  *
- *	Ken Frederick
- *	ken.frederick@gmx.de
+ * Ken Frederick
+ * ken.frederick@gmx.de
  *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
+ * http://kennethfrederick.de/
+ * http://blog.kennethfrederick.de/
  *
  */
 
 /**
- *	@param  {PathItem} items
- *		   	an array of PathItems
- *	@param  {Number} iterations (optional)
- *		   	tests per frame (higher = better) default: 1000
+ * @param  {PathItem} items
+ * 	   	an array of PathItems
+ * @param  {Number} iterations (optional)
+ * 	   	tests per frame (higher = better) default: 1000
  *
- *	@return {Array}
+ * @return {Array}
  *
  */
 folio.FRoute = function(items, iterations) {

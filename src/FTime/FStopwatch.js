@@ -1,8 +1,8 @@
 /*
  *
- *	FStopwatch.js
+ * FStopwatch.js
  *
- *	A simple stopwatch
+ * A simple stopwatch
  *
  */
 
@@ -23,7 +23,7 @@ folio.FTime.FStopwatch = function() {
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	toggle (start/stop) the stopwatch
+	 * toggle (start/stop) the stopwatch
 	 *
 	 */
 	var toggle = function() {
@@ -37,7 +37,7 @@ folio.FTime.FStopwatch = function() {
 
 	/**
 	 *
-	 *	start the stopwatch
+	 * start the stopwatch
 	 *
 	 */
 	var start = function() {
@@ -49,7 +49,7 @@ folio.FTime.FStopwatch = function() {
 
 	/**
 	 *
-	 *	pause the stopwatch
+	 * pause the stopwatch
 	 *
 	 */
 	var pause = function() {
@@ -61,7 +61,7 @@ folio.FTime.FStopwatch = function() {
 
 	/**
 	 *
-	 *	reset the stopwatch
+	 * reset the stopwatch
 	 *
 	 */
 	var reset = function() {
@@ -76,12 +76,12 @@ folio.FTime.FStopwatch = function() {
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	set the stopwatch
+	 * set the stopwatch
 	 *
-	 *	@param {Number} ms
-	 *			milliseconds to start the stopwatch with
-	 *	@param {Boolean} run
-	 *			whether the stopwatch should start or not
+	 * @param {Number} ms
+	 * 		milliseconds to start the stopwatch with
+	 * @param {Boolean} run
+	 * 		whether the stopwatch should start or not
 	 *
 	 */
 	var set = function(ms, run) {
@@ -100,7 +100,7 @@ folio.FTime.FStopwatch = function() {
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	@return {Number} the time elapsed in milliseconds
+	 * @return {Number} the time elapsed in milliseconds
 	 *
 	 */
 	var get = function() {
@@ -113,7 +113,7 @@ folio.FTime.FStopwatch = function() {
 
 	/**
 	 *
-	 *	@return {Boolean} whether the stopwatch is running
+	 * @return {Boolean} whether the stopwatch is running
 	 *
 	 */
 	var isRunning = function() {

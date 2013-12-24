@@ -1,27 +1,27 @@
 /*
  *
- *	FPoint3.js
+ * FPoint3.js
  *
- *	A barebones collection of classes for primitive 3D rendering
+ * A barebones collection of classes for primitive 3D rendering
  *
  */
 
 
 
 /**
- *	@param arg0
- *			x coordinate
- *	@param arg1
- *			y coordinate
- *	@param arg2
- *			z coordinate
+ * @param arg0
+ * 		x coordinate
+ * @param arg1
+ * 		y coordinate
+ * @param arg2
+ * 		z coordinate
  */
 folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 	// ------------------------------------------------------------------------
 	// Properties
 	// ------------------------------------------------------------------------
 	/**
-	 *	private
+	 * private
 	 */
 	var _scene = null;
 
@@ -34,7 +34,7 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 
 
 	/**
-	 *	public
+	 * public
 	 */
 	this.x = arg0 != undefined ? arg0 : 0;
 	this.y = arg1 != undefined ? arg1 : 0;
@@ -46,9 +46,9 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 	// Methods
 	// ------------------------------------------------------------------------
 	/**
-	 *	@param scene
-	 *			the scene with which the points are
-	 *			associated with
+	 * @param scene
+	 * 		the scene with which the points are
+	 * 		associated with
 	 */
 	this.setup = function(scene) {
 		// setup scene
@@ -72,24 +72,24 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	@return random point
+	 * @return random point
 	 *
 	 */
 	/**
-	 *	@param minx
-	 *				minmum x (default: 0)
-	 *	@param maxx
-	 *				maximum x (default: view.bounds.width)
-	 *	@param miny
-	 *				minmum y (default: 0)
-	 *	@param maxy
-	 *				maximum y (default: view.bounds.height)
-	 *	@param minz
-	 *				minmum z (default: 0)
-	 *	@param maxz
-	 *				maximum z (default: 1000)
+	 * @param minx
+	 * 			minmum x (default: 0)
+	 * @param maxx
+	 * 			maximum x (default: view.bounds.width)
+	 * @param miny
+	 * 			minmum y (default: 0)
+	 * @param maxy
+	 * 			maximum y (default: view.bounds.height)
+	 * @param minz
+	 * 			minmum z (default: 0)
+	 * @param maxz
+	 * 			maximum z (default: 1000)
 	 *
-	 *	@return random point
+	 * @return random point
 	 *
 	 */
 	this.random = function(minx, maxx, miny, maxy, minz, maxz) {
@@ -114,8 +114,8 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	@param val
-	 *			set x value
+	 * @param val
+	 * 		set x value
 	 */
 	this.setX = function(val) {
 		if( _scene != null ) _scene.points3D[_xIndex] = val;
@@ -124,8 +124,8 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 
 	/**
 	 *
-	 *	@param val
-	 *			set y value
+	 * @param val
+	 * 		set y value
 	 */
 	this.setY = function(val) {
 		if( _scene != null ) _scene.points3D[_yIndex] = val;
@@ -134,8 +134,8 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 
 	/**
 	 *
-	 *	@param val
-	 *			set z value
+	 * @param val
+	 * 		set z value
 	 */
 	this.setZ = function(val) {
 		if( _scene != null ) _scene.points3D[_zIndex] = val;
@@ -155,7 +155,7 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 	// Gets
 	// ------------------------------------------------------------------------
 	/**
-	 *	@return a copy of this point
+	 * @return a copy of this point
 	 */
 	this.get = function() {
 		return new folio.F3D.FPoint3(this.x, this.y, this.z);
@@ -164,14 +164,14 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 
 	// ------------------------------------------------------------------------
 	/**
-	 *	@return projected 2D x
+	 * @return projected 2D x
 	 */
 	this.x2D = function() {
 		return _scene.points2D[_xIndex2D];
 	};
 
 	/**
-	 *	@return projected 2D y
+	 * @return projected 2D y
 	 */
 	this.y2D = function() {
 		return _scene.points2D[_yIndex2D];
@@ -185,9 +185,9 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 
 	// ------------------------------------------------------------------------
 	/**
-	 *	Calculate the magnitude (length) of the point
+	 * Calculate the magnitude (length) of the point
 	 *
-	 *	@return the magnitude of the point
+	 * @return the magnitude of the point
 	 */
 	this.mag = function() {
 		return Math.sqrt(this.x*this.x + this.y*this.y + this.z*this.z);
@@ -196,20 +196,20 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 
 	// ------------------------------------------------------------------------
 	/**
-	 *	Add a point to this point
+	 * Add a point to this point
 	 *
-	 *	@param arg0
-	 *			the FPoint3 to be added
+	 * @param arg0
+	 * 		the FPoint3 to be added
 	 */
 	/**
-	 *	Add a point to this point
+	 * Add a point to this point
 	 *
-	 *	@param arg0
-	 *			the x point to be added
-	 *	@param arg1
-	 *			the y point to be added
-	 *	@param arg2
-	 *			the z point to be added
+	 * @param arg0
+	 * 		the x point to be added
+	 * @param arg1
+	 * 		the y point to be added
+	 * @param arg2
+	 * 		the z point to be added
 	 */
 	this.add = function(arg0, arg1, arg2) {
 		if(typeof arg0 == 'number') {
@@ -228,20 +228,20 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 
 	// ------------------------------------------------------------------------
 	/**
-	 *	Subtract a point to this point
+	 * Subtract a point to this point
 	 *
-	 *	@param arg0
-	 *			the FPoint3 to be subtracted
+	 * @param arg0
+	 * 		the FPoint3 to be subtracted
 	 */
 	/**
-	 *	Subtract a point to this point
+	 * Subtract a point to this point
 	 *
-	 *	@param arg0
-	 *			the x point to be subtracted
-	 *	@param arg1
-	 *			the y point to be subtracted
-	 *	@param arg2
-	 *			the z point to be subtracted
+	 * @param arg0
+	 * 		the x point to be subtracted
+	 * @param arg1
+	 * 		the y point to be subtracted
+	 * @param arg2
+	 * 		the z point to be subtracted
 	 */
 	this.sub = function(arg0, arg1, arg2) {
 		if(typeof arg0 == 'number') {
@@ -260,10 +260,10 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 
 	// ------------------------------------------------------------------------
 	/**
-	 *	Scale this point by a scalar
+	 * Scale this point by a scalar
 	 *
-	 *	@param n
-	 *			the value to scale by
+	 * @param n
+	 * 		the value to scale by
 	 */
 	this.scale = function(n) {
 		this.x *= n;
@@ -275,20 +275,20 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 
 	// ------------------------------------------------------------------------
 	/**
-	 *	Multiply each element of one point by the elements of another point.
+	 * Multiply each element of one point by the elements of another point.
 	 *
-	 *	@param arg0
-	 *			the FPoint3 to be multiplied
+	 * @param arg0
+	 * 		the FPoint3 to be multiplied
 	 */
 	/**
-	 *	Multiply each element of one point by the elements of another point.
+	 * Multiply each element of one point by the elements of another point.
 	 *
-	 *	@param arg0
-	 *			the x point to be multiplied
-	 *	@param arg1
-	 *			the y point to be multiplied
-	 *	@param arg2
-	 *			the z point to be multiplied
+	 * @param arg0
+	 * 		the x point to be multiplied
+	 * @param arg1
+	 * 		the y point to be multiplied
+	 * @param arg2
+	 * 		the z point to be multiplied
 	 */
 	this.mult = function(arg0, arg1, arg2) {
 		if(typeof arg0 == 'number') {
@@ -307,20 +307,20 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 
 	// ------------------------------------------------------------------------
 	/**
-	 *	Divide each element of one point by the elements of another point.
+	 * Divide each element of one point by the elements of another point.
 	 *
-	 *	@param arg0
-	 *			the FPoint3 to be divided
+	 * @param arg0
+	 * 		the FPoint3 to be divided
 	 */
 	/**
-	 *	Divide each element of one point by the elements of another point.
+	 * Divide each element of one point by the elements of another point.
 	 *
-	 *	@param arg0
-	 *			the x point to be divided
-	 *	@param arg1
-	 *			the y point to be divided
-	 *	@param arg2
-	 *			the z point to be divided
+	 * @param arg0
+	 * 		the x point to be divided
+	 * @param arg1
+	 * 		the y point to be divided
+	 * @param arg2
+	 * 		the z point to be divided
 	 */
 	this.div = function(arg0, arg1, arg2) {
 		if(typeof arg0 == 'number') {
@@ -339,12 +339,12 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 
 	// ------------------------------------------------------------------------
 	/**
-	 *	Calculate the Euclidean distance between two points (considering a point as a vector object)
+	 * Calculate the Euclidean distance between two points (considering a point as a vector object)
 	 *
-	 *	@param _fpoint3
-	 *			another point
+	 * @param _fpoint3
+	 * 		another point
 	 *
-	 *	@return the Euclidean distance between
+	 * @return the Euclidean distance between
 	 */
 	this.getDistance = function(_fpoint3) {
 		var dx = this.x - _fpoint3.x();
@@ -359,9 +359,9 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 	 * Calculate the angle between two points, using the dot product
 	 *
 	 * @param _fpoint3a
-	 *				a point
+	 * 			a point
 	 * @param _fpoint3b
-	 *				another point
+	 * 			another point
 	 *
 	 * @return the angle between the points
 	 */
@@ -375,7 +375,7 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 
 	// ------------------------------------------------------------------------
 	/**
-  	 *	Normalize the point to length 1 (make it a unit point)
+  	 * Normalize the point to length 1 (make it a unit point)
 	 */
 	this.normalize = function() {
 		var m = this.mag();
@@ -393,7 +393,7 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 
 	// ------------------------------------------------------------------------
 	/**
-	 *	Return a representation of this point as an array.
+	 * Return a representation of this point as an array.
 	 */
 	this.array = function() {
 		return [this.x, this.y, this.z];

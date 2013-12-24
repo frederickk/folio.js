@@ -1,23 +1,23 @@
 /*
  *
- *	FString.js
+ * FString.js
  *
- *	Extensions to JavaScript Array may be bad form... but whatever
+ * Extensions to JavaScript Array may be bad form... but whatever
  *
  */
 
 
-/**	------------------------------------------------------------------------
+/** ------------------------------------------------------------------------
  *
- *	Strings
+ * Strings
  *
- *	------------------------------------------------------------------------/
+ * ------------------------------------------------------------------------/
 
 /**
  *
- *	trims white space from right (end) of String
+ * trims white space from right (end) of String
  *
- *	@return {String} trimmed input String
+ * @return {String} trimmed input String
  *
  */
 String.prototype.trimEnd = function() {
@@ -29,9 +29,9 @@ String.prototype.trimEnd = function() {
 
 /**
  *
- *	trims all white space from String
+ * trims all white space from String
  *
- *	@return {String} trimmed input string
+ * @return {String} trimmed input string
  *
  */
 String.prototype.trim = function() {
@@ -43,9 +43,9 @@ String.prototype.trim = function() {
 
 /**
  *
- *	converts String to Boolean value
+ * converts String to Boolean value
  *
- *	@return {Boolean}
+ * @return {Boolean}
  *
  */
 String.prototype.toBool = function() {

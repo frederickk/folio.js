@@ -1,9 +1,9 @@
 // ------------------------------------------------------------------------
 /**!
  *
- *	REQUIRED LIBRARIES!
+ * REQUIRED LIBRARIES!
  *
- *	Paper.js @ http://paperjs.org/
+ * Paper.js @ http://paperjs.org/
  *
  */
 
@@ -16,7 +16,7 @@ var folio = folio || {};
 
 /**
  *
- *	Initialize Structure
+ * Initialize Structure
  *
  */
 // create methods
@@ -124,7 +124,7 @@ window.onload = function() {
 
 	/**
 	 *
-	 *	Supporting Methods
+	 * Supporting Methods
 	 *
 	 */
 	// ------------------------------------------------------------------------

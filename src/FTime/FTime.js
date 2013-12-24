@@ -1,8 +1,8 @@
 /*
  *
- *	FTime.js
+ * FTime.js
  *
- *	Core FTime Methods
+ * Core FTime Methods
  *
  */
 

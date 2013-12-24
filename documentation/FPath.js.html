@@ -27,33 +27,33 @@
         <article>
             <pre class="prettyprint source"><code>/*
  *
- *	FPath.js
+ * FPath.js
  *
- *	A collection of shapes for paper.Path and methods for paper.Item
+ * A collection of shapes for paper.Path and methods for paper.Item
  *
- *	FArrow
- *	FBubble
- *	FChain
- *	FCross
- *	FDrop
- *	FTriangle
+ * FArrow
+ * FBubble
+ * FChain
+ * FCross
+ * FDrop
+ * FTriangle
  *
  */
 
 
 /*
  *
- *	paper.Item
+ * paper.Item
  *
  */
 paper.Item.inject({
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	// Methods
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	/**
-	 *	@param {Size} spacing
-	 *				spacing.width  = the horizontal snapping value, width of the grid.
-	 *				spacing.height = the vertical snapping value, height of the grid.
+	 * @param {Size} spacing
+	 * 			spacing.width  = the horizontal snapping value, width of the grid.
+	 * 			spacing.height = the vertical snapping value, height of the grid.
 	 *
 	 */
 	snapGrid: function(spacing) {
@@ -62,10 +62,10 @@ paper.Item.inject({
 	},
 
 	/**
-	 *	snaps point to an isometric grid
+	 * snaps point to an isometric grid
 	 *
-	 *	@param {Number} scale
-	 *				scale of the grid (1.0 = 32x16)
+	 * @param {Number} scale
+	 * 			scale of the grid (1.0 = 32x16)
 	 *
 	 */
 	snapIso: function(scale) {
@@ -74,11 +74,10 @@ paper.Item.inject({
 	},
 
 
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	/**
-	 *	Returns the distance between the item and the center of the canvas/artboard
 	 *
-	 *	@return {Number}
+	 * @return {Number} the distance between the item and the center of the canvas/artboard
 	 *
 	 */
 	getDistanceToCenter: function() {
@@ -89,9 +88,9 @@ paper.Item.inject({
 	},
 
 
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	/**
-	 *	converts an CompoundPath into a Group otherwise returns original Item
+	 * converts an CompoundPath into a Group otherwise returns original Item
 	 *
 	 */
 	toGroup: function() {
@@ -108,22 +107,22 @@ paper.Item.inject({
 
 
 paper.Path.inject({
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	// Methods
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 
 	/*
 	 *
-	 *	Center Methods
-	 *	TODO: finish adding center methods
+	 * Center Methods
+	 * TODO: finish adding center methods
 	 *
 	 */
 
 	/**
-	 *	Returns the Centroid of Path
-	 *	http://stackoverflow.com/questions/2792443/finding-the-centroid-of-a-polygon
+	 * Returns the Centroid of Path
+	 * http://stackoverflow.com/questions/2792443/finding-the-centroid-of-a-polygon
 	 *
-	 *	@return {Point}
+	 * @return {Point}
 	 */
 	getCentroid: function() {
 		var centroid = new Point(0,0);
@@ -162,11 +161,11 @@ paper.Path.inject({
 	},
 
 	/**
-	 *	Returns the Circumcenter of a triangle
+	 * Returns the Circumcenter of a triangle
 	 *
-	 *	TODO: adjust formula to return Circumcenter of any polygon
+	 * TODO: adjust formula to return Circumcenter of any polygon
 	 *
-	 *	@return {Point}
+	 * @return {Point}
 	 */
 	getCircumcenter: function() {
 		if( this._segments.length === 3 ) {
@@ -222,17 +221,17 @@ paper.Path.inject({
 
 	/*
 	 *
-	 *	TODO: add additional "center" formulas (for polygons)
-	 *	http://mathforum.org/library/drmath/view/57665.html
+	 * TODO: add additional "center" formulas (for polygons)
+	 * http://mathforum.org/library/drmath/view/57665.html
 	 *
 	 */
 
 	/**
-	 *	Returns the Circumcircle of a polygon
+	 * Returns the Circumcircle of a polygon
 	 *
-	 *	TODO: fix for triangles...
+	 * TODO: fix for triangles...
 	 *
-	 *	@return {Path.Circle}
+	 * @return {Path.Circle}
 	 */
 	// getCircumcircle: function() {
 	//	var that = this;
@@ -268,9 +267,9 @@ paper.Path.inject({
 	// },
 
 	/**
-	 *	Returns the Incircle of a polygon
+	 * Returns the Incircle of a polygon
 	 *
-	 *	@return {Path.Circle}
+	 * @return {Path.Circle}
 	 */
 	getIncircle: function() {
 		var incircleradius = Number.MAX_VALUE;
@@ -315,8 +314,8 @@ paper.Path.inject({
 	// },
 
 	/**
-	 *	@param {} xb
-	 *			array of barycentric coordinates
+	 * @param {} xb
+	 * 		array of barycentric coordinates
 	 */
 	// TODO: currently implementation returns false point
 	// toCartesian : function(bary) {
@@ -417,26 +416,26 @@ paper.Path.inject({
 
 
 
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	statics: new function() {
 		return {
 			/**
 			 *
-			 *	FArrow
-			 *	Create simple arrow
+			 * FArrow
+			 * Create simple arrow
 			 *
-			 *	@param {Point} headPoint
-			 *				the head of the arrow
-			 *	@param {Point} tailPoint
-			 *				the tail of the arrow
-			 *	@param {Size} arrowHeadSize
-			 *				(optional) length of the arrow head
+			 * @param {Point} headPoint
+			 * 			the head of the arrow
+			 * @param {Point} tailPoint
+			 * 			the tail of the arrow
+			 * @param {Size} arrowHeadSize
+			 * 			(optional) length of the arrow head
 			 *
-			 *	@example
-			 *	var headPoint = new paper.Point( 9,9 );
-			 *	var tailPoint = new paper.Point( 90,90 );
-			 *	var arrowHeadSize = new paper.Size( 18,18 );
-			 *	var farrow = new paper.Path.FArrow( headPoint, tailPoint, arrowHeadSize );
+			 * @example
+			 * var headPoint = new paper.Point( 9,9 );
+			 * var tailPoint = new paper.Point( 90,90 );
+			 * var arrowHeadSize = new paper.Size( 18,18 );
+			 * var farrow = new paper.Path.FArrow( headPoint, tailPoint, arrowHeadSize );
 			 *
 			 */
 			FArrow: function( headPoint, tailPoint, arrowHeadSize ) {
@@ -466,28 +465,28 @@ paper.Path.inject({
 
 			/**
 			 *
-			 *	FBubble
-			 *	Create a simple speech bubble
+			 * FBubble
+			 * Create a simple speech bubble
 			 *
-			 *	@param {Point} bubblePoint
-			 *				the position of the bubble
-			 *	@param {Size} bubbleSize
-			 *				the size of the bubble
-			 *	@param {Size} bubbleTagSize
-			 *				the size of the tag
-			 *	@param {String} bubbleTagCenter
-			 *				(optional)
-			 *				'RANDOM'	randomly x-position the point (default)
-			 *				'LEFT'		left align the x-position of the point
-			 *				'CENTER'	center align the x-position of the point
-			 *				'RIGHT'		right align the x-position of the point
+			 * @param {Point} bubblePoint
+			 * 			the position of the bubble
+			 * @param {Size} bubbleSize
+			 * 			the size of the bubble
+			 * @param {Size} bubbleTagSize
+			 * 			the size of the tag
+			 * @param {String} bubbleTagCenter
+			 * 			(optional)
+			 * 			'RANDOM'	randomly x-position the point (default)
+			 * 			'LEFT'		left align the x-position of the point
+			 * 			'CENTER'	center align the x-position of the point
+			 * 			'RIGHT'		right align the x-position of the point
 			 *
-			 *	@example
-			 *	var bubblePoint = new paper.Point( 45,45 );
-			 *	var bubbleSize = new paper.Size( 90,60 );
-			 *	var bubbleTagSize = new paper.Size( 9,9 );
-			 *	var bubbleTagCenter = 'CENTER';
-			 *	var b = new paper.Path.FBubble( bubblePoint, bubbleSize, bubbleTagSize, bubbleTagCenter );
+			 * @example
+			 * var bubblePoint = new paper.Point( 45,45 );
+			 * var bubbleSize = new paper.Size( 90,60 );
+			 * var bubbleTagSize = new paper.Size( 9,9 );
+			 * var bubbleTagCenter = 'CENTER';
+			 * var b = new paper.Path.FBubble( bubblePoint, bubbleSize, bubbleTagSize, bubbleTagCenter );
 			 *
 			 */
 			FBubble: function(bubblePoint, bubbleSize, bubbleTagSize, bubbleTagCenter) {
@@ -560,37 +559,37 @@ paper.Path.inject({
 
 
 			/**
-			 *	FChain
-			 *	Create simple chain (a line with different endpoint sizes)
+			 * FChain
+			 * Create simple chain (a line with different endpoint sizes)
 			 *
-			 *	@param {Point} arg0
-			 *				point1 The first point (endpoint1)
-			 *	@param {Number} arg1
-			 *				radius of endpoint1
-			 *	@param {Point} arg2
-			 *				point2 The second point (endpoint2)
-			 *	@param {Number} arg3
-			 *				radius of endpoint2
+			 * @param {Point} arg0
+			 * 			point1 The first point (endpoint1)
+			 * @param {Number} arg1
+			 * 			radius of endpoint1
+			 * @param {Point} arg2
+			 * 			point2 The second point (endpoint2)
+			 * @param {Number} arg3
+			 * 			radius of endpoint2
 			 *
-			 *	@example
-			 *	var point1 = new paper.Point( 9,9 );
-			 *	var radius1 = 9;
-			 *	var point2 = new paper.Point( 90,90 );
-			 *	var radius2 = 90;
-			 *	var fchain = new paper.Path.FChain( point1, radius1, point2, radius2 );
+			 * @example
+			 * var point1 = new paper.Point( 9,9 );
+			 * var radius1 = 9;
+			 * var point2 = new paper.Point( 90,90 );
+			 * var radius2 = 90;
+			 * var fchain = new paper.Path.FChain( point1, radius1, point2, radius2 );
 			 *
 			 */
 			/**
 			 *
-			 *	@param {Path} arg0
-			 *				PathItem (endpoint1)
-			 *	@param {Path} arg1
-			 *				PathItem (endpoint2)
+			 * @param {Path} arg0
+			 * 			PathItem (endpoint1)
+			 * @param {Path} arg1
+			 * 			PathItem (endpoint2)
 			 *
-			 *	@example
-			 *	var path1 = new paper.Path.Circle( new Point(9,9), 9 );
-			 *	var path2 = new paper.Path.Circle( new Point(90,90), 90 );
-			 *	var fchain = new paper.Path.FChain( path1, path2 );
+			 * @example
+			 * var path1 = new paper.Path.Circle( new Point(9,9), 9 );
+			 * var path2 = new paper.Path.Circle( new Point(90,90), 90 );
+			 * var fchain = new paper.Path.FChain( path1, path2 );
 			 *
 			 */
 			FChain: function(arg0, arg1, arg2, arg3) {
@@ -646,25 +645,25 @@ paper.Path.inject({
 
 			/**
 			 *
-			 *	FCross
-			 *	Create a cross
+			 * FCross
+			 * Create a cross
 			 *
-			 *	@param {Point} centerPoint
-			 *				position of cross
-			 *	@param {Size} size
-			 *				size [width,height] of cross
-			 *	@param {Number} strokeWidth
-			 *				thickness of the cross
-			 *	@param {String} crossType (optional)
-			 *				'SHARP'		sharp edged cross (fill)
-			 *				'LINE'		simple built of lines (stroke)
+			 * @param {Point} centerPoint
+			 * 			position of cross
+			 * @param {Size} size
+			 * 			size [width,height] of cross
+			 * @param {Number} strokeWidth
+			 * 			thickness of the cross
+			 * @param {String} crossType (optional)
+			 * 			'SHARP'		sharp edged cross (fill)
+			 * 			'LINE'		simple built of lines (stroke)
 			 *
-			 *	@example
-			 *	var centerPoint = new paper.Point( 45,45 );
-			 *	var size = new paper.Size( 45,45 );
-			 *	var strokeWidth = 18;
-			 *	var crossType = 'LINE';
-			 *	var fcross = new paper.Path.FCross( centerPoint, size, strokeWidth, crossType );
+			 * @example
+			 * var centerPoint = new paper.Point( 45,45 );
+			 * var size = new paper.Size( 45,45 );
+			 * var strokeWidth = 18;
+			 * var crossType = 'LINE';
+			 * var fcross = new paper.Path.FCross( centerPoint, size, strokeWidth, crossType );
 			 *
 			 */
 			FCross: function( centerPoint, size, strokeWidth, crossType ) {
@@ -714,31 +713,31 @@ paper.Path.inject({
 
 
 			/**
-			 *	FDrop
-			 *	Create a (tear)drop
+			 * FDrop
+			 * Create a (tear)drop
 			 *
-			 *	@param {Point} centerPoint
-			 *				position of cross
-			 *	@param {Number} arg1
-			 *				scale drop, maintains intended proportion
+			 * @param {Point} centerPoint
+			 * 			position of cross
+			 * @param {Number} arg1
+			 * 			scale drop, maintains intended proportion
 			 *
-			 *	@example
-			 *	var centerPoint = new paper.Point( 45,45 );
-			 *	var scale = 45;
-			 *	var fdrop = new paper.Path.FDrop( centerPoint, scale );
+			 * @example
+			 * var centerPoint = new paper.Point( 45,45 );
+			 * var scale = 45;
+			 * var fdrop = new paper.Path.FDrop( centerPoint, scale );
 			 *
 			 */
 			/**
 			 *
-			 *	@param {Point} centerPoint
-			 *				position of cross
-			 *	@param {Size} arg1
-			 *				scale drop, custom proportion
+			 * @param {Point} centerPoint
+			 * 			position of cross
+			 * @param {Size} arg1
+			 * 			scale drop, custom proportion
 			 *
-			 *	@example
-			 *	var centerPoint = new paper.Point( 45,45 );
-			 *	var scale = new paper.Size( 30,61.8 );
-			 *	var fdrop = new paper.Path.FDrop( centerPoint, scale );
+			 * @example
+			 * var centerPoint = new paper.Point( 45,45 );
+			 * var scale = new paper.Size( 30,61.8 );
+			 * var fdrop = new paper.Path.FDrop( centerPoint, scale );
 			 *
 			 */
 			FDrop: function( centerPoint, arg1 ) {
@@ -793,21 +792,21 @@ paper.Path.inject({
 
 
 			/**
-			 *	FTriangle
-			 *	Create a triangle
+			 * FTriangle
+			 * Create a triangle
 			 *
-			 *	@param {Point} p1
-			 *				first point of triangle
-			 *	@param {Point} p2
-			 *				second point of triangle
-			 *	@param {Point} p3
-			 *				third point of triangle
+			 * @param {Point} p1
+			 * 			first point of triangle
+			 * @param {Point} p2
+			 * 			second point of triangle
+			 * @param {Point} p3
+			 * 			third point of triangle
 			 *
-			 *	@example
-			 *	var p1 = new paper.Point( 9,9 );
-			 *	var p2 = new paper.Point( 90,45 );
-			 *	var p3 = new paper.Point( 45,90 );
-			 *	var ftriangle = new paper.Path.FTriangle( p1, p2, p3 );
+			 * @example
+			 * var p1 = new paper.Point( 9,9 );
+			 * var p2 = new paper.Point( 90,45 );
+			 * var p3 = new paper.Point( 45,90 );
+			 * var ftriangle = new paper.Path.FTriangle( p1, p2, p3 );
 			 *
 			 */
 			FTriangle: function( p1, p2, p3 ) {
@@ -842,7 +841,7 @@ paper.Path.inject({
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Mon Dec 23 2013 19:39:05 GMT-0800 (PST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Tue Dec 24 2013 12:02:56 GMT-0800 (PST)
 </footer>
 
 <script> prettyPrint(); </script>

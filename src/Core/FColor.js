@@ -1,25 +1,25 @@
 /*
  *
- *	FColor.js
+ * FColor.js
  *
- *	A collection of extensions for paper.Color
+ * A collection of extensions for paper.Color
  *
  */
 
 
 /**
  *
- *	paper.Color
+ * paper.Color
  *
  */
 paper.Color.inject({
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	@param {Number} component
-	 *						input value to convert
+	 * @param {Number} component
+	 * 					input value to convert
 	 *
-	 *	@return {String} hex value of input color as string
+	 * @return {String} hex value of input color as string
 	 *
 	 */
 	componentToHex: function( component ) {
@@ -30,9 +30,9 @@ paper.Color.inject({
 
 	/**
 	 *
-	 *	http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
+	 * http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
 	 *
-	 *	@return {String} hex value of input color as string
+	 * @return {String} hex value of input color as string
 	 *
 	 */
 	colorToHex: function() {
@@ -54,7 +54,7 @@ paper.Color.inject({
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	@return {Number} value of input color as integer
+	 * @return {Number} value of input color as integer
 	 *
 	 */
 	colorToInt: function() {
@@ -75,10 +75,10 @@ paper.Color.inject({
 
 	/**
 	 *
-	 *	@param {Number} RgbInt
-	 *			value as integer
+	 * @param {Number} RgbInt
+	 * 		value as integer
 	 *
-	 *	@return {Color} value of integer as Color
+	 * @return {Color} value of integer as Color
 	 *
 	 */
 	integer: function(RgbInt) {
@@ -92,16 +92,16 @@ paper.Color.inject({
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	@param {Number} arg0
-	 *			red as byte value (0-255)
-	 *	@param {Number} arg1
-	 *			green as byte value (0-255)
-	 *	@param {Number} arg2
-	 *			blue as byte value (0-255)
-	 *	@param {Number} arg3
-	 *			alpha as byte value (0-255)
+	 * @param {Number} arg0
+	 * 		red as byte value (0-255)
+	 * @param {Number} arg1
+	 * 		green as byte value (0-255)
+	 * @param {Number} arg2
+	 * 		blue as byte value (0-255)
+	 * @param {Number} arg3
+	 * 		alpha as byte value (0-255)
 	 *
-	 *	@return {Color}
+	 * @return {Color}
 	 *
 	 */
 	bytes: function(arg0, arg1, arg2, arg3) {
@@ -115,20 +115,20 @@ paper.Color.inject({
 
 	// ------------------------------------------------------------------------
 	/**
-	 *	desaturate a color (based on hsb model) by percentage
-	 *	NOTE: Color operators aren't working
+	 * desaturate a color (based on hsb model) by percentage
+	 * NOTE: Color operators aren't working when not using paperScript
 	 *
-	 *	@param {Number} amt
-	 *			(0.0 - 1.0) factor to desaturate color
+	 * @param {Number} amt
+	 * 		(0.0 - 1.0) factor to desaturate color
 	 *
-	 *	@return {Color} desaturated Color by input amount
+	 * @return {Color} desaturated Color by input amount
 	 *
-	 *	@example
-	 *	var color = new Color( 0.0, 1.0, 0.7 );
-	 *	color.desaturate(0.2); // { red: 0, green: 0.76, blue: 0.532 }
+	 * @example
+	 * var color = new Color( 0.0, 1.0, 0.7 );
+	 * color.desaturate(0.2); // { red: 0, green: 0.76, blue: 0.532 }
 	 *
-	 *	var color = new Color( 0.0, 1.0, 0.7 );
-	 *	var desaturated = color.desaturate(0.2); // { red: 0, green: 0.76, blue: 0.532 }
+	 * var color = new Color( 0.0, 1.0, 0.7 );
+	 * var desaturated = color.desaturate(0.2); // { red: 0, green: 0.76, blue: 0.532 }
 	 *
 	 */
 	desaturate: function(amt) {
@@ -138,20 +138,20 @@ paper.Color.inject({
 	},
 
 	/**
-	 *	saturate a color (based on hsb model) by percentage
-	 *	NOTE: Color operators aren't working
+	 * saturate a color (based on hsb model) by percentage
+	 * NOTE: Color operators aren't working when not using paperScript
 	 *
-	 *	@param {Number} amt
-	 *			(0.0 - 1.0) factor to saturate color
+	 * @param {Number} amt
+	 * 		(0.0 - 1.0) factor to saturate color
 	 *
-	 *	@return {Color} saturated Color by input amount
+	 * @return {Color} saturated Color by input amount
 	 *
-	 *	@example
-	 *	var color = new Color( 0.0, 1.0, 0.7 );
-	 *	color.saturate(0.2); // { red: 0, green: 0.76, blue: 0.532 }
+	 * @example
+	 * var color = new Color( 0.0, 1.0, 0.7 );
+	 * color.saturate(0.2); // { red: 0, green: 0.76, blue: 0.532 }
 	 *
-	 *	var color = new Color( 0.0, 1.0, 0.7 );
-	 *	var saturated = color.saturate(0.2); // { red: 0, green: 0.76, blue: 0.532 }
+	 * var color = new Color( 0.0, 1.0, 0.7 );
+	 * var saturated = color.saturate(0.2); // { red: 0, green: 0.76, blue: 0.532 }
 	 *
 	 */
 	saturate: function(amt) {
@@ -161,20 +161,20 @@ paper.Color.inject({
 	},
 
 	/**
-	 *	darken a color (based on hsl model) by percentage
-	 *	NOTE: Color operators aren't working
+	 * darken a color (based on hsl model) by percentage
+	 * NOTE: Color operators aren't working when not using paperScript
 	 *
-	 *	@param {Number} amt
-	 *			(0.0 - 1.0) factor to darken color
+	 * @param {Number} amt
+	 * 		(0.0 - 1.0) factor to darken color
 	 *
-	 *	@return {Color} darkened Color by input amount
+	 * @return {Color} darkened Color by input amount
 	 *
-	 *	@example
-	 *	var color = new Color( 0.0, 1.0, 0.7 );
-	 *	color.darken(0.2); // { red: 0, green: 0.76, blue: 0.532 }
+	 * @example
+	 * var color = new Color( 0.0, 1.0, 0.7 );
+	 * color.darken(0.2); // { red: 0, green: 0.76, blue: 0.532 }
 	 *
-	 *	var color = new Color( 0.0, 1.0, 0.7 );
-	 *	var darkened = color.darken(0.2); // { red: 0, green: 0.76, blue: 0.532 }
+	 * var color = new Color( 0.0, 1.0, 0.7 );
+	 * var darkened = color.darken(0.2); // { red: 0, green: 0.76, blue: 0.532 }
 	 *
 	 */
 	darken: function(amt) {
@@ -184,20 +184,20 @@ paper.Color.inject({
 	},
 
 	/**
-	 *	dim a color (based on hsl model) by percentage
-	 *	NOTE: Color operators aren't working
+	 * dim a color (based on hsl model) by percentage
+	 * NOTE: Color operators aren't working when not using paperScript
 	 *
-	 *	@param {Number} amt
-	 *			(0.0 - 1.0) factor to dim color
+	 * @param {Number} amt
+	 * 		(0.0 - 1.0) factor to dim color
 	 *
-	 *	@return {Color} dimmed Color by input amount
+	 * @return {Color} dimmed Color by input amount
 	 *
-	 *	@example
-	 *	var color = new Color( 0.0, 1.0, 0.7 );
-	 *	color.dim(0.2); // { red: 0, green: 0.76, blue: 0.532 }
+	 * @example
+	 * var color = new Color( 0.0, 1.0, 0.7 );
+	 * color.dim(0.2); // { red: 0, green: 0.76, blue: 0.532 }
 	 *
-	 *	var color = new Color( 0.0, 1.0, 0.7 );
-	 *	var dimmed = color.dim(0.2); // { red: 0, green: 0.76, blue: 0.532 }
+	 * var color = new Color( 0.0, 1.0, 0.7 );
+	 * var dimmed = color.dim(0.2); // { red: 0, green: 0.76, blue: 0.532 }
 	 *
 	 */
 	dim: function(amt) {
@@ -207,20 +207,20 @@ paper.Color.inject({
 	},
 
 	/**
-	 *	lighten a color (based on hsl model) by percentage
-	 *	NOTE: Color operators aren't working
+	 * lighten a color (based on hsl model) by percentage
+	 * NOTE: Color operators aren't working when not using paperScript
 	 *
-	 *	@param {Number} amt
-	 *			(0.0 - 1.0) factor to lighten color
+	 * @param {Number} amt
+	 * 		(0.0 - 1.0) factor to lighten color
 	 *
-	 *	@return {Color} lightened Color by input amount
+	 * @return {Color} lightened Color by input amount
 	 *
-	 *	@example
-	 *	var color = new Color( 0.0, 1.0, 0.7 );
-	 *	color.lighten(0.2); // { red: 0, green: 0.76, blue: 0.532 }
+	 * @example
+	 * var color = new Color( 0.0, 1.0, 0.7 );
+	 * color.lighten(0.2); // { red: 0, green: 0.76, blue: 0.532 }
 	 *
-	 *	var color = new Color( 0.0, 1.0, 0.7 );
-	 *	var lightened = color.lighten(0.2); // { red: 0, green: 0.76, blue: 0.532 }
+	 * var color = new Color( 0.0, 1.0, 0.7 );
+	 * var lightened = color.lighten(0.2); // { red: 0, green: 0.76, blue: 0.532 }
 	 *
 	 */
 	lighten: function(amt) {
@@ -231,20 +231,20 @@ paper.Color.inject({
 	},
 
 	/**
-	 *	brighten a color (based on hsb model) by percentage
-	 *	NOTE: Color operators aren't working
+	 * brighten a color (based on hsb model) by percentage
+	 * NOTE: Color operators aren't working when not using paperScript
 	 *
-	 *	@param {Number} amt
-	 *			(0.0 - 1.0) factor to brighten color
+	 * @param {Number} amt
+	 * 		(0.0 - 1.0) factor to brighten color
 	 *
-	 *	@return {Color} brightened Color by input amount
+	 * @return {Color} brightened Color by input amount
 	 *
-	 *	@example
-	 *	var color = new Color( 0.0, 1.0, 0.7 );
-	 *	color.brighten(0.2);
+	 * @example
+	 * var color = new Color( 0.0, 1.0, 0.7 );
+	 * color.brighten(0.2);
 	 *
-	 *	var color = new Color( 0.0, 1.0, 0.7 );
-	 *	var brightened = color.brighten(0.2);
+	 * var color = new Color( 0.0, 1.0, 0.7 );
+	 * var brightened = color.brighten(0.2);
 	 *
 	 */
 	brighten: function(amt) {
@@ -254,22 +254,21 @@ paper.Color.inject({
 		return color;
 	},
 
-
 	/**
-	 *	increase color contrast (based on hsb model) by percentage
-	 *	NOTE: Color operators aren't working
+	 * increase color contrast (based on hsb model) by percentage
+	 * NOTE: Color operators aren't working when not using paperScript
 	 *
-	 *	@param {Number} amt
-	 *			(0.0 - 1.0) factor to increase contrast
+	 * @param {Number} amt
+	 * 		(0.0 - 1.0) factor to increase contrast
 	 *
-	 *	@return {Color} Color by input amount
+	 * @return {Color} Color by input amount
 	 *
-	 *	@example
-	 *	var color = new Color( 0.0, 1.0, 0.7 );
-	 *	color.contrast(0.2);
+	 * @example
+	 * var color = new Color( 0.0, 1.0, 0.7 );
+	 * color.contrast(0.2);
 	 *
-	 *	var color = new Color( 0.0, 1.0, 0.7 );
-	 *	var contrasted = color.contrast(0.2);
+	 * var color = new Color( 0.0, 1.0, 0.7 );
+	 * var contrasted = color.contrast(0.2);
 	 *
 	 */
 	contrast: function(amt) {
@@ -279,19 +278,18 @@ paper.Color.inject({
 			: color.lighten(amt);
 	},
 
-
 	/**
-	 *	invert color
-	 *	NOTE: Color operators aren't working
+	 * invert color
+	 * NOTE: Color operators aren't working when not using paperScript
 	 *
-	 *	@return {Color} inverted Color
+	 * @return {Color} inverted Color
 	 *
-	 *	@example
-	 *	var color = new Color( 0.0, 1.0, 0.7 );
-	 *	color.invert();
+	 * @example
+	 * var color = new Color( 0.0, 1.0, 0.7 );
+	 * color.invert();
 	 *
-	 *	var color = new Color( 0.0, 1.0, 0.7 );
-	 *	var inverted = color.invert();
+	 * var color = new Color( 0.0, 1.0, 0.7 );
+	 * var inverted = color.invert();
 	 *
 	 */
 	invert: function() {
@@ -303,24 +301,24 @@ paper.Color.inject({
 	},
 
 	/**
-	 *	rotate color around hsb/l color wheel other components remain the same
-	 *	NOTE: Color operators aren't working
+	 * rotate color around hsb/l color wheel other components remain the same
+	 * NOTE: Color operators aren't working when not using paperScript
 	 *
-	 *	@param {Number} degree
-	 *			(0.0 - 360.0) rotation degree
+	 * @param {Number} degree
+	 * 		(0.0 - 360.0) rotation degree
 	 *
-	 *	@return {Color} rotated Color
+	 * @return {Color} rotated Color
 	 *
-	 *	@example
-	 *	var color = new Color( 0.0, 1.0, 0.7 );
-	 *	var compliment = color.rotate(180);
+	 * @example
+	 * var color = new Color( 0.0, 1.0, 0.7 );
+	 * var compliment = color.rotate(180);
 	 *
-	 *	var color = new Color( 0.0, 1.0, 0.7 );
-	 *	var triad = [
-	 *		color,
-	 *		color.rotate(120),
-	 *		color.rotate(240)
-	 *	];
+	 * var color = new Color( 0.0, 1.0, 0.7 );
+	 * var triad = [
+	 * 	color,
+	 * 	color.rotate(120),
+	 * 	color.rotate(240)
+	 * ];
 	 *
 	 */
 	rotate: function(degree) {
@@ -330,36 +328,36 @@ paper.Color.inject({
 	},
 
 	/**
-	 *	interpolate color
+	 * interpolate color
 	 *
-	 *	@param {Color} from
-	 *			start color
-	 *	@param {Color} to
-	 *			end color
-	 *	@param {Number} amt
-	 *			float: between 0.0 and 1.0
+	 * @param {Color} from
+	 * 		start color
+	 * @param {Color} to
+	 * 		end color
+	 * @param {Number} amt
+	 * 		float: between 0.0 and 1.0
 	 *
-	 *	@return {Color} interpolated color
+	 * @return {Color} interpolated color
 	 *
-	 *	@example
-	 *	var color1 = new Color( 0.0, 1.0, 0.7 );
-	 *	var color2 = new Color( 0.0, 0.7, 1.0 );
-	 *	var interpolateColor = new Color().interpolate( color1, color2, 0.5 );
+	 * @example
+	 * var color1 = new Color( 0.0, 1.0, 0.7 );
+	 * var color2 = new Color( 0.0, 0.7, 1.0 );
+	 * var interpolateColor = new Color().interpolate( color1, color2, 0.5 );
 	 *
 	 */
 	/**
 	 *
-	 *	@param {Color} to
-	 *			end color
-	 *	@param {Number} amt
-	 *			float: between 0.0 and 1.0
+	 * @param {Color} to
+	 * 		end color
+	 * @param {Number} amt
+	 * 		float: between 0.0 and 1.0
 	 *
-	 *	@return {Color} interpolated color
+	 * @return {Color} interpolated color
 	 *
-	 *	@example
-	 *	var color1 = new Color( 0.0, 1.0, 0.7 );
-	 *	var color2 = new Color( 0.0, 0.7, 1.0 );
-	 *	var interpolateColor = color1.interpolate( color2, 0.5 );
+	 * @example
+	 * var color1 = new Color( 0.0, 1.0, 0.7 );
+	 * var color2 = new Color( 0.0, 0.7, 1.0 );
+	 * var interpolateColor = color1.interpolate( color2, 0.5 );
 	 *
 	 */
 	//
@@ -395,31 +393,30 @@ paper.Color.inject({
 		return color;
 	},
 
-
 	/**
 	 *
-	 *	@return {Color} random Color based on initialization arguments
+	 * @return {Color} random Color based on initialization arguments
 	 *
-	 *	@example
-	 *	var color = new Color().random();
-	 *	// all values between 0.0 and 1.0
-	 *	// [ red: 0.1, green: 0.5, blue: 1.0 ]
+	 * @example
+	 * var color = new Color().random();
+	 * // all values between 0.0 and 1.0
+	 * // [ red: 0.1, green: 0.5, blue: 1.0 ]
 	 *
-	 *	var color = new Color(0.5).random();
-	 *	// value between 0.5 and 1.0
-	 *	// [ gray: 0.7 ]
+	 * var color = new Color(0.5).random();
+	 * // value between 0.5 and 1.0
+	 * // [ gray: 0.7 ]
 	 *
-	 *	var color = new Color(0.3, 0.6, 0.9).random();
-	 *	// red value between 0.4 and 1.0, etc.
-	 *	// [ red: 0.4, green: 0.7, blue: 1.0 ]
+	 * var color = new Color(0.3, 0.6, 0.9).random();
+	 * // red value between 0.4 and 1.0, etc.
+	 * // [ red: 0.4, green: 0.7, blue: 1.0 ]
 	 *
-	 *	var color = new Color({ hue: 90, saturation: 1, brightness: 0.8 }).random();
-	 *	// hue value between 90 and 360, etc.
-	 *	// [ hue: 154, saturation: 1, brightness: 0.9 ]
+	 * var color = new Color({ hue: 90, saturation: 1, brightness: 0.8 }).random();
+	 * // hue value between 90 and 360, etc.
+	 * // [ hue: 154, saturation: 1, brightness: 0.9 ]
 	 *
-	 *	var color = new Color({ hue: 90, saturation: 1, lightness: 0.8 }).random();
-	 *	// hue value between 90 and 360, etc.
-	 *	// [ hue: 274, saturation: 1, lightness: 0.9 ]
+	 * var color = new Color({ hue: 90, saturation: 1, lightness: 0.8 }).random();
+	 * // hue value between 90 and 360, etc.
+	 * // [ hue: 274, saturation: 1, lightness: 0.9 ]
 	 *
 	 */
 	random: function() {

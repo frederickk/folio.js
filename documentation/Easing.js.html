@@ -27,51 +27,52 @@
         <article>
             <pre class="prettyprint source"><code>/*
  *
- *	Easing.js
+ * Easing.js
  *
- *	Easing Functions
- *	originally inspired from http://gizma.com/easing/
- *	https://gist.github.com/gre/1650294
+ * Easing Functions
+ * originally inspired from http://gizma.com/easing/
+ * https://gist.github.com/gre/1650294
  *
- *	KeySpline Function
- *	use bezier curve for transition easing function
- *	as inspired from Firefox's nsSMILKeySpline.cpp
- *	https://gist.github.com/gre/1926947#file-keyspline-js
- *	http://greweb.me/2012/02/bezier-curve-based-easing-functions-from-concept-to-implementation/
+ * KeySpline Function
+ * use bezier curve for transition easing function
+ * as inspired from Firefox's nsSMILKeySpline.cpp
+ * https://gist.github.com/gre/1926947#file-keyspline-js
+ * http://greweb.me/2012/02/bezier-curve-based-easing-functions-from-concept-to-implementation/
  *
- *	Copyright (c) 2012
+ * Copyright (c) 2012
  *
- *	Gaetan Renaudeau
- *	renaudeau.gaetan@gmail.com
- *
- *
- *	modified and augemented for usage with Paper.js
+ * Gaetan Renaudeau
+ * renaudeau.gaetan@gmail.com
  *
  *
- *	MIT License
+ * modified and augemented for usage with Paper.js
  *
- *	Permission is hereby granted, free of charge, to any person obtaining a
- *	copy of this software and associated documentation files (the "Software"),
- *	to deal in the Software without restriction, including without limitation
- *	the rights to use, copy, modify, merge, publish, distribute, sublicense,
- *	and/or sell copies of the Software, and to permit persons to whom the
- *	Software is furnished to do so, subject to the following conditions:
  *
- *	The above copyright notice and this permission notice shall be included in
- *	all copies or substantial portions of the Software.
+ * MIT License
  *
- *	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- *	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- *	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
- *	THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- *	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- *	FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- *	DEALINGS IN THE SOFTWARE.
+ * Permission is hereby granted, free of charge, to any person obtaining a
+ * copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+ * DEALINGS IN THE SOFTWARE.
+ *
  */
 
 
 folio.FTime.Ease = function() {
-	/**
+	/*
 	 *
 	 * values of classic easing functions, similar to CSS
 	 *
@@ -87,31 +88,31 @@ folio.FTime.Ease = function() {
 
 	/**
 	 *
-	 *	use bezier curve for transition easing function
+	 * use bezier curve for transition easing function
 	 *
-	 *	@param {Array} arg0
-	 *					an array (4) of normalized X,Y values [ x1, y1, x2, y2 ]
+	 * @param {Array} arg0
+	 * 				an array (4) of normalized X,Y values [ x1, y1, x2, y2 ]
 	 *
-	 *	@example
-	 *	var spline = new KeySpline(0.25, 0.1, 0.25, 1.0)
-	 *	spline.get(t) // returns the normalized easing value | t must be in [0, 1] range
+	 * @example
+	 * var spline = new KeySpline(0.25, 0.1, 0.25, 1.0)
+	 * spline.get(t) // returns the normalized easing value | t must be in [0, 1] range
 	 *
 	 */
 	/**
 	 *
-	 *	use bezier curve for transition easing function
+	 * use bezier curve for transition easing function
 	 *
-	 *	@param {Point} arg0
-	 *					Point 1
-	 *	@param {Point} arg1
-	 *					Point 2
+	 * @param {Point} arg0
+	 * 				Point 1
+	 * @param {Point} arg1
+	 * 				Point 2
 	 *
-	 *	@example
-	 *	var spline = new KeySpline(
-	 *		new Point( 80, 80 ),
-	 *		new Point( 10, 45 )
-	 *	);
-	 *	spline.get(t) // returns the normalized easing value | t must be in [0, 1] range
+	 * @example
+	 * var spline = new KeySpline(
+	 * 	new Point( 80, 80 ),
+	 * 	new Point( 10, 45 )
+	 * );
+	 * spline.get(t) // returns the normalized easing value | t must be in [0, 1] range
 	 *
 	 * @return {Array}
 	 *
@@ -136,14 +137,14 @@ folio.FTime.Ease = function() {
 		// TODO: push these to be global?
 		//
 		/**
-		 *	@param {Number} t
-		 *					a float from 0.0 - 1.0
-		 *	@param {Number} arg0
-		 *					x1 or y1
-		 *	@param {Number} arg1
-		 *					x2 or y2
+		 * @param {Number} t
+		 * 				a float from 0.0 - 1.0
+		 * @param {Number} arg0
+		 * 				x1 or y1
+		 * @param {Number} arg1
+		 * 				x2 or y2
 		 *
-		 *	@return {Number} x(t)
+		 * @return {Number} x(t)
 		 *
 		 */
 		function CalcBezier(t, arg0, arg1) {
@@ -151,14 +152,14 @@ folio.FTime.Ease = function() {
 		};
 
 		/**
-		 *	@param {Number} t
-		 *					a float from 0.0 - 1.0
-		 *	@param {Number} arg0
-		 *					x1 or y1
-		 *	@param {Number} arg1
-		 *					x2 or y2
+		 * @param {Number} t
+		 * 				a float from 0.0 - 1.0
+		 * @param {Number} arg0
+		 * 				x1 or y1
+		 * @param {Number} arg1
+		 * 				x2 or y2
 		 *
-		 *	@return {Number} dx/dt
+		 * @return {Number} dx/dt
 		 *
 		 */
 		function GetSlope(t, arg0, arg1) {
@@ -192,11 +193,10 @@ folio.FTime.Ease = function() {
 	};
 
 
-	// public
 	return {
 		/*
-		 *	see http://easings.net/de for visual examples
-		 *	of each spline method
+		 * see http://easings.net/de for visual examples
+		 * of each spline method
 		 */
 		linear: function(t) { return t },
 
@@ -250,7 +250,7 @@ folio.FTime.Ease = function() {
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Mon Dec 23 2013 19:39:06 GMT-0800 (PST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Tue Dec 24 2013 12:02:56 GMT-0800 (PST)
 </footer>
 
 <script> prettyPrint(); </script>

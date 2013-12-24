@@ -1,8 +1,8 @@
 /*
  *
- *	FConversions.js
+ * FConversions.js
  *
- *	A collection of helpful conversion ratios from and to pixels (or points)
+ * A collection of helpful conversion ratios from and to pixels (or points)
  *
  */
 

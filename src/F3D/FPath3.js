@@ -1,8 +1,8 @@
 /*
  *
- *	FPath3.js
+ * FPath3.js
  *
- *	A barebones collection of classes for primitive 3D rendering
+ * A barebones collection of classes for primitive 3D rendering
  *
  */
 
@@ -34,8 +34,8 @@ folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	@param scene
-	 *				the scene to attach this path to
+	 * @param scene
+	 * 			the scene to attach this path to
 	 *
 	 */
 	initialize: function FPath3(scene) {
@@ -68,8 +68,8 @@ folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
 	// Sets
 	// ------------------------------------------------------------------------
 	/**
-	 *	@param scene
-	 *			scene to associate points with
+	 * @param scene
+	 * 		scene to associate points with
 	 */
 	setScene: function(scene) {
 		// the scene
@@ -81,8 +81,8 @@ folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
 	},
 
 	/**
-	 *	@param _fpoint3
-	 *			add FPoint3 to path
+	 * @param _fpoint3
+	 * 		add FPoint3 to path
 	 */
 	add3: function(fpoint3) {
 		this._fpoints3[ this._fpoints3.length ] = fpoint3;
@@ -95,16 +95,16 @@ folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
 
 	// ------------------------------------------------------------------------
 	/**
-	 *	@param arg0
-	 *			FPoint3 for transformation
+	 * @param arg0
+	 * 		FPoint3 for transformation
 	 */
 	/**
-	 *	@param arg0
-	 *			x point
-	 *	@param arg1
-	 *			y point
-	 *	@param arg2
-	 *			z point
+	 * @param arg0
+	 * 		x point
+	 * @param arg1
+	 * 		y point
+	 * @param arg2
+	 * 		z point
 	 */
 	translate: function(arg0, arg1, arg2) {
 		if(typeof arg0 == 'number') {
@@ -138,24 +138,24 @@ folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
 	},
 
 	/**
-	 *	@param val
-	 *			degree value for x axis rotation
+	 * @param val
+	 * 		degree value for x axis rotation
 	 */
 	rotateX:  function(val) {
 		this._rotation.x = val;
 	},
 
 	/**
-	 *	@param val
-	 *			degree value for y axis rotation
+	 * @param val
+	 * 		degree value for y axis rotation
 	 */
 	rotateY:  function(val) {
 		this._rotation.y = val;
 	},
 
 	/**
-	 *	@param val
-	 *			degree value for z axis rotation
+	 * @param val
+	 * 		degree value for z axis rotation
 	 */
 	rotateZ:  function(val) {
 		this._rotation.z = val;

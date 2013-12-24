@@ -1,16 +1,16 @@
 /*
  *
- *	FCalculate.js
+ * FCalculate.js
  *
- *	A collection of global mathematical operations, similar
- *	to those found in Processing/OpenFrameworks/etc.
+ * A collection of global mathematical operations, similar
+ * to those found in Processing/OpenFrameworks/etc.
  *
  */
 
 
 /**
  *
- *	paper.Global
+ * paper.Global
  *
  */
 PaperScope.inject({
@@ -19,17 +19,17 @@ PaperScope.inject({
 	enumerable: true,
 
 
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	/**
-	 *	@param {Number} min
-	 *				minmum range
-	 *	@param {Number} max
-	 *				maximum range
+	 * @param {Number} min
+	 * 			minmum range
+	 * @param {Number} max
+	 * 			maximum range
 	 *
-	 *	@return {Number} random number as float
+	 * @return {Number} random number as float
 	 *
-	 *	@example
-	 *	var rand = random(30, 90);
+	 * @example
+	 * var rand = random(30, 90);
 	 *
 	 */
 	random: function(min, max) {
@@ -45,15 +45,15 @@ PaperScope.inject({
 	},
 
 	/**
-	 *	@param {Number} min
-	 *				minmum range
-	 *	@param {Number} max
-	 *				maximum range
+	 * @param {Number} min
+	 * 			minmum range
+	 * @param {Number} max
+	 * 			maximum range
 	 *
-	 *	@return {Number} random number as integer
+	 * @return {Number} random number as integer
 	 *
-	 *	@example
-	 *	var randInt = randomInt(30, 90);
+	 * @example
+	 * var randInt = randomInt(30, 90);
 	 *
 	 */
 	randomInt: function(min, max) {
@@ -62,18 +62,18 @@ PaperScope.inject({
 
 	/**
 	 *
-	 *	http://www.siafoo.net/snippet/191
+	 * http://www.siafoo.net/snippet/191
 	 *
-	 *	@param {Number} minr
-	 *				minmum range
-	 *	@param {Number} maxr
-	 *				maximum range
-	 *	@param {Number} bias
-	 *				bias represents the preference towards lower or higher numbers,
-	 *				as a number between 0.0 and 1.0. For example:
-	 *				random(0, 10, bias=0.9) will return 9 much more often than 1.
+	 * @param {Number} minr
+	 * 			minmum range
+	 * @param {Number} maxr
+	 * 			maximum range
+	 * @param {Number} bias
+	 * 			bias represents the preference towards lower or higher numbers,
+	 * 			as a number between 0.0 and 1.0. For example:
+	 * 			random(0, 10, bias=0.9) will return 9 much more often than 1.
 	 *
-	 *	@return {Number} a random, albeit biased, number
+	 * @return {Number} a random, albeit biased, number
 	 *
 	 */
 	randomBias: function(minr, maxr, bias) {
@@ -91,18 +91,18 @@ PaperScope.inject({
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	@param {Number} val
-	 *				the value to constrain
-	 *	@param {Number} min
-	 *				minimum limit
-	 *	@param {Number} max
-	 *				maximum limit
+	 * @param {Number} val
+	 * 			the value to constrain
+	 * @param {Number} min
+	 * 			minimum limit
+	 * @param {Number} max
+	 * 			maximum limit
 	 *
-	 *	@return {Number} original value that is not less than the
-	 *					 minimum and no greater than the maximum
+	 * @return {Number} original value that is not less than the
+	 * 				 minimum and no greater than the maximum
 	 *
-	 *	@example
-	 *	var clamped = clamp(120, 0, 90); // 90
+	 * @example
+	 * var clamped = clamp(120, 0, 90); // 90
 	 *
 	 */
 	clamp: function(val, min, max) {
@@ -111,17 +111,17 @@ PaperScope.inject({
 
 	/**
 	 *
-	 *	@param {Number} val
-	 *				the incoming value to be converted
-	 *	@param {Number} start
-	 *				lower bound of the value's current range
-	 *	@param {Number} stop
-	 *				upper bound of the value's current range
+	 * @param {Number} val
+	 * 			the incoming value to be converted
+	 * @param {Number} start
+	 * 			lower bound of the value's current range
+	 * @param {Number} stop
+	 * 			upper bound of the value's current range
 	 *
-	 *	@return {Number} float value between 0.0 and 1.0
+	 * @return {Number} float value between 0.0 and 1.0
 	 *
-	 *	@example
-	 *	var normed = norm(45, 0, 90); // 0.5
+	 * @example
+	 * var normed = norm(45, 0, 90); // 0.5
 	 *
 	 */
 	normalize: function(val, start, stop) {
@@ -130,21 +130,21 @@ PaperScope.inject({
 
 	/**
 	 *
-	 *	@param {Number} val
-	 *				the incoming value to be converted
-	 *	@param {Number} istart
-	 *				lower bound of the value's current range
-	 *	@param {Number} istop
-	 *				upper bound of the value's current range
-	 *	@param {Number} ostart
-	 *				lower bound of the value's target range
-	 *	@param {Number} ostop
-	 *				upper bound of the value's target range
+	 * @param {Number} val
+	 * 			the incoming value to be converted
+	 * @param {Number} istart
+	 * 			lower bound of the value's current range
+	 * @param {Number} istop
+	 * 			upper bound of the value's current range
+	 * @param {Number} ostart
+	 * 			lower bound of the value's target range
+	 * @param {Number} ostop
+	 * 			upper bound of the value's target range
 	 *
-	 *	@return {Number} re-mapped value
+	 * @return {Number} re-mapped value
 	 *
-	 *	@example
-	 *	var mapped = map(180, 0, 360, 0.0, 2.0); // 1
+	 * @example
+	 * var mapped = map(180, 0, 360, 0.0, 2.0); // 1
 	 *
 	 */
 	map: function(val, istart, istop, ostart, ostop) {
@@ -155,15 +155,15 @@ PaperScope.inject({
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	@param {Number} val
-	 *			number
-	 *	@param {Number} decimalPlaces
-	 *			number of decimal places
+	 * @param {Number} val
+	 * 		number
+	 * @param {Number} decimalPlaces
+	 * 		number of decimal places
 	 *
-	 *	@return {Number} float value with desired decimal places
+	 * @return {Number} float value with desired decimal places
 	 *
-	 *	@example
-	 *	var rounded = round(0.586, 2); // 0.59
+	 * @example
+	 * var rounded = round(0.586, 2); // 0.59
 	 *
 	 */
 	round: function(val, decimalPlaces) {
@@ -174,11 +174,11 @@ PaperScope.inject({
 	/**
 	 *
 	 * @param  {Number} val
-	 *		 	number
+	 * 	 	number
 	 * @param  {Number} base
-	 *		 	base value for finding multiple
+	 * 	 	base value for finding multiple
 	 *
-	 *	@return {Number} closest multiple relative to base and val
+	 * @return {Number} closest multiple relative to base and val
 	 */
 	roundMultiple: function(val, base) {
 		return Math.floor(val/base)*base+base;
@@ -186,19 +186,19 @@ PaperScope.inject({
 
 	/**
 	 *
-	 *	http://stackoverflow.com/questions/4507784/snap-to-grid-functionality-using-javascript
+	 * http://stackoverflow.com/questions/4507784/snap-to-grid-functionality-using-javascript
 	 *
-	 *	@param {Number} val
-	 *			value to snap
-	 *	@param {Number} snapInc
-	 *			increment to snap value to
-	 *	@param {Function} roundFunction
-	 *			(optiona) rounding function
+	 * @param {Number} val
+	 * 		value to snap
+	 * @param {Number} snapInc
+	 * 		increment to snap value to
+	 * @param {Function} roundFunction
+	 * 		(optiona) rounding function
 	 *
-	 *	@return {Number} snapped value
+	 * @return {Number} snapped value
 	 *
-	 *	@example
-	 *	var snapped = snap(0.66, 0.2); // 0.6
+	 * @example
+	 * var snapped = snap(0.66, 0.2); // 0.6
 	 *
 	 */
 	snap: function(val, snapInc, roundFunction) {
@@ -208,17 +208,17 @@ PaperScope.inject({
 
 	/**
 	 *
-	 *	@param {Number} start
-	 *			first value
-	 *	@param {Number} stop
-	 *			second value
-	 *	@param {Number} val
-	 *			float: between 0.0 and 1.0
+	 * @param {Number} start
+	 * 		first value
+	 * @param {Number} stop
+	 * 		second value
+	 * @param {Number} val
+	 * 		float: between 0.0 and 1.0
 	 *
-	 *	@return {Number} value between start and stop
+	 * @return {Number} value between start and stop
 	 *
-	 *	@example
-	 *	var interpolated = interpolate(0, 100, 0.5); // 50
+	 * @example
+	 * var interpolated = interpolate(0, 100, 0.5); // 50
 	 *
 	 */
 	interpolate: function(start, stop, val) {
@@ -227,17 +227,17 @@ PaperScope.inject({
 
 	// ------------------------------------------------------------------------
 	/**
-	 *	http://nayuki.eigenstate.org/res/calculate-divisors-javascript.js
+	 * http://nayuki.eigenstate.org/res/calculate-divisors-javascript.js
 	 *
-	 *	@param {Number} val
-	 *			number
+	 * @param {Number} val
+	 * 		number
 	 *
-	 *	@return {Array} divisors (in ascending order) of the given integer
+	 * @return {Array} divisors (in ascending order) of the given integer
 	 *
-	 *	@example
-	 *	divisor(1) = [1]
-	 *	divisor(5) = [1, 5]
-	 *	divisor(12) = [1, 2, 3, 4, 6, 12]
+	 * @example
+	 * divisor(1) = [1]
+	 * divisor(5) = [1, 5]
+	 * divisor(12) = [1, 2, 3, 4, 6, 12]
 	 */
 	divisor: function(val) {
 		var small = [];
@@ -258,13 +258,13 @@ PaperScope.inject({
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	@param {Number} val
-	 *			input value
+	 * @param {Number} val
+	 * 		input value
 	 *
-	 *	@return {Number} val as degree
+	 * @return {Number} val as degree
 	 *
-	 *	@example
-	 *	var deg = degrees(Math.PI); // 180
+	 * @example
+	 * var deg = degrees(Math.PI); // 180
 	 *
 	 */
 	degrees: function(val) {
@@ -273,13 +273,13 @@ PaperScope.inject({
 
 	/**
 	 *
-	 *	@param {Number} val
-	 *			input value
+	 * @param {Number} val
+	 * 		input value
 	 *
-	 *	@return {Number} val as radians
+	 * @return {Number} val as radians
 	 *
-	 *	@example
-	 *	var rad = radians(180); // Math.PI
+	 * @example
+	 * var rad = radians(180); // Math.PI
 	 *
 	 */
 	radians: function(val) {
@@ -289,15 +289,15 @@ PaperScope.inject({
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	Calculate secants
+	 * Calculate secants
 	 *
-	 *	http://www.ssicom.org/js/x974780.htm
+	 * http://www.ssicom.org/js/x974780.htm
 	 *
-	 *	@param {Number} val
-	 *			input value
+	 * @param {Number} val
+	 * 		input value
 	 *
-	 *	@example
-	 *	var s = sec(180);
+	 * @example
+	 * var s = sec(180);
 	 *
 	 */
 	sec: function(val) {
@@ -306,15 +306,15 @@ PaperScope.inject({
 
 	/**
 	 *
-	 *	Calculate cosecants
+	 * Calculate cosecants
 	 *
-	 *	http://www.ssicom.org/js/x974284.htm
+	 * http://www.ssicom.org/js/x974284.htm
 	 *
-	 *	@param {Number} val
-	 *			input value
+	 * @param {Number} val
+	 * 		input value
 	 *
-	 *	@example
-	 *	var cs = cosec(180);
+	 * @example
+	 * var cs = cosec(180);
 	 *
 	 */
 	cosec: function(val) {
@@ -324,10 +324,10 @@ PaperScope.inject({
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	@param {Point} point
-	 *			input point
+	 * @param {Point} point
+	 * 		input point
 	 *
-	 *	@return {Number} slope ratio
+	 * @return {Number} slope ratio
 	 *
 	 */
 	// slope: function(point) {
@@ -336,13 +336,13 @@ PaperScope.inject({
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	@param {Number} val
-	 *			input value
+	 * @param {Number} val
+	 * 		input value
 	 *
-	 *	@return {Number} squared value of val
+	 * @return {Number} squared value of val
 	 *
-	 *	@example
-	 *	var squared = sq(30); // 900
+	 * @example
+	 * var squared = sq(30); // 900
 	 *
 	 */
 	sq: function(val) {
@@ -351,25 +351,25 @@ PaperScope.inject({
 
 	// ------------------------------------------------------------------------
 	/**
-	 *	get common outer tangents of two circles (only works with circles!)
+	 * get common outer tangents of two circles (only works with circles!)
 	 *
-	 *	@param {Path.Circle} arg0
-	 *				the first Circle
-	 *	@param {Path.Circle} arg1
-	 *				the second Circle
+	 * @param {Path.Circle} arg0
+	 * 			the first Circle
+	 * @param {Path.Circle} arg1
+	 * 			the second Circle
 	 *
-	 *	@return {Array} of points
+	 * @return {Array} of points
 	 *
 	 */
 	/**
-	 *	TODO: get common outer tangents of two curves
+	 * TODO: get common outer tangents of two curves
 	 *
-	 *	@param {Curve} arg0
-	 *				the first Curve
-	 *	@param {Curve} arg1
-	 *				the second Curve
+	 * @param {Curve} arg0
+	 * 			the first Curve
+	 * @param {Curve} arg1
+	 * 			the second Curve
 	 *
-	 *	@return {Array} of points
+	 * @return {Array} of points
 	 *
 	 */
 	getCommonTangents: function(arg0, arg1) {
@@ -385,8 +385,8 @@ PaperScope.inject({
 		var dist = arg0.position.getDistance( arg1.position );
 
 		if (dist <= Math.abs(r2 - r1)) {
-			//	The circles are coinciding
-			//	There are no valid tangents.
+			// The circles are coinciding
+			// There are no valid tangents.
 			return;
 		}
 

@@ -26,29 +26,29 @@
     <section>
         <article>
             <pre class="prettyprint source"><code>/*
- *	Delaunay Triangulation
- *	Joshua Bell
- *	inexorabletash@hotmail.com
+ * Delaunay Triangulation
+ * Joshua Bell
+ * inexorabletash@hotmail.com
  *
- *	http://www.travellermap.com/
- *	Inspired by: http://www.codeguru.com/cpp/data/mfc_database/misc/article.php/c8901/
- *
- *
- *	Modifications for specific use with Paper.js/Scriptographer
- *
- *	Ken Frederick
- *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
+ * http://www.travellermap.com/
+ * Inspired by: http://www.codeguru.com/cpp/data/mfc_database/misc/article.php/c8901/
  *
  *
- *	Credit given where credit is due
+ * Modifications for specific use with Paper.js/Scriptographer
+ *
+ * Ken Frederick
+ *
+ * http://kennethfrederick.de/
+ * http://blog.kennethfrederick.de/
  *
  *
- *	This work is hereby released into the Public Domain. To view a copy of the public
- *	domain dedication, visit http://creativecommons.org/licenses/publicdomain/ or send
- *	a letter to Creative Commons, 171 Second Street, Suite 300, San Francisco,
- *	California, 94105, USA.
+ * Credit given where credit is due
+ *
+ *
+ * This work is hereby released into the Public Domain. To view a copy of the public
+ * domain dedication, visit http://creativecommons.org/licenses/publicdomain/ or send
+ * a letter to Creative Commons, 171 Second Street, Suite 300, San Francisco,
+ * California, 94105, USA.
  *
  */
 
@@ -62,72 +62,72 @@ var EPSILON = 1.0e-6;
 
 
 /**
- *	FTriangulate
+ * FTriangulate
  *
- *	@param {Array} points
- *			input vertices (Points)
+ * @param {Array} points
+ * 		input vertices (Points)
  *
  * @return {Array}
  *
- *	@example
- *	var triangulate = new FTriangulate( points );
+ * @example
+ * var triangulate = new FTriangulate( points );
  *
- *	// draw faces
- *	for( var i=0; i&lt;triangulate.length; i++ ) {
- *		var triangle = triangulate[i];
+ * // draw faces
+ * for( var i=0; i&lt;triangulate.length; i++ ) {
+ * 	var triangle = triangulate[i];
  *
- *		// draw triangle
- *		face = new Path();
- *		face.add( triangle.p1 );
- *		face.add( triangle.p2 );
- *		face.add( triangle.p3 );
- *		face.closed = true;
- *		face.strokeColor = 'white';
+ * 	// draw triangle
+ * 	face = new Path();
+ * 	face.add( triangle.p1 );
+ * 	face.add( triangle.p2 );
+ * 	face.add( triangle.p3 );
+ * 	face.closed = true;
+ * 	face.strokeColor = 'white';
  *
- *	}
+ * }
  */
 folio.FTriangulate = function( points ) {
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	// Properties
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	var _triangles;
 	var _points = points;
 	var _pointsNew = [];
 
 
 
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	// Classes
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	/**
-	 *	Triangle
+	 * Triangle
 	 *
-	 *	@param {Point} p1
-	 *				first Point of Triangle
-	 *	@param {Point} p2
-	 *				second Point of Triangle
-	 *	@param {Point} p3
-	 *				third Point of Triangle
+	 * @param {Point} p1
+	 * 			first Point of Triangle
+	 * @param {Point} p2
+	 * 			second Point of Triangle
+	 * @param {Point} p3
+	 * 			third Point of Triangle
 	 */
 	// TODO: remove this and rely on Path.Triangle
 	var Triangle = function( p1, p2, p3 ) {
-		//-----------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------
 		// Properties
-		//-----------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------
 		var _p1 = p1;
 		var _p2 = p2;
 		var _p3 = p3;
 
 
 
-		//-----------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------
 		// Methods
-		//-----------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------
 		/**
-		 *	vertex (Edge) sharing
+		 * vertex (Edge) sharing
 		 *
-		 *	@param {Triangle} other
-		 *				the triangle to check for vertex (Edge) sharing
+		 * @param {Triangle} other
+		 * 			the triangle to check for vertex (Edge) sharing
 		 *
 		 * @return {Triangle} the triangle that shares the given vertex (Edge)
 		 */
@@ -138,8 +138,8 @@ folio.FTriangulate = function( points ) {
 		};
 
 		/**
-		 *	@return {Point} circle
-		 *			Point of the circle center
+		 * @return {Point} circle
+		 * 		Point of the circle center
 		 */
 		function circumcenter() {
 			var circle = new Point();
@@ -177,11 +177,11 @@ folio.FTriangulate = function( points ) {
 			return circle;
 		};
 
-		//-----------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------
 		/**
-		 *	@return {Point} the centroid center
+		 * @return {Point} the centroid center
 		 *
-		 *	http://www.mathwords.com/c/centroid_formula.htm
+		 * http://www.mathwords.com/c/centroid_formula.htm
 		 */
 		function centroid() {
 			return new Point(
@@ -190,9 +190,9 @@ folio.FTriangulate = function( points ) {
 			);
 		};
 
-		//-----------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------
 		/**
-		 *	@return {Array} a sorted array (Edge) of the Triangle's Edges (shortest to longest)
+		 * @return {Array} a sorted array (Edge) of the Triangle's Edges (shortest to longest)
 		 */
 		function distances() {
 			var distances = [];
@@ -204,9 +204,9 @@ folio.FTriangulate = function( points ) {
 			return distances;
 		};
 
-		//-----------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------
 		/**
-		 *	http://www.btinternet.com/~se16/hgb/triangle.htm
+		 * http://www.btinternet.com/~se16/hgb/triangle.htm
 		 *
 		 * @return {Number} triangle width
 		 */
@@ -226,7 +226,7 @@ folio.FTriangulate = function( points ) {
 		};
 
 		/**
-		 *	http://www.btinternet.com/~se16/hgb/triangle.htm
+		 * http://www.btinternet.com/~se16/hgb/triangle.htm
 		 *
 		 * @return {Number} triangle height
 		 */
@@ -245,7 +245,7 @@ folio.FTriangulate = function( points ) {
 			return g;
 		};
 
-		//-----------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------
 		function area() {
 			var area = 0;
 			area += (_p1.x + _p3.x) * (_p3.y - _p1.y);
@@ -256,18 +256,18 @@ folio.FTriangulate = function( points ) {
 
 
 
-		//-----------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------
 		// Gets
-		//-----------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------
 		/**
-		 *	@return {Array} the points of the triangle as a Point array
+		 * @return {Array} the points of the triangle as a Point array
 		 */
 		function get() {
 			var points = [_p1, _p2, _p3];
 			return points;
 		};
 
-		//-----------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------
 		return {
 			p1: _p1,
 			p2: _p2,
@@ -286,32 +286,32 @@ folio.FTriangulate = function( points ) {
 	};
 
 	/**
-	 *	Edge
-	 *	TODO: replace with paper.Segment
+	 * Edge
+	 * TODO: replace with paper.Segment
 	 *
-	 *	@param {Point} p1
-	 *				first Point of Edge
-	 *	@param {Point} p2
-	 *				second Point of Edge
+	 * @param {Point} p1
+	 * 			first Point of Edge
+	 * @param {Point} p2
+	 * 			second Point of Edge
 	 */
 	var Edge = function( p1, p2 ) {
-		//-----------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------
 		// Properties
-		//-----------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------
 		var _p1 = p1;
 		var _p2 = p2;
 		var _dist = _p1.getDistance(_p2);
 
 
 
-		//-----------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------
 		// Methods
-		//-----------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------
 		/**
-		 *	sorts edge by shortest to longest
+		 * sorts edge by shortest to longest
 		 *
-		 *	@param {Edge} other
-		 *				Edge to compare against
+		 * @param {Edge} other
+		 * 			Edge to compare against
 		 *
 		 * @return {Number}
 		 */
@@ -321,12 +321,12 @@ folio.FTriangulate = function( points ) {
 
 
 
-		//-----------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------
 		// Gets
-		//-----------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------
 		/**
 		 *
-		 *	@return {Array} the points of the edge as a Point array
+		 * @return {Array} the points of the edge as a Point array
 		 *
 		 */
 		function get() {
@@ -335,7 +335,7 @@ folio.FTriangulate = function( points ) {
 		};
 
 
-		//-----------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------
 		return {
 			p1: _p1,
 			p2: _p2,
@@ -348,17 +348,17 @@ folio.FTriangulate = function( points ) {
 
 
 
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	// Methods
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	/**
-	 *	Triangulation subroutine
+	 * Triangulation subroutine
 	 *
-	 *	Returned is a list of triangular faces in the Array triangles
-	 *	These triangles are arranged in a consistent clockwise order.
+	 * Returned is a list of triangular faces in the Array triangles
+	 * These triangles are arranged in a consistent clockwise order.
 	 *
-	 *	@return {Array} triangles
-	 *			return Array of Triangles in clockwise order
+	 * @return {Array} triangles
+	 * 		return Array of Triangles in clockwise order
 	 *
 	 */
 	function init() {
@@ -510,19 +510,19 @@ folio.FTriangulate = function( points ) {
 		// return _triangles;
 	};
 
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	/**
-	 *	Return TRUE if a point (xp,yp) is inside the circumcircle made up
-	 *	of the points (x1,y1), (x2,y2), (x3,y3)
-	 *	The circumcircle center is returned in (xc,yc) and the radius r
-	 *	NOTE: A point on the edge is inside the circumcircle
+	 * Return TRUE if a point (xp,yp) is inside the circumcircle made up
+	 * of the points (x1,y1), (x2,y2), (x3,y3)
+	 * The circumcircle center is returned in (xc,yc) and the radius r
+	 * NOTE: A point on the edge is inside the circumcircle
 	 *
 	 * @param {Point} p
-	 *				Point to check
+	 * 			Point to check
 	 * @param {Triangle} t
-	 *				Triangle to check
+	 * 			Triangle to check
 	 * @param {Item} circle
-	 *				circle to check
+	 * 			circle to check
 	 *
 	 */
 	function circumCircle( p, t, circle ) {
@@ -577,16 +577,16 @@ folio.FTriangulate = function( points ) {
 		return drsqr &lt;= rsqr;
 	};
 
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	/**
-	 *	findClosest Triangle
+	 * findClosest Triangle
 	 *
-	 *	Returns the closest Triangle based on the input Triangle
+	 * Returns the closest Triangle based on the input Triangle
 	 *
-	 *	@param {Triangle} other
-	 *			the input Triangle to find it's closest neighbor
+	 * @param {Triangle} other
+	 * 		the input Triangle to find it's closest neighbor
 	 *
-	 *	@return {Triangle} closest Triangle
+	 * @return {Triangle} closest Triangle
 	 */
 	function findClosest(other) {
 		var result;
@@ -611,13 +611,13 @@ folio.FTriangulate = function( points ) {
 		return result;
 	};
 
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	/**
 	 *
-	 *	sort Point rray from left to right
+	 * sort Point rray from left to right
 	 *
-	 *	@param {Point} a
-	 *	@param {Point} b
+	 * @param {Point} a
+	 * @param {Point} b
 	 *
 	 */
 	function sortLeftToRight(a,b) {
@@ -628,10 +628,10 @@ folio.FTriangulate = function( points ) {
 
 	/**
 	 *
-	 *	sort Point array from top to bottom
+	 * sort Point array from top to bottom
 	 *
-	 *	@param {Point} a
-	 *	@param {Point} b
+	 * @param {Point} a
+	 * @param {Point} b
 	 *
 	 */
 	function sortTopToBottom(a,b) {
@@ -642,12 +642,12 @@ folio.FTriangulate = function( points ) {
 
 	/**
 	 *
-	 *	remove Point duplicates
+	 * remove Point duplicates
 	 *
-	 *	@param {Array} arr
-	 *			array to remove duplicate points from
+	 * @param {Array} arr
+	 * 		array to remove duplicate points from
 	 *
-	 *	@return {Array} the cleaned up array
+	 * @return {Array} the cleaned up array
 	 *
 	 */
 	function uniquePoints(arr){
@@ -661,12 +661,12 @@ folio.FTriangulate = function( points ) {
 
 	/**
 	 *
-	 *	remove Edge duplicates
+	 * remove Edge duplicates
 	 *
-	 *	@param {Array} arr
-	 *			array to remove duplicate edges from
+	 * @param {Array} arr
+	 * 		array to remove duplicate edges from
 	 *
-	 *	@return {Array} the cleaned up array
+	 * @return {Array} the cleaned up array
 	 *
 	 */
 	function uniqueEdges(arr) {
@@ -705,14 +705,14 @@ folio.FTriangulate = function( points ) {
 
 
 
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	// sets
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	/**
-	 *	add point(s) to Triangulation
+	 * add point(s) to Triangulation
 	 *
-	 *	@param {Point} point
-	 *			a single Point or array of Points
+	 * @param {Point} point
+	 * 		a single Point or array of Points
 	 *
 	 */
 	function addPoint(point) {
@@ -739,14 +739,14 @@ folio.FTriangulate = function( points ) {
 
 
 
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	// Gets
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	/**
-	 *	@param {Number} index
-	 *			index of Triangle to return (optional)
+	 * @param {Number} index
+	 * 		index of Triangle to return (optional)
 	 *
-	 *	@return {Array} the Triangles as array
+	 * @return {Array} the Triangles as array
 	 */
 	function getTriangles(index) {
 		if( index != null ) {
@@ -758,10 +758,10 @@ folio.FTriangulate = function( points ) {
 	};
 
 	/**
-	 *	@param {Number} index
-	 *			index of Point to return (optional)
+	 * @param {Number} index
+	 * 		index of Point to return (optional)
 	 *
-	 *	@return {Array} the points as a Point array
+	 * @return {Array} the points as a Point array
 	 */
 	function getPoints(index) {
 		if( index != null ) {
@@ -774,15 +774,15 @@ folio.FTriangulate = function( points ) {
 
 
 
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	// Invocation
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	init();
 
 
 
 
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	return {
 		// sets
 		add: addPoint,
@@ -800,32 +800,32 @@ folio.FTriangulate = function( points ) {
 
 /*Ô
  *
- *	HashSet
- *	Phùng Văn Huy
- *	huyphungvan@gmail.com
+ * HashSet
+ * Phùng Văn Huy
+ * huyphungvan@gmail.com
  *
- *	http://code.huypv.net/2010/04/hashset-implementation-in-javascript.html
+ * http://code.huypv.net/2010/04/hashset-implementation-in-javascript.html
  *
  *
- *	Modifications
+ * Modifications
  *
- *	Ken Frederick
+ * Ken Frederick
  *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
+ * http://kennethfrederick.de/
+ * http://blog.kennethfrederick.de/
  *
  */
 var HashSet = function() {
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	// Properties
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	var _arr = [];
 
 
 
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	// Methods
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	function _add(e) {
 		var arr = _arr;
 		var i = arr.indexOf(e);
@@ -856,16 +856,16 @@ var HashSet = function() {
 
 
 
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	// Gets
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	function _toString() {
 		return _arr.join(',');
 	};
 
 
 
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	return {
 		add: _add,
 		get: _get,
@@ -894,7 +894,7 @@ var HashSet = function() {
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Mon Dec 23 2013 19:39:06 GMT-0800 (PST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Tue Dec 24 2013 12:02:56 GMT-0800 (PST)
 </footer>
 
 <script> prettyPrint(); </script>

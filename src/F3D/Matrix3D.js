@@ -1,32 +1,32 @@
 /**
  *
- *	Matrix3D
+ * Matrix3D
  *
- *	forked from daijimachine's "Matrix3D(lib)"
- *	http://jsdo.it/daijimachine/matrix3d
+ * forked from daijimachine's "Matrix3D(lib)"
+ * http://jsdo.it/daijimachine/matrix3d
  *
- *	@author Masayuki Daijima (ARCHETYP Inc.)
- *	http://www.daijima.jp/blog/
- *	http://twitter.com/daijimachine
+ * @author Masayuki Daijima (ARCHETYP Inc.)
+ * http://www.daijima.jp/blog/
+ * http://twitter.com/daijimachine
  *
  *
- *	expanded and modified with inspiration from three.js
+ * expanded and modified with inspiration from three.js
  *
- *	This library is free software; you can redistribute it and/or
- *	modify it under the terms of the GNU Lesser General Public
- *	License as published by the Free Software Foundation; either
- *	version 2.1 of the License, or (at your option) any later version.
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
  *
- *	http://creativecommons.org/licenses/LGPL/2.1/
+ * http://creativecommons.org/licenses/LGPL/2.1/
  *
- *	This library is distributed in the hope that it will be useful,
- *	but WITHOUT ANY WARRANTY; without even the implied warranty of
- *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- *	Lesser General Public License for more details.
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
  *
- *	You should have received a copy of the GNU Lesser General Public
- *	License along with this library; if not, write to the Free Software
- *	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *
  */
 
@@ -34,7 +34,7 @@
 
 /*
  *
- *	Matrix3D
+ * Matrix3D
  *
  */
 var Matrix3D = function( n11, n12, n13, n14,
@@ -118,7 +118,7 @@ var Matrix3D = function( n11, n12, n13, n14,
 	// ------------------------------------------------------------------------
 	/*
 	 *
-	 *	Rotation
+	 * Rotation
 	 *
 	 */
 	this.rotateX = function(angle) {
@@ -159,10 +159,10 @@ var Matrix3D = function( n11, n12, n13, n14,
 
 	/**
 	 *
-	 *	@param {FPoint3} axis
-	 *				FPoint3 xyz
-	 *	@param {Number} angle
-	 *				rotation angle in degrees
+	 * @param {FPoint3} axis
+	 * 			FPoint3 xyz
+	 * @param {Number} angle
+	 * 			rotation angle in degrees
 	 *
 	 */
 	this.setRotateAxis = function(axis, angle) {
@@ -191,7 +191,7 @@ var Matrix3D = function( n11, n12, n13, n14,
 
 	// ------------------------------------------------------------------------
 	/*
-	 *	Scaling
+	 * Scaling
 	 */
 	this.scale = function(sx, sy, sz) {
 		this.concat(new Matrix3D(
@@ -205,7 +205,7 @@ var Matrix3D = function( n11, n12, n13, n14,
 
 	// ------------------------------------------------------------------------
 	/*
-	 *	Translating
+	 * Translating
 	 */
 	this.translate = function(dx, dy, dz) {
 		this.n41 += dx;
@@ -216,7 +216,7 @@ var Matrix3D = function( n11, n12, n13, n14,
 
 	// ------------------------------------------------------------------------
 	/*
-	 *	Transforming
+	 * Transforming
 	 */
 	this.transformPoint = function(point) {
 		return new Vertex3D(
@@ -246,7 +246,7 @@ var Matrix3D = function( n11, n12, n13, n14,
 
 	// ------------------------------------------------------------------------
 	/*
-	 *	Position
+	 * Position
 	 */
 	this.getPosition = function() {
 		return [ this.n12, this.n13, this.n14 ];
@@ -254,8 +254,8 @@ var Matrix3D = function( n11, n12, n13, n14,
 
 	/**
 	 *
-	 *	@param {FPoint3} fpoint3
-	 *				FPoint3 xyz
+	 * @param {FPoint3} fpoint3
+	 * 			FPoint3 xyz
 	 *
 	 */
 	this.setPosition = function(fpoint3) {
@@ -267,8 +267,8 @@ var Matrix3D = function( n11, n12, n13, n14,
 
 	/*
 	 *
-	 *	Frustrum
-	 *	https://github.com/mrdoob/three.js/blob/master/src/core/Matrix4.js
+	 * Frustrum
+	 * https://github.com/mrdoob/three.js/blob/master/src/core/Matrix4.js
 	 *
 	 */
 	this.makeFrustum = function(left, right, bottom, top, near, far) {
@@ -294,8 +294,8 @@ var Matrix3D = function( n11, n12, n13, n14,
 
 	/*
 	 *
-	 *	Presets modified from Three.js
-	 *	https://github.com/mrdoob/three.js/blob/master/src/core/Matrix4.js
+	 * Presets modified from Three.js
+	 * https://github.com/mrdoob/three.js/blob/master/src/core/Matrix4.js
 	 *
 	 */
 	// ------------------------------------------------------------------------

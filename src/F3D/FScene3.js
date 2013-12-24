@@ -1,8 +1,8 @@
 /*
  *
- *	FScene3.js
+ * FScene3.js
  *
- *	A barebones collection of classes for primitive 3D rendering
+ * A barebones collection of classes for primitive 3D rendering
  *
  */
 
@@ -10,8 +10,8 @@
 
 /**
  *
- *	TODO:	leave as is and accept or redo entire engine
- *			possibly look into using three.js as the engine
+ * TODO:	leave as is and accept or redo entire engine
+ * 		possibly look into using three.js as the engine
  *
  */
 folio.F3D.FScene3D = this.FScene3D = function() {
@@ -19,7 +19,7 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 	// Properties
 	// ------------------------------------------------------------------------
 	/**
-	 *	private
+	 * private
 	 */
 	var _mode = 'PERSPECTIVE'; // default
 	var _matrix = null;
@@ -37,7 +37,7 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 	var _groupTop = null;
 
 	/**
-	 *	public
+	 * public
 	 */
 	this.bounds = new folio.F3D.FSize3(0,0,0);
 
@@ -50,10 +50,10 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 	// Methods
 	// ------------------------------------------------------------------------
 	/**
-	 *	matrix for isometric projection
+	 * matrix for isometric projection
 	 *
-	 *	TODO: figure out why this has to be
-	 *	configured like this?
+	 * TODO: figure out why this has to be
+	 * configured like this?
 	 */
 	this._ortho = function() {
 		_matrix.makeOrtho(
@@ -67,7 +67,7 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 	};
 
 	/**
-	 *	_perspective( for perspective projection
+	 * _perspective( for perspective projection
 	 */
 	this._perspective = function() {
 		_matrix.makePerspective(
@@ -81,18 +81,18 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 
 	// ------------------------------------------------------------------------
 	/**
-	 *	@param width
-	 *				width of scene
-	 *				default: view.bounds.width
-	 *	@param height
-	 *				height of scene
-	 *				default: view.bounds.height
-	 *	@param focalLength
-	 *				focal length of scene
-	 *				default: 1000
-	 *	@param mode
-	 *				'PERSPECTIVE' objects scale to perspective
-	 *				'ORTHO' objects do not scale (isometric)
+	 * @param width
+	 * 			width of scene
+	 * 			default: view.bounds.width
+	 * @param height
+	 * 			height of scene
+	 * 			default: view.bounds.height
+	 * @param focalLength
+	 * 			focal length of scene
+	 * 			default: 1000
+	 * @param mode
+	 * 			'PERSPECTIVE' objects scale to perspective
+	 * 			'ORTHO' objects do not scale (isometric)
 	 *
 	 */
 	this.setup = function(width, height, focalLength, mode) {
@@ -125,9 +125,9 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 
 	// ------------------------------------------------------------------------
 	/**
-	 *	draws FPath3 objects
+	 * draws FPath3 objects
 	 *
-	 *	@return group of FPath3 objects
+	 * @return group of FPath3 objects
 	 *
 	 */
 	this.draw = function() {
@@ -210,14 +210,14 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 
 	// ------------------------------------------------------------------------
 	/**
-	 *	@param arg0
-	 *				x coordinate
-	 *	@param arg1
-	 *				y coordinate
-	 *	@param arg2
-	 *				z coordinate
+	 * @param arg0
+	 * 			x coordinate
+	 * @param arg1
+	 * 			y coordinate
+	 * @param arg2
+	 * 			z coordinate
 	 *
-	 *	@return total number of points added to scene
+	 * @return total number of points added to scene
 	 *
 	 */
 	this.setupPoint = function(arg0, arg1, arg2) {
@@ -237,14 +237,14 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 
 	// ------------------------------------------------------------------------
 	/**
-	 *	@param pointsArr
-	 *				the array of points x[0], y[1], z[2]
-	 *	@param start
-	 *				start position in array
-	 *	@param stop
-	 *				stop position in array
+	 * @param pointsArr
+	 * 			the array of points x[0], y[1], z[2]
+	 * @param start
+	 * 			start position in array
+	 * @param stop
+	 * 			stop position in array
 	 *
-	 *	@return average value of z
+	 * @return average value of z
 	 *
 	 */
 	this.averageZ = function(pointsArr, start, stop) {
@@ -261,7 +261,7 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 
 	/**
 	 *
-	 *	comparator to sort object by z value
+	 * comparator to sort object by z value
 	 *
 	 */
 	function compare(a,b) {
@@ -276,21 +276,21 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 	// Sets
 	// ------------------------------------------------------------------------
 	/**
-	 *	@param mode
-	 *				'PERSPECTIVE' objects scale to perspective
-	 *				'ORTHO' objects do not scale (isometric)
+	 * @param mode
+	 * 			'PERSPECTIVE' objects scale to perspective
+	 * 			'ORTHO' objects do not scale (isometric)
 	 */
 	this.setMode = function(mode) {
 		_mode = mode != undefined ? mode : 'PERSPECTIVE';
 	};
 
 	/**
-	 *	@param item
-	 *			an FPath3 item to add to the scene
+	 * @param item
+	 * 		an FPath3 item to add to the scene
 	 */
 	/**
-	 *	@param item
-	 *			an array of FPath3 items to add to the scene
+	 * @param item
+	 * 		an array of FPath3 items to add to the scene
 	 */
 	this.addItem = function(item) {
 		if(item.length > 0) {
@@ -307,24 +307,24 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 
 	// ------------------------------------------------------------------------
 	/**
-	 *	@param val
-	 *			degree value for x axis rotation
+	 * @param val
+	 * 		degree value for x axis rotation
 	 */
 	this.rotateX = function(val) {
 		_rotation.setX(val);
 	};
 
 	/**
-	 *	@param val
-	 *			degree value for y axis rotation
+	 * @param val
+	 * 		degree value for y axis rotation
 	 */
 	this.rotateY = function(val) {
 		_rotation.setY(val);
 	};
 
 	/**
-	 *	@param val
-	 *			degree value for z axis rotation
+	 * @param val
+	 * 		degree value for z axis rotation
 	 */
 	this.rotateZ = function(val) {
 		_rotation.setZ(val);
@@ -337,7 +337,7 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	@return scene path items as _groupBot
+	 * @return scene path items as _groupBot
 	 *
 	 */
 	this.get = function() {
@@ -346,7 +346,7 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 
 	/**
 	 *
-	 *	@return scene size as array [width, height, depth]
+	 * @return scene size as array [width, height, depth]
 	 *
 	 */
 	this.getBounds = function() {
@@ -355,7 +355,7 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 
 	/**
 	 *
-	 *	@return scene transformation _matrix
+	 * @return scene transformation _matrix
 	 *
 	 */
 	this.getMatrix = function() {
@@ -364,7 +364,7 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 
 	/**
 	 *
-	 *	@return scene focal length (depth)
+	 * @return scene focal length (depth)
 	 *
 	 */
 	this.getFocalLength = function() {
@@ -373,7 +373,7 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 
 	/**
 	 *
-	 *	@return scene scale
+	 * @return scene scale
 	 *
 	 */
 	this.getScale = function() {

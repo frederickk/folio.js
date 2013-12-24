@@ -25,7 +25,7 @@ var grid;
 // Setup
 // ------------------------------------------------------------------------
 function Setup() {
-	var raster = new Raster('image') ;//document.getElementById('image').value);
+	var raster = new Raster('image') ; //document.getElementById('image').value);
 	raster.position = view.center;
 
 	var shapes = [];
@@ -38,8 +38,6 @@ function Setup() {
 		? 20
 		: parseInt(document.getElementById('resolution').value);
 	document.getElementById('resolution').value = res;
-
-
 
 	raster.onLoad = function() {
 		if( grid ) grid.remove();

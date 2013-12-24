@@ -1,11 +1,11 @@
 /*
  *
- *	FPath3Constuctors.js
+ * FPath3Constuctors.js
  *
- *	A collection of primitive 3D shapes for folio.F3D.FPath3
+ * A collection of primitive 3D shapes for folio.F3D.FPath3
  *
- *	FBox
- *	FSphere
+ * FBox
+ * FSphere
  *
  */
 
@@ -13,21 +13,21 @@
 
 folio.F3D.FPath3.inject({
 
-	//-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	statics: new function() {
 		return {
 
 			/**
 			 *
-			 *	FBox
-			 *	Create simple box
+			 * FBox
+			 * Create simple box
 			 *
-			 *	@param {folio.F3D.FScene3D} scene
-			 *				the scene to attach the Box to
-			 *	@param {folio.F3D.FPoint3} fpoint3
-			 *		  		the position of the Box
-			 *	@param {folio.F3D.FSize3} fsize3
-			 *				the size of the Box
+			 * @param {folio.F3D.FScene3D} scene
+			 * 			the scene to attach the Box to
+			 * @param {folio.F3D.FPoint3} fpoint3
+			 * 	  		the position of the Box
+			 * @param {folio.F3D.FSize3} fsize3
+			 * 			the size of the Box
 			 *
 			 */
 			FBox: function(scene, fpoint3, fsize3) {
@@ -113,19 +113,19 @@ folio.F3D.FPath3.inject({
 
 			/**
 			 *
-			 *	FSphere
-			 *	Create simple sphere
+			 * FSphere
+			 * Create simple sphere
 			 *
-			 *	@param {folio.F3D.FScene3D} scene
-			 *				the scene to attach the Sphere to
-			 *	@param {folio.F3D.FPoint3} fpoint3
-			 *		  		the position of the Sphere
-			 *	@param {folio.F3D.FSize3} radius
-			 *				the radius of the Sphere
-			 *	@param {Array} detail (optional)
-			 *				the longitude and latitude detail
-			 *				default: [6,6]
-			 *				*** anything over [21,21] and you should probably be using Three.js ***
+			 * @param {folio.F3D.FScene3D} scene
+			 * 			the scene to attach the Sphere to
+			 * @param {folio.F3D.FPoint3} fpoint3
+			 * 	  		the position of the Sphere
+			 * @param {folio.F3D.FSize3} radius
+			 * 			the radius of the Sphere
+			 * @param {Array} detail (optional)
+			 * 			the longitude and latitude detail
+			 * 			default: [6,6]
+			 * 			*** anything over [21,21] and you should probably be using Three.js ***
 			 *
 			 */
 			FSphere: function(scene, fpoint3, radius, detail) {

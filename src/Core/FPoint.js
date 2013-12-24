@@ -1,15 +1,15 @@
 /*
  *
- *	FPoint.js
+ * FPoint.js
  *
- *	A collection of extensions for paper.Point
+ * A collection of extensions for paper.Point
  *
  */
 
 
 /**
  *
- *	paper.Point
+ * paper.Point
  *
  */
 paper.Point.inject({
@@ -26,28 +26,28 @@ paper.Point.inject({
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 *	http://gmc.yoyogames.com/index.php?showtopic=290349
+	 * http://gmc.yoyogames.com/index.php?showtopic=290349
 	 *
-	 *	@param {Size} spacing
-	 *				scale.width  = x scale of the grid.
-	 *				scale.height = y scale of the grid.
-	 *	@param {Object} options
-	 *				{ grid: true }
-	 *				{ isometric: true }
+	 * @param {Size} spacing
+	 * 			scale.width  = x scale of the grid.
+	 * 			scale.height = y scale of the grid.
+	 * @param {Object} options
+	 * 			{ grid: true }
+	 * 			{ isometric: true }
 	 *
-	 *	@return {Point} snapped Point
+	 * @return {Point} snapped Point
 	 *
 	 */
 	/**
-	 *	snaps point to an isometric grid
+	 * snaps point to an isometric grid
 	 *
-	 *	@param {Number} scale
-	 *				scale of the grid
-	 *	@param {Object} options
-	 *				{ grid: true }
-	 *				{ isometric: true }
+	 * @param {Number} scale
+	 * 			scale of the grid
+	 * @param {Object} options
+	 * 			{ grid: true }
+	 * 			{ isometric: true }
 	 *
-	 *	@return {Point} snapped Point
+	 * @return {Point} snapped Point
 	 *
 	 */
 	snap: function(scale, options) {
@@ -77,36 +77,36 @@ paper.Point.inject({
 
 	/**
 	 *
-	 *  https://bitbucket.org/postspectacular/toxiclibs/src/9d124c80e8af/src.core/toxi/geom/Vec2D.java
+	 * https://bitbucket.org/postspectacular/toxiclibs/src/9d124c80e8af/src.core/toxi/geom/Vec2D.java
 	 *
-	 *	@param {Point} toPoint
-	 *			interpolates the point towards a given target point
-	 *	@param {Number} amt
-	 *			(0.0 - 1.0) interpolation factor
-	 *	@return {Point} interpolated Point
+	 * @param {Point} toPoint
+	 * 		interpolates the point towards a given target point
+	 * @param {Number} amt
+	 * 		(0.0 - 1.0) interpolation factor
+	 * @return {Point} interpolated Point
 	 *
-	 *	@example
-	 *	var point = new Point(0, 0);
-	 *	var toPoint = new Point(100, 100);
-	 *	point.interpolateTo(toPoint, 0.5); // {x: 50, y: 50}
+	 * @example
+	 * var point = new Point(0, 0);
+	 * var toPoint = new Point(100, 100);
+	 * point.interpolateTo(toPoint, 0.5); // {x: 50, y: 50}
 	 *
 	 */
 	/**
 	 *
-	 *	@param {Point} arg0
-	 *			starting Point
-	 *	@param {Point} arg1
-	 *			ending Point
-	 *	@param {Number} arg2
-	 *			(0.0 - 1.0) interpolate factor
+	 * @param {Point} arg0
+	 * 		starting Point
+	 * @param {Point} arg1
+	 * 		ending Point
+	 * @param {Number} arg2
+	 * 		(0.0 - 1.0) interpolate factor
 	 *
-	 *	@return {Point} new interpolated Point
+	 * @return {Point} new interpolated Point
 	 *
-	 *	@example
-	 *	var start = new Point(0, 30);
-	 *	var end = new Point(360, 90);
-	 *	var interpolate = new Point.interpolateTo( start, end, 0.5 );
-	 *	console.log( interpolate ); // { x: 180, y: 60 }
+	 * @example
+	 * var start = new Point(0, 30);
+	 * var end = new Point(360, 90);
+	 * var interpolate = new Point.interpolateTo( start, end, 0.5 );
+	 * console.log( interpolate ); // { x: 180, y: 60 }
 	 *
 	 */
 	interpolateTo: function(toPoint, amt) {
@@ -116,9 +116,9 @@ paper.Point.inject({
 	},
 
 	/**
-	 *	Returns the distance between the point and the center of the canvas
+	 * Returns the distance between the point and the center of the canvas
 	 *
-	 *	@return {Number}
+	 * @return {Number}
 	 *
 	 */
 	getDistanceToCenter: function() {
@@ -130,14 +130,14 @@ paper.Point.inject({
 
 	/**
 	 *
-	 *	Returns the heading angle (radians) of a point
+	 * Returns the heading angle (radians) of a point
 	 *
-	 *	@return {Number} vector heading of Point
+	 * @return {Number} vector heading of Point
 	 *
-	 *	@example
-	 *	var point = new Point(0, 90);
-	 *	var result = point.getHeading();
-	 *	console.log( paper.degrees(result) ); // 90
+	 * @example
+	 * var point = new Point(0, 90);
+	 * var result = point.getHeading();
+	 * console.log( paper.degrees(result) ); // 90
 	 *
 	 */
 	getHeading: function() {
@@ -145,20 +145,20 @@ paper.Point.inject({
 	},
 
 	/**
-	 *	Get the vector angle (radians) of two points
+	 * Get the vector angle (radians) of two points
 	 *
-	 *	@param {Point} point1
-	 *			first point
-	 *	@param {Point} point2
-	 *			second point
+	 * @param {Point} point1
+	 * 		first point
+	 * @param {Point} point2
+	 * 		second point
 	 *
-	 *	@return {Number} vector angle (radians)
+	 * @return {Number} vector angle (radians)
 	 *
-	 *	@example
-	 *	var point1 = new Point(0, 90);
-	 *	var point2 = new Point(90, 180);
-	 *	var result = point1.getAngle(point2);
-	 *	console.log( paper.degrees(result) ); // XX
+	 * @example
+	 * var point1 = new Point(0, 90);
+	 * var point2 = new Point(90, 180);
+	 * var result = point1.getAngle(point2);
+	 * console.log( paper.degrees(result) ); // XX
 	 *
 	 */
 	getAngle: function(point2) {
@@ -166,20 +166,20 @@ paper.Point.inject({
 	},
 
 	/**
-	 *	Normalize a point between two other points (start and end).
+	 * Normalize a point between two other points (start and end).
 	 *
-	 *	@param {Point} start
-	 *				start Point
-	 *	@param {Point} stop
-	 *				stop Point
+	 * @param {Point} start
+	 * 			start Point
+	 * @param {Point} stop
+	 * 			stop Point
 	 *
-	 *	@return {Point} normalized Point
+	 * @return {Point} normalized Point
 	 *
-	 *	@example
-	 *	var point = new Point(30, 270);
-	 *	var start = new Point(90, 180);
-	 *	var stop = new Point(180, 360);
-	 *	point.norm(start, stop); // { x: -0.66667, y: 0.5 }')
+	 * @example
+	 * var point = new Point(30, 270);
+	 * var start = new Point(90, 180);
+	 * var stop = new Point(180, 360);
+	 * point.norm(start, stop); // { x: -0.66667, y: 0.5 }')
 	 *
 	 */
 	norm: function(start, stop) {
@@ -190,7 +190,7 @@ paper.Point.inject({
 
 		// /**
 	//  *
-	//  *	@return {Point} limit Point
+	//  * @return {Point} limit Point
 	//  *
 	//  */
 	// limit: function(lim) {
@@ -203,12 +203,12 @@ paper.Point.inject({
 	// },
 
 	/**
-	 *	@return {Number} vector mag squared
+	 * @return {Number} vector mag squared
 	 *
-	 *	@example
-	 *	var point = new Point(0, 90);
-	 *	var result = point.magSq();
-	 *	console.log(result); // 8100
+	 * @example
+	 * var point = new Point(0, 90);
+	 * var result = point.magSq();
+	 * console.log(result); // 8100
 	 *
 	 */
 	magSq: function() {

@@ -1,26 +1,26 @@
 /*
  *
- *	FSize.js
+ * FSize.js
  *
- *	A collection of extensions for paper.Size
+ * A collection of extensions for paper.Size
  *
  */
 
 
 /**
  *
- *	paper.Size
+ * paper.Size
  *
  */
 paper.Size.inject({
 
 	/**
 	 *
-	 *	@return {Number} area
+	 * @return {Number} area
 	 *
-	 *	@example
-	 *	var size = new Size(10, 20);
-	 *	var a = size.getArea(); // 200
+	 * @example
+	 * var size = new Size(10, 20);
+	 * var a = size.getArea(); // 200
 	 *
 	 */
 	getArea: function() {
@@ -29,11 +29,11 @@ paper.Size.inject({
 
 	/**
 	 *
-	 *	@return {Number} area of Item circumcircle
+	 * @return {Number} area of Item circumcircle
 	 *
-	 *	@example
-	 *	var size = new Size(10, 20);
-	 *	var a = size.getCircumarea(); // 200
+	 * @example
+	 * var size = new Size(10, 20);
+	 * var a = size.getCircumarea(); // 200
 	 *
 	 */
 	 getCircumarea: function() {
@@ -43,11 +43,11 @@ paper.Size.inject({
 
 	/**
 	 *
-	 *	@return {Number} area of Item incircle
+	 * @return {Number} area of Item incircle
 	 *
-	 *	@example
-	 *	var size = new Size(10, 20);
-	 *	var a = size.getIncirclearea(); // 200
+	 * @example
+	 * var size = new Size(10, 20);
+	 * var a = size.getIncirclearea(); // 200
 	 *
 	 */
 	 getIncirclearea: function() {
@@ -57,11 +57,11 @@ paper.Size.inject({
 
 	/**
 	 *
-	 *	@return {Number} the circumcircle radius of the Size bounding box
+	 * @return {Number} the circumcircle radius of the Size bounding box
 	 *
-	 *	@example
-	 *	var size = new Size(10, 20);
-	 *	var r = size.getCircumradius(); // 11.180339887498949
+	 * @example
+	 * var size = new Size(10, 20);
+	 * var r = size.getCircumradius(); // 11.180339887498949
 	 *
 	 */
 	getCircumradius: function() {
@@ -72,12 +72,12 @@ paper.Size.inject({
 
 	/**
 	 *
-	 *	@return {Number} the incircle radius of the Size bounding box
+	 * @return {Number} the incircle radius of the Size bounding box
 	 *
-	 *	@example
-	 *	var size = new Size(10, 20);
-	 *	var r = size.getIncircleradius();
-	 *	console.log( r ); // XX
+	 * @example
+	 * var size = new Size(10, 20);
+	 * var r = size.getIncircleradius();
+	 * console.log( r ); // XX
 	 *
 	 */
 	getIncircleradius: function() {
@@ -88,14 +88,14 @@ paper.Size.inject({
 
 	/**
 	 *
-	 *  Slope is expressed as rise (x) over run (y)
+	 * Slope is expressed as rise (x) over run (y)
 	 *
-	 *	@return {Number} angle (radians)
+	 * @return {Number} angle (radians)
 	 *
-	 *	@example
-	 *	var slope = new Size(10, 20);
-	 *	var result = size.getSlopeAngle();
-	 *	console.log( paper.degrees(result) ); // 26.56
+	 * @example
+	 * var slope = new Size(10, 20);
+	 * var result = size.getSlopeAngle();
+	 * console.log( paper.degrees(result) ); // 26.56
 	 *
 	 */
 	getSlopeAngle: function() {
