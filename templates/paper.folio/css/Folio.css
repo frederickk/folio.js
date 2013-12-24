@@ -761,8 +761,11 @@ a:hover {
   text-align: center;
 }
 .input-component {
+  width: 100%;
+  height: 100%;
   position: relative;
   display: inline-block;
+  vertical-align: middle;
   padding: 0px 6px 0px 6px;
 }
 input {
@@ -777,19 +780,22 @@ input {
   background-color: #f1f1f1;
   border: 6px solid #f1f1f1;
 }
-input.add {
-  height: 16;
-  width: 16;
-  background: transparent;
-  background-image: url('http://dl.dropbox.com/u/7038255/experiment/images/plus_16x16.png');
-  border: none;
+input[type="checkbox"] {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  padding: 9px;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  background-color: #e9e8e7;
+  border: 6px solid #e9e8e7;
 }
-input.minus {
-  height: 16;
-  width: 16;
-  background: transparent;
-  background-image: url('http://dl.dropbox.com/u/7038255/experiment/images/minus_16x16.png');
-  border: none;
+input[type="checkbox"]:checked {
+  -moz-border-radius: 18px;
+  -webkit-border-radius: 18px;
+  border-radius: 18px;
+  background-color: #9a9593;
 }
 input.submit {
   /* font-family: akzidenz grotesk, helvetica, arial; */
