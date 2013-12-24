@@ -53,8 +53,8 @@ window.onload = function() {
 	// ------------------------------------------------------------------------
 	// Methods
 	// ------------------------------------------------------------------------
-	if ( typeof Setup === 'function') Setup();
-	if ( typeof Draw === 'function') Draw();
+	if(typeof Setup === 'function') Setup();
+	if(typeof Draw === 'function') Draw();
 
 
 	// ------------------------------------------------------------------------
@@ -80,40 +80,40 @@ window.onload = function() {
 	// ------------------------------------------------------------------------
 	view.onFrame = function(event) {
 		// TODO:	add a method which clears an "animation group" each frame
-		if ( typeof Update === 'function') Update(event);
+		if(typeof Update === 'function') Update(event);
 		AnimateClear();
 	};
 
 	view.onResize = function(event) {
-		if ( typeof onResize === 'function') onResize(event);
+		if(typeof onResize === 'function') onResize(event);
 	};
 
 	// ------------------------------------------------------------------------
 	var tool = new Tool();
 	tool.onMouseUp = function(event) {
-		if ( typeof onMouseUp === 'function') onMouseUp(event);
+		if(typeof onMouseUp === 'function') onMouseUp(event);
 	};
 
 	tool.onMouseDown = function(event) {
-		if ( typeof onMouseDown === 'function') onMouseDown(event);
+		if(typeof onMouseDown === 'function') onMouseDown(event);
 	};
 
 	tool.onMouseMove = function(event) {
-		if ( typeof onMouseMove === 'function') onMouseMove(event);
+		if(typeof onMouseMove === 'function') onMouseMove(event);
 	};
 
 	tool.onMouseDrag = function(event) {
-		if ( typeof onMouseDrag === 'function') onMouseDrag(event);
+		if(typeof onMouseDrag === 'function') onMouseDrag(event);
 	};
 
 
 	// ------------------------------------------------------------------------
 	tool.onKeyDown = function(event) {
-		if ( typeof onKeyDown === 'function') onKeyDown(event);
+		if(typeof onKeyDown === 'function') onKeyDown(event);
 	};
 
 	tool.onKeyUp = function(event) {
-		if ( typeof onKeyUp === 'function') onKeyUp(event);
+		if(typeof onKeyUp === 'function') onKeyUp(event);
 	};
 
 
@@ -152,9 +152,9 @@ window.onload = function() {
 		}
 
 		// re-initiate setup
-		if ( typeof Setup === 'function') Setup();
+		if(typeof Setup === 'function') Setup();
 		// re-initiate draw
-		if ( typeof Draw === 'function') Draw();
+		if(typeof Draw === 'function') Draw();
 
 		// make sure view does its draw
 		view.draw();
@@ -166,6 +166,6 @@ window.onload = function() {
 		clearTimeout(resizeTimeout);
 		resizeTimeout = setTimeout(resizeCanvas, 100);
 	};
-	resizeCanvas();
+	// resizeCanvas();
 
 };
