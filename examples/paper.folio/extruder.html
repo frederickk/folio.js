@@ -20,7 +20,7 @@
 
 		<!-- LOAD ADDITIONAL JAVASCRIPTS -->
 		<!-- https://github.com/frederickk/folio.js -->
-		<script type="text/javascript" src="../../distribution/paper.folio.min.js"></script>
+		<script type="text/javascript" src="../../distribution/paper.folio.js"></script>
 
 		<!-- LOAD PAPER SCRIPT -->
 		<!-- be sure that the filename and path matches your script -->
@@ -54,7 +54,7 @@
 		<!-- INPUTS -->
 		<div id="input-container">
 			<form method="POST" name="Form">
-				<div class="input-component" style="width: 300px;">
+				<div class="input-component" style="width: 150px;">
 					<div class="left"><b>Color</b></div>
 					<input type="text" id="colorExtrude1" name="colorExtrude1" onChange="Draw()" value="" class="black-dark-gray" />
 				</div>
@@ -81,8 +81,9 @@
 		<!-- IMAGES -->
 		<div id="rasters">
 			<!-- loading SVG files doesn't seem to work yet -->
-			<!-- <embed src="circle1.svg" type="image/svg+xml" id="svg" /> -->
-			<svg id="svg" version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="600px" height="168px">
+			<!-- <object src="olivia.svg" type="image/svg+xml" width="600" height="168" id="svg" /> -->
+			<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+				 width="600px" height="168px" viewPort="0 0 600 168" id="svg">
 			<path d="M167.146,87.226c0,45.973-35.786,80.625-83.578,80.625c-47.79,0-83.565-34.652-83.565-80.625
 				c0-45.747,35.775-80.397,83.565-80.397C131.362,6.827,167.146,41.249,167.146,87.226z M40.986,87.226
 				c0,23.559,19.033,42.582,42.582,42.582c23.562,0,42.582-19.023,42.582-42.582c0-23.331-19.021-42.354-42.582-42.354
@@ -90,16 +91,18 @@
 			<path d="M188.76,162.418V11.354h36.238v151.062H188.76V162.418z"/>
 			<path d="M288.225,20.409c0,11.324-9.062,20.386-20.388,20.386c-11.322,0-20.386-9.063-20.386-20.386
 				c0-11.323,9.062-20.378,20.386-20.378C279.163,0.03,288.225,9.086,288.225,20.409z"/>
-			<!-- <rect x="249.72" y="59.818" width="36.238" height="102.6"/> -->
+			<rect x="249.72" y="59.818" width="36.238" height="102.6"/>
 			<path d="M363.449,112.368l24.916-52.548h40.543l-53.455,102.602h-24.23L298.219,59.82h40.767L363.449,112.368z"/>
 			<path d="M479.936,20.409c0,11.324-9.061,20.386-20.387,20.386c-11.322,0-20.389-9.063-20.389-20.386
 				c0-11.323,9.062-20.378,20.387-20.378C470.875,0.03,479.936,9.086,479.936,20.409z"/>
-			<!-- <rect x="441.428" y="59.818" width="36.238" height="102.6"/> -->
+			<rect x="441.428" y="59.818" width="36.238" height="102.6"/>
 			<path d="M599.78,162.418h-32.393l-0.9-12.677c-16.305,19.021-60.703,21.281-66.812-9.062c-7.473-37.824,43.266-48.697,68.854-38.961
 				c-3.393-26.721-31.479-19.251-49.83-12.457l-6.785-23.327c17.887-7.7,38.947-12.681,57.064-7.248
 				c22.189,6.572,31.023,30.805,31.023,53L599.78,162.418z M539.76,119.835c-4.986,2.039-9.062,8.161-5.209,13.363
 				c7.701,9.746,33.064,2.498,33.064-10.41v-2.953C559.465,117.577,547.682,116.444,539.76,119.835z"/>
 			</svg>
+
+
 
 		</div>
 

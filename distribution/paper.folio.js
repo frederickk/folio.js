@@ -376,15 +376,17 @@ PaperScope.inject({
  *
  */
 Array.prototype.median = function() {
-	var median = 0;
-	this.sort();
-	if (this.length % 2 === 0) {
-		median = (this[this.length / 2 - 1] + this[this.length / 2]) / 2;
+	if( typeof this === 'Array') {
+		var median = 0;
+		this.sort();
+		if (this.length % 2 === 0) {
+			median = (this[this.length / 2 - 1] + this[this.length / 2]) / 2;
+		}
+		else {
+			median = this[(this.length - 1) / 2];
+		}
+		return median;
 	}
-	else {
-		median = this[(this.length - 1) / 2];
-	}
-	return median;
 };
 
 /**
@@ -416,9 +418,11 @@ Array.prototype.unique = function() {
  *
  */
 Array.prototype.merge = function(arr) {
-	var output = this.concat(arr);
-	output.shuffle();
-	return output;
+	if( typeof this === 'Array') {
+		var output = this.concat(arr);
+		output.shuffle();
+		return output;
+	}
 };
 
 /**
@@ -487,10 +491,12 @@ Array.prototype.shuffle = function() {
  *
  */
 Array.prototype.removeDuplicates = function() {
-	return this.reduce(function(accum, cur) {
-		if (accum.indexOf(cur) === -1) accum.push(cur);
-		return accum;
-	}, [] );
+	if( typeof this === 'Array') {
+		return this.reduce(function(accum, cur) {
+			if (accum.indexOf(cur) === -1) accum.push(cur);
+			return accum;
+		}, [] );
+	}
 };
 
 /**

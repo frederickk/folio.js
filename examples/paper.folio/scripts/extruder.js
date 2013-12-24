@@ -1,15 +1,15 @@
 console.log( 'Extruder Loaded' );
 /**
- *	Extruder 0.0
+ * Extruder 0.0
  *
- *	Ken Frederick
- *	ken.frederick@gmx.de
+ * Ken Frederick
+ * ken.frederick@gmx.de
  *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
+ * http://kennethfrederick.de/
+ * http://blog.kennethfrederick.de/
  *
  *
- *	simple extrusion of path shapes
+ * simple extrusion of path shapes
  *
  */
 
@@ -44,45 +44,6 @@ var values = {
 	distance: null
 };
 
-// components
-var components = {
-	/*
-	 *	extrusion
-	 */
-	colorExtrude1: {
-		type: 'color',
-		label: 'Extrusion Color'
-	},
-
-	// bDarkened: {
-	//	type: 'checkbox',
-	//	label: 'Darken Color'
-	// },
-	// darkenColorPct: {
-	//	type: 'number',
-	//	units: 'percent',
-	//	steppers: true,
-	//	increment: 1
-	// },
-	angle: {
-		type: 'number',
-		label: 'Angle',
-		units: 'degree',
-		steppers: true,
-		increment: 1
-	},
-	distance: {
-		type: 'number',
-		label: 'Distance',
-		units: 'point',
-		steppers: true,
-		increment: 1
-	},
-
-
-
-};
-
 
 
 // ------------------------------------------------------------------------
@@ -93,9 +54,9 @@ function Setup() {
 	extrusionsGroup = new Group();
 
 	// import svg
-	svg = project.importSVG(document.getElementById('svg'));
+	svg = project.importSVG('svg', true);
 	// re-position svg
-	svg.position = new Point( view.bounds.width/2-svg.bounds.width/2, view.bounds.height/2-svg.bounds.height/2 );
+	svg.position = view.bounds.center;
 
 	// define type as children of svg
 	type = new Group( svg.children );
@@ -118,96 +79,96 @@ function Update(event) {
 function Draw() {
 	// get values from interface components
 	values.colorExtrude1 = new Color( document.getElementById('colorExtrude1').value );
-	values.angle = document.getElementById('angle').value;
-	values.distance = document.getElementById('distance').value;
+	values.angle = parseFloat(document.getElementById('angle').value);
+	values.distance = parseFloat(document.getElementById('distance').value);
 
 
-	// calculate late extrusion length
-	// the first item selected is chosen
-	// as the benchmark item
-	var extrudeAngle;
-	if( !bDrawn ) {
-		extrudeAngle = angleToSlope(type.children[0].position, values.angle, values.distance);
-	}
+	// // calculate late extrusion length
+	// // the first item selected is chosen
+	// // as the benchmark item
+	// var extrudeAngle;
+	// if( !bDrawn ) {
+	// 	extrudeAngle = angleToSlope(type.children[0].position, values.angle, values.distance);
+	// }
 
-	// darken color by amount
-	values.darkenColorAmt /= 100;
+	// // darken color by amount
+	// values.darkenColorAmt /= 100;
 
-	// clean-up previous extrusions
-	// if they were created
-	extrusionsGroup.removeChildren();
+	// // clean-up previous extrusions
+	// // if they were created
+	// extrusionsGroup.removeChildren();
 
-	// setup extrusions group
-	// extrusionsGroup = new Group();
+	// // setup extrusions group
+	// // extrusionsGroup = new Group();
 
-	// draw the extrusion
-	for( var i=0; i<type.children.length; i++ ) {
-		var obj = type.children[i];
-		obj.fillColor = new Color( 0.0, 0.0, 0.0 );
-		obj.strokeColor = new Color( 0.0, 0.0, 0.0 );
-		obj.strokeWidth = 2;
+	// // draw the extrusion
+	// for( var i=0; i<type.children.length; i++ ) {
+	// 	var obj = type.children[i];
+	// 	obj.fillColor = new Color( 0.0, 0.0, 0.0 );
+	// 	obj.strokeColor = new Color( 0.0, 0.0, 0.0 );
+	// 	obj.strokeWidth = 2;
 
-		// setup group for extruded faces
-		var extrusion;
+	// 	// setup group for extruded faces
+	// 	var extrusion;
 
-		// compound path or group?
-		if( obj.hasChildren() ) {
-			extrusion = new Group();
-			for( var c=obj.children.length-1; c>=0; c-- ) {
-				var child = obj.children[c].clone();
-				// TODO: children items get filled with
-				//		 the alternate extrusion color
-				var temp = recursiveExtrude( child, extrudeAngle, values.colorExtrude1 );
-				extrusion.appendTop( temp );
-				child.remove();
-			}
-		}
-		// lone wolf?
-		else {
-			// lone items get filled with
-			// the main extrusion color
-			extrusion = extrude( obj, extrudeAngle, values.colorExtrude1 );
-		}
+	// 	// compound path or group?
+	// 	if( obj.hasChildren() ) {
+	// 		extrusion = new Group();
+	// 		for( var c=obj.children.length-1; c>=0; c-- ) {
+	// 			var child = obj.children[c].clone();
+	// 			// TODO: children items get filled with
+	// 			//		 the alternate extrusion color
+	// 			var temp = recursiveExtrude( child, extrudeAngle, values.colorExtrude1 );
+	// 			extrusion.appendTop( temp );
+	// 			child.remove();
+	// 		}
+	// 	}
+	// 	// lone wolf?
+	// 	else {
+	// 		// lone items get filled with
+	// 		// the main extrusion color
+	// 		extrusion = extrude( obj, extrudeAngle, values.colorExtrude1 );
+	// 	}
 
-		// unite all of the faces into
-		// one path (if bUniteExtrusion)
-		if( values.bUniteExtrusion ) {
-			var temp = new Pathfinder.unite( extrusion.children );
-			// clean out all elements in the extrusion group
-			extrusion.removeChildren();
-			// add the lone united extrusion
-			// back into the extrusion group
-			extrusion.appendBottom( temp );
-		}
+	// 	// unite all of the faces into
+	// 	// one path (if bUniteExtrusion)
+	// 	if( values.bUniteExtrusion ) {
+	// 		var temp = new Pathfinder.unite( extrusion.children );
+	// 		// clean out all elements in the extrusion group
+	// 		extrusion.removeChildren();
+	// 		// add the lone united extrusion
+	// 		// back into the extrusion group
+	// 		extrusion.appendBottom( temp );
+	// 	}
 
-		// move original item above
-		// the extrusion group and
-		// group everything together
-		extrusion.appendTop( obj.clone() );
+	// 	// move original item above
+	// 	// the extrusion group and
+	// 	// group everything together
+	// 	extrusion.appendTop( obj.clone() );
 
-		// group all extruded elements
-		if(extrudeAngle.width < 0) {
-			extrusionsGroup.appendTop( extrusion );
-		}
-		else {
-			extrusionsGroup.appendBottom( extrusion );
-		}
+	// 	// group all extruded elements
+	// 	if(extrudeAngle.width < 0) {
+	// 		extrusionsGroup.appendTop( extrusion );
+	// 	}
+	// 	else {
+	// 		extrusionsGroup.appendBottom( extrusion );
+	// 	}
 
-		// hide original object
-		obj.fillColor = null
-		obj.strokeColor = null
+	// 	// hide original object
+	// 	obj.fillColor = null
+	// 	obj.strokeColor = null
 
-	}
+	// }
 
-	// center the type
-	extrusionsGroup.position = new Point(
-		view.bounds.width/2,
-		view.bounds.height/2
-	);
+	// // center the type
+	// extrusionsGroup.position = new Point(
+	// 	view.bounds.width/2,
+	// 	view.bounds.height/2
+	// );
 
-	// assume extrusion was defined
-	// by mouse and reset
-	bDrawn = false;
+	// // assume extrusion was defined
+	// // by mouse and reset
+	// bDrawn = false;
 
 };
 
@@ -217,120 +178,118 @@ function Draw() {
 // Methods
 // ------------------------------------------------------------------------
 /**
+ * extrudes shapes
+ * TODO: make into a class
+ * TODO: fix face z-indexing
  *
- *	extrudes shapes
- *	TODO: make into a class
- *	TODO: fix face z-indexing
- *
- *	@param {Item} item
- *				the Path.Item to extrude
- *	@param {Size} slope
- *				the direction and length of extrusion ()
- *	@param {Color} color
- *				(optional) main color of extrusion
+ * @param {Item} item
+ * 			the Path.Item to extrude
+ * @param {Size} slope
+ * 			the direction and length of extrusion ()
+ * @param {Color} color
+ * 			(optional) main color of extrusion
  *
  */
 function extrude(item, slope, color) {
-	// extrusion holder
-	var extrusion = new Group();
+	// // extrusion holder
+	// var extrusion = new Group();
 
-	// pull the points for drawing the
-	// extrusion sides
-	var holder1 = item; //.clone();
-	holder1.strokeColor = new Color( 1.0, 0.0, 1.0 );
+	// // pull the points for drawing the
+	// // extrusion sides
+	// var holder1 = item; //.clone();
+	// holder1.strokeColor = new Color( 1.0, 0.0, 1.0 );
 
-	// copy of the item
-	var holder2 = holder1.clone();
-	holder2.strokeColor = new Color( 0.7, 0, 1.0 );
-	holder2.translate( new Point(slope.width,slope.height) );
+	// // copy of the item
+	// var holder2 = holder1.clone();
+	// holder2.strokeColor = new Color( 0.7, 0, 1.0 );
+	// holder2.translate( new Point(slope.width,slope.height) );
 
-	// iterate through curves of holder1
-	// and then connect the two "holders"
-	for( var cc=0; cc<holder1.curves.length; cc++ ) {
-		var curve1 = holder1.curves[cc];
-		var curve2 = holder2.curves[cc];
+	// // iterate through curves of holder1
+	// // and then connect the two "holders"
+	// for( var cc=0; cc<holder1.curves.length; cc++ ) {
+	// 	var curve1 = holder1.curves[cc];
+	// 	var curve2 = holder2.curves[cc];
 
-		// the path for the extruded face
-		var path = new Path();
+	// 	// the path for the extruded face
+	// 	var path = new Path();
 
-		var uniteGroup = new Group();
-		var step = 2;
+	// 	var uniteGroup = new Group();
+	// 	var step = 2;
 
-		// iterate through curve with getLocation()
-		// create a series of path items similar
-		// to QuadStrip
-		for ( var j=0; j<=curve1.length; j+=step ) {
-			var opt1 = curve1.getLocationAt(j).point;
-			var opt2 = curve1.getLocationAt(j+step).point;
+	// 	// iterate through curve with getLocation()
+	// 	// create a series of path items similar
+	// 	// to QuadStrip
+	// 	for ( var j=0; j<=curve1.length; j+=step ) {
+	// 		var opt1 = curve1.getLocationAt(j).point;
+	// 		var opt2 = curve1.getLocationAt(j+step).point;
 
-			var copt1 = curve2.getLocationAt(j).point;
-			var copt2 = curve2.getLocationAt(j+step).point;
+	// 		var copt1 = curve2.getLocationAt(j).point;
+	// 		var copt2 = curve2.getLocationAt(j+step).point;
 
-			var unitePath = new Path();
-			unitePath.add( new Segment( opt1 ) );
-			unitePath.add( new Segment( opt2 ) );
-			unitePath.add( new Segment( copt2 ) );
-			unitePath.add( new Segment( copt1 ) );
-			unitePath.closed = true;
+	// 		var unitePath = new Path();
+	// 		unitePath.add( new Segment( opt1 ) );
+	// 		unitePath.add( new Segment( opt2 ) );
+	// 		unitePath.add( new Segment( copt2 ) );
+	// 		unitePath.add( new Segment( copt1 ) );
+	// 		unitePath.closed = true;
 
-			unitePath.strokeColor = values.colorExtrude1;
-			unitePath.strokeWidth = step;
+	// 		unitePath.strokeColor = values.colorExtrude1;
+	// 		unitePath.strokeWidth = step;
 
-			// add to unite group
-			uniteGroup.appendBottom( unitePath );
-		}
+	// 		// add to unite group
+	// 		uniteGroup.appendBottom( unitePath );
+	// 	}
 
-		// add to extrusion group
-		extrusion.appendBottom( uniteGroup );
-	}
+	// 	// add to extrusion group
+	// 	extrusion.appendBottom( uniteGroup );
+	// }
 
-	// clean-up
-	holder1.remove();
-	holder2.remove();
+	// // clean-up
+	// holder1.remove();
+	// holder2.remove();
 
-	// move parent to top
-	item.moveAbove( extrusion );
+	// // move parent to top
+	// item.moveAbove( extrusion );
 
-	return extrusion;
+	// return extrusion;
 };
 
 
 /**
+ * recursive extrusion
+ * TODO: make a part of "master" extrusion class
  *
- *	recursive extrusion
- *	TODO: make a part of "master" extrusion class
- *
- *	@param {Item} item
- *				the Path.Item to extrude
- *	@param {Size} slope
- *				the direction and length of extrusion ()
- *	@param {Color} color
- *				(optional) main color of extrusion
+ * @param {Item} item
+ * 			the Path.Item to extrude
+ * @param {Size} slope
+ * 			the direction and length of extrusion ()
+ * @param {Color} color
+ * 			(optional) main color of extrusion
  *
  */
 function recursiveExtrude(item, slope, color) {
-	var recursiveGroup = new Group();
+	// var recursiveGroup = new Group();
 
-	var temp;
-	if(item.hasChildren()) {
-		for( var c=item.children.length-1; c>=0; c-- ) {
-			var child = item.children[c];//.clone();
-			if( child.hasChildren() ) {
-				temp = recursiveExtrude( child, slope, color );
-			}
-			else {
-				temp = extrude( child, slope, color );
-				child.remove();
-			}
-			recursiveGroup.appendTop( temp );
-		}
-	}
-	else {
-		temp = extrude( item, slope, color );
-	}
-	recursiveGroup.appendTop( temp );
+	// var temp;
+	// if(item.hasChildren()) {
+	// 	for( var c=item.children.length-1; c>=0; c-- ) {
+	// 		var child = item.children[c];//.clone();
+	// 		if( child.hasChildren() ) {
+	// 			temp = recursiveExtrude( child, slope, color );
+	// 		}
+	// 		else {
+	// 			temp = extrude( child, slope, color );
+	// 			child.remove();
+	// 		}
+	// 		recursiveGroup.appendTop( temp );
+	// 	}
+	// }
+	// else {
+	// 	temp = extrude( item, slope, color );
+	// }
+	// recursiveGroup.appendTop( temp );
 
-	return recursiveGroup;
+	// return recursiveGroup;
 };
 
 // ------------------------------------------------------------------------
