@@ -4,7 +4,7 @@
  * 0.6.1
  * https://github.com/frederickk/folio.js
  *
- * 24. December 2013
+ * 25. December 2013
  *
  * Ken Frederick
  * ken.frederick@gmx.de
@@ -2345,16 +2345,16 @@ paper.Point.inject({
 	 *
 	 * https://bitbucket.org/postspectacular/toxiclibs/src/9d124c80e8af/src.core/toxi/geom/Vec2D.java
 	 *
-	 * @param {Point} toPoint
+	 * @param {Point} arg0
 	 * 		interpolates the point towards a given target point
-	 * @param {Number} amt
+	 * @param {Number} arg1
 	 * 		(0.0 - 1.0) interpolation factor
 	 * @return {Point} interpolated Point
 	 *
 	 * @example
 	 * var point = new Point(0, 0);
-	 * var toPoint = new Point(100, 100);
-	 * point.interpolateTo(toPoint, 0.5); // {x: 50, y: 50}
+	 * var arg0 = new Point(100, 100);
+	 * point.interpolateTo(arg0, 0.5); // {x: 50, y: 50}
 	 *
 	 */
 	/**
@@ -2375,9 +2375,15 @@ paper.Point.inject({
 	 * console.log( interpolate ); // { x: 180, y: 60 }
 	 *
 	 */
-	interpolateTo: function(toPoint, amt) {
-		this.x += ((toPoint.x - this.x) * amt);
-		this.y += ((toPoint.y - this.y) * amt);
+	interpolateTo: function(arg0, arg1, arg2) {
+		if( arguments.length === 3 ) {
+			this.x = arg0.x + ((arg1.x - arg0.x) * arg2);
+			this.y = arg0.y + ((arg1.y - arg0.y) * arg2);
+		}
+		else {
+			this.x += ((arg0.x - this.x) * arg1);
+			this.y += ((arg0.y - this.y) * arg1);
+		}
 		return this;
 	},
 
