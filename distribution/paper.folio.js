@@ -3921,7 +3921,7 @@ folio.FIO = {
  */
 
 /**
- * FCirclePacker
+ * FCirclePack
  *
  * @param {Array} circleItems
  *				Array of Items
@@ -3931,10 +3931,10 @@ folio.FIO = {
  * @return {Array}
  *
  */
-folio.FCirclePacker = function(circleItems, iterations) {
-	// ------------------------------------------------------------------------
+folio.FCirclePack = function(circleItems, iterations) {
+	//
 	// Properties
-	// ------------------------------------------------------------------------
+	//
 	circleItems = circleItems;
 	iterations = (iterations != undefined)
 		? iterations
@@ -3944,37 +3944,33 @@ folio.FCirclePacker = function(circleItems, iterations) {
 	var padding = 0;
 
 
-
-	// ------------------------------------------------------------------------
+	//
 	// Methods
-	// ------------------------------------------------------------------------
+	//
 	var update = function() {
-		circleItems = circleItems.sort( folio.distanceToCenter );
+		// circleItems = circleItems.sort( folio.distanceToCenter );
 		var pp = new Point();
 
 		// Push items away from each other
-		for (var i = circleItems.length - 1; i >= 0; --i) {
+		for (var i=circleItems.length-1; i>=0; --i) {
 			var ci = circleItems[i];
-			var ciPt = ci.position;
 
-			for (var j = i + 1; j < circleItems.length; j++) {
+			for (var j=i+1; j<circleItems.length; j++) {
 				var cj = circleItems[j];
-				var cjPt = cj.position;
 
 				if (i == j) continue;
 
-				var dx = cjPt.x - ciPt.x;
-				var dy = cjPt.y - ciPt.y;
+				var dx = cj.position.x - ci.position.x;
+				var dy = cj.position.y - ci.position.y;
 
-				// this alogroithm is designed for circles,
-				// so we assume every object is either a
-				// circle or a square.
+				// this alogroithm is designed for circles, so we assume
+				// every object is either a circle or a square.
+				//
 				// polygon packing is a much larger challenge
 				// http://en.wikipedia.org/wiki/Packing_problem
 				// hence why we just halve the "width" in
 				// order to get the object's radius
 				var r = (ci.bounds.size.width / 2) + (cj.bounds.size.width / 2) + padding;
-
 				var d = (dx * dx) + (dy * dy);
 
 				if (d < (r * r) - 0.01) {
@@ -3985,12 +3981,12 @@ folio.FCirclePacker = function(circleItems, iterations) {
 
 					try {
 						// if(cj != this.dragCircle) {
-						cjPt.x += pp.x;
-						cjPt.y += pp.y;
+						cj.position.x += pp.x;
+						cj.position.y += pp.y;
 						// }
 						// if(ci != this.dragCircle) {
-						ciPt.x -= pp.x;
-						ciPt.y -= pp.y;
+						ci.position.x -= pp.x;
+						ci.position.y -= pp.y;
 						// }
 					}
 					catch(err) {
@@ -4004,17 +4000,17 @@ folio.FCirclePacker = function(circleItems, iterations) {
 		}
 
 		// push items toward center
-		var damping = dampingAmt / Number(iterations);
+		var damping = dampingAmt / parseInt(iterations);
 
 		for (var i = 0; i < circleItems.length; i++) {
 			var c = circleItems[i];
-			var cPt = c.position;
 			// if(c == this.dragCircle) continue;
-			pp.x = cPt.x - artboard.bounds.center.x;
-			pp.y = cPt.y - artboard.bounds.center.y;
+			pp.x = c.position.x; //- view.bounds.center.x;
+			pp.y = c.position.y; //- view.bounds.center.y;
 			pp = pp.multiply(damping);
-			cPt.x -= pp.x;
-			cPt.y -= pp.y;
+			// }
+			c.position.x -= pp.x;
+			c.position.y -= pp.y;
 		}
 
 		// if(this.dragCircle && this._mouseEvent) {
@@ -4023,7 +4019,7 @@ folio.FCirclePacker = function(circleItems, iterations) {
 		// }
 	};
 
-	// ------------------------------------------------------------------------
+	//
 	/**
 	 * TODO: if to be made autonomous, these
 	 * methods will have to be built in
@@ -4052,9 +4048,9 @@ folio.FCirclePacker = function(circleItems, iterations) {
 
 
 
-	// ------------------------------------------------------------------------
+	//
 	// sets
-	// ------------------------------------------------------------------------
+	//
 	/**
 	 * @param {Array} item
 	 * 		Array of Path.Items to add to circle packer
@@ -4089,9 +4085,9 @@ folio.FCirclePacker = function(circleItems, iterations) {
 	};
 
 
-	// ------------------------------------------------------------------------
+	//
 	// gets
-	// ------------------------------------------------------------------------
+	//
 	/**
 	 *
 	 * @return {Array} the items being packed
@@ -4113,9 +4109,9 @@ folio.FCirclePacker = function(circleItems, iterations) {
 
 
 
-	// ------------------------------------------------------------------------
+	//
 	// gets
-	// ------------------------------------------------------------------------
+	//
 	return {
 		update:		update,
 
