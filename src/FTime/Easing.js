@@ -64,7 +64,7 @@ folio.FTime.Ease = function() {
 	 * use bezier curve for transition easing function
 	 *
 	 * @param {Array} arg0
-	 * 				an array (4) of normalized X,Y values [ x1, y1, x2, y2 ]
+	 *				an array (4) of normalized X,Y values [ x1, y1, x2, y2 ]
 	 *
 	 * @example
 	 * var spline = new KeySpline(0.25, 0.1, 0.25, 1.0)
@@ -76,9 +76,9 @@ folio.FTime.Ease = function() {
 	 * use bezier curve for transition easing function
 	 *
 	 * @param {Point} arg0
-	 * 				Point 1
+	 *				Point 1
 	 * @param {Point} arg1
-	 * 				Point 2
+	 *				Point 2
 	 *
 	 * @example
 	 * var spline = new KeySpline(
@@ -111,11 +111,11 @@ folio.FTime.Ease = function() {
 		//
 		/**
 		 * @param {Number} t
-		 * 				a float from 0.0 - 1.0
+		 *				a float from 0.0 - 1.0
 		 * @param {Number} arg0
-		 * 				x1 or y1
+		 *				x1 or y1
 		 * @param {Number} arg1
-		 * 				x2 or y2
+		 *				x2 or y2
 		 *
 		 * @return {Number} x(t)
 		 *
@@ -126,11 +126,11 @@ folio.FTime.Ease = function() {
 
 		/**
 		 * @param {Number} t
-		 * 				a float from 0.0 - 1.0
+		 *				a float from 0.0 - 1.0
 		 * @param {Number} arg0
-		 * 				x1 or y1
+		 *				x1 or y1
 		 * @param {Number} arg1
-		 * 				x2 or y2
+		 *				x2 or y2
 		 *
 		 * @return {Number} dx/dt
 		 *

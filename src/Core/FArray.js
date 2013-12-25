@@ -53,7 +53,7 @@ Array.prototype.unique = function() {
  * merges (then shuffles) two Arrays
  *
  * @param {Array} arr
- * 			Array object
+ *			Array object
  *
  * @return {Array} new merged Array object
  *
@@ -69,9 +69,9 @@ Array.prototype.merge = function(arr) {
 /**
  *
  * @param {Number} start
- * 			start position in array
+ *			start position in array
  * @param {Number} stop
- * 			stop position in array
+ *			stop position in array
  *
  * @return {Number} maximum value within array
  *
@@ -92,9 +92,9 @@ Array.prototype.max = function(start, stop) {
 /**
  *
  * @param {Number} start
- * 			start position in array
+ *			start position in array
  * @param {Number} stop
- * 			stop position in array
+ *			stop position in array
  *
  * @return {Number} minimum value within array
  *

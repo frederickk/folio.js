@@ -23,11 +23,11 @@ folio.F3D.FPath3.inject({
 			 * Create simple box
 			 *
 			 * @param {folio.F3D.FScene3D} scene
-			 * 			the scene to attach the Box to
+			 *			the scene to attach the Box to
 			 * @param {folio.F3D.FPoint3} fpoint3
 			 * 	  		the position of the Box
 			 * @param {folio.F3D.FSize3} fsize3
-			 * 			the size of the Box
+			 *			the size of the Box
 			 *
 			 */
 			FBox: function(scene, fpoint3, fsize3) {
@@ -117,15 +117,15 @@ folio.F3D.FPath3.inject({
 			 * Create simple sphere
 			 *
 			 * @param {folio.F3D.FScene3D} scene
-			 * 			the scene to attach the Sphere to
+			 *			the scene to attach the Sphere to
 			 * @param {folio.F3D.FPoint3} fpoint3
 			 * 	  		the position of the Sphere
 			 * @param {folio.F3D.FSize3} radius
-			 * 			the radius of the Sphere
+			 *			the radius of the Sphere
 			 * @param {Array} detail (optional)
-			 * 			the longitude and latitude detail
-			 * 			default: [6,6]
-			 * 			*** anything over [21,21] and you should probably be using Three.js ***
+			 *			the longitude and latitude detail
+			 *			default: [6,6]
+			 *			*** anything over [21,21] and you should probably be using Three.js ***
 			 *
 			 */
 			FSphere: function(scene, fpoint3, radius, detail) {

@@ -17,7 +17,7 @@ paper.Color.inject({
 	/**
 	 *
 	 * @param {Number} component
-	 * 					input value to convert
+	 *					input value to convert
 	 *
 	 * @return {String} hex value of input color as string
 	 *

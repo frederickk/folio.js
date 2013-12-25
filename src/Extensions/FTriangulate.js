@@ -76,11 +76,11 @@ folio.FTriangulate = function( points ) {
 	 * Triangle
 	 *
 	 * @param {Point} p1
-	 * 			first Point of Triangle
+	 *			first Point of Triangle
 	 * @param {Point} p2
-	 * 			second Point of Triangle
+	 *			second Point of Triangle
 	 * @param {Point} p3
-	 * 			third Point of Triangle
+	 *			third Point of Triangle
 	 */
 	// TODO: remove this and rely on Path.Triangle
 	var Triangle = function( p1, p2, p3 ) {
@@ -100,7 +100,7 @@ folio.FTriangulate = function( points ) {
 		 * vertex (Edge) sharing
 		 *
 		 * @param {Triangle} other
-		 * 			the triangle to check for vertex (Edge) sharing
+		 *			the triangle to check for vertex (Edge) sharing
 		 *
 		 * @return {Triangle} the triangle that shares the given vertex (Edge)
 		 */
@@ -263,9 +263,9 @@ folio.FTriangulate = function( points ) {
 	 * TODO: replace with paper.Segment
 	 *
 	 * @param {Point} p1
-	 * 			first Point of Edge
+	 *			first Point of Edge
 	 * @param {Point} p2
-	 * 			second Point of Edge
+	 *			second Point of Edge
 	 */
 	var Edge = function( p1, p2 ) {
 		// -----------------------------------------------------------------------------
@@ -284,7 +284,7 @@ folio.FTriangulate = function( points ) {
 		 * sorts edge by shortest to longest
 		 *
 		 * @param {Edge} other
-		 * 			Edge to compare against
+		 *			Edge to compare against
 		 *
 		 * @return {Number}
 		 */
@@ -491,11 +491,11 @@ folio.FTriangulate = function( points ) {
 	 * NOTE: A point on the edge is inside the circumcircle
 	 *
 	 * @param {Point} p
-	 * 			Point to check
+	 *			Point to check
 	 * @param {Triangle} t
-	 * 			Triangle to check
+	 *			Triangle to check
 	 * @param {Item} circle
-	 * 			circle to check
+	 *			circle to check
 	 *
 	 */
 	function circumCircle( p, t, circle ) {

@@ -86,17 +86,17 @@ folio.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
 	 */
 	/**
 	 * @param minw
-	 * 			minmum width (default: 0)
+	 *			minmum width (default: 0)
 	 * @param maxw
-	 * 			maximum width (default: view.bounds.width)
+	 *			maximum width (default: view.bounds.width)
 	 * @param minh
-	 * 			minmum height (default: 0)
+	 *			minmum height (default: 0)
 	 * @param maxh
-	 * 			maximum height (default: view.bounds.height)
+	 *			maximum height (default: view.bounds.height)
 	 * @param mind
-	 * 			minmum depth (default: 0)
+	 *			minmum depth (default: 0)
 	 * @param maxd
-	 * 			maximum depth (default: 1000)
+	 *			maximum depth (default: 1000)
 	 *
 	 * @return random size
 	 *

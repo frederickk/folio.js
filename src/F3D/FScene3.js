@@ -82,17 +82,17 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 	// ------------------------------------------------------------------------
 	/**
 	 * @param width
-	 * 			width of scene
-	 * 			default: view.bounds.width
+	 *			width of scene
+	 *			default: view.bounds.width
 	 * @param height
-	 * 			height of scene
-	 * 			default: view.bounds.height
+	 *			height of scene
+	 *			default: view.bounds.height
 	 * @param focalLength
-	 * 			focal length of scene
-	 * 			default: 1000
+	 *			focal length of scene
+	 *			default: 1000
 	 * @param mode
-	 * 			'PERSPECTIVE' objects scale to perspective
-	 * 			'ORTHO' objects do not scale (isometric)
+	 *			'PERSPECTIVE' objects scale to perspective
+	 *			'ORTHO' objects do not scale (isometric)
 	 *
 	 */
 	this.setup = function(width, height, focalLength, mode) {
@@ -211,11 +211,11 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 	// ------------------------------------------------------------------------
 	/**
 	 * @param arg0
-	 * 			x coordinate
+	 *			x coordinate
 	 * @param arg1
-	 * 			y coordinate
+	 *			y coordinate
 	 * @param arg2
-	 * 			z coordinate
+	 *			z coordinate
 	 *
 	 * @return total number of points added to scene
 	 *
@@ -238,11 +238,11 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 	// ------------------------------------------------------------------------
 	/**
 	 * @param pointsArr
-	 * 			the array of points x[0], y[1], z[2]
+	 *			the array of points x[0], y[1], z[2]
 	 * @param start
-	 * 			start position in array
+	 *			start position in array
 	 * @param stop
-	 * 			stop position in array
+	 *			stop position in array
 	 *
 	 * @return average value of z
 	 *
@@ -277,8 +277,8 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 	// ------------------------------------------------------------------------
 	/**
 	 * @param mode
-	 * 			'PERSPECTIVE' objects scale to perspective
-	 * 			'ORTHO' objects do not scale (isometric)
+	 *			'PERSPECTIVE' objects scale to perspective
+	 *			'ORTHO' objects do not scale (isometric)
 	 */
 	this.setMode = function(mode) {
 		_mode = mode != undefined ? mode : 'PERSPECTIVE';

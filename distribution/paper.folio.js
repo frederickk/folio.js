@@ -301,7 +301,6 @@ PaperScope.inject({
 			else if (object instanceof paper.Size) return 'Size';
 			else if (object instanceof paper.Rectangle) return 'Rectangle';
 			else if (object instanceof Group) return 'Group';
-			else if (object instanceof paper.PlacedItem) return 'PlacedItem';
 			else if (object instanceof paper.Raster) return 'Raster';
 			else if (object instanceof paper.PlacedSymbol) return 'PlacedSymbol';
 			else if (object instanceof paper.Path) return 'Path';
@@ -412,7 +411,7 @@ Array.prototype.unique = function() {
  * merges (then shuffles) two Arrays
  *
  * @param {Array} arr
- * 			Array object
+ *			Array object
  *
  * @return {Array} new merged Array object
  *
@@ -428,9 +427,9 @@ Array.prototype.merge = function(arr) {
 /**
  *
  * @param {Number} start
- * 			start position in array
+ *			start position in array
  * @param {Number} stop
- * 			stop position in array
+ *			stop position in array
  *
  * @return {Number} maximum value within array
  *
@@ -451,9 +450,9 @@ Array.prototype.max = function(start, stop) {
 /**
  *
  * @param {Number} start
- * 			start position in array
+ *			start position in array
  * @param {Number} stop
- * 			stop position in array
+ *			stop position in array
  *
  * @return {Number} minimum value within array
  *
@@ -594,9 +593,9 @@ PaperScope.inject({
 	// -----------------------------------------------------------------------------
 	/**
 	 * @param {Number} min
-	 * 			minmum range
+	 *			minmum range
 	 * @param {Number} max
-	 * 			maximum range
+	 *			maximum range
 	 *
 	 * @return {Number} random number as float
 	 *
@@ -618,9 +617,9 @@ PaperScope.inject({
 
 	/**
 	 * @param {Number} min
-	 * 			minmum range
+	 *			minmum range
 	 * @param {Number} max
-	 * 			maximum range
+	 *			maximum range
 	 *
 	 * @return {Number} random number as integer
 	 *
@@ -637,13 +636,13 @@ PaperScope.inject({
 	 * http://www.siafoo.net/snippet/191
 	 *
 	 * @param {Number} minr
-	 * 			minmum range
+	 *			minmum range
 	 * @param {Number} maxr
-	 * 			maximum range
+	 *			maximum range
 	 * @param {Number} bias
-	 * 			bias represents the preference towards lower or higher numbers,
-	 * 			as a number between 0.0 and 1.0. For example:
-	 * 			random(0, 10, bias=0.9) will return 9 much more often than 1.
+	 *			bias represents the preference towards lower or higher numbers,
+	 *			as a number between 0.0 and 1.0. For example:
+	 *			random(0, 10, bias=0.9) will return 9 much more often than 1.
 	 *
 	 * @return {Number} a random, albeit biased, number
 	 *
@@ -664,14 +663,14 @@ PaperScope.inject({
 	/**
 	 *
 	 * @param {Number} val
-	 * 			the value to constrain
+	 *			the value to constrain
 	 * @param {Number} min
-	 * 			minimum limit
+	 *			minimum limit
 	 * @param {Number} max
-	 * 			maximum limit
+	 *			maximum limit
 	 *
 	 * @return {Number} original value that is not less than the
-	 * 				 minimum and no greater than the maximum
+	 *				 minimum and no greater than the maximum
 	 *
 	 * @example
 	 * var clamped = clamp(120, 0, 90); // 90
@@ -684,11 +683,11 @@ PaperScope.inject({
 	/**
 	 *
 	 * @param {Number} val
-	 * 			the incoming value to be converted
+	 *			the incoming value to be converted
 	 * @param {Number} start
-	 * 			lower bound of the value's current range
+	 *			lower bound of the value's current range
 	 * @param {Number} stop
-	 * 			upper bound of the value's current range
+	 *			upper bound of the value's current range
 	 *
 	 * @return {Number} float value between 0.0 and 1.0
 	 *
@@ -703,15 +702,15 @@ PaperScope.inject({
 	/**
 	 *
 	 * @param {Number} val
-	 * 			the incoming value to be converted
+	 *			the incoming value to be converted
 	 * @param {Number} istart
-	 * 			lower bound of the value's current range
+	 *			lower bound of the value's current range
 	 * @param {Number} istop
-	 * 			upper bound of the value's current range
+	 *			upper bound of the value's current range
 	 * @param {Number} ostart
-	 * 			lower bound of the value's target range
+	 *			lower bound of the value's target range
 	 * @param {Number} ostop
-	 * 			upper bound of the value's target range
+	 *			upper bound of the value's target range
 	 *
 	 * @return {Number} re-mapped value
 	 *
@@ -877,7 +876,6 @@ PaperScope.inject({
 	},
 
 	/**
-	 *
 	 * Calculate cosecants
 	 *
 	 * http://www.ssicom.org/js/x974284.htm
@@ -895,15 +893,46 @@ PaperScope.inject({
 
 	// ------------------------------------------------------------------------
 	/**
+	 * Slope
 	 *
-	 * @param {Point} point
-	 * 		input point
+	 * @param {Number} angle
+	 * 		angle of slope (rise)
+	 * @param {Number} val
+	 * 		length of slope (run)
+	 *
+	 * @return {Point} slope (rise/run)
+	 *
+	 */
+	slope: function(angle, distance) {
+		var x = distance*Math.cos( paper.radians(angle) );
+		var y = distance*Math.sin( paper.radians(angle) );
+		return new Point(x,y);
+	},
+
+	/**
+	 * Slope ratio
+	 *
+	 * @param {Point} point1
+	 * @param {Point} point2
 	 *
 	 * @return {Number} slope ratio
 	 *
 	 */
-	// slope: function(point) {
-	// }
+	slopeRatio: function(point1, point2) {
+		return (point2.y - point1.y) / (point2.x - point1.x);
+	},
+
+	/**
+	 * Slope to angle
+	 *
+	 * @param {Point} slope
+	 *
+	 * @return {Number} angle in radians
+	 *
+	 */
+	slopeToAngle: function(slope) {
+		return Math.atan( slope.x/slope.y );
+	},
 
 	// ------------------------------------------------------------------------
 	/**
@@ -926,9 +955,9 @@ PaperScope.inject({
 	 * get common outer tangents of two circles (only works with circles!)
 	 *
 	 * @param {Path.Circle} arg0
-	 * 			the first Circle
+	 *			the first Circle
 	 * @param {Path.Circle} arg1
-	 * 			the second Circle
+	 *			the second Circle
 	 *
 	 * @return {Array} of points
 	 *
@@ -937,9 +966,9 @@ PaperScope.inject({
 	 * TODO: get common outer tangents of two curves
 	 *
 	 * @param {Curve} arg0
-	 * 			the first Curve
+	 *			the first Curve
 	 * @param {Curve} arg1
-	 * 			the second Curve
+	 *			the second Curve
 	 *
 	 * @return {Array} of points
 	 *
@@ -1007,7 +1036,7 @@ paper.Color.inject({
 	/**
 	 *
 	 * @param {Number} component
-	 * 					input value to convert
+	 *					input value to convert
 	 *
 	 * @return {String} hex value of input color as string
 	 *
@@ -1496,8 +1525,8 @@ paper.Item.inject({
 	// -----------------------------------------------------------------------------
 	/**
 	 * @param {Size} spacing
-	 * 			spacing.width  = the horizontal snapping value, width of the grid.
-	 * 			spacing.height = the vertical snapping value, height of the grid.
+	 *			spacing.width  = the horizontal snapping value, width of the grid.
+	 *			spacing.height = the vertical snapping value, height of the grid.
 	 *
 	 */
 	snapGrid: function(spacing) {
@@ -1509,7 +1538,7 @@ paper.Item.inject({
 	 * snaps point to an isometric grid
 	 *
 	 * @param {Number} scale
-	 * 			scale of the grid (1.0 = 32x16)
+	 *			scale of the grid (1.0 = 32x16)
 	 *
 	 */
 	snapIso: function(scale) {
@@ -1538,7 +1567,7 @@ paper.Item.inject({
 	 *
 	 */
 	toGroup: function() {
-		if (folio.getType(this) == 'CompoundPath') {
+		if (paper.getType(this) == 'CompoundPath') {
 			return new Group( this.children );
 		}
 		else {
@@ -1869,11 +1898,11 @@ paper.Path.inject({
 			 * Create simple arrow
 			 *
 			 * @param {Point} headPoint
-			 * 			the head of the arrow
+			 *			the head of the arrow
 			 * @param {Point} tailPoint
-			 * 			the tail of the arrow
+			 *			the tail of the arrow
 			 * @param {Size} arrowHeadSize
-			 * 			(optional) length of the arrow head
+			 *			(optional) length of the arrow head
 			 *
 			 * @example
 			 * var headPoint = new paper.Point( 9,9 );
@@ -1913,17 +1942,17 @@ paper.Path.inject({
 			 * Create a simple speech bubble
 			 *
 			 * @param {Point} bubblePoint
-			 * 			the position of the bubble
+			 *			the position of the bubble
 			 * @param {Size} bubbleSize
-			 * 			the size of the bubble
+			 *			the size of the bubble
 			 * @param {Size} bubbleTagSize
-			 * 			the size of the tag
+			 *			the size of the tag
 			 * @param {String} bubbleTagCenter
-			 * 			(optional)
-			 * 			'RANDOM'	randomly x-position the point (default)
-			 * 			'LEFT'		left align the x-position of the point
-			 * 			'CENTER'	center align the x-position of the point
-			 * 			'RIGHT'		right align the x-position of the point
+			 *			(optional)
+			 *			'RANDOM'	randomly x-position the point (default)
+			 *			'LEFT'		left align the x-position of the point
+			 *			'CENTER'	center align the x-position of the point
+			 *			'RIGHT'		right align the x-position of the point
 			 *
 			 * @example
 			 * var bubblePoint = new paper.Point( 45,45 );
@@ -2007,13 +2036,13 @@ paper.Path.inject({
 			 * Create simple chain (a line with different endpoint sizes)
 			 *
 			 * @param {Point} arg0
-			 * 			point1 The first point (endpoint1)
+			 *			point1 The first point (endpoint1)
 			 * @param {Number} arg1
-			 * 			radius of endpoint1
+			 *			radius of endpoint1
 			 * @param {Point} arg2
-			 * 			point2 The second point (endpoint2)
+			 *			point2 The second point (endpoint2)
 			 * @param {Number} arg3
-			 * 			radius of endpoint2
+			 *			radius of endpoint2
 			 *
 			 * @example
 			 * var point1 = new paper.Point( 9,9 );
@@ -2026,9 +2055,9 @@ paper.Path.inject({
 			/**
 			 *
 			 * @param {Path} arg0
-			 * 			PathItem (endpoint1)
+			 *			PathItem (endpoint1)
 			 * @param {Path} arg1
-			 * 			PathItem (endpoint2)
+			 *			PathItem (endpoint2)
 			 *
 			 * @example
 			 * var path1 = new paper.Path.Circle( new Point(9,9), 9 );
@@ -2093,14 +2122,14 @@ paper.Path.inject({
 			 * Create a cross
 			 *
 			 * @param {Point} centerPoint
-			 * 			position of cross
+			 *			position of cross
 			 * @param {Size} size
-			 * 			size [width,height] of cross
+			 *			size [width,height] of cross
 			 * @param {Number} strokeWidth
-			 * 			thickness of the cross
+			 *			thickness of the cross
 			 * @param {String} crossType (optional)
-			 * 			'SHARP'		sharp edged cross (fill)
-			 * 			'LINE'		simple built of lines (stroke)
+			 *			'SHARP'		sharp edged cross (fill)
+			 *			'LINE'		simple built of lines (stroke)
 			 *
 			 * @example
 			 * var centerPoint = new paper.Point( 45,45 );
@@ -2161,9 +2190,9 @@ paper.Path.inject({
 			 * Create a (tear)drop
 			 *
 			 * @param {Point} centerPoint
-			 * 			position of cross
+			 *			position of cross
 			 * @param {Number} arg1
-			 * 			scale drop, maintains intended proportion
+			 *			scale drop, maintains intended proportion
 			 *
 			 * @example
 			 * var centerPoint = new paper.Point( 45,45 );
@@ -2174,9 +2203,9 @@ paper.Path.inject({
 			/**
 			 *
 			 * @param {Point} centerPoint
-			 * 			position of cross
+			 *			position of cross
 			 * @param {Size} arg1
-			 * 			scale drop, custom proportion
+			 *			scale drop, custom proportion
 			 *
 			 * @example
 			 * var centerPoint = new paper.Point( 45,45 );
@@ -2240,11 +2269,11 @@ paper.Path.inject({
 			 * Create a triangle
 			 *
 			 * @param {Point} p1
-			 * 			first point of triangle
+			 *			first point of triangle
 			 * @param {Point} p2
-			 * 			second point of triangle
+			 *			second point of triangle
 			 * @param {Point} p3
-			 * 			third point of triangle
+			 *			third point of triangle
 			 *
 			 * @example
 			 * var p1 = new paper.Point( 9,9 );
@@ -2301,11 +2330,11 @@ paper.Point.inject({
 	 * http://gmc.yoyogames.com/index.php?showtopic=290349
 	 *
 	 * @param {Size} spacing
-	 * 			scale.width  = x scale of the grid.
-	 * 			scale.height = y scale of the grid.
+	 *			scale.width  = x scale of the grid.
+	 *			scale.height = y scale of the grid.
 	 * @param {Object} options
-	 * 			{ grid: true }
-	 * 			{ isometric: true }
+	 *			{ grid: true }
+	 *			{ isometric: true }
 	 *
 	 * @return {Point} snapped Point
 	 *
@@ -2314,10 +2343,10 @@ paper.Point.inject({
 	 * snaps point to an isometric grid
 	 *
 	 * @param {Number} scale
-	 * 			scale of the grid
+	 *			scale of the grid
 	 * @param {Object} options
-	 * 			{ grid: true }
-	 * 			{ isometric: true }
+	 *			{ grid: true }
+	 *			{ isometric: true }
 	 *
 	 * @return {Point} snapped Point
 	 *
@@ -2441,9 +2470,9 @@ paper.Point.inject({
 	 * Normalize a point between two other points (start and end).
 	 *
 	 * @param {Point} start
-	 * 			start Point
+	 *			start Point
 	 * @param {Point} stop
-	 * 			stop Point
+	 *			stop Point
 	 *
 	 * @return {Point} normalized Point
 	 *
@@ -2786,7 +2815,7 @@ folio.FTime.Ease = function() {
 	 * use bezier curve for transition easing function
 	 *
 	 * @param {Array} arg0
-	 * 				an array (4) of normalized X,Y values [ x1, y1, x2, y2 ]
+	 *				an array (4) of normalized X,Y values [ x1, y1, x2, y2 ]
 	 *
 	 * @example
 	 * var spline = new KeySpline(0.25, 0.1, 0.25, 1.0)
@@ -2798,9 +2827,9 @@ folio.FTime.Ease = function() {
 	 * use bezier curve for transition easing function
 	 *
 	 * @param {Point} arg0
-	 * 				Point 1
+	 *				Point 1
 	 * @param {Point} arg1
-	 * 				Point 2
+	 *				Point 2
 	 *
 	 * @example
 	 * var spline = new KeySpline(
@@ -2833,11 +2862,11 @@ folio.FTime.Ease = function() {
 		//
 		/**
 		 * @param {Number} t
-		 * 				a float from 0.0 - 1.0
+		 *				a float from 0.0 - 1.0
 		 * @param {Number} arg0
-		 * 				x1 or y1
+		 *				x1 or y1
 		 * @param {Number} arg1
-		 * 				x2 or y2
+		 *				x2 or y2
 		 *
 		 * @return {Number} x(t)
 		 *
@@ -2848,11 +2877,11 @@ folio.FTime.Ease = function() {
 
 		/**
 		 * @param {Number} t
-		 * 				a float from 0.0 - 1.0
+		 *				a float from 0.0 - 1.0
 		 * @param {Number} arg0
-		 * 				x1 or y1
+		 *				x1 or y1
 		 * @param {Number} arg1
-		 * 				x2 or y2
+		 *				x2 or y2
 		 *
 		 * @return {Number} dx/dt
 		 *
@@ -3596,9 +3625,9 @@ folio.FIO = {
 	 * http://www.w3schools.com/html/html5_webstorage.asp
 	 *
 	 * @param {String} name
-	 * 			the name (key) of what we want to save
+	 *			the name (key) of what we want to save
 	 * @param {Object} value
-	 * 			what we want to save
+	 *			what we want to save
 	 */
 	saveLocal: function(name, value) {
 		if(window.localStorage) {
@@ -3613,7 +3642,7 @@ folio.FIO = {
 	 * retrieve saved value (default: as string)
 	 *
 	 * @param {String} name
-	 * 			the name (key) of what we want to retrieve
+	 *			the name (key) of what we want to retrieve
 	 *
 	 * @return {String} float value
 	 */
@@ -3625,7 +3654,7 @@ folio.FIO = {
 	 * retrieve saved value as an int
 	 *
 	 * @param {String} name
-	 * 			the name (key) of what we want to retrieve
+	 *			the name (key) of what we want to retrieve
 	 *
 	 * @return {Number} int value
 	 */
@@ -3637,7 +3666,7 @@ folio.FIO = {
 	 * retrieve saved value as a float
 	 *
 	 * @param {String} name
-	 * 			the name (key) of what we want to retrieve
+	 *			the name (key) of what we want to retrieve
 	 *
 	 * @return {Number} float value
 	 */
@@ -3658,7 +3687,7 @@ folio.FIO = {
 	 * delete a saved value from local storage
 	 *
 	 * @param {String} name
-	 * 			the name (key) of what we want to delete
+	 *			the name (key) of what we want to delete
 	 */
 	deleteLocal: function(name) {
 		localStorage.removeItem(name);
@@ -3676,9 +3705,9 @@ folio.FIO = {
 	 * http://www.w3schools.com/html/html5_webstorage.asp
 	 *
 	 * @param {String} name
-	 * 			the name (key) of what we want to save
+	 *			the name (key) of what we want to save
 	 * @param {Object} value
-	 * 			what we want to save
+	 *			what we want to save
 	 */
 	saveSession: function(name, value) {
 		if(window.sessionStorage) {
@@ -3693,7 +3722,7 @@ folio.FIO = {
 	 * retrieve saved value (default: as string)
 	 *
 	 * @param {String} name
-	 * 			the name (key) of what we want to retrieve
+	 *			the name (key) of what we want to retrieve
 	 *
 	 * @return {String} string value
 	 */
@@ -3705,7 +3734,7 @@ folio.FIO = {
 	 * retrieve saved value as an int
 	 *
 	 * @param {String} name
-	 * 			the name (key) of what we want to retrieve
+	 *			the name (key) of what we want to retrieve
 	 *
 	 * @return {Number} int value
 	 */
@@ -3717,7 +3746,7 @@ folio.FIO = {
 	 * retrieve saved value as a float
 	 *
 	 * @param {String} name
-	 * 			the name (key) of what we want to retrieve
+	 *			the name (key) of what we want to retrieve
 	 *
 	 * @return {Number} float value
 	 */
@@ -3738,7 +3767,7 @@ folio.FIO = {
 	 * delete a saved value from session storage
 	 *
 	 * @param {String} name
-	 * 			the name (key) of what we want to delete
+	 *			the name (key) of what we want to delete
 	 *
 	 */
 	deleteSession: function(name) {
@@ -3757,11 +3786,11 @@ folio.FIO = {
 	 * save a value as a cookie
 	 *
 	 * @param {String} name
-	 * 			the name (key) of what we want to save
+	 *			the name (key) of what we want to save
 	 * @param {Object} value
-	 * 			what we want to save
+	 *			what we want to save
 	 * @param {Number} days
-	 * 			how many days do we want to save it for
+	 *			how many days do we want to save it for
 	 */
 	saveCookie: function(name, value, days) {
 		if (days) {
@@ -3777,7 +3806,7 @@ folio.FIO = {
 	 * retrieve a value from a cookie
 	 *
 	 * @param {String} name
-	 * 			the name (key) of what we want to retrieve
+	 *			the name (key) of what we want to retrieve
 	 */
 	openCookie: function(name) {
 		var nameEQ = name + '=';
@@ -3794,7 +3823,7 @@ folio.FIO = {
 	 * delete a cookie
 	 *
 	 * @param {String} name
-	 * 			the name (key) of what we want to delete
+	 *			the name (key) of what we want to delete
 	 */
 	deleteCookie: function(name) {
 		saveCookie(name, '', -1);
@@ -3813,9 +3842,9 @@ folio.FIO = {
 
 	/**
 	 * @param {String} str
-	 * 			the String of information to save (JSON encoded)
+	 *			the String of information to save (JSON encoded)
 	 * @param {String} fname
-	 * 			the name of the file to save to
+	 *			the name of the file to save to
 	 */
 	saveFile: function(str, fname) {
 		var file = new File(script.file.parent, fname);
@@ -3827,7 +3856,7 @@ folio.FIO = {
 
 	/**
 	 * @param {String} fname
-	 * 			the name of the file to open
+	 *			the name of the file to open
 	 *
 	 * @return {Object} JSon output
 	 */
@@ -3842,7 +3871,7 @@ folio.FIO = {
 
 	/**
 	 * @param {String} fname
-	 * 			the name of the file to delete
+	 *			the name of the file to delete
 	 */
 	deleteFile: function(fname) {
 		var file = new File(script.file.parent, fname);
@@ -3852,7 +3881,7 @@ folio.FIO = {
 
 	/**
 	 * @param {String} fname
-	 * 			the name of the file to verify exists
+	 *			the name of the file to verify exists
 	 *
 	 * @return {Boolean} true if exists, false otherwise
 	 */
@@ -3895,9 +3924,9 @@ folio.FIO = {
  * FCirclePacker
  *
  * @param {Array} circleItems
- * 				Array of Items
+ *				Array of Items
  * @param {Number} iterations
- * 				(optional) number of iterations per cycle (default: 11)
+ *				(optional) number of iterations per cycle (default: 11)
  *
  * @return {Array}
  *
@@ -4391,11 +4420,11 @@ folio.FTriangulate = function( points ) {
 	 * Triangle
 	 *
 	 * @param {Point} p1
-	 * 			first Point of Triangle
+	 *			first Point of Triangle
 	 * @param {Point} p2
-	 * 			second Point of Triangle
+	 *			second Point of Triangle
 	 * @param {Point} p3
-	 * 			third Point of Triangle
+	 *			third Point of Triangle
 	 */
 	// TODO: remove this and rely on Path.Triangle
 	var Triangle = function( p1, p2, p3 ) {
@@ -4415,7 +4444,7 @@ folio.FTriangulate = function( points ) {
 		 * vertex (Edge) sharing
 		 *
 		 * @param {Triangle} other
-		 * 			the triangle to check for vertex (Edge) sharing
+		 *			the triangle to check for vertex (Edge) sharing
 		 *
 		 * @return {Triangle} the triangle that shares the given vertex (Edge)
 		 */
@@ -4578,9 +4607,9 @@ folio.FTriangulate = function( points ) {
 	 * TODO: replace with paper.Segment
 	 *
 	 * @param {Point} p1
-	 * 			first Point of Edge
+	 *			first Point of Edge
 	 * @param {Point} p2
-	 * 			second Point of Edge
+	 *			second Point of Edge
 	 */
 	var Edge = function( p1, p2 ) {
 		// -----------------------------------------------------------------------------
@@ -4599,7 +4628,7 @@ folio.FTriangulate = function( points ) {
 		 * sorts edge by shortest to longest
 		 *
 		 * @param {Edge} other
-		 * 			Edge to compare against
+		 *			Edge to compare against
 		 *
 		 * @return {Number}
 		 */
@@ -4806,11 +4835,11 @@ folio.FTriangulate = function( points ) {
 	 * NOTE: A point on the edge is inside the circumcircle
 	 *
 	 * @param {Point} p
-	 * 			Point to check
+	 *			Point to check
 	 * @param {Triangle} t
-	 * 			Triangle to check
+	 *			Triangle to check
 	 * @param {Item} circle
-	 * 			circle to check
+	 *			circle to check
 	 *
 	 */
 	function circumCircle( p, t, circle ) {
@@ -5329,9 +5358,9 @@ var Matrix3D = function( n11, n12, n13, n14,
 	/**
 	 *
 	 * @param {FPoint3} axis
-	 * 			FPoint3 xyz
+	 *			FPoint3 xyz
 	 * @param {Number} angle
-	 * 			rotation angle in degrees
+	 *			rotation angle in degrees
 	 *
 	 */
 	this.setRotateAxis = function(axis, angle) {
@@ -5424,7 +5453,7 @@ var Matrix3D = function( n11, n12, n13, n14,
 	/**
 	 *
 	 * @param {FPoint3} fpoint3
-	 * 			FPoint3 xyz
+	 *			FPoint3 xyz
 	 *
 	 */
 	this.setPosition = function(fpoint3) {
@@ -5585,7 +5614,7 @@ folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
 	/**
 	 *
 	 * @param scene
-	 * 			the scene to attach this path to
+	 *			the scene to attach this path to
 	 *
 	 */
 	initialize: function FPath3(scene) {
@@ -5771,11 +5800,11 @@ folio.F3D.FPath3.inject({
 			 * Create simple box
 			 *
 			 * @param {folio.F3D.FScene3D} scene
-			 * 			the scene to attach the Box to
+			 *			the scene to attach the Box to
 			 * @param {folio.F3D.FPoint3} fpoint3
 			 * 	  		the position of the Box
 			 * @param {folio.F3D.FSize3} fsize3
-			 * 			the size of the Box
+			 *			the size of the Box
 			 *
 			 */
 			FBox: function(scene, fpoint3, fsize3) {
@@ -5865,15 +5894,15 @@ folio.F3D.FPath3.inject({
 			 * Create simple sphere
 			 *
 			 * @param {folio.F3D.FScene3D} scene
-			 * 			the scene to attach the Sphere to
+			 *			the scene to attach the Sphere to
 			 * @param {folio.F3D.FPoint3} fpoint3
 			 * 	  		the position of the Sphere
 			 * @param {folio.F3D.FSize3} radius
-			 * 			the radius of the Sphere
+			 *			the radius of the Sphere
 			 * @param {Array} detail (optional)
-			 * 			the longitude and latitude detail
-			 * 			default: [6,6]
-			 * 			*** anything over [21,21] and you should probably be using Three.js ***
+			 *			the longitude and latitude detail
+			 *			default: [6,6]
+			 *			*** anything over [21,21] and you should probably be using Three.js ***
 			 *
 			 */
 			FSphere: function(scene, fpoint3, radius, detail) {
@@ -6038,17 +6067,17 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 	 */
 	/**
 	 * @param minx
-	 * 			minmum x (default: 0)
+	 *			minmum x (default: 0)
 	 * @param maxx
-	 * 			maximum x (default: view.bounds.width)
+	 *			maximum x (default: view.bounds.width)
 	 * @param miny
-	 * 			minmum y (default: 0)
+	 *			minmum y (default: 0)
 	 * @param maxy
-	 * 			maximum y (default: view.bounds.height)
+	 *			maximum y (default: view.bounds.height)
 	 * @param minz
-	 * 			minmum z (default: 0)
+	 *			minmum z (default: 0)
 	 * @param maxz
-	 * 			maximum z (default: 1000)
+	 *			maximum z (default: 1000)
 	 *
 	 * @return random point
 	 *
@@ -6320,9 +6349,9 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 	 * Calculate the angle between two points, using the dot product
 	 *
 	 * @param _fpoint3a
-	 * 			a point
+	 *			a point
 	 * @param _fpoint3b
-	 * 			another point
+	 *			another point
 	 *
 	 * @return the angle between the points
 	 */
@@ -6448,17 +6477,17 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 	// ------------------------------------------------------------------------
 	/**
 	 * @param width
-	 * 			width of scene
-	 * 			default: view.bounds.width
+	 *			width of scene
+	 *			default: view.bounds.width
 	 * @param height
-	 * 			height of scene
-	 * 			default: view.bounds.height
+	 *			height of scene
+	 *			default: view.bounds.height
 	 * @param focalLength
-	 * 			focal length of scene
-	 * 			default: 1000
+	 *			focal length of scene
+	 *			default: 1000
 	 * @param mode
-	 * 			'PERSPECTIVE' objects scale to perspective
-	 * 			'ORTHO' objects do not scale (isometric)
+	 *			'PERSPECTIVE' objects scale to perspective
+	 *			'ORTHO' objects do not scale (isometric)
 	 *
 	 */
 	this.setup = function(width, height, focalLength, mode) {
@@ -6577,11 +6606,11 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 	// ------------------------------------------------------------------------
 	/**
 	 * @param arg0
-	 * 			x coordinate
+	 *			x coordinate
 	 * @param arg1
-	 * 			y coordinate
+	 *			y coordinate
 	 * @param arg2
-	 * 			z coordinate
+	 *			z coordinate
 	 *
 	 * @return total number of points added to scene
 	 *
@@ -6604,11 +6633,11 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 	// ------------------------------------------------------------------------
 	/**
 	 * @param pointsArr
-	 * 			the array of points x[0], y[1], z[2]
+	 *			the array of points x[0], y[1], z[2]
 	 * @param start
-	 * 			start position in array
+	 *			start position in array
 	 * @param stop
-	 * 			stop position in array
+	 *			stop position in array
 	 *
 	 * @return average value of z
 	 *
@@ -6643,8 +6672,8 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 	// ------------------------------------------------------------------------
 	/**
 	 * @param mode
-	 * 			'PERSPECTIVE' objects scale to perspective
-	 * 			'ORTHO' objects do not scale (isometric)
+	 *			'PERSPECTIVE' objects scale to perspective
+	 *			'ORTHO' objects do not scale (isometric)
 	 */
 	this.setMode = function(mode) {
 		_mode = mode != undefined ? mode : 'PERSPECTIVE';
@@ -6839,17 +6868,17 @@ folio.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
 	 */
 	/**
 	 * @param minw
-	 * 			minmum width (default: 0)
+	 *			minmum width (default: 0)
 	 * @param maxw
-	 * 			maximum width (default: view.bounds.width)
+	 *			maximum width (default: view.bounds.width)
 	 * @param minh
-	 * 			minmum height (default: 0)
+	 *			minmum height (default: 0)
 	 * @param maxh
-	 * 			maximum height (default: view.bounds.height)
+	 *			maximum height (default: view.bounds.height)
 	 * @param mind
-	 * 			minmum depth (default: 0)
+	 *			minmum depth (default: 0)
 	 * @param maxd
-	 * 			maximum depth (default: 1000)
+	 *			maximum depth (default: 1000)
 	 *
 	 * @return random size
 	 *

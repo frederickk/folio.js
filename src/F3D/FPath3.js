@@ -35,7 +35,7 @@ folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
 	/**
 	 *
 	 * @param scene
-	 * 			the scene to attach this path to
+	 *			the scene to attach this path to
 	 *
 	 */
 	initialize: function FPath3(scene) {

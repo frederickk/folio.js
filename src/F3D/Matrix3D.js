@@ -160,9 +160,9 @@ var Matrix3D = function( n11, n12, n13, n14,
 	/**
 	 *
 	 * @param {FPoint3} axis
-	 * 			FPoint3 xyz
+	 *			FPoint3 xyz
 	 * @param {Number} angle
-	 * 			rotation angle in degrees
+	 *			rotation angle in degrees
 	 *
 	 */
 	this.setRotateAxis = function(axis, angle) {
@@ -255,7 +255,7 @@ var Matrix3D = function( n11, n12, n13, n14,
 	/**
 	 *
 	 * @param {FPoint3} fpoint3
-	 * 			FPoint3 xyz
+	 *			FPoint3 xyz
 	 *
 	 */
 	this.setPosition = function(fpoint3) {

@@ -25,8 +25,8 @@ paper.Item.inject({
 	// -----------------------------------------------------------------------------
 	/**
 	 * @param {Size} spacing
-	 * 			spacing.width  = the horizontal snapping value, width of the grid.
-	 * 			spacing.height = the vertical snapping value, height of the grid.
+	 *			spacing.width  = the horizontal snapping value, width of the grid.
+	 *			spacing.height = the vertical snapping value, height of the grid.
 	 *
 	 */
 	snapGrid: function(spacing) {
@@ -38,7 +38,7 @@ paper.Item.inject({
 	 * snaps point to an isometric grid
 	 *
 	 * @param {Number} scale
-	 * 			scale of the grid (1.0 = 32x16)
+	 *			scale of the grid (1.0 = 32x16)
 	 *
 	 */
 	snapIso: function(scale) {
@@ -67,7 +67,7 @@ paper.Item.inject({
 	 *
 	 */
 	toGroup: function() {
-		if (folio.getType(this) == 'CompoundPath') {
+		if (paper.getType(this) == 'CompoundPath') {
 			return new Group( this.children );
 		}
 		else {
@@ -398,11 +398,11 @@ paper.Path.inject({
 			 * Create simple arrow
 			 *
 			 * @param {Point} headPoint
-			 * 			the head of the arrow
+			 *			the head of the arrow
 			 * @param {Point} tailPoint
-			 * 			the tail of the arrow
+			 *			the tail of the arrow
 			 * @param {Size} arrowHeadSize
-			 * 			(optional) length of the arrow head
+			 *			(optional) length of the arrow head
 			 *
 			 * @example
 			 * var headPoint = new paper.Point( 9,9 );
@@ -442,17 +442,17 @@ paper.Path.inject({
 			 * Create a simple speech bubble
 			 *
 			 * @param {Point} bubblePoint
-			 * 			the position of the bubble
+			 *			the position of the bubble
 			 * @param {Size} bubbleSize
-			 * 			the size of the bubble
+			 *			the size of the bubble
 			 * @param {Size} bubbleTagSize
-			 * 			the size of the tag
+			 *			the size of the tag
 			 * @param {String} bubbleTagCenter
-			 * 			(optional)
-			 * 			'RANDOM'	randomly x-position the point (default)
-			 * 			'LEFT'		left align the x-position of the point
-			 * 			'CENTER'	center align the x-position of the point
-			 * 			'RIGHT'		right align the x-position of the point
+			 *			(optional)
+			 *			'RANDOM'	randomly x-position the point (default)
+			 *			'LEFT'		left align the x-position of the point
+			 *			'CENTER'	center align the x-position of the point
+			 *			'RIGHT'		right align the x-position of the point
 			 *
 			 * @example
 			 * var bubblePoint = new paper.Point( 45,45 );
@@ -536,13 +536,13 @@ paper.Path.inject({
 			 * Create simple chain (a line with different endpoint sizes)
 			 *
 			 * @param {Point} arg0
-			 * 			point1 The first point (endpoint1)
+			 *			point1 The first point (endpoint1)
 			 * @param {Number} arg1
-			 * 			radius of endpoint1
+			 *			radius of endpoint1
 			 * @param {Point} arg2
-			 * 			point2 The second point (endpoint2)
+			 *			point2 The second point (endpoint2)
 			 * @param {Number} arg3
-			 * 			radius of endpoint2
+			 *			radius of endpoint2
 			 *
 			 * @example
 			 * var point1 = new paper.Point( 9,9 );
@@ -555,9 +555,9 @@ paper.Path.inject({
 			/**
 			 *
 			 * @param {Path} arg0
-			 * 			PathItem (endpoint1)
+			 *			PathItem (endpoint1)
 			 * @param {Path} arg1
-			 * 			PathItem (endpoint2)
+			 *			PathItem (endpoint2)
 			 *
 			 * @example
 			 * var path1 = new paper.Path.Circle( new Point(9,9), 9 );
@@ -622,14 +622,14 @@ paper.Path.inject({
 			 * Create a cross
 			 *
 			 * @param {Point} centerPoint
-			 * 			position of cross
+			 *			position of cross
 			 * @param {Size} size
-			 * 			size [width,height] of cross
+			 *			size [width,height] of cross
 			 * @param {Number} strokeWidth
-			 * 			thickness of the cross
+			 *			thickness of the cross
 			 * @param {String} crossType (optional)
-			 * 			'SHARP'		sharp edged cross (fill)
-			 * 			'LINE'		simple built of lines (stroke)
+			 *			'SHARP'		sharp edged cross (fill)
+			 *			'LINE'		simple built of lines (stroke)
 			 *
 			 * @example
 			 * var centerPoint = new paper.Point( 45,45 );
@@ -690,9 +690,9 @@ paper.Path.inject({
 			 * Create a (tear)drop
 			 *
 			 * @param {Point} centerPoint
-			 * 			position of cross
+			 *			position of cross
 			 * @param {Number} arg1
-			 * 			scale drop, maintains intended proportion
+			 *			scale drop, maintains intended proportion
 			 *
 			 * @example
 			 * var centerPoint = new paper.Point( 45,45 );
@@ -703,9 +703,9 @@ paper.Path.inject({
 			/**
 			 *
 			 * @param {Point} centerPoint
-			 * 			position of cross
+			 *			position of cross
 			 * @param {Size} arg1
-			 * 			scale drop, custom proportion
+			 *			scale drop, custom proportion
 			 *
 			 * @example
 			 * var centerPoint = new paper.Point( 45,45 );
@@ -769,11 +769,11 @@ paper.Path.inject({
 			 * Create a triangle
 			 *
 			 * @param {Point} p1
-			 * 			first point of triangle
+			 *			first point of triangle
 			 * @param {Point} p2
-			 * 			second point of triangle
+			 *			second point of triangle
 			 * @param {Point} p3
-			 * 			third point of triangle
+			 *			third point of triangle
 			 *
 			 * @example
 			 * var p1 = new paper.Point( 9,9 );

@@ -77,17 +77,17 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 	 */
 	/**
 	 * @param minx
-	 * 			minmum x (default: 0)
+	 *			minmum x (default: 0)
 	 * @param maxx
-	 * 			maximum x (default: view.bounds.width)
+	 *			maximum x (default: view.bounds.width)
 	 * @param miny
-	 * 			minmum y (default: 0)
+	 *			minmum y (default: 0)
 	 * @param maxy
-	 * 			maximum y (default: view.bounds.height)
+	 *			maximum y (default: view.bounds.height)
 	 * @param minz
-	 * 			minmum z (default: 0)
+	 *			minmum z (default: 0)
 	 * @param maxz
-	 * 			maximum z (default: 1000)
+	 *			maximum z (default: 1000)
 	 *
 	 * @return random point
 	 *
@@ -359,9 +359,9 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
 	 * Calculate the angle between two points, using the dot product
 	 *
 	 * @param _fpoint3a
-	 * 			a point
+	 *			a point
 	 * @param _fpoint3b
-	 * 			another point
+	 *			another point
 	 *
 	 * @return the angle between the points
 	 */

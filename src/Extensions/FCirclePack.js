@@ -26,9 +26,9 @@
  * FCirclePacker
  *
  * @param {Array} circleItems
- * 				Array of Items
+ *				Array of Items
  * @param {Number} iterations
- * 				(optional) number of iterations per cycle (default: 11)
+ *				(optional) number of iterations per cycle (default: 11)
  *
  * @return {Array}
  *

@@ -82,7 +82,7 @@ global.inject({
 	// -----------------------------------------------------------------------------
 	/**
 	 * @param {Object} obj
-	 * 			any Javascript Object
+	 *			any Javascript Object
 	 */
 	println: function(obj) {
 		console.log( obj );
@@ -96,9 +96,9 @@ global.inject({
 	 */
 	/**
 	 * @param {Boolean} isOn
-	 * 			true if we want to use animations
+	 *			true if we want to use animations
 	 * @param {Number} frameRate
-	 * 			the frame rate for the animatons default is 12
+	 *			the frame rate for the animatons default is 12
 	 */
 	Animate: function(isOn, frameRate) {
 		frameRate = (frameRate === undefined) ? FRAMERATE : frameRate;
@@ -114,7 +114,7 @@ global.inject({
 
 	/**
 	 * @param {Number} interval
-	 * 			how often in MS to fire event - defaul: 83
+	 *			how often in MS to fire event - defaul: 83
 	 */
 	onFrame: function(interval, func) {
 		interval = (interval === undefined) ? 2 : interval;

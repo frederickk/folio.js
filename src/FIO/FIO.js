@@ -20,9 +20,9 @@ folio.FIO = {
 	 * http://www.w3schools.com/html/html5_webstorage.asp
 	 *
 	 * @param {String} name
-	 * 			the name (key) of what we want to save
+	 *			the name (key) of what we want to save
 	 * @param {Object} value
-	 * 			what we want to save
+	 *			what we want to save
 	 */
 	saveLocal: function(name, value) {
 		if(window.localStorage) {
@@ -37,7 +37,7 @@ folio.FIO = {
 	 * retrieve saved value (default: as string)
 	 *
 	 * @param {String} name
-	 * 			the name (key) of what we want to retrieve
+	 *			the name (key) of what we want to retrieve
 	 *
 	 * @return {String} float value
 	 */
@@ -49,7 +49,7 @@ folio.FIO = {
 	 * retrieve saved value as an int
 	 *
 	 * @param {String} name
-	 * 			the name (key) of what we want to retrieve
+	 *			the name (key) of what we want to retrieve
 	 *
 	 * @return {Number} int value
 	 */
@@ -61,7 +61,7 @@ folio.FIO = {
 	 * retrieve saved value as a float
 	 *
 	 * @param {String} name
-	 * 			the name (key) of what we want to retrieve
+	 *			the name (key) of what we want to retrieve
 	 *
 	 * @return {Number} float value
 	 */
@@ -82,7 +82,7 @@ folio.FIO = {
 	 * delete a saved value from local storage
 	 *
 	 * @param {String} name
-	 * 			the name (key) of what we want to delete
+	 *			the name (key) of what we want to delete
 	 */
 	deleteLocal: function(name) {
 		localStorage.removeItem(name);
@@ -100,9 +100,9 @@ folio.FIO = {
 	 * http://www.w3schools.com/html/html5_webstorage.asp
 	 *
 	 * @param {String} name
-	 * 			the name (key) of what we want to save
+	 *			the name (key) of what we want to save
 	 * @param {Object} value
-	 * 			what we want to save
+	 *			what we want to save
 	 */
 	saveSession: function(name, value) {
 		if(window.sessionStorage) {
@@ -117,7 +117,7 @@ folio.FIO = {
 	 * retrieve saved value (default: as string)
 	 *
 	 * @param {String} name
-	 * 			the name (key) of what we want to retrieve
+	 *			the name (key) of what we want to retrieve
 	 *
 	 * @return {String} string value
 	 */
@@ -129,7 +129,7 @@ folio.FIO = {
 	 * retrieve saved value as an int
 	 *
 	 * @param {String} name
-	 * 			the name (key) of what we want to retrieve
+	 *			the name (key) of what we want to retrieve
 	 *
 	 * @return {Number} int value
 	 */
@@ -141,7 +141,7 @@ folio.FIO = {
 	 * retrieve saved value as a float
 	 *
 	 * @param {String} name
-	 * 			the name (key) of what we want to retrieve
+	 *			the name (key) of what we want to retrieve
 	 *
 	 * @return {Number} float value
 	 */
@@ -162,7 +162,7 @@ folio.FIO = {
 	 * delete a saved value from session storage
 	 *
 	 * @param {String} name
-	 * 			the name (key) of what we want to delete
+	 *			the name (key) of what we want to delete
 	 *
 	 */
 	deleteSession: function(name) {
@@ -181,11 +181,11 @@ folio.FIO = {
 	 * save a value as a cookie
 	 *
 	 * @param {String} name
-	 * 			the name (key) of what we want to save
+	 *			the name (key) of what we want to save
 	 * @param {Object} value
-	 * 			what we want to save
+	 *			what we want to save
 	 * @param {Number} days
-	 * 			how many days do we want to save it for
+	 *			how many days do we want to save it for
 	 */
 	saveCookie: function(name, value, days) {
 		if (days) {
@@ -201,7 +201,7 @@ folio.FIO = {
 	 * retrieve a value from a cookie
 	 *
 	 * @param {String} name
-	 * 			the name (key) of what we want to retrieve
+	 *			the name (key) of what we want to retrieve
 	 */
 	openCookie: function(name) {
 		var nameEQ = name + '=';
@@ -218,7 +218,7 @@ folio.FIO = {
 	 * delete a cookie
 	 *
 	 * @param {String} name
-	 * 			the name (key) of what we want to delete
+	 *			the name (key) of what we want to delete
 	 */
 	deleteCookie: function(name) {
 		saveCookie(name, '', -1);
@@ -237,9 +237,9 @@ folio.FIO = {
 
 	/**
 	 * @param {String} str
-	 * 			the String of information to save (JSON encoded)
+	 *			the String of information to save (JSON encoded)
 	 * @param {String} fname
-	 * 			the name of the file to save to
+	 *			the name of the file to save to
 	 */
 	saveFile: function(str, fname) {
 		var file = new File(script.file.parent, fname);
@@ -251,7 +251,7 @@ folio.FIO = {
 
 	/**
 	 * @param {String} fname
-	 * 			the name of the file to open
+	 *			the name of the file to open
 	 *
 	 * @return {Object} JSon output
 	 */
@@ -266,7 +266,7 @@ folio.FIO = {
 
 	/**
 	 * @param {String} fname
-	 * 			the name of the file to delete
+	 *			the name of the file to delete
 	 */
 	deleteFile: function(fname) {
 		var file = new File(script.file.parent, fname);
@@ -276,7 +276,7 @@ folio.FIO = {
 
 	/**
 	 * @param {String} fname
-	 * 			the name of the file to verify exists
+	 *			the name of the file to verify exists
 	 *
 	 * @return {Boolean} true if exists, false otherwise
 	 */

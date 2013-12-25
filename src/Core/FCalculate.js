@@ -22,9 +22,9 @@ PaperScope.inject({
 	// -----------------------------------------------------------------------------
 	/**
 	 * @param {Number} min
-	 * 			minmum range
+	 *			minmum range
 	 * @param {Number} max
-	 * 			maximum range
+	 *			maximum range
 	 *
 	 * @return {Number} random number as float
 	 *
@@ -46,9 +46,9 @@ PaperScope.inject({
 
 	/**
 	 * @param {Number} min
-	 * 			minmum range
+	 *			minmum range
 	 * @param {Number} max
-	 * 			maximum range
+	 *			maximum range
 	 *
 	 * @return {Number} random number as integer
 	 *
@@ -65,13 +65,13 @@ PaperScope.inject({
 	 * http://www.siafoo.net/snippet/191
 	 *
 	 * @param {Number} minr
-	 * 			minmum range
+	 *			minmum range
 	 * @param {Number} maxr
-	 * 			maximum range
+	 *			maximum range
 	 * @param {Number} bias
-	 * 			bias represents the preference towards lower or higher numbers,
-	 * 			as a number between 0.0 and 1.0. For example:
-	 * 			random(0, 10, bias=0.9) will return 9 much more often than 1.
+	 *			bias represents the preference towards lower or higher numbers,
+	 *			as a number between 0.0 and 1.0. For example:
+	 *			random(0, 10, bias=0.9) will return 9 much more often than 1.
 	 *
 	 * @return {Number} a random, albeit biased, number
 	 *
@@ -92,14 +92,14 @@ PaperScope.inject({
 	/**
 	 *
 	 * @param {Number} val
-	 * 			the value to constrain
+	 *			the value to constrain
 	 * @param {Number} min
-	 * 			minimum limit
+	 *			minimum limit
 	 * @param {Number} max
-	 * 			maximum limit
+	 *			maximum limit
 	 *
 	 * @return {Number} original value that is not less than the
-	 * 				 minimum and no greater than the maximum
+	 *				 minimum and no greater than the maximum
 	 *
 	 * @example
 	 * var clamped = clamp(120, 0, 90); // 90
@@ -112,11 +112,11 @@ PaperScope.inject({
 	/**
 	 *
 	 * @param {Number} val
-	 * 			the incoming value to be converted
+	 *			the incoming value to be converted
 	 * @param {Number} start
-	 * 			lower bound of the value's current range
+	 *			lower bound of the value's current range
 	 * @param {Number} stop
-	 * 			upper bound of the value's current range
+	 *			upper bound of the value's current range
 	 *
 	 * @return {Number} float value between 0.0 and 1.0
 	 *
@@ -131,15 +131,15 @@ PaperScope.inject({
 	/**
 	 *
 	 * @param {Number} val
-	 * 			the incoming value to be converted
+	 *			the incoming value to be converted
 	 * @param {Number} istart
-	 * 			lower bound of the value's current range
+	 *			lower bound of the value's current range
 	 * @param {Number} istop
-	 * 			upper bound of the value's current range
+	 *			upper bound of the value's current range
 	 * @param {Number} ostart
-	 * 			lower bound of the value's target range
+	 *			lower bound of the value's target range
 	 * @param {Number} ostop
-	 * 			upper bound of the value's target range
+	 *			upper bound of the value's target range
 	 *
 	 * @return {Number} re-mapped value
 	 *
@@ -305,7 +305,6 @@ PaperScope.inject({
 	},
 
 	/**
-	 *
 	 * Calculate cosecants
 	 *
 	 * http://www.ssicom.org/js/x974284.htm
@@ -323,15 +322,46 @@ PaperScope.inject({
 
 	// ------------------------------------------------------------------------
 	/**
+	 * Slope
 	 *
-	 * @param {Point} point
-	 * 		input point
+	 * @param {Number} angle
+	 * 		angle of slope (rise)
+	 * @param {Number} val
+	 * 		length of slope (run)
+	 *
+	 * @return {Point} slope (rise/run)
+	 *
+	 */
+	slope: function(angle, distance) {
+		var x = distance*Math.cos( paper.radians(angle) );
+		var y = distance*Math.sin( paper.radians(angle) );
+		return new Point(x,y);
+	},
+
+	/**
+	 * Slope ratio
+	 *
+	 * @param {Point} point1
+	 * @param {Point} point2
 	 *
 	 * @return {Number} slope ratio
 	 *
 	 */
-	// slope: function(point) {
-	// }
+	slopeRatio: function(point1, point2) {
+		return (point2.y - point1.y) / (point2.x - point1.x);
+	},
+
+	/**
+	 * Slope to angle
+	 *
+	 * @param {Point} slope
+	 *
+	 * @return {Number} angle in radians
+	 *
+	 */
+	slopeToAngle: function(slope) {
+		return Math.atan( slope.x/slope.y );
+	},
 
 	// ------------------------------------------------------------------------
 	/**
@@ -354,9 +384,9 @@ PaperScope.inject({
 	 * get common outer tangents of two circles (only works with circles!)
 	 *
 	 * @param {Path.Circle} arg0
-	 * 			the first Circle
+	 *			the first Circle
 	 * @param {Path.Circle} arg1
-	 * 			the second Circle
+	 *			the second Circle
 	 *
 	 * @return {Array} of points
 	 *
@@ -365,9 +395,9 @@ PaperScope.inject({
 	 * TODO: get common outer tangents of two curves
 	 *
 	 * @param {Curve} arg0
-	 * 			the first Curve
+	 *			the first Curve
 	 * @param {Curve} arg1
-	 * 			the second Curve
+	 *			the second Curve
 	 *
 	 * @return {Array} of points
 	 *

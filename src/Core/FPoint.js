@@ -29,11 +29,11 @@ paper.Point.inject({
 	 * http://gmc.yoyogames.com/index.php?showtopic=290349
 	 *
 	 * @param {Size} spacing
-	 * 			scale.width  = x scale of the grid.
-	 * 			scale.height = y scale of the grid.
+	 *			scale.width  = x scale of the grid.
+	 *			scale.height = y scale of the grid.
 	 * @param {Object} options
-	 * 			{ grid: true }
-	 * 			{ isometric: true }
+	 *			{ grid: true }
+	 *			{ isometric: true }
 	 *
 	 * @return {Point} snapped Point
 	 *
@@ -42,10 +42,10 @@ paper.Point.inject({
 	 * snaps point to an isometric grid
 	 *
 	 * @param {Number} scale
-	 * 			scale of the grid
+	 *			scale of the grid
 	 * @param {Object} options
-	 * 			{ grid: true }
-	 * 			{ isometric: true }
+	 *			{ grid: true }
+	 *			{ isometric: true }
 	 *
 	 * @return {Point} snapped Point
 	 *
@@ -169,9 +169,9 @@ paper.Point.inject({
 	 * Normalize a point between two other points (start and end).
 	 *
 	 * @param {Point} start
-	 * 			start Point
+	 *			start Point
 	 * @param {Point} stop
-	 * 			stop Point
+	 *			stop Point
 	 *
 	 * @return {Point} normalized Point
 	 *
