@@ -18,7 +18,8 @@ console.log( 'Snow Pack Loaded' );
 // the core folio namespace
 var f = folio;
 
-var packer;
+// TODO: implement circle packers
+// var packer;
 
 var flakes;
 var s;
@@ -33,8 +34,8 @@ function Setup() {
 
 	sProps = {
 		point: view.center,
-		spokes: paper.randomInt(5,12),
-		radius: paper.random(30,300)
+		spokes: paper.randomInt(4,12),
+		radius: paper.random(20,120)
 	};
 	s = new SnowFlake(sProps.point, sProps.spokes, sProps.radius, 0.0);
 	s.strokeColor = '#c7FFFF';
@@ -50,9 +51,9 @@ function Setup() {
 // Update
 // ------------------------------------------------------------------------
 function Update(event) {
-	var t = ((event.time*0.33) % 1.0);
+	var t = ((event.time*0.1) % 1.0);
 
-	if( t< 0.9 ) {
+	if( t < 0.9 ) {
 		s.remove();
 		s = new SnowFlake(sProps.point, sProps.spokes, sProps.radius, t);
 		s.strokeColor = '#c7FFFF';
@@ -67,7 +68,7 @@ function Update(event) {
 				paper.random(view.bounds.height)
 			),
 			spokes: paper.randomInt(4,12),
-			radius: paper.random(30,240)
+			radius: paper.random(20,120)
 		};
 	}
 
