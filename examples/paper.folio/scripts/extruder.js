@@ -47,18 +47,12 @@ function Setup() {
 	// import svg
 	svg = project.importSVG( document.getElementById('svg'), true );
 	svg.fillColor = 'white';
-	console.log( svg );
 
-	for( var i=0; i<svg.children.length; i++ ) {
-		svg.children[2].fillColor = '#ff00ff';
-		svg.children[2].position = view.center;
-	}
-
-	// type = new Group( svg.children );
-	// type.position = view.center;
+	type = new Group( svg.children );
+	type.position = view.center;
 
 	// define type as children of svg
-	// svg.remove();
+	svg.remove();
 };
 
 
@@ -80,29 +74,30 @@ function Draw() {
 	values.angle = parseFloat(document.getElementById('angle').value);
 	values.distance = parseFloat(document.getElementById('distance').value);
 
-	// calculate slope
-	var slope = paper.slope(
-		values.angle,
-		values.distance
-	);
-
 	// setup extrusions group
 	extrusionsGroup.removeChildren();
 
 	// draw the extrusion
-	console.log('---------');
-	// for( var i=0; i<type.children.length; i++ ) {
-	// 	var item = type.children[i];
+	var temp = type.clone();
+	for( var i=temp.children.length-1; i>=0; i-- ) {
+		var item = temp.children[i];
 
-	// 	// extrude
-	// 	// var e = Extrude(item, slope);
-	// 	// e.fillColor = values.color; //new Color().random();
+		// calculate slope
+		var slope = paper.slope(
+			180+paper.map(i, 0,temp.children.length-1, 0,90)+values.angle,
+			values.distance
+		);
 
-	// 	// add to group
-	// 	// extrusionsGroup.appendTop(e);
-	// }
+		// extrude
+		var e = Extrude(item, slope);
+		e.fillColor = values.color;
 
-	// type.moveAbove( extrusionsGroup );
+		// add to group
+		extrusionsGroup.appendTop(e);
+	}
+	temp.remove();
+
+	type.moveAbove( extrusionsGroup );
 
 };
 
@@ -112,8 +107,7 @@ function Draw() {
 // Methods
 // ------------------------------------------------------------------------
 /**
- * extrudes shapes
- * TODO: fix face z-indexing
+ * Extrudes shapes
  *
  * @param {Item} item
  *			the item to generate extrude
@@ -134,45 +128,31 @@ function Extrude(item, slope) {
 	// Methods
 	//
 	function initialize(item) {
-		// checks if item is path and makes it one,
-		// if compound path, converts to group
 		var item = toPath(item).toGroup();
-		// item.fillColor = new Color().random();
-
 		if( item.hasChildren() ) {
 			for( var i=item.children.length-1; i>=0; i-- ) {
 				var child = item.children[i];
-				// child.fillColor = new Color().random();
 				initialize(child);
 			}
 		}
 		else {
-			// copy the item
 			var backFace = item.clone();
-			// translate based on slope
 			backFace.translate(new Point( slope ));
 
-			// iterate through curves of the two faces
-			// and then connect them
 			var path = fromCurves(item, backFace)
 			extrusion.appendBottom( path );
 
-			// clean-up
+			item.remove();
 			backFace.remove();
 		}
 
 		return extrusion;
 	};
 
-	// ------------------------------------------------------------------------
-
-
-	// ------------------------------------------------------------------------
 	function fromCurves(item1, item2) {
 		var group = new Group();
 		var step = 3;
 
-		// the path for the extruded face
 		var path = new Path();
 		for( var i=0; i<item1.curves.length; i++ ) {
 			var curve1 = item1.curves[i];
@@ -203,8 +183,6 @@ function Extrude(item, slope) {
 		return group;
 	};
 
-
-	// ------------------------------------------------------------------------
 	function toPath(item) {
 		if( item.shape != undefined) {
 			return (item.shape == 'rectangle')
