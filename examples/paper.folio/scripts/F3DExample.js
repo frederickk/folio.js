@@ -44,6 +44,8 @@ var values = {
 // Setup
 // ------------------------------------------------------------------------
 function Setup() {
+	console.log( new Color.random() );
+
 	// required setup scene
 	// (optional parameters) width, height, focalLength, display mode
 	// 'ORTHO' is for isometric
@@ -62,7 +64,7 @@ function Setup() {
 	path3[0].add3( new f3d.FPoint3( 100,	-100,	-100) );
 	path3[0].add3( new f3d.FPoint3(-100,	-100,	-100) );
 	// use FColor to give the field a random RGB color
-	path3[0].fillColor = new Color().random();
+	path3[0].fillColor = new Color.random();
 	path3[0].closed = true;
 
 	// middle
@@ -71,7 +73,7 @@ function Setup() {
 	path3[1].add3( new f3d.FPoint3( 100,	0,	 100) );
 	path3[1].add3( new f3d.FPoint3( 100,	0,	-100) );
 	path3[1].add3( new f3d.FPoint3(-100,	0,	-100) );
-	path3[1].fillColor = new Color().random();
+	path3[1].fillColor = new Color.random();
 	path3[1].closed = true;
 
 	// bottom
@@ -80,7 +82,7 @@ function Setup() {
 	path3[2].add3( new f3d.FPoint3( 100,	100,	 100) );
 	path3[2].add3( new f3d.FPoint3( 100,	100,	-100) );
 	path3[2].add3( new f3d.FPoint3(-100,	100,	-100) );
-	path3[2].fillColor = new Color().random();
+	path3[2].fillColor = new Color.random();
 	path3[2].closed = true;
 
 

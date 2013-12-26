@@ -8,7 +8,7 @@ console.log( 'FColor Example Loaded' );
  *	http://kennethfrederick.de/
  *	http://blog.kennethfrederick.de/
  *
- *	
+ *
  */
 
 
@@ -22,11 +22,11 @@ var dots;
 
 var colors;
 // create base colors
-var rgray = new Color(0.3).random(),
-	rrgb = new Color().random(),
-	rhsl = new Color({ hue: 45, saturation: 0.7, lightness: 0.7 }).random(),
-	rhsb = new Color({ hue: 45, saturation: 0.7, brightness: 0.7 }).random(),
-	rhex = new Color( '#'+randomHex() ),
+var rgray = new Color.random(0.3),
+	rrgb = new Color.random(),
+	rhsl = new Color.random(45, 0.7, 0.7),
+	rhsb = new Color.random(45, 0.7, 0.7),
+	rhex = new Color.random('hex'),
 	green = new Color( 0.3, 0.9, 0.7 );
 
 
@@ -83,7 +83,7 @@ function Setup() {
 			var center = new Point(
 				(radius*2.1)*i,
 				(radius*2.1)*y
-			);		
+			);
 
 			// setup dot
 			var label = colors[a][i].type + '\n' + colors[a][i]._components.round(2);
@@ -94,7 +94,7 @@ function Setup() {
 		y++;
 	}
 	dots.position = view.bounds.center;
-	
+
 
 };
 

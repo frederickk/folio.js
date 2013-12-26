@@ -56,7 +56,7 @@ function Setup() {
 			new Size(20,20)
 		);
 		arrow.strokeWidth = 3;
-		arrow.strokeColor = new Color().random();
+		arrow.strokeColor = new Color.random();
 		arrow.strokeCap = 'round';
 
 		arrows.appendBottom( arrow );

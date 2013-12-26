@@ -193,9 +193,9 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 		for(var i=0; i<depthArr.length; i++) {
 			var path = _fpath3Arr[ depthArr[i].index ].get();
 
-			if(path.name == 'Z-TOP') _groupTop.appendTop( path );
-			else if(path.name == 'Z-BOTTOM') _groupBot.appendTop( path );
-			else if(path != null) _groupBot.appendTop( path );
+			if(path.name == 'Z-TOP') _groupTop.appendBottom( path );
+			else if(path.name == 'Z-BOTTOM') _groupBot.appendBottom( path );
+			else if(path != null) _groupBot.appendBottom( path );
 		}
 
 		// TODO: fix this scaling issue
