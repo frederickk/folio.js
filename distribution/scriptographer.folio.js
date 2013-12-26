@@ -555,7 +555,15 @@ PaperScope.inject({
 	// paper. prefix needed for these functions
 	enumerable: true,
 
-	// statics: {
+	statics: new function() {
+		function test() {
+			console.log('test');
+		};
+
+		return {
+			test: test
+		};
+	},
 
 		// -----------------------------------------------------------------------------
 		/**

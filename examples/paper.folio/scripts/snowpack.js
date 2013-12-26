@@ -34,7 +34,9 @@ function Setup() {
 	sProps = {
 		point: view.center,
 		spokes: paper.randomInt(5,15),
-		radius: paper.random(30,180)
+		radius: paper.random(30,180),
+		strokeColor: '#c7FFFF',
+		strokeWidth: 9
 	};
 	s = new SnowFlake(sProps.point, sProps.spokes, sProps.radius, 0.0);
 	s.strokeColor = '#c7FFFF';
@@ -59,23 +61,22 @@ function Update(event) {
 		if( t < 0.97 ) {
 			s.remove();
 			s = new SnowFlake(sProps.point, sProps.spokes, sProps.radius, t);
-			s.strokeColor = '#c7FFFF';
-			s.strokeWidth = paper.map(t, 0.0,1.0, 3.0,9.0);
+			s.strokeColor = sProps.strokeColor;
+			s.strokeWidth = paper.map(t, 0.0,1.0, 3.0,sProps.strokeWidth);
 			add = false;
 		}
 
 		if( t > 0.97 && add ) {
 			// add s(nowflake) to flakes group
 			flakes.appendTop(s.clone());
+			console.log( flakes.children.length );
 			// regenerate s(noflake) properties
-			sProps = {
-				point: new Point(
-					paper.random(view.bounds.width),
-					paper.random(view.bounds.height)
-				),
-				spokes: paper.randomInt(4,12),
-				radius: paper.random(20,120)
-			};
+			sProps.point = new Point(
+				paper.random(view.bounds.width),
+				paper.random(view.bounds.height)
+			);
+			sProps.spokes = paper.randomInt(4,12);
+			sProps.radius = paper.random(20,120);
 
 			// add the latest group member to the packer
 			packer.add( flakes.children[flakes.children.length-1] );
