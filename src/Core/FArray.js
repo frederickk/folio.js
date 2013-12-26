@@ -197,10 +197,10 @@ var FSort = {
 	 *
 	 */
 	distanceToCenter: function(a, b) {
-		var valueA = a.distanceToCenter();
-		console.log( valueA );
-		var valueB = b.distanceToCenter();
-		console.log( valueB );
+		var valueA = a.getDistanceToCenter();
+		// console.log( valueA );
+		var valueB = b.getDistanceToCenter();
+		// console.log( valueB );
 		var comparisonValue = 0;
 
 		if (valueA > valueB) comparisonValue = -1;

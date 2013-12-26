@@ -1,5 +1,5 @@
 /*
- * Circle Packer
+ * FCirclePack
  *
  * Original from onedayitwillmake
  * http://onedayitwillmake.com/CirclePackJS/
@@ -23,12 +23,20 @@
  */
 
 /**
- * FCirclePack
+ * @param {Group} circleItems
+ *				Group of Items
+ * @param {Number} iterations
+ *				(optional) number of iterations per cycle (default: 11)
+ *				higher iterations == slower movement
  *
+ * @return {Array}
+ */
+/**
  * @param {Array} circleItems
  *				Array of Items
  * @param {Number} iterations
  *				(optional) number of iterations per cycle (default: 11)
+ *				higher iterations == slower movement
  *
  * @return {Array}
  *
@@ -37,7 +45,11 @@ folio.FCirclePack = function(circleItems, iterations) {
 	//
 	// Properties
 	//
-	circleItems = circleItems;
+	var circleItems = (circleItems instanceof Group)
+		? circleItems.children
+		: (circleItems == null)
+			? []
+			: circleItems;
 	iterations = (iterations != undefined)
 		? iterations
 		: 11;
@@ -50,7 +62,7 @@ folio.FCirclePack = function(circleItems, iterations) {
 	// Methods
 	//
 	var update = function() {
-		// circleItems = circleItems.sort( folio.distanceToCenter );
+		circleItems = circleItems.sort( FSort.distanceToCenter );
 		var pp = new Point();
 
 		// Push items away from each other
@@ -107,8 +119,8 @@ folio.FCirclePack = function(circleItems, iterations) {
 		for (var i = 0; i < circleItems.length; i++) {
 			var c = circleItems[i];
 			// if(c == this.dragCircle) continue;
-			pp.x = c.position.x; //- view.bounds.center.x;
-			pp.y = c.position.y; //- view.bounds.center.y;
+			pp.x = c.position.x - view.center.x;
+			pp.y = c.position.y - view.center.y;
 			pp = pp.multiply(damping);
 			// }
 			c.position.x -= pp.x;
@@ -120,34 +132,6 @@ folio.FCirclePack = function(circleItems, iterations) {
 		//	this.dragCircle.y = this._mouseEvent.offsetY;//stage.mouseY;
 		// }
 	};
-
-	//
-	/**
-	 * TODO: if to be made autonomous, these
-	 * methods will have to be built in
-	 *
-	 * Extend Path with some additional Methods
-	 * Necessary for CirclePacker()
-	 *
-	 */
-	// Item.prototype.distanceToCenter = function() {
-	//	var dx = this.position.x - activeDocument.activeArtboard.bounds.center.x;
-	//	var dy = this.position.y - activeDocument.activeArtboard.bounds.center.y;
-	//	var distance = (dx * dx + dy * dy) + 1;
-
-	//	return distance;
-	// };
-	// Item.sortOnDistanceToCenter = function(a, b) {
-	//	var valueA = a.distanceToCenter();
-	//	var valueB = b.distanceToCenter();
-	//	var comparisonValue = 0;
-
-	//	if (valueA > valueB) comparisonValue = -1;
-	//	else if (valueA < valueB) comparisonValue = 1;
-
-	//	return comparisonValue;
-	// };
-
 
 
 	//

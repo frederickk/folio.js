@@ -54,10 +54,12 @@ paper.Item.inject({
 	 *
 	 */
 	getDistanceToCenter: function() {
-		// var dx = this._position.x - view.bounds.center.x;
-		// var dy = this._position.y - view.bounds.center.y;
-		// return (dx * dx + dy * dy) + 1;
-		return this._position.getDistance( view.bounds.center );
+		if( this._position != undefined ) {
+			var dx = this._position.x - view.bounds.center.x;
+			var dy = this._position.y - view.bounds.center.y;
+			return (dx * dx + dy * dy) + 1;
+			// return this._position.getDistance( view.bounds.center );
+		}
 	},
 
 

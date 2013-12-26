@@ -219,8 +219,47 @@ paper.Point.inject({
 	 */
 	magSq: function() {
 		return this.x * this.x + this.y * this.y;
-	}
+	},
 
+
+	statics: {
+		/**
+		 * @param {Array} arg0
+		 *			range for x values
+		 * @param {Array} arg1
+		 *			range for y values
+		 *
+		 * @return {Point} random point
+		 *
+		 * @example
+		 * var point = new Point.random([0, 90],[0, 90]);
+		 * console.log(point); // {x: 34, y: 56}
+		 *
+		 */
+		/**
+		 * @param {Number} arg0
+		 *			max x value
+		 * @param {Number} arg1
+		 *			max y value
+		 *
+		 * @return {Point} random Point
+		 *
+		 * @example
+		 * var point = new Point.random(90, 90);
+		 * console.log(point); // {x: 34, y: 56}
+		 *
+		 */
+		random: function(arg0, arg1) {
+			var x = ( typeof arg0 === 'array' )
+				? paper.random(arg0[0], arg0[1])
+				: paper.random(arg0);
+			var y = ( typeof arg0 === 'array' )
+				? paper.random(arg1[0], arg1[1])
+				: paper.random(arg1);
+
+			return new Point(x,y);
+		}
+	}
 
 });
 
