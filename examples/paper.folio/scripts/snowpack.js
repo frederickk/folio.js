@@ -31,41 +31,18 @@ var sProps = {};
 function Setup() {
 	flakes = new Group();
 
-	// sProps = {
-	// 	point: view.center,
-	// 	spokes: paper.randomInt(4,12),
-	// 	radius: paper.random(20,120)
-	// };
-	// s = new SnowFlake(sProps.point, sProps.spokes, sProps.radius, 0.0);
-	// s.strokeColor = '#c7FFFF';
-	// s.strokeWidth = 3;
+	sProps = {
+		point: view.center,
+		spokes: paper.randomInt(5,15),
+		radius: paper.random(30,180)
+	};
+	s = new SnowFlake(sProps.point, sProps.spokes, sProps.radius, 0.0);
+	s.strokeColor = '#c7FFFF';
+	s.strokeWidth = 9;
 
-	for( var i=0; i<10; i++ ) {
-		// var c = new Path.Circle(
-		// 	new Point.random(view.bounds.width,view.bounds.height),
-		// 	paper.randomInt(15,90)
-		// );
-		var c = new SnowFlake(
-			new Point.random(view.bounds.width,view.bounds.height),
-			paper.randomInt(5,18),
-			paper.randomInt(15,90),
-			0.5
-		);
-		c.fillColor = null;
-		var r = paper.randomInt(0,3);
-		var rcol = (r === 0)
-			? 'red'
-			: (r === 1)
-				? 'yellow'
-				: 'blue';
-		c.strokeColor = rcol;
-		c.strokeWidth = 9;
-		flakes.appendTop(c);
-	}
-
+	// circle packer
 	packer = new f.FCirclePack(flakes, 7);
-	packer.setPadding(-c.strokeWidth);
-	packer.update();
+	packer.setPadding(s.strokeWidth);
 };
 
 
@@ -74,30 +51,36 @@ function Setup() {
 // Update
 // ------------------------------------------------------------------------
 function Update(event) {
-	// var t = ((event.time*0.4) % 1.0);
+	var t = ((event.time*0.4) % 1.0);
+	var add = true;
 
-	// if( t < 0.9 ) {
-	// 	s.remove();
-	// 	s = new SnowFlake(sProps.point, sProps.spokes, sProps.radius, t);
-	// 	s.strokeColor = '#c7FFFF';
-	// 	s.strokeWidth = 3;
-	// }
+	// set a limit for the number of flakes
+	if( flakes.children.length < 30 ) {
+		if( t < 0.97 ) {
+			s.remove();
+			s = new SnowFlake(sProps.point, sProps.spokes, sProps.radius, t);
+			s.strokeColor = '#c7FFFF';
+			s.strokeWidth = paper.map(t, 0.0,1.0, 3.0,9.0);
+			add = false;
+		}
 
-	// if( t >= 0.9 ) {
-	// 	if( add ) {
-	// 		flakes.appendTop(s.clone());
-	// 		sProps = {
-	// 			point: new Point(
-	// 				paper.random(view.bounds.width),
-	// 				paper.random(view.bounds.height)
-	// 			),
-	// 			spokes: paper.randomInt(4,12),
-	// 			radius: paper.random(20,120)
-	// 		};
-	// 		// add the latest group member to the packer
-	// 		packer.add( flakes.children[flakes.children.length-1] );
-	// 	}
-	// }
+		if( t > 0.97 && add ) {
+			// add s(nowflake) to flakes group
+			flakes.appendTop(s.clone());
+			// regenerate s(noflake) properties
+			sProps = {
+				point: new Point(
+					paper.random(view.bounds.width),
+					paper.random(view.bounds.height)
+				),
+				spokes: paper.randomInt(4,12),
+				radius: paper.random(20,120)
+			};
+
+			// add the latest group member to the packer
+			packer.add( flakes.children[flakes.children.length-1] );
+		}
+	}
 
 	packer.update();
 };
