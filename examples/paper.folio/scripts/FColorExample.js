@@ -24,9 +24,9 @@ var colors;
 // create base colors
 var rgray = new Color.random(0.3),
 	rrgb = new Color.random(),
-	rhsl = new Color.random(45, 0.7, 0.7),
-	rhsb = new Color.random(45, 0.7, 0.7),
-	rhex = new Color.random('hex'),
+	rhsl = new Color.random({ hue: 45, saturation: 0.7, lightness: 0.7 }),
+	rhsb = new Color.random({ hue: 45, saturation: 0.7, brightness: 0.7 }),
+	rhex = new Color.random( 'hex' ),
 	green = new Color( 0.3, 0.9, 0.7 );
 
 
@@ -194,11 +194,6 @@ function createColors() {
 
 
 // ------------------------------------------------------------------------
-function randomHex() {
-	return ((1<<24)*Math.random()|0).toString(16);
-};
-
-// ------------------------------------------------------------------------
 var ColorDot = function(center, radius, label) {
 	var dot = new Path.Circle( center, radius );
 
@@ -255,7 +250,6 @@ function onKeyDown(event) {
 
 function onKeyUp(event) {
 };
-
 
 
 

@@ -35,11 +35,11 @@ function Setup() {
 		point: view.center,
 		spokes: paper.randomInt(5,15),
 		radius: paper.random(30,180),
-		strokeColor: '#c7FFFF',
+		strokeColor: new Color(180, 0.8, 0.8), //new Color.random([270,300], [0.9,1.0], [0.8,0.9]),
 		strokeWidth: 9
 	};
 	s = new SnowFlake(sProps.point, sProps.spokes, sProps.radius, 0.0);
-	s.strokeColor = '#c7FFFF';
+	s.strokeColor = sProps.strokeColor;
 	s.strokeWidth = 9;
 
 	// circle packer
@@ -77,6 +77,7 @@ function Update(event) {
 			);
 			sProps.spokes = paper.randomInt(4,12);
 			sProps.radius = paper.random(20,120);
+			strokeColor: new Color(180, 0.8, 0.8), //new Color.random([270,300], [0.9,1.0], [0.8,0.9]);
 
 			// add the latest group member to the packer
 			packer.add( flakes.children[flakes.children.length-1] );

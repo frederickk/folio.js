@@ -13,6 +13,8 @@
  *
  */
 paper.Color.inject({
+	data: null,
+
 	// ------------------------------------------------------------------------
 	/**
 	 *
@@ -50,17 +52,6 @@ paper.Color.inject({
 		}
 		return str;
 	},
-
-	/**
-	 *
-	 * http://paulirish.com/2009/random-hex-color-code-snippets/
-	 *
-	 * @return {String} random hex value
-	 */
-	_randomHex: function() {
-		return ('#'+Math.floor(Math.random()*16777215).toString(16)).toUpperCase();
-	},
-
 
 	// ------------------------------------------------------------------------
 	/**
@@ -305,9 +296,7 @@ paper.Color.inject({
 	 */
 	invert: function() {
 		var color = new Color( this );
-		for( var i=0; i<color._components.length; i++ ) {
-			color._components[i] = 1-color._components[i];
-		}
+		color.hue += 180;
 		return color;
 	},
 
@@ -411,23 +400,23 @@ paper.Color.inject({
 		 * @return {Color} random Color based on initialization arguments
 		 *
 		 * @example
-		 * var color = new Color().random();
+		 * var color = new Color.random();
 		 * // all values between 0.0 and 1.0
 		 * // [ red: 0.1, green: 0.5, blue: 1.0 ]
 		 *
-		 * var color = new Color(0.5).random();
+		 * var color = new Color.random(0.5);
 		 * // value between 0.5 and 1.0
 		 * // [ gray: 0.7 ]
 		 *
-		 * var color = new Color(0.3, 0.6, 0.9).random();
+		 * var color = new Color.random(0.3, 0.6, 0.9);
 		 * // red value between 0.4 and 1.0, etc.
 		 * // [ red: 0.4, green: 0.7, blue: 1.0 ]
 		 *
-		 * var color = new Color({ hue: 90, saturation: 1, brightness: 0.8 }).random();
+		 * var color = new Color.random(90, 1, 0.8);
 		 * // hue value between 90 and 360, etc.
 		 * // [ hue: 154, saturation: 1, brightness: 0.9 ]
 		 *
-		 * var color = new Color({ hue: 90, saturation: 1, lightness: 0.8 }).random();
+		 * var color = new Color.random([45, 90], [0.7, 1.0], [0.5, 0.8]);
 		 * // hue value between 90 and 360, etc.
 		 * // [ hue: 274, saturation: 1, lightness: 0.9 ]
 		 *
@@ -435,25 +424,43 @@ paper.Color.inject({
 		random: function(arg0, arg1, arg2, arg3) {
 			var components;
 
-			if( arg0 === 'hex' ) {
-				components = _randomHex();
+			if( paper.getType(arg0) === 'Object' ) {
+				components = {};
+				for( var key in arg0 ) {
+					if( paper.getType(arg0[key]) === 'Array' ) {
+						components[key] = paper.random(arg0[key][0], arg0[key][1]);
+					}
+					else {
+						components[key] = paper.random(0.0, arg0[key]);
+					}
+				}
+			}
+			else if( arg0 === 'hex' ) {
+				// http://paulirish.com/2009/random-hex-color-code-snippets/
+				// TODO: push hex value to Color.data
+				components = ('#'+Math.floor(Math.random()*16777215).toString(16)).toUpperCase();
 			}
 			else {
+				components = [];
 				var len = (arguments.length > 0)
 					? arguments.length
 					: 4;
-				components = [];
+
 				for( var i=0; i<len; i++ ) {
-					components.push( (arguments != undefined)
-						? paper.random( 0.0, 1.0 )
-						: ( typeof arguments[i] === 'array')
-							? paper.random( arguments[i][0], arguments[i][1] )
-							: paper.random( 0.0, arguments[i] )
-					);
+					if( paper.getType(arguments[i]) === 'Array' ) {
+						components.push(paper.random(arguments[i][0], arguments[i][1] ));
+					}
+					else if( paper.getType(arguments[i]) === 'Number' ) {
+						components.push(paper.random( 0.0, arguments[i] ));
+					}
+					else {
+						components.push(paper.random(1.0));
+					}
 				}
 			}
 
 			var c = new Color(components);
+			c.data = ( arg0 === 'hex' ) ? components : null;
 			c.alpha = 1.0;
 			return c;
 		}

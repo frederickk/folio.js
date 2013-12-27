@@ -69,30 +69,26 @@ PaperScope.inject({
 
 	// ------------------------------------------------------------------------
 	/**
+	 * http://stackoverflow.com/questions/4775722/check-if-object-is-array
 	 *
-	 * @param {Object} object
+	 * @param {Object} obj
 	 * 	  object whose type to determine
 	 *
 	 * @return {String} Paper.js object type
 	 *
 	 */
-	getType: function(object) {
-		if (typeof object == 'object') {
-			if (object instanceof paper.Point) return 'Point';
-			else if (object instanceof paper.Size) return 'Size';
-			else if (object instanceof paper.Rectangle) return 'Rectangle';
-			else if (object instanceof Group) return 'Group';
-			else if (object instanceof paper.Raster) return 'Raster';
-			else if (object instanceof paper.PlacedSymbol) return 'PlacedSymbol';
-			else if (object instanceof paper.Path) return 'Path';
-			else if (object instanceof paper.CompoundPath) return 'CompoundPath';
-			else if (object instanceof paper.Symbol) return 'Symbol';
-			else if (object instanceof paper.TextItem) return 'TextItem';
-			else return 'undefined';
-		}
-		else {
-			return typeof object;
-		}
+	getType: function(obj) {
+		if (obj instanceof Point) return 'Point';
+		else if (obj instanceof Size) return 'Size';
+		else if (obj instanceof Rectangle) return 'Rectangle';
+		else if (obj instanceof Group) return 'Group';
+		else if (obj instanceof Raster) return 'Raster';
+		else if (obj instanceof PlacedSymbol) return 'PlacedSymbol';
+		else if (obj instanceof Path) return 'Path';
+		else if (obj instanceof CompoundPath) return 'CompoundPath';
+		else if (obj instanceof Symbol) return 'Symbol';
+		else if (obj instanceof TextItem) return 'TextItem';
+		else return Object.prototype.toString.call(obj).split(/\W/)[2];
 	},
 
 	/**
