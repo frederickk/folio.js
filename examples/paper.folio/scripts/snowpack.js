@@ -22,6 +22,7 @@ var packer;
 
 var flakes;
 var s;
+var t = 0;
 var sProps = {};
 
 
@@ -35,7 +36,7 @@ function Setup() {
 		point: view.center,
 		spokes: paper.randomInt(5,15),
 		radius: paper.random(30,180),
-		strokeColor: new Color(180, 0.8, 0.8), //new Color.random([270,300], [0.9,1.0], [0.8,0.9]),
+		strokeColor: new Color.random({hue:[180, 200], saturation:[0.8, 1.0], lightness:[0.8, 0.9]}),
 		strokeWidth: 9
 	};
 	s = new SnowFlake(sProps.point, sProps.spokes, sProps.radius, 0.0);
@@ -53,20 +54,20 @@ function Setup() {
 // Update
 // ------------------------------------------------------------------------
 function Update(event) {
-	var t = ((event.time*0.4) % 1.0);
 	var add = true;
 
 	// set a limit for the number of flakes
 	if( flakes.children.length < 30 ) {
-		if( t < 0.97 ) {
+		if( t <= 1.0 ) {
 			s.remove();
 			s = new SnowFlake(sProps.point, sProps.spokes, sProps.radius, t);
 			s.strokeColor = sProps.strokeColor;
 			s.strokeWidth = paper.map(t, 0.0,1.0, 3.0,sProps.strokeWidth);
 			add = false;
+			t += 0.01;
 		}
 
-		if( t > 0.97 && add ) {
+		if( t > 1.0 && add ) {
 			// add s(nowflake) to flakes group
 			flakes.appendTop(s.clone());
 			console.log( flakes.children.length );
@@ -77,10 +78,12 @@ function Update(event) {
 			);
 			sProps.spokes = paper.randomInt(4,12);
 			sProps.radius = paper.random(20,120);
-			strokeColor: new Color(180, 0.8, 0.8), //new Color.random([270,300], [0.9,1.0], [0.8,0.9]);
+			strokeColor: new Color.random({hue:[180, 200], saturation:[0.8, 1.0], lightness:[0.8, 0.9]}),
 
 			// add the latest group member to the packer
 			packer.add( flakes.children[flakes.children.length-1] );
+
+			t = 0.0;
 		}
 	}
 
