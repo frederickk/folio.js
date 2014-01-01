@@ -81,16 +81,17 @@ function asyncTest(testName, expected) {
 }
 
 function compareNumbers(number1, number2, message, precision) {
-	var formatter = new Formatter(precision);
-	equals(formatter.number(number1),
-			formatter.number(number2), message);
+	var formatter = 3; // new Formatter(precision);
+	// equals(formatter.number(number1),
+	// 		formatter.number(number2), message);
+	equals(number1, number2, message);
 }
 
 function compareArrays(array1, array2, message, precision) {
-	var formatter = new Formatter(precision);
+	var formatter = 3; // new Formatter(precision);
 	function format(array) {
 		return Base.each(array, function(value, index) {
-			this[index] = formatter.number(value);
+			this[index] = formatter; // .number(value);
 		}, []).toString();
 	}
 	equals(format(array1), format(array2), message);

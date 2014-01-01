@@ -4,7 +4,7 @@
  * 0.6.1
  * https://github.com/frederickk/folio.js
  *
- * 27. December 2013
+ * 01. January 2014
  *
  * Ken Frederick
  * ken.frederick@gmx.de
@@ -289,7 +289,8 @@ PaperScope.inject({
 		var path;
 		for (var i = 0; i < items.length; i++) {
 			var item = items[i];
-			if (item.name == name) path = item; // break;
+			if (item.name === name) path = item;
+			// break;
 		}
 		return path;
 	},
@@ -308,7 +309,8 @@ PaperScope.inject({
 		var path;
 		for (var i = 0; i < items.length; i++) {
 			var item = items[i];
-			if (item.id == id) path = item; // break;
+			if (item.id === id) path = item;
+			// break;
 		}
 		return path;
 	}
@@ -336,7 +338,7 @@ PaperScope.inject({
  *
  */
 Array.prototype.median = function() {
-	if( typeof this === 'Array') {
+	// if( typeof this === 'Array') {
 		var median = 0;
 		this.sort();
 		if (this.length % 2 === 0) {
@@ -346,10 +348,85 @@ Array.prototype.median = function() {
 			median = this[(this.length - 1) / 2];
 		}
 		return median;
-	}
+	// }
 };
 
 /**
+ * combines two Arrays
+ *
+ * @param {Array} arr
+ *			Array object
+ *
+ * @return {Array} new merged Array object
+ *
+ */
+Array.prototype.merge = function(arr, bShuffle) {
+	// if( typeof this === 'Array') {
+		var output = this.concat(arr);
+		return output;
+	// }
+};
+
+/**
+ *
+ * @param {Number} start
+ *			start position in array
+ * @param {Number} stop
+ *			stop position in array
+ *
+ * @return {Number} index of maximum value within array
+ *
+ */
+Array.prototype.max = function(start, stop) {
+	start = (start != undefined)
+		? start
+		: 0;
+	stop = (stop != undefined)
+		? stop
+		: this.length;
+	var max = start;
+
+	for(var i=(start+1); i<stop; i++) if(this[i] > this[max]) max = i;
+	return max;
+};
+
+/**
+ *
+ * @param {Number} start
+ *			start position in array
+ * @param {Number} stop
+ *			stop position in array
+ *
+ * @return {Number} index of minimum value within array
+ *
+ */
+Array.prototype.min = function(start, stop) {
+	start = (start != undefined)
+		? start
+		: 0;
+	stop = (stop != undefined)
+		? stop
+		: this.length;
+	var min = start;
+
+	for (var i=(start+1); i<stop; i++) if(this[i] < this[min]) min = i;
+	return min;
+};
+
+/**
+ *
+ * http://jsfromhell.com/array/shuffle
+ * http://www.brain4.de/programmierecke/js/arrayShuffle.php
+ *
+ * @return {Array} original array but with the order "shuffled"
+ *
+ */
+Array.prototype.shuffle = function() {
+	for (var j, x, i=this.length; i; j=parseInt(Math.random() * i), x=this[--i], this[i]=this[j], this[j]=x);
+};
+
+/**
+ * Eliminate all non-unique elements from an Array
  *
  * @return {Object} unique element
  *
@@ -368,95 +445,19 @@ Array.prototype.unique = function() {
 };
 
 /**
- *
- * merges (then shuffles) two Arrays
- *
- * @param {Array} arr
- *			Array object
- *
- * @return {Array} new merged Array object
- *
- */
-Array.prototype.merge = function(arr) {
-	if( typeof this === 'Array') {
-		var output = this.concat(arr);
-		output.shuffle();
-		return output;
-	}
-};
-
-/**
- *
- * @param {Number} start
- *			start position in array
- * @param {Number} stop
- *			stop position in array
- *
- * @return {Number} maximum value within array
- *
- */
-Array.prototype.max = function(start, stop) {
-	start = (start != undefined)
-		? start
-		: 0;
-	stop = (stop != undefined)
-		? stop
-		: this.length;
-	var max = this[start];
-
-	for(var i=(start+1); i<stop; i++) if(this[i] > max) max = i;
-	return max;
-};
-
-/**
- *
- * @param {Number} start
- *			start position in array
- * @param {Number} stop
- *			stop position in array
- *
- * @return {Number} minimum value within array
- *
- */
-Array.prototype.min = function(start, stop) {
-	start = (start != undefined)
-		? start
-		: 0;
-	stop = (stop != undefined)
-		? stop
-		: this.length;
-	var min = this[start];
-
-	for (var i=(start+1); i<stop; i++) if(this[i] < min) min = i;
-	return min;
-};
-
-/**
- *
- * http://jsfromhell.com/array/shuffle
- * http://www.brain4.de/programmierecke/js/arrayShuffle.php
- *
- * @return {Array} original array but with the order "shuffled"
- *
- */
-Array.prototype.shuffle = function() {
-	for (var j, x, i=this.length; i; j=parseInt(Math.random() * i), x=this[--i], this[i]=this[j], this[j]=x);
-};
-
-/**
- *
+ * Eliminate all duplicates from an Array
  * http://stackoverflow.com/questions/9229645/remove-duplicates-from-javascript-array
  *
  * @return {Array} original array without duplicates
  *
  */
 Array.prototype.removeDuplicates = function() {
-	if( typeof this === 'Array') {
+	// if( typeof this === 'Array') {
 		return this.reduce(function(accum, cur) {
 			if (accum.indexOf(cur) === -1) accum.push(cur);
 			return accum;
 		}, [] );
-	}
+	// }
 };
 
 /**
@@ -892,7 +893,7 @@ PaperScope.inject({
 	 *
 	 */
 	slopeToAngle: function(slope) {
-		return Math.atan( slope.x/slope.y );
+		return paper.degrees(Math.atan( slope.x/slope.y ));
 	},
 
 	// ------------------------------------------------------------------------

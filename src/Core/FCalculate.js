@@ -360,7 +360,7 @@ PaperScope.inject({
 	 *
 	 */
 	slopeToAngle: function(slope) {
-		return Math.atan( slope.x/slope.y );
+		return paper.degrees(Math.atan( slope.x/slope.y ));
 	},
 
 	// ------------------------------------------------------------------------

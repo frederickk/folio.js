@@ -105,7 +105,8 @@ PaperScope.inject({
 		var path;
 		for (var i = 0; i < items.length; i++) {
 			var item = items[i];
-			if (item.name == name) path = item; // break;
+			if (item.name === name) path = item;
+			// break;
 		}
 		return path;
 	},
@@ -124,7 +125,8 @@ PaperScope.inject({
 		var path;
 		for (var i = 0; i < items.length; i++) {
 			var item = items[i];
-			if (item.id == id) path = item; // break;
+			if (item.id === id) path = item;
+			// break;
 		}
 		return path;
 	}
