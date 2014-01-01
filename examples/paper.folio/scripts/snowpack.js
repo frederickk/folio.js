@@ -45,6 +45,10 @@ function Setup() {
 
 	// circle packer
 	packer = new f.FCirclePack(flakes, 7);
+	packer.setTarget( new Point(
+		view.center.x,
+		view.bounds.height
+	));
 	packer.setPadding(s.strokeWidth);
 };
 

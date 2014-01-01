@@ -56,7 +56,7 @@ folio.FCirclePack = function(circleItems, iterations) {
 
 	var dampingAmt = 0.1; // the lower the slower
 	var padding = 0;
-
+	var target = view.center;
 
 	//
 	// Methods
@@ -119,8 +119,8 @@ folio.FCirclePack = function(circleItems, iterations) {
 		for (var i = 0; i < circleItems.length; i++) {
 			var c = circleItems[i];
 			// if(c == this.dragCircle) continue;
-			pp.x = c.position.x - view.center.x;
-			pp.y = c.position.y - view.center.y;
+			pp.x = c.position.x - target.x;
+			pp.y = c.position.y - target.y;
 			pp = pp.multiply(damping);
 			// }
 			c.position.x -= pp.x;
@@ -171,6 +171,14 @@ folio.FCirclePack = function(circleItems, iterations) {
 	};
 
 
+	/**
+	 * @param {Point} point
+	 * 		the target location for the elements to pack around (default: view.center)
+	 */
+	var setTarget = function(point) {
+		target = point;
+	};
+
 	//
 	// gets
 	//
@@ -204,6 +212,7 @@ folio.FCirclePack = function(circleItems, iterations) {
 		add:		add,
 		setDamping:	setDamping,
 		setPadding:	setPadding,
+		setTarget:  setTarget,
 
 		getItems:	getItems,
 		getItem:	getItem
