@@ -141,7 +141,7 @@ var SnowFlake = function(center, spokes, radius, t) {
 			iMult -= 0.1;
 			var sides = ( parseInt(spokes*t) < 4 ) ? 4 : parseInt(spokes*t);
 
-			var inside = new Path.RegularPolygon(center, sides, iRadius*it);
+			var inside = new Path.RegularPolygon(center, sides+1, iRadius*it);
 			inside.strokeWidth = 15;
 			inside.strokeCap = 'round';
 			inside.rotate( (360/spokes)*1.5, center );
