@@ -18,17 +18,17 @@ paper.Color.inject({
 	// ------------------------------------------------------------------------
 	/**
 	 *
-	 * @param {Number} component
-	 *					input value to convert
-	 *
-	 * @return {String} hex value of input color as string
+	 * @return {Number} value of input color as integer
 	 *
 	 */
-	componentToHex: function( component ) {
-		var hex = component.toString(16);
-		return hex.length == 1 ? '0' + hex : hex;
+	toInt: function() {
+		var RgbInt = this.red;
+		RgbInt = RgbInt << 8;
+		RgbInt |= this.green;
+		RgbInt = RgbInt << 8;
+		RgbInt |= this.blue;
+		return RgbInt;
 	},
-
 
 	/**
 	 *
@@ -37,83 +37,13 @@ paper.Color.inject({
 	 * @return {String} hex value of input color as string
 	 *
 	 */
-	colorToHex: function() {
-		var r, g, b;
-		var str = '';
-		try {
-			r = this.red*255;
-			g = this.green*255;
-			b = this.blue*255;
-			str = '#'+ this.componentToHex(r) + this.componentToHex(g) + this.componentToHex(b);
-		}
-		catch(err) {
-			console.log( err );
-			// str = '#ffffff'; // on error return white
-		}
-		return str;
+	toHex: function() {
+		function c2h(e) { var t=e.toString(16); return t.length===1?'0'+t:t }
+		return '#' +
+			c2h(this.red*255) +
+			c2h(this.green*255) +
+			c2h(this.blue*255);
 	},
-
-	// ------------------------------------------------------------------------
-	/**
-	 *
-	 * @return {Number} value of input color as integer
-	 *
-	 */
-	colorToInt: function() {
-		var RgbInt;
-		try {
-			RgbInt = this.red;
-			RgbInt = RgbInt << 8;
-			RgbInt |= this.green;
-			RgbInt = RgbInt << 8;
-			RgbInt |= this.blue;
-		}
-		catch(err) {
-			console.log( err );
-			RgbInt = 16777215; // on error return white
-		}
-		return RgbInt;
-	},
-
-	/**
-	 *
-	 * @param {Number} RgbInt
-	 * 		value as integer
-	 *
-	 * @return {Color} value of integer as Color
-	 *
-	 */
-	integer: function(RgbInt) {
-		this.red = (RgbInt>> 16) & 255;
-		this.green = (RgbInt>> 8) & 255;
-		this.blue = RgbInt& 255;
-		return this;
-	},
-
-
-	// ------------------------------------------------------------------------
-	/**
-	 *
-	 * @param {Number} arg0
-	 * 		red as byte value (0-255)
-	 * @param {Number} arg1
-	 * 		green as byte value (0-255)
-	 * @param {Number} arg2
-	 * 		blue as byte value (0-255)
-	 * @param {Number} arg3
-	 * 		alpha as byte value (0-255)
-	 *
-	 * @return {Color}
-	 *
-	 */
-	bytes: function(arg0, arg1, arg2, arg3) {
-		this.red = arg0/255;
-		this.green = (arg1 != undefined) ? arg1/255 : arg0/255;
-		this.blue = (arg2 != undefined) ? arg2/255 : arg0/255;
-		this.alpha = (arg3 != undefined) ? arg3/255 : 1.0;
-		return this;
-	},
-
 
 	// ------------------------------------------------------------------------
 	/**
@@ -127,15 +57,13 @@ paper.Color.inject({
 	 *
 	 * @example
 	 * var color = new Color( 0.0, 1.0, 0.7 );
-	 * color.desaturate(0.2); // { red: 0, green: 0.76, blue: 0.532 }
-	 *
-	 * var color = new Color( 0.0, 1.0, 0.7 );
 	 * var desaturated = color.desaturate(0.2); // { red: 0, green: 0.76, blue: 0.532 }
 	 *
 	 */
 	desaturate: function(amt) {
 		var color = new Color( this );
 		color.saturation = paper.clamp( this.saturation - (this.saturation * amt), 0,1 );
+		color.setType( this.type );
 		return color;
 	},
 
@@ -150,15 +78,13 @@ paper.Color.inject({
 	 *
 	 * @example
 	 * var color = new Color( 0.0, 1.0, 0.7 );
-	 * color.saturate(0.2); // { red: 0, green: 0.76, blue: 0.532 }
-	 *
-	 * var color = new Color( 0.0, 1.0, 0.7 );
 	 * var saturated = color.saturate(0.2); // { red: 0, green: 0.76, blue: 0.532 }
 	 *
 	 */
 	saturate: function(amt) {
 		var color = new Color( this );
 		color.saturation = paper.clamp( this.saturation + (this.saturation * amt), 0,1 );
+		color.setType( this.type );
 		return color;
 	},
 
@@ -173,15 +99,13 @@ paper.Color.inject({
 	 *
 	 * @example
 	 * var color = new Color( 0.0, 1.0, 0.7 );
-	 * color.darken(0.2); // { red: 0, green: 0.76, blue: 0.532 }
-	 *
-	 * var color = new Color( 0.0, 1.0, 0.7 );
 	 * var darkened = color.darken(0.2); // { red: 0, green: 0.76, blue: 0.532 }
 	 *
 	 */
 	darken: function(amt) {
 		var color = new Color( this );
 		color.lightness = paper.clamp( this.lightness - (this.lightness * amt), 0,1 );
+		color.setType( this.type );
 		return color;
 	},
 
@@ -196,15 +120,13 @@ paper.Color.inject({
 	 *
 	 * @example
 	 * var color = new Color( 0.0, 1.0, 0.7 );
-	 * color.dim(0.2); // { red: 0, green: 0.76, blue: 0.532 }
-	 *
-	 * var color = new Color( 0.0, 1.0, 0.7 );
 	 * var dimmed = color.dim(0.2); // { red: 0, green: 0.76, blue: 0.532 }
 	 *
 	 */
 	dim: function(amt) {
 		var color = new Color( this );
 		color.brightness = paper.clamp( this.brightness - (this.brightness * amt), 0,1 );
+		color.setType( this.type );
 		return color;
 	},
 
@@ -219,9 +141,6 @@ paper.Color.inject({
 	 *
 	 * @example
 	 * var color = new Color( 0.0, 1.0, 0.7 );
-	 * color.lighten(0.2); // { red: 0, green: 0.76, blue: 0.532 }
-	 *
-	 * var color = new Color( 0.0, 1.0, 0.7 );
 	 * var lightened = color.lighten(0.2); // { red: 0, green: 0.76, blue: 0.532 }
 	 *
 	 */
@@ -229,6 +148,7 @@ paper.Color.inject({
 		var color = new Color( this );
 		// color.saturation = paper.clamp( this.saturation - (this.saturation * amt), 0,1 );
 		color.lightness = paper.clamp( this.lightness + (this.lightness * amt), 0,1 );
+		color.setType( this.type );
 		return color;
 	},
 
@@ -243,9 +163,6 @@ paper.Color.inject({
 	 *
 	 * @example
 	 * var color = new Color( 0.0, 1.0, 0.7 );
-	 * color.brighten(0.2);
-	 *
-	 * var color = new Color( 0.0, 1.0, 0.7 );
 	 * var brightened = color.brighten(0.2);
 	 *
 	 */
@@ -253,6 +170,7 @@ paper.Color.inject({
 		var color = new Color( this );
 		color.saturation = paper.clamp( this.saturation - (this.saturation * amt), 0,1 );
 		color.brightness = paper.clamp( this.brightness + (this.brightness * amt), 0,1 );
+		color.setType( this.type );
 		return color;
 	},
 
@@ -267,14 +185,12 @@ paper.Color.inject({
 	 *
 	 * @example
 	 * var color = new Color( 0.0, 1.0, 0.7 );
-	 * color.contrast(0.2);
-	 *
-	 * var color = new Color( 0.0, 1.0, 0.7 );
 	 * var contrasted = color.contrast(0.2);
 	 *
 	 */
 	contrast: function(amt) {
 		var color = new Color( this );
+		color.setType( this.type );
 		return color.lightness < 0.5
 			? color.darken(amt)
 			: color.lighten(amt);
@@ -288,15 +204,13 @@ paper.Color.inject({
 	 *
 	 * @example
 	 * var color = new Color( 0.0, 1.0, 0.7 );
-	 * color.invert();
-	 *
-	 * var color = new Color( 0.0, 1.0, 0.7 );
 	 * var inverted = color.invert();
 	 *
 	 */
 	invert: function() {
 		var color = new Color( this );
 		color.hue += 180;
+		color.setType( this.type );
 		return color;
 	},
 
@@ -324,6 +238,7 @@ paper.Color.inject({
 	rotate: function(degree) {
 		var color = new Color( this );
 		color.hue += degree;
+		color.setType( this.type );
 		return color;
 	},
 
@@ -424,7 +339,15 @@ paper.Color.inject({
 		random: function(arg0, arg1, arg2, arg3) {
 			var components;
 
-			if( paper.getType(arg0) === 'Object' ) {
+			if( paper.getType(arg0) === 'String' ) {
+				var hex = arg0.substring(1);
+				return new Color.random(
+					parseInt(hex.slice(0,2), 16)/255,
+					parseInt(hex.slice(2,4), 16)/255,
+					parseInt(hex.slice(4,6), 16)/255
+				);
+			}
+			else if( paper.getType(arg0) === 'Object' ) {
 				components = {};
 				for( var key in arg0 ) {
 					if( paper.getType(arg0[key]) === 'Array' ) {
@@ -434,11 +357,6 @@ paper.Color.inject({
 						components[key] = paper.random(0.0, arg0[key]);
 					}
 				}
-			}
-			else if( arg0 === 'hex' ) {
-				// http://paulirish.com/2009/random-hex-color-code-snippets/
-				// TODO: push hex value to Color.data
-				components = ('#'+Math.floor(Math.random()*16777215).toString(16)).toUpperCase();
 			}
 			else {
 				components = [];
@@ -460,10 +378,60 @@ paper.Color.inject({
 			}
 
 			var c = new Color(components);
-			c.data = ( arg0 === 'hex' ) ? components : null;
+			c.data = (arg0 === 'hex') ? components : null;
 			c.alpha = 1.0;
+			c.setType( (components[0] > 1.0) ? 'hsb' : 'rgb' );
 			return c;
-		}
+		},
+
+		// ------------------------------------------------------------------------
+		/**
+		 *
+		 * @param {Number} RgbInt
+		 * 		value as integer
+		 *
+		 * @return {Color} value of integer as Color
+		 *
+		 */
+		integer: function(RgbInt) {
+			return new Color(
+				(RgbInt >> 16) & 255,
+				(RgbInt >> 8) & 255,
+				RgbInt & 255
+			);
+		},
+
+		/**
+		 *
+		 * @param {Number} arg0
+		 * 		red as byte value (0-255)
+		 * @param {Number} arg1
+		 * 		green as byte value (0-255)
+		 * @param {Number} arg2
+		 * 		blue as byte value (0-255)
+		 * @param {Number} arg3
+		 * 		alpha as byte value (0-255)
+		 *
+		 * @return {Color}
+		 *
+		 */
+		bytes: function(arg0, arg1, arg2, arg3) {
+			if(arguments.length === 4) {
+				return new Color(
+					arg0/255,
+					(arg1 != undefined) ? arg1/255 : arg0/255,
+					(arg2 != undefined) ? arg2/255 : arg0/255,
+					(arg3 != undefined) ? arg3/255 : 1.0
+				);
+			}
+			else {
+				return new Color(
+					arg0/255,
+					(arg1 != undefined) ? arg1/255 : arg0/255,
+					(arg2 != undefined) ? arg2/255 : arg0/255
+				);
+			}
+		},
 	}
 
 

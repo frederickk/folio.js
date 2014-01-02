@@ -24,8 +24,8 @@ test('randomInt', function() {
 	equals(randInt, randInt);
 });
 
-test('randomBias', function() {
-});
+// test('randomBias', function() {
+// });
 
 test('clamp', function() {
 	var clamped = paper.clamp(120, 0, 90);
@@ -134,5 +134,5 @@ test('sq', function() {
 	equals(squared, 900);
 });
 
-test('getCommonTangents', function() {
-});
+// test('getCommonTangents', function() {
+// });

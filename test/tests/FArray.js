@@ -84,11 +84,10 @@ test('round', function() {
 test('FSort.alphabetical', function() {
 	var arr = ['November', 'Oscar', 'Golf', 'Uniform'];
 	var output = arr.sort(FSort.alphabetical);
-	// console.log( output );
 	compareArrays(output, ['Golf', 'November', 'Oscar', 'Uniform']);
 });
 
-test('FSort.distanceToCenter', function() {
-});
+// test('FSort.distanceToCenter', function() {
+// });
 
 
