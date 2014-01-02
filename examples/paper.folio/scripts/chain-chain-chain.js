@@ -65,8 +65,8 @@ function Setup() {
 
 	// calculate colors
 	colors = {
-		start:	new Color( paper.random(0,1),paper.random(0,1),paper.random(0,1) ),
-		end:	new Color( paper.random(0,1),paper.random(0,1),paper.random(0,1) )
+		start:	new Color.random(),
+		end:	new Color.random()
 	};
 
 
@@ -143,7 +143,7 @@ function updateBackground() {
 	var gradient = new Gradient([colors.start, colors.end]);
 	var gradientColor = new GradientColor(gradient, view.bounds.topLeft, view.bounds.bottomRight);
 	background.fillColor = gradientColor;
-	background.opacity = 0.2;
+	background.opacity = 0.6;
 };
 
 function updateDots() {
