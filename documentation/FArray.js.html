@@ -44,18 +44,95 @@
  *
  */
 Array.prototype.median = function() {
-	var median = 0;
-	this.sort();
-	if (this.length % 2 === 0) {
-		median = (this[this.length / 2 - 1] + this[this.length / 2]) / 2;
-	}
-	else {
-		median = this[(this.length - 1) / 2];
-	}
-	return median;
+	// if( typeof this === 'Array') {
+		var median = 0;
+		this.sort();
+		if (this.length % 2 === 0) {
+			median = (this[this.length / 2 - 1] + this[this.length / 2]) / 2;
+		}
+		else {
+			median = this[(this.length - 1) / 2];
+		}
+		return median;
+	// }
 };
 
 /**
+ * combines two Arrays
+ *
+ * @param {Array} arr
+ *			Array object
+ *
+ * @return {Array} new merged Array object
+ *
+ */
+Array.prototype.merge = function(arr, bShuffle) {
+	// if( typeof this === 'Array') {
+		var output = this.concat(arr);
+		return output;
+	// }
+};
+
+/**
+ *
+ * @param {Number} start
+ *			start position in array
+ * @param {Number} stop
+ *			stop position in array
+ *
+ * @return {Number} index of maximum value within array
+ *
+ */
+Array.prototype.max = function(start, stop) {
+	start = (start != undefined)
+		? start
+		: 0;
+	stop = (stop != undefined)
+		? stop
+		: this.length;
+	var max = start;
+
+	for(var i=(start+1); i&lt;stop; i++) if(this[i] > this[max]) max = i;
+	return max;
+};
+
+/**
+ *
+ * @param {Number} start
+ *			start position in array
+ * @param {Number} stop
+ *			stop position in array
+ *
+ * @return {Number} index of minimum value within array
+ *
+ */
+Array.prototype.min = function(start, stop) {
+	start = (start != undefined)
+		? start
+		: 0;
+	stop = (stop != undefined)
+		? stop
+		: this.length;
+	var min = start;
+
+	for (var i=(start+1); i&lt;stop; i++) if(this[i] &lt; this[min]) min = i;
+	return min;
+};
+
+/**
+ *
+ * http://jsfromhell.com/array/shuffle
+ * http://www.brain4.de/programmierecke/js/arrayShuffle.php
+ *
+ * @return {Array} original array but with the order "shuffled"
+ *
+ */
+Array.prototype.shuffle = function() {
+	for (var j, x, i=this.length; i; j=parseInt(Math.random() * i), x=this[--i], this[i]=this[j], this[j]=x);
+};
+
+/**
+ * Eliminate all non-unique elements from an Array
  *
  * @return {Object} unique element
  *
@@ -74,91 +151,19 @@ Array.prototype.unique = function() {
 };
 
 /**
- *
- * merges (then shuffles) two Arrays
- *
- * @param {Array} arr
- * 			Array object
- *
- * @return {Array} new merged Array object
- *
- */
-Array.prototype.merge = function(arr) {
-	var output = this.concat(arr);
-	output.shuffle();
-	return output;
-};
-
-/**
- *
- * @param {Number} start
- * 			start position in array
- * @param {Number} stop
- * 			stop position in array
- *
- * @return {Number} maximum value within array
- *
- */
-Array.prototype.max = function(start, stop) {
-	start = (start != undefined)
-		? start
-		: 0;
-	stop = (stop != undefined)
-		? stop
-		: this.length;
-	var max = this[start];
-
-	for(var i=(start+1); i&lt;stop; i++) if(this[i] > max) max = i;
-	return max;
-};
-
-/**
- *
- * @param {Number} start
- * 			start position in array
- * @param {Number} stop
- * 			stop position in array
- *
- * @return {Number} minimum value within array
- *
- */
-Array.prototype.min = function(start, stop) {
-	start = (start != undefined)
-		? start
-		: 0;
-	stop = (stop != undefined)
-		? stop
-		: this.length;
-	var min = this[start];
-
-	for (var i=(start+1); i&lt;stop; i++) if(this[i] &lt; min) min = i;
-	return min;
-};
-
-/**
- *
- * http://jsfromhell.com/array/shuffle
- * http://www.brain4.de/programmierecke/js/arrayShuffle.php
- *
- * @return {Array} original array but with the order "shuffled"
- *
- */
-Array.prototype.shuffle = function() {
-	for (var j, x, i=this.length; i; j=parseInt(Math.random() * i), x=this[--i], this[i]=this[j], this[j]=x);
-};
-
-/**
- *
+ * Eliminate all duplicates from an Array
  * http://stackoverflow.com/questions/9229645/remove-duplicates-from-javascript-array
  *
  * @return {Array} original array without duplicates
  *
  */
 Array.prototype.removeDuplicates = function() {
-	return this.reduce(function(accum, cur) {
-		if (accum.indexOf(cur) === -1) accum.push(cur);
-		return accum;
-	}, [] );
+	// if( typeof this === 'Array') {
+		return this.reduce(function(accum, cur) {
+			if (accum.indexOf(cur) === -1) accum.push(cur);
+			return accum;
+		}, [] );
+	// }
 };
 
 /**
@@ -218,10 +223,10 @@ var FSort = {
 	 *
 	 */
 	distanceToCenter: function(a, b) {
-		var valueA = a.distanceToCenter();
-		console.log( valueA );
-		var valueB = b.distanceToCenter();
-		console.log( valueB );
+		var valueA = a.getDistanceToCenter();
+		// console.log( valueA );
+		var valueB = b.getDistanceToCenter();
+		// console.log( valueB );
 		var comparisonValue = 0;
 
 		if (valueA > valueB) comparisonValue = -1;
@@ -241,13 +246,13 @@ var FSort = {
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Global</h3><ul><li><a href="global.html#boolToInt">boolToInt</a></li><li><a href="global.html#brighten">brighten</a></li><li><a href="global.html#bytes">bytes</a></li><li><a href="global.html#clamp">clamp</a></li><li><a href="global.html#colorToHex">colorToHex</a></li><li><a href="global.html#colorToInt">colorToInt</a></li><li><a href="global.html#componentToHex">componentToHex</a></li><li><a href="global.html#contrast">contrast</a></li><li><a href="global.html#cosec">cosec</a></li><li><a href="global.html#darken">darken</a></li><li><a href="global.html#degrees">degrees</a></li><li><a href="global.html#desaturate">desaturate</a></li><li><a href="global.html#dim">dim</a></li><li><a href="global.html#divisor">divisor</a></li><li><a href="global.html#FArrow">FArrow</a></li><li><a href="global.html#FBubble">FBubble</a></li><li><a href="global.html#FChain">FChain</a></li><li><a href="global.html#FCross">FCross</a></li><li><a href="global.html#FDrop">FDrop</a></li><li><a href="global.html#findById">findById</a></li><li><a href="global.html#findByName">findByName</a></li><li><a href="global.html#FTriangle">FTriangle</a></li><li><a href="global.html#getAngle">getAngle</a></li><li><a href="global.html#getArea">getArea</a></li><li><a href="global.html#getCentroid">getCentroid</a></li><li><a href="global.html#getCircumarea">getCircumarea</a></li><li><a href="global.html#getCircumcenter">getCircumcenter</a></li><li><a href="global.html#getCircumradius">getCircumradius</a></li><li><a href="global.html#getCommonTangents">getCommonTangents</a></li><li><a href="global.html#getDistanceToCenter">getDistanceToCenter</a></li><li><a href="global.html#getHeading">getHeading</a></li><li><a href="global.html#getIncircle">getIncircle</a></li><li><a href="global.html#getIncirclearea">getIncirclearea</a></li><li><a href="global.html#getIncircleradius">getIncircleradius</a></li><li><a href="global.html#getSlopeAngle">getSlopeAngle</a></li><li><a href="global.html#getType">getType</a></li><li><a href="global.html#integer">integer</a></li><li><a href="global.html#interpolate">interpolate</a></li><li><a href="global.html#interpolateTo">interpolateTo</a></li><li><a href="global.html#invert">invert</a></li><li><a href="global.html#lighten">lighten</a></li><li><a href="global.html#magSq">magSq</a></li><li><a href="global.html#map">map</a></li><li><a href="global.html#norm">norm</a></li><li><a href="global.html#normalize">normalize</a></li><li><a href="global.html#numToBool">numToBool</a></li><li><a href="global.html#println">println</a></li><li><a href="global.html#radians">radians</a></li><li><a href="global.html#random">random</a></li><li><a href="global.html#randomBias">randomBias</a></li><li><a href="global.html#randomInt">randomInt</a></li><li><a href="global.html#rotate">rotate</a></li><li><a href="global.html#round">round</a></li><li><a href="global.html#roundMultiple">roundMultiple</a></li><li><a href="global.html#saturate">saturate</a></li><li><a href="global.html#sec">sec</a></li><li><a href="global.html#snap">snap</a></li><li><a href="global.html#snapGrid">snapGrid</a></li><li><a href="global.html#snapIso">snapIso</a></li><li><a href="global.html#sq">sq</a></li><li><a href="global.html#statics">statics</a></li><li><a href="global.html#toGroup">toGroup</a></li><li><a href="global.html#trimToFit">trimToFit</a></li></ul>
+    <h2><a href="index.html">Index</a></h2><h3>Global</h3><ul><li><a href="global.html#boolToInt">boolToInt</a></li><li><a href="global.html#brighten">brighten</a></li><li><a href="global.html#clamp">clamp</a></li><li><a href="global.html#contrast">contrast</a></li><li><a href="global.html#cosec">cosec</a></li><li><a href="global.html#darken">darken</a></li><li><a href="global.html#degrees">degrees</a></li><li><a href="global.html#desaturate">desaturate</a></li><li><a href="global.html#dim">dim</a></li><li><a href="global.html#divisor">divisor</a></li><li><a href="global.html#FArrow">FArrow</a></li><li><a href="global.html#FBubble">FBubble</a></li><li><a href="global.html#FChain">FChain</a></li><li><a href="global.html#FCross">FCross</a></li><li><a href="global.html#FDrop">FDrop</a></li><li><a href="global.html#findById">findById</a></li><li><a href="global.html#findByName">findByName</a></li><li><a href="global.html#FTriangle">FTriangle</a></li><li><a href="global.html#getAngle">getAngle</a></li><li><a href="global.html#getArea">getArea</a></li><li><a href="global.html#getCentroid">getCentroid</a></li><li><a href="global.html#getCircumarea">getCircumarea</a></li><li><a href="global.html#getCircumcenter">getCircumcenter</a></li><li><a href="global.html#getCircumradius">getCircumradius</a></li><li><a href="global.html#getCommonTangents">getCommonTangents</a></li><li><a href="global.html#getDistanceToCenter">getDistanceToCenter</a></li><li><a href="global.html#getHeading">getHeading</a></li><li><a href="global.html#getIncircle">getIncircle</a></li><li><a href="global.html#getIncirclearea">getIncirclearea</a></li><li><a href="global.html#getIncircleradius">getIncircleradius</a></li><li><a href="global.html#getSlopeAngle">getSlopeAngle</a></li><li><a href="global.html#getType">getType</a></li><li><a href="global.html#interpolate">interpolate</a></li><li><a href="global.html#interpolateTo">interpolateTo</a></li><li><a href="global.html#invert">invert</a></li><li><a href="global.html#lighten">lighten</a></li><li><a href="global.html#magSq">magSq</a></li><li><a href="global.html#map">map</a></li><li><a href="global.html#norm">norm</a></li><li><a href="global.html#normalize">normalize</a></li><li><a href="global.html#numToBool">numToBool</a></li><li><a href="global.html#println">println</a></li><li><a href="global.html#radians">radians</a></li><li><a href="global.html#random">random</a></li><li><a href="global.html#randomBias">randomBias</a></li><li><a href="global.html#randomInt">randomInt</a></li><li><a href="global.html#rotate">rotate</a></li><li><a href="global.html#round">round</a></li><li><a href="global.html#roundMultiple">roundMultiple</a></li><li><a href="global.html#saturate">saturate</a></li><li><a href="global.html#sec">sec</a></li><li><a href="global.html#slope">slope</a></li><li><a href="global.html#slopeAngle">slopeAngle</a></li><li><a href="global.html#slopeRatio">slopeRatio</a></li><li><a href="global.html#snap">snap</a></li><li><a href="global.html#snapGrid">snapGrid</a></li><li><a href="global.html#snapIso">snapIso</a></li><li><a href="global.html#sq">sq</a></li><li><a href="global.html#statics">statics</a></li><li><a href="global.html#toGroup">toGroup</a></li><li><a href="global.html#toHex">toHex</a></li><li><a href="global.html#toInt">toInt</a></li><li><a href="global.html#trimToFit">trimToFit</a></li></ul>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Tue Dec 24 2013 12:02:56 GMT-0800 (PST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Wed Jan 01 2014 23:49:27 GMT-0500 (EST)
 </footer>
 
 <script> prettyPrint(); </script>

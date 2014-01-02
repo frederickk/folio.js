@@ -52,8 +52,8 @@ paper.Item.inject({
 	// -----------------------------------------------------------------------------
 	/**
 	 * @param {Size} spacing
-	 * 			spacing.width  = the horizontal snapping value, width of the grid.
-	 * 			spacing.height = the vertical snapping value, height of the grid.
+	 *			spacing.width  = the horizontal snapping value, width of the grid.
+	 *			spacing.height = the vertical snapping value, height of the grid.
 	 *
 	 */
 	snapGrid: function(spacing) {
@@ -65,7 +65,7 @@ paper.Item.inject({
 	 * snaps point to an isometric grid
 	 *
 	 * @param {Number} scale
-	 * 			scale of the grid (1.0 = 32x16)
+	 *			scale of the grid (1.0 = 32x16)
 	 *
 	 */
 	snapIso: function(scale) {
@@ -81,20 +81,39 @@ paper.Item.inject({
 	 *
 	 */
 	getDistanceToCenter: function() {
-		// var dx = this._position.x - view.bounds.center.x;
-		// var dy = this._position.y - view.bounds.center.y;
-		// return (dx * dx + dy * dy) + 1;
-		return this._position.getDistance( view.bounds.center );
+		if( this._position != undefined ) {
+			var dx = this._position.x - view.bounds.center.x;
+			var dy = this._position.y - view.bounds.center.y;
+			return (dx * dx + dy * dy) + 1;
+			// return this._position.getDistance( view.bounds.center );
+		}
 	},
 
 
 	// -----------------------------------------------------------------------------
 	/**
-	 * converts an CompoundPath into a Group otherwise returns original Item
+	 * converts a CompoundPath into a Group otherwise returns original Item
+	 *
+	 * @return {Group}
+	 *
+	 * @example
+	 * var path = new CompoundPath({
+	 * 	children: [
+	 * 		new Path.Circle({
+	 * 			center: new Point(50, 50),
+	 * 			radius: 30
+	 * 		}),
+	 * 		new Path.Circle({
+	 * 			center: new Point(50, 50),
+	 * 			radius: 10
+	 * 		})
+	 * 	]
+	 * });
+	 * var group = path.toGroup();
 	 *
 	 */
 	toGroup: function() {
-		if (folio.getType(this) == 'CompoundPath') {
+		if (paper.getType(this) === 'CompoundPath') {
 			return new Group( this.children );
 		}
 		else {
@@ -123,6 +142,15 @@ paper.Path.inject({
 	 * http://stackoverflow.com/questions/2792443/finding-the-centroid-of-a-polygon
 	 *
 	 * @return {Point}
+	 *
+	 * @example
+	 * var triangle = new Path(
+	 * 	new Point(0, 0),
+	 * 	new Point(180, 180),
+	 * 	new Point(0, 360)
+	 * );
+	 * var centroid = triangle.getCentroid(); // { x:60, y:180 }
+	 *
 	 */
 	getCentroid: function() {
 		var centroid = new Point(0,0);
@@ -166,6 +194,15 @@ paper.Path.inject({
 	 * TODO: adjust formula to return Circumcenter of any polygon
 	 *
 	 * @return {Point}
+	 *
+	 * @example
+	 * var triangle = new Path(
+	 * 	new Point(0, 0),
+	 * 	new Point(180, 180),
+	 * 	new Point(0, 360)
+	 * );
+	 * var circumcenter = triangle.getCircumcenter(); // { x:0, y:180 }
+	 *
 	 */
 	getCircumcenter: function() {
 		if( this._segments.length === 3 ) {
@@ -205,13 +242,13 @@ paper.Path.inject({
 				var maxx = max3( p1.x, p2.x, p3.x );
 				var maxy = max3( p1.y, p2.y, p3.y );
 
-				return Point.create( ( minx + maxx ) / 2, ( miny + maxy ) / 2 );
+				return new Point( ( minx + maxx ) / 2, ( miny + maxy ) / 2 );
 			}
 			else {
 				var cx = (D*E - B*F) / G;
 				var cy = (A*F - C*E) / G;
 
-				return Point.create( cx, cy );
+				return new Point( cx, cy );
 			}
 		}
 		else {
@@ -270,6 +307,15 @@ paper.Path.inject({
 	 * Returns the Incircle of a polygon
 	 *
 	 * @return {Path.Circle}
+	 *
+	 * @example
+	 * var triangle = new Path(
+	 * 	new Point(0, 0),
+	 * 	new Point(180, 180),
+	 * 	new Point(0, 360)
+	 * );
+	 * var incircle = triangle.getIncircle(); // new Path.Circle(new Point(60, 180), 120));
+	 *
 	 */
 	getIncircle: function() {
 		var incircleradius = Number.MAX_VALUE;
@@ -425,11 +471,11 @@ paper.Path.inject({
 			 * Create simple arrow
 			 *
 			 * @param {Point} headPoint
-			 * 			the head of the arrow
+			 *			the head of the arrow
 			 * @param {Point} tailPoint
-			 * 			the tail of the arrow
+			 *			the tail of the arrow
 			 * @param {Size} arrowHeadSize
-			 * 			(optional) length of the arrow head
+			 *			(optional) length of the arrow head
 			 *
 			 * @example
 			 * var headPoint = new paper.Point( 9,9 );
@@ -438,7 +484,7 @@ paper.Path.inject({
 			 * var farrow = new paper.Path.FArrow( headPoint, tailPoint, arrowHeadSize );
 			 *
 			 */
-			FArrow: function( headPoint, tailPoint, arrowHeadSize ) {
+			FArrow: function(headPoint, tailPoint, arrowHeadSize) {
 				// the line part
 				var path = new Path.Line( headPoint, tailPoint );
 
@@ -469,24 +515,24 @@ paper.Path.inject({
 			 * Create a simple speech bubble
 			 *
 			 * @param {Point} bubblePoint
-			 * 			the position of the bubble
+			 *			the position of the bubble
 			 * @param {Size} bubbleSize
-			 * 			the size of the bubble
+			 *			the size of the bubble
 			 * @param {Size} bubbleTagSize
-			 * 			the size of the tag
+			 *			the size of the tag
 			 * @param {String} bubbleTagCenter
-			 * 			(optional)
-			 * 			'RANDOM'	randomly x-position the point (default)
-			 * 			'LEFT'		left align the x-position of the point
-			 * 			'CENTER'	center align the x-position of the point
-			 * 			'RIGHT'		right align the x-position of the point
+			 *			(optional)
+			 *			'RANDOM'	randomly x-position the point (default)
+			 *			'LEFT'		left align the x-position of the point
+			 *			'CENTER'	center align the x-position of the point
+			 *			'RIGHT'		right align the x-position of the point
 			 *
 			 * @example
 			 * var bubblePoint = new paper.Point( 45,45 );
 			 * var bubbleSize = new paper.Size( 90,60 );
 			 * var bubbleTagSize = new paper.Size( 9,9 );
 			 * var bubbleTagCenter = 'CENTER';
-			 * var b = new paper.Path.FBubble( bubblePoint, bubbleSize, bubbleTagSize, bubbleTagCenter );
+			 * var bubble = new paper.Path.FBubble( bubblePoint, bubbleSize, bubbleTagSize, bubbleTagCenter );
 			 *
 			 */
 			FBubble: function(bubblePoint, bubbleSize, bubbleTagSize, bubbleTagCenter) {
@@ -563,13 +609,13 @@ paper.Path.inject({
 			 * Create simple chain (a line with different endpoint sizes)
 			 *
 			 * @param {Point} arg0
-			 * 			point1 The first point (endpoint1)
+			 *			point1 The first point (endpoint1)
 			 * @param {Number} arg1
-			 * 			radius of endpoint1
+			 *			radius of endpoint1
 			 * @param {Point} arg2
-			 * 			point2 The second point (endpoint2)
+			 *			point2 The second point (endpoint2)
 			 * @param {Number} arg3
-			 * 			radius of endpoint2
+			 *			radius of endpoint2
 			 *
 			 * @example
 			 * var point1 = new paper.Point( 9,9 );
@@ -582,9 +628,9 @@ paper.Path.inject({
 			/**
 			 *
 			 * @param {Path} arg0
-			 * 			PathItem (endpoint1)
+			 *			PathItem (endpoint1)
 			 * @param {Path} arg1
-			 * 			PathItem (endpoint2)
+			 *			PathItem (endpoint2)
 			 *
 			 * @example
 			 * var path1 = new paper.Path.Circle( new Point(9,9), 9 );
@@ -596,7 +642,7 @@ paper.Path.inject({
 				var obj1, obj2;
 
 				// check for the type of arguments being passed
-				if( arg0.type == 'Point' ) {
+				if( paper.getType(arg0) === 'Point' ) {
 					obj1 = new Path.Circle( arg0, arg1 );
 					obj2 = new Path.Circle( arg2, arg3 );
 				}
@@ -649,14 +695,14 @@ paper.Path.inject({
 			 * Create a cross
 			 *
 			 * @param {Point} centerPoint
-			 * 			position of cross
+			 *			position of cross
 			 * @param {Size} size
-			 * 			size [width,height] of cross
+			 *			size [width,height] of cross
 			 * @param {Number} strokeWidth
-			 * 			thickness of the cross
+			 *			thickness of the cross
 			 * @param {String} crossType (optional)
-			 * 			'SHARP'		sharp edged cross (fill)
-			 * 			'LINE'		simple built of lines (stroke)
+			 *			'SHARP'		sharp edged cross (fill)
+			 *			'LINE'		simple built of lines (stroke)
 			 *
 			 * @example
 			 * var centerPoint = new paper.Point( 45,45 );
@@ -717,9 +763,9 @@ paper.Path.inject({
 			 * Create a (tear)drop
 			 *
 			 * @param {Point} centerPoint
-			 * 			position of cross
+			 *			position of cross
 			 * @param {Number} arg1
-			 * 			scale drop, maintains intended proportion
+			 *			scale drop, maintains intended proportion
 			 *
 			 * @example
 			 * var centerPoint = new paper.Point( 45,45 );
@@ -730,9 +776,9 @@ paper.Path.inject({
 			/**
 			 *
 			 * @param {Point} centerPoint
-			 * 			position of cross
+			 *			position of cross
 			 * @param {Size} arg1
-			 * 			scale drop, custom proportion
+			 *			scale drop, custom proportion
 			 *
 			 * @example
 			 * var centerPoint = new paper.Point( 45,45 );
@@ -796,11 +842,11 @@ paper.Path.inject({
 			 * Create a triangle
 			 *
 			 * @param {Point} p1
-			 * 			first point of triangle
+			 *			first point of triangle
 			 * @param {Point} p2
-			 * 			second point of triangle
+			 *			second point of triangle
 			 * @param {Point} p3
-			 * 			third point of triangle
+			 *			third point of triangle
 			 *
 			 * @example
 			 * var p1 = new paper.Point( 9,9 );
@@ -835,13 +881,13 @@ paper.Path.inject({
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Global</h3><ul><li><a href="global.html#boolToInt">boolToInt</a></li><li><a href="global.html#brighten">brighten</a></li><li><a href="global.html#bytes">bytes</a></li><li><a href="global.html#clamp">clamp</a></li><li><a href="global.html#colorToHex">colorToHex</a></li><li><a href="global.html#colorToInt">colorToInt</a></li><li><a href="global.html#componentToHex">componentToHex</a></li><li><a href="global.html#contrast">contrast</a></li><li><a href="global.html#cosec">cosec</a></li><li><a href="global.html#darken">darken</a></li><li><a href="global.html#degrees">degrees</a></li><li><a href="global.html#desaturate">desaturate</a></li><li><a href="global.html#dim">dim</a></li><li><a href="global.html#divisor">divisor</a></li><li><a href="global.html#FArrow">FArrow</a></li><li><a href="global.html#FBubble">FBubble</a></li><li><a href="global.html#FChain">FChain</a></li><li><a href="global.html#FCross">FCross</a></li><li><a href="global.html#FDrop">FDrop</a></li><li><a href="global.html#findById">findById</a></li><li><a href="global.html#findByName">findByName</a></li><li><a href="global.html#FTriangle">FTriangle</a></li><li><a href="global.html#getAngle">getAngle</a></li><li><a href="global.html#getArea">getArea</a></li><li><a href="global.html#getCentroid">getCentroid</a></li><li><a href="global.html#getCircumarea">getCircumarea</a></li><li><a href="global.html#getCircumcenter">getCircumcenter</a></li><li><a href="global.html#getCircumradius">getCircumradius</a></li><li><a href="global.html#getCommonTangents">getCommonTangents</a></li><li><a href="global.html#getDistanceToCenter">getDistanceToCenter</a></li><li><a href="global.html#getHeading">getHeading</a></li><li><a href="global.html#getIncircle">getIncircle</a></li><li><a href="global.html#getIncirclearea">getIncirclearea</a></li><li><a href="global.html#getIncircleradius">getIncircleradius</a></li><li><a href="global.html#getSlopeAngle">getSlopeAngle</a></li><li><a href="global.html#getType">getType</a></li><li><a href="global.html#integer">integer</a></li><li><a href="global.html#interpolate">interpolate</a></li><li><a href="global.html#interpolateTo">interpolateTo</a></li><li><a href="global.html#invert">invert</a></li><li><a href="global.html#lighten">lighten</a></li><li><a href="global.html#magSq">magSq</a></li><li><a href="global.html#map">map</a></li><li><a href="global.html#norm">norm</a></li><li><a href="global.html#normalize">normalize</a></li><li><a href="global.html#numToBool">numToBool</a></li><li><a href="global.html#println">println</a></li><li><a href="global.html#radians">radians</a></li><li><a href="global.html#random">random</a></li><li><a href="global.html#randomBias">randomBias</a></li><li><a href="global.html#randomInt">randomInt</a></li><li><a href="global.html#rotate">rotate</a></li><li><a href="global.html#round">round</a></li><li><a href="global.html#roundMultiple">roundMultiple</a></li><li><a href="global.html#saturate">saturate</a></li><li><a href="global.html#sec">sec</a></li><li><a href="global.html#snap">snap</a></li><li><a href="global.html#snapGrid">snapGrid</a></li><li><a href="global.html#snapIso">snapIso</a></li><li><a href="global.html#sq">sq</a></li><li><a href="global.html#statics">statics</a></li><li><a href="global.html#toGroup">toGroup</a></li><li><a href="global.html#trimToFit">trimToFit</a></li></ul>
+    <h2><a href="index.html">Index</a></h2><h3>Global</h3><ul><li><a href="global.html#boolToInt">boolToInt</a></li><li><a href="global.html#brighten">brighten</a></li><li><a href="global.html#clamp">clamp</a></li><li><a href="global.html#contrast">contrast</a></li><li><a href="global.html#cosec">cosec</a></li><li><a href="global.html#darken">darken</a></li><li><a href="global.html#degrees">degrees</a></li><li><a href="global.html#desaturate">desaturate</a></li><li><a href="global.html#dim">dim</a></li><li><a href="global.html#divisor">divisor</a></li><li><a href="global.html#FArrow">FArrow</a></li><li><a href="global.html#FBubble">FBubble</a></li><li><a href="global.html#FChain">FChain</a></li><li><a href="global.html#FCross">FCross</a></li><li><a href="global.html#FDrop">FDrop</a></li><li><a href="global.html#findById">findById</a></li><li><a href="global.html#findByName">findByName</a></li><li><a href="global.html#FTriangle">FTriangle</a></li><li><a href="global.html#getAngle">getAngle</a></li><li><a href="global.html#getArea">getArea</a></li><li><a href="global.html#getCentroid">getCentroid</a></li><li><a href="global.html#getCircumarea">getCircumarea</a></li><li><a href="global.html#getCircumcenter">getCircumcenter</a></li><li><a href="global.html#getCircumradius">getCircumradius</a></li><li><a href="global.html#getCommonTangents">getCommonTangents</a></li><li><a href="global.html#getDistanceToCenter">getDistanceToCenter</a></li><li><a href="global.html#getHeading">getHeading</a></li><li><a href="global.html#getIncircle">getIncircle</a></li><li><a href="global.html#getIncirclearea">getIncirclearea</a></li><li><a href="global.html#getIncircleradius">getIncircleradius</a></li><li><a href="global.html#getSlopeAngle">getSlopeAngle</a></li><li><a href="global.html#getType">getType</a></li><li><a href="global.html#interpolate">interpolate</a></li><li><a href="global.html#interpolateTo">interpolateTo</a></li><li><a href="global.html#invert">invert</a></li><li><a href="global.html#lighten">lighten</a></li><li><a href="global.html#magSq">magSq</a></li><li><a href="global.html#map">map</a></li><li><a href="global.html#norm">norm</a></li><li><a href="global.html#normalize">normalize</a></li><li><a href="global.html#numToBool">numToBool</a></li><li><a href="global.html#println">println</a></li><li><a href="global.html#radians">radians</a></li><li><a href="global.html#random">random</a></li><li><a href="global.html#randomBias">randomBias</a></li><li><a href="global.html#randomInt">randomInt</a></li><li><a href="global.html#rotate">rotate</a></li><li><a href="global.html#round">round</a></li><li><a href="global.html#roundMultiple">roundMultiple</a></li><li><a href="global.html#saturate">saturate</a></li><li><a href="global.html#sec">sec</a></li><li><a href="global.html#slope">slope</a></li><li><a href="global.html#slopeAngle">slopeAngle</a></li><li><a href="global.html#slopeRatio">slopeRatio</a></li><li><a href="global.html#snap">snap</a></li><li><a href="global.html#snapGrid">snapGrid</a></li><li><a href="global.html#snapIso">snapIso</a></li><li><a href="global.html#sq">sq</a></li><li><a href="global.html#statics">statics</a></li><li><a href="global.html#toGroup">toGroup</a></li><li><a href="global.html#toHex">toHex</a></li><li><a href="global.html#toInt">toInt</a></li><li><a href="global.html#trimToFit">trimToFit</a></li></ul>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Tue Dec 24 2013 12:02:56 GMT-0800 (PST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Wed Jan 01 2014 23:49:27 GMT-0500 (EST)
 </footer>
 
 <script> prettyPrint(); </script>

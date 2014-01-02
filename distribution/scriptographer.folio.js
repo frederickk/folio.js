@@ -1,7 +1,7 @@
 /**!
  *
  * folio.js
- * 0.6.1
+ * 0.7.0
  * https://github.com/frederickk/folio.js
  *
  * 01. January 2014
@@ -2696,8 +2696,8 @@ paper.Size.inject({
  * ------------------------------------------------------------------------/
 
 /**
- *
  * trims white space from left (start) of String
+ * http://stackoverflow.com/questions/3000649/trim-spaces-from-start-and-end-of-string
  *
  * @return {String} trimmed input String
  *
@@ -2710,8 +2710,8 @@ if (!String.prototype.trimLeft) {
 }
 
 /**
- *
  * trims white space from right (end) of String
+ * http://stackoverflow.com/questions/3000649/trim-spaces-from-start-and-end-of-string
  *
  * @return {String} trimmed input String
  *
@@ -2737,7 +2737,6 @@ if (!String.prototype.trim) {
 }
 
 /**
- *
  * converts String to Boolean value
  *
  * @return {Boolean}

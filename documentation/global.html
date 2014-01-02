@@ -121,7 +121,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FPath.js.html">Core/FPath.js</a>, <a href="FPath.js.html#line393">line 393</a>
+        <a href="FPath.js.html">Core/FPath.js</a>, <a href="FPath.js.html#line439">line 439</a>
     </li></ul></dd>
     
     
@@ -370,7 +370,7 @@ NOTE: Color operators aren't working when not using paperScript
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FColor.js.html">Core/FColor.js</a>, <a href="FColor.js.html#line250">line 250</a>
+        <a href="FColor.js.html">Core/FColor.js</a>, <a href="FColor.js.html#line169">line 169</a>
     </li></ul></dd>
     
     
@@ -418,211 +418,8 @@ NOTE: Color operators aren't working when not using paperScript
         <h5>Example</h5>
         
     <pre class="prettyprint"><code>var color = new Color( 0.0, 1.0, 0.7 );
-color.brighten(0.2);
-
-var color = new Color( 0.0, 1.0, 0.7 );
 var brightened = color.brighten(0.2);</code></pre>
 
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="bytes"><span class="type-signature"></span>bytes<span class="signature">(arg0, arg1, arg2, arg3)</span><span class="type-signature"> &rarr; {Color}</span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-
-    
-    
-    
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-		
-		<th>Type</th>
-		
-		
-		
-		
-		
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-	
-	<tbody>
-	
-	
-        <tr>
-            
-                <td class="name"><code>arg0</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">red as byte value (0-255)</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>arg1</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">green as byte value (0-255)</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>arg2</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">blue as byte value (0-255)</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>arg3</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">alpha as byte value (0-255)</td>
-        </tr>
-	
-	
-	</tbody>
-</table>
-    
-    
-    
-<dl class="details">
-    
-        
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FColor.js.html">Core/FColor.js</a>, <a href="FColor.js.html#line107">line 107</a>
-    </li></ul></dd>
-    
-    
-    
-    
-    
-    
-    
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-            
-
-
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
-<span class="param-type">Color</span>
-
-
-	</dd>
-</dl>
-
-        
-    
     
 </dd>
 
@@ -816,319 +613,6 @@ var brightened = color.brighten(0.2);</code></pre>
         
             
 <dt>
-    <h4 class="name" id="colorToHex"><span class="type-signature"></span>colorToHex<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="String.html">String</a>}</span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
-    </div>
-    
-
-    
-    
-    
-    
-    
-    
-    
-<dl class="details">
-    
-        
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FColor.js.html">Core/FColor.js</a>, <a href="FColor.js.html#line38">line 38</a>
-    </li></ul></dd>
-    
-    
-    
-    
-    
-    
-    
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    hex value of input color as string
-</div>
-
-
-
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
-<span class="param-type"><a href="String.html">String</a></span>
-
-
-	</dd>
-</dl>
-
-        
-    
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="colorToInt"><span class="type-signature"></span>colorToInt<span class="signature">()</span><span class="type-signature"> &rarr; {Number}</span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-<dl class="details">
-    
-        
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FColor.js.html">Core/FColor.js</a>, <a href="FColor.js.html#line60">line 60</a>
-    </li></ul></dd>
-    
-    
-    
-    
-    
-    
-    
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    value of input color as integer
-</div>
-
-
-
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
-<span class="param-type">Number</span>
-
-
-	</dd>
-</dl>
-
-        
-    
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="componentToHex"><span class="type-signature"></span>componentToHex<span class="signature">(component)</span><span class="type-signature"> &rarr; {<a href="String.html">String</a>}</span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-
-    
-    
-    
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-		
-		<th>Type</th>
-		
-		
-		
-		
-		
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-	
-	<tbody>
-	
-	
-        <tr>
-            
-                <td class="name"><code>component</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">input value to convert</td>
-        </tr>
-	
-	
-	</tbody>
-</table>
-    
-    
-    
-<dl class="details">
-    
-        
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FColor.js.html">Core/FColor.js</a>, <a href="FColor.js.html#line25">line 25</a>
-    </li></ul></dd>
-    
-    
-    
-    
-    
-    
-    
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    hex value of input color as string
-</div>
-
-
-
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
-<span class="param-type"><a href="String.html">String</a></span>
-
-
-	</dd>
-</dl>
-
-        
-    
-    
-</dd>
-
-        
-            
-<dt>
     <h4 class="name" id="contrast"><span class="type-signature"></span>contrast<span class="signature">(amt)</span><span class="type-signature"> &rarr; {Color}</span></h4>
     
     
@@ -1219,7 +703,7 @@ NOTE: Color operators aren't working when not using paperScript
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FColor.js.html">Core/FColor.js</a>, <a href="FColor.js.html#line274">line 274</a>
+        <a href="FColor.js.html">Core/FColor.js</a>, <a href="FColor.js.html#line191">line 191</a>
     </li></ul></dd>
     
     
@@ -1267,9 +751,6 @@ NOTE: Color operators aren't working when not using paperScript
         <h5>Example</h5>
         
     <pre class="prettyprint"><code>var color = new Color( 0.0, 1.0, 0.7 );
-color.contrast(0.2);
-
-var color = new Color( 0.0, 1.0, 0.7 );
 var contrasted = color.contrast(0.2);</code></pre>
 
     
@@ -1369,7 +850,7 @@ http://www.ssicom.org/js/x974284.htm
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FCalculate.js.html">Core/FCalculate.js</a>, <a href="FCalculate.js.html#line320">line 320</a>
+        <a href="FCalculate.js.html">Core/FCalculate.js</a>, <a href="FCalculate.js.html#line319">line 319</a>
     </li></ul></dd>
     
     
@@ -1492,7 +973,7 @@ NOTE: Color operators aren't working when not using paperScript
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FColor.js.html">Core/FColor.js</a>, <a href="FColor.js.html#line180">line 180</a>
+        <a href="FColor.js.html">Core/FColor.js</a>, <a href="FColor.js.html#line105">line 105</a>
     </li></ul></dd>
     
     
@@ -1540,9 +1021,6 @@ NOTE: Color operators aren't working when not using paperScript
         <h5>Example</h5>
         
     <pre class="prettyprint"><code>var color = new Color( 0.0, 1.0, 0.7 );
-color.darken(0.2); // { red: 0, green: 0.76, blue: 0.532 }
-
-var color = new Color( 0.0, 1.0, 0.7 );
 var darkened = color.darken(0.2); // { red: 0, green: 0.76, blue: 0.532 }</code></pre>
 
     
@@ -1781,7 +1259,7 @@ NOTE: Color operators aren't working when not using paperScript
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FColor.js.html">Core/FColor.js</a>, <a href="FColor.js.html#line134">line 134</a>
+        <a href="FColor.js.html">Core/FColor.js</a>, <a href="FColor.js.html#line63">line 63</a>
     </li></ul></dd>
     
     
@@ -1829,9 +1307,6 @@ NOTE: Color operators aren't working when not using paperScript
         <h5>Example</h5>
         
     <pre class="prettyprint"><code>var color = new Color( 0.0, 1.0, 0.7 );
-color.desaturate(0.2); // { red: 0, green: 0.76, blue: 0.532 }
-
-var color = new Color( 0.0, 1.0, 0.7 );
 var desaturated = color.desaturate(0.2); // { red: 0, green: 0.76, blue: 0.532 }</code></pre>
 
     
@@ -1930,7 +1405,7 @@ NOTE: Color operators aren't working when not using paperScript
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FColor.js.html">Core/FColor.js</a>, <a href="FColor.js.html#line203">line 203</a>
+        <a href="FColor.js.html">Core/FColor.js</a>, <a href="FColor.js.html#line126">line 126</a>
     </li></ul></dd>
     
     
@@ -1978,9 +1453,6 @@ NOTE: Color operators aren't working when not using paperScript
         <h5>Example</h5>
         
     <pre class="prettyprint"><code>var color = new Color( 0.0, 1.0, 0.7 );
-color.dim(0.2); // { red: 0, green: 0.76, blue: 0.532 }
-
-var color = new Color( 0.0, 1.0, 0.7 );
 var dimmed = color.dim(0.2); // { red: 0, green: 0.76, blue: 0.532 }</code></pre>
 
     
@@ -2271,7 +1743,7 @@ Create simple arrow
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FPath.js.html">Core/FPath.js</a>, <a href="FPath.js.html#line414">line 414</a>
+        <a href="FPath.js.html">Core/FPath.js</a>, <a href="FPath.js.html#line460">line 460</a>
     </li></ul></dd>
     
     
@@ -2470,7 +1942,7 @@ Create a simple speech bubble
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FPath.js.html">Core/FPath.js</a>, <a href="FPath.js.html#line465">line 465</a>
+        <a href="FPath.js.html">Core/FPath.js</a>, <a href="FPath.js.html#line511">line 511</a>
     </li></ul></dd>
     
     
@@ -2499,7 +1971,7 @@ Create a simple speech bubble
 var bubbleSize = new paper.Size( 90,60 );
 var bubbleTagSize = new paper.Size( 9,9 );
 var bubbleTagCenter = 'CENTER';
-var b = new paper.Path.FBubble( bubblePoint, bubbleSize, bubbleTagSize, bubbleTagCenter );</code></pre>
+var bubble = new paper.Path.FBubble( bubblePoint, bubbleSize, bubbleTagSize, bubbleTagCenter );</code></pre>
 
     
 </dd>
@@ -2615,7 +2087,7 @@ var b = new paper.Path.FBubble( bubblePoint, bubbleSize, bubbleTagSize, bubbleTa
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FPath.js.html">Core/FPath.js</a>, <a href="FPath.js.html#line568">line 568</a>
+        <a href="FPath.js.html">Core/FPath.js</a>, <a href="FPath.js.html#line614">line 614</a>
     </li></ul></dd>
     
     
@@ -2811,7 +2283,7 @@ Create a cross
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FPath.js.html">Core/FPath.js</a>, <a href="FPath.js.html#line642">line 642</a>
+        <a href="FPath.js.html">Core/FPath.js</a>, <a href="FPath.js.html#line688">line 688</a>
     </li></ul></dd>
     
     
@@ -2956,7 +2428,7 @@ var fcross = new paper.Path.FCross( centerPoint, size, strokeWidth, crossType );
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FPath.js.html">Core/FPath.js</a>, <a href="FPath.js.html#line716">line 716</a>
+        <a href="FPath.js.html">Core/FPath.js</a>, <a href="FPath.js.html#line762">line 762</a>
     </li></ul></dd>
     
     
@@ -3099,7 +2571,7 @@ var fdrop = new paper.Path.FDrop( centerPoint, scale );</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Core.js.html">Core/Core.js</a>, <a href="Core.js.html#line128">line 128</a>
+        <a href="Core.js.html">Core/Core.js</a>, <a href="Core.js.html#line124">line 124</a>
     </li></ul></dd>
     
     
@@ -3257,7 +2729,7 @@ var fdrop = new paper.Path.FDrop( centerPoint, scale );</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Core.js.html">Core/Core.js</a>, <a href="Core.js.html#line109">line 109</a>
+        <a href="Core.js.html">Core/Core.js</a>, <a href="Core.js.html#line104">line 104</a>
     </li></ul></dd>
     
     
@@ -3443,7 +2915,7 @@ Create a triangle
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FPath.js.html">Core/FPath.js</a>, <a href="FPath.js.html#line785">line 785</a>
+        <a href="FPath.js.html">Core/FPath.js</a>, <a href="FPath.js.html#line831">line 831</a>
     </li></ul></dd>
     
     
@@ -3591,7 +3063,7 @@ var ftriangle = new paper.Path.FTriangle( p1, p2, p3 );</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FPoint.js.html">Core/FPoint.js</a>, <a href="FPoint.js.html#line164">line 164</a>
+        <a href="FPoint.js.html">Core/FPoint.js</a>, <a href="FPoint.js.html#line146">line 146</a>
     </li></ul></dd>
     
     
@@ -3641,7 +3113,7 @@ var ftriangle = new paper.Path.FTriangle( p1, p2, p3 );</code></pre>
     <pre class="prettyprint"><code>var point1 = new Point(0, 90);
 var point2 = new Point(90, 180);
 var result = point1.getAngle(point2);
-console.log( paper.degrees(result) ); // XX</code></pre>
+console.log( paper.degrees(result) ); // 45</code></pre>
 
     
 </dd>
@@ -3784,7 +3256,7 @@ http://stackoverflow.com/questions/2792443/finding-the-centroid-of-a-polygon
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FPath.js.html">Core/FPath.js</a>, <a href="FPath.js.html#line100">line 100</a>
+        <a href="FPath.js.html">Core/FPath.js</a>, <a href="FPath.js.html#line128">line 128</a>
     </li></ul></dd>
     
     
@@ -3824,6 +3296,16 @@ http://stackoverflow.com/questions/2792443/finding-the-centroid-of-a-polygon
 
         
     
+    
+        <h5>Example</h5>
+        
+    <pre class="prettyprint"><code>var triangle = new Path(
+	new Point(0, 0),
+	new Point(180, 180),
+	new Point(0, 360)
+);
+var centroid = triangle.getCentroid(); // { x:60, y:180 }</code></pre>
+
     
 </dd>
 
@@ -3966,7 +3448,7 @@ TODO: adjust formula to return Circumcenter of any polygon
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FPath.js.html">Core/FPath.js</a>, <a href="FPath.js.html#line143">line 143</a>
+        <a href="FPath.js.html">Core/FPath.js</a>, <a href="FPath.js.html#line180">line 180</a>
     </li></ul></dd>
     
     
@@ -4006,6 +3488,16 @@ TODO: adjust formula to return Circumcenter of any polygon
 
         
     
+    
+        <h5>Example</h5>
+        
+    <pre class="prettyprint"><code>var triangle = new Path(
+	new Point(0, 0),
+	new Point(180, 180),
+	new Point(0, 360)
+);
+var circumcenter = triangle.getCircumcenter(); // { x:0, y:180 }</code></pre>
+
     
 </dd>
 
@@ -4217,7 +3709,7 @@ var r = size.getCircumradius(); // 11.180339887498949</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FCalculate.js.html">Core/FCalculate.js</a>, <a href="FCalculate.js.html#line375">line 375</a>
+        <a href="FCalculate.js.html">Core/FCalculate.js</a>, <a href="FCalculate.js.html#line405">line 405</a>
     </li></ul></dd>
     
     
@@ -4395,7 +3887,7 @@ var r = size.getCircumradius(); // 11.180339887498949</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FPoint.js.html">Core/FPoint.js</a>, <a href="FPoint.js.html#line124">line 124</a>
+        <a href="FPoint.js.html">Core/FPoint.js</a>, <a href="FPoint.js.html#line106">line 106</a>
     </li></ul></dd>
     
     
@@ -4482,7 +3974,7 @@ var r = size.getCircumradius(); // 11.180339887498949</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FPoint.js.html">Core/FPoint.js</a>, <a href="FPoint.js.html#line143">line 143</a>
+        <a href="FPoint.js.html">Core/FPoint.js</a>, <a href="FPoint.js.html#line125">line 125</a>
     </li></ul></dd>
     
     
@@ -4580,7 +4072,7 @@ console.log( paper.degrees(result) ); // 90</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FPath.js.html">Core/FPath.js</a>, <a href="FPath.js.html#line247">line 247</a>
+        <a href="FPath.js.html">Core/FPath.js</a>, <a href="FPath.js.html#line293">line 293</a>
     </li></ul></dd>
     
     
@@ -4620,6 +4112,16 @@ console.log( paper.degrees(result) ); // 90</code></pre>
 
         
     
+    
+        <h5>Example</h5>
+        
+    <pre class="prettyprint"><code>var triangle = new Path(
+	new Point(0, 0),
+	new Point(180, 180),
+	new Point(0, 360)
+);
+var incircle = triangle.getIncircle(); // new Path.Circle(new Point(60, 180), 120));</code></pre>
+
     
 </dd>
 
@@ -4879,7 +4381,7 @@ console.log( r ); // XX</code></pre>
     
             
 <div class="param-desc">
-    angle (radians)
+    angle in radians
 </div>
 
 
@@ -4911,12 +4413,16 @@ console.log( paper.degrees(result) ); // 26.56</code></pre>
         
             
 <dt>
-    <h4 class="name" id="getType"><span class="type-signature"></span>getType<span class="signature">(object)</span><span class="type-signature"> &rarr; {<a href="String.html">String</a>}</span></h4>
+    <h4 class="name" id="getType"><span class="type-signature"></span>getType<span class="signature">(obj)</span><span class="type-signature"> &rarr; {<a href="String.html">String</a>}</span></h4>
     
     
 </dt>
 <dd>
     
+    
+    <div class="description">
+        http://stackoverflow.com/questions/4775722/check-if-object-is-array
+    </div>
     
 
     
@@ -4949,7 +4455,7 @@ console.log( paper.degrees(result) ); // 26.56</code></pre>
 	
         <tr>
             
-                <td class="name"><code>object</code></td>
+                <td class="name"><code>obj</code></td>
             
             
             <td class="type">
@@ -4996,7 +4502,7 @@ console.log( paper.degrees(result) ); // 26.56</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Core.js.html">Core/Core.js</a>, <a href="Core.js.html#line79">line 79</a>
+        <a href="Core.js.html">Core/Core.js</a>, <a href="Core.js.html#line80">line 80</a>
     </li></ul></dd>
     
     
@@ -5033,141 +4539,6 @@ console.log( paper.degrees(result) ); // 26.56</code></pre>
 	<dd>
 		
 <span class="param-type"><a href="String.html">String</a></span>
-
-
-	</dd>
-</dl>
-
-        
-    
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="integer"><span class="type-signature"></span>integer<span class="signature">(RgbInt)</span><span class="type-signature"> &rarr; {Color}</span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-
-    
-    
-    
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-		
-		<th>Type</th>
-		
-		
-		
-		
-		
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-	
-	<tbody>
-	
-	
-        <tr>
-            
-                <td class="name"><code>RgbInt</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">value as integer</td>
-        </tr>
-	
-	
-	</tbody>
-</table>
-    
-    
-    
-<dl class="details">
-    
-        
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FColor.js.html">Core/FColor.js</a>, <a href="FColor.js.html#line84">line 84</a>
-    </li></ul></dd>
-    
-    
-    
-    
-    
-    
-    
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    value of integer as Color
-</div>
-
-
-
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
-<span class="param-type">Color</span>
 
 
 	</dd>
@@ -5475,7 +4846,7 @@ console.log( paper.degrees(result) ); // 26.56</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FColor.js.html">Core/FColor.js</a>, <a href="FColor.js.html#line373">line 373</a>
+        <a href="FColor.js.html">Core/FColor.js</a>, <a href="FColor.js.html#line288">line 288</a>
     </li></ul></dd>
     
     
@@ -5532,12 +4903,16 @@ var interpolateColor = color1.interpolate( color2, 0.5 );</code></pre>
         
             
 <dt>
-    <h4 class="name" id="interpolateTo"><span class="type-signature"></span>interpolateTo<span class="signature">(arg0, arg1, arg2)</span><span class="type-signature"> &rarr; {Point}</span></h4>
+    <h4 class="name" id="interpolateTo"><span class="type-signature"></span>interpolateTo<span class="signature">(arg0, arg1)</span><span class="type-signature"> &rarr; {Point}</span></h4>
     
     
 </dt>
 <dd>
     
+    
+    <div class="description">
+        https://bitbucket.org/postspectacular/toxiclibs/src/9d124c80e8af/src.core/toxi/geom/Vec2D.java
+    </div>
     
 
     
@@ -5586,7 +4961,7 @@ var interpolateColor = color1.interpolate( color2, 0.5 );</code></pre>
             
             
             
-            <td class="description last">starting Point</td>
+            <td class="description last">interpolates the point towards a given target point</td>
         </tr>
 	
 	
@@ -5594,29 +4969,6 @@ var interpolateColor = color1.interpolate( color2, 0.5 );</code></pre>
         <tr>
             
                 <td class="name"><code>arg1</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">Point</span>
-
-
-            
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">ending Point</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>arg2</code></td>
             
             
             <td class="type">
@@ -5632,7 +4984,7 @@ var interpolateColor = color1.interpolate( color2, 0.5 );</code></pre>
             
             
             
-            <td class="description last">(0.0 - 1.0) interpolate factor</td>
+            <td class="description last">(0.0 - 1.0) interpolation factor</td>
         </tr>
 	
 	
@@ -5663,7 +5015,7 @@ var interpolateColor = color1.interpolate( color2, 0.5 );</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FPoint.js.html">Core/FPoint.js</a>, <a href="FPoint.js.html#line112">line 112</a>
+        <a href="FPoint.js.html">Core/FPoint.js</a>, <a href="FPoint.js.html#line94">line 94</a>
     </li></ul></dd>
     
     
@@ -5688,7 +5040,7 @@ var interpolateColor = color1.interpolate( color2, 0.5 );</code></pre>
     
             
 <div class="param-desc">
-    new interpolated Point
+    interpolated Point
 </div>
 
 
@@ -5710,10 +5062,9 @@ var interpolateColor = color1.interpolate( color2, 0.5 );</code></pre>
     
         <h5>Example</h5>
         
-    <pre class="prettyprint"><code>var start = new Point(0, 30);
-var end = new Point(360, 90);
-var interpolate = new Point.interpolateTo( start, end, 0.5 );
-console.log( interpolate ); // { x: 180, y: 60 }</code></pre>
+    <pre class="prettyprint"><code>var point = new Point(0, 0);
+var arg0 = new Point(100, 100);
+point.interpolateTo(arg0, 0.5); // {x: 50, y: 50}</code></pre>
 
     
 </dd>
@@ -5763,7 +5114,7 @@ NOTE: Color operators aren't working when not using paperScript
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FColor.js.html">Core/FColor.js</a>, <a href="FColor.js.html#line295">line 295</a>
+        <a href="FColor.js.html">Core/FColor.js</a>, <a href="FColor.js.html#line210">line 210</a>
     </li></ul></dd>
     
     
@@ -5811,9 +5162,6 @@ NOTE: Color operators aren't working when not using paperScript
         <h5>Example</h5>
         
     <pre class="prettyprint"><code>var color = new Color( 0.0, 1.0, 0.7 );
-color.invert();
-
-var color = new Color( 0.0, 1.0, 0.7 );
 var inverted = color.invert();</code></pre>
 
     
@@ -5912,7 +5260,7 @@ NOTE: Color operators aren't working when not using paperScript
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FColor.js.html">Core/FColor.js</a>, <a href="FColor.js.html#line226">line 226</a>
+        <a href="FColor.js.html">Core/FColor.js</a>, <a href="FColor.js.html#line147">line 147</a>
     </li></ul></dd>
     
     
@@ -5960,9 +5308,6 @@ NOTE: Color operators aren't working when not using paperScript
         <h5>Example</h5>
         
     <pre class="prettyprint"><code>var color = new Color( 0.0, 1.0, 0.7 );
-color.lighten(0.2); // { red: 0, green: 0.76, blue: 0.532 }
-
-var color = new Color( 0.0, 1.0, 0.7 );
 var lightened = color.lighten(0.2); // { red: 0, green: 0.76, blue: 0.532 }</code></pre>
 
     
@@ -6008,7 +5353,7 @@ var lightened = color.lighten(0.2); // { red: 0, green: 0.76, blue: 0.532 }</cod
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FPoint.js.html">Core/FPoint.js</a>, <a href="FPoint.js.html#line214">line 214</a>
+        <a href="FPoint.js.html">Core/FPoint.js</a>, <a href="FPoint.js.html#line196">line 196</a>
     </li></ul></dd>
     
     
@@ -6409,7 +5754,7 @@ console.log(result); // 8100</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FPoint.js.html">Core/FPoint.js</a>, <a href="FPoint.js.html#line185">line 185</a>
+        <a href="FPoint.js.html">Core/FPoint.js</a>, <a href="FPoint.js.html#line167">line 167</a>
     </li></ul></dd>
     
     
@@ -7208,116 +6553,6 @@ point.norm(start, stop); // { x: -0.66667, y: 0.5 }')</code></pre>
         
             
 <dt>
-    <h4 class="name" id="random"><span class="type-signature"></span>random<span class="signature">()</span><span class="type-signature"> &rarr; {Color}</span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-<dl class="details">
-    
-        
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FColor.js.html">Core/FColor.js</a>, <a href="FColor.js.html#line422">line 422</a>
-    </li></ul></dd>
-    
-    
-    
-    
-    
-    
-    
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    random Color based on initialization arguments
-</div>
-
-
-
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
-<span class="param-type">Color</span>
-
-
-	</dd>
-</dl>
-
-        
-    
-    
-        <h5>Example</h5>
-        
-    <pre class="prettyprint"><code>var color = new Color().random();
-// all values between 0.0 and 1.0
-// [ red: 0.1, green: 0.5, blue: 1.0 ]
-
-var color = new Color(0.5).random();
-// value between 0.5 and 1.0
-// [ gray: 0.7 ]
-
-var color = new Color(0.3, 0.6, 0.9).random();
-// red value between 0.4 and 1.0, etc.
-// [ red: 0.4, green: 0.7, blue: 1.0 ]
-
-var color = new Color({ hue: 90, saturation: 1, brightness: 0.8 }).random();
-// hue value between 90 and 360, etc.
-// [ hue: 154, saturation: 1, brightness: 0.9 ]
-
-var color = new Color({ hue: 90, saturation: 1, lightness: 0.8 }).random();
-// hue value between 90 and 360, etc.
-// [ hue: 274, saturation: 1, lightness: 0.9 ]</code></pre>
-
-    
-</dd>
-
-        
-            
-<dt>
     <h4 class="name" id="randomBias"><span class="type-signature"></span>randomBias<span class="signature">(minr, maxr, bias)</span><span class="type-signature"> &rarr; {Number}</span></h4>
     
     
@@ -7758,7 +6993,7 @@ NOTE: Color operators aren't working when not using paperScript
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FColor.js.html">Core/FColor.js</a>, <a href="FColor.js.html#line324">line 324</a>
+        <a href="FColor.js.html">Core/FColor.js</a>, <a href="FColor.js.html#line238">line 238</a>
     </li></ul></dd>
     
     
@@ -8232,7 +7467,7 @@ NOTE: Color operators aren't working when not using paperScript
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FColor.js.html">Core/FColor.js</a>, <a href="FColor.js.html#line157">line 157</a>
+        <a href="FColor.js.html">Core/FColor.js</a>, <a href="FColor.js.html#line84">line 84</a>
     </li></ul></dd>
     
     
@@ -8280,9 +7515,6 @@ NOTE: Color operators aren't working when not using paperScript
         <h5>Example</h5>
         
     <pre class="prettyprint"><code>var color = new Color( 0.0, 1.0, 0.7 );
-color.saturate(0.2); // { red: 0, green: 0.76, blue: 0.532 }
-
-var color = new Color( 0.0, 1.0, 0.7 );
 var saturated = color.saturate(0.2); // { red: 0, green: 0.76, blue: 0.532 }</code></pre>
 
     
@@ -8409,6 +7641,469 @@ http://www.ssicom.org/js/x974780.htm
         
     <pre class="prettyprint"><code>var s = sec(180);</code></pre>
 
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="slope"><span class="type-signature"></span>slope<span class="signature">(angle, val)</span><span class="type-signature"> &rarr; {Point}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Slope
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>angle</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">angle of slope (rise)</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>val</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">length of slope (run)</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="FCalculate.js.html">Core/FCalculate.js</a>, <a href="FCalculate.js.html#line335">line 335</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    slope (rise/run)
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">Point</span>
+
+
+	</dd>
+</dl>
+
+        
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="slopeAngle"><span class="type-signature"></span>slopeAngle<span class="signature">(slope)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Slope to angle
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>slope</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Point</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last"></td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="FCalculate.js.html">Core/FCalculate.js</a>, <a href="FCalculate.js.html#line362">line 362</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    angle in radians
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">Number</span>
+
+
+	</dd>
+</dl>
+
+        
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="slopeRatio"><span class="type-signature"></span>slopeRatio<span class="signature">(point1, point2)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Slope ratio
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>point1</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Point</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last"></td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>point2</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Point</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last"></td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="FCalculate.js.html">Core/FCalculate.js</a>, <a href="FCalculate.js.html#line350">line 350</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    slope ratio
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">Number</span>
+
+
+	</dd>
+</dl>
+
+        
+    
     
 </dd>
 
@@ -9084,7 +8779,7 @@ http://www.ssicom.org/js/x974780.htm
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FCalculate.js.html">Core/FCalculate.js</a>, <a href="FCalculate.js.html#line348">line 348</a>
+        <a href="FCalculate.js.html">Core/FCalculate.js</a>, <a href="FCalculate.js.html#line378">line 378</a>
     </li></ul></dd>
     
     
@@ -9139,7 +8834,7 @@ http://www.ssicom.org/js/x974780.htm
         
             
 <dt>
-    <h4 class="name" id="toGroup"><span class="type-signature"></span>toGroup<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="toGroup"><span class="type-signature"></span>toGroup<span class="signature">()</span><span class="type-signature"> &rarr; {Group}</span></h4>
     
     
 </dt>
@@ -9147,7 +8842,7 @@ http://www.ssicom.org/js/x974780.htm
     
     
     <div class="description">
-        converts an CompoundPath into a Group otherwise returns original Item
+        converts a CompoundPath into a Group otherwise returns original Item
     </div>
     
 
@@ -9180,7 +8875,7 @@ http://www.ssicom.org/js/x974780.htm
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FPath.js.html">Core/FPath.js</a>, <a href="FPath.js.html#line69">line 69</a>
+        <a href="FPath.js.html">Core/FPath.js</a>, <a href="FPath.js.html#line88">line 88</a>
     </li></ul></dd>
     
     
@@ -9201,6 +8896,219 @@ http://www.ssicom.org/js/x974780.htm
     
     
     
+    <h5>Returns:</h5>
+    
+            
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">Group</span>
+
+
+	</dd>
+</dl>
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="prettyprint"><code>var path = new CompoundPath({
+	children: [
+		new Path.Circle({
+			center: new Point(50, 50),
+			radius: 30
+		}),
+		new Path.Circle({
+			center: new Point(50, 50),
+			radius: 10
+		})
+	]
+});
+var group = path.toGroup();</code></pre>
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="toHex"><span class="type-signature"></span>toHex<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="String.html">String</a>}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="FColor.js.html">Core/FColor.js</a>, <a href="FColor.js.html#line40">line 40</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    hex value of input color as string
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type"><a href="String.html">String</a></span>
+
+
+	</dd>
+</dl>
+
+        
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="toInt"><span class="type-signature"></span>toInt<span class="signature">()</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="FColor.js.html">Core/FColor.js</a>, <a href="FColor.js.html#line24">line 24</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    value of input color as integer
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">Number</span>
+
+
+	</dd>
+</dl>
+
+        
     
     
 </dd>
@@ -9308,13 +9216,13 @@ http://www.ssicom.org/js/x974780.htm
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Global</h3><ul><li><a href="global.html#boolToInt">boolToInt</a></li><li><a href="global.html#brighten">brighten</a></li><li><a href="global.html#bytes">bytes</a></li><li><a href="global.html#clamp">clamp</a></li><li><a href="global.html#colorToHex">colorToHex</a></li><li><a href="global.html#colorToInt">colorToInt</a></li><li><a href="global.html#componentToHex">componentToHex</a></li><li><a href="global.html#contrast">contrast</a></li><li><a href="global.html#cosec">cosec</a></li><li><a href="global.html#darken">darken</a></li><li><a href="global.html#degrees">degrees</a></li><li><a href="global.html#desaturate">desaturate</a></li><li><a href="global.html#dim">dim</a></li><li><a href="global.html#divisor">divisor</a></li><li><a href="global.html#FArrow">FArrow</a></li><li><a href="global.html#FBubble">FBubble</a></li><li><a href="global.html#FChain">FChain</a></li><li><a href="global.html#FCross">FCross</a></li><li><a href="global.html#FDrop">FDrop</a></li><li><a href="global.html#findById">findById</a></li><li><a href="global.html#findByName">findByName</a></li><li><a href="global.html#FTriangle">FTriangle</a></li><li><a href="global.html#getAngle">getAngle</a></li><li><a href="global.html#getArea">getArea</a></li><li><a href="global.html#getCentroid">getCentroid</a></li><li><a href="global.html#getCircumarea">getCircumarea</a></li><li><a href="global.html#getCircumcenter">getCircumcenter</a></li><li><a href="global.html#getCircumradius">getCircumradius</a></li><li><a href="global.html#getCommonTangents">getCommonTangents</a></li><li><a href="global.html#getDistanceToCenter">getDistanceToCenter</a></li><li><a href="global.html#getHeading">getHeading</a></li><li><a href="global.html#getIncircle">getIncircle</a></li><li><a href="global.html#getIncirclearea">getIncirclearea</a></li><li><a href="global.html#getIncircleradius">getIncircleradius</a></li><li><a href="global.html#getSlopeAngle">getSlopeAngle</a></li><li><a href="global.html#getType">getType</a></li><li><a href="global.html#integer">integer</a></li><li><a href="global.html#interpolate">interpolate</a></li><li><a href="global.html#interpolateTo">interpolateTo</a></li><li><a href="global.html#invert">invert</a></li><li><a href="global.html#lighten">lighten</a></li><li><a href="global.html#magSq">magSq</a></li><li><a href="global.html#map">map</a></li><li><a href="global.html#norm">norm</a></li><li><a href="global.html#normalize">normalize</a></li><li><a href="global.html#numToBool">numToBool</a></li><li><a href="global.html#println">println</a></li><li><a href="global.html#radians">radians</a></li><li><a href="global.html#random">random</a></li><li><a href="global.html#randomBias">randomBias</a></li><li><a href="global.html#randomInt">randomInt</a></li><li><a href="global.html#rotate">rotate</a></li><li><a href="global.html#round">round</a></li><li><a href="global.html#roundMultiple">roundMultiple</a></li><li><a href="global.html#saturate">saturate</a></li><li><a href="global.html#sec">sec</a></li><li><a href="global.html#snap">snap</a></li><li><a href="global.html#snapGrid">snapGrid</a></li><li><a href="global.html#snapIso">snapIso</a></li><li><a href="global.html#sq">sq</a></li><li><a href="global.html#statics">statics</a></li><li><a href="global.html#toGroup">toGroup</a></li><li><a href="global.html#trimToFit">trimToFit</a></li></ul>
+    <h2><a href="index.html">Index</a></h2><h3>Global</h3><ul><li><a href="global.html#boolToInt">boolToInt</a></li><li><a href="global.html#brighten">brighten</a></li><li><a href="global.html#clamp">clamp</a></li><li><a href="global.html#contrast">contrast</a></li><li><a href="global.html#cosec">cosec</a></li><li><a href="global.html#darken">darken</a></li><li><a href="global.html#degrees">degrees</a></li><li><a href="global.html#desaturate">desaturate</a></li><li><a href="global.html#dim">dim</a></li><li><a href="global.html#divisor">divisor</a></li><li><a href="global.html#FArrow">FArrow</a></li><li><a href="global.html#FBubble">FBubble</a></li><li><a href="global.html#FChain">FChain</a></li><li><a href="global.html#FCross">FCross</a></li><li><a href="global.html#FDrop">FDrop</a></li><li><a href="global.html#findById">findById</a></li><li><a href="global.html#findByName">findByName</a></li><li><a href="global.html#FTriangle">FTriangle</a></li><li><a href="global.html#getAngle">getAngle</a></li><li><a href="global.html#getArea">getArea</a></li><li><a href="global.html#getCentroid">getCentroid</a></li><li><a href="global.html#getCircumarea">getCircumarea</a></li><li><a href="global.html#getCircumcenter">getCircumcenter</a></li><li><a href="global.html#getCircumradius">getCircumradius</a></li><li><a href="global.html#getCommonTangents">getCommonTangents</a></li><li><a href="global.html#getDistanceToCenter">getDistanceToCenter</a></li><li><a href="global.html#getHeading">getHeading</a></li><li><a href="global.html#getIncircle">getIncircle</a></li><li><a href="global.html#getIncirclearea">getIncirclearea</a></li><li><a href="global.html#getIncircleradius">getIncircleradius</a></li><li><a href="global.html#getSlopeAngle">getSlopeAngle</a></li><li><a href="global.html#getType">getType</a></li><li><a href="global.html#interpolate">interpolate</a></li><li><a href="global.html#interpolateTo">interpolateTo</a></li><li><a href="global.html#invert">invert</a></li><li><a href="global.html#lighten">lighten</a></li><li><a href="global.html#magSq">magSq</a></li><li><a href="global.html#map">map</a></li><li><a href="global.html#norm">norm</a></li><li><a href="global.html#normalize">normalize</a></li><li><a href="global.html#numToBool">numToBool</a></li><li><a href="global.html#println">println</a></li><li><a href="global.html#radians">radians</a></li><li><a href="global.html#random">random</a></li><li><a href="global.html#randomBias">randomBias</a></li><li><a href="global.html#randomInt">randomInt</a></li><li><a href="global.html#rotate">rotate</a></li><li><a href="global.html#round">round</a></li><li><a href="global.html#roundMultiple">roundMultiple</a></li><li><a href="global.html#saturate">saturate</a></li><li><a href="global.html#sec">sec</a></li><li><a href="global.html#slope">slope</a></li><li><a href="global.html#slopeAngle">slopeAngle</a></li><li><a href="global.html#slopeRatio">slopeRatio</a></li><li><a href="global.html#snap">snap</a></li><li><a href="global.html#snapGrid">snapGrid</a></li><li><a href="global.html#snapIso">snapIso</a></li><li><a href="global.html#sq">sq</a></li><li><a href="global.html#statics">statics</a></li><li><a href="global.html#toGroup">toGroup</a></li><li><a href="global.html#toHex">toHex</a></li><li><a href="global.html#toInt">toInt</a></li><li><a href="global.html#trimToFit">trimToFit</a></li></ul>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Tue Dec 24 2013 12:02:57 GMT-0800 (PST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Wed Jan 01 2014 23:49:27 GMT-0500 (EST)
 </footer>
 
 <script> prettyPrint(); </script>
