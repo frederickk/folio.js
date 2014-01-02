@@ -149,13 +149,13 @@ function Setup() {
 		path.add( point );
 	}
 	path.closed = true;
-	path.fillColor = new Color(0.0, 1.0, 0.7, 0.9).random();
+	path.fillColor = new Color.random(0.0, 1.0, 0.7, 0.9);
 	paths.appendTop( path );
 
 
 	// generate clone
 	var clone = paths.children[0].clone();
-	clone.fillColor = new Color({ hue: 90, saturation: 1, brightness: 0.8 }).random();
+	clone.fillColor = new Color.random({ hue: 90, saturation: 1, brightness: 0.8 });
 	paths.appendTop( clone );
 
 };
