@@ -14,7 +14,7 @@
 
 module('FTextItem');
 
-test('trimToFit', function() {
-});
+// test('trimToFit', function() {
+// });
 
 
