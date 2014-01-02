@@ -124,8 +124,8 @@ test('slopeRatio', function() {
 	equals(s, 3.6666666666666665);
 });
 
-test('slopeToAngle', function() {
-	var s = paper.slopeToAngle(new Point(100, 100));
+test('slopeAngle', function() {
+	var s = paper.slopeAngle(new Point(100, 100));
 	equals(s, 45);
 });
 

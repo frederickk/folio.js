@@ -359,7 +359,7 @@ PaperScope.inject({
 	 * @return {Number} angle in radians
 	 *
 	 */
-	slopeToAngle: function(slope) {
+	slopeAngle: function(slope) {
 		return paper.degrees(Math.atan( slope.x/slope.y ));
 	},
 

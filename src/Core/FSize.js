@@ -90,7 +90,7 @@ paper.Size.inject({
 	 *
 	 * Slope is expressed as rise (x) over run (y)
 	 *
-	 * @return {Number} angle (radians)
+	 * @return {Number} angle in radians
 	 *
 	 * @example
 	 * var slope = new Size(10, 20);

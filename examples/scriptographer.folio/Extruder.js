@@ -427,7 +427,7 @@ function angleToSlope(center, angle, distance) {
 	return slope;
 };
 
-function slopeToAngle(slope) {
+function slopeAngle(slope) {
 	return Math.atan( slope.width/slope.height );
 };
 
@@ -460,7 +460,7 @@ function slopeToAngle(slope) {
 // 		// clicks = [false, false, false];
 
 // 		// calculate angle and distance
-// 		var angle = slopeToAngle( slopeLine.bounds );
+// 		var angle = slopeAngle( slopeLine.bounds );
 // 		var distance = slopeLine.segments[0].point.getDistance( slopeLine.segments[1].point );
 
 // 		// push to components

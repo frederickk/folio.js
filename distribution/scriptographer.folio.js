@@ -892,7 +892,7 @@ PaperScope.inject({
 	 * @return {Number} angle in radians
 	 *
 	 */
-	slopeToAngle: function(slope) {
+	slopeAngle: function(slope) {
 		return paper.degrees(Math.atan( slope.x/slope.y ));
 	},
 
@@ -2665,7 +2665,7 @@ paper.Size.inject({
 	 *
 	 * Slope is expressed as rise (x) over run (y)
 	 *
-	 * @return {Number} angle (radians)
+	 * @return {Number} angle in radians
 	 *
 	 * @example
 	 * var slope = new Size(10, 20);
@@ -2697,31 +2697,38 @@ paper.Size.inject({
 
 /**
  *
+ * trims white space from left (start) of String
+ *
+ * @return {String} trimmed input String
+ *
+ */
+String.prototype.trimStart = function() {
+	return this.replace(/^\s\s*/, '');
+};
+
+/**
+ *
  * trims white space from right (end) of String
  *
  * @return {String} trimmed input String
  *
  */
 String.prototype.trimEnd = function() {
-	for (var i=this.length-1; this.charAt(i) ==' '; i--) {
-		this.substring(0, i);
-	}
-	return this;
+	return this.replace(/\s\s*$/, '');
 };
 
 /**
- *
  * trims all white space from String
+ * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/Trim
  *
  * @return {String} trimmed input string
  *
  */
-String.prototype.trim = function() {
-	this.replace(/(^\s*)|(\s*$)/gi,'');
-	this.replace(/[ ]{2,}/gi,' ');
-	this.replace(/\n /,'\n');
-	return this;
-};
+if (!String.prototype.trim) {
+  String.prototype.trim = function () {
+    return this.replace(/^\s+|\s+$/gm, '');
+  };
+}
 
 /**
  *
