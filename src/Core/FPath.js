@@ -65,11 +65,28 @@ paper.Item.inject({
 
 	// -----------------------------------------------------------------------------
 	/**
-	 * converts an CompoundPath into a Group otherwise returns original Item
+	 * converts a CompoundPath into a Group otherwise returns original Item
+	 *
+	 * @return {Group}
+	 *
+	 * @example
+	 * var path = new CompoundPath({
+	 * 	children: [
+	 * 		new Path.Circle({
+	 * 			center: new Point(50, 50),
+	 * 			radius: 30
+	 * 		}),
+	 * 		new Path.Circle({
+	 * 			center: new Point(50, 50),
+	 * 			radius: 10
+	 * 		})
+	 * 	]
+	 * });
+	 * var group = path.toGroup();
 	 *
 	 */
 	toGroup: function() {
-		if (paper.getType(this) == 'CompoundPath') {
+		if (paper.getType(this) === 'CompoundPath') {
 			return new Group( this.children );
 		}
 		else {
@@ -98,6 +115,15 @@ paper.Path.inject({
 	 * http://stackoverflow.com/questions/2792443/finding-the-centroid-of-a-polygon
 	 *
 	 * @return {Point}
+	 *
+	 * @example
+	 * var triangle = new Path(
+	 * 	new Point(0, 0),
+	 * 	new Point(180, 180),
+	 * 	new Point(0, 360)
+	 * );
+	 * var centroid = triangle.getCentroid(); // { x:60, y:180 }
+	 *
 	 */
 	getCentroid: function() {
 		var centroid = new Point(0,0);
@@ -141,6 +167,15 @@ paper.Path.inject({
 	 * TODO: adjust formula to return Circumcenter of any polygon
 	 *
 	 * @return {Point}
+	 *
+	 * @example
+	 * var triangle = new Path(
+	 * 	new Point(0, 0),
+	 * 	new Point(180, 180),
+	 * 	new Point(0, 360)
+	 * );
+	 * var circumcenter = triangle.getCircumcenter(); // { x:0, y:180 }
+	 *
 	 */
 	getCircumcenter: function() {
 		if( this._segments.length === 3 ) {
@@ -180,13 +215,13 @@ paper.Path.inject({
 				var maxx = max3( p1.x, p2.x, p3.x );
 				var maxy = max3( p1.y, p2.y, p3.y );
 
-				return Point.create( ( minx + maxx ) / 2, ( miny + maxy ) / 2 );
+				return new Point( ( minx + maxx ) / 2, ( miny + maxy ) / 2 );
 			}
 			else {
 				var cx = (D*E - B*F) / G;
 				var cy = (A*F - C*E) / G;
 
-				return Point.create( cx, cy );
+				return new Point( cx, cy );
 			}
 		}
 		else {
@@ -245,6 +280,15 @@ paper.Path.inject({
 	 * Returns the Incircle of a polygon
 	 *
 	 * @return {Path.Circle}
+	 *
+	 * @example
+	 * var triangle = new Path(
+	 * 	new Point(0, 0),
+	 * 	new Point(180, 180),
+	 * 	new Point(0, 360)
+	 * );
+	 * var incircle = triangle.getIncircle(); // new Path.Circle(new Point(60, 180), 120));
+	 *
 	 */
 	getIncircle: function() {
 		var incircleradius = Number.MAX_VALUE;
@@ -413,7 +457,7 @@ paper.Path.inject({
 			 * var farrow = new paper.Path.FArrow( headPoint, tailPoint, arrowHeadSize );
 			 *
 			 */
-			FArrow: function( headPoint, tailPoint, arrowHeadSize ) {
+			FArrow: function(headPoint, tailPoint, arrowHeadSize) {
 				// the line part
 				var path = new Path.Line( headPoint, tailPoint );
 
@@ -461,7 +505,7 @@ paper.Path.inject({
 			 * var bubbleSize = new paper.Size( 90,60 );
 			 * var bubbleTagSize = new paper.Size( 9,9 );
 			 * var bubbleTagCenter = 'CENTER';
-			 * var b = new paper.Path.FBubble( bubblePoint, bubbleSize, bubbleTagSize, bubbleTagCenter );
+			 * var bubble = new paper.Path.FBubble( bubblePoint, bubbleSize, bubbleTagSize, bubbleTagCenter );
 			 *
 			 */
 			FBubble: function(bubblePoint, bubbleSize, bubbleTagSize, bubbleTagCenter) {
@@ -571,7 +615,7 @@ paper.Path.inject({
 				var obj1, obj2;
 
 				// check for the type of arguments being passed
-				if( arg0.type == 'Point' ) {
+				if( paper.getType(arg0) === 'Point' ) {
 					obj1 = new Path.Circle( arg0, arg1 );
 					obj2 = new Path.Circle( arg2, arg3 );
 				}

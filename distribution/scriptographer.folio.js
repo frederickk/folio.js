@@ -1528,11 +1528,28 @@ paper.Item.inject({
 
 	// -----------------------------------------------------------------------------
 	/**
-	 * converts an CompoundPath into a Group otherwise returns original Item
+	 * converts a CompoundPath into a Group otherwise returns original Item
+	 *
+	 * @return {Group}
+	 *
+	 * @example
+	 * var path = new CompoundPath({
+	 * 	children: [
+	 * 		new Path.Circle({
+	 * 			center: new Point(50, 50),
+	 * 			radius: 30
+	 * 		}),
+	 * 		new Path.Circle({
+	 * 			center: new Point(50, 50),
+	 * 			radius: 10
+	 * 		})
+	 * 	]
+	 * });
+	 * var group = path.toGroup();
 	 *
 	 */
 	toGroup: function() {
-		if (paper.getType(this) == 'CompoundPath') {
+		if (paper.getType(this) === 'CompoundPath') {
 			return new Group( this.children );
 		}
 		else {
@@ -1561,6 +1578,15 @@ paper.Path.inject({
 	 * http://stackoverflow.com/questions/2792443/finding-the-centroid-of-a-polygon
 	 *
 	 * @return {Point}
+	 *
+	 * @example
+	 * var triangle = new Path(
+	 * 	new Point(0, 0),
+	 * 	new Point(180, 180),
+	 * 	new Point(0, 360)
+	 * );
+	 * var centroid = triangle.getCentroid(); // { x:60, y:180 }
+	 *
 	 */
 	getCentroid: function() {
 		var centroid = new Point(0,0);
@@ -1604,6 +1630,15 @@ paper.Path.inject({
 	 * TODO: adjust formula to return Circumcenter of any polygon
 	 *
 	 * @return {Point}
+	 *
+	 * @example
+	 * var triangle = new Path(
+	 * 	new Point(0, 0),
+	 * 	new Point(180, 180),
+	 * 	new Point(0, 360)
+	 * );
+	 * var circumcenter = triangle.getCircumcenter(); // { x:0, y:180 }
+	 *
 	 */
 	getCircumcenter: function() {
 		if( this._segments.length === 3 ) {
@@ -1643,13 +1678,13 @@ paper.Path.inject({
 				var maxx = max3( p1.x, p2.x, p3.x );
 				var maxy = max3( p1.y, p2.y, p3.y );
 
-				return Point.create( ( minx + maxx ) / 2, ( miny + maxy ) / 2 );
+				return new Point( ( minx + maxx ) / 2, ( miny + maxy ) / 2 );
 			}
 			else {
 				var cx = (D*E - B*F) / G;
 				var cy = (A*F - C*E) / G;
 
-				return Point.create( cx, cy );
+				return new Point( cx, cy );
 			}
 		}
 		else {
@@ -1708,6 +1743,15 @@ paper.Path.inject({
 	 * Returns the Incircle of a polygon
 	 *
 	 * @return {Path.Circle}
+	 *
+	 * @example
+	 * var triangle = new Path(
+	 * 	new Point(0, 0),
+	 * 	new Point(180, 180),
+	 * 	new Point(0, 360)
+	 * );
+	 * var incircle = triangle.getIncircle(); // new Path.Circle(new Point(60, 180), 120));
+	 *
 	 */
 	getIncircle: function() {
 		var incircleradius = Number.MAX_VALUE;
@@ -1876,7 +1920,7 @@ paper.Path.inject({
 			 * var farrow = new paper.Path.FArrow( headPoint, tailPoint, arrowHeadSize );
 			 *
 			 */
-			FArrow: function( headPoint, tailPoint, arrowHeadSize ) {
+			FArrow: function(headPoint, tailPoint, arrowHeadSize) {
 				// the line part
 				var path = new Path.Line( headPoint, tailPoint );
 
@@ -1924,7 +1968,7 @@ paper.Path.inject({
 			 * var bubbleSize = new paper.Size( 90,60 );
 			 * var bubbleTagSize = new paper.Size( 9,9 );
 			 * var bubbleTagCenter = 'CENTER';
-			 * var b = new paper.Path.FBubble( bubblePoint, bubbleSize, bubbleTagSize, bubbleTagCenter );
+			 * var bubble = new paper.Path.FBubble( bubblePoint, bubbleSize, bubbleTagSize, bubbleTagCenter );
 			 *
 			 */
 			FBubble: function(bubblePoint, bubbleSize, bubbleTagSize, bubbleTagCenter) {
@@ -2034,7 +2078,7 @@ paper.Path.inject({
 				var obj1, obj2;
 
 				// check for the type of arguments being passed
-				if( arg0.type == 'Point' ) {
+				if( paper.getType(arg0) === 'Point' ) {
 					obj1 = new Path.Circle( arg0, arg1 );
 					obj2 = new Path.Circle( arg2, arg3 );
 				}
@@ -2357,33 +2401,9 @@ paper.Point.inject({
 	 * point.interpolateTo(arg0, 0.5); // {x: 50, y: 50}
 	 *
 	 */
-	/**
-	 *
-	 * @param {Point} arg0
-	 * 		starting Point
-	 * @param {Point} arg1
-	 * 		ending Point
-	 * @param {Number} arg2
-	 * 		(0.0 - 1.0) interpolate factor
-	 *
-	 * @return {Point} new interpolated Point
-	 *
-	 * @example
-	 * var start = new Point(0, 30);
-	 * var end = new Point(360, 90);
-	 * var interpolate = new Point.interpolateTo( start, end, 0.5 );
-	 * console.log( interpolate ); // { x: 180, y: 60 }
-	 *
-	 */
-	interpolateTo: function(arg0, arg1, arg2) {
-		if( arguments.length === 3 ) {
-			this.x = arg0.x + ((arg1.x - arg0.x) * arg2);
-			this.y = arg0.y + ((arg1.y - arg0.y) * arg2);
-		}
-		else {
-			this.x += ((arg0.x - this.x) * arg1);
-			this.y += ((arg0.y - this.y) * arg1);
-		}
+	interpolateTo: function(arg0, arg1) {
+		this.x += ((arg0.x - this.x) * arg1);
+		this.y += ((arg0.y - this.y) * arg1);
 		return this;
 	},
 
@@ -2430,7 +2450,7 @@ paper.Point.inject({
 	 * var point1 = new Point(0, 90);
 	 * var point2 = new Point(90, 180);
 	 * var result = point1.getAngle(point2);
-	 * console.log( paper.degrees(result) ); // XX
+	 * console.log( paper.degrees(result) ); // 45
 	 *
 	 */
 	getAngle: function(point2) {
@@ -2489,6 +2509,28 @@ paper.Point.inject({
 
 
 	statics: {
+		/**
+		 *
+		 * @param {Point} arg0
+		 * 		starting Point
+		 * @param {Point} arg1
+		 * 		ending Point
+		 * @param {Number} arg2
+		 * 		(0.0 - 1.0) interpolate factor
+		 *
+		 * @return {Point} new interpolated Point
+		 *
+		 * @example
+		 * var start = new Point(0, 30);
+		 * var end = new Point(360, 90);
+		 * var interpolate = new Point.interpolateTo( start, end, 0.5 );
+		 * console.log( interpolate ); // { x: 180, y: 60 }
+		 *
+		 */
+		interpolateTo: function(arg0, arg1, arg2) {
+			return arg0.interpolateTo(arg1, arg2);
+		},
+
 		/**
 		 * @param {Array} arg0
 		 *			range for x values

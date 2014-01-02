@@ -91,33 +91,9 @@ paper.Point.inject({
 	 * point.interpolateTo(arg0, 0.5); // {x: 50, y: 50}
 	 *
 	 */
-	/**
-	 *
-	 * @param {Point} arg0
-	 * 		starting Point
-	 * @param {Point} arg1
-	 * 		ending Point
-	 * @param {Number} arg2
-	 * 		(0.0 - 1.0) interpolate factor
-	 *
-	 * @return {Point} new interpolated Point
-	 *
-	 * @example
-	 * var start = new Point(0, 30);
-	 * var end = new Point(360, 90);
-	 * var interpolate = new Point.interpolateTo( start, end, 0.5 );
-	 * console.log( interpolate ); // { x: 180, y: 60 }
-	 *
-	 */
-	interpolateTo: function(arg0, arg1, arg2) {
-		if( arguments.length === 3 ) {
-			this.x = arg0.x + ((arg1.x - arg0.x) * arg2);
-			this.y = arg0.y + ((arg1.y - arg0.y) * arg2);
-		}
-		else {
-			this.x += ((arg0.x - this.x) * arg1);
-			this.y += ((arg0.y - this.y) * arg1);
-		}
+	interpolateTo: function(arg0, arg1) {
+		this.x += ((arg0.x - this.x) * arg1);
+		this.y += ((arg0.y - this.y) * arg1);
 		return this;
 	},
 
@@ -164,7 +140,7 @@ paper.Point.inject({
 	 * var point1 = new Point(0, 90);
 	 * var point2 = new Point(90, 180);
 	 * var result = point1.getAngle(point2);
-	 * console.log( paper.degrees(result) ); // XX
+	 * console.log( paper.degrees(result) ); // 45
 	 *
 	 */
 	getAngle: function(point2) {
@@ -223,6 +199,28 @@ paper.Point.inject({
 
 
 	statics: {
+		/**
+		 *
+		 * @param {Point} arg0
+		 * 		starting Point
+		 * @param {Point} arg1
+		 * 		ending Point
+		 * @param {Number} arg2
+		 * 		(0.0 - 1.0) interpolate factor
+		 *
+		 * @return {Point} new interpolated Point
+		 *
+		 * @example
+		 * var start = new Point(0, 30);
+		 * var end = new Point(360, 90);
+		 * var interpolate = new Point.interpolateTo( start, end, 0.5 );
+		 * console.log( interpolate ); // { x: 180, y: 60 }
+		 *
+		 */
+		interpolateTo: function(arg0, arg1, arg2) {
+			return arg0.interpolateTo(arg1, arg2);
+		},
+
 		/**
 		 * @param {Array} arg0
 		 *			range for x values
