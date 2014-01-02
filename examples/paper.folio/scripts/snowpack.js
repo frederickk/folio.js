@@ -45,10 +45,10 @@ function Setup() {
 
 	// circle packer
 	packer = new f.FCirclePack(flakes, 7);
-	packer.setTarget( new Point(
-		view.center.x,
-		view.bounds.height
-	));
+	// packer.setTarget( new Point(
+	// 	view.center.x,
+	// 	view.bounds.height
+	// ));
 	packer.setPadding(s.strokeWidth);
 };
 
@@ -162,8 +162,8 @@ var SnowFlake = function(center, spokes, radius, t) {
 			center.y + radius * Math.sin( paper.radians(deg) )
 		)
 		var s = new Path.Line(
-			new Point().interpolateTo(mid, center, t),
-			new Point().interpolateTo(mid, end, t)
+			mid.interpolateTo(center, t),
+			mid.interpolateTo(end, t)
 		);
 		s.strokeWidth = 15;
 		s.strokeCap = 'round';
@@ -186,7 +186,7 @@ var SnowFlake = function(center, spokes, radius, t) {
 			);
 			var p = new Path.Line(
 				sta,
-				new Point().interpolateTo(sta, end, pt)
+				sta.interpolateTo(end, pt)
 			);
 			p.strokeWidth = 15;
 			p.strokeCap = 'round';

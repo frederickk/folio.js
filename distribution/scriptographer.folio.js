@@ -4,7 +4,7 @@
  * 0.7.0
  * https://github.com/frederickk/folio.js
  *
- * 01. January 2014
+ * 02. January 2014
  *
  * Ken Frederick
  * ken.frederick@gmx.de
@@ -2405,9 +2405,13 @@ paper.Point.inject({
 	 *
 	 */
 	interpolateTo: function(arg0, arg1) {
-		this.x += ((arg0.x - this.x) * arg1);
-		this.y += ((arg0.y - this.y) * arg1);
-		return this;
+		// this.x += ((arg0.x - this.x) * arg1);
+		// this.y += ((arg0.y - this.y) * arg1);
+		// return this;
+		return new Point(
+			this.x + ((arg0.x - this.x) * arg1),
+			this.y + ((arg0.y - this.y) * arg1)
+		);
 	},
 
 	/**
