@@ -87,12 +87,18 @@ module.exports = function(grunt) {
 					destination: 'documentation'
 				}
 			}
+		},
+
+		watch: {
+			files: [srcFiles, src3DFiles],
+			tasks: ['concat', 'uglify']
 		}
 
 	});
 
 
 	// load the NPM modules
+	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-uglify');

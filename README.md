@@ -171,4 +171,11 @@ Results are built into the `distribution/` folder
 
 Alternatively type `grunt watch` to have the build run automatically when you make changes to source files.
 
+```shell
+$ grunt watch
+```
+
+**Note** grunt watch doesn't run unit tests.
+
+
 
