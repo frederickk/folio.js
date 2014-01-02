@@ -16,14 +16,22 @@ module('FString');
 
 test('trimStart', function() {
 	var str = '  Olivia';
-	str = str.trimStart();
-	equals(str, 'Olivia');
+	var output = str.trimStart();
+	equals(output, 'Olivia');
+
+	var str = '  Olivia';
+	var output = str.trimLeft();
+	equals(output, 'Olivia');
 });
 
 test('trimEnd', function() {
 	var str = 'Olivia  ';
-	str = str.trimEnd();
-	equals(str, 'Olivia');
+	var output = str.trimEnd();
+	equals(output, 'Olivia');
+
+	var str = 'Olivia  ';
+	var output = str.trimRight();
+	equals(output, 'Olivia');
 });
 
 test('trim', function() {

@@ -2740,6 +2740,9 @@ paper.Size.inject({
 String.prototype.trimStart = function() {
 	return this.replace(/^\s\s*/, '');
 };
+if (!String.prototype.trimLeft) {
+	String.prototype.trimLeft = String.prototype.trimStart;
+}
 
 /**
  *
@@ -2751,6 +2754,9 @@ String.prototype.trimStart = function() {
 String.prototype.trimEnd = function() {
 	return this.replace(/\s\s*$/, '');
 };
+if (!String.prototype.trimRight) {
+	String.prototype.trimRight = String.prototype.trimEnd;
+}
 
 /**
  * trims all white space from String
