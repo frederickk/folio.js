@@ -19,8 +19,9 @@ console.log( 'Shape Physics' );
 var f = folio;
 
 var grid;
-var balls = [];
 
+var balls;
+var blocks;
 
 //
 // cp.js
@@ -41,18 +42,17 @@ function Setup() {
 	// Create environment
 	//
 	space = new cp.Space();
-	space.iterations = 1;
+	space.iterations = 60;
 	space.gravity = cp.v(0, -500);
-	space.sleepTimeThreshold = 0.5;
-	space.collisionSlop = 0.5;
-	space.sleepTimeThreshold = 0.5;
+	// space.sleepTimeThreshold = 2.0;
+	space.collisionSlop = 1.0;
 
 	// ground
     var ground = space.addShape(new cp.SegmentShape(
 		space.staticBody,
-		cp.v(0, 0),
-		cp.v(view.bounds.width, 0),
-		0
+		cp.v(0, 3),
+		cp.v(view.bounds.width, 3),
+		3
 	));
     ground.setElasticity(1);
     ground.setFriction(1);
@@ -81,9 +81,13 @@ function Setup() {
 
 
 	// Add a circle
-	var ballShape, ballBody, ball;
+	balls = new Group();
+	blocks = new Group();
 	var total = 18;
 	for( var i=0; i<total; i++ ) {
+		//
+		// Balls
+		//
 		var mass = paper.randomInt(10, 30);
 		var radius = mass;
 
@@ -104,8 +108,9 @@ function Setup() {
 		ballShape.setElasticity( paper.normalize(mass, 30,0) );
 		ballShape.setFriction(1);
 		ballShape.index = i;
+		console.log( ballShape );
 
-		ball = new Path.Circle(
+		var ball = new Path.Circle(
 			new Point(
 				ballBody.p.x,
 				ballBody.p.y
@@ -113,10 +118,51 @@ function Setup() {
 			ballShape.r
 		);
 		ball.fillColor = new Color.random(0.0, 1.0, 0.7);
-		balls.push( ball );
+		balls.appendTop(ball);
+
+		//
+		// Blocks
+		//
+		var blockBody = space.addBody(new cp.Body(
+			mass,
+			cp.momentForBox(mass/2, radius, radius)
+		));
+		blockBody.setPos(cp.v(
+			paper.normalize(i+1, 0,total+1)*view.bounds.width,
+			view.bounds.height/2
+		));
+
+		var blockShape = space.addShape(new cp.BoxShape(
+			blockBody,
+			radius,
+			radius
+		));
+		blockShape.setElasticity( paper.normalize(mass, 30,0) );
+		blockShape.setFriction(1);
+		blockShape.index = i;
+		blockShape.width = radius;
+		blockShape.height = radius;
+
+		console.log( blockShape );
+
+		var block = new Path.Rectangle(
+			new Point(
+				blockBody.p.x,
+				blockBody.p.y
+			),
+			new Size(
+				// blockShape.width,
+				// blockShape.height
+				Math.abs(blockShape.verts[0] - blockShape.verts[4]),
+				Math.abs(blockShape.verts[1] - blockShape.verts[5])
+			)
+		);
+		block.fillColor = new Color.random(0.0, 1.0, 0.7);
+		blocks.appendTop(block);
+
+		console.log( '---------' );
 	}
 
-	// space.running = true;
 };
 
 
@@ -138,9 +184,15 @@ function Draw() {
 	space.eachShape(function(shape) {
 
 		if( shape.type === 'circle' ) {
-			var ballBody = shape.body;
-			var ball = balls[shape.index];
+			var ball = balls.children[shape.index];
 			ball.position = new cpToPoint(shape.tc);
+		}
+		else if( shape.type === 'poly' ) {
+			var block = blocks.children[shape.index];
+			block.position = new cpToPoint(cp.v(
+				shape.tVerts[0] + shape.width/2,
+				shape.tVerts[1] + shape.height/2
+			));
 		}
 
 	});
