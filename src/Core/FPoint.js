@@ -102,6 +102,28 @@ paper.Point.inject({
 	},
 
 	/**
+	 * Flip the X axis
+	 *
+	 * @return {Point}
+	 *
+	 */
+	invertX: function() {
+		this.x = view.bounds.width - this.x;
+		return this;
+	},
+
+	/**
+	 * Flip the Y axis
+	 *
+	 * @return {Point}
+	 *
+	 */
+	invertY: function() {
+		this.y = view.bounds.height - this.y;
+		return this;
+	},
+
+	/**
 	 * Returns the distance between the point and the center of the canvas
 	 *
 	 * @return {Number}
@@ -204,7 +226,6 @@ paper.Point.inject({
 
 	statics: {
 		/**
-		 *
 		 * @param {Point} arg0
 		 * 		starting Point
 		 * @param {Point} arg1
@@ -223,6 +244,32 @@ paper.Point.inject({
 		 */
 		interpolateTo: function(arg0, arg1, arg2) {
 			return arg0.interpolateTo(arg1, arg2);
+		},
+
+		/**
+		 * Flip the X axis
+		 *
+		 * @param {Point} point
+		 *
+		 * @return {Point}
+		 *
+		 */
+		invertX: function(point) {
+			var point = new Point(point);
+			return point.invertX();
+		},
+
+		/**
+		 * Flip the Y axis
+		 *
+		 * @param {Point} point
+		 *
+		 * @return {Point}
+		 *
+		 */
+		invertY: function(point) {
+			var point = new Point(point);
+			return point.invertY();
 		},
 
 		/**
