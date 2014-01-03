@@ -43,8 +43,8 @@ function Setup() {
 	space = new cp.Space();
 	space.iterations = 10;
 	space.gravity = cp.v(10, -500);
-	// space.sleepTimeThreshold = 2.0;
-	space.collisionSlop = 1.0;
+	space.sleepTimeThreshold = 0.5;
+	space.collisionSlop = 0.5;
 
 	// Bounding box
 	createBounds(cp, 6);
@@ -63,7 +63,7 @@ function Setup() {
 		if( grid ) grid.remove();
 		grid = new GridPhysics(cp, raster, {
 			shapes:		['circle'], //shapes,
-			resolution:	60 //res,
+			resolution:	45 //res,
 			// rotation:	parseFloat(document.getElementById('rotation').value),
 			// scale:		document.getElementById('bScale').checked
 		});
@@ -73,41 +73,6 @@ function Setup() {
 
 	// var total = 18;
 	// for( var i=0; i<total; i++ ) {
-	//	//
-	//	// Balls
-	//	//
-	//	var mass = paper.randomInt(10, 30);
-	//	var radius = mass;
-
-	//	var ballBody = space.addBody(new cp.Body(
-	//		mass,
-	//		cp.momentForCircle(mass, 0, radius, cp.v(0, 0))
-	//	));
-	//	ballBody.setPos(cp.v(
-	//		paper.normalize(i+1, 0,total+1)*view.bounds.width,
-	//		view.bounds.height/2
-	//	));
-
-	//	var ballShape = space.addShape(new cp.CircleShape(
-	//		ballBody,
-	//		radius,
-	//		cp.v(0, 0)
-	//	));
-	//	ballShape.setElasticity( paper.normalize(mass, 30,0) );
-	//	ballShape.setFriction(1);
-	//	// custom properties
-	//	ballShape.index = i;
-	//	// attach paper.js Path to cp.js Shape
-	//	ballShape.path = new Path.Circle(
-	//		new Point(
-	//			ballBody.p.x,
-	//			ballBody.p.y
-	//		),
-	//		ballShape.r
-	//	);
-	//	ballShape.path.fillColor = new Color.random(0.0, 1.0, 0.7);
-	//	console.log( ballShape );
-
 	//	// //
 	//	// // Blocks
 	//	// //
@@ -170,11 +135,12 @@ function Update(event) {
 // ------------------------------------------------------------------------
 function Draw() {
 	space.eachShape(function(shape) {
+		var angle = new Point(shape.body.rot).getHeading();
 
 		if( shape.type === 'circle' ) {
 			var ball = shape.path;
 			ball.position = new Point.invertY(shape.tc);
-			ball.rotate( paper.radians(shape.body.rot.x) );
+			ball.rotation( paper.degrees(angle) );
 		}
 		else if( shape.type === 'poly' ) {
 			var block = shape.path;
@@ -182,6 +148,7 @@ function Draw() {
 				shape.tVerts[0] + shape.width/2,
 				shape.tVerts[3] - shape.height/2
 			));
+			block.rotation( paper.degrees(angle) );
 		}
 
 	});
@@ -384,9 +351,9 @@ var GridPhysics = function(cp, img, properties) {
 				radius,
 				cp.v(0, 0)
 			));
-			form.setElasticity(0.1);
-			form.setFriction(0.1);
-			console.log( form );
+			form.setElasticity(0);
+			form.setFriction(1);
+			// console.log( form.body.rot );
 			// attach paper.js Path to cp.js Shape
 			form.path = new Path.Circle( new Point(0,0), radius );
 		}

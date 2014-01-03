@@ -21,6 +21,14 @@
  */
 paper.Item.inject({
 	// -----------------------------------------------------------------------------
+	// Properties
+	// -----------------------------------------------------------------------------
+	enumerable: true,
+	_prevAngle: 0,
+
+
+
+	// -----------------------------------------------------------------------------
 	// Methods
 	// -----------------------------------------------------------------------------
 	/**
@@ -92,6 +100,19 @@ paper.Item.inject({
 		else {
 			return this;
 		}
+	},
+
+	/**
+	 * Rotation that doesn't accumulate
+	 *
+	 * @param  {Number} angle
+	 *
+	 * @return {Item}
+	 */
+	rotation: function(angle) {
+		this.rotate( -(angle - this._prevAngle) );
+		this._prevAngle = angle;
+		return this;
 	}
 
 });

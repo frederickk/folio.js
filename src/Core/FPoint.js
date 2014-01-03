@@ -18,6 +18,7 @@ paper.Point.inject({
 	// ------------------------------------------------------------------------
 	name: null,
 	data: {},
+	_prevAngle: 0,
 
 
 
@@ -222,7 +223,6 @@ paper.Point.inject({
 	magSq: function() {
 		return this.x * this.x + this.y * this.y;
 	},
-
 
 	statics: {
 		/**

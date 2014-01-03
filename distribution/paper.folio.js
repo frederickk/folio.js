@@ -1522,6 +1522,14 @@ var FConversions = {
  */
 paper.Item.inject({
 	// -----------------------------------------------------------------------------
+	// Properties
+	// -----------------------------------------------------------------------------
+	enumerable: true,
+	_prevAngle: 0,
+
+
+
+	// -----------------------------------------------------------------------------
 	// Methods
 	// -----------------------------------------------------------------------------
 	/**
@@ -1593,6 +1601,19 @@ paper.Item.inject({
 		else {
 			return this;
 		}
+	},
+
+	/**
+	 * Rotation that doesn't accumulate
+	 *
+	 * @param  {Number} angle
+	 *
+	 * @return {Item}
+	 */
+	rotation: function(angle) {
+		this.rotate( -(angle - this._prevAngle) );
+		this._prevAngle = angle;
+		return this;
 	}
 
 });
@@ -2366,6 +2387,7 @@ paper.Point.inject({
 	// ------------------------------------------------------------------------
 	name: null,
 	data: {},
+	_prevAngle: 0,
 
 
 
@@ -2570,7 +2592,6 @@ paper.Point.inject({
 	magSq: function() {
 		return this.x * this.x + this.y * this.y;
 	},
-
 
 	statics: {
 		/**
