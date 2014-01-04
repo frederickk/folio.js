@@ -39,20 +39,20 @@ test('numToBool(1)', function() {
 
 test('getType', function() {
 	var rect = new Path.Rectangle(0,0, 100,100);
-	var output = paper.getType(rect);
-	equals(output, 'Path');
+	var result = paper.getType(rect);
+	equals(result, 'Path');
 
 	var point = new Point(0,0);
-	var output = paper.getType(point);
-	equals(output, 'Point');
+	var result = paper.getType(point);
+	equals(result, 'Point');
 
 	var arr = [0, 1, 2, 3];
-	var output = paper.getType(arr);
-	equals(output, 'Array');
+	var result = paper.getType(arr);
+	equals(result, 'Array');
 
 	var obj = {item: 1, property: 'number', misc: true};
-	var output = paper.getType(obj);
-	equals(output, 'Object');
+	var result = paper.getType(obj);
+	equals(result, 'Object');
 });
 
 
@@ -67,8 +67,8 @@ test('findByName', function() {
 	item3.name = 'November';
 
 	var group = new Group(item1, item2, item3);
-	var output = paper.findByName(group.children, 'Oscar');
-	compareItems(output, item2);
+	var result = paper.findByName(group.children, 'Oscar');
+	compareItems(result, item2);
 });
 
 test('findById', function() {
@@ -82,8 +82,8 @@ test('findById', function() {
 	item3.name = 'November';
 
 	var group = new Group(item1, item2, item3);
-	var output = paper.findById(group.children, item2.id);
-	compareItems(output, item2);
+	var result = paper.findById(group.children, item2.id);
+	compareItems(result, item2);
 });
 
 

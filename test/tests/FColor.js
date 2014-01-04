@@ -51,56 +51,56 @@ test('bytes', function() {
 
 test('desaturate', function() {
 	var color = new Color(0.0, 1.0, 0.7);
-	var output = color.desaturate(0.2);
-	compareColors(output, new Color(0.1, 0.9, 0.66));
+	var result = color.desaturate(0.2);
+	compareColors(result, new Color(0.1, 0.9, 0.66));
 });
 
 test('saturate', function() {
 	var color = new Color(0.0, 0.7, 0.5);
-	var output = color.saturate(0.2);
-	compareColors(output, new Color(0, 0.7, 0.5));
+	var result = color.saturate(0.2);
+	compareColors(result, new Color(0, 0.7, 0.5));
 });
 
 test('darken', function() {
 	var color = new Color(0.0, 1.0, 0.7);
-	var output = color.darken(0.2);
-	compareColors(output, new Color(0, 0.8, 0.56));
+	var result = color.darken(0.2);
+	compareColors(result, new Color(0, 0.8, 0.56));
 });
 
 test('dim', function() {
 	var color = new Color(0.0, 1.0, 0.7);
-	var output = color.dim(0.2);
-	compareColors(output, new Color(0, 0.8, 0.56));
+	var result = color.dim(0.2);
+	compareColors(result, new Color(0, 0.8, 0.56));
 });
 
 test('lighten', function() {
 	var color = new Color(0.0, 1.0, 0.7);
-	var output = color.lighten(0.2);
-	compareColors(output, new Color(0.2, 1.0, 0.76));
+	var result = color.lighten(0.2);
+	compareColors(result, new Color(0.2, 1.0, 0.76));
 });
 
 test('brighten', function() {
 	var color = new Color(0.0, 1.0, 0.7);
-	var output = color.brighten(0.2);
-	compareColors(output, new Color(0.1, 1.0, 0.73));
+	var result = color.brighten(0.2);
+	compareColors(result, new Color(0.1, 1.0, 0.73));
 });
 
 test('contrast', function() {
 	var color = new Color(0.0, 1.0, 0.7);
-	var output = color.contrast(0.2);
-	compareColors(output, new Color(0.2, 1.0, 0.76));
+	var result = color.contrast(0.2);
+	compareColors(result, new Color(0.2, 1.0, 0.76));
 });
 
 test('invert', function() {
 	var color = new Color(0.0, 1.0, 0.7);
-	var output = color.invert();
-	compareColors(output, new Color(1.0, 0, 0.3));
+	var result = color.invert();
+	compareColors(result, new Color(1.0, 0, 0.3));
 });
 
 test('rotate', function() {
 	var color = new Color(0.0, 1.0, 0.7);
-	var output = color.rotate(180);
-	compareColors(output, new Color(1.0, 0, 0.3));
+	var result = color.rotate(180);
+	compareColors(result, new Color(1.0, 0, 0.3));
 
 	var triad = [
 		color,
@@ -114,8 +114,8 @@ test('rotate', function() {
 test('interpolate', function() {
 	var color1 = new Color( 0.0, 1.0, 0.7 );
 	var color2 = new Color( 0.0, 0.7, 1.0 );
-	var output = color1.interpolate( color2, 0.5 );
-	equals(output, new Color(0, 0.85, 0.85));
+	var result = color1.interpolate( color2, 0.5 );
+	equals(result, new Color(0, 0.85, 0.85));
 });
 
 test('random', function() {

@@ -198,12 +198,103 @@ paper.Path.inject({
 	 * var circumcenter = triangle.getCircumcenter(); // { x:0, y:180 }
 	 *
 	 */
-	getCircumcenter: function() {
-		if( this._segments.length === 3 ) {
-			var p1 = this._segments[0].point;
-			var p2 = this._segments[1].point;
-			var p3 = this._segments[2].point;
+	// getCircumcenter: function() {
+	// 	var len = this._segments.length;
 
+	// 	var points = [];
+	// 	for( var i=0; i<len; i++ ) {
+	// 		var point = this._segments[i].point
+	// 		points.push(point);
+	// 	}
+	// 	points.sort( FSort.distanceToCenter );
+
+	// 	for( var i=0; i<points.length; i++ ) {
+	// 		var point = points[i];
+	// 		console.log( point.getDistanceToCenter() );
+	// 	}
+	// 	console.log( points );
+	// 	console.log(' --------- ');
+
+	// 	var l = new Path.Line(
+	// 		points[0],
+	// 		points[points.length-1]
+	// 	);
+	// 	l.strokeColor = new Color('00ffc7');
+
+
+	// 	return point;
+	// 	// console.log( this._segments );
+	// 	// var points = [];
+	// 	// points = points.sort(FSort.distanceToCenter());
+	// 	// console.log( points );
+	// 	// console.log( '---------' );
+
+	// 	// var arr1 = this._segments[0].point.getPerpendicularBisector(this._segments[2].point);
+	// 	// var arr2;
+	// 	// if(len === 3) {
+	// 	// 	// triangle
+	// 	// 	arr2 = this._segments[1].point.getPerpendicularBisector(this._segments[2].point);
+	// 	// }
+	// 	// else {
+	// 	// 	// polygon...
+	// 	// 	// TODO: get points that are furthest from each other
+	// 	// 	arr2 = this._segments[1].point.getPerpendicularBisector(this._segments[3].point);
+	// 	// }
+
+	// 	// var o = intersection(arr1, arr2);
+	// 	// // if(o.length < 1) {
+	// 	// // 	err_fail_to_find_center = 1;
+	// 	// // 	// continue;
+	// 	// // }
+
+	// 	// var r  = this._segments[0].point.getDistance(o);
+	// 	// var r1 = this._segments[1].point.getDistance(o);
+	// 	// if(r >= r1){
+	// 	// 	rIdx = 0;
+	// 	// }
+	// 	// else {
+	// 	// 	rIdx = 1;
+	// 	// 	r = r1;
+	// 	// }
+
+	// 	// function intersection(p, q) {
+	// 	// 	var d = p[0] * q[1] - p[1] * q[0];
+	// 	// 	if(d == 0) return [];
+	// 	// 	return new Point(
+	// 	// 		(q[2] * p[1] - p[2] * q[1])/d,
+	// 	// 		(p[2] * q[0] - q[2] * p[0])/d
+	// 	// 	);
+	// 	// };
+
+
+	// 	// // var pi = activeDocument.activeLayer.pathItems.ellipse(o[1] + r, o[0] - r, r * 2, r * 2);
+	// 	// var pi = new Path.Circle(new Point(
+	// 	// 	o.x - r/2,
+	// 	// 	o.y + r/2
+	// 	// ), r);
+	// 	// // console.log( pi.position );
+	// 	// return pi.position;
+	// },
+
+	getCircumcenter: function() {
+		var len = this._segments.length;
+		var pointsX = [],
+			pointsY = [];
+
+		for( var i=0; i<len; i++ ) {
+			var j = (i+1 >= len) ? 0 : i+1;
+			var k = (i+2 >= len) ? 1 : i+2;
+
+			var point = calculate(
+				this._segments[i].point,
+				this._segments[j].point,
+				this._segments[k].point
+			);
+			pointsX.push(point.x);
+			pointsY.push(point.y);
+		}
+
+		function calculate(p1, p2, p3) {
 			var A = p2.x - p1.x;
 			var B = p2.y - p1.y;
 			var C = p3.x - p1.x;
@@ -215,39 +306,24 @@ paper.Path.inject({
 			var G = 2.0*(A*(p3.y - p2.y)-B*(p3.x - p2.x));
 
 			if( Math.abs(G) < Numerical.EPSILON ) {
-				// Collinear - find extremes and use the midpoint
-				function max3( a, b, c ) {
-					return ( a >= b && a >= c )
-						? a
-						: ( b >= a && b >= c )
-							? b
-							: c;
-				}
-				function min3( a, b, c ) {
-					return ( a <= b && a <= c )
-						? a
-						: ( b <= a && b <= c )
-							? b
-							: c;
-				}
+				var arrx = [p1.x, p2.x, p3.x];
+				var arry = [p1.y, p2.y, p3.y];
 
-				var minx = min3( p1.x, p2.x, p3.x );
-				var miny = min3( p1.y, p2.y, p3.y );
-				var maxx = max3( p1.x, p2.x, p3.x );
-				var maxy = max3( p1.y, p2.y, p3.y );
+				var minx = arrx.min();
+				var miny = arry.min();
+				var maxx = arrx.max();
+				var maxy = arry.max();
 
-				return new Point( ( minx + maxx ) / 2, ( miny + maxy ) / 2 );
+				return new Point( (arrx[minx] + arrx[maxx])/2, (arry[miny] + arry[maxy])/2 );
 			}
 			else {
 				var cx = (D*E - B*F) / G;
 				var cy = (A*F - C*E) / G;
-
 				return new Point( cx, cy );
 			}
-		}
-		else {
-			return null;
-		}
+		};
+
+		return new Point( pointsX.median(), pointsY.median() );
 	},
 
 	/*
@@ -264,38 +340,39 @@ paper.Path.inject({
 	 *
 	 * @return {Path.Circle}
 	 */
-	// getCircumcircle: function() {
-	//	var that = this;
-	//	var circumradius = 0;
+	getCircumcircle: function() {
+		var that = this;
+		var circumradius = 0;
 
-	//	var _segmentsTemp = this._segments.splice();
-	//	function getDistanceToCentroid(segment) {
-	//		var point = segment.point;
-	//		var x = point.x - that.getCentroid().x,
-	//			y = point.y - that.getCentroid().y,
-	//			d = x * x + y * y;
-	//		return Math.sqrt(d);
-	//	};
+		var arr = this._segments.slice();
+		function getDistanceToCentroid(segment) {
+			var point = segment.point;
+			var x = point.x - that.getCircumcenter().x,
+				y = point.y - that.getCircumcenter().y,
+				d = x * x + y * y;
+			return Math.sqrt(d);
+		};
+		arr.sort( function(a, b) {
+			return getDistanceToCentroid(a) - getDistanceToCentroid(b);
+		});
 
-	//	_segmentsTemp.sort( function(a, b) {
-	//		return getDistanceToCentroid(a) - getDistanceToCentroid(b);
-	//	});
+		circumradius = getDistanceToCentroid( arr[arr.length-1] ) + getDistanceToCentroid( arr[arr.length-2] );
+		circumradius /= 2;
 
-	//	var diff = _segmentsTemp[_segmentsTemp.length-1] - _segmentsTemp[_segmentsTemp.length-2];
-	//	circumradius = _segmentsTemp[_segmentsTemp.length-1] - diff;
+		// // for( var i=0; i<arr.length; i++ ) {
+		// //	var seg = arr[i].point;
+		// //	if( seg.getDistance( this.getCentroid()) > circumradius ) {
+		// //		circumradius = seg.getDistance( this.getCentroid());
+		// //	}
+		// // }
 
-	//	// for( var i=0; i<_segmentsTemp.length; i++ ) {
-	//	//	var seg = _segmentsTemp[i].point;
-	//	//	if( seg.getDistance( this.getCentroid() ) > circumradius ) {
-	//	//		circumradius = seg.getDistance( this.getCentroid());
-	//	//	}
-	//	// }
-
-	//	return Path.Circle(
-	//		this.getCentroid(),
-	//		circumradius
-	//	);
-	// },
+		return Path.Circle(
+			// that.getCentroid(),
+			that.getCircumcenter(),
+			// that.getCenterOfPolygon(),
+			circumradius
+		);
+	},
 
 	/**
 	 * Returns the Incircle of a polygon

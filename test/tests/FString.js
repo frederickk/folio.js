@@ -16,28 +16,28 @@ module('FString');
 
 test('trimStart', function() {
 	var str = '  Olivia';
-	var output = str.trimStart();
-	equals(output, 'Olivia');
+	var result = str.trimStart();
+	equals(result, 'Olivia');
 
 	var str = '  Olivia';
-	var output = str.trimLeft();
-	equals(output, 'Olivia');
+	var result = str.trimLeft();
+	equals(result, 'Olivia');
 });
 
 test('trimEnd', function() {
 	var str = 'Olivia  ';
-	var output = str.trimEnd();
-	equals(output, 'Olivia');
+	var result = str.trimEnd();
+	equals(result, 'Olivia');
 
 	var str = 'Olivia  ';
-	var output = str.trimRight();
-	equals(output, 'Olivia');
+	var result = str.trimRight();
+	equals(result, 'Olivia');
 });
 
 test('trim', function() {
 	var str = '  Olivia  ';
-	var output = str.trim();
-	equals(output, 'Olivia');
+	var result = str.trim();
+	equals(result, 'Olivia');
 });
 
 test('toBool', function() {

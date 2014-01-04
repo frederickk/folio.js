@@ -138,6 +138,60 @@ paper.Point.inject({
 	},
 
 	/**
+	 * Returns the mid between two points
+	 *
+	 * @return {Point}
+	 *
+	 * @example
+	 * var point1 = new Point(0, 90);
+	 * var point2 = new Point(90, 180);
+	 * var result = point1.getMid(point2); // { x: 45, y: 135 }
+	 *
+	 */
+	getMid: function(point) {
+		return new Point( (this.x + point.x)/2, (this.y + point.y)/2 );
+	},
+
+	/**
+	 * Returns the perpendicular bisector of two points
+	 *
+	 * @return {Point}
+	 *
+	 * @example
+	 * var point1 = new Point(0, 90);
+	 * var point2 = new Point(90, 180);
+	 * var result = point1.getPerpendicularBisector(point2); // { x: 45, y: 135 }
+	 *
+	 */
+	getPerpendicularBisector: function(point) {
+		var mid = this.getMid(point);
+		var arr = defline(
+			new Point( mid.x - (this.y - mid.y), mid.y + (this.x - mid.x) ),
+			new Point( mid.x - (point.y - mid.y), mid.y + (point.x - mid.x) )
+		);
+
+		function defline(p1, p2) {
+			var a = p1.y - p2.y;
+			var b = p1.x - p2.x;
+			return [a, -b, b * p1.y - a * p1.x];
+		};
+		return arr;
+	},
+
+	/**
+	 * Returns slope of two points
+	 * TODO: slope ratio?
+	 *
+	 * @param  {Point} point
+	 *
+	 * @return {Number} slope ratio
+	 *
+	 */
+	getSlope: function(point) {
+		return paper.slopeRatio(this, point);
+	},
+
+	/**
 	 *
 	 * Returns the heading angle (radians) of a point
 	 *
@@ -171,6 +225,7 @@ paper.Point.inject({
 	 *
 	 */
 	getAngle: function(point2) {
+		var point2 = point2 || new Point(0, 0);
 		return Math.atan2(point2.y - this.y, point2.x - this.x);
 	},
 

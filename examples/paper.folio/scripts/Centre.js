@@ -1,38 +1,5 @@
 paper.Path.inject({
 
-	getCircumcircle: function() {
-		var that = this;
-		var circumradius = 0;
-
-		var arr = this._segments.slice();
-		function getDistanceToCentroid(segment) {
-			var point = segment.point;
-			var x = point.x - that.getCentroid().x,
-				y = point.y - that.getCentroid().y,
-				d = x * x + y * y;
-			return Math.sqrt(d);
-		};
-		arr.sort( function(a, b) {
-			return getDistanceToCentroid(a) - getDistanceToCentroid(b);
-		});
-
-		circumradius = getDistanceToCentroid( arr[arr.length-1] ) + getDistanceToCentroid( arr[arr.length-2] );
-		circumradius /= 2;
-
-		// // for( var i=0; i<arr.length; i++ ) {
-		// //	var seg = arr[i].point;
-		// //	if( seg.getDistance( this.getCentroid()) > circumradius ) {
-		// //		circumradius = seg.getDistance( this.getCentroid());
-		// //	}
-		// // }
-
-		return Path.Circle(
-			that.getCentroid(),
-			// that.getCenterOfPolygon(),
-			circumradius
-		);
-	},
-
 	// getCenterOfPolygon: function() {
 
 	//	for( var i=0; i<this._segments.length; i++ ) {
@@ -139,7 +106,7 @@ function Setup() {
 	path.name = '_polygon';
 
 	// create vertices
-	var numVertices = paper.randomInt(3,15);
+	var numVertices = paper.randomInt(3,5);
 	for( var t=0; t<360; t+=360/numVertices ) {
 		var r = paper.random( 100, 150 );
 		var point = new Point(
@@ -237,12 +204,13 @@ function centroid(path) {
 	// circumcircle
 	var circumcircle = path.getCircumcircle();
 	circumcircle.style = style;
+	circumcircle.strokeColor = new Color('ff00ff');
 
 	// incircle
-	var incircle = path.getIncircle();
-	incircle.style = style;
+	// var incircle = path.getIncircle();
+	// incircle.style = style;
 
-	return new Group([ centroid, line, circumcircle, incircle ]);
+	return new Group([centroid, line, circumcircle]); //, incircle ]);
 };
 
 // ------------------------------------------------------------------------

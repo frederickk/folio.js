@@ -21,7 +21,7 @@ Array.prototype.median = function() {
 	if( type === 'Array') {
 		var median = 0;
 		this.sort();
-		if (this.length % 2 === 0) {
+		if(this.length % 2 === 0) {
 			median = (this[this.length / 2 - 1] + this[this.length / 2]) / 2;
 		}
 		else {
@@ -30,6 +30,24 @@ Array.prototype.median = function() {
 		return median;
 	}
 };
+
+/**
+ * http://stackoverflow.com/questions/10359907/array-sum-and-average
+ *
+ * @return {Number} average  value
+ *
+ */
+Array.prototype.average = function(){
+	var type = Object.prototype.toString.call(this).split(/\W/)[2];
+	if( type === 'Array') {
+		var sum = 0;
+		for(var i=0; i<this.length, isFinite(this[i]); i++) {
+			sum += parseFloat(this[i]);
+		}
+		return sum/this.length-1;
+	}
+};
+
 
 /**
  * combines two Arrays
@@ -90,7 +108,7 @@ Array.prototype.min = function(start, stop) {
 		: this.length;
 	var min = start;
 
-	for (var i=(start+1); i<stop; i++) if(this[i] < this[min]) min = i;
+	for(var i=(start+1); i<stop; i++) if(this[i] < this[min]) min = i;
 	return min;
 };
 
@@ -103,7 +121,7 @@ Array.prototype.min = function(start, stop) {
  *
  */
 Array.prototype.shuffle = function() {
-	for (var j, x, i=this.length; i; j=parseInt(Math.random() * i), x=this[--i], this[i]=this[j], this[j]=x);
+	for(var j, x, i=this.length; i; j=parseInt(Math.random() * i), x=this[--i], this[i]=this[j], this[j]=x);
 };
 
 /**
@@ -136,7 +154,7 @@ Array.prototype.removeDuplicates = function() {
 	var type = Object.prototype.toString.call(this).split(/\W/)[2];
 	if( type === 'Array') {
 		return this.reduce(function(accum, cur) {
-			if (accum.indexOf(cur) === -1) accum.push(cur);
+			if(accum.indexOf(cur) === -1) accum.push(cur);
 			return accum;
 		}, [] );
 	}
@@ -152,7 +170,7 @@ Array.prototype.removeDuplicates = function() {
  */
 Array.prototype.round = function(decimalPlaces) {
 	var multi = Math.pow(10,decimalPlaces);
-	for (var i=0; i<this.length; i++) this[i] = Math.round(this[i] * multi)/multi;
+	for(var i=0; i<this.length; i++) this[i] = Math.round(this[i] * multi)/multi;
 	return this;
 };
 
@@ -173,8 +191,8 @@ var FSort = {
 		var A = a.toLowerCase();
 		var B = b.toLowerCase();
 
-		if (A < B) return -1;
-		else if (A > B) return  1;
+		if(A < B) return -1;
+		else if(A > B) return  1;
 		else return 0;
 		*/
 
@@ -205,8 +223,8 @@ var FSort = {
 		// console.log( valueB );
 		var comparisonValue = 0;
 
-		if (valueA > valueB) comparisonValue = -1;
-		else if (valueA < valueB) comparisonValue = 1;
+		if(valueA > valueB) comparisonValue = -1;
+		else if(valueA < valueB) comparisonValue = 1;
 
 		return comparisonValue;
 	}

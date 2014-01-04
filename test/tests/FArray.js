@@ -16,43 +16,45 @@ module('FArray');
 
 test('median', function() {
 	var arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-	var output = arr.median();
-	equals(output, 4.5);
+	var result = arr.median();
+	equals(result, 4.5);
 
 	var arr = [900, 300, 450, 150];
-	var output = arr.median();
-	equals(output, 375);
+	var result = arr.median();
+	equals(result, 375);
 });
 
 test('merge', function() {
 	var arr1 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 	var arr2 = [900, 0, 2, 70, 400, 50, 6, 3, 80, 100];
-	var output = arr1.merge(arr2);
-	compareArrays(output, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 900, 0, 2, 70, 400, 50, 6, 3, 80, 100]);
+	var result = arr1.merge(arr2);
+	compareArrays(result, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 900, 0, 2, 70, 400, 50, 6, 3, 80, 100]);
 });
 
 test('max', function() {
 	var arr = [900, 0, 2, 70, 400, 50, 6, 3, 80, 100];
-	var output = arr.max();
-	equals(output, 0); // 900
+	var result = arr.max();
+	equals(result, 0); // 900
+	equals([900, 0, 2, 70, 400, 50, 6, 3, 80, 100].max(), 0); // 900
 
-	var output = arr.max(1,4);
-	equals(output, 3); // 70
+	var result = arr.max(1,4);
+	equals(result, 3); // 70
 
-	var output = arr.max(4,8);
-	equals(output, 4); // 400
+	var result = arr.max(4,8);
+	equals(result, 4); // 400
 });
 
 test('min', function() {
 	var arr = [900, 0, 2, 70, 400, 50, 6, 3, 80, 100];
-	var output = arr.min();
-	equals(output, 1); // 0
+	var result = arr.min();
+	equals(result, 1); // 0
+	equals([900, 0, 2, 70, 400, 50, 6, 3, 80, 100].min(), 1); // 0
 
-	var output = arr.min(1,4);
-	equals(output, 1); // 0
+	var result = arr.min(1,4);
+	equals(result, 1); // 0
 
-	var output = arr.min(4,8);
-	equals(output, 7); // 3
+	var result = arr.min(4,8);
+	equals(result, 7); // 3
 });
 
 test('shuffle', function() {
@@ -65,26 +67,26 @@ test('shuffle', function() {
 
 test('unique', function() {
 	var arr = [0.0, 1.1, 1.1, 2.2, 2.2, 3.3, 4, 5];
-	var output = arr.unique();
-	compareArrays(output, [0, 1.1, 2.2, 3.3, 4, 5]);
+	var result = arr.unique();
+	compareArrays(result, [0, 1.1, 2.2, 3.3, 4, 5]);
 });
 
 test('removeDuplicates', function() {
 	var arr = [0.0, 1.1, 1.1, 2.2, 2.2, 3.3, 4, 5];
-	var output = arr.removeDuplicates();
-	compareArrays(output, [0, 1.1, 2.2, 3.3, 4, 5]);
+	var result = arr.removeDuplicates();
+	compareArrays(result, [0, 1.1, 2.2, 3.3, 4, 5]);
 });
 
 test('round', function() {
 	var arr = [0.12, 3.45, 6.789];
-	var output = arr.round(1);
-	compareArrays(output, [0.1, 3.5, 6.8]);
+	var result = arr.round(1);
+	compareArrays(result, [0.1, 3.5, 6.8]);
 });
 
 test('FSort.alphabetical', function() {
 	var arr = ['November', 'Oscar', 'Golf', 'Uniform'];
-	var output = arr.sort(FSort.alphabetical);
-	compareArrays(output, ['Golf', 'November', 'Oscar', 'Uniform']);
+	var result = arr.sort(FSort.alphabetical);
+	compareArrays(result, ['Golf', 'November', 'Oscar', 'Uniform']);
 });
 
 // test('FSort.distanceToCenter', function() {
