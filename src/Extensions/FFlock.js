@@ -65,6 +65,7 @@ folio.FFlock = Base.extend({
 		this.maxSpeed = properties.maxSpeed + strength || 10 + strength;
 		this.maxForce = properties.maxForce + strength || 0.05 + strength;
 		this.path = properties.path || null;
+		this.data = properties.data || null;
 
 		this.points = [];
 		for (var i = 0, l = strength * 10 + 10; i < l; i++) {
