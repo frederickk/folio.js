@@ -1,6 +1,7 @@
 /*
- * Travelling Salesman Problem Algorithm
+ * FRoute
  *
+ * Travelling Salesman Problem Algorithm
  * Taken from "SVG Stipple Generator, v 1.0"
  * Copyright (C) 2012 by Windell H. Oskay
  *
