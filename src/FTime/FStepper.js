@@ -128,13 +128,13 @@ folio.FTime.FStepper = function() {
 
 	// ------------------------------------------------------------------------
 	/**
-	 * @return {Boolean} if the object is stepping in
+	 * @return {Boolean} if the object is stepping in (going down)
 	 */
 	var isIn = function() {
 		return bIn;
 	};
 	/**
-	 * @return {Boolean} if the object is stepping out
+	 * @return {Boolean} if the object is stepping out (going up)
 	 */
 	var isOut = function() {
 		return bOut;

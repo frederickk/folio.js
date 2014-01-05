@@ -3646,13 +3646,13 @@ folio.FTime.FStepper = function() {
 
 	// ------------------------------------------------------------------------
 	/**
-	 * @return {Boolean} if the object is stepping in
+	 * @return {Boolean} if the object is stepping in (going down)
 	 */
 	var isIn = function() {
 		return bIn;
 	};
 	/**
-	 * @return {Boolean} if the object is stepping out
+	 * @return {Boolean} if the object is stepping out (going up)
 	 */
 	var isOut = function() {
 		return bOut;
@@ -4475,6 +4475,7 @@ folio.FFlock = Base.extend({
 		this.maxSpeed = properties.maxSpeed + strength || 10 + strength;
 		this.maxForce = properties.maxForce + strength || 0.05 + strength;
 		this.path = properties.path || null;
+		this.data = properties.data || null;
 
 		this.points = [];
 		for (var i = 0, l = strength * 10 + 10; i < l; i++) {
