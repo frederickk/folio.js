@@ -53,7 +53,7 @@ function Setup() {
 
 	// create the boid agents
 	for (var i=0; i<94; i++) {
-		arrow.strokeColor = new Color.random({ hue:[45, 315], saturation:[0.3, 0.6], brightness:[0.8, 1.0] });
+		arrow.strokeColor = new Color.random({ hue:[0, 360], saturation:[0.3, 0.9], brightness:[0.8, 1.0] });
 
 		// create boid agent
 		var boid = new flock.boid(view.bounds.topCenter, {
