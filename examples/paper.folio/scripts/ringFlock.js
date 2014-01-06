@@ -16,6 +16,7 @@ console.log( 'Ring Flock' );
 // ------------------------------------------------------------------------
 // the core folio namespace
 var f = folio;
+var flock = f.FFlock;
 
 var pieces;
 
@@ -28,10 +29,13 @@ var mouse = null;
 // Setup
 // ------------------------------------------------------------------------
 function Setup() {
+	// radius to match SVG
+	var radius = 373.059/2;
 
 	// import svg
 	svg = project.importSVG( document.getElementById('svg'), true );
 	for( var i=0, len=svg.children.length; i<len; i++ ) {
+		// remove any pieces outside of the browser window
 		try {
 			if(svg.children[i].position.x > view.bounds.width) {
 				svg.children[i].remove();
@@ -49,11 +53,12 @@ function Setup() {
 		catch(err) {}
 	}
 
-	// handle the pattern
+	// // handle the pattern
 	pieces = new Group( svg.children );
 	for( var i=0, len=pieces.children.length; i<len; i++ ) {
 		var piece = pieces.children[i];
-		piece.fillColor = new Color(0.97);
+		piece.opacity = 0.7;
+	// 	piece.fillColor = new Color(0.97);
 		piece.data.fader = new ColorStepper(
 			2.0,
 			new Color({ hue: 0, saturation:0, brightness:0.97 }),
@@ -61,13 +66,28 @@ function Setup() {
 		);
 	}
 
-	// clean-up
+	// get rid of svg
 	svg.remove();
+
+	// add background circles
+	for( var x=-92.642; x<view.bounds.width+radius; x+=radius ) {
+		for( var y=-127.852; y<view.bounds.height+radius; y+=radius ) {
+			var path = new Path.Circle(new Point(x, y), radius);
+			path.fillColor = new Color(0.97);
+			path.data.fader = new ColorStepper(
+				2.0,
+				new Color({ hue: 0, saturation:0, brightness:0.97 }),
+				new Color({ hue: 0, saturation:0, brightness:0.97 })
+			);
+
+			pieces.appendBottom(path);
+		}
+	}
 
 	// create the boids
 	for (var i=0; i<20; i++) {
 		var color = new Color.random({ hue:[45, 180], saturation:[0.2, 0.6], brightness:[0.9, 1.0] });
-		var boid = new f.FFlock(view.center, {
+		var boid = new flock.boid(view.center, {
 			radius:		24,
 			maxSpeed:	10,
 			maxForce:	0.05,
@@ -83,16 +103,11 @@ function Setup() {
 
 	// create a predator
 	for (var i=0; i<3; i++) {
-		var predator = new f.FPredator(view.center, {
+		var predator = new flock.predator(view.center, {
 			radius:		36,
 			maxSpeed:	36,
 			maxForce:	0.01,
 			data:		new Color({ hue: 0, saturation:0, brightness:0.97 })
-			// path:		new Path.Rectangle({
-			// 				position:	[0, 0],
-			// 				size:		[24, 6],
-			// 				fillColor:	new Color({ hue: 0, saturation:0, brightness:0.97 })
-			// 			})
 		});
 		predators.push( predator );
 	}
