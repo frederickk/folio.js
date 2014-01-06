@@ -69,20 +69,6 @@ function Setup() {
 	// get rid of svg
 	svg.remove();
 
-	// add background circles
-	for( var x=-92.642; x<view.bounds.width+radius; x+=radius ) {
-		for( var y=-127.852; y<view.bounds.height+radius; y+=radius ) {
-			var path = new Path.Circle(new Point(x, y), radius);
-			path.fillColor = new Color(0.97);
-			path.data.fader = new ColorStepper(
-				2.0,
-				new Color({ hue: 0, saturation:0, brightness:0.97 }),
-				new Color({ hue: 0, saturation:0, brightness:0.97 })
-			);
-
-			pieces.appendBottom(path);
-		}
-	}
 
 	// create the boids
 	for (var i=0; i<20; i++) {
@@ -100,6 +86,7 @@ function Setup() {
 		});
 		boids.push( boid );
 	}
+
 
 	// create a predator
 	for (var i=0; i<3; i++) {
@@ -123,20 +110,20 @@ function Update(event) {
 
 	for( var i=0, len=boids.length; i<len; i++ ) {
 		var b = boids[i];
-		b.path.visible = false;
+		b.path().visible = false;
 
 		if (mouse) {
 			b.arrive(mouse);
 		}
 		b.run(boids);
 
-		var hit = pieces.hitTest(b.position, {
+		var hit = pieces.hitTest(b.position(), {
 			fill:		true,
 			stroke:		true
 		});
 		if( hit ) {
 			var item = hit.item;
-			item.data.fader.setEnd(b.data);
+			item.data.fader.setEnd(b.data());
 			item.data.fader.toggle();
 		}
 	}
