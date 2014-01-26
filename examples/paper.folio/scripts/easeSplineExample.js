@@ -5,11 +5,11 @@ console.log( 'Ease Spline Loaded' );
  *
  *	Ken Frederick
  *	ken.frederick@gmx.de
- * 
+ *
  *	http://kennethfrederick.de/
  *	http://blog.kennethfrederick.de/
  *
- *	
+ *
  *	An example of the easing methods
  *
  */
@@ -56,6 +56,8 @@ var rgbFill = [ 1.0, 1.0, 1.0 ];
 // Setup
 // ------------------------------------------------------------------------
 function Setup() {
+	// set canvas background
+	paper.view.element.style.backgroundColor = 'rgb(255, 68, 100)';
 
 	// anchors
 	anchors[0] = new Point(
@@ -76,7 +78,7 @@ function Setup() {
 	// bezier handles
 	// X and Y are relative to anchor
 	for( var i=0; i<anchors.length; i++ ) {
-		handles[i] = new Path.Circle( 
+		handles[i] = new Path.Circle(
 			new Point(
 				(i % 2 == 0) ? anchors[i].x - 61 : anchors[i].x + 61,
 				(i % 2 == 0) ? anchors[i].y + 61 : anchors[i].y - 61
@@ -87,7 +89,7 @@ function Setup() {
 
 		// handle lines
 		handleLines[i] = new Path.Line(
-			anchors[i], 
+			anchors[i],
 			handles[i].position
 		);
 		handleLines[i].strokeWidth = 2;
@@ -103,7 +105,7 @@ function Setup() {
 	var segment1 = new Segment(anchors[0], null, handleOut);
 	var segment2 = new Segment(anchors[1], handleIn, null);
 
-	spline = new Path( 
+	spline = new Path(
 		segment1,
 		segment2
 	);
@@ -138,7 +140,7 @@ function Update(event) {
 
 
 	// clock
-	clock = new TimerClock( 
+	clock = new TimerClock(
 		new Point(
 			view.bounds.center.x - view.bounds.width*0.3,
 			view.bounds.center.y
@@ -153,14 +155,14 @@ function Update(event) {
 	distribution.remove();
 	distribution = ItemEase(
 		keyspline,
-		10, 
+		10,
 		new Point(
 			view.bounds.center.x + view.bounds.width*0.3,
 			view.bounds.center.y
 		),
 		new Size( 300, 150 )
 	);
-	
+
 };
 
 
@@ -175,11 +177,11 @@ function Draw() {
 	}
 
 	spline.segments[0].handleOut = new Point(
-		anchors[0].x - handles[0].position.x, 
+		anchors[0].x - handles[0].position.x,
 		anchors[0].y - handles[0].position.y
 	);
 	spline.segments[1].handleIn = new Point(
-		anchors[1].x - handles[1].position.x, 
+		anchors[1].x - handles[1].position.x,
 		anchors[1].y - handles[1].position.y
 	);
 
@@ -213,7 +215,7 @@ var TimerClock = function( center, radius, time ) {
 		project.activeLayer.children['__TimerClock'].remove();
 	}
 
-	time = (time != undefined) 
+	time = (time != undefined)
 		? time
 		: 1.0;
 	var angle = (Math.PI*2.001) * time;

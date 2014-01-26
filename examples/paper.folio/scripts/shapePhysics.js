@@ -36,6 +36,9 @@ var NOT_GRABABLE_MASK = ~GRABABLE_MASK_BIT;
 // Setup
 // ------------------------------------------------------------------------
 function Setup() {
+	// set canvas background
+	paper.view.element.style.backgroundColor = 'rgb(247, 247, 247)';
+
 	//
 	// cp.js
 	// Create environment

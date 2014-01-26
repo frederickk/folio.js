@@ -57,6 +57,10 @@ var swapColors = [];
 // Setup
 // ------------------------------------------------------------------------
 function Setup() {
+	// set canvas background
+	paper.view.element.style.backgroundColor = 'rgb(255, 216, 0)';
+
+
 	var typeSize;
 	if(view.bounds.width < 768) {
 		size = 150;

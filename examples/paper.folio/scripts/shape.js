@@ -25,6 +25,9 @@ var grid;
 // Setup
 // ------------------------------------------------------------------------
 function Setup() {
+	// set canvas background
+	paper.view.element.style.backgroundColor = 'rgb(247, 247, 247)';
+
 	var raster = new Raster('image') ; //document.getElementById('image').value);
 	raster.position = view.center;
 

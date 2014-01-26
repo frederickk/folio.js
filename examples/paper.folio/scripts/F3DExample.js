@@ -44,7 +44,8 @@ var values = {
 // Setup
 // ------------------------------------------------------------------------
 function Setup() {
-	console.log( new Color.random() );
+	// set canvas background
+	paper.view.element.style.backgroundColor = 'rgb(18, 18, 18)'; //#121212
 
 	// required setup scene
 	// (optional parameters) width, height, focalLength, display mode

@@ -36,6 +36,8 @@ var mouse = null;
 // Setup
 // ------------------------------------------------------------------------
 function Setup() {
+	// set canvas background
+	paper.view.element.style.backgroundColor = 'rgb(30, 20, 15)';
 
 	// create arrow
 	var r = 30;

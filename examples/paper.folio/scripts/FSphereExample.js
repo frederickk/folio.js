@@ -45,6 +45,9 @@ var values = {
 // Setup
 // ------------------------------------------------------------------------
 function Setup() {
+	// set canvas background
+	paper.view.element.style.backgroundColor = 'rgb(18, 18, 18)'; //#121212
+
 	// required setup scene
 	scene = new f3d.FScene3D();
 	scene.setup(view.bounds.width, view.bounds.height, 1000, 'ORTHO');

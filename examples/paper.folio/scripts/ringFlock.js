@@ -29,6 +29,9 @@ var mouse = null;
 // Setup
 // ------------------------------------------------------------------------
 function Setup() {
+	// set canvas background
+	paper.view.element.style.backgroundColor = 'rgb(247, 247, 247)';
+
 	// radius to match SVG
 	var radius = 373.059/2;
 

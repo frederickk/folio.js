@@ -8,7 +8,7 @@ console.log( 'FDrop Example Loaded' );
  *	http://kennethfrederick.de/
  *	http://blog.kennethfrederick.de/
  *
- *	
+ *
  *	An example of FDrop
  *
  */
@@ -33,6 +33,9 @@ var lastScale = 1.0;
 // Setup
 // ------------------------------------------------------------------------
 function Setup() {
+	// set canvas background
+	paper.view.element.style.backgroundColor = 'rgb(0, 178, 255)';
+
 	group = new Group();
 
 	// create pipe

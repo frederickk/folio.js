@@ -104,6 +104,7 @@ var canvas = document.createElement('canvas');
 canvas.id = 'canvas';
 canvas.width = '100%';
 canvas.height = '100%';
+canvas.style.backgroundColor = '#ffffff';
 container.appendChild( canvas );
 
 // paper.js

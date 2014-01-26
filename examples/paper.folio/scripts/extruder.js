@@ -41,6 +41,9 @@ var values = {
 // Setup
 // ------------------------------------------------------------------------
 function Setup() {
+	// set canvas background
+	paper.view.element.style.backgroundColor = 'rgb(0, 255, 171)';
+
 	// setup group for extrusion
 	extrusionsGroup = new Group();
 

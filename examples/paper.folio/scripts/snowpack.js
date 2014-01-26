@@ -30,6 +30,9 @@ var sProps = {};
 // Setup
 // ------------------------------------------------------------------------
 function Setup() {
+	// set canvas background
+	paper.view.element.style.backgroundColor = 'rgb(247, 247, 247)'; //class="black-light-gray"
+
 	flakes = new Group();
 
 	sProps = {
