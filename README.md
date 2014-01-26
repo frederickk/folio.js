@@ -25,6 +25,8 @@ Additional examples will be added as time permits.
 Usage
 -------------
 
+A full-size canvas element is created by [Folio.js](http://kennethfrederick.de/foliojs/) upon loading. Otherwise, the first found canvas element is used.
+
 ##### Paper.js #####
 
 You can find the library for [Paper.js](http://paperjs.org/) within the `distribution/` folder.
