@@ -1,6 +1,6 @@
 console.log( 'Script Loaded' );
 /**
-*	FolioTemplate 0.1a
+*	FolioTemplate 0.7.1
 *
 *	Ken Frederick
 *	ken.frederick@gmx.de
@@ -26,7 +26,7 @@ console.log( 'Script Loaded' );
 *	the HTML can be accessed here and visa versa.
 *
 *	Feel free to rename this file and HTML template file,
-*	but be sure to uppdate the HTML in FolioTemplate.html	
+*	but be sure to uppdate the HTML in FolioTemplate.html
 *
 */
 
@@ -69,7 +69,7 @@ function Update(event) {
 // Draw
 // ------------------------------------------------------------------------
 /*
- *	Draw() is the main method which is called to Draw 
+ *	Draw() is the main method which is called to Draw
  *	elements to the screen, similar to Processing's Draw()
  */
 function Draw() {
@@ -81,7 +81,7 @@ function Draw() {
 // Methods
 // ------------------------------------------------------------------------
 /*
- *	Any additional Methods/Functions needed for this 
+ *	Any additional Methods/Functions needed for this
  *	script can be added here
  */
 
