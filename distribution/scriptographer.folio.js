@@ -4,7 +4,7 @@
  * 0.7.0
  * https://github.com/frederickk/folio.js
  *
- * 05. January 2014
+ * 26. January 2014
  *
  * Ken Frederick
  * ken.frederick@gmx.de
@@ -4429,6 +4429,7 @@ folio.FCirclePack = function(circleItems, iterations) {
  *
  * http://kennethfrederick.de/
  * http://blog.kennethfrederick.de/
+ *
  *
  * TODO: fix repelling for predators & obstacles
  *

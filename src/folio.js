@@ -40,16 +40,32 @@ var onKeyDown = function(event){};
 var onKeyUp = function(event){};
 
 
-// install Paper.js into window
+/**
+ *
+ * Initialize Canvas
+ *
+ */
+var container = document.createElement('div');
+container.id = 'container';
+container.style.position = 'absolute';
+container.style.width = '100%';
+container.style.height = '100%';
+document.body.appendChild( container );
+
+// create canvas element
+var canvas = document.createElement('canvas');
+canvas.id = 'canvas';
+canvas.width = '100%';
+canvas.height = '100%';
+container.appendChild( canvas );
+
+// paper.js
 paper.install(window);
+paper.setup(canvas);
 
 
 // once the DOM is ready, setup Paper.js
 window.onload = function() {
-	paper.setup('canvas');
-	console.log('Folio.js is go!');
-
-
 	// ------------------------------------------------------------------------
 	// Methods
 	// ------------------------------------------------------------------------
@@ -122,24 +138,17 @@ window.onload = function() {
 
 
 
-	/**
-	 *
-	 * Supporting Methods
-	 *
-	 */
 	// ------------------------------------------------------------------------
 	function resizeCanvas() {
-		// var width = window.innerWidth;
-		// var height = window.innerHeight;
-
 		// set canvas width and height
-		var canvas = document.getElementById('canvas');
-		var parent = canvas.parentNode;
 		if (canvas.getContext) {
-			// canvas.width = width;
-			// canvas.height = height;
-			canvas.width = parent.offsetWidth;
-			canvas.height = parent.offsetHeight;
+			canvas.width = container.offsetWidth;
+			canvas.height = container.offsetHeight;
+			canvas.style.width = container.offsetWidth + 'px';
+			canvas.style.height = container.offsetHeight + 'px';
+
+			// resetup canvas
+			paper.setup(canvas);
 		}
 
 		// clear out view
@@ -158,14 +167,11 @@ window.onload = function() {
 
 		// make sure view does its draw
 		view.draw();
+
 	};
+	window.addEventListener('resize', resizeCanvas);
+
 
 	// ------------------------------------------------------------------------
-	var resizeTimeout;
-	window.onresize = function() {
-		clearTimeout(resizeTimeout);
-		resizeTimeout = setTimeout(resizeCanvas, 100);
-	};
-	// resizeCanvas();
-
+	console.log('Folio.js is go!');
 };
