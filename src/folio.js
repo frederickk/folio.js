@@ -52,12 +52,21 @@ container.style.width = '100%';
 container.style.height = '100%';
 document.body.appendChild( container );
 
-// create canvas element
-var canvas = document.createElement('canvas');
-canvas.id = 'canvas';
-canvas.width = '100%';
-canvas.height = '100%';
-container.appendChild( canvas );
+var canvases = document.getElementsByTagName('canvas');
+var canvas;
+if( canvases.length == 0 ) {
+	// create canvas element
+	canvas = document.createElement('canvas');
+	canvas.id = 'canvas';
+	canvas.width = '100%';
+	canvas.height = '100%';
+	canvas.style.backgroundColor = '#ffffff';
+	container.appendChild( canvas );
+}
+else {
+	// use first canvas found
+	canvas = canvases[0];
+}
 
 // paper.js
 paper.install(window);

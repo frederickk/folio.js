@@ -1,7 +1,7 @@
 /**!
  *
  * folio.js
- * 0.7.0
+ * 0.7.1
  * https://github.com/frederickk/folio.js
  *
  * 26. January 2014
