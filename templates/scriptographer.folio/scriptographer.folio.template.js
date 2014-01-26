@@ -1,5 +1,5 @@
 /**
- *	folio.js Template 0.0
+ *	folio.js Template 7.1
  *
  *
  *	Ken Frederick
