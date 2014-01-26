@@ -45,6 +45,7 @@ paper.Point.inject({
 	// ------------------------------------------------------------------------
 	name: null,
 	data: {},
+	_prevAngle: 0,
 
 
 
@@ -129,6 +130,28 @@ paper.Point.inject({
 	},
 
 	/**
+	 * Flip the X axis
+	 *
+	 * @return {Point}
+	 *
+	 */
+	invertX: function() {
+		this.x = view.bounds.width - this.x;
+		return this;
+	},
+
+	/**
+	 * Flip the Y axis
+	 *
+	 * @return {Point}
+	 *
+	 */
+	invertY: function() {
+		this.y = view.bounds.height - this.y;
+		return this;
+	},
+
+	/**
 	 * Returns the distance between the point and the center of the canvas
 	 *
 	 * @return {Number}
@@ -139,6 +162,60 @@ paper.Point.inject({
 		// var dy = this.y - view.bounds.center.y;
 		// return (dx * dx + dy * dy) + 1;
 		return this.getDistance( view.bounds.center );
+	},
+
+	/**
+	 * Returns the mid between two points
+	 *
+	 * @return {Point}
+	 *
+	 * @example
+	 * var point1 = new Point(0, 90);
+	 * var point2 = new Point(90, 180);
+	 * var result = point1.getMid(point2); // { x: 45, y: 135 }
+	 *
+	 */
+	getMid: function(point) {
+		return new Point( (this.x + point.x)/2, (this.y + point.y)/2 );
+	},
+
+	/**
+	 * Returns the perpendicular bisector of two points
+	 *
+	 * @return {Point}
+	 *
+	 * @example
+	 * var point1 = new Point(0, 90);
+	 * var point2 = new Point(90, 180);
+	 * var result = point1.getPerpendicularBisector(point2); // { x: 45, y: 135 }
+	 *
+	 */
+	getPerpendicularBisector: function(point) {
+		var mid = this.getMid(point);
+		var arr = defline(
+			new Point( mid.x - (this.y - mid.y), mid.y + (this.x - mid.x) ),
+			new Point( mid.x - (point.y - mid.y), mid.y + (point.x - mid.x) )
+		);
+
+		function defline(p1, p2) {
+			var a = p1.y - p2.y;
+			var b = p1.x - p2.x;
+			return [a, -b, b * p1.y - a * p1.x];
+		};
+		return arr;
+	},
+
+	/**
+	 * Returns slope of two points
+	 * TODO: slope ratio?
+	 *
+	 * @param  {Point} point
+	 *
+	 * @return {Number} slope ratio
+	 *
+	 */
+	getSlope: function(point) {
+		return paper.slopeRatio(this, point);
 	},
 
 	/**
@@ -175,6 +252,7 @@ paper.Point.inject({
 	 *
 	 */
 	getAngle: function(point2) {
+		var point2 = point2 || new Point(0, 0);
 		return Math.atan2(point2.y - this.y, point2.x - this.x);
 	},
 
@@ -228,10 +306,8 @@ paper.Point.inject({
 		return this.x * this.x + this.y * this.y;
 	},
 
-
 	statics: {
 		/**
-		 *
 		 * @param {Point} arg0
 		 * 		starting Point
 		 * @param {Point} arg1
@@ -250,6 +326,32 @@ paper.Point.inject({
 		 */
 		interpolateTo: function(arg0, arg1, arg2) {
 			return arg0.interpolateTo(arg1, arg2);
+		},
+
+		/**
+		 * Flip the X axis
+		 *
+		 * @param {Point} point
+		 *
+		 * @return {Point}
+		 *
+		 */
+		invertX: function(point) {
+			var point = new Point(point);
+			return point.invertX();
+		},
+
+		/**
+		 * Flip the Y axis
+		 *
+		 * @param {Point} point
+		 *
+		 * @return {Point}
+		 *
+		 */
+		invertY: function(point) {
+			var point = new Point(point);
+			return point.invertY();
 		},
 
 		/**
@@ -303,13 +405,13 @@ paper.Point.inject({
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Global</h3><ul><li><a href="global.html#boolToInt">boolToInt</a></li><li><a href="global.html#brighten">brighten</a></li><li><a href="global.html#clamp">clamp</a></li><li><a href="global.html#contrast">contrast</a></li><li><a href="global.html#cosec">cosec</a></li><li><a href="global.html#darken">darken</a></li><li><a href="global.html#degrees">degrees</a></li><li><a href="global.html#desaturate">desaturate</a></li><li><a href="global.html#dim">dim</a></li><li><a href="global.html#divisor">divisor</a></li><li><a href="global.html#FArrow">FArrow</a></li><li><a href="global.html#FBubble">FBubble</a></li><li><a href="global.html#FChain">FChain</a></li><li><a href="global.html#FCross">FCross</a></li><li><a href="global.html#FDrop">FDrop</a></li><li><a href="global.html#findById">findById</a></li><li><a href="global.html#findByName">findByName</a></li><li><a href="global.html#FTriangle">FTriangle</a></li><li><a href="global.html#getAngle">getAngle</a></li><li><a href="global.html#getArea">getArea</a></li><li><a href="global.html#getCentroid">getCentroid</a></li><li><a href="global.html#getCircumarea">getCircumarea</a></li><li><a href="global.html#getCircumcenter">getCircumcenter</a></li><li><a href="global.html#getCircumradius">getCircumradius</a></li><li><a href="global.html#getCommonTangents">getCommonTangents</a></li><li><a href="global.html#getDistanceToCenter">getDistanceToCenter</a></li><li><a href="global.html#getHeading">getHeading</a></li><li><a href="global.html#getIncircle">getIncircle</a></li><li><a href="global.html#getIncirclearea">getIncirclearea</a></li><li><a href="global.html#getIncircleradius">getIncircleradius</a></li><li><a href="global.html#getSlopeAngle">getSlopeAngle</a></li><li><a href="global.html#getType">getType</a></li><li><a href="global.html#interpolate">interpolate</a></li><li><a href="global.html#interpolateTo">interpolateTo</a></li><li><a href="global.html#invert">invert</a></li><li><a href="global.html#lighten">lighten</a></li><li><a href="global.html#magSq">magSq</a></li><li><a href="global.html#map">map</a></li><li><a href="global.html#norm">norm</a></li><li><a href="global.html#normalize">normalize</a></li><li><a href="global.html#numToBool">numToBool</a></li><li><a href="global.html#println">println</a></li><li><a href="global.html#radians">radians</a></li><li><a href="global.html#random">random</a></li><li><a href="global.html#randomBias">randomBias</a></li><li><a href="global.html#randomInt">randomInt</a></li><li><a href="global.html#rotate">rotate</a></li><li><a href="global.html#round">round</a></li><li><a href="global.html#roundMultiple">roundMultiple</a></li><li><a href="global.html#saturate">saturate</a></li><li><a href="global.html#sec">sec</a></li><li><a href="global.html#slope">slope</a></li><li><a href="global.html#slopeAngle">slopeAngle</a></li><li><a href="global.html#slopeRatio">slopeRatio</a></li><li><a href="global.html#snap">snap</a></li><li><a href="global.html#snapGrid">snapGrid</a></li><li><a href="global.html#snapIso">snapIso</a></li><li><a href="global.html#sq">sq</a></li><li><a href="global.html#statics">statics</a></li><li><a href="global.html#toGroup">toGroup</a></li><li><a href="global.html#toHex">toHex</a></li><li><a href="global.html#toInt">toInt</a></li><li><a href="global.html#trimToFit">trimToFit</a></li></ul>
+    <h2><a href="index.html">Index</a></h2><h3>Global</h3><ul><li><a href="global.html#boolToInt">boolToInt</a></li><li><a href="global.html#brighten">brighten</a></li><li><a href="global.html#clamp">clamp</a></li><li><a href="global.html#contrast">contrast</a></li><li><a href="global.html#cosec">cosec</a></li><li><a href="global.html#darken">darken</a></li><li><a href="global.html#degrees">degrees</a></li><li><a href="global.html#desaturate">desaturate</a></li><li><a href="global.html#dim">dim</a></li><li><a href="global.html#divisor">divisor</a></li><li><a href="global.html#FArrow">FArrow</a></li><li><a href="global.html#FBubble">FBubble</a></li><li><a href="global.html#FChain">FChain</a></li><li><a href="global.html#FCross">FCross</a></li><li><a href="global.html#FDrop">FDrop</a></li><li><a href="global.html#findById">findById</a></li><li><a href="global.html#findByName">findByName</a></li><li><a href="global.html#FTriangle">FTriangle</a></li><li><a href="global.html#getAngle">getAngle</a></li><li><a href="global.html#getArea">getArea</a></li><li><a href="global.html#getCentroid">getCentroid</a></li><li><a href="global.html#getCircumarea">getCircumarea</a></li><li><a href="global.html#getCircumcenter">getCircumcenter</a></li><li><a href="global.html#getCircumcircle">getCircumcircle</a></li><li><a href="global.html#getCircumradius">getCircumradius</a></li><li><a href="global.html#getCommonTangents">getCommonTangents</a></li><li><a href="global.html#getDistanceToCenter">getDistanceToCenter</a></li><li><a href="global.html#getHeading">getHeading</a></li><li><a href="global.html#getIncircle">getIncircle</a></li><li><a href="global.html#getIncirclearea">getIncirclearea</a></li><li><a href="global.html#getIncircleradius">getIncircleradius</a></li><li><a href="global.html#getMid">getMid</a></li><li><a href="global.html#getPerpendicularBisector">getPerpendicularBisector</a></li><li><a href="global.html#getSlope">getSlope</a></li><li><a href="global.html#getSlopeAngle">getSlopeAngle</a></li><li><a href="global.html#getType">getType</a></li><li><a href="global.html#interpolate">interpolate</a></li><li><a href="global.html#interpolateTo">interpolateTo</a></li><li><a href="global.html#invert">invert</a></li><li><a href="global.html#invertX">invertX</a></li><li><a href="global.html#invertY">invertY</a></li><li><a href="global.html#lighten">lighten</a></li><li><a href="global.html#magSq">magSq</a></li><li><a href="global.html#map">map</a></li><li><a href="global.html#norm">norm</a></li><li><a href="global.html#normalize">normalize</a></li><li><a href="global.html#numToBool">numToBool</a></li><li><a href="global.html#println">println</a></li><li><a href="global.html#radians">radians</a></li><li><a href="global.html#random">random</a></li><li><a href="global.html#randomBias">randomBias</a></li><li><a href="global.html#randomInt">randomInt</a></li><li><a href="global.html#rotate">rotate</a></li><li><a href="global.html#rotation">rotation</a></li><li><a href="global.html#round">round</a></li><li><a href="global.html#roundMultiple">roundMultiple</a></li><li><a href="global.html#saturate">saturate</a></li><li><a href="global.html#sec">sec</a></li><li><a href="global.html#slope">slope</a></li><li><a href="global.html#slopeAngle">slopeAngle</a></li><li><a href="global.html#slopeRatio">slopeRatio</a></li><li><a href="global.html#snap">snap</a></li><li><a href="global.html#snapGrid">snapGrid</a></li><li><a href="global.html#snapIso">snapIso</a></li><li><a href="global.html#sq">sq</a></li><li><a href="global.html#statics">statics</a></li><li><a href="global.html#toGroup">toGroup</a></li><li><a href="global.html#toHex">toHex</a></li><li><a href="global.html#toInt">toInt</a></li><li><a href="global.html#trimToFit">trimToFit</a></li></ul>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Thu Jan 02 2014 00:10:44 GMT-0500 (EST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Sun Jan 26 2014 10:10:53 GMT-0800 (PST)
 </footer>
 
 <script> prettyPrint(); </script>
