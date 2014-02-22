@@ -54,11 +54,11 @@ function Setup() {
 
 
 	// create the boid agents
-	for (var i=0; i<94; i++) {
+	for (var i=0; i<20; i++) {
 		arrow.strokeColor = new Color.random({ hue:[0, 360], saturation:[0.3, 0.9], brightness:[0.8, 1.0] });
 
 		// create boid agent
-		var boid = new flock.boid(view.bounds.topCenter, {
+		var boid = new flock.boid([view.bounds.topCenter.x, view.bounds.topCenter.y], {
 			radius:		r,
 			maxSpeed:	r*0.5,
 			maxForce:	0.1,
@@ -73,7 +73,7 @@ function Setup() {
 		arrow.strokeColor = 'white';
 
 		// create predator agent
-		var predator = new flock.predator(view.bounds.bottomCenter, {
+		var predator = new flock.predator([view.bounds.bottomCenter.x, view.bounds.bottomCenter.y], {
 			radius:		r*4,
 			maxSpeed:	r,
 			maxForce:	0.1,
@@ -93,10 +93,10 @@ function Setup() {
 		var y = view.center.y
 
 		// create obstacle
-		var obstacle = new flock.obstacle(new Point(x, y), {
+		var obstacle = new flock.obstacle([x, y], {
 			radius:		r*2,
 			path:		new Path.Circle({
-							position:	new Point(x, y),
+							position:	[x, y],
 							radius:		r,
 							fillColor:	'white'
 						})
@@ -116,17 +116,30 @@ function Update(event) {
 	// update the boid agents
 	for( var i=0, len=boids.length; i<len; i++ ) {
 		var b = boids[i];
+
 		if (mouse) {
 			b.arrive(mouse);
 		}
 		b.run(boids);
+
+		// update path
+		// bp.position = b.position();
+		// var angle = paper.degrees(
+		// 	Math.atan2(b.position()[1], b.position()[0])
+		// );
+		// bp.rotation(angle);
 	}
 
 
 	// update the predator agents
 	for( var i=0; i<predators.length; i++ ) {
 		var p = predators[i];
+		var pp = b.path();
+
 		p.run(predators, boids);
+
+		// update path
+		// pp.position = p.position();
 	}
 
 };

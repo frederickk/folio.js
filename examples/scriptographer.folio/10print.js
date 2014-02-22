@@ -43,8 +43,8 @@ var colors = [];
 
 //values
 var values = {
-	color0:	new RGBColor( random(0,1),random(0,1),random(0,1) ),
-	color1:	new RGBColor( random(0,1),random(0,1),random(0,1) )
+	color0:	new RGBColor( paper.random(0,1), paper.random(0,1), paper.random(0,1) ),
+	color1:	new RGBColor( paper.random(0,1), paper.random(0,1), paper.random(0,1) )
 };
 
 //components
@@ -112,7 +112,7 @@ function Draw() {
 	for(var y=0; y<view.bounds.height+size/2; y+=size*2) {
 		for(var x=0; x<view.bounds.width+size/2; x+=size*2) {
 			// generate a random integer between 0 and 2
-			var rand = randomInt(0,2);
+			var rand = paper.randomInt(0,2);
 			// grab one lines in the cross
 			// at random of course
 			var c = cross.children[ rand ].clone();
