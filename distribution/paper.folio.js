@@ -4,7 +4,7 @@
  * 0.7.1
  * https://github.com/frederickk/folio.js
  *
- * 11. February 2014
+ * 24. February 2014
  *
  * Ken Frederick
  * ken.frederick@gmx.de
@@ -4536,6 +4536,8 @@ folio.FFlock = {
         var distances = [];
         var groupTogether = false;
 
+        var contained = false;
+
 
         // ------------------------------------------------------------------------
         // Methods
@@ -4622,20 +4624,84 @@ folio.FFlock = {
         };
 
         // ------------------------------------------------------------------------
-        // A method that causes the boid to be repelled/avoid an obstacle
-        function repel(obstacle, radius) {
+        // A method that causes the boid to be contained within an item
+        function contain(item, properties) {
+            properties = properties || {};
+            properties.hitOptions = properties.hitOptions || {
+                fill:      true,
+                stroke:    true,
+                segment:   true,
+                tolerance: radius/2
+            };
+
+            var target = new Point(
+                position.x + vector.x + radius,
+                position.y + vector.y + radius
+            );
+
+            var distance = item.position.getDistance(target);
+            if ( distance <= radius*10 ) {
+                contained = true;
+            }
+
+            // attract boid to the center of object
+            if( contained ) {
+                // path.fillColor = path.strokeColor = new Color(1.0, 0.0, 0.0);
+                var hitResult = item.hitTest(target, properties.hitOptions);
+                if( !hitResult ) {
+                    // vector = new Point();
+                    vector = new Point(
+                        -vector.x,
+                        -vector.y
+                    );
+                }
+            }
+            else if( !contained ) {
+                // path.fillColor = 'white';
+                arrive(item.position);
+            }
+
+        };
+
+        // A method that causes the boid to be repelled/avoid an item
+        function repel(obstacleItem, properties) {
+            properties.hitOptions = properties.hitOptions || {
+                fill:      true,
+                stroke:    true,
+                segment:   true,
+                tolerance: radius/2
+            };
+
             var target = new Point(
                 position.x + vector.x,
                 position.y + vector.y
             );
-            var distance = obstacle.position().getDistance(target);
 
-            if (distance <= radius) {
-                var repel = new Point(
-                    position.x - obstacle.position().x,
-                    position.y - obstacle.position().y
-                );
-                repel = repel.normalize();
+            var hitResult = obstacleItem.path().hitTest(target, properties.hitOptions);
+            var repel = new Point();
+            if( hitResult ) {
+                if( hitResult.type == 'stroke' ||
+                    hitResult.type == 'segment' ||
+                    hitResult.type == 'handle-in' ||
+                    hitResult.type == 'handle-out' ) {
+                    repel = new Point(
+                        position.x - hitResult.location.point.x,
+                        position.y - hitResult.location.point.y
+                    );
+                    repel = repel.normalize();
+                }
+                else if( hitResult.type == 'fill' ) {
+                    repel = new Point(
+                        position.x * -vector.x,
+                        position.y * -vector.y
+                    );
+                    // repel = repel.normalize();
+                    // repel = new Point(
+                    //     target.x - vector.x,
+                    //     target.y - vector.y
+                    // );
+                }
+
                 repel.x *= maxForce*7;
                 repel.y *= maxForce*7;
 
@@ -4648,9 +4714,13 @@ folio.FFlock = {
                 // repel.y /= mass;
                 acceleration.x += repel.x;
                 acceleration.y += repel.y;
+
             }
+
+
         };
 
+        // ------------------------------------------------------------------------
         // A method that calculates a steering vector towards a target
         // Takes a second argument, if true, it slows down as it approaches
         // the target
@@ -4783,7 +4853,8 @@ folio.FFlock = {
             return vector;
         };
 
-        function getPosition() {
+        function getPosition(val) {
+            if(val != undefined) position = new Point(val);
             return position;
         };
 
@@ -4821,6 +4892,7 @@ folio.FFlock = {
 
             borders:        borders,
 
+            contain:        contain,
             repel:          repel,
             steer:          steer,
             separate:       separate,
@@ -4894,7 +4966,7 @@ folio.FFlock = {
 
         boid.repel = function(boids) {
             for (var i = 0, l = boids.length; i < l; i++) {
-                boids[i].repel(boid, boid.radius());
+                boids[i].repel(boid, properties);
             }
         };
 
@@ -4940,7 +5012,7 @@ folio.FFlock = {
 
         boid.repel = function(boids) {
             for (var i = 0, l = boids.length; i < l; i++) {
-                boids[i].repel(boid, boid.radius());
+                boids[i].repel(boid, properties);
             }
         };
 
