@@ -1,15 +1,15 @@
 console.log( 'FTime Example Loaded' );
 /**
- *	FTime Example 0.0
+ *  FTime Example 0.0
  *
- *	Ken Frederick
- *	ken.frederick@gmx.de
+ *  Ken Frederick
+ *  ken.frederick@gmx.de
  *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
+ *  http://kennethfrederick.de/
+ *  http://blog.kennethfrederick.de/
  *
- *	
- *	Date & Time & Stopwatch
+ *
+ *  Date & Time & Stopwatch
  *
  */
 
@@ -36,28 +36,28 @@ var stopwatchText;
 // Setup
 // ------------------------------------------------------------------------
 function Setup() {
-	// initiate FDate
-	fdate = new ftime.FDate();
-	// this is how we'll display the date
-	dateText = new PointText( new Point(35, view.bounds.center.y) );
-	dateText.justification = 'left';
-	dateText.characterStyle = { 
-		font: 'american-typewriter',
-		fontSize: 30,
-		fillColor: 'red'
-	};
+    // initiate FDate
+    fdate = new ftime.FDate();
+    // this is how we'll display the date
+    dateText = new PointText( new Point(35, view.bounds.center.y) );
+    dateText.justification = 'left';
+    dateText.characterStyle = {
+        font: 'american-typewriter',
+        fontSize: 30,
+        fillColor: 'red'
+    };
 
-	// initiate FStopwatch
-	fstopwatch = new ftime.FStopwatch();
+    // initiate FStopwatch
+    fstopwatch = new ftime.FStopwatch();
 
-	// this is how we'll display stopwatch time
-	stopwatchText = new PointText( new Point(view.bounds.width-35, view.bounds.center.y) );
-	stopwatchText.justification = 'right';
-	stopwatchText.characterStyle = { 
-		font: 'american-typewriter',
-		fontSize: 30,
-		fillColor: 'red'
-	};
+    // this is how we'll display stopwatch time
+    stopwatchText = new PointText( new Point(view.bounds.width-35, view.bounds.center.y) );
+    stopwatchText.justification = 'right';
+    stopwatchText.characterStyle = {
+        font: 'american-typewriter',
+        fontSize: 30,
+        fillColor: 'red'
+    };
 };
 
 
@@ -66,16 +66,16 @@ function Setup() {
 // Update
 // ------------------------------------------------------------------------
 function Update(event) {
-	// reinitiate FDate to keep the time up-to-date
-	fdate = new ftime.FDate();
+    // reinitiate FDate to keep the time up-to-date
+    fdate = new ftime.FDate();
 
-	// a temp holder to convert our stopwatch time
-	var temp = new ftime.FDate();
-	// show the time of our stopwatch
-	stopwatchText.content = temp.get( fstopwatch.get() );
+    // a temp holder to convert our stopwatch time
+    var temp = new ftime.FDate();
+    // show the time of our stopwatch
+    stopwatchText.content = temp.get( fstopwatch.get() );
 
-	// redraw to update scene
-	Draw();
+    // redraw to update scene
+    Draw();
 };
 
 
@@ -84,8 +84,8 @@ function Update(event) {
 // Draw
 // ------------------------------------------------------------------------
 function Draw() {
-	// show the time
-	dateText.content = fdate.now();
+    // show the time
+    dateText.content = fdate.now();
 };
 
 
@@ -102,7 +102,7 @@ function Draw() {
 // Events
 // ------------------------------------------------------------------------
 function onResize(event) {
-	view.size = event.size;
+    view.size = event.size;
 };
 
 
@@ -125,10 +125,10 @@ function onMouseDrag(event) {
 
 // ------------------------------------------------------------------------
 function onKeyDown(event) {
-	// start/stop the stopwatch by pressing enter
-	if(event.key == 'enter') {
-		fstopwatch.toggle();
-	}
+    // start/stop the stopwatch by pressing enter
+    if(event.key == 'enter') {
+        fstopwatch.toggle();
+    }
 };
 
 // ------------------------------------------------------------------------

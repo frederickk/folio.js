@@ -44,89 +44,89 @@ script.angleUnits = 'degrees';
  */
 // Script.inject({
 global.inject({
-	enumerable: true,
+    enumerable: true,
 
 
-	/**
-	 *
-	 * These are specific methods for the
-	 * Scriptographer version of folio.js
-	 *
-	 */
+    /**
+     *
+     * These are specific methods for the
+     * Scriptographer version of folio.js
+     *
+     */
 
-	// -----------------------------------------------------------------------------
-	// Properties
-	// -----------------------------------------------------------------------------
-	// constants
-	EPSILON: 1.0e-6,
+    // -----------------------------------------------------------------------------
+    // Properties
+    // -----------------------------------------------------------------------------
+    // constants
+    EPSILON: 1.0e-6,
 
-	// have to keep frameRate low... because well...
-	// it's illustrator, don't be greedy
-	// formula:
-	// 1/12 = 0.08333 (fps -> seconds)
-	// 0.08333 * 1000 = 83.33 (seconds -> ms)
-	FRAMERATE: 12, // 500 == 2 ms
+    // have to keep frameRate low... because well...
+    // it's illustrator, don't be greedy
+    // formula:
+    // 1/12 = 0.08333 (fps -> seconds)
+    // 0.08333 * 1000 = 83.33 (seconds -> ms)
+    FRAMERATE: 12, // 500 == 2 ms
 
-	// event holder for animations events
-	// mimics Paper.js
-	_event: {
-		count: 0, // number of frames
-		time: 0.0,  // seconds elapsed
-		delta: 0.0  // difference since last frame
-	},
-
-
-
-	// -----------------------------------------------------------------------------
-	// Methods
-	// -----------------------------------------------------------------------------
-	/**
-	 * @param {Object} obj
-	 *			any Javascript Object
-	 */
-	println: function(obj) {
-		console.log( obj );
-		console.log( '\n' );
-	},
+    // event holder for animations events
+    // mimics Paper.js
+    _event: {
+        count: 0, // number of frames
+        time: 0.0,  // seconds elapsed
+        delta: 0.0  // difference since last frame
+    },
 
 
-	// -----------------------------------------------------------------------------
-	/**
-	 * animation function that mimics Paper.js
-	 */
-	/**
-	 * @param {Boolean} isOn
-	 *			true if we want to use animations
-	 * @param {Number} frameRate
-	 *			the frame rate for the animatons default is 12
-	 */
-	Animate: function(isOn, frameRate) {
-		frameRate = (frameRate === undefined) ? FRAMERATE : frameRate;
-		var interval = parseInt((1/frameRate)*1000);
 
-		if( isOn ) {
-			var updater = setInterval( function() {
-				onFrame(interval, Update);
-			}, interval
-			);
-		}
-	},
+    // -----------------------------------------------------------------------------
+    // Methods
+    // -----------------------------------------------------------------------------
+    /**
+     * @param {Object} obj
+     *          any Javascript Object
+     */
+    println: function(obj) {
+        console.log( obj );
+        console.log( '\n' );
+    },
 
-	/**
-	 * @param {Number} interval
-	 *			how often in MS to fire event - defaul: 83
-	 */
-	onFrame: function(interval, func) {
-		interval = (interval === undefined) ? 2 : interval;
 
-		_event.count++;
-		_event.time += (interval * 0.001);
-		_event.delta -= _event.time;
+    // -----------------------------------------------------------------------------
+    /**
+     * animation function that mimics Paper.js
+     */
+    /**
+     * @param {Boolean} isOn
+     *          true if we want to use animations
+     * @param {Number} frameRate
+     *          the frame rate for the animatons default is 12
+     */
+    Animate: function(isOn, frameRate) {
+        frameRate = (frameRate === undefined) ? FRAMERATE : frameRate;
+        var interval = parseInt((1/frameRate)*1000);
 
-		if (func != undefined) func(_event);
+        if( isOn ) {
+            var updater = setInterval( function() {
+                onFrame(interval, Update);
+            }, interval
+            );
+        }
+    },
 
-		_event.delta = _event.time;
-	}
+    /**
+     * @param {Number} interval
+     *          how often in MS to fire event - defaul: 83
+     */
+    onFrame: function(interval, func) {
+        interval = (interval === undefined) ? 2 : interval;
+
+        _event.count++;
+        _event.time += (interval * 0.001);
+        _event.delta -= _event.time;
+
+        if (func != undefined) func(_event);
+
+        _event.delta = _event.time;
+    }
 
 });
 

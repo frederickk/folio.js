@@ -1,16 +1,16 @@
 console.log( 'Ease Loaded' );
 /**
- *	Ease Example 0.0
- *	Easing
+ *  Ease Example 0.0
+ *  Easing
  *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- * 
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
+ *  Ken Frederick
+ *  ken.frederick@gmx.de
  *
- *	
- *	An example of the easing methods
+ *  http://kennethfrederick.de/
+ *  http://blog.kennethfrederick.de/
+ *
+ *
+ *  An example of the easing methods
  *
  */
 
@@ -48,61 +48,61 @@ function Update(event) {
 // ------------------------------------------------------------------------
 function Draw() {
 
-	var EasingTests = new Group();
+    var EasingTests = new Group();
 
-	var origin = new Point( 0,0 );
+    var origin = new Point( 0,0 );
 
-	for( var f in ease ) {
-		if( f !== 'spline') {
-			var group = new Group();
-			var path = new Path;
+    for( var f in ease ) {
+        if( f !== 'spline') {
+            var group = new Group();
+            var path = new Path;
 
-			var length = 9;
-			for( var i=0; i<length; i++ ) {
-				var e = ease[f]( i/length );
-				var center = new Point(
-					origin.x + e*195,
-					origin.y + (i/length)*e*45
-				);
+            var length = 9;
+            for( var i=0; i<length; i++ ) {
+                var e = ease[f]( i/length );
+                var center = new Point(
+                    origin.x + e*195,
+                    origin.y + (i/length)*e*45
+                );
 
-				// point marker
-				var marker = new Path.Circle( center, 3 );
-				marker.fillColor = new Color( 1.0, 0.2, 0.0 );
-				marker.strokeColor = null;
-				group.appendTop( marker );
+                // point marker
+                var marker = new Path.Circle( center, 3 );
+                marker.fillColor = new Color( 1.0, 0.2, 0.0 );
+                marker.strokeColor = null;
+                group.appendTop( marker );
 
-				// path
-				path.add( center );
-			}
+                // path
+                path.add( center );
+            }
 
-			path.strokeColor = new Color( 0.0, 0.0, 0.0 );
-			path.strokeWidth = 1.5;
-			path.fillColor = null;
-			group.appendBottom( path );
+            path.strokeColor = new Color( 0.0, 0.0, 0.0 );
+            path.strokeWidth = 1.5;
+            path.fillColor = null;
+            group.appendBottom( path );
 
-			// text
-			var text = new PointText( new Point(origin.x, origin.y-12) );
-			text.content = f;
-			text.characterStyle.fontSize = 12;
-			group.appendTop( text );
-
-
-			// adjust origin for placement
-			if( origin.y < view.bounds.height-195 ) { //activeDocument.activeArtboard.bounds.height ) {
-				origin.y += 72;
-			}
-			else {
-				origin.y = 0;
-				origin.x += 216;
-			}
-
-			EasingTests.appendTop( group );
-		}
-	}
+            // text
+            var text = new PointText( new Point(origin.x, origin.y-12) );
+            text.content = f;
+            text.characterStyle.fontSize = 12;
+            group.appendTop( text );
 
 
-	// place test in center of document
-	EasingTests.position = view.bounds.center;
+            // adjust origin for placement
+            if( origin.y < view.bounds.height-195 ) { //activeDocument.activeArtboard.bounds.height ) {
+                origin.y += 72;
+            }
+            else {
+                origin.y = 0;
+                origin.x += 216;
+            }
+
+            EasingTests.appendTop( group );
+        }
+    }
+
+
+    // place test in center of document
+    EasingTests.position = view.bounds.center;
 
 };
 
@@ -119,7 +119,7 @@ function Draw() {
 // Events
 // ------------------------------------------------------------------------
 function onResize(event) {
-	view.size = event.size;
+    view.size = event.size;
 };
 
 

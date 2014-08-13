@@ -1,13 +1,13 @@
 console.log( 'Snow Pack Loaded' );
 /**
- *	FCirclePack Example
- *	Snow Pack
+ *  FCirclePack Example
+ *  Snow Pack
  *
- *	Ken Frederick
- *	ken.frederick@gmx.de
+ *  Ken Frederick
+ *  ken.frederick@gmx.de
  *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
+ *  http://kennethfrederick.de/
+ *  http://blog.kennethfrederick.de/
  *
  */
 
@@ -30,29 +30,29 @@ var sProps = {};
 // Setup
 // ------------------------------------------------------------------------
 function Setup() {
-	// set canvas background
-	paper.view.element.style.backgroundColor = 'rgb(247, 247, 247)'; //class="black-light-gray"
+    // set canvas background
+    paper.view.element.style.backgroundColor = 'rgb(247, 247, 247)'; //class="black-light-gray"
 
-	flakes = new Group();
+    flakes = new Group();
 
-	sProps = {
-		point: view.center,
-		spokes: paper.randomInt(5,15),
-		radius: paper.random(30,180),
-		strokeColor: new Color.random({hue:[180, 200], saturation:[0.8, 1.0], lightness:[0.8, 0.9]}),
-		strokeWidth: 9
-	};
-	s = new SnowFlake(sProps.point, sProps.spokes, sProps.radius, 0.0);
-	s.strokeColor = sProps.strokeColor;
-	s.strokeWidth = 9;
+    sProps = {
+        point: view.center,
+        spokes: paper.randomInt(5,15),
+        radius: paper.random(30,180),
+        strokeColor: new Color.random({hue:[180, 200], saturation:[0.8, 1.0], lightness:[0.8, 0.9]}),
+        strokeWidth: 9
+    };
+    s = new SnowFlake(sProps.point, sProps.spokes, sProps.radius, 0.0);
+    s.strokeColor = sProps.strokeColor;
+    s.strokeWidth = 9;
 
-	// circle packer
-	packer = new f.FCirclePack(flakes, 7);
-	// packer.setTarget( new Point(
-	// 	view.center.x,
-	// 	view.bounds.height
-	// ));
-	packer.setPadding(s.strokeWidth);
+    // circle packer
+    packer = new f.FCirclePack(flakes, 7);
+    // packer.setTarget( new Point(
+    //  view.center.x,
+    //  view.bounds.height
+    // ));
+    packer.setPadding(s.strokeWidth);
 };
 
 
@@ -61,40 +61,40 @@ function Setup() {
 // Update
 // ------------------------------------------------------------------------
 function Update(event) {
-	var add = true;
+    var add = true;
 
-	// set a limit for the number of flakes
-	if( flakes.children.length < 30 ) {
-		if( t <= 1.0 ) {
-			s.remove();
-			s = new SnowFlake(sProps.point, sProps.spokes, sProps.radius, t);
-			s.strokeColor = sProps.strokeColor;
-			s.strokeWidth = paper.map(t, 0.0,1.0, 3.0,sProps.strokeWidth);
-			add = false;
-			t += 0.01;
-		}
+    // set a limit for the number of flakes
+    if( flakes.children.length < 30 ) {
+        if( t <= 1.0 ) {
+            s.remove();
+            s = new SnowFlake(sProps.point, sProps.spokes, sProps.radius, t);
+            s.strokeColor = sProps.strokeColor;
+            s.strokeWidth = paper.map(t, 0.0,1.0, 3.0,sProps.strokeWidth);
+            add = false;
+            t += 0.01;
+        }
 
-		if( t > 1.0 && add ) {
-			// add s(nowflake) to flakes group
-			flakes.appendTop(s.clone());
-			console.log( flakes.children.length );
-			// regenerate s(noflake) properties
-			sProps.point = new Point(
-				paper.random(view.bounds.width),
-				paper.random(view.bounds.height)
-			);
-			sProps.spokes = paper.randomInt(4,12);
-			sProps.radius = paper.random(20,120);
-			strokeColor: new Color.random({hue:[180, 200], saturation:[0.8, 1.0], lightness:[0.8, 0.9]}),
+        if( t > 1.0 && add ) {
+            // add s(nowflake) to flakes group
+            flakes.appendTop(s.clone());
+            console.log( flakes.children.length );
+            // regenerate s(noflake) properties
+            sProps.point = new Point(
+                paper.random(view.bounds.width),
+                paper.random(view.bounds.height)
+            );
+            sProps.spokes = paper.randomInt(4,12);
+            sProps.radius = paper.random(20,120);
+            strokeColor: new Color.random({hue:[180, 200], saturation:[0.8, 1.0], lightness:[0.8, 0.9]}),
 
-			// add the latest group member to the packer
-			packer.add( flakes.children[flakes.children.length-1] );
+            // add the latest group member to the packer
+            packer.add( flakes.children[flakes.children.length-1] );
 
-			t = 0.0;
-		}
-	}
+            t = 0.0;
+        }
+    }
 
-	packer.update();
+    packer.update();
 };
 
 
@@ -111,97 +111,97 @@ function Draw() {
 // Methods
 // ------------------------------------------------------------------------
 var SnowFlake = function(center, spokes, radius, t) {
-	var flake = [],
-		spokes = (spokes < 4) ? 4 : spokes,
-		t = t || 1.0,
-		pt = 0.0,
-		it = 0.0,
-		iRadius = radius,
-		iMult = 0.518;
+    var flake = [],
+        spokes = (spokes < 4) ? 4 : spokes,
+        t = t || 1.0,
+        pt = 0.0,
+        it = 0.0,
+        iRadius = radius,
+        iMult = 0.518;
 
-	function initialize() {
-		var deg = 90;
-		var x, y;
-		for( var i=0; i<spokes; i++ ) {
-			// spokes
-			var s = new spoke(deg);
-			flake.push( s );
+    function initialize() {
+        var deg = 90;
+        var x, y;
+        for( var i=0; i<spokes; i++ ) {
+            // spokes
+            var s = new spoke(deg);
+            flake.push( s );
 
-			// prongs
-			if( t > 0.2 ) {
-				pt = paper.map(t, 0.2,1.0, 0.0,1.0);
-				var p = new prong(deg);
-				flake.push( p );
-			}
+            // prongs
+            if( t > 0.2 ) {
+                pt = paper.map(t, 0.2,1.0, 0.0,1.0);
+                var p = new prong(deg);
+                flake.push( p );
+            }
 
-			deg += 360/spokes;
-		}
+            deg += 360/spokes;
+        }
 
-		// inner structure
-		do {
-			it = t; //paper.map(t, 0.318,1.0, 0.2,1.0);
-			iRadius *= iMult;
-			iMult -= 0.1;
-			var sides = ( parseInt(spokes*t) < 4 ) ? 4 : parseInt(spokes*t);
+        // inner structure
+        do {
+            it = t; //paper.map(t, 0.318,1.0, 0.2,1.0);
+            iRadius *= iMult;
+            iMult -= 0.1;
+            var sides = ( parseInt(spokes*t) < 4 ) ? 4 : parseInt(spokes*t);
 
-			var inside = new Path.RegularPolygon(center, sides+1, iRadius*it);
-			inside.strokeWidth = 15;
-			inside.strokeCap = 'round';
-			inside.rotate( (360/spokes)*1.5, center );
-			flake.push( inside );
-		}
-		while( iRadius > 24 );
+            var inside = new Path.RegularPolygon(center, sides+1, iRadius*it);
+            inside.strokeWidth = 15;
+            inside.strokeCap = 'round';
+            inside.rotate( (360/spokes)*1.5, center );
+            flake.push( inside );
+        }
+        while( iRadius > 24 );
 
-		return new Group(flake);
-	};
+        return new Group(flake);
+    };
 
-	var spoke = function(deg) {
-		var mid = new Point(
-			center.x + radius * Math.cos( paper.radians(deg) ) * 0.5,
-			center.y + radius * Math.sin( paper.radians(deg) ) * 0.5
-		)
-		var end = new Point(
-			center.x + radius * Math.cos( paper.radians(deg) ),
-			center.y + radius * Math.sin( paper.radians(deg) )
-		)
-		var s = new Path.Line(
-			mid.interpolateTo(center, t),
-			mid.interpolateTo(end, t)
-		);
-		s.strokeWidth = 15;
-		s.strokeCap = 'round';
-		return s;
-	};
+    var spoke = function(deg) {
+        var mid = new Point(
+            center.x + radius * Math.cos( paper.radians(deg) ) * 0.5,
+            center.y + radius * Math.sin( paper.radians(deg) ) * 0.5
+        )
+        var end = new Point(
+            center.x + radius * Math.cos( paper.radians(deg) ),
+            center.y + radius * Math.sin( paper.radians(deg) )
+        )
+        var s = new Path.Line(
+            mid.interpolateTo(center, t),
+            mid.interpolateTo(end, t)
+        );
+        s.strokeWidth = 15;
+        s.strokeCap = 'round';
+        return s;
+    };
 
-	var prong = function(deg) {
-		var prongs = new Group();
-		var sta = new Point(
-			center.x + radius*0.618 * Math.cos( paper.radians(deg) ),
-			center.y + radius*0.618 * Math.sin( paper.radians(deg) )
-		);
+    var prong = function(deg) {
+        var prongs = new Group();
+        var sta = new Point(
+            center.x + radius*0.618 * Math.cos( paper.radians(deg) ),
+            center.y + radius*0.618 * Math.sin( paper.radians(deg) )
+        );
 
-		deg += (360/spokes)*0.3;
-		var end;
-		for( var i=0; i<2; i++ ) {
-			end = new Point(
-				center.x + (radius*0.8) * Math.cos( paper.radians(deg) ),
-				center.y + (radius*0.8) * Math.sin( paper.radians(deg) )
-			);
-			var p = new Path.Line(
-				sta,
-				sta.interpolateTo(end, pt)
-			);
-			p.strokeWidth = 15;
-			p.strokeCap = 'round';
-			prongs.appendTop(p);
+        deg += (360/spokes)*0.3;
+        var end;
+        for( var i=0; i<2; i++ ) {
+            end = new Point(
+                center.x + (radius*0.8) * Math.cos( paper.radians(deg) ),
+                center.y + (radius*0.8) * Math.sin( paper.radians(deg) )
+            );
+            var p = new Path.Line(
+                sta,
+                sta.interpolateTo(end, pt)
+            );
+            p.strokeWidth = 15;
+            p.strokeCap = 'round';
+            prongs.appendTop(p);
 
-			deg -= ((360/spokes)*0.3)*2;
-		}
+            deg -= ((360/spokes)*0.3)*2;
+        }
 
-		return prongs;
-	};
+        return prongs;
+    };
 
-	return initialize().rotate( 180/spokes );
+    return initialize().rotate( 180/spokes );
 };
 
 
@@ -209,7 +209,7 @@ var SnowFlake = function(center, spokes, radius, t) {
 // Events
 // ------------------------------------------------------------------------
 function onResize(event) {
-	view.size = event.size;
+    view.size = event.size;
 };
 
 

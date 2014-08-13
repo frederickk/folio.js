@@ -21,10 +21,10 @@
  *
  */
 String.prototype.trimStart = function() {
-	return this.replace(/^\s\s*/, '');
+    return this.replace(/^\s\s*/, '');
 };
 if (!String.prototype.trimLeft) {
-	String.prototype.trimLeft = String.prototype.trimStart;
+    String.prototype.trimLeft = String.prototype.trimStart;
 }
 
 /**
@@ -35,10 +35,10 @@ if (!String.prototype.trimLeft) {
  *
  */
 String.prototype.trimEnd = function() {
-	return this.replace(/\s\s*$/, '');
+    return this.replace(/\s\s*$/, '');
 };
 if (!String.prototype.trimRight) {
-	String.prototype.trimRight = String.prototype.trimEnd;
+    String.prototype.trimRight = String.prototype.trimEnd;
 }
 
 /**
@@ -49,9 +49,9 @@ if (!String.prototype.trimRight) {
  *
  */
 if (!String.prototype.trim) {
-  String.prototype.trim = function () {
-    return this.replace(/^\s+|\s+$/gm, '');
-  };
+    String.prototype.trim = function () {
+        return this.replace(/^\s+|\s+$/gm, '');
+    };
 }
 
 /**
@@ -61,11 +61,11 @@ if (!String.prototype.trim) {
  *
  */
 String.prototype.toBool = function() {
-	switch(this.toLowerCase()) {
-		case 'true': case 'yes': case '1': return true;
-		case 'false': case 'no': case '0': case null: return false;
-		default: return Boolean(this);
-	}
+    switch(this.toLowerCase()) {
+            case 'true': case 'yes': case '1': return true;
+            case 'false': case 'no': case '0': case null: return false;
+            default: return Boolean(this);
+    }
 };
 
 

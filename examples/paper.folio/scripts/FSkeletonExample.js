@@ -1,12 +1,12 @@
 console.log( 'FSkeleton Example Loaded' );
 /**
- *	FSkeleton Example
+ *  FSkeleton Example
  *
- *	Ken Frederick
- *	ken.frederick@gmx.de
+ *  Ken Frederick
+ *  ken.frederick@gmx.de
  *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
+ *  http://kennethfrederick.de/
+ *  http://blog.kennethfrederick.de/
  *
  *
  */
@@ -28,35 +28,35 @@ var group;
 // ------------------------------------------------------------------------
 function Setup() {
 
-	path = new Path();
+    path = new Path();
 
-	// import svg
-	svg = project.importSVG( document.getElementById('svg'), true );
+    // import svg
+    svg = project.importSVG( document.getElementById('svg'), true );
 
-	group = new Group( svg.children );
-	group.scale(2.0);
-	group.position = view.center;
+    group = new Group( svg.children );
+    group.scale(2.0);
+    group.position = view.center;
 
-	// the path(s) to skeletonize
-	for( var p=0; p<group.children.length; p++ ) {
-		var path = group.children[p];  //2 //3
-		path.fillColor = 'white'; //#00FFAB';
-		path.selected = true;
+    // the path(s) to skeletonize
+    for( var p=0; p<group.children.length; p++ ) {
+        var path = group.children[p];  //2 //3
+        path.fillColor = 'white'; //#00FFAB';
+        path.selected = true;
 
-		// remove original svg
-		svg.remove();
+        // remove original svg
+        svg.remove();
 
-		var centerline = new skeleton(path).get();
-		centerline.strokeColor = 'red';
-		console.log( centerline );
+        var centerline = new skeleton(path).get();
+        centerline.strokeColor = 'red';
+        console.log( centerline );
 
-		for( var i=0; i<path.segments.length; i++ ) {
-			var text = new PointText( path.segments[i].point );
-			text.justification = 'center';
-			text.fillColor = 'black';
-			text.content = i;
-		}
-	}
+        for( var i=0; i<path.segments.length; i++ ) {
+            var text = new PointText( path.segments[i].point );
+            text.justification = 'center';
+            text.fillColor = 'black';
+            text.content = i;
+        }
+    }
 };
 
 
@@ -87,7 +87,7 @@ function Draw() {
 // Events
 // ------------------------------------------------------------------------
 function onResize(event) {
-	view.size = event.size;
+    view.size = event.size;
 };
 
 // ------------------------------------------------------------------------

@@ -1,16 +1,16 @@
 console.log( 'The Debate Loaded' );
 /**
- *	FStepper Example
- *	The Debate
+ *  FStepper Example
+ *  The Debate
  *
- *	Ken Frederick
- *	ken.frederick@gmx.de
+ *  Ken Frederick
+ *  ken.frederick@gmx.de
  *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
+ *  http://kennethfrederick.de/
+ *  http://blog.kennethfrederick.de/
  *
  *
- *	A unending philosophical debate amongst the heavyweights
+ *  A unending philosophical debate amongst the heavyweights
  *
  */
 
@@ -27,11 +27,11 @@ var speakers = [];
 var size;
 
 var colors = {
-	black:	'#000000', // black
-	white:	'#FFFFFF', // white
-	red:	'#E94125', // red
-	blue:	'#00BFF2', // blue
-	yellow:	'#E9D800'  // yellow
+    black:  '#000000', // black
+    white:  '#FFFFFF', // white
+    red:    '#E94125', // red
+    blue:   '#00BFF2', // blue
+    yellow: '#E9D800'  // yellow
 };
 
 
@@ -46,8 +46,8 @@ var kantText = 'Therefore our experience and I assert that this is true stands i
 var husserlText = 'The whole of conscious life perchance stands in contrast to the accidental being for me of noetic acts. Yet it must not be overlooked that the cogitatum is a clarification of the striving for cogitationes. I have the reflection that the phenomenon is given continuously as an objective unity in a multi-form and changeable multiplicity of cogitationes which belong determinately to it. We see in advance that we have not simply lost philosophy for phenomenology we retain it by orienting noetic acts according to accrued insights. We now shift the weight of transcendental evidence of multiplicities of pure evidence from the ego to multiplicities of transcendental subjectivity. By virtue of my free epoche with respect to the being of the experienced world the momentous fact is that we now shift the weight of transcendental evidence of the epoche since the form belonging to a systematic order of scientific evidence is part of this idea from the ego to the phenomenological epoche. Yet it must not be overlooked that the repeatable act of grounding of multiplicities of the whole of conscious life becomes modalized also in correlation with multiplicities of an object. The fact is evident even apodictically evident that noematic descriptions stand in contrast to the accident being for me of by a freely actualizable return to noetic acts transcendental subjectivity. Multiplicities of the phenomenological epoche in the natural attitude are unified synthetically by conscious conversion into the corresponding modes of consciousness. We can be sure that modes of consciousness are unified synthetically. By immersing ourselves meditatively in the general intentions of what is itself given we discover that we now shift the weight of transcendental evidence of cogitationes from the reflecting ego to an infinite horizon of approximations. The fact is that the phenomenon mediately becomes modalized also in correlation with scientific evidence. I now shift the weight of transcendental evidence of separated modes of consciousness owing to the instability and ambiguity of noetic acts from the ego to separated modes of consciousness. Noematic descriptions stand in contrast to the accident being for me of experiences. The fundamental form of this universal synthesis becomes adjusted to the whole of conscious life. Cogitationes become adjusted to by conscious conversion into the corresponding multiplicities of transcendental phenomenology experiences. The stream of modes of consciousness becomes modalized also in correlation with noematic descriptions. It becomes evident that by a freely actualizable return to the cogitatum we must not let ourselves be frightened by considerations of the Objective world and experiences. We can be sure that multiplicities of cognition are precisely what make critical decisions about immanent time at all possible by reconciling with transcendental phenomenology.';
 
 var hitOptions = {
-	fill: true,
-	tolerance: 5
+    fill: true,
+    tolerance: 5
 };
 var swapColors = [];
 
@@ -57,133 +57,133 @@ var swapColors = [];
 // Setup
 // ------------------------------------------------------------------------
 function Setup() {
-	// set canvas background
-	paper.view.element.style.backgroundColor = 'rgb(255, 216, 0)';
+    // set canvas background
+    paper.view.element.style.backgroundColor = 'rgb(255, 216, 0)';
 
 
-	var typeSize;
-	if(view.bounds.width < 768) {
-		size = 150;
-		typeSize = 21;
-	}
-	else {
-		size = 300;
-		typeSize = 45;
-	}
+    var typeSize;
+    if(view.bounds.width < 768) {
+        size = 150;
+        typeSize = 21;
+    }
+    else {
+        size = 300;
+        typeSize = 45;
+    }
 
 
-	/*
-	 *
-	 *	Kant
-	 *
-	 */
-	Kant = new Speaker('Kant');
-	Kant.sprites = ['kant_left','kant_right'];
-	Kant.image = new Raster( Kant.sprites[1] );
-	Kant.image.position.y = view.bounds.height;
+    /*
+     *
+     *  Kant
+     *
+     */
+    Kant = new Speaker('Kant');
+    Kant.sprites = ['kant_left','kant_right'];
+    Kant.image = new Raster( Kant.sprites[1] );
+    Kant.image.position.y = view.bounds.height;
 
-	var th = Math.abs(((view.bounds.rightCenter.y+(size*0.25))+size/2)-(view.bounds.height-95));
-	Kant.bubble = new Path.FBubble(
-		new Point(view.bounds.rightCenter.x,view.bounds.rightCenter.y+(size*0.25)),
-		new Size(paper.randomInt(size*0.75,size*1.25),size),
-		new Size(size*0.13, th),
-		'RIGHT'
-	);
-	Kant.bubble.fillColor = colors.black;
-	Kant.bubble.strokeColor = colors.black;
+    var th = Math.abs(((view.bounds.rightCenter.y+(size*0.25))+size/2)-(view.bounds.height-95));
+    Kant.bubble = new Path.FBubble(
+        new Point(view.bounds.rightCenter.x,view.bounds.rightCenter.y+(size*0.25)),
+        new Size(paper.randomInt(size*0.75,size*1.25),size),
+        new Size(size*0.13, th),
+        'RIGHT'
+    );
+    Kant.bubble.fillColor = colors.black;
+    Kant.bubble.strokeColor = colors.black;
 
-	// content
-	Kant.text = new PointText( Kant.bubble.position );
-	Kant.text.justification = 'center';
-	Kant.text.characterStyle = {
-		font: 'Georgia',
-		fontSize: typeSize,
-		fillColor: colors.white
-	};
-	Kant.textIndex = 0;
+    // content
+    Kant.text = new PointText( Kant.bubble.position );
+    Kant.text.justification = 'center';
+    Kant.text.characterStyle = {
+        font: 'Georgia',
+        fontSize: typeSize,
+        fillColor: colors.white
+    };
+    Kant.textIndex = 0;
 
-	// text
-	Kant.paragraph = kantText.match( /[^\.!\?]+[\.!\?]+/g );
-	Kant.content = Kant.paragraph[ paper.randomInt(0,Kant.paragraph.length) ];
+    // text
+    Kant.paragraph = kantText.match( /[^\.!\?]+[\.!\?]+/g );
+    Kant.content = Kant.paragraph[ paper.randomInt(0,Kant.paragraph.length) ];
 
-	// FStepper
-	// based on sentence length
-	Kant.move = new ftime.FStepper();
-	Kant.move.setSeconds( Kant.content.split(' ').length*0.61 );
+    // FStepper
+    // based on sentence length
+    Kant.move = new ftime.FStepper();
+    Kant.move.setSeconds( Kant.content.split(' ').length*0.61 );
 
-	Kant.fade = new ftime.FStepper();
-	Kant.fade.setSeconds( 1 );
+    Kant.fade = new ftime.FStepper();
+    Kant.fade.setSeconds( 1 );
 
-	Kant.color = new ftime.FStepper();
-	Kant.color.setSeconds( 1 );
+    Kant.color = new ftime.FStepper();
+    Kant.color.setSeconds( 1 );
 
-	// push to array
-	speakers[0] = Kant;
-
-
-	/*
-	 *
-	 *	Husserl
-	 *
-	 */
-	Husserl = new Speaker('Husserl');
-	Husserl.sprites = ['husserl_left','husserl_right'];
-	Husserl.image = new Raster( Husserl.sprites[0] );
-	Husserl.image.position.y = view.bounds.height;
-
-	// bubble shape
-	var th = Math.abs(((view.bounds.leftCenter.y-(size*0.45))+size/2)-(view.bounds.height-95));
-	Husserl.bubble = new Path.FBubble(
-		new Point(view.bounds.leftCenter.x,view.bounds.leftCenter.y-size*0.45),
-		new Size(paper.randomInt(size*0.75,size*1.25),size),
-		new Size(size*0.13, th),
-		'LEFT'
-	);
-	Husserl.bubble.fillColor = colors.white;
-	Husserl.bubble.strokeColor = colors.white;
-
-	// content
-	Husserl.text = new PointText( Husserl.bubble.position );
-	Husserl.text.position.y -= typeSize*2.5;
-	Husserl.text.justification = 'center';
-	Husserl.text.characterStyle = {
-		font: 'Georgia',
-		fontSize: typeSize,
-		fillColor: colors.black
-	};
-	Husserl.textIndex = 0;
-
-	// text
-	Husserl.paragraph = husserlText.match( /[^\.!\?]+[\.!\?]+/g );
-	Husserl.content = Husserl.paragraph[ paper.randomInt(0,Husserl.paragraph.length) ];
-
-	// FStepper
-	// based on sentence length
-	Husserl.move = new ftime.FStepper();
-	Husserl.move.setSeconds( Husserl.content.split(' ').length*0.61 );
-
-	Husserl.fade = new ftime.FStepper();
-	Husserl.fade.setSeconds( 1 );
-
-	Husserl.color = new ftime.FStepper();
-	Husserl.color.setSeconds( 1 );
-
-	// push to array
-	speakers[1] = Husserl;
+    // push to array
+    speakers[0] = Kant;
 
 
+    /*
+     *
+     *  Husserl
+     *
+     */
+    Husserl = new Speaker('Husserl');
+    Husserl.sprites = ['husserl_left','husserl_right'];
+    Husserl.image = new Raster( Husserl.sprites[0] );
+    Husserl.image.position.y = view.bounds.height;
 
-	// Let's see who starts the 'debate'
-	// if( paper.randomInt(0,2) === 1 ) {
-		Kant.move.toggle();
-		// Kant.bubble.moveAbove( Husserl.bubble );
-		// Kant.text.moveAbove( Kant.bubble );
-	// }
-	// else {
-		Husserl.move.toggle();
-		// Husserl.bubble.moveAbove( Kant.bubble );
-		// Husserl.text.moveAbove( Husserl.bubble );
-	// }
+    // bubble shape
+    var th = Math.abs(((view.bounds.leftCenter.y-(size*0.45))+size/2)-(view.bounds.height-95));
+    Husserl.bubble = new Path.FBubble(
+        new Point(view.bounds.leftCenter.x,view.bounds.leftCenter.y-size*0.45),
+        new Size(paper.randomInt(size*0.75,size*1.25),size),
+        new Size(size*0.13, th),
+        'LEFT'
+    );
+    Husserl.bubble.fillColor = colors.white;
+    Husserl.bubble.strokeColor = colors.white;
+
+    // content
+    Husserl.text = new PointText( Husserl.bubble.position );
+    Husserl.text.position.y -= typeSize*2.5;
+    Husserl.text.justification = 'center';
+    Husserl.text.characterStyle = {
+        font: 'Georgia',
+        fontSize: typeSize,
+        fillColor: colors.black
+    };
+    Husserl.textIndex = 0;
+
+    // text
+    Husserl.paragraph = husserlText.match( /[^\.!\?]+[\.!\?]+/g );
+    Husserl.content = Husserl.paragraph[ paper.randomInt(0,Husserl.paragraph.length) ];
+
+    // FStepper
+    // based on sentence length
+    Husserl.move = new ftime.FStepper();
+    Husserl.move.setSeconds( Husserl.content.split(' ').length*0.61 );
+
+    Husserl.fade = new ftime.FStepper();
+    Husserl.fade.setSeconds( 1 );
+
+    Husserl.color = new ftime.FStepper();
+    Husserl.color.setSeconds( 1 );
+
+    // push to array
+    speakers[1] = Husserl;
+
+
+
+    // Let's see who starts the 'debate'
+    // if( paper.randomInt(0,2) === 1 ) {
+        Kant.move.toggle();
+        // Kant.bubble.moveAbove( Husserl.bubble );
+        // Kant.text.moveAbove( Kant.bubble );
+    // }
+    // else {
+        Husserl.move.toggle();
+        // Husserl.bubble.moveAbove( Kant.bubble );
+        // Husserl.text.moveAbove( Husserl.bubble );
+    // }
 
 };
 
@@ -193,39 +193,39 @@ function Setup() {
 // Update
 // ------------------------------------------------------------------------
 function Update(event) {
-	var sway   = Math.sin(event.time * 8);
-	var bounce = Math.cos(event.time * 5) * 0.33;
+    var sway   = Math.sin(event.time * 8);
+    var bounce = Math.cos(event.time * 5) * 0.33;
 
-	for(var i=0; i<speakers.length; i++) {
-		var s = speakers[i];
-		s.move.update( event.time );
-		s.fade.update( event.time );
-		s.color.update( event.time );
+    for(var i=0; i<speakers.length; i++) {
+        var s = speakers[i];
+        s.move.update( event.time );
+        s.fade.update( event.time );
+        s.color.update( event.time );
 
-		var j = ((i-1) < 0) ? speakers.length-1 : 0;
-		if(s.move.isDone()) {
-			s.move.toggle();
-			s.content = s.paragraph[ paper.randomInt(0,s.paragraph.length) ];
+        var j = ((i-1) < 0) ? speakers.length-1 : 0;
+        if(s.move.isDone()) {
+            s.move.toggle();
+            s.content = s.paragraph[ paper.randomInt(0,s.paragraph.length) ];
 
-			var sj = speakers[j];
-			sj.bubble.moveAbove(s.bubble);
-			sj.text.moveAbove(sj.bubble);
-			sj.image.moveAbove(sj.bubble);
-		}
+            var sj = speakers[j];
+            sj.bubble.moveAbove(s.bubble);
+            sj.text.moveAbove(sj.bubble);
+            sj.image.moveAbove(sj.bubble);
+        }
 
-		console.log( s.move.counter() );
-		// s.image.source = s.sprites
-		s.image.position.x = s.bubble.segments[4].point.x;
+        console.log( s.move.counter() );
+        // s.image.source = s.sprites
+        s.image.position.x = s.bubble.segments[4].point.x;
 
-		if(!s.move.isDone()) {
-			s.image.position.y += bounce;
-			s.image.position.x += sway;
-		}
+        if(!s.move.isDone()) {
+            s.image.position.y += bounce;
+            s.image.position.x += sway;
+        }
 
-	}
+    }
 
 
-	Draw();
+    Draw();
 };
 
 
@@ -234,43 +234,43 @@ function Update(event) {
 // Draw
 // ------------------------------------------------------------------------
 function Draw() {
-	for(var i=0; i<speakers.length; i++) {
-		var s = speakers[i];
+    for(var i=0; i<speakers.length; i++) {
+        var s = speakers[i];
 
-		s.textPindex = s.textIndex;
+        s.textPindex = s.textIndex;
 
-		// text
-		var str = s.content;
-		var word = str.split(' ');
-		var d = s.move.delta();
+        // text
+        var str = s.content;
+        var word = str.split(' ');
+        var d = s.move.delta();
 
-		if( s.move.isOut ) s.textIndex = parseInt( Math.abs((d-1)*(word.length)) );
-		else s.textIndex = parseInt(d*word.length);
+        if( s.move.isOut ) s.textIndex = parseInt( Math.abs((d-1)*(word.length)) );
+        else s.textIndex = parseInt(d*word.length);
 
-		s.text.position.x = s.bubble.position.x;
-		s.text.content = word[ s.textIndex ];
+        s.text.position.x = s.bubble.position.x;
+        s.text.content = word[ s.textIndex ];
 
-		// bubble
-		var x;
-		if(i % 2 === 0) {
-			x = paper.interpolate(
-				view.bounds.leftCenter.x + s.bubble.bounds.width*0.66,
-				view.bounds.rightCenter.x - s.bubble.bounds.width*0.66,
-				s.move.delta()
-			);
-		}
-		else {
-			x = paper.interpolate(
-				view.bounds.rightCenter.x - s.bubble.bounds.width*0.66,
-				view.bounds.leftCenter.x + s.bubble.bounds.width*0.66,
-				s.move.delta()
-			);
-		}
-		s.bubble.position.x = x;
+        // bubble
+        var x;
+        if(i % 2 === 0) {
+            x = paper.interpolate(
+                view.bounds.leftCenter.x + s.bubble.bounds.width*0.66,
+                view.bounds.rightCenter.x - s.bubble.bounds.width*0.66,
+                s.move.delta()
+            );
+        }
+        else {
+            x = paper.interpolate(
+                view.bounds.rightCenter.x - s.bubble.bounds.width*0.66,
+                view.bounds.leftCenter.x + s.bubble.bounds.width*0.66,
+                s.move.delta()
+            );
+        }
+        s.bubble.position.x = x;
 
-	}
+    }
 
-	//c.position = Kant.bubble.segments[4].point;
+    //c.position = Kant.bubble.segments[4].point;
 
 
 };
@@ -282,45 +282,45 @@ function Draw() {
 // ------------------------------------------------------------------------
 function reset() {
 
-	Kant.bubble.position = view.bounds.rightCenter;
-	Kant.bubble.position.y += Kant.bubble.bounds.height*0.25;
-	Kant.text.position = Kant.bubble.position;
-	Kant.image.position.y = view.bounds.height;
+    Kant.bubble.position = view.bounds.rightCenter;
+    Kant.bubble.position.y += Kant.bubble.bounds.height*0.25;
+    Kant.text.position = Kant.bubble.position;
+    Kant.image.position.y = view.bounds.height;
 
-	Husserl.bubble.position = view.bounds.leftCenter;
-	Husserl.bubble.position.y += -(Husserl.bubble.bounds.height*0.25)+((size*0.83)/2);
-	Husserl.text.position = Husserl.bubble.position;
-	Husserl.text.position.y -= (180/2);
-	Husserl.image.position.y = view.bounds.height;
+    Husserl.bubble.position = view.bounds.leftCenter;
+    Husserl.bubble.position.y += -(Husserl.bubble.bounds.height*0.25)+((size*0.83)/2);
+    Husserl.text.position = Husserl.bubble.position;
+    Husserl.text.position.y -= (180/2);
+    Husserl.image.position.y = view.bounds.height;
 
 };
 
 
 // ------------------------------------------------------------------------
 var Speaker = function(name) {
-	return {
-		name: name,
+    return {
+        name: name,
 
-		// face
-		sprites: [],
-		image: null,
+        // face
+        sprites: [],
+        image: null,
 
-		// FSteppers
-		move: null,
-		fade: null,
-		color: null,
+        // FSteppers
+        move: null,
+        fade: null,
+        color: null,
 
-		// bubble shape
-		bubble: null,
+        // bubble shape
+        bubble: null,
 
-		// content
-		paragraph: '',
-		content: '',
-		text: null,
+        // content
+        paragraph: '',
+        content: '',
+        text: null,
 
-		textIndex: 0,
-		textPindex: -1
-	}
+        textIndex: 0,
+        textPindex: -1
+    }
 };
 
 
@@ -330,10 +330,10 @@ var Speaker = function(name) {
 // Events
 // ------------------------------------------------------------------------
 function onResize(event) {
-	view.size = event.size;
+    view.size = event.size;
 
-	reset();
-	Draw();
+    reset();
+    Draw();
 };
 
 // ------------------------------------------------------------------------

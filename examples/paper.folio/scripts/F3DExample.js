@@ -1,15 +1,15 @@
 console.log( 'F3D Example Loaded' );
 /**
- *	F3D Example
+ *  F3D Example
  *
- *	Ken Frederick
- *	ken.frederick@gmx.de
+ *  Ken Frederick
+ *  ken.frederick@gmx.de
  *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
+ *  http://kennethfrederick.de/
+ *  http://blog.kennethfrederick.de/
  *
  *
- *	An example of creating a 3D field
+ *  An example of creating a 3D field
  *
  */
 
@@ -33,9 +33,9 @@ var path3 = [];
 // values for rotation
 var bRotate = false;
 var values = {
-	rotx:	0,
-	roty:	0,
-	rotz:	0
+    rotx:   0,
+    roty:   0,
+    rotz:   0
 };
 
 
@@ -44,52 +44,52 @@ var values = {
 // Setup
 // ------------------------------------------------------------------------
 function Setup() {
-	// set canvas background
-	paper.view.element.style.backgroundColor = 'rgb(18, 18, 18)'; //#121212
+    // set canvas background
+    paper.view.element.style.backgroundColor = 'rgb(18, 18, 18)'; //#121212
 
-	// required setup scene
-	// (optional parameters) width, height, focalLength, display mode
-	// 'ORTHO' is for isometric
-	// 'PERSPECTIVE' is the default mode
-	scene = new f3d.FScene3D();
-	scene.setup(view.bounds.width, view.bounds.height, 1000, 'PERSPECTIVE');
-
-
-	// top
-	// initiate the 3D path
-	path3[0] = new f3d.FPath3();
-	// add 3D points to this path
-	// FPoint3 takes 3 arguments (x, y, z)
-	path3[0].add3( new f3d.FPoint3(-100,	-100,	 100) );
-	path3[0].add3( new f3d.FPoint3( 100,	-100,	 100) );
-	path3[0].add3( new f3d.FPoint3( 100,	-100,	-100) );
-	path3[0].add3( new f3d.FPoint3(-100,	-100,	-100) );
-	// use FColor to give the field a random RGB color
-	path3[0].fillColor = new Color.random();
-	path3[0].closed = true;
-
-	// middle
-	path3[1] = new f3d.FPath3();
-	path3[1].add3( new f3d.FPoint3(-100,	0,	 100) );
-	path3[1].add3( new f3d.FPoint3( 100,	0,	 100) );
-	path3[1].add3( new f3d.FPoint3( 100,	0,	-100) );
-	path3[1].add3( new f3d.FPoint3(-100,	0,	-100) );
-	path3[1].fillColor = new Color.random();
-	path3[1].closed = true;
-
-	// bottom
-	path3[2] = new f3d.FPath3();
-	path3[2].add3( new f3d.FPoint3(-100,	100,	 100) );
-	path3[2].add3( new f3d.FPoint3( 100,	100,	 100) );
-	path3[2].add3( new f3d.FPoint3( 100,	100,	-100) );
-	path3[2].add3( new f3d.FPoint3(-100,	100,	-100) );
-	path3[2].fillColor = new Color.random();
-	path3[2].closed = true;
+    // required setup scene
+    // (optional parameters) width, height, focalLength, display mode
+    // 'ORTHO' is for isometric
+    // 'PERSPECTIVE' is the default mode
+    scene = new f3d.FScene3D();
+    scene.setup(view.bounds.width, view.bounds.height, 1000, 'PERSPECTIVE');
 
 
-	// important! FPath3 has to be added to the scene
-	// either as an array or individually
-	scene.addItem( path3 );
+    // top
+    // initiate the 3D path
+    path3[0] = new f3d.FPath3();
+    // add 3D points to this path
+    // FPoint3 takes 3 arguments (x, y, z)
+    path3[0].add3( new f3d.FPoint3(-100,    -100,    100) );
+    path3[0].add3( new f3d.FPoint3( 100,    -100,    100) );
+    path3[0].add3( new f3d.FPoint3( 100,    -100,   -100) );
+    path3[0].add3( new f3d.FPoint3(-100,    -100,   -100) );
+    // use FColor to give the field a random RGB color
+    path3[0].fillColor = new Color.random();
+    path3[0].closed = true;
+
+    // middle
+    path3[1] = new f3d.FPath3();
+    path3[1].add3( new f3d.FPoint3(-100,    0,   100) );
+    path3[1].add3( new f3d.FPoint3( 100,    0,   100) );
+    path3[1].add3( new f3d.FPoint3( 100,    0,  -100) );
+    path3[1].add3( new f3d.FPoint3(-100,    0,  -100) );
+    path3[1].fillColor = new Color.random();
+    path3[1].closed = true;
+
+    // bottom
+    path3[2] = new f3d.FPath3();
+    path3[2].add3( new f3d.FPoint3(-100,    100,     100) );
+    path3[2].add3( new f3d.FPoint3( 100,    100,     100) );
+    path3[2].add3( new f3d.FPoint3( 100,    100,    -100) );
+    path3[2].add3( new f3d.FPoint3(-100,    100,    -100) );
+    path3[2].fillColor = new Color.random();
+    path3[2].closed = true;
+
+
+    // important! FPath3 has to be added to the scene
+    // either as an array or individually
+    scene.addItem( path3 );
 };
 
 
@@ -98,13 +98,13 @@ function Setup() {
 // Update
 // ------------------------------------------------------------------------
 function Update(event) {
-	if(bRotate) {
-		values.rotx = 720.0 * ( (Math.sin(event.time * 2) + 1) / 15);
-		values.roty++;
-		values.rotz = 360.0 * ( (Math.cos(event.time * 2) + 1) / -30 );
+    if(bRotate) {
+        values.rotx = 720.0 * ( (Math.sin(event.time * 2) + 1) / 15);
+        values.roty++;
+        values.rotz = 360.0 * ( (Math.cos(event.time * 2) + 1) / -30 );
 
-		Draw();
-	}
+        Draw();
+    }
 };
 
 
@@ -113,16 +113,16 @@ function Update(event) {
 // Draw
 // ------------------------------------------------------------------------
 function Draw() {
-	// rotates all of the items in the scene
-	// TODO: be able to rotate individual items
-	scene.rotateX( paper.radians(values.rotx) );
-	scene.rotateY( paper.radians(values.roty) );
-	scene.rotateZ( paper.radians(values.rotz) );
+    // rotates all of the items in the scene
+    // TODO: be able to rotate individual items
+    scene.rotateX( paper.radians(values.rotx) );
+    scene.rotateY( paper.radians(values.roty) );
+    scene.rotateZ( paper.radians(values.rotz) );
 
-	// draw scene to screen
-	// the scene contains all paths (only FPath3 items) added to the scene
-	// the scene can have a scalar as well
-	scene.draw().scale(1);
+    // draw scene to screen
+    // the scene contains all paths (only FPath3 items) added to the scene
+    // the scene can have a scalar as well
+    scene.draw().scale(1);
 };
 
 
@@ -137,7 +137,7 @@ function Draw() {
 // Events
 // ------------------------------------------------------------------------
 function onResize(event) {
-	// view.size = event.size;
+    // view.size = event.size;
 };
 
 // ------------------------------------------------------------------------
@@ -151,23 +151,23 @@ function onMouseMove(event) {
 };
 
 function onMouseDrag(event) {
-	values.rotx = event.point.y;
-	values.roty = event.point.x;
-	// values.rotz = event.point.x - event.point.y;
+    values.rotx = event.point.y;
+    values.roty = event.point.x;
+    // values.rotz = event.point.x - event.point.y;
 
-	// redraw to update scene
-	Draw();
+    // redraw to update scene
+    Draw();
 };
 
 
 // ------------------------------------------------------------------------
 function onKeyDown(event) {
-	if(event.key == 'enter') {
-		bRotate = !bRotate;
-		values.rotx += 1;
-		values.roty += 1;
-		values.rotz += 1;
-	}
+    if(event.key == 'enter') {
+        bRotate = !bRotate;
+        values.rotx += 1;
+        values.roty += 1;
+        values.rotz += 1;
+    }
 };
 
 function onKeyUp(event) {

@@ -17,18 +17,18 @@
  *
  */
 Array.prototype.median = function() {
-	var type = Object.prototype.toString.call(this).split(/\W/)[2];
-	if( type === 'Array') {
-		var median = 0;
-		this.sort();
-		if(this.length % 2 === 0) {
-			median = (this[this.length / 2 - 1] + this[this.length / 2]) / 2;
-		}
-		else {
-			median = this[(this.length - 1) / 2];
-		}
-		return median;
-	}
+    var type = Object.prototype.toString.call(this).split(/\W/)[2];
+    if( type === 'Array') {
+        var median = 0;
+        this.sort();
+        if(this.length % 2 === 0) {
+            median = (this[this.length / 2 - 1] + this[this.length / 2]) / 2;
+        }
+        else {
+            median = this[(this.length - 1) / 2];
+        }
+        return median;
+    }
 };
 
 /**
@@ -38,14 +38,14 @@ Array.prototype.median = function() {
  *
  */
 Array.prototype.average = function(){
-	var type = Object.prototype.toString.call(this).split(/\W/)[2];
-	if( type === 'Array') {
-		var sum = 0;
-		for(var i=0; i<this.length, isFinite(this[i]); i++) {
-			sum += parseFloat(this[i]);
-		}
-		return sum/this.length-1;
-	}
+    var type = Object.prototype.toString.call(this).split(/\W/)[2];
+    if( type === 'Array') {
+        var sum = 0;
+        for(var i=0; i<this.length, isFinite(this[i]); i++) {
+            sum += parseFloat(this[i]);
+        }
+        return sum/this.length-1;
+    }
 };
 
 
@@ -53,63 +53,63 @@ Array.prototype.average = function(){
  * combines two Arrays
  *
  * @param {Array} arr
- *			Array object
+ *          Array object
  *
  * @return {Array} new merged Array object
  *
  */
 Array.prototype.merge = function(arr, bShuffle) {
-	var type = Object.prototype.toString.call(this).split(/\W/)[2];
-	if( type === 'Array') {
-		var output = this.concat(arr);
-		return output;
-	}
+    var type = Object.prototype.toString.call(this).split(/\W/)[2];
+    if( type === 'Array') {
+        var output = this.concat(arr);
+        return output;
+    }
 };
 
 /**
  *
  * @param {Number} start
- *			start position in array
+ *          start position in array
  * @param {Number} stop
- *			stop position in array
+ *          stop position in array
  *
  * @return {Number} index of maximum value within array
  *
  */
 Array.prototype.max = function(start, stop) {
-	start = (start != undefined)
-		? start
-		: 0;
-	stop = (stop != undefined)
-		? stop
-		: this.length;
-	var max = start;
+    start = (start != undefined)
+        ? start
+        : 0;
+    stop = (stop != undefined)
+        ? stop
+        : this.length;
+    var max = start;
 
-	for(var i=(start+1); i<stop; i++) if(this[i] > this[max]) max = i;
-	return max;
+    for(var i=(start+1); i<stop; i++) if(this[i] > this[max]) max = i;
+    return max;
 };
 
 /**
  *
  * @param {Number} start
- *			start position in array
+ *          start position in array
  * @param {Number} stop
- *			stop position in array
+ *          stop position in array
  *
  * @return {Number} index of minimum value within array
  *
  */
 Array.prototype.min = function(start, stop) {
-	start = (start != undefined)
-		? start
-		: 0;
-	stop = (stop != undefined)
-		? stop
-		: this.length;
-	var min = start;
+    start = (start != undefined)
+        ? start
+        : 0;
+    stop = (stop != undefined)
+        ? stop
+        : this.length;
+    var min = start;
 
-	for(var i=(start+1); i<stop; i++) if(this[i] < this[min]) min = i;
-	return min;
+    for(var i=(start+1); i<stop; i++) if(this[i] < this[min]) min = i;
+    return min;
 };
 
 /**
@@ -121,7 +121,7 @@ Array.prototype.min = function(start, stop) {
  *
  */
 Array.prototype.shuffle = function() {
-	for(var j, x, i=this.length; i; j=parseInt(Math.random() * i), x=this[--i], this[i]=this[j], this[j]=x);
+    for(var j, x, i=this.length; i; j=parseInt(Math.random() * i), x=this[--i], this[i]=this[j], this[j]=x);
 };
 
 /**
@@ -131,16 +131,16 @@ Array.prototype.shuffle = function() {
  *
  */
 Array.prototype.unique = function() {
-	var u = [];
-	o:for(var i=0, n=this.length; i<n; i++) {
-		for(var x=0, y=u.length; x<y; x++) {
-			if(u[x] == this[i]) {
-				continue o;
-			}
-		}
-		u[u.length] = this[i];
-	}
-	return u;
+    var u = [];
+    o:for(var i=0, n=this.length; i<n; i++) {
+        for(var x=0, y=u.length; x<y; x++) {
+            if(u[x] == this[i]) {
+                continue o;
+            }
+        }
+        u[u.length] = this[i];
+    }
+    return u;
 };
 
 /**
@@ -151,27 +151,27 @@ Array.prototype.unique = function() {
  *
  */
 Array.prototype.removeDuplicates = function() {
-	var type = Object.prototype.toString.call(this).split(/\W/)[2];
-	if( type === 'Array') {
-		return this.reduce(function(accum, cur) {
-			if(accum.indexOf(cur) === -1) accum.push(cur);
-			return accum;
-		}, [] );
-	}
+    var type = Object.prototype.toString.call(this).split(/\W/)[2];
+    if( type === 'Array') {
+        return this.reduce(function(accum, cur) {
+            if(accum.indexOf(cur) === -1) accum.push(cur);
+            return accum;
+        }, [] );
+    }
 };
 
 /**
  *
  * @param {Number} decimalPlaces
- * 		number of decimal places
+ *      number of decimal places
  *
  * @return {Array} original array with rounded values
  *
  */
 Array.prototype.round = function(decimalPlaces) {
-	var multi = Math.pow(10,decimalPlaces);
-	for(var i=0; i<this.length; i++) this[i] = Math.round(this[i] * multi)/multi;
-	return this;
+    var multi = Math.pow(10,decimalPlaces);
+    for(var i=0; i<this.length; i++) this[i] = Math.round(this[i] * multi)/multi;
+    return this;
 };
 
 
@@ -179,54 +179,54 @@ Array.prototype.round = function(decimalPlaces) {
 // TODO: integrate sorting methods in a much cleaner way
 var FSort = {
 
-	/**
-	 *
-	 * sort Array in alphabetical order
-	 *
-	 * http://www.brain4.de/programmierecke/js/arraySort.php
-	 *
-	 */
-	alphabetical: function(a, b) {
-		/*
-		var A = a.toLowerCase();
-		var B = b.toLowerCase();
+    /**
+     *
+     * sort Array in alphabetical order
+     *
+     * http://www.brain4.de/programmierecke/js/arraySort.php
+     *
+     */
+    alphabetical: function(a, b) {
+        /*
+        var A = a.toLowerCase();
+        var B = b.toLowerCase();
 
-		if(A < B) return -1;
-		else if(A > B) return  1;
-		else return 0;
-		*/
+        if(A < B) return -1;
+        else if(A > B) return  1;
+        else return 0;
+        */
 
-		a = a.toLowerCase();
-		a = a.replace(/ä/g,'a');
-		a = a.replace(/ö/g,'o');
-		a = a.replace(/ü/g,'u');
-		a = a.replace(/ß/g,'s');
+        a = a.toLowerCase();
+        a = a.replace(/ä/g,'a');
+        a = a.replace(/ö/g,'o');
+        a = a.replace(/ü/g,'u');
+        a = a.replace(/ß/g,'s');
 
-		b = b.toLowerCase();
-		b = b.replace(/ä/g,'a');
-		b = b.replace(/ö/g,'o');
-		b = b.replace(/ü/g,'u');
-		b = b.replace(/ß/g,'s');
+        b = b.toLowerCase();
+        b = b.replace(/ä/g,'a');
+        b = b.replace(/ö/g,'o');
+        b = b.replace(/ü/g,'u');
+        b = b.replace(/ß/g,'s');
 
-		return(a == b) ? 0 : (a>b) ? 1 : -1;
-	},
+        return(a == b) ? 0 : (a>b) ? 1 : -1;
+    },
 
-	/**
-	 *
-	 * sort array by distance of object from center of canvas
-	 *
-	 */
-	distanceToCenter: function(a, b) {
-		var valueA = a.getDistanceToCenter();
-		// console.log( valueA );
-		var valueB = b.getDistanceToCenter();
-		// console.log( valueB );
-		var comparisonValue = 0;
+    /**
+     *
+     * sort array by distance of object from center of canvas
+     *
+     */
+    distanceToCenter: function(a, b) {
+        var valueA = a.getDistanceToCenter();
+        // console.log( valueA );
+        var valueB = b.getDistanceToCenter();
+        // console.log( valueB );
+        var comparisonValue = 0;
 
-		if(valueA > valueB) comparisonValue = -1;
-		else if(valueA < valueB) comparisonValue = 1;
+        if(valueA > valueB) comparisonValue = -1;
+        else if(valueA < valueB) comparisonValue = 1;
 
-		return comparisonValue;
-	}
+        return comparisonValue;
+    }
 
 };

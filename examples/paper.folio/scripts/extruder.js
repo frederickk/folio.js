@@ -30,9 +30,9 @@ var extrusionsGroup;
 
 // values
 var values = {
-	color: null,
-	angle: null,
-	distance: null
+    color: null,
+    angle: null,
+    distance: null
 };
 
 
@@ -41,21 +41,21 @@ var values = {
 // Setup
 // ------------------------------------------------------------------------
 function Setup() {
-	// set canvas background
-	paper.view.element.style.backgroundColor = 'rgb(0, 255, 171)';
+    // set canvas background
+    paper.view.element.style.backgroundColor = 'rgb(0, 255, 171)';
 
-	// setup group for extrusion
-	extrusionsGroup = new Group();
+    // setup group for extrusion
+    extrusionsGroup = new Group();
 
-	// import svg
-	svg = project.importSVG( document.getElementById('svg'), true );
-	svg.fillColor = 'white';
+    // import svg
+    svg = project.importSVG( document.getElementById('svg'), true );
+    svg.fillColor = 'white';
 
-	type = new Group( svg.children );
-	type.position = view.center;
+    type = new Group( svg.children );
+    type.position = view.center;
 
-	// define type as children of svg
-	svg.remove();
+    // define type as children of svg
+    svg.remove();
 };
 
 
@@ -72,35 +72,35 @@ function Update(event) {
 // Draw
 // ------------------------------------------------------------------------
 function Draw() {
-	// get values from interface components
-	values.color = new Color( document.getElementById('color').value );
-	values.angle = parseFloat(document.getElementById('angle').value);
-	values.distance = parseFloat(document.getElementById('distance').value);
+    // get values from interface components
+    values.color = new Color( document.getElementById('color').value );
+    values.angle = parseFloat(document.getElementById('angle').value);
+    values.distance = parseFloat(document.getElementById('distance').value);
 
-	// setup extrusions group
-	extrusionsGroup.removeChildren();
+    // setup extrusions group
+    extrusionsGroup.removeChildren();
 
-	// draw the extrusion
-	var temp = type.clone();
-	for( var i=temp.children.length-1; i>=0; i-- ) {
-		var item = temp.children[i];
+    // draw the extrusion
+    var temp = type.clone();
+    for( var i=temp.children.length-1; i>=0; i-- ) {
+        var item = temp.children[i];
 
-		// calculate slope
-		var slope = paper.slope(
-			180+paper.map(i, 0,temp.children.length-1, 0,90)+values.angle,
-			values.distance
-		);
+        // calculate slope
+        var slope = paper.slope(
+            180+paper.map(i, 0,temp.children.length-1, 0,90)+values.angle,
+            values.distance
+        );
 
-		// extrude
-		var e = Extrude(item, slope);
-		e.fillColor = values.color;
+        // extrude
+        var e = Extrude(item, slope);
+        e.fillColor = values.color;
 
-		// add to group
-		extrusionsGroup.appendTop(e);
-	}
-	temp.remove();
+        // add to group
+        extrusionsGroup.appendTop(e);
+    }
+    temp.remove();
 
-	type.moveAbove( extrusionsGroup );
+    type.moveAbove( extrusionsGroup );
 
 };
 
@@ -113,93 +113,93 @@ function Draw() {
  * Extrudes shapes
  *
  * @param {Item} item
- *			the item to generate extrude
+ *          the item to generate extrude
  * @param {Point} slope
- *			the direction and length of extrusion
+ *          the direction and length of extrusion
  *
  * @return {Group} the extrusion path
  *
  */
 function Extrude(item, slope) {
-	//
-	// Properties
-	//
-	var extrusion = new Group();
+    //
+    // Properties
+    //
+    var extrusion = new Group();
 
 
-	//
-	// Methods
-	//
-	function initialize(item) {
-		var item = toPath(item).toGroup();
-		if( item.hasChildren() ) {
-			for( var i=item.children.length-1; i>=0; i-- ) {
-				var child = item.children[i];
-				initialize(child);
-			}
-		}
-		else {
-			var backFace = item.clone();
-			backFace.translate(new Point( slope ));
+    //
+    // Methods
+    //
+    function initialize(item) {
+        var item = toPath(item).toGroup();
+        if( item.hasChildren() ) {
+            for( var i=item.children.length-1; i>=0; i-- ) {
+                var child = item.children[i];
+                initialize(child);
+            }
+        }
+        else {
+            var backFace = item.clone();
+            backFace.translate(new Point( slope ));
 
-			var path = fromCurves(item, backFace)
-			extrusion.appendBottom( path );
+            var path = fromCurves(item, backFace)
+            extrusion.appendBottom( path );
 
-			item.remove();
-			backFace.remove();
-		}
+            item.remove();
+            backFace.remove();
+        }
 
-		return extrusion;
-	};
+        return extrusion;
+    };
 
-	function fromCurves(item1, item2) {
-		var group = new Group();
-		var step = 3;
+    function fromCurves(item1, item2) {
+        var group = new Group();
+        var step = 3;
 
-		var path = new Path();
-		for( var i=0; i<item1.curves.length; i++ ) {
-			var curve1 = item1.curves[i];
-			var curve2 = item2.curves[i];
+        var path = new Path();
+        for( var i=0; i<item1.curves.length; i++ ) {
+            var curve1 = item1.curves[i];
+            var curve2 = item2.curves[i];
 
-			for ( var j=0; j<=curve1.length; j+=step ) {
-				// create a series of path items similar to QuadStrip
-				var opt1 = curve1.getLocationAt(j).point;
-				var opt2 = curve1.getLocationAt(j+step).point;
+            for ( var j=0; j<=curve1.length; j+=step ) {
+                // create a series of path items similar to QuadStrip
+                var opt1 = curve1.getLocationAt(j).point;
+                var opt2 = curve1.getLocationAt(j+step).point;
 
-				var copt1 = curve2.getLocationAt(j).point;
-				var copt2 = curve2.getLocationAt(j+step).point;
+                var copt1 = curve2.getLocationAt(j).point;
+                var copt2 = curve2.getLocationAt(j+step).point;
 
-				path = new Path(
-					new Segment( opt1 ),
-					new Segment( opt2 ),
-					new Segment( copt2 ),
-					new Segment( copt1 )
-				);
-				path.closed = true;
-				path.strokeCap = 'round';
-				path.strokeWidth = step;
+                path = new Path(
+                    new Segment( opt1 ),
+                    new Segment( opt2 ),
+                    new Segment( copt2 ),
+                    new Segment( copt1 )
+                );
+                path.closed = true;
+                path.strokeCap = 'round';
+                path.strokeWidth = step;
 
-				group.appendBottom( path );
-			}
+                group.appendBottom( path );
+            }
 
-		}
-		return group;
-	};
+        }
+        return group;
+    };
 
-	function toPath(item) {
-		if( item.shape != undefined) {
-			return (item.shape == 'rectangle')
-				? new Path.Rectangle(item)
-				: new Path.Ellipse(item);
-		}
-		else {
-			return item;
-		}
-	};
+    function toPath(item) {
+        if( item.shape != undefined) {
+            return (item.shape == 'rectangle')
+                ? new Path.Rectangle(item)
+                : new Path.Ellipse(item);
+        }
+        else {
+            return item;
+        }
+    };
 
 
-	// ------------------------------------------------------------------------
-	return initialize(item);
+    // ------------------------------------------------------------------------
+    return initialize(item);
 };
 
 
@@ -208,7 +208,7 @@ function Extrude(item, slope) {
 // Events
 // ------------------------------------------------------------------------
 function onResize(event) {
-	view.size = event.size;
+    view.size = event.size;
 };
 
 // ------------------------------------------------------------------------
@@ -221,10 +221,10 @@ function onMouseDown(event) {
 
 // ------------------------------------------------------------------------
 function onMouseMove(event) {
-	document.getElementById('distance').value = parseInt(event.point.getDistanceToCenter()/2);
-	document.getElementById('angle').value = parseInt(paper.degrees( event.point.getAngle(view.center) ));
+    document.getElementById('distance').value = parseInt(event.point.getDistanceToCenter()/2);
+    document.getElementById('angle').value = parseInt(paper.degrees( event.point.getAngle(view.center) ));
 
-	Draw();
+    Draw();
 };
 
 // ------------------------------------------------------------------------

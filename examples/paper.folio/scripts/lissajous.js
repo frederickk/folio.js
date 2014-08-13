@@ -1,12 +1,12 @@
 console.log( 'Lissajous Loaded' );
 /**
- *	Lissajous
+ *  Lissajous
  *
- *	Ken Frederick
- *	ken.frederick@gmx.de
+ *  Ken Frederick
+ *  ken.frederick@gmx.de
  *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
+ *  http://kennethfrederick.de/
+ *  http://blog.kennethfrederick.de/
  *
  */
 
@@ -27,25 +27,25 @@ var bAnimate = false;
 
 // values
 var values = {
-	bAlternate:		false,
-	bBlend:			true,
+    bAlternate:     false,
+    bBlend:         true,
 
-	periodAngle:	null,
+    periodAngle:    null,
 
-	frequencyX:	null,
-	frequencyY:	null,
+    frequencyX: null,
+    frequencyY: null,
 
-	widthSta:		null,
-	widthEnd:		null,
+    widthSta:       null,
+    widthEnd:       null,
 
-	colSta:			null,
-	colEnd:			null,
+    colSta:         null,
+    colEnd:         null,
 
-	opacSta:		null,
-	opacEnd:		null,
+    opacSta:        null,
+    opacEnd:        null,
 
-	width:			250,
-	height:			250
+    width:          250,
+    height:         250
 };
 
 
@@ -54,15 +54,15 @@ var values = {
 // Setup
 // ------------------------------------------------------------------------
 function Setup() {
-	values.width = view.bounds.width/4;
-	values.height = view.bounds.height/4;
+    values.width = view.bounds.width/4;
+    values.height = view.bounds.height/4;
 
-	factor = new Point();
-	frequency = new Point();
-	frequencyTemp = new Point();
+    factor = new Point();
+    frequency = new Point();
+    frequencyTemp = new Point();
 
-	// parameters
-	setParameters();
+    // parameters
+    setParameters();
 };
 
 
@@ -71,24 +71,24 @@ function Setup() {
 // Update
 // ------------------------------------------------------------------------
 function Update(event) {
-	if(bAnimate) {
-		values.periodAngle += 1;
-		values.frequencyX *= 1.05;
-		values.frequencyY *= 1.1;
+    if(bAnimate) {
+        values.periodAngle += 1;
+        values.frequencyX *= 1.05;
+        values.frequencyY *= 1.1;
 
-		values.widthSta += 0.05;
-		values.widthEnd += 0.1;
+        values.widthSta += 0.05;
+        values.widthEnd += 0.1;
 
-		document.getElementById('periodAngle').value = f.round(values.periodAngle,1);
+        document.getElementById('periodAngle').value = f.round(values.periodAngle,1);
 
-		document.getElementById('frequencyX').value =  f.round(values.frequencyX,1);
-		document.getElementById('frequencyY').value =  f.round(values.frequencyY,1);
+        document.getElementById('frequencyX').value =  f.round(values.frequencyX,1);
+        document.getElementById('frequencyY').value =  f.round(values.frequencyY,1);
 
-		document.getElementById('widthSta').value =  f.round(values.widthSta,1);
-		document.getElementById('widthEnd').value =  f.round(values.widthEnd,1);
+        document.getElementById('widthSta').value =  f.round(values.widthSta,1);
+        document.getElementById('widthEnd').value =  f.round(values.widthEnd,1);
 
-		Draw();
-	}
+        Draw();
+    }
 };
 
 
@@ -97,15 +97,15 @@ function Update(event) {
 // Draw
 // ------------------------------------------------------------------------
 function Draw() {
-	// remove previous curve
-	if( lb ) lb.remove();
+    // remove previous curve
+    if( lb ) lb.remove();
 
-	// lissajous curve
-	lb = new lissajousBezier(frequency, factor, radians(values.periodAngle));
-	lb.translate( new Point(
-		view.bounds.width/2,
-		view.bounds.height/2)
-	);
+    // lissajous curve
+    lb = new lissajousBezier(frequency, factor, radians(values.periodAngle));
+    lb.translate( new Point(
+        view.bounds.width/2,
+        view.bounds.height/2)
+    );
 };
 
 
@@ -114,192 +114,192 @@ function Draw() {
 // Methods
 // ------------------------------------------------------------------------
 function setParameters() {
-	// gather values from form fields
-	// set period angle
-	values.periodAngle = parseFloat( document.getElementById('periodAngle').value );
+    // gather values from form fields
+    // set period angle
+    values.periodAngle = parseFloat( document.getElementById('periodAngle').value );
 
-	// set frequency
-	values.frequencyX = parseFloat( document.getElementById('frequencyX').value );
-	values.frequencyY = parseFloat( document.getElementById('frequencyY').value );
+    // set frequency
+    values.frequencyX = parseFloat( document.getElementById('frequencyX').value );
+    values.frequencyY = parseFloat( document.getElementById('frequencyY').value );
 
-	// set colors
-	values.widthSta = parseFloat( document.getElementById('widthSta').value );
-	values.widthEnd = parseFloat( document.getElementById('widthEnd').value );
+    // set colors
+    values.widthSta = parseFloat( document.getElementById('widthSta').value );
+    values.widthEnd = parseFloat( document.getElementById('widthEnd').value );
 
-	// set colors
-	values.colSta = new Color( document.getElementById('colSta').value );
-	values.colEnd = new Color( document.getElementById('colEnd').value );
+    // set colors
+    values.colSta = new Color( document.getElementById('colSta').value );
+    values.colEnd = new Color( document.getElementById('colEnd').value );
 
-	// set opacity
-	values.opacSta = parseFloat( document.getElementById('opacSta').value );
-	values.opacEnd = parseFloat( document.getElementById('opacEnd').value );
+    // set opacity
+    values.opacSta = parseFloat( document.getElementById('opacSta').value );
+    values.opacEnd = parseFloat( document.getElementById('opacEnd').value );
 
 
-	// set frequency
-	// update the current iteration
-	if(frequency.x != frequencyTemp.x) frequency.x = frequency.x;
-	else frequency.x = values.frequencyX;
-	if(frequency.y != frequencyTemp.y) frequency.y = frequency.y;
-	else frequency.y = values.frequencyY;
+    // set frequency
+    // update the current iteration
+    if(frequency.x != frequencyTemp.x) frequency.x = frequency.x;
+    else frequency.x = values.frequencyX;
+    if(frequency.y != frequencyTemp.y) frequency.y = frequency.y;
+    else frequency.y = values.frequencyY;
 
-	frequencyTemp.x = values.frequencyX;
-	frequencyTemp.y = values.frequencyY;
+    frequencyTemp.x = values.frequencyX;
+    frequencyTemp.y = values.frequencyY;
 
-	// set size
-	factor.x = values.width;
-	factor.y = values.height;
+    // set size
+    factor.x = values.width;
+    factor.y = values.height;
 
-	// update draw
-	if(lb != null) Draw();
+    // update draw
+    if(lb != null) Draw();
 };
 
 // ------------------------------------------------------------------------
 var lissajousBezier = function(frequency, scale, periodAngleRads, stepRads) {
-	/*
-	 *	set defaults
-	 */
-	frequency		= (frequency === undefined) ? new Point(1,2) : frequency;
-	scale			= (scale === undefined) ? new Point(view.bounds.width,view.bounds.height) : scale;
-	stepRads		= (stepRads === undefined) ? radians(0.5) : stepRads;
-	periodAngleRads = (periodAngleRads === undefined) ? 180 : periodAngleRads;
+    /*
+     *  set defaults
+     */
+    frequency       = (frequency === undefined) ? new Point(1,2) : frequency;
+    scale           = (scale === undefined) ? new Point(view.bounds.width,view.bounds.height) : scale;
+    stepRads        = (stepRads === undefined) ? radians(0.5) : stepRads;
+    periodAngleRads = (periodAngleRads === undefined) ? 180 : periodAngleRads;
 
 
-	/*
-	 *	group of paths
-	 */
-	var group = new Group();
+    /*
+     *  group of paths
+     */
+    var group = new Group();
 
 
-	/*
-	 *	coordinates for creating curve
-	 */
-	var p1 = new Point(0,0);
-	var p2 = new Point(1,1);
-	var d1 = (frequency === undefined) ? new Point(0,0) : frequency;
-	var d2 = new Point(0,0);
+    /*
+     *  coordinates for creating curve
+     */
+    var p1 = new Point(0,0);
+    var p2 = new Point(1,1);
+    var d1 = (frequency === undefined) ? new Point(0,0) : frequency;
+    var d2 = new Point(0,0);
 
-	for(var angle=stepRads; angle<=(radians(360) + stepRads); angle+=stepRads) {
-		var from = p2.clone();
-		from.x *= scale.x;
-		from.y *= scale.y;
+    for(var angle=stepRads; angle<=(radians(360) + stepRads); angle+=stepRads) {
+        var from = p2.clone();
+        from.x *= scale.x;
+        from.y *= scale.y;
 
-		p2.x = Math.sin( angle*frequency.x + periodAngleRads );
-		p2.y = Math.sin( angle*frequency.y );
+        p2.x = Math.sin( angle*frequency.x + periodAngleRads );
+        p2.y = Math.sin( angle*frequency.y );
 
-		d2.x = frequency.x * Math.cos( angle*frequency.x + periodAngleRads );
-		d2.y = frequency.y * Math.cos( angle*frequency.y );
+        d2.x = frequency.x * Math.cos( angle*frequency.x + periodAngleRads );
+        d2.y = frequency.y * Math.cos( angle*frequency.y );
 
-		var delta = d1.cross(d2);
-
-
-		/*
-		 *	path segment of curve
-		 */
-		var lpath = new Path();
-		lpath.strokeCap = 'round';
-		lpath.strokeJoin = 'round';
-		lpath.add(from);
-
-		// handle
-		var handle = new Point(
-			( ( p2.cross(d2) ) * d1.x-( p1.cross(d1) ) * d2.x ) / delta,
-			( ( p2.cross(d2) ) * d1.y-( p1.cross(d1) ) * d2.y ) / delta
-		);
-		handle.x *= scale.x;
-		handle.y *= scale.y;
-
-		// next point (to)
-		var to = p2.clone();
-		to.x *= scale.x;
-		to.y *= scale.y;
-
-		// tolerance of allowance for handles
-		// hack to control a glitch in handle calculation
-		var tolerance = new Point(
-			scale.x * 0.1,
-			scale.y * 0.1
-		);
-
-		if( Math.abs(delta) > 0.1 && boundsCheck(handle, scale, tolerance) ) {
-			lpath.quadraticCurveTo(handle, to);
-		}
-		else {
-			lpath.add(to);
-		}
-
-		p1 = p2.clone();
-		d1 = d2.clone();
+        var delta = d1.cross(d2);
 
 
-		/*
-		 *	apply style parameters
-		 */
-		var n = norm(angle, stepRads,(radians(360) + stepRads));
+        /*
+         *  path segment of curve
+         */
+        var lpath = new Path();
+        lpath.strokeCap = 'round';
+        lpath.strokeJoin = 'round';
+        lpath.add(from);
 
-		// stroke width
-		var lweight = interpolate( values.widthSta, values.widthEnd, n );
-		lpath.strokeWidth = lweight;
+        // handle
+        var handle = new Point(
+            ( ( p2.cross(d2) ) * d1.x-( p1.cross(d1) ) * d2.x ) / delta,
+            ( ( p2.cross(d2) ) * d1.y-( p1.cross(d1) ) * d2.y ) / delta
+        );
+        handle.x *= scale.x;
+        handle.y *= scale.y;
 
-		// stroke color
-		if( values.bBlend ) {
-			var lcol = interpolateColor( values.colSta, values.colEnd, n );
-			lpath.strokeColor = lcol;
-		}
-		if( values.bAlternate) {
-			if( parseInt(n*100) % 2 == 0 ) lpath.strokeColor = values.colSta;
-			else lpath.strokeColor = values.colEnd;
-		}
-		lpath.fillColor = null;
+        // next point (to)
+        var to = p2.clone();
+        to.x *= scale.x;
+        to.y *= scale.y;
 
-		// stroke opacity
-		var lopacity = interpolate( values.opacSta, values.opacEnd, n );
-		lpath.opacity = lopacity/100;
+        // tolerance of allowance for handles
+        // hack to control a glitch in handle calculation
+        var tolerance = new Point(
+            scale.x * 0.1,
+            scale.y * 0.1
+        );
+
+        if( Math.abs(delta) > 0.1 && boundsCheck(handle, scale, tolerance) ) {
+            lpath.quadraticCurveTo(handle, to);
+        }
+        else {
+            lpath.add(to);
+        }
+
+        p1 = p2.clone();
+        d1 = d2.clone();
 
 
-		/*
-		 *	add path to group
-		 */
-		group.appendTop(lpath);
-	}
-	if(group.children[0] != undefined) group.firstChild.remove();
+        /*
+         *  apply style parameters
+         */
+        var n = norm(angle, stepRads,(radians(360) + stepRads));
 
-	return group;
+        // stroke width
+        var lweight = interpolate( values.widthSta, values.widthEnd, n );
+        lpath.strokeWidth = lweight;
+
+        // stroke color
+        if( values.bBlend ) {
+            var lcol = interpolateColor( values.colSta, values.colEnd, n );
+            lpath.strokeColor = lcol;
+        }
+        if( values.bAlternate) {
+            if( parseInt(n*100) % 2 == 0 ) lpath.strokeColor = values.colSta;
+            else lpath.strokeColor = values.colEnd;
+        }
+        lpath.fillColor = null;
+
+        // stroke opacity
+        var lopacity = interpolate( values.opacSta, values.opacEnd, n );
+        lpath.opacity = lopacity/100;
+
+
+        /*
+         *  add path to group
+         */
+        group.appendTop(lpath);
+    }
+    if(group.children[0] != undefined) group.firstChild.remove();
+
+    return group;
 };
 
 // ------------------------------------------------------------------------
 function boundsCheck(pt1, pt2, tolerance) {
-	var brect = new Rectangle(
-		new Point(-(pt2.x+tolerance.x), -(pt2.y+tolerance.y)),
-		new Point(pt2.x+tolerance.x, pt2.y+tolerance.y)
-	);
-	return pt1.isInside(brect);
+    var brect = new Rectangle(
+        new Point(-(pt2.x+tolerance.x), -(pt2.y+tolerance.y)),
+        new Point(pt2.x+tolerance.x, pt2.y+tolerance.y)
+    );
+    return pt1.isInside(brect);
 };
 
 
 
 // ------------------------------------------------------------------------
 function radians(val) {
-	return val * (Math.PI/180);
+    return val * (Math.PI/180);
 };
 
 // ------------------------------------------------------------------------
 function norm(val,start,stop) {
-	return (val - start) / (stop - start);
+    return (val - start) / (stop - start);
 };
 function round(val, deci) {
-	var multi = Math.pow(10,deci);
-	return Math.round(val * multi)/multi;
+    var multi = Math.pow(10,deci);
+    return Math.round(val * multi)/multi;
 };
 
 // ------------------------------------------------------------------------
 function interpolate(start, stop, amt) {
-	return start + (stop-start) * amt;
+    return start + (stop-start) * amt;
 };
 function interpolateColor(c1,c2, amt) {
-	var arg0 = interpolate(c1.red,		c2.red,		amt);
-	var arg1 = interpolate(c1.green,	c2.green,	amt);
-	var arg2 = interpolate(c1.blue,	c2.blue,	amt);
-	return new paper.RGBColor(arg0, arg1, arg2);
+    var arg0 = interpolate(c1.red,      c2.red,     amt);
+    var arg1 = interpolate(c1.green,    c2.green,   amt);
+    var arg2 = interpolate(c1.blue, c2.blue,    amt);
+    return new paper.RGBColor(arg0, arg1, arg2);
 };
 
 
@@ -308,10 +308,10 @@ function interpolateColor(c1,c2, amt) {
 // Events
 // ------------------------------------------------------------------------
 function onResize(event) {
-	view.size = event.size;
+    view.size = event.size;
 
-	values.width = view.bounds.width/4;
-	values.height = view.bounds.height/4;
+    values.width = view.bounds.width/4;
+    values.height = view.bounds.height/4;
 };
 
 
@@ -329,22 +329,22 @@ function onMouseMove(event) {
 
 // ------------------------------------------------------------------------
 function onMouseDrag(event) {
-	if(Key.isDown('shift')) {
-		document.getElementById('periodAngle').value = parseInt(event.point.x/view.bounds.width * 360);
-		values.periodAngle = parseFloat( document.getElementById('periodAngle').value );
-	}
-	else {
-		frequency.x = (event.point.x/view.bounds.width * values.frequencyX);
-		frequency.y = (event.point.y/view.bounds.height * values.frequencyY);
-	}
+    if(Key.isDown('shift')) {
+        document.getElementById('periodAngle').value = parseInt(event.point.x/view.bounds.width * 360);
+        values.periodAngle = parseFloat( document.getElementById('periodAngle').value );
+    }
+    else {
+        frequency.x = (event.point.x/view.bounds.width * values.frequencyX);
+        frequency.y = (event.point.y/view.bounds.height * values.frequencyY);
+    }
 
-	Draw();
+    Draw();
 };
 
 
 // ------------------------------------------------------------------------
 function onKeyDown(event) {
-	if(event.key == 'enter') bAnimate =! bAnimate;
+    if(event.key == 'enter') bAnimate =! bAnimate;
 };
 
 // ------------------------------------------------------------------------

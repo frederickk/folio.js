@@ -1,12 +1,12 @@
 console.log( 'FIO Example Loaded' );
 /**
- *	FIO Example
+ *  FIO Example
  *
- *	Ken Frederick
- *	ken.frederick@gmx.de
+ *  Ken Frederick
+ *  ken.frederick@gmx.de
  *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
+ *  http://kennethfrederick.de/
+ *  http://blog.kennethfrederick.de/
  *
  *
  */
@@ -26,8 +26,8 @@ var fio = f.FIO;
 // ------------------------------------------------------------------------
 function Setup() {
 
-	var raster = new Raster('raster');
-	raster.position = view.center;
+    var raster = new Raster('raster');
+    raster.position = view.center;
 };
 
 
@@ -58,7 +58,7 @@ function Draw() {
 // Events
 // ------------------------------------------------------------------------
 function onResize(event) {
-	view.size = event.size;
+    view.size = event.size;
 };
 
 // ------------------------------------------------------------------------

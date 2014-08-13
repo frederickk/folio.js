@@ -1,15 +1,15 @@
-console.log( 'FDrop Example Loaded' );
+console.log( 'FDrip Example Loaded' );
 /**
- *	FDrop Example
+ *  FDrip Example
  *
- *	Ken Frederick
- *	ken.frederick@gmx.de
+ *  Ken Frederick
+ *  ken.frederick@gmx.de
  *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
+ *  http://kennethfrederick.de/
+ *  http://blog.kennethfrederick.de/
  *
  *
- *	An example of FDrop
+ *  An example of FDrip
  *
  */
 
@@ -33,44 +33,44 @@ var lastScale = 1.0;
 // Setup
 // ------------------------------------------------------------------------
 function Setup() {
-	// set canvas background
-	paper.view.element.style.backgroundColor = 'rgb(0, 178, 255)';
+    // set canvas background
+    paper.view.element.style.backgroundColor = 'rgb(0, 178, 255)';
 
-	group = new Group();
+    group = new Group();
 
-	// create pipe
-	var holeCenter = new Point( view.bounds.center.x,view.bounds.center.y-112 );
-	var pipe = new Path.FChain(
-		new Path.Circle(
-			holeCenter,
-			12
-		),
-		new Path.Circle(
-			new Point( holeCenter.x,holeCenter.y-27 ),
-			6
-		)
-	);
-	pipe.fillColor = new Color( 1.0, 1.0, 1.0 );
-	pipe.strokeColor = new Color( 1.0, 1.0, 1.0 );
-	pipe.strokeWidth = 6;
-	group.appendTop( pipe );
+    // create pipe
+    var holeCenter = new Point( view.bounds.center.x,view.bounds.center.y-112 );
+    var pipe = new Path.FChain(
+        new Path.Circle(
+            holeCenter,
+            12
+        ),
+        new Path.Circle(
+            new Point( holeCenter.x,holeCenter.y-27 ),
+            6
+        )
+    );
+    pipe.fillColor = new Color( 1.0, 1.0, 1.0 );
+    pipe.strokeColor = new Color( 1.0, 1.0, 1.0 );
+    pipe.strokeWidth = 6;
+    group.appendTop( pipe );
 
-	var hole = new Path.Circle(
-		holeCenter,
-		12
-	);
-	hole.fillColor = new Color( 0.0, 0.0, 0.0 );
-	group.appendTop( hole );
+    var hole = new Path.Circle(
+        holeCenter,
+        12
+    );
+    hole.fillColor = new Color( 0.0, 0.0, 0.0 );
+    group.appendTop( hole );
 
 
-	// create FDrop
-	drop = new Path.FDrop(
-		view.bounds.center,
-		100
-	);
-	// drop.bounds.topCenter = holeCenter;
-	drop.fillColor = new Color( 1.0, 1.0, 1.0 );
-	group.appendTop( drop );
+    // create FDrip
+    drop = new Path.FDrip(
+        view.bounds.center,
+        100
+    );
+    // drop.bounds.topCenter = holeCenter;
+    drop.fillColor = new Color( 1.0, 1.0, 1.0 );
+    group.appendTop( drop );
 
 };
 
@@ -80,7 +80,7 @@ function Setup() {
 // Update
 // ------------------------------------------------------------------------
 function Update(event) {
-	animateDrip(event);
+    animateDrip(event);
 };
 
 
@@ -89,7 +89,7 @@ function Update(event) {
 // Draw
 // ------------------------------------------------------------------------
 function Draw() {
-	group.position = view.bounds.center;
+    group.position = view.bounds.center;
 };
 
 
@@ -98,18 +98,18 @@ function Draw() {
 // Methods
 // ------------------------------------------------------------------------
 function animateDrip(event) {
-	if( scale < 1.0 ) {
-		scale += 0.02;
-	}
-	else {
-		scale = 1.0 + ((Math.sin(event.time * 2) + 1) / 30);
-	}
+    if( scale < 1.0 ) {
+        scale += 0.02;
+    }
+    else {
+        scale = 1.0 + ((Math.sin(event.time * 2) + 1) / 30);
+    }
 
-	drop.scale(
-		scale / lastScale,
-		drop.bounds.topCenter
-	);
-	lastScale = scale;
+    drop.scale(
+        scale / lastScale,
+        drop.bounds.topCenter
+    );
+    lastScale = scale;
 };
 
 
@@ -118,7 +118,7 @@ function animateDrip(event) {
 // Events
 // ------------------------------------------------------------------------
 function onResize(event) {
-	view.size = event.size;
+    view.size = event.size;
 };
 
 

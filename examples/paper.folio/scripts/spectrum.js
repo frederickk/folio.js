@@ -1,15 +1,15 @@
 console.log( 'Spectrum Loaded' );
 /**
- *	Spectrum
+ *  Spectrum
  *
- *	Ken Frederick
- *	ken.frederick@gmx.de
+ *  Ken Frederick
+ *  ken.frederick@gmx.de
  *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
+ *  http://kennethfrederick.de/
+ *  http://blog.kennethfrederick.de/
  *
  *
- *	An exmaple of blending colors using Color.interpolate
+ *  An exmaple of blending colors using Color.interpolate
  *
  */
 
@@ -45,19 +45,19 @@ var delta = 0.0;
 // ------------------------------------------------------------------------
 function Setup() {
 
-	// the spectrum
-	colors[0] = spectrumColors[0];
-	colors[1] = spectrumColors[1];
+    // the spectrum
+    colors[0] = spectrumColors[0];
+    colors[1] = spectrumColors[1];
 
-	spectrum = new GradientColor(
-		new Gradient([ colors[0], colors[1] ]),
-		view.bounds.topLeft,
-		view.bounds.bottomRight
-	);
+    spectrum = new GradientColor(
+        new Gradient([ colors[0], colors[1] ]),
+        view.bounds.topLeft,
+        view.bounds.bottomRight
+    );
 
-	// the container
-	path = new Path.Rectangle( new Point(0,0), view.bounds.size );
-	path.fillColor = spectrum;
+    // the container
+    path = new Path.Rectangle( new Point(0,0), view.bounds.size );
+    path.fillColor = spectrum;
 
 };
 
@@ -67,15 +67,15 @@ function Setup() {
 // Update
 // ------------------------------------------------------------------------
 function Update(event) {
-	if(delta > 1.0) {
-		index++;
-		delta = 0.0;
-	}
-	else {
-		delta += 0.01;
-	}
+    if(delta > 1.0) {
+        index++;
+        delta = 0.0;
+    }
+    else {
+        delta += 0.01;
+    }
 
-	Draw();
+    Draw();
 };
 
 
@@ -85,26 +85,26 @@ function Update(event) {
 // ------------------------------------------------------------------------
 function Draw() {
 
-	// update colors
-	colors[0] = new Color().interpolate(
-		spectrumColors[ index % 4 ],
-		spectrumColors[ (index+1) % 4 ],
-		delta
-	);
+    // update colors
+    colors[0] = new Color().interpolate(
+        spectrumColors[ index % 4 ],
+        spectrumColors[ (index+1) % 4 ],
+        delta
+    );
 
-	colors[1] = new Color().interpolate(
-		spectrumColors[ (index+1) % 4 ],
-		spectrumColors[ (index+2) % 4 ],
-		delta
-	);
+    colors[1] = new Color().interpolate(
+        spectrumColors[ (index+1) % 4 ],
+        spectrumColors[ (index+2) % 4 ],
+        delta
+    );
 
-	// update spectrum
-	spectrum = new GradientColor(
-		new Gradient([ colors[0], colors[1] ]),
-		path.bounds.topLeft,
-		path.bounds.bottomRight
-	);
-	path.fillColor = spectrum;
+    // update spectrum
+    spectrum = new GradientColor(
+        new Gradient([ colors[0], colors[1] ]),
+        path.bounds.topLeft,
+        path.bounds.bottomRight
+    );
+    path.fillColor = spectrum;
 
 };
 
@@ -120,7 +120,7 @@ function Draw() {
 // Events
 // ------------------------------------------------------------------------
 function onResize(event) {
-	view.size = event.size;
+    view.size = event.size;
 };
 
 // ------------------------------------------------------------------------
