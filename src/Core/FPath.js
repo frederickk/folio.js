@@ -32,26 +32,33 @@ paper.Item.inject({
 	// Methods
 	// -----------------------------------------------------------------------------
 	/**
+	 *
+	 * http://gmc.yoyogames.com/index.php?showtopic=290349
+	 *
 	 * @param {Size} spacing
-	 *			spacing.width  = the horizontal snapping value, width of the grid.
-	 *			spacing.height = the vertical snapping value, height of the grid.
+	 *			scale.width  = x scale of the grid.
+	 *			scale.height = y scale of the grid.
+	 * @param {Object} options
+	 *			{ grid: true }
+	 *			{ isometric: true }
+	 *
+	 * @return {Point} snapped Point
 	 *
 	 */
-	snapGrid: function(spacing) {
-		// this.position = pt;
-		this.position.snapGrid(spacing);
-	},
-
 	/**
-	 * snaps point to an isometric grid
 	 *
 	 * @param {Number} scale
-	 *			scale of the grid (1.0 = 32x16)
+	 *			scale of the grid
+	 * @param {Object} options
+	 *			{ grid: true }
+	 *			{ isometric: true }
+	 *
+	 * @return {Point} snapped Point
 	 *
 	 */
-	snapIso: function(scale) {
+	snap: function(scale, options) {
 		// this.position = pt;
-		this.position.snapIso(scale);
+		this.position.snap(scale, options);
 	},
 
 

@@ -14,10 +14,10 @@ var raster;
 
 /**
  * shim for using same code base for
- * both versions of folio.js
+ * both scriptographer and folio.js
  */
 var paper = PaperScope = global;
-
+var Color = RGBColor;
 
 
 /**

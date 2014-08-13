@@ -129,7 +129,27 @@ PaperScope.inject({
 			// break;
 		}
 		return path;
+	},
+
+
+	/**
+	 * Iterate through and array
+	 *
+	 * @param  {Array}    arr
+	 * @param  {Function} callback
+	 *
+	 * @return {boolean}
+	 *
+	 */
+	forEach: function(arr, callback) {
+		for (var i=0, len=arr.length; i<len; i++) {
+			if(callback(arr[i],i) === false) {
+				return false;
+			}
+		}
+		return true;
 	}
+
 
 });
 

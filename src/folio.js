@@ -60,7 +60,7 @@ if( canvases.length == 0 ) {
 	canvas.id = 'canvas';
 	canvas.width = '100%';
 	canvas.height = '100%';
-	canvas.style.backgroundColor = '#ffffff';
+	canvas.style.backgroundColor = 'rgba(255, 255, 255, 0.0)'; //#ffffff';
 	container.appendChild( canvas );
 }
 else {
@@ -107,6 +107,7 @@ window.onload = function() {
 		// TODO:	add a method which clears an "animation group" each frame
 		if(typeof Update === 'function') Update(event);
 		AnimateClear();
+		view.update();
 	};
 
 	view.onResize = function(event) {
@@ -183,4 +184,5 @@ window.onload = function() {
 
 	// ------------------------------------------------------------------------
 	console.log('Folio.js is go!');
+	resizeCanvas();
 };

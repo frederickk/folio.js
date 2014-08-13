@@ -86,7 +86,8 @@ folio.FTime.FStopwatch = function() {
 	 */
 	var set = function(ms, run) {
 		timeInMs = ms;
-		(run == true) ? bStart = 0 : bStart = 1;
+        bStart = (run) ? 0 : 1;
+		// (run == true) ? bStart = 0 : bStart = 1;
 
 		then = new Date();
 		then.setTime(then.getTime() - timeInMs);
@@ -117,7 +118,7 @@ folio.FTime.FStopwatch = function() {
 	 *
 	 */
 	var isRunning = function() {
-		return (bStart) ? true : false;
+		return (bStart === 0) ? true : false;
 	};
 
 

@@ -40,7 +40,6 @@ paper.Point.inject({
 	 *
 	 */
 	/**
-	 * snaps point to an isometric grid
 	 *
 	 * @param {Number} scale
 	 *			scale of the grid
@@ -52,15 +51,15 @@ paper.Point.inject({
 	 *
 	 */
 	snap: function(scale, options) {
-		options = (options != undefined)
+		var options = (options != undefined)
 			? options
 			: { grid: true, isometric: false };
-		scale = (scale.type == 'Size')
+		var scale = (scale.type === 'Size')
 			? scale
 			: new Size(scale,scale);
 
 		var ix, iy;
-		if (optons.isometric === true) {
+		if (options.isometric === true) {
 			ix = Math.round(this.y/(16*scale.height) - this.x/(32*scale.width));
 			iy = Math.round(this.y/(16*scale.height) + this.x/(16*scale.width));
 			this.x = (iy - ix)/2*(32*scale.width);

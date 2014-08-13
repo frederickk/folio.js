@@ -4,7 +4,7 @@
  * 0.7.1
  * https://github.com/frederickk/folio.js
  *
- * 24. February 2014
+ * 12. August 2014
  *
  * Ken Frederick
  * ken.frederick@gmx.de
@@ -61,10 +61,10 @@ var raster;
 
 /**
  * shim for using same code base for
- * both versions of folio.js
+ * both scriptographer and folio.js
  */
 var paper = PaperScope = global;
-
+var Color = RGBColor;
 
 
 /**
@@ -313,7 +313,27 @@ PaperScope.inject({
 			// break;
 		}
 		return path;
+	},
+
+
+	/**
+	 * Iterate through and array
+	 *
+	 * @param  {Array}    arr
+	 * @param  {Function} callback
+	 *
+	 * @return {boolean}
+	 *
+	 */
+	forEach: function(arr, callback) {
+		for (var i=0, len=arr.length; i<len; i++) {
+			if(callback(arr[i],i) === false) {
+				return false;
+			}
+		}
+		return true;
 	}
+
 
 });
 
@@ -1516,26 +1536,33 @@ paper.Item.inject({
 	// Methods
 	// -----------------------------------------------------------------------------
 	/**
+	 *
+	 * http://gmc.yoyogames.com/index.php?showtopic=290349
+	 *
 	 * @param {Size} spacing
-	 *			spacing.width  = the horizontal snapping value, width of the grid.
-	 *			spacing.height = the vertical snapping value, height of the grid.
+	 *			scale.width  = x scale of the grid.
+	 *			scale.height = y scale of the grid.
+	 * @param {Object} options
+	 *			{ grid: true }
+	 *			{ isometric: true }
+	 *
+	 * @return {Point} snapped Point
 	 *
 	 */
-	snapGrid: function(spacing) {
-		// this.position = pt;
-		this.position.snapGrid(spacing);
-	},
-
 	/**
-	 * snaps point to an isometric grid
 	 *
 	 * @param {Number} scale
-	 *			scale of the grid (1.0 = 32x16)
+	 *			scale of the grid
+	 * @param {Object} options
+	 *			{ grid: true }
+	 *			{ isometric: true }
+	 *
+	 * @return {Point} snapped Point
 	 *
 	 */
-	snapIso: function(scale) {
+	snap: function(scale, options) {
 		// this.position = pt;
-		this.position.snapIso(scale);
+		this.position.snap(scale, options);
 	},
 
 
@@ -2469,7 +2496,6 @@ paper.Point.inject({
 	 *
 	 */
 	/**
-	 * snaps point to an isometric grid
 	 *
 	 * @param {Number} scale
 	 *			scale of the grid
@@ -2481,15 +2507,15 @@ paper.Point.inject({
 	 *
 	 */
 	snap: function(scale, options) {
-		options = (options != undefined)
+		var options = (options != undefined)
 			? options
 			: { grid: true, isometric: false };
-		scale = (scale.type == 'Size')
+		var scale = (scale.type === 'Size')
 			? scale
 			: new Size(scale,scale);
 
 		var ix, iy;
-		if (optons.isometric === true) {
+		if (options.isometric === true) {
 			ix = Math.round(this.y/(16*scale.height) - this.x/(32*scale.width));
 			iy = Math.round(this.y/(16*scale.height) + this.x/(16*scale.width));
 			this.x = (iy - ix)/2*(32*scale.width);
@@ -3840,7 +3866,8 @@ folio.FTime.FStopwatch = function() {
 	 */
 	var set = function(ms, run) {
 		timeInMs = ms;
-		(run == true) ? bStart = 0 : bStart = 1;
+        bStart = (run) ? 0 : 1;
+		// (run == true) ? bStart = 0 : bStart = 1;
 
 		then = new Date();
 		then.setTime(then.getTime() - timeInMs);
@@ -3871,7 +3898,7 @@ folio.FTime.FStopwatch = function() {
 	 *
 	 */
 	var isRunning = function() {
-		return (bStart) ? true : false;
+		return (bStart === 0) ? true : false;
 	};
 
 
@@ -4185,6 +4212,109 @@ folio.FIO = {
 
 
 
+// /*
+//  * FASE
+//  *
+//  * Ken Frederick
+//  * ken.frederick@gmx.de
+//  *
+//  * http://kennethfrederick.de/
+//  * http://blog.kennethfrederick.de/
+//  *
+//  *
+//  *  a class to load ASE files
+//  *  code inspired and modified from the following
+//  *
+//  *  https://github.com/DanielWeber/kulerviewer/
+//  *  http://www.generative-gestaltung.de/
+//  *
+//  */
+
+
+// folio.FASE = function(filepath) {
+//     // -----------------------------------------------------------------------------
+//     // Properties
+//     // -----------------------------------------------------------------------------
+//     var filepath = filepath;
+
+//     var palette = [];
+//     var bVerbose = false;
+
+
+
+//     // -----------------------------------------------------------------------------
+//     // Methods
+//     // -----------------------------------------------------------------------------
+//     /**
+//      * @param {} filepath
+//      *          filepath of ASE file
+//      */
+//     function load(filepath) {
+//         parseASEFile(filepath);
+//     };
+
+//     //
+//     // load ASE
+//     // https://github.com/DanielWeber/kulerviewer/
+//     //
+//     function parseASEFile(filepath) {
+//         File ase = new File(filepath);
+//         FileInputStream inStream;
+//         ByteBuffer buf;
+
+//         try {
+//             inStream = new FileInputStream(ase);
+//             buf = ByteBuffer.allocate((int)inStream.getChannel().size() * 2);
+//             buf.order(ByteOrder.BIG_ENDIAN);
+//             inStream.getChannel().read(buf);
+
+//             buf.rewind();
+
+//             byte[] signature = new byte[4];
+//             byte[] expectedSignature = new byte[] { 'A', 'S', 'E', 'F' };
+//             buf.get(signature);
+//             if (!Arrays.equals(expectedSignature, signature)) {
+//                 throw new IOException("'" + ase.getAbsolutePath() + "' is not an .ase file. Signature does not match!");
+//             }
+//             /* int major = */    buf.getShort();
+//             /* int minor = */    buf.getShort();
+//             int noBlocks = buf.getInt();
+//             for( int i=0; i<noBlocks; ++i) {
+//                 readBlock(buf);
+//             }
+//         }
+//         catch(Exception e) {
+//             if(bVerbose) System.out.println(e);
+//         }
+//     };
+
+
+//     // -----------------------------------------------------------------------------
+//     //
+//     // Gets
+//     //
+
+//     /**
+//      * Get a color at index.
+//      * It does not matter if index is out of bounds, this function will just cycle.
+//      *
+//      * @param {Number} index
+//      *
+//      * @return {Number} Returns the color at the index position
+//      */
+//     /**
+//      *
+//      * @return {Array} Returns the colors as array
+//      */
+//     function get(index) {
+//         var len = palette.length;
+//         return (index != undefined)
+//         	? palette.get( index < 0 ? index % len + len : index % len )
+//         	: palette;
+//     };
+
+// };
+
 /*
  * FCirclePack
  *
@@ -4208,6 +4338,7 @@ folio.FIO = {
  * http://blog.kennethfrederick.de/
  *
  */
+
 
 /**
  * @param {Group} circleItems
@@ -4406,6 +4537,296 @@ folio.FCirclePack = function(circleItems, iterations) {
 	};
 
 };
+
+
+/*
+ * FDrop
+ *
+ * Ken Frederick
+ * ken.frederick@gmx.de
+ *
+ * http://kennethfrederick.de/
+ * http://blog.kennethfrederick.de/
+ *
+ */
+
+
+/**
+ * @param {Sring} element
+ *              (optional) HTML elemment for drop-target
+ *              by default the entire window is droppable
+ * @param {Array} options
+ *              (optional) options
+ *
+ */
+folio.FDrop = function(element, options) {
+    // -----------------------------------------------------------------------------
+    // Properties
+    // -----------------------------------------------------------------------------
+    var fileTypes = {
+        text:        /text.*/,
+        image:       /image.*/,
+        video:       /video.*/,
+        application: /application.*/
+    };
+    var FDropEvent = {
+        id:          '',
+
+        isImage:     false,
+        isVideo:     false,
+        isFile:      false,
+        isFileList:  false,
+        isDirectory: false,
+
+        filename:    '',
+        type:        '',
+        data:        '',
+        size:        0,
+        text:        '',
+        file:        '',
+        files:       []
+    };
+    var files, output;
+
+    // progress bar
+    var totalSize = totalLoad = 0;
+    var progressBar;
+
+    var bError = false;
+
+
+
+    // -----------------------------------------------------------------------------
+    // Methods
+    // -----------------------------------------------------------------------------
+    function init(element) {
+        // Check for the various File API support.
+        if (window.File && window.FileReader && window.FileList && window.Blob) {
+            function onDragEnterEvent(event) {
+                event.stopPropagation();
+                event.preventDefault();
+            };
+
+            function onDragOverEvent(event) {
+                event.stopPropagation();
+                event.preventDefault();
+                event.dataTransfer.dropEffect = 'copy';
+            };
+
+            function onDropEvent(event) {
+                event.stopPropagation();
+                event.preventDefault();
+                setFiles(event.dataTransfer.files);
+            };
+
+            function onDrop(event) {
+            };
+
+            // by default the entire window is droppable
+            element = element || document.body;
+            element.addEventListener('dragenter', onDragEnterEvent, false);
+            element.addEventListener('dragover',  onDragOverEvent, false);
+            element.addEventListener('drop',      onDropEvent, false);
+            element.addEventListener('ondrop',    onDrop, false);
+        }
+        else {
+            alert('Drag and drop is not fully supported in this browser.');
+        }
+    };
+
+    // -----------------------------------------------------------------------------
+    function handleFile(file, obj) {
+        handleImage(file, obj);
+        // handleVideo(file, obj);
+        handleText(file, obj);
+        handleGeneric(file, obj);
+
+        if ( bError ) {
+            // an error means most likely a directory
+            obj.isDirectory = true;
+        }
+    };
+
+    function handleFiles(files) {
+        if (files.length > 1) {
+            output = [];
+            for (var i=0; i<files.length; i++) {
+                var f = files[i];
+                output.push( Object.create(FDropEvent) );
+                output[i].id = element.id;
+                output[i].isFileList = true;
+                output[i].filename = f.name;
+                output[i].size = f.size;
+                output[i].files.push( f.name );
+                handleFile(f, output[i]);
+            }
+        }
+        else {
+            output = Object.create(FDropEvent);
+            output.id = element.id;
+            output.filename = files.name;
+            output.size = files.size;
+            handleFile(files, output);
+        }
+
+        return output;
+    };
+
+    function createProgressBar() {
+        progressBar = document.createElement('div');
+        progressBar.id = 'progressBar';
+        progressBar.style.position = 'absolute';
+        progressBar.style.top = '0px';
+        progressBar.style.left = '0px';
+        progressBar.style.width = '0px';
+        progressBar.style.height = '18px';
+        progressBar.style.background = 'rgba(0, 255, 170, 0.3)';
+        progressBar.style.color = 'rgba(255, 255, 255, 0.9)';
+        progressBar.style.paddingLeft = '6px';
+        progressBar.style.paddingTop = '3px';
+        progressBar.style.zIndex = '2000';
+
+        document.body.appendChild(progressBar);
+    };
+
+    // -----------------------------------------------------------------------------
+    function handleText(file, obj) {
+        // if (file.type.match(fileTypes.text)) {
+            var fileReader = new FileReader();
+            fileReader.onload = function(e) {
+                obj.text = fileReader.result;
+                obj.type = file.type;
+
+                obj.isFile = true;
+            };
+            // fileReader.onloadend = complete;
+            fileReader.onprogress = progress;
+            fileReader.onerror = error;
+            fileReader.readAsText(file);
+        // }
+    };
+
+    function handleImage(file, obj) {
+        if (file.type.match(fileTypes.image)) {
+            var fileReader = new FileReader();
+            fileReader.onload = function(e) {
+                var img = new Image();
+                img.src = fileReader.result;
+
+                obj.file = img;
+                obj.type = file.type;
+
+                obj.isImage = true;
+            };
+            // fileReader.onloadend = complete;
+            fileReader.onprogress = progress;
+            fileReader.onerror = error;
+            fileReader.readAsDataURL(file);
+        }
+    };
+
+    // function handleVideo(file, obj) {
+    //     if (file.type.match(fileTypes.video)) {
+    //         var fileReader = new FileReader();
+    //         fileReader.onload = function(e) {
+    //             obj.data = fileReader.result;
+    //             obj.type = file.type;
+
+    //             obj.isVideo = true;
+    //         };
+    //         // fileReader.onloadend = complete;
+    //         fileReader.onprogress = progress;
+    //         fileReader.onerror = error;
+    //         fileReader.readAsDataURL(file);
+    //     }
+    // };
+
+    function handleGeneric(file, obj) {
+        var fileReader = new FileReader();
+        fileReader.onload = function(e) {
+            obj.data = fileReader.result;
+            obj.type = file.type;
+        };
+        fileReader.onprogress = progress;
+        fileReader.onloadend = complete;
+        // fileReader.readAsDataURL(file);
+        fileReader.readAsBinaryString(file);
+    };
+
+    // -----------------------------------------------------------------------------
+
+    //
+    // Sets
+    //
+    /**
+     *
+     * @param {window.File} files
+     *              the dropped file/files to process
+     *
+     */
+    function setFiles(files) {
+        if (files != null) {
+            createProgressBar();
+
+            if ( files.length === 1 ) {
+                files = files[0];
+                totalSize = files.size;
+            }
+            else {
+                for (var i=0; i<files.length; i++) {
+                    totalSize += files[i].size;
+                }
+            }
+            return handleFiles(files);
+        }
+    };
+
+
+
+    // -----------------------------------------------------------------------------
+    // Events
+    // -----------------------------------------------------------------------------
+    function progress(event) {
+        totalLoad = Math.ceil((event.loaded / totalSize)*100);
+
+        progressBar.style.width = (totalLoad + '%').toString();
+        progressBar.innerHTML = (totalLoad + '%').toString();
+    };
+
+    function complete(event) {
+        if (totalLoad >= 98) {
+            onDrop(output);
+            document.body.removeChild(progressBar);
+        }
+    };
+
+    function error(event) {
+        bError = true;
+    };
+
+
+
+    // -----------------------------------------------------------------------------
+    // Instantiate
+    // -----------------------------------------------------------------------------
+    init(element);
+
+
+
+    // -----------------------------------------------------------------------------
+    // Methods
+    // -----------------------------------------------------------------------------
+    return {
+        target: element,
+        event:  output,
+
+        read: setFiles
+    };
+
+};
+
+
+
 
 
 /*
@@ -4974,6 +5395,120 @@ folio.FFlock = {
 };
 
 
+/*
+ * FNoise
+ *
+ * Ken Frederick
+ * ken.frederick@gmx.de
+ *
+ * http://kennethfrederick.de/
+ * http://blog.kennethfrederick.de/
+ *
+ */
+
+
+folio.FNoise = {
+     /**
+      * This is a port of Ken Perlin's Java code. The
+      * original Java code is at http://cs.nyu.edu/%7Eperlin/noise/
+      * http://asserttrue.blogspot.de/2011/12/perlin-noise-in-javascript_31.html
+      *
+      * @param  {Number} x  x-coordinate in noise space
+      * @param  {Number} y  y-coordinate in noise space (optional)
+      * @param  {Number} z  z-coordinate in noise space (optional)
+      *
+      * @return {Number}    a float between 0.0 and 1.0
+      *
+      */
+    perlin: function(x, y, z) {
+        //-----------------------------------------------------------------------------
+        // Properties
+        //-----------------------------------------------------------------------------
+        var x = x || 0;
+        var y = y || 0;
+        var z = z || 0;
+
+
+
+        //-----------------------------------------------------------------------------
+        // Methods
+        //-----------------------------------------------------------------------------
+        var init = function(x, y, z) {
+            var p = new Array(512)
+            var permutation = [151, 160, 137, 91, 90, 15, 131, 13, 201, 95, 96, 53, 194, 233, 7, 225, 140, 36, 103, 30, 69, 142, 8, 99, 37, 240, 21, 10, 23, 190, 6, 148, 247, 120, 234, 75, 0, 26, 197, 62, 94, 252, 219, 203, 117, 35, 11, 32, 57, 177, 33, 88, 237, 149, 56, 87, 174, 20, 125, 136, 171, 168, 68, 175, 74, 165, 71, 134, 139, 48, 27, 166, 77, 146, 158, 231, 83, 111, 229, 122, 60, 211, 133, 230, 220, 105, 92, 41, 55, 46, 245, 40, 244, 102, 143, 54, 65, 25, 63, 161, 1, 216, 80, 73, 209, 76, 132, 187, 208, 89, 18, 169, 200, 196, 135, 130, 116, 188, 159, 86, 164, 100, 109, 198, 173, 186, 3, 64, 52, 217, 226, 250, 124, 123, 5, 202, 38, 147, 118, 126, 255, 82, 85, 212, 207, 206, 59, 227, 47, 16, 58, 17, 182, 189, 28, 42, 223, 183, 170, 213, 119, 248, 152, 2, 44, 154, 163, 70, 221, 153, 101, 155, 167, 43, 172, 9, 129, 22, 39, 253, 19, 98, 108, 110, 79, 113, 224, 232, 178, 185, 112, 104, 218, 246, 97, 228, 251, 34, 242, 193, 238, 210, 144, 12, 191, 179, 162, 241, 81, 51, 145, 235, 249, 14, 239, 107, 49, 192, 214, 31, 181, 199, 106, 157, 184, 84, 204, 176, 115, 121, 50, 45, 127, 4, 150, 254, 138, 236, 205, 93, 222, 114, 67, 29, 24, 72, 243, 141, 128, 195, 78, 66, 215, 61, 156, 180];
+
+            for (var i = 0; i < 256; i++) {
+                p[256 + i] = p[i] = permutation[i];
+            }
+
+            var _x = Math.floor(x) & 255,
+                // find unit cube that...
+                _Y = Math.floor(y) & 255,
+                // contains point
+                _z = Math.floor(z) & 255;
+            x -= Math.floor(x); // find relative x, y, z...
+            y -= Math.floor(y); // of point in cube
+            z -= Math.floor(z);
+
+            var u = fade(x),
+                // compute fade curves...
+                v = fade(y),
+                // for each x, y, z
+                w = fade(z);
+
+            var A = p[_x] + _Y,
+                AA = p[A] + _z,
+                AB = p[A + 1] + _z,
+                // hash coordinates of...
+                B = p[_x + 1] + _Y,
+                BA = p[B] + _z,
+                BB = p[B + 1] + _z; // the 8 cube corners
+
+            return scale(
+                lerp(
+                    w, lerp(v, lerp(u, grad(p[AA], x, y, z), // and add..
+                    grad(p[BA], x - 1, y, z)), // blended...
+                    lerp(u, grad(p[AB], x, y - 1, z), // results...
+                    grad(p[BB], x - 1, y - 1, z))), // from 8...
+                    lerp(v, lerp(u, grad(p[AA + 1], x, y, z - 1), // corners...
+                        grad(p[BA + 1], x - 1, y, z - 1)), // of cube
+                        lerp(u, grad(p[AB + 1], x, y - 1, z - 1),
+                            grad(p[BB + 1], x - 1, y - 1, z - 1)
+                        )
+                    )
+                )
+            );
+        };
+
+
+        //-----------------------------------------------------------------------------
+        var fade = function(t) {
+            return t * t * t * (t * (t * 6 - 15) + 10);
+        };
+
+        var lerp = function(t, a, b) {
+            return a + t * (b - a);
+        };
+
+        var grad = function(hash, x, y, z) {
+            var h = hash & 15;
+            var u = h < 8 ? x : y,
+                v = h < 4 ? y : h == 12 || h == 14 ? x : z;
+            return ((h & 1) == 0 ? u : -u) + ((h & 2) == 0 ? v : -v);
+        };
+
+        var scale = function(n) {
+            return (1 + n) / 2;
+        };
+
+
+        //-----------------------------------------------------------------------------
+        return init(x, y, z);
+
+    }
+
+
+};
 /*
  * FRoute
  *
