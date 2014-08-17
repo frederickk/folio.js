@@ -4,7 +4,7 @@
  * 0.7.2
  * https://github.com/frederickk/folio.js
  *
- * 13. August 2014
+ * 17. August 2014
  *
  * Ken Frederick
  * ken.frederick@gmx.de
@@ -411,10 +411,10 @@ PaperScope.inject({
  */
 Array.prototype.median = function() {
     var type = Object.prototype.toString.call(this).split(/\W/)[2];
-    if( type === 'Array') {
+    if (type === 'Array') {
         var median = 0;
         this.sort();
-        if(this.length % 2 === 0) {
+        if (this.length % 2 === 0) {
             median = (this[this.length / 2 - 1] + this[this.length / 2]) / 2;
         }
         else {
@@ -432,9 +432,9 @@ Array.prototype.median = function() {
  */
 Array.prototype.average = function(){
     var type = Object.prototype.toString.call(this).split(/\W/)[2];
-    if( type === 'Array') {
+    if (type === 'Array') {
         var sum = 0;
-        for(var i=0; i<this.length, isFinite(this[i]); i++) {
+        for (var i=0; i<this.length, isFinite(this[i]); i++) {
             sum += parseFloat(this[i]);
         }
         return sum/this.length-1;
@@ -453,11 +453,51 @@ Array.prototype.average = function(){
  */
 Array.prototype.merge = function(arr, bShuffle) {
     var type = Object.prototype.toString.call(this).split(/\W/)[2];
-    if( type === 'Array') {
+    if (type === 'Array') {
         var output = this.concat(arr);
         return output;
     }
 };
+
+
+/*
+ * combine two associative arrays together
+ * http://stackoverflow.com/questions/929776/merging-associative-arrays-javascript (modified)
+ *
+ * @param {Array} arr
+ *          Array object
+ *
+ * @return {Array} new combined associatibe Array
+ *
+ */
+Array.prototype.combine = function(arr) {
+    for(item in this) {
+        arr[item] = (arr[item] != undefined)
+            ? arr[item]
+            : this[item];
+    }
+    return arr;
+};
+
+
+/**
+ * find index of particular value within an array
+ *
+ * @param {String} query
+ *          the value to search for within array
+ *
+ * @return {Number} index of object within array
+ *
+ */
+Array.prototype.findIndex = function(query) {
+    for (var i=this.length-1; i>=0; i--) {
+        if (this[i].toLowerCase() === query.toLowerCase()) {
+            break;
+        }
+    }
+    return i;
+};
+
 
 /**
  *
@@ -478,7 +518,7 @@ Array.prototype.max = function(start, stop) {
         : this.length;
     var max = start;
 
-    for(var i=(start+1); i<stop; i++) if(this[i] > this[max]) max = i;
+    for (var i=(start+1); i<stop; i++) if (this[i] > this[max]) max = i;
     return max;
 };
 
@@ -501,7 +541,7 @@ Array.prototype.min = function(start, stop) {
         : this.length;
     var min = start;
 
-    for(var i=(start+1); i<stop; i++) if(this[i] < this[min]) min = i;
+    for (var i=(start+1); i<stop; i++) if (this[i] < this[min]) min = i;
     return min;
 };
 
@@ -514,7 +554,7 @@ Array.prototype.min = function(start, stop) {
  *
  */
 Array.prototype.shuffle = function() {
-    for(var j, x, i=this.length; i; j=parseInt(Math.random() * i), x=this[--i], this[i]=this[j], this[j]=x);
+    for (var j, x, i=this.length; i; j=parseInt(Math.random() * i), x=this[--i], this[i]=this[j], this[j]=x);
 };
 
 /**
@@ -525,9 +565,9 @@ Array.prototype.shuffle = function() {
  */
 Array.prototype.unique = function() {
     var u = [];
-    o:for(var i=0, n=this.length; i<n; i++) {
-        for(var x=0, y=u.length; x<y; x++) {
-            if(u[x] == this[i]) {
+    o:for (var i=0, n=this.length; i<n; i++) {
+        for (var x=0, y=u.length; x<y; x++) {
+            if (u[x] == this[i]) {
                 continue o;
             }
         }
@@ -545,9 +585,9 @@ Array.prototype.unique = function() {
  */
 Array.prototype.removeDuplicates = function() {
     var type = Object.prototype.toString.call(this).split(/\W/)[2];
-    if( type === 'Array') {
+    if (type === 'Array') {
         return this.reduce(function(accum, cur) {
-            if(accum.indexOf(cur) === -1) accum.push(cur);
+            if (accum.indexOf(cur) === -1) accum.push(cur);
             return accum;
         }, [] );
     }
@@ -563,9 +603,10 @@ Array.prototype.removeDuplicates = function() {
  */
 Array.prototype.round = function(decimalPlaces) {
     var multi = Math.pow(10,decimalPlaces);
-    for(var i=0; i<this.length; i++) this[i] = Math.round(this[i] * multi)/multi;
+    for (var i=0; i<this.length; i++) this[i] = Math.round(this[i] * multi)/multi;
     return this;
 };
+
 
 
 // ------------------------------------------------------------------------
@@ -584,8 +625,8 @@ var FSort = {
         var A = a.toLowerCase();
         var B = b.toLowerCase();
 
-        if(A < B) return -1;
-        else if(A > B) return  1;
+        if (A < B) return -1;
+        else if (A > B) return  1;
         else return 0;
         */
 
@@ -616,8 +657,8 @@ var FSort = {
         // console.log( valueB );
         var comparisonValue = 0;
 
-        if(valueA > valueB) comparisonValue = -1;
-        else if(valueA < valueB) comparisonValue = 1;
+        if (valueA > valueB) comparisonValue = -1;
+        else if (valueA < valueB) comparisonValue = 1;
 
         return comparisonValue;
     }
@@ -3019,7 +3060,20 @@ paper.Size.inject({
  *
  * Strings
  *
- * ------------------------------------------------------------------------/
+ * ------------------------------------------------------------------------ */
+
+/**
+ * converts given string to Title Case
+ * http://stackoverflow.com/questions/196972/convert-string-to-title-case-with-javascript
+ *
+ * @return {String} input String in Title Case
+ *
+ */
+String.prototype.toTitleCase = function() {
+    return this.replace(/\w\S*/g, function(txt) {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
+};
 
 /**
  * trims white space from left (start) of String

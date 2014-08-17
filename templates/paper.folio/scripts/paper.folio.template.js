@@ -97,7 +97,7 @@ function Draw() {
  *	http://paperjs.org/reference/view#onresize
  */
 function onResize(event) {
-	view.size = event.size; // currently seems to only work with the nightly-buidl
+	view.size = event.size; // currently seems to only work with the nightly-build
 };
 
 

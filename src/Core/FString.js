@@ -11,7 +11,20 @@
  *
  * Strings
  *
- * ------------------------------------------------------------------------/
+ * ------------------------------------------------------------------------ */
+
+/**
+ * converts given string to Title Case
+ * http://stackoverflow.com/questions/196972/convert-string-to-title-case-with-javascript
+ *
+ * @return {String} input String in Title Case
+ *
+ */
+String.prototype.toTitleCase = function() {
+    return this.replace(/\w\S*/g, function(txt) {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
+};
 
 /**
  * trims white space from left (start) of String
