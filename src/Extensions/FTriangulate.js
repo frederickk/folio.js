@@ -503,7 +503,6 @@ folio.FTriangulate = function( points ) {
         }
 
         // return _triangles;
-    // };
     };
     init();
 
