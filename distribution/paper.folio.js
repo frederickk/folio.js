@@ -1,10 +1,10 @@
 /**!
  *
  * folio.js
- * 0.7.2
+ * 0.7.3
  * https://github.com/frederickk/folio.js
  *
- * 17. August 2014
+ * 18. August 2014
  *
  * Ken Frederick
  * ken.frederick@gmx.de
@@ -244,9 +244,9 @@ window.onload = function() {
 
 
 folio = {
-    // ------------------------------------------------------------------------
+    //
     // Setup Core Namespaces
-    // ------------------------------------------------------------------------
+    //
     FTime: {},
     FIO: {},
     F3D: {}
@@ -260,11 +260,19 @@ folio = {
  *
  */
 PaperScope.inject({
+    // -----------------------------------------------------------------------------
+    //
+    // Properties
+    //
+    // -----------------------------------------------------------------------------
     enumerable: true,
 
 
+
     // -----------------------------------------------------------------------------
+    //
     // Methods
+    //
     // -----------------------------------------------------------------------------
     /**
      * Java style println output
@@ -1618,7 +1626,9 @@ var FConversions = {
  */
 paper.Item.inject({
     // -----------------------------------------------------------------------------
+    //
     // Properties
+    //
     // -----------------------------------------------------------------------------
     enumerable: true,
     _prevAngle: 0,
@@ -1626,7 +1636,9 @@ paper.Item.inject({
 
 
     // -----------------------------------------------------------------------------
+    //
     // Methods
+    //
     // -----------------------------------------------------------------------------
     /**
      *
@@ -1748,7 +1760,9 @@ paper.Item.inject({
 
 paper.Path.inject({
     // -----------------------------------------------------------------------------
+    //
     // Methods
+    //
     // -----------------------------------------------------------------------------
 
     /*
@@ -2357,10 +2371,18 @@ paper.Path.inject({
                     path.add( tangents[1] );
 
                     // determine position of chain around endpoint2
-                    if( obj2.position.x > obj1.position.x ) angle = 0;
-                    else if( obj2.position.y < obj1.position.y ) angle = -90;
-                    else if( obj2.position.y > obj1.position.y ) angle = 90;
-                    else angle = 180;
+                    if( obj2.position.x > obj1.position.x ) {
+                        angle = 0;
+                    }
+                    else if( obj2.position.y < obj1.position.y ) {
+                        angle = -90;
+                    }
+                    else if( obj2.position.y > obj1.position.y ) {
+                        angle = 90;
+                    }
+                    else {
+                        angle = 180;
+                    }
                     var tp2 = new Point(
                         obj2.position.x + Math.cos( paper.radians(angle) ) * (obj2.bounds.width/2),
                         obj2.position.y + Math.sin( paper.radians(angle) ) * (obj2.bounds.height/2)
@@ -2371,10 +2393,18 @@ paper.Path.inject({
                     path.add(tangents[3]);
 
                     // determine position of chain around endpoint1
-                    if( obj1.position.x > obj2.position.x ) angle = 0;
-                    else if( obj1.position.y < obj2.position.y ) angle = -90;
-                    else if( obj1.position.y > obj2.position.y ) angle = 90;
-                    else angle = 180;
+                    if( obj1.position.x > obj2.position.x ) {
+                        angle = 0;
+                    }
+                    else if( obj1.position.y < obj2.position.y ) {
+                        angle = -90;
+                    }
+                    else if( obj1.position.y > obj2.position.y ) {
+                        angle = 90;
+                    }
+                    else {
+                        angle = 180;
+                    }
                     var tp1 = new Point(
                         obj1.position.x + Math.cos( paper.radians(angle) ) * (obj1.bounds.width/2),
                         obj1.position.y + Math.sin( paper.radians(angle) ) * (obj1.bounds.height/2)
@@ -3174,7 +3204,9 @@ paper.TextItem.inject({
 
 folio.FTime = {
     // ------------------------------------------------------------------------
+    //
     // Namespaces
+    //
     // ------------------------------------------------------------------------
     // Time/Timing Support
     FDate: {},
@@ -3183,12 +3215,6 @@ folio.FTime = {
     // Animation Support
     FStepper: {},
     Ease: {}
-
-
-    // ------------------------------------------------------------------------
-    // Methods
-    // ------------------------------------------------------------------------
-
 
 };
 
@@ -3412,7 +3438,9 @@ folio.FTime.Ease = function() {
 
 folio.FTime.FDate = function() {
     // ------------------------------------------------------------------------
+    //
     // Properties
+    //
     // ------------------------------------------------------------------------
     var dateObj = new Date();
     var monthsArr = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -3421,7 +3449,9 @@ folio.FTime.FDate = function() {
 
 
     // ------------------------------------------------------------------------
+    //
     // Methods
+    //
     // ------------------------------------------------------------------------
     var addZero = function(val) {
         if (val.length == 1) val = '0' + val;
@@ -3548,10 +3578,11 @@ folio.FTime.FDate = function() {
     };
 
 
+    // ------------------------------------------------------------------------
 
-    // ------------------------------------------------------------------------
+    //
     // Sets
-    // ------------------------------------------------------------------------
+    //
     /**
      * set to a specific time
      *
@@ -3573,10 +3604,9 @@ folio.FTime.FDate = function() {
     };
 
 
-
-    // ------------------------------------------------------------------------
+    //
     // Gets
-    // ------------------------------------------------------------------------
+    //
     /**
      * @param {Number} ms
      *      as milliseconds
@@ -3645,6 +3675,7 @@ folio.FTime.FDate = function() {
     };
 
 
+
     // -----------------------------------------------------------------------------
     return {
         year: year,
@@ -3680,7 +3711,9 @@ folio.FTime.FDate = function() {
 
 folio.FTime.FStepper = function() {
     // ------------------------------------------------------------------------
+    //
     // Properties
+    //
     // ------------------------------------------------------------------------
     var stepMillis = 1000; // Set to default of 1s OR 1000ms
 
@@ -3702,7 +3735,9 @@ folio.FTime.FStepper = function() {
 
 
     // ------------------------------------------------------------------------
+    //
     // Methods
+    //
     // ------------------------------------------------------------------------
     /**
      *
@@ -3854,8 +3889,10 @@ folio.FTime.FStepper = function() {
 
 
     // ------------------------------------------------------------------------
+
+    //
     // Sets
-    // ------------------------------------------------------------------------
+    //
     /**
      * @param {Number} seconds
      *      length of fade in seconds
@@ -3918,7 +3955,9 @@ folio.FTime.FStepper = function() {
 
 folio.FTime.FStopwatch = function() {
     // ------------------------------------------------------------------------
+    //
     // Properties
+    //
     // ------------------------------------------------------------------------
     var now;
     var then;
@@ -3928,7 +3967,9 @@ folio.FTime.FStopwatch = function() {
 
 
     // ------------------------------------------------------------------------
+    //
     // Methods
+    //
     // ------------------------------------------------------------------------
     /**
      *
@@ -3981,8 +4022,10 @@ folio.FTime.FStopwatch = function() {
 
 
     // ------------------------------------------------------------------------
+
+    //
     // Sets
-    // ------------------------------------------------------------------------
+    //
     /**
      *
      * set the stopwatch
@@ -4004,10 +4047,9 @@ folio.FTime.FStopwatch = function() {
     };
 
 
-
-    // ------------------------------------------------------------------------
+    //
     // Gets
-    // ------------------------------------------------------------------------
+    //
     /**
      *
      * @return {Number} the time elapsed in milliseconds
@@ -4690,7 +4732,9 @@ folio.FCirclePack = function(circleItems, iterations) {
  */
 folio.FDrop = function(element, options) {
     // -----------------------------------------------------------------------------
+    //
     // Properties
+    //
     // -----------------------------------------------------------------------------
     var fileTypes = {
         text:        /text.*/,
@@ -4726,9 +4770,12 @@ folio.FDrop = function(element, options) {
 
 
     // -----------------------------------------------------------------------------
+    //
     // Methods
+    //
     // -----------------------------------------------------------------------------
-    function init(element) {
+    (function() {
+    // function init(element) {
         // Check for the various File API support.
         if (window.File && window.FileReader && window.FileList && window.Blob) {
             function onDragEnterEvent(event) {
@@ -4761,7 +4808,8 @@ folio.FDrop = function(element, options) {
         else {
             alert('Drag and drop is not fully supported in this browser.');
         }
-    };
+    // };
+    }());
 
     // -----------------------------------------------------------------------------
     function handleFile(file, obj) {
@@ -4913,7 +4961,9 @@ folio.FDrop = function(element, options) {
 
 
     // -----------------------------------------------------------------------------
+    //
     // Events
+    //
     // -----------------------------------------------------------------------------
     function progress(event) {
         totalLoad = Math.ceil((event.loaded / totalSize)*100);
@@ -4935,15 +4985,6 @@ folio.FDrop = function(element, options) {
 
 
 
-    // -----------------------------------------------------------------------------
-    // Instantiate
-    // -----------------------------------------------------------------------------
-    init(element);
-
-
-
-    // -----------------------------------------------------------------------------
-    // Methods
     // -----------------------------------------------------------------------------
     return {
         target: element,
@@ -5551,7 +5592,9 @@ folio.FNoise = {
       */
     perlin: function(x, y, z) {
         //-----------------------------------------------------------------------------
+        //
         // Properties
+        //
         //-----------------------------------------------------------------------------
         var x = x || 0;
         var y = y || 0;
@@ -5560,9 +5603,12 @@ folio.FNoise = {
 
 
         //-----------------------------------------------------------------------------
+        //
         // Methods
+        //
         //-----------------------------------------------------------------------------
-        var init = function(x, y, z) {
+        (function(x, y, z) {
+        // var init = function(x, y, z) {
             var p = new Array(512)
             var permutation = [151, 160, 137, 91, 90, 15, 131, 13, 201, 95, 96, 53, 194, 233, 7, 225, 140, 36, 103, 30, 69, 142, 8, 99, 37, 240, 21, 10, 23, 190, 6, 148, 247, 120, 234, 75, 0, 26, 197, 62, 94, 252, 219, 203, 117, 35, 11, 32, 57, 177, 33, 88, 237, 149, 56, 87, 174, 20, 125, 136, 171, 168, 68, 175, 74, 165, 71, 134, 139, 48, 27, 166, 77, 146, 158, 231, 83, 111, 229, 122, 60, 211, 133, 230, 220, 105, 92, 41, 55, 46, 245, 40, 244, 102, 143, 54, 65, 25, 63, 161, 1, 216, 80, 73, 209, 76, 132, 187, 208, 89, 18, 169, 200, 196, 135, 130, 116, 188, 159, 86, 164, 100, 109, 198, 173, 186, 3, 64, 52, 217, 226, 250, 124, 123, 5, 202, 38, 147, 118, 126, 255, 82, 85, 212, 207, 206, 59, 227, 47, 16, 58, 17, 182, 189, 28, 42, 223, 183, 170, 213, 119, 248, 152, 2, 44, 154, 163, 70, 221, 153, 101, 155, 167, 43, 172, 9, 129, 22, 39, 253, 19, 98, 108, 110, 79, 113, 224, 232, 178, 185, 112, 104, 218, 246, 97, 228, 251, 34, 242, 193, 238, 210, 144, 12, 191, 179, 162, 241, 81, 51, 145, 235, 249, 14, 239, 107, 49, 192, 214, 31, 181, 199, 106, 157, 184, 84, 204, 176, 115, 121, 50, 45, 127, 4, 150, 254, 138, 236, 205, 93, 222, 114, 67, 29, 24, 72, 243, 141, 128, 195, 78, 66, 215, 61, 156, 180];
 
@@ -5607,7 +5653,8 @@ folio.FNoise = {
                     )
                 )
             );
-        };
+        // };
+        }());
 
 
         //-----------------------------------------------------------------------------
@@ -5632,7 +5679,7 @@ folio.FNoise = {
 
 
         //-----------------------------------------------------------------------------
-        return init(x, y, z);
+        // return init(x, y, z);
 
     }
 
@@ -6021,7 +6068,9 @@ folio.FSkeleton = function(item) {
 
 
 // ------------------------------------------------------------------------
-// constants
+//
+// Constants
+//
 // ------------------------------------------------------------------------
 var EPSILON = 1.0e-6;
 
@@ -6054,7 +6103,9 @@ var EPSILON = 1.0e-6;
  */
 folio.FTriangulate = function( points ) {
     // -----------------------------------------------------------------------------
+    //
     // Properties
+    //
     // -----------------------------------------------------------------------------
     var _triangles;
     var _points = points;
@@ -6063,7 +6114,9 @@ folio.FTriangulate = function( points ) {
 
 
     // -----------------------------------------------------------------------------
+    //
     // Classes
+    //
     // -----------------------------------------------------------------------------
     /**
      * Triangle
@@ -6078,7 +6131,9 @@ folio.FTriangulate = function( points ) {
     // TODO: remove this and rely on Path.Triangle
     var Triangle = function( p1, p2, p3 ) {
         // -----------------------------------------------------------------------------
+        //
         // Properties
+        //
         // -----------------------------------------------------------------------------
         var _p1 = p1;
         var _p2 = p2;
@@ -6087,7 +6142,9 @@ folio.FTriangulate = function( points ) {
 
 
         // -----------------------------------------------------------------------------
+        //
         // Methods
+        //
         // -----------------------------------------------------------------------------
         /**
          * vertex (Edge) sharing
@@ -6222,9 +6279,9 @@ folio.FTriangulate = function( points ) {
 
 
 
-        // -----------------------------------------------------------------------------
+        //
         // Gets
-        // -----------------------------------------------------------------------------
+        //
         /**
          * @return {Array} the points of the triangle as a Point array
          */
@@ -6232,6 +6289,8 @@ folio.FTriangulate = function( points ) {
             var points = [_p1, _p2, _p3];
             return points;
         };
+
+
 
         // -----------------------------------------------------------------------------
         return {
@@ -6262,7 +6321,9 @@ folio.FTriangulate = function( points ) {
      */
     var Edge = function( p1, p2 ) {
         // -----------------------------------------------------------------------------
+        //
         // Properties
+        //
         // -----------------------------------------------------------------------------
         var _p1 = p1;
         var _p2 = p2;
@@ -6271,7 +6332,9 @@ folio.FTriangulate = function( points ) {
 
 
         // -----------------------------------------------------------------------------
+        //
         // Methods
+        //
         // -----------------------------------------------------------------------------
         /**
          * sorts edge by shortest to longest
@@ -6287,9 +6350,10 @@ folio.FTriangulate = function( points ) {
 
 
 
-        // -----------------------------------------------------------------------------
+        //
         // Gets
-        // -----------------------------------------------------------------------------
+        //
+
         /**
          *
          * @return {Array} the points of the edge as a Point array
@@ -6299,6 +6363,7 @@ folio.FTriangulate = function( points ) {
             var points = [_p1, _p2];
             return points;
         };
+
 
 
         // -----------------------------------------------------------------------------
@@ -6315,7 +6380,9 @@ folio.FTriangulate = function( points ) {
 
 
     // -----------------------------------------------------------------------------
+    //
     // Methods
+    //
     // -----------------------------------------------------------------------------
     /**
      * Triangulation subroutine
@@ -6474,7 +6541,9 @@ folio.FTriangulate = function( points ) {
         }
 
         // return _triangles;
+    // };
     };
+    init();
 
     // -----------------------------------------------------------------------------
     /**
@@ -6670,10 +6739,12 @@ folio.FTriangulate = function( points ) {
     };
 
 
+    // -----------------------------------------------------------------------------
 
-    // -----------------------------------------------------------------------------
-    // sets
-    // -----------------------------------------------------------------------------
+    //
+    // Sets
+    //
+
     /**
      * add point(s) to Triangulation
      *
@@ -6703,11 +6774,9 @@ folio.FTriangulate = function( points ) {
         init();
     };
 
-
-
-    // -----------------------------------------------------------------------------
+    //
     // Gets
-    // -----------------------------------------------------------------------------
+    //
     /**
      * @param {Number} index
      *      index of Triangle to return (optional)
@@ -6737,14 +6806,6 @@ folio.FTriangulate = function( points ) {
             return _points;
         }
     };
-
-
-
-    // -----------------------------------------------------------------------------
-    // Invocation
-    // -----------------------------------------------------------------------------
-    init();
-
 
 
 
@@ -6783,14 +6844,18 @@ folio.FTriangulate = function( points ) {
  */
 var HashSet = function() {
     // -----------------------------------------------------------------------------
+    //
     // Properties
+    //
     // -----------------------------------------------------------------------------
     var _arr = [];
 
 
 
     // -----------------------------------------------------------------------------
+    //
     // Methods
+    //
     // -----------------------------------------------------------------------------
     function _add(e) {
         var arr = _arr;
@@ -6821,10 +6886,9 @@ var HashSet = function() {
     };
 
 
-
-    // -----------------------------------------------------------------------------
+    //
     // Gets
-    // -----------------------------------------------------------------------------
+    //
     function _toString() {
         return _arr.join(',');
     };
@@ -6889,7 +6953,9 @@ var Matrix3D = function( n11, n12, n13, n14,
                          n31, n32, n33, n34,
                          n41, n42, n43, n44 ) {
     // ------------------------------------------------------------------------
+    //
     // Properties
+    //
     // ------------------------------------------------------------------------
     this.n11 = n11 || 1.0;  this.n12 = n12 || 0.0;  this.n13 = n13 || 0.0;  this.n14 = n14 || 0.0;
     this.n21 = n21 || 0.0;  this.n22 = n22 || 1.0;  this.n23 = n23 || 0.0;  this.n24 = n24 || 0.0;
@@ -6899,7 +6965,9 @@ var Matrix3D = function( n11, n12, n13, n14,
 
 
     // ------------------------------------------------------------------------
+    //
     // Methods
+    //
     // ------------------------------------------------------------------------
     this.clone = function() {
         return new Matrix3D( this.n11, this.n12, this.n13, this.n14,
@@ -6910,34 +6978,37 @@ var Matrix3D = function( n11, n12, n13, n14,
 
     // ------------------------------------------------------------------------
     this.concat = function(m) {
-        var values = {};
 
-        values.n11 = this.n11 * m.n11 + this.n12 * m.n21 + this.n13 * m.n31 + this.n14 * m.n41;
-        values.n12 = this.n11 * m.n12 + this.n12 * m.n22 + this.n13 * m.n32 + this.n14 * m.n42;
-        values.n13 = this.n11 * m.n13 + this.n12 * m.n23 + this.n13 * m.n33 + this.n14 * m.n43;
-        values.n14 = this.n11 * m.n14 + this.n12 * m.n24 + this.n13 * m.n34 + this.n14 * m.n44;
+        this.init({
+            n11: this.n11 * m.n11 + this.n12 * m.n21 + this.n13 * m.n31 + this.n14 * m.n41,
+            n12: this.n11 * m.n12 + this.n12 * m.n22 + this.n13 * m.n32 + this.n14 * m.n42,
+            n13: this.n11 * m.n13 + this.n12 * m.n23 + this.n13 * m.n33 + this.n14 * m.n43,
+            n14: this.n11 * m.n14 + this.n12 * m.n24 + this.n13 * m.n34 + this.n14 * m.n44,
 
-        values.n21 = this.n21 * m.n11 + this.n22 * m.n21 + this.n23 * m.n31 + this.n24 * m.n41;
-        values.n22 = this.n21 * m.n12 + this.n22 * m.n22 + this.n23 * m.n32 + this.n24 * m.n42;
-        values.n23 = this.n21 * m.n13 + this.n22 * m.n23 + this.n23 * m.n33 + this.n24 * m.n43;
-        values.n24 = this.n21 * m.n14 + this.n22 * m.n24 + this.n23 * m.n34 + this.n24 * m.n44;
+            n21: this.n21 * m.n11 + this.n22 * m.n21 + this.n23 * m.n31 + this.n24 * m.n41,
+            n22: this.n21 * m.n12 + this.n22 * m.n22 + this.n23 * m.n32 + this.n24 * m.n42,
+            n23: this.n21 * m.n13 + this.n22 * m.n23 + this.n23 * m.n33 + this.n24 * m.n43,
+            n24: this.n21 * m.n14 + this.n22 * m.n24 + this.n23 * m.n34 + this.n24 * m.n44,
 
-        values.n31 = this.n31 * m.n11 + this.n32 * m.n21 + this.n33 * m.n31 + this.n34 * m.n41;
-        values.n32 = this.n31 * m.n12 + this.n32 * m.n22 + this.n33 * m.n32 + this.n34 * m.n42;
-        values.n33 = this.n31 * m.n13 + this.n32 * m.n23 + this.n33 * m.n33 + this.n34 * m.n43;
-        values.n34 = this.n31 * m.n14 + this.n32 * m.n24 + this.n33 * m.n34 + this.n34 * m.n44;
+            n31: this.n31 * m.n11 + this.n32 * m.n21 + this.n33 * m.n31 + this.n34 * m.n41,
+            n32: this.n31 * m.n12 + this.n32 * m.n22 + this.n33 * m.n32 + this.n34 * m.n42,
+            n33: this.n31 * m.n13 + this.n32 * m.n23 + this.n33 * m.n33 + this.n34 * m.n43,
+            n34: this.n31 * m.n14 + this.n32 * m.n24 + this.n33 * m.n34 + this.n34 * m.n44,
 
-        values.n41 = this.n41 * m.n11 + this.n42 * m.n21 + this.n43 * m.n31 + this.n44 * m.n41;
-        values.n42 = this.n41 * m.n12 + this.n42 * m.n22 + this.n43 * m.n32 + this.n44 * m.n42;
-        values.n43 = this.n41 * m.n13 + this.n42 * m.n23 + this.n43 * m.n33 + this.n44 * m.n43;
-        values.n44 = this.n41 * m.n14 + this.n42 * m.n24 + this.n43 * m.n34 + this.n44 * m.n44;
+            n41: this.n41 * m.n11 + this.n42 * m.n21 + this.n43 * m.n31 + this.n44 * m.n41,
+            n42: this.n41 * m.n12 + this.n42 * m.n22 + this.n43 * m.n32 + this.n44 * m.n42,
+            n43: this.n41 * m.n13 + this.n42 * m.n23 + this.n43 * m.n33 + this.n44 * m.n43,
+            n44: this.n41 * m.n14 + this.n42 * m.n24 + this.n43 * m.n34 + this.n44 * m.n44
+        });
 
-        this.initialize(values);
+        // this.init(values);
     };
 
     // ------------------------------------------------------------------------
-    this.initialize = function(values) {
-        for(var i in values) this[i] = values[i];
+    this.init = function(values) {
+        for(var i in values) {
+            this[i] = values[i];
+        }
     };
 
     // ------------------------------------------------------------------------
@@ -6945,17 +7016,27 @@ var Matrix3D = function( n11, n12, n13, n14,
                                 rotationx, rotationy, rotationz,
                                 tx, ty, tz ) {
         this.identity();
-        if (rotationx != 0) this.rotateX( rotationx );
-        if (rotationy != 0) this.rotateY( rotationy );
-        if (rotationz != 0) this.rotateZ( rotationz );
-        if (scalex != 1 || scaley != 1 || scalez != 1) this.scale( scalex, scaley, scalez );
-        if (tx != 0 || ty != 0 || tz != 0) this.translate( tx, ty, tz );
+        if (rotationx != 0) {
+            this.rotateX( rotationx );
+        }
+        if (rotationy != 0) {
+            this.rotateY( rotationy );
+        }
+        if (rotationz != 0) {
+            this.rotateZ( rotationz );
+        }
+        if (scalex != 1 || scaley != 1 || scalez != 1) {
+            this.scale( scalex, scaley, scalez );
+        }
+        if (tx != 0 || ty != 0 || tz != 0) {
+            this.translate( tx, ty, tz );
+        }
     };
 
 
     // ------------------------------------------------------------------------
     this.identity = function() {
-        this.initialize({ n11:1, n12:0, n13:0, n14:0,
+        this.init({ n11:1, n12:0, n13:0, n14:0,
                           n21:0, n22:1, n23:0, n24:0,
                           n31:0, n32:0, n33:1, n34:0,
                           n41:0, n42:0, n43:0, n44:1 });
@@ -7119,9 +7200,6 @@ var Matrix3D = function( n11, n12, n13, n14,
      *
      */
     this.makeFrustum = function(left, right, bottom, top, near, far) {
-
-        var values = {};
-
         var x = 2 * near / ( right - left );
         var y = 2 * near / ( top - bottom );
 
@@ -7130,13 +7208,14 @@ var Matrix3D = function( n11, n12, n13, n14,
         var c = - ( far + near ) / ( far - near );
         var d = - 2 * far * near / ( far - near );
 
-        values.n11 = x; values.n12 = 0; values.n13 = a;     values.n14 = 0;
-        values.n21 = 0; values.n22 = y; values.n23 = b;     values.n24 = 0;
-        values.n31 = 0; values.n32 = 0; values.n33 = c;     values.n34 = d;
-        values.n41 = 0; values.n42 = 0; values.n43 = - 1;   values.n44 = 0;
+        this.concat({
+            n11: x,   n12: 0,   n13: a,   n14: 0,
+            n21: 0,   n22: y,   n23: b,   n24: 0,
+            n31: 0,   n32: 0,   n33: c,   n34: d,
+            n41: 0,   n42: 0,   n43: -1,  n44: 0
+        });
 
-        this.concat(values);
-        // this.initialize(values);
+        // this.init(values);
     };
 
     /*
@@ -7152,29 +7231,27 @@ var Matrix3D = function( n11, n12, n13, n14,
         var xmin = ymin * aspect;
         var xmax = ymax * aspect;
 
-        this.makeFrustum( xmin, xmax, ymin, ymax, near, far );
+        this.makeFrustum(xmin, xmax, ymin, ymax, near, far);
     };
 
     // ------------------------------------------------------------------------
     this.makeOrtho = function(left, right, top, bottom, near, far) {
-
-        var values = {};
-
         var w = right - left;
         var h = top - bottom;
         var p = far - near;
 
-        var x = ( right + left ) / w;
-        var y = ( top + bottom ) / h;
-        var z = ( far + near ) / p;
+        var x = (right + left) / w;
+        var y = (top + bottom) / h;
+        var z = (far + near) / p;
 
-        values.n11 = 2/w;   values.n12 = 0;     values.n13 = 0;     values.n14 = -x;
-        values.n21 = 0;     values.n22 = 2/h;   values.n23 = 0;     values.n24 = -y;
-        values.n31 = 0;     values.n32 = 0;     values.n33 = -2/p;  values.n34 = -z;
-        values.n41 = 0;     values.n42 = 0;     values.n43 = 0;     values.n44 = 1;
+        this.concat({
+            n11: 2/w,   n12: 0,     n13: 0,     n14: -x,
+            n21: 0,     n22: 2/h,   n23: 0,     n24: -y,
+            n31: 0,     n32: 0,     n33: -2/p,  n34: -z,
+            n41: 0,     n42: 0,     n43: 0,     n44: 1
+        });
 
-        this.concat(values);
-        // this.initialize(values);
+        // this.init(values);
     };
 
 
@@ -7185,8 +7262,8 @@ var Matrix3D = function( n11, n12, n13, n14,
                 this.n31 + ',' + this.n32 + ',' + this.n33 + ',' + this.n34 + ',' +
                 this.n41 + ',' + this.n42 + ',' + this.n43 + ',' + this.n44;
     };
-};
 
+};
 
 
 

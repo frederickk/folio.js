@@ -20,7 +20,9 @@
  */
 folio.FDrop = function(element, options) {
     // -----------------------------------------------------------------------------
+    //
     // Properties
+    //
     // -----------------------------------------------------------------------------
     var fileTypes = {
         text:        /text.*/,
@@ -56,9 +58,12 @@ folio.FDrop = function(element, options) {
 
 
     // -----------------------------------------------------------------------------
+    //
     // Methods
+    //
     // -----------------------------------------------------------------------------
-    function init(element) {
+    (function() {
+    // function init(element) {
         // Check for the various File API support.
         if (window.File && window.FileReader && window.FileList && window.Blob) {
             function onDragEnterEvent(event) {
@@ -91,7 +96,8 @@ folio.FDrop = function(element, options) {
         else {
             alert('Drag and drop is not fully supported in this browser.');
         }
-    };
+    // };
+    }());
 
     // -----------------------------------------------------------------------------
     function handleFile(file, obj) {
@@ -243,7 +249,9 @@ folio.FDrop = function(element, options) {
 
 
     // -----------------------------------------------------------------------------
+    //
     // Events
+    //
     // -----------------------------------------------------------------------------
     function progress(event) {
         totalLoad = Math.ceil((event.loaded / totalSize)*100);
@@ -265,15 +273,6 @@ folio.FDrop = function(element, options) {
 
 
 
-    // -----------------------------------------------------------------------------
-    // Instantiate
-    // -----------------------------------------------------------------------------
-    init(element);
-
-
-
-    // -----------------------------------------------------------------------------
-    // Methods
     // -----------------------------------------------------------------------------
     return {
         target: element,

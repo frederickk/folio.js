@@ -21,7 +21,9 @@
  */
 paper.Item.inject({
     // -----------------------------------------------------------------------------
+    //
     // Properties
+    //
     // -----------------------------------------------------------------------------
     enumerable: true,
     _prevAngle: 0,
@@ -29,7 +31,9 @@ paper.Item.inject({
 
 
     // -----------------------------------------------------------------------------
+    //
     // Methods
+    //
     // -----------------------------------------------------------------------------
     /**
      *
@@ -151,7 +155,9 @@ paper.Item.inject({
 
 paper.Path.inject({
     // -----------------------------------------------------------------------------
+    //
     // Methods
+    //
     // -----------------------------------------------------------------------------
 
     /*
@@ -760,10 +766,18 @@ paper.Path.inject({
                     path.add( tangents[1] );
 
                     // determine position of chain around endpoint2
-                    if( obj2.position.x > obj1.position.x ) angle = 0;
-                    else if( obj2.position.y < obj1.position.y ) angle = -90;
-                    else if( obj2.position.y > obj1.position.y ) angle = 90;
-                    else angle = 180;
+                    if( obj2.position.x > obj1.position.x ) {
+                        angle = 0;
+                    }
+                    else if( obj2.position.y < obj1.position.y ) {
+                        angle = -90;
+                    }
+                    else if( obj2.position.y > obj1.position.y ) {
+                        angle = 90;
+                    }
+                    else {
+                        angle = 180;
+                    }
                     var tp2 = new Point(
                         obj2.position.x + Math.cos( paper.radians(angle) ) * (obj2.bounds.width/2),
                         obj2.position.y + Math.sin( paper.radians(angle) ) * (obj2.bounds.height/2)
@@ -774,10 +788,18 @@ paper.Path.inject({
                     path.add(tangents[3]);
 
                     // determine position of chain around endpoint1
-                    if( obj1.position.x > obj2.position.x ) angle = 0;
-                    else if( obj1.position.y < obj2.position.y ) angle = -90;
-                    else if( obj1.position.y > obj2.position.y ) angle = 90;
-                    else angle = 180;
+                    if( obj1.position.x > obj2.position.x ) {
+                        angle = 0;
+                    }
+                    else if( obj1.position.y < obj2.position.y ) {
+                        angle = -90;
+                    }
+                    else if( obj1.position.y > obj2.position.y ) {
+                        angle = 90;
+                    }
+                    else {
+                        angle = 180;
+                    }
                     var tp1 = new Point(
                         obj1.position.x + Math.cos( paper.radians(angle) ) * (obj1.bounds.width/2),
                         obj1.position.y + Math.sin( paper.radians(angle) ) * (obj1.bounds.height/2)
