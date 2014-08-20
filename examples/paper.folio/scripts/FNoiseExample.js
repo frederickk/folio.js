@@ -25,7 +25,9 @@ var f = folio;
 var noise = f.FNoise;
 
 var yoff = 0.0;
-var radius = view.bounds.width/3;
+var radius = (view.bounds.height > view.bounds.width)
+    ? view.bounds.height/3
+    : view.bounds.width/3;
 var paths = {};
 
 var mouse = 1.0;
@@ -129,7 +131,7 @@ var SparkCircle = function(center, radius, interval) {
 // Events
 // ------------------------------------------------------------------------
 function onResize(event) {
-    // view.size = event.size;
+    view.size = event.size;
 };
 
 // ------------------------------------------------------------------------
@@ -140,13 +142,13 @@ function onMouseDown(event) {
 };
 
 function onMouseMove(event) {
+};
+
+function onMouseDrag(event) {
     var xy = event.point.x*event.point.y;
     var wh = view.bounds.width*view.bounds.height;
 
     mouse = xy/wh;
-};
-
-function onMouseDrag(event) {
 };
 
 
@@ -156,7 +158,6 @@ function onKeyDown(event) {
 
 function onKeyUp(event) {
 };
-
 
 
 
