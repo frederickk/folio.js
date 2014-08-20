@@ -1,10 +1,10 @@
 /**!
  *
  * folio.js
- * 0.7.3
+ * 0.7.4
  * https://github.com/frederickk/folio.js
  *
- * 18. August 2014
+ * 20. August 2014
  *
  * Ken Frederick
  * ken.frederick@gmx.de
@@ -95,8 +95,8 @@ var onKeyUp = function(event){};
 var container = document.createElement('div');
 container.id = 'container';
 container.style.position = 'absolute';
-container.style.width = '100%';
-container.style.height = '100%';
+container.style.width = document.body.offsetWidth + 'px'; // '100%';
+container.style.height = document.body.offsetHeight + 'px'; // '100%';
 document.body.appendChild( container );
 
 var canvases = document.getElementsByTagName('canvas');
@@ -192,7 +192,7 @@ window.onload = function() {
 
     // ------------------------------------------------------------------------
     view.draw(); // draw the screen
-
+    view.update();
 
 
     // ------------------------------------------------------------------------
@@ -4333,13 +4333,80 @@ folio.FIO = {
      * @param {String} fname
      *          the name of the file to save to
      */
-    saveFile: function(str, fname) {
-        var file = new File(script.file.parent, fname);
-        if (file.exists()) file.remove();
-        file.open();
-        file.write( Json.encode(str) );
-        file.close();
+    saveFile: function(str, filename) {
+       filename = filename || 'foliojs_fio_file.file';
+
+        try {
+            // scriptographer
+            var file = new File(script.file.parent, fname);
+            if (file.exists()) file.remove();
+            file.open();
+            file.write( Json.encode(str) );
+            file.close();
+
+            return true;
+        }
+        catch(err) {
+        }
+
+        try {
+            // paper.js
+
+            // a bit shaky...
+            var link = document.createElement('a');
+            link.download = filename;
+            link.href = str;
+            link.click();
+
+            return true;
+        }
+        catch(err) {
+        }
+
+        return false;
     },
+
+    // TODO:
+    // ------------------------------------------------------------------------
+    // window.webkitRequestFileSystem(window.TEMPORARY, 1024*1024, function(fs) {
+    //  fs.root.getFile(
+    //      'SnowFlake.svg',
+    //      {
+    //          create: true
+    //      },
+    //      function(fileEntry) {
+    //          fileEntry.createWriter(function(fileWriter) {
+    //              var blob = new Blob(flake.exportSVG());
+
+    //              fileWriter.addEventListener('writeend', function() {
+    //                  location.href = fileEntry.toURL();
+    //              },
+    //              false);
+    //              fileWriter.write(blob);
+    //          });
+    //      }
+    //  );
+
+    // });
+
+    // window.webkitRequestFileSystem(window.TEMPORARY, 1024*1024, function(fs) {
+    //     fs.root.getFile('test.bin', {create: true}, function(fileEntry) {
+    //         fileEntry.createWriter(function(fileWriter) {
+    //             var blob = new Blob(flake.exportSVG());
+
+    //             fileWriter.addEventListener("writeend", function() {
+    //                 // navigate to file, will download
+    //                 location.href = fileEntry.toURL();
+    //             }, false);
+
+    //             fileWriter.write(blob);
+    //         },
+    //         function() {});
+    //     },
+    //     function() {});
+    // },
+    // function() {});
+
 
     /**
      * @param {String} fname

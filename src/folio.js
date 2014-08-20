@@ -48,8 +48,8 @@ var onKeyUp = function(event){};
 var container = document.createElement('div');
 container.id = 'container';
 container.style.position = 'absolute';
-container.style.width = '100%';
-container.style.height = '100%';
+container.style.width = document.body.offsetWidth + 'px'; // '100%';
+container.style.height = document.body.offsetHeight + 'px'; // '100%';
 document.body.appendChild( container );
 
 var canvases = document.getElementsByTagName('canvas');
@@ -145,7 +145,7 @@ window.onload = function() {
 
     // ------------------------------------------------------------------------
     view.draw(); // draw the screen
-
+    view.update();
 
 
     // ------------------------------------------------------------------------

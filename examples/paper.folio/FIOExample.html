@@ -1,60 +1,62 @@
 
 <!-- DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" -->
 <html>
-	<head>
-		<!-- META -->
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <head>
+        <!-- META -->
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
 
-		<title>FIO Example</title>
+        <title>FIO Example</title>
 
 
-		<!-- CSS -->
-		<link href="css/Folio.css" rel="stylesheet" type="text/css" />
+        <!-- CSS -->
+        <link href="css/Folio.css" rel="stylesheet" type="text/css" />
+        <style>
+            input {
+                font-size: 15px;
+            }
+            #redraw {
+                border-color: rgb(0, 255, 170);
+                background-color: rgb(0, 255, 170);
+            }
+        </style>
 
 
-		<meta http-equiv="x-dns-prefetch-control" content="off"/>
-	</head>
-	<body>
+        <meta http-equiv="x-dns-prefetch-control" content="off"/>
+    </head>
+    <body>
 
 
-		<!-- JAVASCRIPT -->
-		<script type="text/javascript" src="js/paper-core.js"></script>
-		<script type="text/javascript" src="../../distribution/paper.folio.js"></script>
+        <!-- JAVASCRIPT -->
+        <script type="text/javascript" src="js/paper-core.js"></script>
+        <script type="text/javascript" src="../../distribution/paper.folio.js"></script>
 
-		<!-- LOAD PAPER SCRIPT -->
-		<script type="text/javascript" src="scripts/FIOExample.js"></script>
-
-
-		<!-- TEXT -->
-		<div id="text-container">
-			FIO Example<br />
-			<a href="http://paperjs.org/" target="new">paperjs</a> experiment by <a href="http://kennnethfrederick.de/" target="new">kenfrederick</a>
-		</div>
-
-		<div id="manual">
-		</div>
+        <!-- LOAD PAPER SCRIPT -->
+        <script type="text/javascript" src="scripts/FIOExample.js"></script>
 
 
-		<!-- INPUTS -->
-		<div id="input-container">
-			<form method="POST" name="Form">
+        <!-- TEXT -->
+        <div id="text-container">
+            FIO Example<br />
+            <a href="http://paperjs.org/" target="new">paperjs</a> experiment by <a href="http://kennnethfrederick.de/" target="new">kenfrederick</a>
+        </div>
 
-				<div class="input-component" style="width: 450px;">
-					<div class="left"><b>Image</b></div>
-					<input type="text" id="image" name="image" onChange="Setup()" value="http://upload.wikimedia.org/wikipedia/en/2/24/Lenna.png" class="black-dark-gray" />
-				</div>
-
-			</form>
-		</div>
+        <div id="manual">
+        </div>
 
 
-		<!-- IMAGES -->
-		<div id="rasters">
-			<!-- <img id="raster" src="images/tumblr_mtoxg3eqCv1qbl3i2o1_500.gif" /> -->
-		</div>
+        <!-- INPUTS -->
+        <div id="input-container">
+            <input id="saveSVG" type="button" value="Export SVG" onclick="saveSVG();" />
+        </div>
+
+
+        <!-- IMAGES -->
+        <div id="rasters">
+            <!-- <img id="raster" src="images/tumblr_mtoxg3eqCv1qbl3i2o1_500.gif" /> -->
+        </div>
 
 
 
-	</body>
+    </body>
 </html>
