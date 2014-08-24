@@ -846,7 +846,7 @@ select {
 /*
  *  iPhone & iPod Touch Portrait
  */
-/*@media screen and (width: 320px), (height: 480px) {
+@media screen and (width: 320px), (height: 480px) {
   #text-container {
     visibility: hidden;
   }
@@ -858,7 +858,7 @@ select {
   }
 }
 
- *  iPhone & iPod Touch Landscape
+/* iPhone & iPod Touch Landscape */
 
 @media screen and (width: 480px), (height: 320px) {
   #text-container {
@@ -870,7 +870,8 @@ select {
   #input-container {
     visibility: hidden;
   }
-}*/
+}
+
 /*
  *  iPhone 4 Portrait
  */
