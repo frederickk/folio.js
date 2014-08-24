@@ -82,18 +82,20 @@ function Draw() {
 
     // draw the extrusion
     var temp = type.clone();
+
     for( var i=temp.children.length-1; i>=0; i-- ) {
         var item = temp.children[i];
 
         // calculate slope
         var slope = paper.slope(
-            180+paper.map(i, 0,temp.children.length-1, 0,90)+values.angle,
+            180+paper.map(i, 0,temp.children.length-1, 0,90) + values.angle,
             values.distance
         );
 
         // extrude
         var e = Extrude(item, slope);
         e.fillColor = values.color;
+        // e.strokeColor = values.color;
 
         // add to group
         extrusionsGroup.appendTop(e);
@@ -124,28 +126,30 @@ function Extrude(item, slope) {
     //
     // Properties
     //
+    var item = item || new Path();
     var extrusion = new Group();
 
 
     //
     // Methods
     //
-    function initialize(item) {
-        var item = toPath(item).toGroup();
-        if( item.hasChildren() ) {
-            for( var i=item.children.length-1; i>=0; i-- ) {
-                var child = item.children[i];
-                initialize(child);
+    function init(item) {
+        var pathItem = item;
+        if( pathItem.hasChildren() ) {
+            var pathItem = toPath(item).toGroup();
+            for( var i=pathItem.children.length-1; i>=0; i-- ) {
+                var child = pathItem.children[i];
+                init(child);
             }
         }
         else {
-            var backFace = item.clone();
+            var backFace = pathItem.clone();
             backFace.translate(new Point( slope ));
 
-            var path = fromCurves(item, backFace)
+            var path = fromCurves(pathItem, backFace)
             extrusion.appendBottom( path );
 
-            item.remove();
+            pathItem.remove();
             backFace.remove();
         }
 
@@ -199,7 +203,7 @@ function Extrude(item, slope) {
 
 
     // ------------------------------------------------------------------------
-    return initialize(item);
+    return init(item);
 };
 
 

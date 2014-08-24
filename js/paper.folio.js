@@ -5243,44 +5243,46 @@ folio.FFlock = {
                 position.y + vector.y
             );
 
-            var hitResult = obstacleItem.path().hitTest(target, properties.hitOptions);
-            var repel = new Point();
-            if( hitResult ) {
-                if( hitResult.type == 'stroke' ||
-                    hitResult.type == 'segment' ||
-                    hitResult.type == 'handle-in' ||
-                    hitResult.type == 'handle-out' ) {
-                    repel = new Point(
-                        position.x - hitResult.location.point.x,
-                        position.y - hitResult.location.point.y
-                    );
-                    repel = repel.normalize();
+            if ( obstacleItem.path() ) {
+                var hitResult = obstacleItem.path().hitTest(target, properties.hitOptions);
+                var repel = new Point();
+                if( hitResult ) {
+                    if( hitResult.type == 'stroke' ||
+                        hitResult.type == 'segment' ||
+                        hitResult.type == 'handle-in' ||
+                        hitResult.type == 'handle-out' ) {
+                        repel = new Point(
+                            position.x - hitResult.location.point.x,
+                            position.y - hitResult.location.point.y
+                        );
+                        repel = repel.normalize();
+                    }
+                    else if( hitResult.type == 'fill' ) {
+                        repel = new Point(
+                            position.x * -vector.x,
+                            position.y * -vector.y
+                        );
+                        // repel = repel.normalize();
+                        // repel = new Point(
+                        //     target.x - vector.x,
+                        //     target.y - vector.y
+                        // );
+                    }
+
+                    repel.x *= maxForce*7;
+                    repel.y *= maxForce*7;
+
+                    if( Math.sqrt(repel.x * repel.x + repel.y * repel.y) < 0 ) {
+                        repel.y = 0;
+                    }
+
+                    // apply
+                    // repel.x /= mass;
+                    // repel.y /= mass;
+                    acceleration.x += repel.x;
+                    acceleration.y += repel.y;
+
                 }
-                else if( hitResult.type == 'fill' ) {
-                    repel = new Point(
-                        position.x * -vector.x,
-                        position.y * -vector.y
-                    );
-                    // repel = repel.normalize();
-                    // repel = new Point(
-                    //     target.x - vector.x,
-                    //     target.y - vector.y
-                    // );
-                }
-
-                repel.x *= maxForce*7;
-                repel.y *= maxForce*7;
-
-                if( Math.sqrt(repel.x * repel.x + repel.y * repel.y) < 0 ) {
-                    repel.y = 0;
-                }
-
-                // apply
-                // repel.x /= mass;
-                // repel.y /= mass;
-                acceleration.x += repel.x;
-                acceleration.y += repel.y;
-
             }
 
 

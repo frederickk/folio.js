@@ -1,118 +1,118 @@
 
 <!-- DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" -->
 <html>
-	<head>
-		<!-- META -->
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <head>
+        <!-- META -->
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
 
-		<title>Lissajous</title>
+        <title>Lissajous</title>
 
 
-		<!-- CSS -->
-		<link href="css/Folio.css" rel="stylesheet" type="text/css" />
+        <!-- CSS -->
+        <link href="css/Folio.css" rel="stylesheet" type="text/css" />
 
 
-		<meta http-equiv="x-dns-prefetch-control" content="off"/>
-	</head>
-	<body>
+        <meta http-equiv="x-dns-prefetch-control" content="off"/>
+    </head>
+    <body>
 
 
-		<!-- JAVASCRIPT -->
-		<script type="text/javascript" src="./js/paper-core.js"></script>
-		<script type="text/javascript" src="./js/paper.folio.js"></script>
+        <!-- JAVASCRIPT -->
+        <script type="text/javascript" src="./js/paper-core.js"></script>
+        <script type="text/javascript" src="./js/paper.folio.js"></script>
 
-		<!-- LOAD PAPER SCRIPT -->
-		<script type="text/javascript" src="./scripts/lissajous.js"></script>
-		<script>
-			// http://paulirish.com/2009/random-hex-color-code-snippets/
-			function randomHex() {
-				return ('#'+Math.floor(Math.random()*16777215).toString(16)).toUpperCase();
-			};
-		</script>
-
-
-		<!-- TEXT -->
-		<div id="text-container">
-			Lissajous<br />
-			<a href="http://paperjs.org/" target="new">paperjs</a> experiment by <a href="http://kennnethfrederick.de/" target="new">kenfrederick</a>
-		</div>
-
-		<div id="manual" class="black">
-			<!-- TODO: fix mouse -->
-			<!-- b>mouse</b> draw angle and distance -->
-		</div>
+        <!-- LOAD PAPER SCRIPT -->
+        <script type="text/javascript" src="./scripts/lissajous.js"></script>
+        <script>
+            // http://paulirish.com/2009/random-hex-color-code-snippets/
+            function randomHex() {
+                return ('#'+Math.floor(Math.random()*16777215).toString(16)).toUpperCase();
+            };
+        </script>
 
 
-		<!-- INPUTS -->
-		<div id="input-container">
-			<form method="POST" name="Form">
+        <!-- TEXT -->
+        <div id="text-container">
+            Lissajous<br />
+            <a href="http://paperjs.org/" target="new">paperjs</a> experiment by <a href="http://kennnethfrederick.de/" target="new">kenfrederick</a>
+        </div>
 
-				<div class="input-component" style="width: 100px">
-					<div class="left"><b class="black">Period Angle</b></div>
-					<input type="text" id="periodAngle" name="periodAngle" onChange="setParameters()" value="" class="black-dark-gray" />
-				</div>
-
-				<div class="input-component" style="width: 100px;">
-					<div class="left"><b class="black">Frequency</b></div>
-					<input type="text" id="frequencyX" name="frequencyX" onChange="setParameters()" value="" class="black-dark-gray" />
-				</div>
-				<div class="input-component" style="width: 100px;">
-					<div class="left"><b class="black">&nbsp;</b></div>
-					<input type="text" id="frequencyY" name="frequencyY" onChange="setParameters()" value="" class="black-dark-gray" />
-				</div>
-
-				<div class="input-component" style="width: 100px;">
-					<div class="left"><b class="black">Stroke</b></div>
-					<input type="text" id="widthSta" name="widthSta" onChange="setParameters()" value="" class="black-dark-gray" />
-				</div>
-				<div class="input-component" style="width: 100px;">
-					<div class="left"><b class="black">&nbsp;</b></div>
-					<input type="text" id="widthEnd" name="widthEnd" onChange="setParameters()" value="" class="black-dark-gray" />
-				</div>
-
-				<div class="input-component" style="width: 170px;">
-					<div class="left"><b class="black">Colors</b></div>
-					<input type="text" id="colSta" name="colSta" onChange="setParameters()" value="" class="black-dark-gray" />
-				</div>
-				<div class="input-component" style="width: 170px;">
-					<div class="left"><b class="black">&nbsp;</b></div>
-					<input type="text" id="colEnd" name="colEnd" onChange="setParameters()" value="" class="black-dark-gray" />
-				</div>
-
-				<div class="input-component" style="width: 100px;">
-					<div class="left"><b class="black">Opacity</b></div>
-					<input type="text" id="opacSta" name="opacSta" onChange="setParameters()" value="" class="black-dark-gray" />
-				</div>
-				<div class="input-component" style="width: 100px;">
-					<div class="left"><b class="black">&nbsp;</b></div>
-					<input type="text" id="opacEnd" name="opacEnd" onChange="setParameters()" value="" class="black-dark-gray" />
-				</div>
-			</form>
-		</div>
-
-		<script>
-			document.getElementById('periodAngle').value = parseInt(Math.random()*360);
-
-			document.getElementById('frequencyX').value =  paper.randomInt(25,41.5);
-			document.getElementById('frequencyY').value =  paper.randomInt(1,25);
-
-			document.getElementById('widthSta').value =  1;
-			document.getElementById('widthEnd').value =  paper.randomInt(1,30);
-
-			document.getElementById('colSta').value =  randomHex(); //'#00ffb2';
-			document.getElementById('colEnd').value =  randomHex(); //'#ff00b2';
-
-			document.getElementById('opacSta').value =  round( paper.random(1,61.8),2 );
-			document.getElementById('opacEnd').value =  61.8;
-		</script>
+        <div id="manual" class="black">
+            <!-- TODO: fix mouse -->
+            <!-- b>mouse</b> draw angle and distance -->
+        </div>
 
 
-		<!-- IMAGES -->
-		<div id="rasters">
-		</div>
+        <!-- INPUTS -->
+        <div id="input-container">
+            <form method="POST" name="Form">
+
+                <div class="input-component" style="width: 100px">
+                    <div class="left"><b class="black">Period Angle</b></div>
+                    <input type="text" id="periodAngle" name="periodAngle" onChange="setParameters()" value="" class="black-dark-gray" />
+                </div>
+
+                <div class="input-component" style="width: 100px;">
+                    <div class="left"><b class="black">Frequency</b></div>
+                    <input type="text" id="frequencyX" name="frequencyX" onChange="setParameters()" value="" class="black-dark-gray" />
+                </div>
+                <div class="input-component" style="width: 100px;">
+                    <div class="left"><b class="black">&nbsp;</b></div>
+                    <input type="text" id="frequencyY" name="frequencyY" onChange="setParameters()" value="" class="black-dark-gray" />
+                </div>
+
+                <div class="input-component" style="width: 100px;">
+                    <div class="left"><b class="black">Stroke</b></div>
+                    <input type="text" id="widthSta" name="widthSta" onChange="setParameters()" value="" class="black-dark-gray" />
+                </div>
+                <div class="input-component" style="width: 100px;">
+                    <div class="left"><b class="black">&nbsp;</b></div>
+                    <input type="text" id="widthEnd" name="widthEnd" onChange="setParameters()" value="" class="black-dark-gray" />
+                </div>
+
+                <div class="input-component" style="width: 170px;">
+                    <div class="left"><b class="black">Colors</b></div>
+                    <input type="text" id="colSta" name="colSta" onChange="setParameters()" value="" class="black-dark-gray" />
+                </div>
+                <div class="input-component" style="width: 170px;">
+                    <div class="left"><b class="black">&nbsp;</b></div>
+                    <input type="text" id="colEnd" name="colEnd" onChange="setParameters()" value="" class="black-dark-gray" />
+                </div>
+
+                <div class="input-component" style="width: 100px;">
+                    <div class="left"><b class="black">Opacity</b></div>
+                    <input type="text" id="opacSta" name="opacSta" onChange="setParameters()" value="" class="black-dark-gray" />
+                </div>
+                <div class="input-component" style="width: 100px;">
+                    <div class="left"><b class="black">&nbsp;</b></div>
+                    <input type="text" id="opacEnd" name="opacEnd" onChange="setParameters()" value="" class="black-dark-gray" />
+                </div>
+            </form>
+        </div>
+
+        <script>
+            document.getElementById('periodAngle').value = parseInt(Math.random()*360);
+
+            document.getElementById('frequencyX').value =  paper.randomInt(25,41.5);
+            document.getElementById('frequencyY').value =  paper.randomInt(1,25);
+
+            document.getElementById('widthSta').value =  1;
+            document.getElementById('widthEnd').value =  paper.randomInt(1,30);
+
+            document.getElementById('colSta').value =  randomHex(); //'#00ffb2';
+            document.getElementById('colEnd').value =  randomHex(); //'#ff00b2';
+
+            document.getElementById('opacSta').value =  round( paper.random(1,61.8),2 );
+            document.getElementById('opacEnd').value =  61.8;
+        </script>
+
+
+        <!-- IMAGES -->
+        <div id="rasters">
+        </div>
 
 
 
-	</body>
+    </body>
 </html>
