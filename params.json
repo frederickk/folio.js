@@ -1,0 +1,1 @@
+{"name":"Folio.js","tagline":"A library for use with Paper.js (http://paperjs.org/) and Scriptographer (http://scriptographer.org/)","body":"$ cd your_repo_root/repo_name\r\n$ git fetch origin\r\n$ git checkout gh-pages\r\n","google":"","note":"Don't delete this file! It's used internally to help with page regeneration."}
