@@ -14,11 +14,11 @@ Additional details and explanation can be found on my [blog](http://kenfrederick
 Examples
 -------------
 
-Examples for both [Paper.js](http://paperjs.org/) `/examples/paper.folio` and [Scriptographer](http://scriptographer.org/) `/examples/scriptographer.folio`.
+[http://frederickk.github.io/folio.js/](http://frederickk.github.io/folio.js/)
+
+I've moved the [Folio.js](http://kennethfrederick.de/foliojs/) examples to [gh-pages branch](https://github.com/frederickk/folio.js/tree/gh-pages). In the near future I will depreciate all support for [Scriptographer](http://scriptographer.org/). Until then, [Scriptographer](http://scriptographer.org/) examples can be found `/examples/scriptographer.folio`.
 
 To run the [Scriptographer](http://scriptographer.org/) examples, simply add the `/examples/scriptographer.folio` as a [repository](http://scriptographer.org/news/2.8.050-is-out-welcome-on-board-cs5/). The examples will then appear in your [Scriptographer](http://scriptographer.org/) palette.
-
-Additional examples will be added as time permits.
 
 
 
