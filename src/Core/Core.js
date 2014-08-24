@@ -151,7 +151,7 @@ PaperScope.inject({
      */
     forEach: function(arr, callback) {
         for (var i=0, len=arr.length; i<len; i++) {
-            if(callback(arr[i],i) === false) {
+            if (callback(arr[i],i) === false) {
                 return false;
             }
         }

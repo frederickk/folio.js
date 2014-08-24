@@ -78,7 +78,7 @@ Array.prototype.merge = function(arr, bShuffle) {
  *
  */
 Array.prototype.combine = function(arr) {
-    for(item in this) {
+    for (item in this) {
         arr[item] = (arr[item] != undefined)
             ? arr[item]
             : this[item];

@@ -128,7 +128,7 @@ folio.FFlock = {
         };
 
         function updateItems() {
-            if( path ) {
+            if ( path ) {
                 path.position = position;
                 var angle = vector.angle;
                 path.rotate(angle - lastAngle);
@@ -185,10 +185,10 @@ folio.FFlock = {
             }
 
             // attract boid to the center of object
-            if( contained ) {
+            if ( contained ) {
                 // path.fillColor = path.strokeColor = new Color(1.0, 0.0, 0.0);
                 var hitResult = item.hitTest(target, properties.hitOptions);
-                if( !hitResult ) {
+                if ( !hitResult ) {
                     // vector = new Point();
                     vector = new Point(
                         -vector.x,
@@ -196,7 +196,7 @@ folio.FFlock = {
                     );
                 }
             }
-            else if( !contained ) {
+            else if ( !contained ) {
                 // path.fillColor = 'white';
                 arrive(item.position);
             }
@@ -217,46 +217,47 @@ folio.FFlock = {
                 position.y + vector.y
             );
 
-            var hitResult = obstacleItem.path().hitTest(target, properties.hitOptions);
-            var repel = new Point();
-            if( hitResult ) {
-                if( hitResult.type == 'stroke' ||
-                    hitResult.type == 'segment' ||
-                    hitResult.type == 'handle-in' ||
-                    hitResult.type == 'handle-out' ) {
-                    repel = new Point(
-                        position.x - hitResult.location.point.x,
-                        position.y - hitResult.location.point.y
-                    );
-                    repel = repel.normalize();
+            if (obstacleItem.path()) {
+                var hitResult = obstacleItem.path().hitTest(target, properties.hitOptions);
+                var repel = new Point();
+                if ( hitResult ) {
+                    if ( hitResult.type == 'stroke' ||
+                        hitResult.type == 'segment' ||
+                        hitResult.type == 'handle-in' ||
+                        hitResult.type == 'handle-out' ) {
+                        repel = new Point(
+                            position.x - hitResult.location.point.x,
+                            position.y - hitResult.location.point.y
+                        );
+                        repel = repel.normalize();
+                    }
+                    else if ( hitResult.type == 'fill' ) {
+                        repel = new Point(
+                            position.x * -vector.x,
+                            position.y * -vector.y
+                        );
+                        // repel = repel.normalize();
+                        // repel = new Point(
+                        //     target.x - vector.x,
+                        //     target.y - vector.y
+                        // );
+                    }
+
+                    repel.x *= maxForce*7;
+                    repel.y *= maxForce*7;
+
+                    if ( Math.sqrt(repel.x * repel.x + repel.y * repel.y) < 0 ) {
+                        repel.y = 0;
+                    }
+
+                    // apply
+                    // repel.x /= mass;
+                    // repel.y /= mass;
+                    acceleration.x += repel.x;
+                    acceleration.y += repel.y;
+
                 }
-                else if( hitResult.type == 'fill' ) {
-                    repel = new Point(
-                        position.x * -vector.x,
-                        position.y * -vector.y
-                    );
-                    // repel = repel.normalize();
-                    // repel = new Point(
-                    //     target.x - vector.x,
-                    //     target.y - vector.y
-                    // );
-                }
-
-                repel.x *= maxForce*7;
-                repel.y *= maxForce*7;
-
-                if( Math.sqrt(repel.x * repel.x + repel.y * repel.y) < 0 ) {
-                    repel.y = 0;
-                }
-
-                // apply
-                // repel.x /= mass;
-                // repel.y /= mass;
-                acceleration.x += repel.x;
-                acceleration.y += repel.y;
-
             }
-
 
         };
 
@@ -394,7 +395,7 @@ folio.FFlock = {
         };
 
         function getPosition(val) {
-            if(val != undefined) position = new Point(val);
+            if (val != undefined) position = new Point(val);
             return position;
         };
 

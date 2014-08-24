@@ -75,7 +75,7 @@ folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
         // the scene
         this._scene = scene;
 
-        for(var i=0; i<this._fpoints3.length; i++) {
+        for (var i=0; i<this._fpoints3.length; i++) {
             this._fpoints3[i].setup( this._scene );
         }
     },
@@ -107,12 +107,12 @@ folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
      *      z point
      */
     translate: function(arg0, arg1, arg2) {
-        if(typeof arg0 == 'number') {
+        if (typeof arg0 == 'number') {
             this._translation.x = arg0;
             this._translation.y = arg1;
             this._translation.z = arg2;
         }
-        else if(typeof arg0 == 'object') { // FPoint3
+        else if (typeof arg0 == 'object') { // FPoint3
             this._translation.x = arg0.x;
             this._translation.y = arg0.y;
             this._translation.z = arg0.z;
@@ -129,7 +129,7 @@ folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
                 : 0;
         }
 
-        for(var i=0; i<this._fpoints3.length; i++) {
+        for (var i=0; i<this._fpoints3.length; i++) {
             var pt3 = this._fpoints3[i];
             pt3.setX( (pt3.x + this._translation.x) );
             pt3.setY( (pt3.y + this._translation.y) );
@@ -171,7 +171,7 @@ folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
         this._segments = [];
 
         // push points into 2D path
-        for(var i=0; i<this._fpoints3.length; i++) {
+        for (var i=0; i<this._fpoints3.length; i++) {
             var pt3 = this._fpoints3[i];
             this.add(
                 new Point( pt3.x2D(), pt3.y2D() )

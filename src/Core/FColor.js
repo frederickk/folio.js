@@ -280,7 +280,7 @@ paper.Color.inject({
     //
     // interpolateTo: function(toColor, amt) {
     //  var color = new Color( this );
-    //  for( var i=0; i<color._components.length; i++ ) {
+    //  for ( var i=0; i<color._components.length; i++ ) {
     //      color._components[i] += ((toColor._components[i] - color._components[i]) * amt);
     //  }
     //  return color;
@@ -288,9 +288,9 @@ paper.Color.inject({
     interpolate: function( arg0, arg1, arg2 ) {
         var color = new Color( this );
 
-        if(typeof arg1 === 'number') {
+        if (typeof arg1 === 'number') {
             var to = arg0.getComponents();
-            for( var i=0; i<color._components.length; i++ ) {
+            for ( var i=0; i<color._components.length; i++ ) {
                 // color._components[i] += ((to[i] - color._components[i]) * arg1);
                 color._components[i] = paper.interpolate( color._components[i], to[i], arg1 );
             }
@@ -298,7 +298,7 @@ paper.Color.inject({
         else {
             var from = arg0.getComponents();
             var to = arg1.getComponents();
-            for( var i=0; i<color._components.length; i++ ) {
+            for ( var i=0; i<color._components.length; i++ ) {
                 // color._components[i] += ((to[i] - from[i]) * arg2);
                 color._components[i] = paper.interpolate( from[i], to[i], arg2 );
             }
@@ -339,7 +339,7 @@ paper.Color.inject({
         random: function(arg0, arg1, arg2, arg3) {
             var components;
 
-            if( paper.getType(arg0) === 'String' ) {
+            if ( paper.getType(arg0) === 'String' ) {
                 var hex = arg0.substring(1);
                 return new Color.random(
                     parseInt(hex.slice(0,2), 16)/255,
@@ -347,10 +347,10 @@ paper.Color.inject({
                     parseInt(hex.slice(4,6), 16)/255
                 );
             }
-            else if( paper.getType(arg0) === 'Object' ) {
+            else if ( paper.getType(arg0) === 'Object' ) {
                 components = {};
-                for( var key in arg0 ) {
-                    if( paper.getType(arg0[key]) === 'Array' ) {
+                for ( var key in arg0 ) {
+                    if ( paper.getType(arg0[key]) === 'Array' ) {
                         components[key] = paper.random(arg0[key][0], arg0[key][1]);
                     }
                     else {
@@ -364,11 +364,11 @@ paper.Color.inject({
                     ? arguments.length
                     : 4;
 
-                for( var i=0; i<len; i++ ) {
-                    if( paper.getType(arguments[i]) === 'Array' ) {
+                for ( var i=0; i<len; i++ ) {
+                    if ( paper.getType(arguments[i]) === 'Array' ) {
                         components.push(paper.random(arguments[i][0], arguments[i][1] ));
                     }
-                    else if( paper.getType(arguments[i]) === 'Number' ) {
+                    else if ( paper.getType(arguments[i]) === 'Number' ) {
                         components.push(paper.random( 0.0, arguments[i] ));
                     }
                     else {
@@ -416,7 +416,7 @@ paper.Color.inject({
          *
          */
         bytes: function(arg0, arg1, arg2, arg3) {
-            if(arguments.length === 4) {
+            if (arguments.length === 4) {
                 return new Color(
                     arg0/255,
                     (arg1 != undefined) ? arg1/255 : arg0/255,

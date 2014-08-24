@@ -73,7 +73,7 @@ paper.Item.inject({
      *
      */
     getDistanceToCenter: function() {
-        if( this._position != undefined ) {
+        if ( this._position != undefined ) {
             var dx = this._position.x - view.bounds.center.x;
             var dy = this._position.y - view.bounds.center.y;
             return (dx * dx + dy * dy) + 1;
@@ -238,13 +238,13 @@ paper.Path.inject({
     //  var len = this._segments.length;
 
     //  var points = [];
-    //  for( var i=0; i<len; i++ ) {
+    //  for ( var i=0; i<len; i++ ) {
     //      var point = this._segments[i].point
     //      points.push(point);
     //  }
     //  points.sort( FSort.distanceToCenter );
 
-    //  for( var i=0; i<points.length; i++ ) {
+    //  for ( var i=0; i<points.length; i++ ) {
     //      var point = points[i];
     //      console.log( point.getDistanceToCenter() );
     //  }
@@ -267,7 +267,7 @@ paper.Path.inject({
 
     //  // var arr1 = this._segments[0].point.getPerpendicularBisector(this._segments[2].point);
     //  // var arr2;
-    //  // if(len === 3) {
+    //  // if (len === 3) {
     //  //  // triangle
     //  //  arr2 = this._segments[1].point.getPerpendicularBisector(this._segments[2].point);
     //  // }
@@ -278,14 +278,14 @@ paper.Path.inject({
     //  // }
 
     //  // var o = intersection(arr1, arr2);
-    //  // // if(o.length < 1) {
+    //  // // if (o.length < 1) {
     //  // //   err_fail_to_find_center = 1;
     //  // //   // continue;
     //  // // }
 
     //  // var r  = this._segments[0].point.getDistance(o);
     //  // var r1 = this._segments[1].point.getDistance(o);
-    //  // if(r >= r1){
+    //  // if (r >= r1){
     //  //  rIdx = 0;
     //  // }
     //  // else {
@@ -295,7 +295,7 @@ paper.Path.inject({
 
     //  // function intersection(p, q) {
     //  //  var d = p[0] * q[1] - p[1] * q[0];
-    //  //  if(d == 0) return [];
+    //  //  if (d == 0) return [];
     //  //  return new Point(
     //  //      (q[2] * p[1] - p[2] * q[1])/d,
     //  //      (p[2] * q[0] - q[2] * p[0])/d
@@ -317,7 +317,7 @@ paper.Path.inject({
         var pointsX = [],
             pointsY = [];
 
-        for( var i=0; i<len; i++ ) {
+        for ( var i=0; i<len; i++ ) {
             var j = (i+1 >= len) ? 0 : i+1;
             var k = (i+2 >= len) ? 1 : i+2;
 
@@ -341,7 +341,7 @@ paper.Path.inject({
 
             var G = 2.0*(A*(p3.y - p2.y)-B*(p3.x - p2.x));
 
-            if( Math.abs(G) < Numerical.EPSILON ) {
+            if ( Math.abs(G) < Numerical.EPSILON ) {
                 var arrx = [p1.x, p2.x, p3.x];
                 var arry = [p1.y, p2.y, p3.y];
 
@@ -395,9 +395,9 @@ paper.Path.inject({
         circumradius = getDistanceToCentroid( arr[arr.length-1] ) + getDistanceToCentroid( arr[arr.length-2] );
         circumradius /= 2;
 
-        // // for( var i=0; i<arr.length; i++ ) {
+        // // for ( var i=0; i<arr.length; i++ ) {
         // //   var seg = arr[i].point;
-        // //   if( seg.getDistance( this.getCentroid()) > circumradius ) {
+        // //   if ( seg.getDistance( this.getCentroid()) > circumradius ) {
         // //       circumradius = seg.getDistance( this.getCentroid());
         // //   }
         // // }
@@ -427,9 +427,9 @@ paper.Path.inject({
     getIncircle: function() {
         var incircleradius = Number.MAX_VALUE;
 
-        for( var i=0; i<this._segments.length; i++ ) {
+        for ( var i=0; i<this._segments.length; i++ ) {
             var seg = this._segments[i].point;
-            if( seg.getDistance( this.getCentroid() ) < incircleradius ) {
+            if ( seg.getDistance( this.getCentroid() ) < incircleradius ) {
                 incircleradius = seg.getDistance( this.getCentroid() );
             }
         }
@@ -443,7 +443,7 @@ paper.Path.inject({
     // TODO: currently implementation returns false point
     // getIncenter : function() {
     //  // vertices
-    //  if( this.segments.length == 3 ) {
+    //  if ( this.segments.length == 3 ) {
     //      var p1 = this.segments[0].point;
     //      var p2 = this.segments[1].point;
     //      var p3 = this.segments[2].point;
@@ -472,7 +472,7 @@ paper.Path.inject({
      */
     // TODO: currently implementation returns false point
     // toCartesian : function(bary) {
-    //  if( this.segments.length == 3 ) {
+    //  if ( this.segments.length == 3 ) {
     //      var p1 = this.segments[0].point;
     //      var p2 = this.segments[1].point;
     //      var p3 = this.segments[2].point;
@@ -517,7 +517,7 @@ paper.Path.inject({
     // TODO: currently implementation returns false point
     // getOrthocenter : function() {
     //  // vertices
-    //  if( this.segments.length == 3 ) {
+    //  if ( this.segments.length == 3 ) {
     //      var p1 = this.segments[0].point;
     //      var p2 = this.segments[1].point;
     //      var p3 = this.segments[2].point;
@@ -544,7 +544,7 @@ paper.Path.inject({
     // TODO: currently implementation returns false point
     // getSchifflerPoint : function() {
     //  // vertices
-    //  if( this.segments.length == 3 ) {
+    //  if ( this.segments.length == 3 ) {
     //      var p1 = this.segments[0].point;
     //      var p2 = this.segments[1].point;
     //      var p3 = this.segments[2].point;
@@ -605,7 +605,7 @@ paper.Path.inject({
                 var arrowHead = [];
                 arrowHead[0] = new Path.Line( new Point(0,0), new Point(-arrowHeadSize.width,-arrowHeadSize.height) );
                 arrowHead[1] = new Path.Line( new Point(0,0), new Point( arrowHeadSize.width,-arrowHeadSize.height) );
-                for( var i=0; i<arrowHead.length; i++ ) {
+                for ( var i=0; i<arrowHead.length; i++ ) {
                     arrowHead[i].rotate( 180+paper.degrees(a), new Point(0,0) );
                     arrowHead[i].translate( headPoint );
                 }
@@ -647,7 +647,7 @@ paper.Path.inject({
                 path.name = 'bubble';
 
                 var bubbleTagSize = bubbleTagSize || defaultFBubbleTagSize;
-                if(bubbleSize.width < 10) {
+                if (bubbleSize.width < 10) {
                     bubbleSize.width = 10;
                     bubbleTagSize = new Size(10,10);
                 }
@@ -670,16 +670,16 @@ paper.Path.inject({
                 path.add( new Point(tagStart,bubbleSize.height) );
 
                 var tx, ty;
-                if(bubbleTagCenter == 'LEFT') {
+                if (bubbleTagCenter == 'LEFT') {
                     tx = tagStart;
                 }
-                else if(bubbleTagCenter == 'CENTER') {
+                else if (bubbleTagCenter == 'CENTER') {
                     tx = tagStart + (bubbleTagSize.width/2);
                 }
-                else if(bubbleTagCenter == 'RIGHT') {
+                else if (bubbleTagCenter == 'RIGHT') {
                     tx = tagStart+bubbleTagSize.width;
                 }
-                else { // if(bubbleTagCenter == 'RANDOM') {
+                else { // if (bubbleTagCenter == 'RANDOM') {
                     tx = paper.randomInt(tagStart,tagStart+bubbleTagSize.width);
                 }
 
@@ -749,7 +749,7 @@ paper.Path.inject({
                 var obj1, obj2;
 
                 // check for the type of arguments being passed
-                if( paper.getType(arg0) === 'Point' ) {
+                if ( paper.getType(arg0) === 'Point' ) {
                     obj1 = new Path.Circle( arg0, arg1 );
                     obj2 = new Path.Circle( arg2, arg3 );
                 }
@@ -760,19 +760,19 @@ paper.Path.inject({
 
                 var tangents = paper.getCommonTangents(obj1, obj2);
                 var path = new Path();
-                if( tangents != null ) {
+                if ( tangents != null ) {
                     path.name = 'chain';
                     path.add( tangents[0] );
                     path.add( tangents[1] );
 
                     // determine position of chain around endpoint2
-                    if( obj2.position.x > obj1.position.x ) {
+                    if ( obj2.position.x > obj1.position.x ) {
                         angle = 0;
                     }
-                    else if( obj2.position.y < obj1.position.y ) {
+                    else if ( obj2.position.y < obj1.position.y ) {
                         angle = -90;
                     }
-                    else if( obj2.position.y > obj1.position.y ) {
+                    else if ( obj2.position.y > obj1.position.y ) {
                         angle = 90;
                     }
                     else {
@@ -788,13 +788,13 @@ paper.Path.inject({
                     path.add(tangents[3]);
 
                     // determine position of chain around endpoint1
-                    if( obj1.position.x > obj2.position.x ) {
+                    if ( obj1.position.x > obj2.position.x ) {
                         angle = 0;
                     }
-                    else if( obj1.position.y < obj2.position.y ) {
+                    else if ( obj1.position.y < obj2.position.y ) {
                         angle = -90;
                     }
-                    else if( obj1.position.y > obj2.position.y ) {
+                    else if ( obj1.position.y > obj2.position.y ) {
                         angle = 90;
                     }
                     else {
@@ -843,7 +843,7 @@ paper.Path.inject({
                 // var size = new Size(_width,_height);
                 var line1, line2;
 
-                if( crossType == 'LINE' ) {
+                if ( crossType == 'LINE' ) {
                     line1 = new Path.Line(
                         centerPoint.x + size.width, centerPoint.y - size.height,
                         centerPoint.x - size.width, centerPoint.y + size.height
@@ -855,7 +855,7 @@ paper.Path.inject({
                     );
                     line2.strokeWidth = strokeWidth;
                 }
-                else if( crossType == 'SHARP' ) {
+                else if ( crossType == 'SHARP' ) {
                     line1 = new Path();
                     line1.add( new Point( centerPoint.x + size.width, centerPoint.y - size.height ) );
                     line1.add( new Point( centerPoint.x + size.width, (centerPoint.y - size.height) + (strokeWidth/2) ) );
@@ -949,7 +949,7 @@ paper.Path.inject({
 
                 // check for the type of arguments being passed
                 // default scale is from center (position)
-                if( typeof arg1 == 'Size' ) {
+                if ( typeof arg1 == 'Size' ) {
                     path.scale( arg1.width, arg1.height );
                 }
                 else {

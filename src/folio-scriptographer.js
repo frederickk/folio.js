@@ -104,7 +104,7 @@ global.inject({
         frameRate = (frameRate === undefined) ? FRAMERATE : frameRate;
         var interval = parseInt((1/frameRate)*1000);
 
-        if( isOn ) {
+        if ( isOn ) {
             var updater = setInterval( function() {
                 onFrame(interval, Update);
             }, interval

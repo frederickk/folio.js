@@ -59,7 +59,7 @@ var Matrix3D = function( n11, n12, n13, n14,
     //
     // ------------------------------------------------------------------------
     function init(values) {
-        for(var i in values) {
+        for (var i in values) {
             this[i] = values[i];
         }
     };
@@ -274,7 +274,7 @@ var Matrix3D = function( n11, n12, n13, n14,
         var rVal=[];
         var numPoints=arr.length/3;
 
-        for(var i=0; i<numPoints; i++) {
+        for (var i=0; i<numPoints; i++) {
             var i3 = i*3;
             var x = arr[i3];
             var y = arr[i3+1];

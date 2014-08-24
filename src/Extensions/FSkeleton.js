@@ -76,7 +76,7 @@ folio.FSkeleton = function(item) {
         centerlinepath = new Path();
         centerlinepath.closed = false;
 
-        for( var i=0, j=item.segments.length; i!=j; i++) {
+        for ( var i=0, j=item.segments.length; i!=j; i++) {
             // step j down
             --j;
 

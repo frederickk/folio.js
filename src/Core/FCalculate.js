@@ -33,11 +33,11 @@ PaperScope.inject({
      *
      */
     random: function(min, max) {
-        if(max == undefined) {
+        if (max == undefined) {
             max = min;
             min = 0;
         }
-        // else if(min == undefined) {
+        // else if (min == undefined) {
         //  max = 1;
         //  min = 0;
         // )
@@ -82,7 +82,7 @@ PaperScope.inject({
 
         var i = parseInt(Math.floor(bias));
         var n = _map[i];
-        if(bias < 10) n += (_map[i+1]-n) * (bias-i);
+        if (bias < 10) n += (_map[i+1]-n) * (bias-i);
 
         return Math.pow( Math.random(),n ) * (maxr-minr) + minr;
     },

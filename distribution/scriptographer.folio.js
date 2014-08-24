@@ -4,7 +4,7 @@
  * 0.7.4
  * https://github.com/frederickk/folio.js
  *
- * 20. August 2014
+ * 24. August 2014
  *
  * Ken Frederick
  * ken.frederick@gmx.de
@@ -151,7 +151,7 @@ global.inject({
         frameRate = (frameRate === undefined) ? FRAMERATE : frameRate;
         var interval = parseInt((1/frameRate)*1000);
 
-        if( isOn ) {
+        if ( isOn ) {
             var updater = setInterval( function() {
                 onFrame(interval, Update);
             }, interval
@@ -335,7 +335,7 @@ PaperScope.inject({
      */
     forEach: function(arr, callback) {
         for (var i=0, len=arr.length; i<len; i++) {
-            if(callback(arr[i],i) === false) {
+            if (callback(arr[i],i) === false) {
                 return false;
             }
         }
@@ -427,7 +427,7 @@ Array.prototype.merge = function(arr, bShuffle) {
  *
  */
 Array.prototype.combine = function(arr) {
-    for(item in this) {
+    for (item in this) {
         arr[item] = (arr[item] != undefined)
             ? arr[item]
             : this[item];
@@ -656,11 +656,11 @@ PaperScope.inject({
      *
      */
     random: function(min, max) {
-        if(max == undefined) {
+        if (max == undefined) {
             max = min;
             min = 0;
         }
-        // else if(min == undefined) {
+        // else if (min == undefined) {
         //  max = 1;
         //  min = 0;
         // )
@@ -705,7 +705,7 @@ PaperScope.inject({
 
         var i = parseInt(Math.floor(bias));
         var n = _map[i];
-        if(bias < 10) n += (_map[i+1]-n) * (bias-i);
+        if (bias < 10) n += (_map[i+1]-n) * (bias-i);
 
         return Math.pow( Math.random(),n ) * (maxr-minr) + minr;
     },
@@ -1350,7 +1350,7 @@ paper.Color.inject({
     //
     // interpolateTo: function(toColor, amt) {
     //  var color = new Color( this );
-    //  for( var i=0; i<color._components.length; i++ ) {
+    //  for ( var i=0; i<color._components.length; i++ ) {
     //      color._components[i] += ((toColor._components[i] - color._components[i]) * amt);
     //  }
     //  return color;
@@ -1358,9 +1358,9 @@ paper.Color.inject({
     interpolate: function( arg0, arg1, arg2 ) {
         var color = new Color( this );
 
-        if(typeof arg1 === 'number') {
+        if (typeof arg1 === 'number') {
             var to = arg0.getComponents();
-            for( var i=0; i<color._components.length; i++ ) {
+            for ( var i=0; i<color._components.length; i++ ) {
                 // color._components[i] += ((to[i] - color._components[i]) * arg1);
                 color._components[i] = paper.interpolate( color._components[i], to[i], arg1 );
             }
@@ -1368,7 +1368,7 @@ paper.Color.inject({
         else {
             var from = arg0.getComponents();
             var to = arg1.getComponents();
-            for( var i=0; i<color._components.length; i++ ) {
+            for ( var i=0; i<color._components.length; i++ ) {
                 // color._components[i] += ((to[i] - from[i]) * arg2);
                 color._components[i] = paper.interpolate( from[i], to[i], arg2 );
             }
@@ -1409,7 +1409,7 @@ paper.Color.inject({
         random: function(arg0, arg1, arg2, arg3) {
             var components;
 
-            if( paper.getType(arg0) === 'String' ) {
+            if ( paper.getType(arg0) === 'String' ) {
                 var hex = arg0.substring(1);
                 return new Color.random(
                     parseInt(hex.slice(0,2), 16)/255,
@@ -1417,10 +1417,10 @@ paper.Color.inject({
                     parseInt(hex.slice(4,6), 16)/255
                 );
             }
-            else if( paper.getType(arg0) === 'Object' ) {
+            else if ( paper.getType(arg0) === 'Object' ) {
                 components = {};
-                for( var key in arg0 ) {
-                    if( paper.getType(arg0[key]) === 'Array' ) {
+                for ( var key in arg0 ) {
+                    if ( paper.getType(arg0[key]) === 'Array' ) {
                         components[key] = paper.random(arg0[key][0], arg0[key][1]);
                     }
                     else {
@@ -1434,11 +1434,11 @@ paper.Color.inject({
                     ? arguments.length
                     : 4;
 
-                for( var i=0; i<len; i++ ) {
-                    if( paper.getType(arguments[i]) === 'Array' ) {
+                for ( var i=0; i<len; i++ ) {
+                    if ( paper.getType(arguments[i]) === 'Array' ) {
                         components.push(paper.random(arguments[i][0], arguments[i][1] ));
                     }
-                    else if( paper.getType(arguments[i]) === 'Number' ) {
+                    else if ( paper.getType(arguments[i]) === 'Number' ) {
                         components.push(paper.random( 0.0, arguments[i] ));
                     }
                     else {
@@ -1486,7 +1486,7 @@ paper.Color.inject({
          *
          */
         bytes: function(arg0, arg1, arg2, arg3) {
-            if(arguments.length === 4) {
+            if (arguments.length === 4) {
                 return new Color(
                     arg0/255,
                     (arg1 != undefined) ? arg1/255 : arg0/255,
@@ -1626,7 +1626,7 @@ paper.Item.inject({
      *
      */
     getDistanceToCenter: function() {
-        if( this._position != undefined ) {
+        if ( this._position != undefined ) {
             var dx = this._position.x - view.bounds.center.x;
             var dy = this._position.y - view.bounds.center.y;
             return (dx * dx + dy * dy) + 1;
@@ -1791,13 +1791,13 @@ paper.Path.inject({
     //  var len = this._segments.length;
 
     //  var points = [];
-    //  for( var i=0; i<len; i++ ) {
+    //  for ( var i=0; i<len; i++ ) {
     //      var point = this._segments[i].point
     //      points.push(point);
     //  }
     //  points.sort( FSort.distanceToCenter );
 
-    //  for( var i=0; i<points.length; i++ ) {
+    //  for ( var i=0; i<points.length; i++ ) {
     //      var point = points[i];
     //      console.log( point.getDistanceToCenter() );
     //  }
@@ -1820,7 +1820,7 @@ paper.Path.inject({
 
     //  // var arr1 = this._segments[0].point.getPerpendicularBisector(this._segments[2].point);
     //  // var arr2;
-    //  // if(len === 3) {
+    //  // if (len === 3) {
     //  //  // triangle
     //  //  arr2 = this._segments[1].point.getPerpendicularBisector(this._segments[2].point);
     //  // }
@@ -1831,14 +1831,14 @@ paper.Path.inject({
     //  // }
 
     //  // var o = intersection(arr1, arr2);
-    //  // // if(o.length < 1) {
+    //  // // if (o.length < 1) {
     //  // //   err_fail_to_find_center = 1;
     //  // //   // continue;
     //  // // }
 
     //  // var r  = this._segments[0].point.getDistance(o);
     //  // var r1 = this._segments[1].point.getDistance(o);
-    //  // if(r >= r1){
+    //  // if (r >= r1){
     //  //  rIdx = 0;
     //  // }
     //  // else {
@@ -1848,7 +1848,7 @@ paper.Path.inject({
 
     //  // function intersection(p, q) {
     //  //  var d = p[0] * q[1] - p[1] * q[0];
-    //  //  if(d == 0) return [];
+    //  //  if (d == 0) return [];
     //  //  return new Point(
     //  //      (q[2] * p[1] - p[2] * q[1])/d,
     //  //      (p[2] * q[0] - q[2] * p[0])/d
@@ -1870,7 +1870,7 @@ paper.Path.inject({
         var pointsX = [],
             pointsY = [];
 
-        for( var i=0; i<len; i++ ) {
+        for ( var i=0; i<len; i++ ) {
             var j = (i+1 >= len) ? 0 : i+1;
             var k = (i+2 >= len) ? 1 : i+2;
 
@@ -1894,7 +1894,7 @@ paper.Path.inject({
 
             var G = 2.0*(A*(p3.y - p2.y)-B*(p3.x - p2.x));
 
-            if( Math.abs(G) < Numerical.EPSILON ) {
+            if ( Math.abs(G) < Numerical.EPSILON ) {
                 var arrx = [p1.x, p2.x, p3.x];
                 var arry = [p1.y, p2.y, p3.y];
 
@@ -1948,9 +1948,9 @@ paper.Path.inject({
         circumradius = getDistanceToCentroid( arr[arr.length-1] ) + getDistanceToCentroid( arr[arr.length-2] );
         circumradius /= 2;
 
-        // // for( var i=0; i<arr.length; i++ ) {
+        // // for ( var i=0; i<arr.length; i++ ) {
         // //   var seg = arr[i].point;
-        // //   if( seg.getDistance( this.getCentroid()) > circumradius ) {
+        // //   if ( seg.getDistance( this.getCentroid()) > circumradius ) {
         // //       circumradius = seg.getDistance( this.getCentroid());
         // //   }
         // // }
@@ -1980,9 +1980,9 @@ paper.Path.inject({
     getIncircle: function() {
         var incircleradius = Number.MAX_VALUE;
 
-        for( var i=0; i<this._segments.length; i++ ) {
+        for ( var i=0; i<this._segments.length; i++ ) {
             var seg = this._segments[i].point;
-            if( seg.getDistance( this.getCentroid() ) < incircleradius ) {
+            if ( seg.getDistance( this.getCentroid() ) < incircleradius ) {
                 incircleradius = seg.getDistance( this.getCentroid() );
             }
         }
@@ -1996,7 +1996,7 @@ paper.Path.inject({
     // TODO: currently implementation returns false point
     // getIncenter : function() {
     //  // vertices
-    //  if( this.segments.length == 3 ) {
+    //  if ( this.segments.length == 3 ) {
     //      var p1 = this.segments[0].point;
     //      var p2 = this.segments[1].point;
     //      var p3 = this.segments[2].point;
@@ -2025,7 +2025,7 @@ paper.Path.inject({
      */
     // TODO: currently implementation returns false point
     // toCartesian : function(bary) {
-    //  if( this.segments.length == 3 ) {
+    //  if ( this.segments.length == 3 ) {
     //      var p1 = this.segments[0].point;
     //      var p2 = this.segments[1].point;
     //      var p3 = this.segments[2].point;
@@ -2070,7 +2070,7 @@ paper.Path.inject({
     // TODO: currently implementation returns false point
     // getOrthocenter : function() {
     //  // vertices
-    //  if( this.segments.length == 3 ) {
+    //  if ( this.segments.length == 3 ) {
     //      var p1 = this.segments[0].point;
     //      var p2 = this.segments[1].point;
     //      var p3 = this.segments[2].point;
@@ -2097,7 +2097,7 @@ paper.Path.inject({
     // TODO: currently implementation returns false point
     // getSchifflerPoint : function() {
     //  // vertices
-    //  if( this.segments.length == 3 ) {
+    //  if ( this.segments.length == 3 ) {
     //      var p1 = this.segments[0].point;
     //      var p2 = this.segments[1].point;
     //      var p3 = this.segments[2].point;
@@ -2158,7 +2158,7 @@ paper.Path.inject({
                 var arrowHead = [];
                 arrowHead[0] = new Path.Line( new Point(0,0), new Point(-arrowHeadSize.width,-arrowHeadSize.height) );
                 arrowHead[1] = new Path.Line( new Point(0,0), new Point( arrowHeadSize.width,-arrowHeadSize.height) );
-                for( var i=0; i<arrowHead.length; i++ ) {
+                for ( var i=0; i<arrowHead.length; i++ ) {
                     arrowHead[i].rotate( 180+paper.degrees(a), new Point(0,0) );
                     arrowHead[i].translate( headPoint );
                 }
@@ -2200,7 +2200,7 @@ paper.Path.inject({
                 path.name = 'bubble';
 
                 var bubbleTagSize = bubbleTagSize || defaultFBubbleTagSize;
-                if(bubbleSize.width < 10) {
+                if (bubbleSize.width < 10) {
                     bubbleSize.width = 10;
                     bubbleTagSize = new Size(10,10);
                 }
@@ -2223,16 +2223,16 @@ paper.Path.inject({
                 path.add( new Point(tagStart,bubbleSize.height) );
 
                 var tx, ty;
-                if(bubbleTagCenter == 'LEFT') {
+                if (bubbleTagCenter == 'LEFT') {
                     tx = tagStart;
                 }
-                else if(bubbleTagCenter == 'CENTER') {
+                else if (bubbleTagCenter == 'CENTER') {
                     tx = tagStart + (bubbleTagSize.width/2);
                 }
-                else if(bubbleTagCenter == 'RIGHT') {
+                else if (bubbleTagCenter == 'RIGHT') {
                     tx = tagStart+bubbleTagSize.width;
                 }
-                else { // if(bubbleTagCenter == 'RANDOM') {
+                else { // if (bubbleTagCenter == 'RANDOM') {
                     tx = paper.randomInt(tagStart,tagStart+bubbleTagSize.width);
                 }
 
@@ -2302,7 +2302,7 @@ paper.Path.inject({
                 var obj1, obj2;
 
                 // check for the type of arguments being passed
-                if( paper.getType(arg0) === 'Point' ) {
+                if ( paper.getType(arg0) === 'Point' ) {
                     obj1 = new Path.Circle( arg0, arg1 );
                     obj2 = new Path.Circle( arg2, arg3 );
                 }
@@ -2313,19 +2313,19 @@ paper.Path.inject({
 
                 var tangents = paper.getCommonTangents(obj1, obj2);
                 var path = new Path();
-                if( tangents != null ) {
+                if ( tangents != null ) {
                     path.name = 'chain';
                     path.add( tangents[0] );
                     path.add( tangents[1] );
 
                     // determine position of chain around endpoint2
-                    if( obj2.position.x > obj1.position.x ) {
+                    if ( obj2.position.x > obj1.position.x ) {
                         angle = 0;
                     }
-                    else if( obj2.position.y < obj1.position.y ) {
+                    else if ( obj2.position.y < obj1.position.y ) {
                         angle = -90;
                     }
-                    else if( obj2.position.y > obj1.position.y ) {
+                    else if ( obj2.position.y > obj1.position.y ) {
                         angle = 90;
                     }
                     else {
@@ -2341,13 +2341,13 @@ paper.Path.inject({
                     path.add(tangents[3]);
 
                     // determine position of chain around endpoint1
-                    if( obj1.position.x > obj2.position.x ) {
+                    if ( obj1.position.x > obj2.position.x ) {
                         angle = 0;
                     }
-                    else if( obj1.position.y < obj2.position.y ) {
+                    else if ( obj1.position.y < obj2.position.y ) {
                         angle = -90;
                     }
-                    else if( obj1.position.y > obj2.position.y ) {
+                    else if ( obj1.position.y > obj2.position.y ) {
                         angle = 90;
                     }
                     else {
@@ -2396,7 +2396,7 @@ paper.Path.inject({
                 // var size = new Size(_width,_height);
                 var line1, line2;
 
-                if( crossType == 'LINE' ) {
+                if ( crossType == 'LINE' ) {
                     line1 = new Path.Line(
                         centerPoint.x + size.width, centerPoint.y - size.height,
                         centerPoint.x - size.width, centerPoint.y + size.height
@@ -2408,7 +2408,7 @@ paper.Path.inject({
                     );
                     line2.strokeWidth = strokeWidth;
                 }
-                else if( crossType == 'SHARP' ) {
+                else if ( crossType == 'SHARP' ) {
                     line1 = new Path();
                     line1.add( new Point( centerPoint.x + size.width, centerPoint.y - size.height ) );
                     line1.add( new Point( centerPoint.x + size.width, (centerPoint.y - size.height) + (strokeWidth/2) ) );
@@ -2502,7 +2502,7 @@ paper.Path.inject({
 
                 // check for the type of arguments being passed
                 // default scale is from center (position)
-                if( typeof arg1 == 'Size' ) {
+                if ( typeof arg1 == 'Size' ) {
                     path.scale( arg1.width, arg1.height );
                 }
                 else {
@@ -3368,7 +3368,7 @@ folio.FTime.Ease = function() {
 
         inCirc: function(t) { return -1*(Math.sqrt(1-t*t)-1) },
         outCirc: function(t) { t--; return 1*Math.sqrt(1-t*t); },
-        inOutCirc: function(t) { t /= 0.5; if(t<1) { return -0.5*(Math.sqrt(1-t*t)-1); }else{ t-=2; return 0.5*(Math.sqrt(1-t*t)+1); } },
+        inOutCirc: function(t) { t /= 0.5; if (t<1) { return -0.5*(Math.sqrt(1-t*t)-1); }else{ t-=2; return 0.5*(Math.sqrt(1-t*t)+1); } },
 
 
         spline: KeySpline
@@ -3410,7 +3410,7 @@ folio.FTime.FDate = function() {
      * @return {String} return the current year as 'YYYY'
      */
     var year = function() {
-        if(dateObj === undefined) dateObj = new Date();
+        if (dateObj === undefined) dateObj = new Date();
         var year = String( dateObj.getFullYear() );
         return year;
     };
@@ -3419,7 +3419,7 @@ folio.FTime.FDate = function() {
      * @return {String} return the current month as 'MM'
      */
     var month = function() {
-        if(dateObj === undefined) dateObj = new Date();
+        if (dateObj === undefined) dateObj = new Date();
         return String( dateObj.getMonth() );
     };
 
@@ -3427,7 +3427,7 @@ folio.FTime.FDate = function() {
      * @return {String} return the current day as 'DD'
      */
     var day = function() {
-        if(dateObj === undefined) dateObj = new Date();
+        if (dateObj === undefined) dateObj = new Date();
         return String( dateObj.getDate() );
     };
 
@@ -3435,7 +3435,7 @@ folio.FTime.FDate = function() {
      * @return {String} return the current hour as 'HH'
      */
     var hour = function() {
-        if(dateObj === undefined) dateObj = new Date();
+        if (dateObj === undefined) dateObj = new Date();
         var hour = String( dateObj.getHours() );
         return addZero(hour);
     };
@@ -3444,7 +3444,7 @@ folio.FTime.FDate = function() {
      * @return {String} return the current minute as 'mm'
      */
     var minute = function() {
-        if(dateObj === undefined) dateObj = new Date();
+        if (dateObj === undefined) dateObj = new Date();
         var minute = String( dateObj.getMinutes() );
         return addZero(minute);
     };
@@ -3453,7 +3453,7 @@ folio.FTime.FDate = function() {
      * @return {String} return the current second as 'ss'
      */
     var second = function() {
-        if(dateObj === undefined) dateObj = new Date();
+        if (dateObj === undefined) dateObj = new Date();
         var second = String( dateObj.getSeconds() );
         return addZero(second);
     };
@@ -3474,11 +3474,11 @@ folio.FTime.FDate = function() {
     var now = function(format) {
         var disp = format || [true, true, true];
         var str = '';
-        if(disp[0]) str += hour();
-        if(disp[0] && disp[1]) str += ':';
-        if(disp[1]) str += minute();
-        if(disp[1] && disp[2]) str += ':';
-        if(disp[2]) str += second();
+        if (disp[0]) str += hour();
+        if (disp[0] && disp[1]) str += ':';
+        if (disp[1]) str += minute();
+        if (disp[1] && disp[2]) str += ':';
+        if (disp[2]) str += second();
         return str;
     };
 
@@ -3570,19 +3570,19 @@ folio.FTime.FDate = function() {
         var hours   = parseInt( (((ms / 1000) / 60) / 60) % 24 );
 
         var hh, mm, ss;
-        if(hours < 10) hh = '0' + hours;
+        if (hours < 10) hh = '0' + hours;
         else hh =  '' + hours;
-        if(minutes < 10) mm = '0' + minutes;
+        if (minutes < 10) mm = '0' + minutes;
         else mm =  '' + minutes;
-        if(seconds < 10) ss = '0' + seconds;
+        if (seconds < 10) ss = '0' + seconds;
         else ss =  '' + seconds;
 
         var str = '';
-        if(disp[0]) str += hh;
-        if(disp[0] && disp[1]) str += ':';
-        if(disp[1]) str += mm;
-        if(disp[1] && disp[2]) str += ':';
-        if(disp[2]) str += ss;
+        if (disp[0]) str += hh;
+        if (disp[0] && disp[1]) str += ':';
+        if (disp[1]) str += mm;
+        if (disp[1] && disp[2]) str += ':';
+        if (disp[2]) str += ss;
         return str;
     };
 
@@ -3603,7 +3603,7 @@ folio.FTime.FDate = function() {
      * @return {Number} time in milliseconds
      */
     var toMillsecond = function(h, m, s) {
-        if( m === undefined &&  s === undefined ) {
+        if ( m === undefined &&  s === undefined ) {
             h = toArray(h)[0];
             m = toArray(h)[1];
             s = toArray(h)[2];
@@ -3715,17 +3715,17 @@ folio.FTime.FStepper = function() {
      *      the elapsed time of the application in seconds
      */
     var update = function(currentSeconds) {
-        if(bBeginStepper) {
+        if (bBeginStepper) {
             bBeginStepper = false;
             timeStart = currentSeconds;
-            if(bIn) {
+            if (bIn) {
                 timeEnd = paper.round( (currentSeconds + ((1.0 - delta) * stepMillis)), 3 );
             }
             else {
                 timeEnd = paper.round( (currentSeconds + (delta*stepMillis)), 3 );
             }
-            if(timeEnd <= currentSeconds) {
-                if(bIn) {
+            if (timeEnd <= currentSeconds) {
+                if (bIn) {
                     bIn = false;
                     delta = 1.0;
                 }
@@ -3735,18 +3735,18 @@ folio.FTime.FStepper = function() {
                 }
             }
         }
-        if(bIn) {
+        if (bIn) {
             delta = paper.round( (1.0 - ((timeEnd - currentSeconds) / stepMillis)), 3 );
-            if(currentSeconds == timeEnd) {
+            if (currentSeconds == timeEnd) {
                 bIn = false;
                 delta = 1.0;
                 counter++;
                 return;
             }
         }
-        else if(bOut) {
+        else if (bOut) {
             delta = paper.round( ((timeEnd - currentSeconds) / stepMillis), 3 );
-            if(currentSeconds == timeEnd) {
+            if (currentSeconds == timeEnd) {
                 bIn = false;
                 delta = 0.0;
                 counter++;
@@ -3765,8 +3765,8 @@ folio.FTime.FStepper = function() {
         bBeginStepper = true;
         bIn = true;
         bOut = false;
-        if(bIn) return;
-        if(delta === 1.0) return;
+        if (bIn) return;
+        if (delta === 1.0) return;
     };
 
     /**
@@ -3778,8 +3778,8 @@ folio.FTime.FStepper = function() {
         bBeginStepper = true;
         bOut = true;
         bIn = false;
-        if(bOut) return;
-        if(delta === 0.0) return;
+        if (bOut) return;
+        if (delta === 0.0) return;
     };
 
     // ------------------------------------------------------------------------
@@ -3800,12 +3800,12 @@ folio.FTime.FStepper = function() {
      * @return {Boolean} if the object has finished it's stepping
      */
     var isDone = function() {
-        if(delta < 1.0 && delta > 0.0) return false;
-        else if(delta > 1.0) {
+        if (delta < 1.0 && delta > 0.0) return false;
+        else if (delta > 1.0) {
             delta = 1.0;
             return true;
         }
-        else if(delta < 0.0) {
+        else if (delta < 0.0) {
             delta = 0.0;
             return true;
         }
@@ -4065,7 +4065,7 @@ folio.FIO = {
      *          what we want to save
      */
     saveLocal: function(name, value) {
-        if(window.localStorage) {
+        if (window.localStorage) {
             localStorage.setItem(name, String(value));
         }
         else {
@@ -4145,7 +4145,7 @@ folio.FIO = {
      *          what we want to save
      */
     saveSession: function(name, value) {
-        if(window.sessionStorage) {
+        if (window.sessionStorage) {
             sessionStorage.setItem(name, String(value));
         }
         else {
@@ -4246,7 +4246,7 @@ folio.FIO = {
     openCookie: function(name) {
         var nameEQ = name + '=';
         var ca = document.cookie.split(';');
-        for(var i=0;i < ca.length;i++) {
+        for (var i=0;i < ca.length;i++) {
             var c = ca[i];
             while (c.charAt(0)==' ') c = c.substring(1,c.length);
             if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
@@ -4465,12 +4465,12 @@ folio.FIO = {
 //             /* int major = */    buf.getShort();
 //             /* int minor = */    buf.getShort();
 //             int noBlocks = buf.getInt();
-//             for( int i=0; i<noBlocks; ++i) {
+//             for ( int i=0; i<noBlocks; ++i) {
 //                 readBlock(buf);
 //             }
 //         }
 //         catch(Exception e) {
-//             if(bVerbose) System.out.println(e);
+//             if (bVerbose) System.out.println(e);
 //         }
 //     };
 
@@ -4598,11 +4598,11 @@ folio.FCirclePack = function(circleItems, iterations) {
                     pp = pp.multiply( (r - Math.sqrt(d)) * 0.5 );
 
                     try {
-                        // if(cj != this.dragCircle) {
+                        // if (cj != this.dragCircle) {
                         cj.position.x += pp.x;
                         cj.position.y += pp.y;
                         // }
-                        // if(ci != this.dragCircle) {
+                        // if (ci != this.dragCircle) {
                         ci.position.x -= pp.x;
                         ci.position.y -= pp.y;
                         // }
@@ -4622,7 +4622,7 @@ folio.FCirclePack = function(circleItems, iterations) {
 
         for (var i = 0; i < circleItems.length; i++) {
             var c = circleItems[i];
-            // if(c == this.dragCircle) continue;
+            // if (c == this.dragCircle) continue;
             pp.x = c.position.x - target.x;
             pp.y = c.position.y - target.y;
             pp = pp.multiply(damping);
@@ -4631,7 +4631,7 @@ folio.FCirclePack = function(circleItems, iterations) {
             c.position.y -= pp.y;
         }
 
-        // if(this.dragCircle && this._mouseEvent) {
+        // if (this.dragCircle && this._mouseEvent) {
         //  this.dragCircle.x = this._mouseEvent.offsetX;//stage.mouseX;
         //  this.dragCircle.y = this._mouseEvent.offsetY;//stage.mouseY;
         // }
@@ -4650,7 +4650,7 @@ folio.FCirclePack = function(circleItems, iterations) {
      *      Path.Item to add to circle packer
      */
     var add = function(item) {
-        if( typeof item === 'array' ) {
+        if ( typeof item === 'array' ) {
             circleItems = circleItems.concat( item );
         }
         else {
@@ -5144,7 +5144,7 @@ folio.FFlock = {
         };
 
         function updateItems() {
-            if( path ) {
+            if ( path ) {
                 path.position = position;
                 var angle = vector.angle;
                 path.rotate(angle - lastAngle);
@@ -5201,10 +5201,10 @@ folio.FFlock = {
             }
 
             // attract boid to the center of object
-            if( contained ) {
+            if ( contained ) {
                 // path.fillColor = path.strokeColor = new Color(1.0, 0.0, 0.0);
                 var hitResult = item.hitTest(target, properties.hitOptions);
-                if( !hitResult ) {
+                if ( !hitResult ) {
                     // vector = new Point();
                     vector = new Point(
                         -vector.x,
@@ -5212,7 +5212,7 @@ folio.FFlock = {
                     );
                 }
             }
-            else if( !contained ) {
+            else if ( !contained ) {
                 // path.fillColor = 'white';
                 arrive(item.position);
             }
@@ -5233,46 +5233,47 @@ folio.FFlock = {
                 position.y + vector.y
             );
 
-            var hitResult = obstacleItem.path().hitTest(target, properties.hitOptions);
-            var repel = new Point();
-            if( hitResult ) {
-                if( hitResult.type == 'stroke' ||
-                    hitResult.type == 'segment' ||
-                    hitResult.type == 'handle-in' ||
-                    hitResult.type == 'handle-out' ) {
-                    repel = new Point(
-                        position.x - hitResult.location.point.x,
-                        position.y - hitResult.location.point.y
-                    );
-                    repel = repel.normalize();
+            if (obstacleItem.path()) {
+                var hitResult = obstacleItem.path().hitTest(target, properties.hitOptions);
+                var repel = new Point();
+                if ( hitResult ) {
+                    if ( hitResult.type == 'stroke' ||
+                        hitResult.type == 'segment' ||
+                        hitResult.type == 'handle-in' ||
+                        hitResult.type == 'handle-out' ) {
+                        repel = new Point(
+                            position.x - hitResult.location.point.x,
+                            position.y - hitResult.location.point.y
+                        );
+                        repel = repel.normalize();
+                    }
+                    else if ( hitResult.type == 'fill' ) {
+                        repel = new Point(
+                            position.x * -vector.x,
+                            position.y * -vector.y
+                        );
+                        // repel = repel.normalize();
+                        // repel = new Point(
+                        //     target.x - vector.x,
+                        //     target.y - vector.y
+                        // );
+                    }
+
+                    repel.x *= maxForce*7;
+                    repel.y *= maxForce*7;
+
+                    if ( Math.sqrt(repel.x * repel.x + repel.y * repel.y) < 0 ) {
+                        repel.y = 0;
+                    }
+
+                    // apply
+                    // repel.x /= mass;
+                    // repel.y /= mass;
+                    acceleration.x += repel.x;
+                    acceleration.y += repel.y;
+
                 }
-                else if( hitResult.type == 'fill' ) {
-                    repel = new Point(
-                        position.x * -vector.x,
-                        position.y * -vector.y
-                    );
-                    // repel = repel.normalize();
-                    // repel = new Point(
-                    //     target.x - vector.x,
-                    //     target.y - vector.y
-                    // );
-                }
-
-                repel.x *= maxForce*7;
-                repel.y *= maxForce*7;
-
-                if( Math.sqrt(repel.x * repel.x + repel.y * repel.y) < 0 ) {
-                    repel.y = 0;
-                }
-
-                // apply
-                // repel.x /= mass;
-                // repel.y /= mass;
-                acceleration.x += repel.x;
-                acceleration.y += repel.y;
-
             }
-
 
         };
 
@@ -5410,7 +5411,7 @@ folio.FFlock = {
         };
 
         function getPosition(val) {
-            if(val != undefined) position = new Point(val);
+            if (val != undefined) position = new Point(val);
             return position;
         };
 
@@ -5755,20 +5756,20 @@ folio.FRoute = function(items, iterations) {
         var temp;
         var p1;
 
-        if(RouteStep == 0) {
+        if (RouteStep == 0) {
             //  Begin process of optimizing plotting route,
             //  by flagging nodes that will be shown.
             //  console.log("Optimizing plotting path");
             var RouteNodesLength = 0;
             var RouteNodesTemp = [items.length];
 
-            for(var i=0; i<items.length; ++i) {
+            for (var i=0; i<items.length; ++i) {
 
                 RouteNodesTemp[i] = false;
                 var px = items[i].position.x;
                 var py = items[i].position.y;
 
-                if( (px >= view.bounds.width) || (py >= view.bounds.height) ||
+                if ( (px >= view.bounds.width) || (py >= view.bounds.height) ||
                     (px < 0) || (py < 0)) {
                     continue;
                 }
@@ -5781,8 +5782,8 @@ folio.FRoute = function(items, iterations) {
             // These are the ONLY points to be drawn in the tour.
             RouteNodes = [RouteNodesLength];
             var tempCounter = 0;
-            for(var i=0; i<items.length; ++i) {
-                if(RouteNodesTemp[i]) {
+            for (var i=0; i<items.length; ++i) {
+                if (RouteNodesTemp[i]) {
                     RouteNodes[tempCounter] = i;
                     tempCounter++;
                 }
@@ -5790,27 +5791,27 @@ folio.FRoute = function(items, iterations) {
         }
 
         var nodesNum = RouteNodes.length - 1;
-        if(RouteStep < (RouteNodes.length - 2))  {
+        if (RouteStep < (RouteNodes.length - 2))  {
             //  console.log('Nearest neighbor ("Simple, Greedy") algorithm path optimization:');
             //  1000 steps per frame displayed; you can edit this number!
             var StopPoint = RouteStep + 1000;
 
-            if(StopPoint > nodesNum)
+            if (StopPoint > nodesNum)
                 StopPoint = nodesNum;
 
-            for(var i=RouteStep; i<StopPoint; ++i) {
+            for (var i=RouteStep; i<StopPoint; ++i) {
                 p1 = items[RouteNodes[RouteStep]].position;
                 var ClosestNode = 0;
                 var distMin = Number.MAX_VALUE;
 
-                for(var j=RouteStep+1; j<nodesNum; ++j) {
+                for (var j=RouteStep+1; j<nodesNum; ++j) {
                     var p2 = items[ RouteNodes[j] ].position;
 
                     var dx = p1.x - p2.x;
                     var dy = p1.y - p2.y;
                     var distance = (dx*dx+dy*dy);   // Only looking for closest; do not need sqrt factor!
 
-                    if(distance < distMin) {
+                    if (distance < distMin) {
                         ClosestNode = j;
                         distMin = distance;
                     }
@@ -5821,7 +5822,7 @@ folio.FRoute = function(items, iterations) {
                 RouteNodes[RouteStep + 1] = RouteNodes[ClosestNode];
                 RouteNodes[ClosestNode] = temp;
 
-                if(RouteStep < (nodesNum)) {
+                if (RouteStep < (nodesNum)) {
                     RouteStep++;
                 }
                 else {
@@ -5836,7 +5837,7 @@ folio.FRoute = function(items, iterations) {
             // Identify a pair of edges that would become shorter by reversing part of the tour.
 
             // var groupPath = new Group();
-            for(var i=0; i<iterations; ++i) {
+            for (var i=0; i<iterations; ++i) {
 
                 var indexA = Math.floor( Math.random()*nodesNum );
                 var indexB = Math.floor( Math.random()*nodesNum );
@@ -5844,10 +5845,10 @@ folio.FRoute = function(items, iterations) {
                 // console.log('indexA', indexA);
                 // console.log('indexB', indexB);
 
-                if(Math.abs(indexA - indexB) < 2)
+                if (Math.abs(indexA - indexB) < 2)
                     continue;
 
-                if(indexB < indexA) {
+                if (indexB < indexA) {
                     // swap A, B.
                     temp = indexB;
                     indexB = indexA;
@@ -5875,7 +5876,7 @@ folio.FRoute = function(items, iterations) {
                 dy = a1.y - b1.y;
                 distance2 += (dx*dx+dy*dy); // Only a comparison; do not need sqrt factor!
 
-                if(distance2 < distance) {
+                if (distance2 < distance) {
                     // Reverse tour between a1 and b0.
 
                     var indexhigh = indexB;
@@ -5995,7 +5996,7 @@ folio.FSkeleton = function(item) {
         centerlinepath = new Path();
         centerlinepath.closed = false;
 
-        for( var i=0, j=item.segments.length; i!=j; i++) {
+        for ( var i=0, j=item.segments.length; i!=j; i++) {
             // step j down
             --j;
 
@@ -6107,7 +6108,7 @@ var EPSILON = 1.0e-6;
  * var triangulate = new FTriangulate( points );
  *
  * // draw faces
- * for( var i=0; i<triangulate.length; i++ ) {
+ * for ( var i=0; i<triangulate.length; i++ ) {
  *  var triangle = triangulate[i];
  *
  *  // draw triangle
@@ -6254,14 +6255,14 @@ folio.FTriangulate = function( points ) {
          */
         function width() {
             var x1 = 0;
-            if(_p1.x < _p2.x && _p1.x < _p3.x) x1 = _p1.x;
-            else if( _p2.x < _p1.x && _p2.x < _p3.x ) x1 = _p2.x;
-            else if( _p3.x < _p1.x && _p3.x < _p2.x) x1 = _p3.x;
+            if (_p1.x < _p2.x && _p1.x < _p3.x) x1 = _p1.x;
+            else if ( _p2.x < _p1.x && _p2.x < _p3.x ) x1 = _p2.x;
+            else if ( _p3.x < _p1.x && _p3.x < _p2.x) x1 = _p3.x;
 
             var x2 = 0;
-            if(_p1.x > _p2.x && _p1.x > _p3.x) x2 = _p1.x;
-            else if( _p2.x > _p1.x && _p2.x > _p3.x ) x2 = _p2.x;
-            else if( _p3.x > _p1.x && _p3.x > _p2.x) x2 = _p3.x;
+            if (_p1.x > _p2.x && _p1.x > _p3.x) x2 = _p1.x;
+            else if ( _p2.x > _p1.x && _p2.x > _p3.x ) x2 = _p2.x;
+            else if ( _p3.x > _p1.x && _p3.x > _p2.x) x2 = _p3.x;
 
             var f = Math.abs(x2 - x1);
             return f;
@@ -6274,14 +6275,14 @@ folio.FTriangulate = function( points ) {
          */
         function height() {
             var y1 = 0;
-            if(_p1.y < _p2.y && _p1.y < _p3.y) y1 = _p1.y;
-            else if( _p2.y < _p1.y && _p2.y < _p3.y ) y1 = _p2.y;
-            else if( _p3.y < _p1.y && _p3.y < _p2.y) y1 = _p3.y;
+            if (_p1.y < _p2.y && _p1.y < _p3.y) y1 = _p1.y;
+            else if ( _p2.y < _p1.y && _p2.y < _p3.y ) y1 = _p2.y;
+            else if ( _p3.y < _p1.y && _p3.y < _p2.y) y1 = _p3.y;
 
             var y2 = 0;
-            if(_p1.y > _p2.y && _p1.y > _p3.y) y2 = _p1.y;
-            else if( _p2.y > _p1.y && _p2.y > _p3.y ) y2 = _p2.y;
-            else if( _p3.y > _p1.y && _p3.y > _p2.y) y2 = _p3.y;
+            if (_p1.y > _p2.y && _p1.y > _p3.y) y2 = _p1.y;
+            else if ( _p2.y > _p1.y && _p2.y > _p3.y ) y2 = _p2.y;
+            else if ( _p3.y > _p1.y && _p3.y > _p2.y) y2 = _p3.y;
 
             var g = Math.abs(y2 - y1);
             return g;
@@ -6416,7 +6417,7 @@ folio.FTriangulate = function( points ) {
     function init() {
         _triangles = [];
 
-        if( _points.length != null ) {
+        if ( _points.length != null ) {
             // remove duplicate points
             _points = uniquePoints( _points );
 
@@ -6435,12 +6436,12 @@ folio.FTriangulate = function( points ) {
             // z is used for storing misc. info i.e. normalized brightness data
             var z = (_points[0]).z;
 
-            for( var i=0; i<_points.length; i++ ) {
+            for ( var i=0; i<_points.length; i++ ) {
                 var p = _points[i];
-                if(p.x < xmin) xmin = p.x;
-                if(p.x > xmax) xmax = p.x;
-                if(p.y < ymin) ymin = p.y;
-                if(p.y > ymax) ymax = p.y;
+                if (p.x < xmin) xmin = p.x;
+                if (p.x > xmax) xmax = p.x;
+                if (p.y < ymin) ymin = p.y;
+                if (p.y > ymax) ymax = p.y;
             }
 
             var dx = xmax - xmin;
@@ -6481,16 +6482,16 @@ folio.FTriangulate = function( points ) {
 
                 for (var j=_triangles.length-1; j>=0; j--) {
                     var t = _triangles[j];
-                    if(complete.contains(t)) {
+                    if (complete.contains(t)) {
                         continue;
                     }
 
                     var inside = circumCircle( p, t, circle );
 
-                    if(circle.x + circle.z < p.x) {
+                    if (circle.x + circle.z < p.x) {
                         complete.add(t);
                     }
-                    if(inside) {
+                    if (inside) {
                         edges.push( new Edge(t.p1, t.p2) );
                         edges.push( new Edge(t.p2, t.p3) );
                         edges.push( new Edge(t.p3, t.p1) );
@@ -6508,14 +6509,14 @@ folio.FTriangulate = function( points ) {
                     var e1 = edges[j];
                     for (var k=j+1; k<edges.length; k++) {
                         var e2 = edges[k];
-                        if(e1.p1 == e2.p2 && e1.p2 == e2.p1) {
+                        if (e1.p1 == e2.p2 && e1.p2 == e2.p1) {
                             e1.p1 = null;
                             e1.p2 = null;
                             e2.p1 = null;
                             e2.p2 = null;
                         }
                         // Shouldn't need the following, see note above
-                        if(e1.p1 == e2.p1 && e1.p2 == e2.p2) {
+                        if (e1.p1 == e2.p1 && e1.p2 == e2.p2) {
                             e1.p1 = null;
                             e1.p2 = null;
                             e2.p1 = null;
@@ -6529,19 +6530,19 @@ folio.FTriangulate = function( points ) {
                 // All edges are arranged in clockwise order.
                 for (var j=0; j<edges.length; j++) {
                     var e = edges[j];
-                    if(e.p1 == null || e.p2 == null) {
+                    if (e.p1 == null || e.p2 == null) {
                         continue;
                     }
                     // determine if point in triangle is new
                     // if it is mark it as so
-                    for( var k=0; k<_pointsNew.length; k++ ) {
-                        if( e.p1 == _pointsNew[k] ) e.p1.name = '__new';
+                    for ( var k=0; k<_pointsNew.length; k++ ) {
+                        if ( e.p1 == _pointsNew[k] ) e.p1.name = '__new';
                         else e.p1.name = null;
 
-                        if( e.p2 == _pointsNew[k] ) e.p2.name = '__new';
+                        if ( e.p2 == _pointsNew[k] ) e.p2.name = '__new';
                         else e.p2.name = null;
 
-                        if( p == _pointsNew[k] ) p.name = '__new';
+                        if ( p == _pointsNew[k] ) p.name = '__new';
                         else p.name = null;
                     }
                     _triangles.push( new Triangle(e.p1, e.p2, p) );
@@ -6552,7 +6553,7 @@ folio.FTriangulate = function( points ) {
             // Remove triangles with super triangle vertices
             for (var i=_triangles.length-1; i>=0; i--) {
                 var t = _triangles[i];
-                if(t.sharesVertex(superTriangle)) {
+                if (t.sharesVertex(superTriangle)) {
                     _triangles.splice(i, 1);
                 }
             }
@@ -6588,19 +6589,19 @@ folio.FTriangulate = function( points ) {
         var drsqr;
 
         // Check for coincident points
-        if( Math.abs(t.p1.y-t.p2.y) < EPSILON && Math.abs(t.p2.y-t.p3.y) < EPSILON ) {
+        if ( Math.abs(t.p1.y-t.p2.y) < EPSILON && Math.abs(t.p2.y-t.p3.y) < EPSILON ) {
             //System.err.println("CircumCircle: Points are coincident.");
             return false;
         }
 
-        if( Math.abs(t.p2.y-t.p1.y) < EPSILON ) {
+        if ( Math.abs(t.p2.y-t.p1.y) < EPSILON ) {
             m2 = - (t.p3.x-t.p2.x) / (t.p3.y-t.p2.y);
             mx2 = (t.p2.x + t.p3.x) / 2.0;
             my2 = (t.p2.y + t.p3.y) / 2.0;
             circle.x = (t.p2.x + t.p1.x) / 2.0;
             circle.y = m2 * (circle.x - mx2) + my2;
         }
-        else if( Math.abs(t.p3.y-t.p2.y) < EPSILON ) {
+        else if ( Math.abs(t.p3.y-t.p2.y) < EPSILON ) {
             m1 = - (t.p2.x-t.p1.x) / (t.p2.y-t.p1.y);
             mx1 = (t.p1.x + t.p2.x) / 2.0;
             my1 = (t.p1.y + t.p2.y) / 2.0;
@@ -6644,16 +6645,16 @@ folio.FTriangulate = function( points ) {
     function findClosest(other) {
         var result;
 
-        for(var i=0; i<_triangles.length; i++) {
+        for (var i=0; i<_triangles.length; i++) {
             var iFind = _triangles[i];
             var d1 = other.getCentroid.getDistance( iFind.getCentroid );
 
-            for(var j=0; j<_triangles.length; j++) {
+            for (var j=0; j<_triangles.length; j++) {
                 // var jFind = _triangles[i];
                 var jFind = _triangles[j];
                 var d2 = other.getCentroid.getDistance( jFind.getCentroid );
 
-                if( d2 < d1 ) {
+                if ( d2 < d1 ) {
                     result = jFind;
                     break;
                 }
@@ -6705,8 +6706,8 @@ folio.FTriangulate = function( points ) {
      */
     function uniquePoints(arr){
         arr.sort();
-        for( var i=1; i<arr.length; ){
-            if( arr[i-1].x == arr[i].x && arr[i-1].y == arr[i].y ) arr.splice(i, 1);
+        for ( var i=1; i<arr.length; ){
+            if ( arr[i-1].x == arr[i].x && arr[i-1].y == arr[i].y ) arr.splice(i, 1);
             else i++;
         }
         return arr;
@@ -6724,8 +6725,8 @@ folio.FTriangulate = function( points ) {
      */
     function uniqueEdges(arr) {
         arr.sort();
-        for( var i=1; i<arr.length; ){
-            if( arr[i-1].p1 == arr[i].p1 && arr[i-1].p2 == arr[i].p2 ||
+        for ( var i=1; i<arr.length; ){
+            if ( arr[i-1].p1 == arr[i].p1 && arr[i-1].p2 == arr[i].p2 ||
                 arr[i-1].p1 == arr[i].p2 && arr[i-1].p2 == arr[i].p2 ) arr.splice(i, 1);
             else i++;
         }
@@ -6733,14 +6734,14 @@ folio.FTriangulate = function( points ) {
 
         // TODO: This is O(n^2), make it O(n) with a hash or some such
         // var uniqueEdges = [];
-        // for( var i=0; i<edges.length; i++ ) {
+        // for ( var i=0; i<edges.length; i++ ) {
         //  var edge1 = edges[i];
         //  var unique = true;
 
-        //  for( var j=0; j<edges.length; j++ ) {
-        //      if( i != j ) {
+        //  for ( var j=0; j<edges.length; j++ ) {
+        //      if ( i != j ) {
         //          var edge2 = edges[j];
-        //          if( ( edge1.p1 == edge2.p1 && edge1.p2 == edge2.p2 ) ||
+        //          if ( ( edge1.p1 == edge2.p1 && edge1.p2 == edge2.p2 ) ||
         //              ( edge1.p1 == edge2.p2 && edge1.p2 == edge2.p1 ) ) {
         //              unique = false;
         //              break;
@@ -6748,7 +6749,7 @@ folio.FTriangulate = function( points ) {
         //      }
         //  }
 
-        //  if( unique ) {
+        //  if ( unique ) {
         //      uniqueEdges.push( edge1 );
         //  }
         // }
@@ -6773,7 +6774,7 @@ folio.FTriangulate = function( points ) {
     function addPoint(point) {
         _pointsNew = [];
 
-        if( point instanceof Array ) {
+        if ( point instanceof Array ) {
             _pointsNew = point;
             // add points to points array
             _points = _points.concat( point );
@@ -6802,7 +6803,7 @@ folio.FTriangulate = function( points ) {
      * @return {Array} the Triangles as array
      */
     function getTriangles(index) {
-        if( index != null ) {
+        if ( index != null ) {
             return _triangles[index];
         }
         else {
@@ -6817,7 +6818,7 @@ folio.FTriangulate = function( points ) {
      * @return {Array} the points as a Point array
      */
     function getPoints(index) {
-        if( index != null ) {
+        if ( index != null ) {
             return _points[index];
         }
         else {
@@ -6897,8 +6898,8 @@ var HashSet = function() {
 
     function _contains(o) {
         var b = false;
-        for(var i=0; i<_arr.length; i++) {
-            if(_arr[i] === o) b = true; // break;
+        for (var i=0; i<_arr.length; i++) {
+            if (_arr[i] === o) b = true; // break;
         }
         return b;
     };

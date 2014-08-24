@@ -118,7 +118,7 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
      *      set x value
      */
     this.setX = function(val) {
-        if( _scene != null ) _scene.points3D[_xIndex] = val;
+        if ( _scene != null ) _scene.points3D[_xIndex] = val;
         this.x = val;
     };
 
@@ -128,7 +128,7 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
      *      set y value
      */
     this.setY = function(val) {
-        if( _scene != null ) _scene.points3D[_yIndex] = val;
+        if ( _scene != null ) _scene.points3D[_yIndex] = val;
         this.y = val;
     };
 
@@ -138,7 +138,7 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
      *      set z value
      */
     this.setZ = function(val) {
-        if( _scene != null ) _scene.points3D[_zIndex] = val;
+        if ( _scene != null ) _scene.points3D[_zIndex] = val;
         this.z = val;
     };
 
@@ -212,12 +212,12 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
      *      the z point to be added
      */
     this.add = function(arg0, arg1, arg2) {
-        if(typeof arg0 == 'number') {
+        if (typeof arg0 == 'number') {
             this.x += arg0;
             this.y += arg1;
             this.z += arg2;
         }
-        else if(typeof arg0 == 'object') { // FPoint3
+        else if (typeof arg0 == 'object') { // FPoint3
             this.x += arg0.x();
             this.y += arg0.y();
             this.z += arg0.z();
@@ -244,12 +244,12 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
      *      the z point to be subtracted
      */
     this.sub = function(arg0, arg1, arg2) {
-        if(typeof arg0 == 'number') {
+        if (typeof arg0 == 'number') {
             this.x -= arg0;
             this.y -= arg1;
             this.z -= arg2;
         }
-        else if(typeof arg0 == 'object') { // FPoint3
+        else if (typeof arg0 == 'object') { // FPoint3
             this.x -= arg0.x();
             this.y -= arg0.y();
             this.z -= arg0.z();
@@ -291,12 +291,12 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
      *      the z point to be multiplied
      */
     this.mult = function(arg0, arg1, arg2) {
-        if(typeof arg0 == 'number') {
+        if (typeof arg0 == 'number') {
             this.x *= arg0;
             this.y *= arg1;
             this.z *= arg2;
         }
-        else if(typeof arg0 == 'object') { // FPoint3
+        else if (typeof arg0 == 'object') { // FPoint3
             this.x *= arg0.x();
             this.y *= arg0.y();
             this.z *= arg0.z();
@@ -323,12 +323,12 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
      *      the z point to be divided
      */
     this.div = function(arg0, arg1, arg2) {
-        if(typeof arg0 == 'number') {
+        if (typeof arg0 == 'number') {
             this.x /= arg0;
             this.y /= arg1;
             this.z /= arg2;
         }
-        else if(typeof arg0 == 'object') { // FPoint3
+        else if (typeof arg0 == 'object') { // FPoint3
             this.x /= arg0.x();
             this.y /= arg0.y();
             this.z /= arg0.z();

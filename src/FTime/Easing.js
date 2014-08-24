@@ -199,7 +199,7 @@ folio.FTime.Ease = function() {
 
         inCirc: function(t) { return -1*(Math.sqrt(1-t*t)-1) },
         outCirc: function(t) { t--; return 1*Math.sqrt(1-t*t); },
-        inOutCirc: function(t) { t /= 0.5; if(t<1) { return -0.5*(Math.sqrt(1-t*t)-1); }else{ t-=2; return 0.5*(Math.sqrt(1-t*t)+1); } },
+        inOutCirc: function(t) { t /= 0.5; if (t<1) { return -0.5*(Math.sqrt(1-t*t)-1); }else{ t-=2; return 0.5*(Math.sqrt(1-t*t)+1); } },
 
 
         spline: KeySpline

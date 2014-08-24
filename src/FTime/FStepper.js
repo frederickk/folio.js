@@ -63,17 +63,17 @@ folio.FTime.FStepper = function() {
      *      the elapsed time of the application in seconds
      */
     var update = function(currentSeconds) {
-        if(bBeginStepper) {
+        if (bBeginStepper) {
             bBeginStepper = false;
             timeStart = currentSeconds;
-            if(bIn) {
+            if (bIn) {
                 timeEnd = paper.round( (currentSeconds + ((1.0 - delta) * stepMillis)), 3 );
             }
             else {
                 timeEnd = paper.round( (currentSeconds + (delta*stepMillis)), 3 );
             }
-            if(timeEnd <= currentSeconds) {
-                if(bIn) {
+            if (timeEnd <= currentSeconds) {
+                if (bIn) {
                     bIn = false;
                     delta = 1.0;
                 }
@@ -83,18 +83,18 @@ folio.FTime.FStepper = function() {
                 }
             }
         }
-        if(bIn) {
+        if (bIn) {
             delta = paper.round( (1.0 - ((timeEnd - currentSeconds) / stepMillis)), 3 );
-            if(currentSeconds == timeEnd) {
+            if (currentSeconds == timeEnd) {
                 bIn = false;
                 delta = 1.0;
                 counter++;
                 return;
             }
         }
-        else if(bOut) {
+        else if (bOut) {
             delta = paper.round( ((timeEnd - currentSeconds) / stepMillis), 3 );
-            if(currentSeconds == timeEnd) {
+            if (currentSeconds == timeEnd) {
                 bIn = false;
                 delta = 0.0;
                 counter++;
@@ -113,8 +113,8 @@ folio.FTime.FStepper = function() {
         bBeginStepper = true;
         bIn = true;
         bOut = false;
-        if(bIn) return;
-        if(delta === 1.0) return;
+        if (bIn) return;
+        if (delta === 1.0) return;
     };
 
     /**
@@ -126,8 +126,8 @@ folio.FTime.FStepper = function() {
         bBeginStepper = true;
         bOut = true;
         bIn = false;
-        if(bOut) return;
-        if(delta === 0.0) return;
+        if (bOut) return;
+        if (delta === 0.0) return;
     };
 
     // ------------------------------------------------------------------------
@@ -148,12 +148,12 @@ folio.FTime.FStepper = function() {
      * @return {Boolean} if the object has finished it's stepping
      */
     var isDone = function() {
-        if(delta < 1.0 && delta > 0.0) return false;
-        else if(delta > 1.0) {
+        if (delta < 1.0 && delta > 0.0) return false;
+        else if (delta > 1.0) {
             delta = 1.0;
             return true;
         }
-        else if(delta < 0.0) {
+        else if (delta < 0.0) {
             delta = 0.0;
             return true;
         }

@@ -95,11 +95,11 @@ folio.FCirclePack = function(circleItems, iterations) {
                     pp = pp.multiply( (r - Math.sqrt(d)) * 0.5 );
 
                     try {
-                        // if(cj != this.dragCircle) {
+                        // if (cj != this.dragCircle) {
                         cj.position.x += pp.x;
                         cj.position.y += pp.y;
                         // }
-                        // if(ci != this.dragCircle) {
+                        // if (ci != this.dragCircle) {
                         ci.position.x -= pp.x;
                         ci.position.y -= pp.y;
                         // }
@@ -119,7 +119,7 @@ folio.FCirclePack = function(circleItems, iterations) {
 
         for (var i = 0; i < circleItems.length; i++) {
             var c = circleItems[i];
-            // if(c == this.dragCircle) continue;
+            // if (c == this.dragCircle) continue;
             pp.x = c.position.x - target.x;
             pp.y = c.position.y - target.y;
             pp = pp.multiply(damping);
@@ -128,7 +128,7 @@ folio.FCirclePack = function(circleItems, iterations) {
             c.position.y -= pp.y;
         }
 
-        // if(this.dragCircle && this._mouseEvent) {
+        // if (this.dragCircle && this._mouseEvent) {
         //  this.dragCircle.x = this._mouseEvent.offsetX;//stage.mouseX;
         //  this.dragCircle.y = this._mouseEvent.offsetY;//stage.mouseY;
         // }
@@ -147,7 +147,7 @@ folio.FCirclePack = function(circleItems, iterations) {
      *      Path.Item to add to circle packer
      */
     var add = function(item) {
-        if( typeof item === 'array' ) {
+        if ( typeof item === 'array' ) {
             circleItems = circleItems.concat( item );
         }
         else {

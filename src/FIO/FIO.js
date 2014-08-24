@@ -25,7 +25,7 @@ folio.FIO = {
      *          what we want to save
      */
     saveLocal: function(name, value) {
-        if(window.localStorage) {
+        if (window.localStorage) {
             localStorage.setItem(name, String(value));
         }
         else {
@@ -105,7 +105,7 @@ folio.FIO = {
      *          what we want to save
      */
     saveSession: function(name, value) {
-        if(window.sessionStorage) {
+        if (window.sessionStorage) {
             sessionStorage.setItem(name, String(value));
         }
         else {
@@ -206,7 +206,7 @@ folio.FIO = {
     openCookie: function(name) {
         var nameEQ = name + '=';
         var ca = document.cookie.split(';');
-        for(var i=0;i < ca.length;i++) {
+        for (var i=0;i < ca.length;i++) {
             var c = ca[i];
             while (c.charAt(0)==' ') c = c.substring(1,c.length);
             if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);

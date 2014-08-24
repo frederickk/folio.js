@@ -31,7 +31,7 @@ folio.FTime.FDate = function() {
      * @return {String} return the current year as 'YYYY'
      */
     var year = function() {
-        if(dateObj === undefined) dateObj = new Date();
+        if (dateObj === undefined) dateObj = new Date();
         var year = String( dateObj.getFullYear() );
         return year;
     };
@@ -40,7 +40,7 @@ folio.FTime.FDate = function() {
      * @return {String} return the current month as 'MM'
      */
     var month = function() {
-        if(dateObj === undefined) dateObj = new Date();
+        if (dateObj === undefined) dateObj = new Date();
         return String( dateObj.getMonth() );
     };
 
@@ -48,7 +48,7 @@ folio.FTime.FDate = function() {
      * @return {String} return the current day as 'DD'
      */
     var day = function() {
-        if(dateObj === undefined) dateObj = new Date();
+        if (dateObj === undefined) dateObj = new Date();
         return String( dateObj.getDate() );
     };
 
@@ -56,7 +56,7 @@ folio.FTime.FDate = function() {
      * @return {String} return the current hour as 'HH'
      */
     var hour = function() {
-        if(dateObj === undefined) dateObj = new Date();
+        if (dateObj === undefined) dateObj = new Date();
         var hour = String( dateObj.getHours() );
         return addZero(hour);
     };
@@ -65,7 +65,7 @@ folio.FTime.FDate = function() {
      * @return {String} return the current minute as 'mm'
      */
     var minute = function() {
-        if(dateObj === undefined) dateObj = new Date();
+        if (dateObj === undefined) dateObj = new Date();
         var minute = String( dateObj.getMinutes() );
         return addZero(minute);
     };
@@ -74,7 +74,7 @@ folio.FTime.FDate = function() {
      * @return {String} return the current second as 'ss'
      */
     var second = function() {
-        if(dateObj === undefined) dateObj = new Date();
+        if (dateObj === undefined) dateObj = new Date();
         var second = String( dateObj.getSeconds() );
         return addZero(second);
     };
@@ -95,11 +95,11 @@ folio.FTime.FDate = function() {
     var now = function(format) {
         var disp = format || [true, true, true];
         var str = '';
-        if(disp[0]) str += hour();
-        if(disp[0] && disp[1]) str += ':';
-        if(disp[1]) str += minute();
-        if(disp[1] && disp[2]) str += ':';
-        if(disp[2]) str += second();
+        if (disp[0]) str += hour();
+        if (disp[0] && disp[1]) str += ':';
+        if (disp[1]) str += minute();
+        if (disp[1] && disp[2]) str += ':';
+        if (disp[2]) str += second();
         return str;
     };
 
@@ -191,19 +191,19 @@ folio.FTime.FDate = function() {
         var hours   = parseInt( (((ms / 1000) / 60) / 60) % 24 );
 
         var hh, mm, ss;
-        if(hours < 10) hh = '0' + hours;
+        if (hours < 10) hh = '0' + hours;
         else hh =  '' + hours;
-        if(minutes < 10) mm = '0' + minutes;
+        if (minutes < 10) mm = '0' + minutes;
         else mm =  '' + minutes;
-        if(seconds < 10) ss = '0' + seconds;
+        if (seconds < 10) ss = '0' + seconds;
         else ss =  '' + seconds;
 
         var str = '';
-        if(disp[0]) str += hh;
-        if(disp[0] && disp[1]) str += ':';
-        if(disp[1]) str += mm;
-        if(disp[1] && disp[2]) str += ':';
-        if(disp[2]) str += ss;
+        if (disp[0]) str += hh;
+        if (disp[0] && disp[1]) str += ':';
+        if (disp[1]) str += mm;
+        if (disp[1] && disp[2]) str += ':';
+        if (disp[2]) str += ss;
         return str;
     };
 
@@ -224,7 +224,7 @@ folio.FTime.FDate = function() {
      * @return {Number} time in milliseconds
      */
     var toMillsecond = function(h, m, s) {
-        if( m === undefined &&  s === undefined ) {
+        if ( m === undefined &&  s === undefined ) {
             h = toArray(h)[0];
             m = toArray(h)[1];
             s = toArray(h)[2];

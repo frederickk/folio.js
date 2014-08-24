@@ -87,13 +87,13 @@ folio.F3D.FPath3.inject({
                 ];
 
                 var vertices = [];
-                for(var i=0; i<faces.length; i++) {
+                for (var i=0; i<faces.length; i++) {
                     sides[i] = new folio.F3D.FPath3();
                     // sides[i].name = faces[i][0];
                     sides[i].name = 'Z-TOP'; // hack until FScene3D is fixed
 
                     vertices = faces[i][1];
-                    for(var j=0; j<vertices.length; j++) {
+                    for (var j=0; j<vertices.length; j++) {
                         sides[i].add3( new folio.F3D.FPoint3(
                             vertices[j].x * this._size.width,
                             vertices[j].y * this._size.height,
@@ -154,7 +154,7 @@ folio.F3D.FPath3.inject({
 
 
                 var vertices = [];
-                for(var i=0; i<=latlon[0]; i++) {
+                for (var i=0; i<=latlon[0]; i++) {
                     var lat0 = (Math.PI * (-_c + ( (i-1)/latlon[0]) ));
                     var z0   = Math.sin(lat0);
                     var zr0  = Math.cos(lat0);
@@ -163,7 +163,7 @@ folio.F3D.FPath3.inject({
                     var z1   = Math.sin(lat1);
                     var zr1  = Math.cos(lat1);
 
-                    for(var j=0; j<=latlon[1]; j++) {
+                    for (var j=0; j<=latlon[1]; j++) {
                         var lng = ((Math.PI*2) * ( (j-1)/latlon[1] ));
                         var x = Math.cos(lng);
                         var y = Math.sin(lng);
@@ -174,7 +174,7 @@ folio.F3D.FPath3.inject({
                 } // _lats
                 var sides = [vertices.length-2];
 
-                for(var i=0; i<vertices.length-2; i++) {
+                for (var i=0; i<vertices.length-2; i++) {
                     sides[i] = new folio.F3D.FPath3();
                     sides[i].name = 'face'+i;
 
