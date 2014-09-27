@@ -14,6 +14,7 @@ folio.FTime.FDate = function() {
     var dateObj = new Date();
     var monthsArr = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     var shortMonthsArr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    var daysArr = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 
 
@@ -52,6 +53,13 @@ folio.FTime.FDate = function() {
         return String( dateObj.getDate() );
     };
 
+    /**
+     * @return {String} return the current week day
+     */
+    var weekday = function() {
+        if (dateObj === undefined) dateObj = new Date();
+        return String( daysArr[dateObj.getDay()] );
+    };
     /**
      * @return {String} return the current hour as 'HH'
      */
