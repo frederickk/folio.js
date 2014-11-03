@@ -81,4 +81,43 @@ String.prototype.toBool = function() {
     }
 };
 
+/**
+ * reverse the order of a String
+ *
+ * @return {String}
+ */
+String.prototype.reverse = function() {
+    var lines = this.split('\n'),
+        temp = '';
+    for (var i=0; i<lines.length; i++) {
+        lines[i].trim();
+        temp = lines[i] + '\n' + temp;
+    }
+
+    return temp;
+};
+
+/**
+ * split String to contain specific amount of content per line, as defined by the delimitter
+ *
+ * @param  {Number} amt        amount of content
+ * @param  {String} delimitter (option) what to break the original String on
+ *
+ * @return {String}
+ */
+String.prototype.perLine = function(amt, delimitter) {
+    delimitter = delimitter || ' ';
+    var words = this.split(delimitter),
+        temp = '',
+        count = 1;
+    for (var i=0; i<words.length; i++) {
+        words[i].trim();
+        temp = (count % amt === 0 && count !== 1)
+            ? temp + words[i] + '\n'
+            : temp + words[i] + delimitter;
+        count++;
+    }
+
+    return temp;
+};
 
