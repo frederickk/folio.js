@@ -40,7 +40,7 @@
 var Matrix3D = function( n11, n12, n13, n14,
                          n21, n22, n23, n24,
                          n31, n32, n33, n34,
-                         n41, n42, n43, n44 ) {
+                         n41, n42, n43, n44) {
     // ------------------------------------------------------------------------
     //
     // Properties
@@ -102,7 +102,7 @@ var Matrix3D = function( n11, n12, n13, n14,
     // ------------------------------------------------------------------------
     function createBox( scalex, scaley, scalez,
                         rotationx, rotationy, rotationz,
-                        tx, ty, tz ) {
+                        tx, ty, tz) {
         identity();
 
         if (rotationx != 0) {
@@ -274,7 +274,7 @@ var Matrix3D = function( n11, n12, n13, n14,
         var rVal=[];
         var numPoints=arr.length/3;
 
-        for (var i=0; i<numPoints; i++) {
+        for (var i = 0; i < numPoints; i++) {
             var i3 = i*3;
             var x = arr[i3];
             var y = arr[i3+1];

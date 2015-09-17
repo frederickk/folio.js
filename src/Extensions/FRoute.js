@@ -30,7 +30,9 @@
  */
 folio.FRoute = function(items, iterations) {
     // ------------------------------------------------------------------------
+    //
     // Properties
+    //
     // ------------------------------------------------------------------------
     var items = items;
     var iterations = (iterations != undefined)
@@ -43,26 +45,28 @@ folio.FRoute = function(items, iterations) {
 
 
     // ------------------------------------------------------------------------
+    //
     // Methods
+    //
     // ------------------------------------------------------------------------
-    function calculate() {
+    (function calculate() {
         var temp;
         var p1;
 
-        if (RouteStep == 0) {
+        if (RouteStep === 0) {
             //  Begin process of optimizing plotting route,
             //  by flagging nodes that will be shown.
             //  console.log("Optimizing plotting path");
             var RouteNodesLength = 0;
             var RouteNodesTemp = [items.length];
 
-            for (var i=0; i<items.length; ++i) {
+            for (var i = 0; i < items.length; ++i) {
 
                 RouteNodesTemp[i] = false;
                 var px = items[i].position.x;
                 var py = items[i].position.y;
 
-                if ( (px >= view.bounds.width) || (py >= view.bounds.height) ||
+                if ((px >= view.bounds.width) || (py >= view.bounds.height) ||
                     (px < 0) || (py < 0)) {
                     continue;
                 }
@@ -75,7 +79,7 @@ folio.FRoute = function(items, iterations) {
             // These are the ONLY points to be drawn in the tour.
             RouteNodes = [RouteNodesLength];
             var tempCounter = 0;
-            for (var i=0; i<items.length; ++i) {
+            for (var i = 0; i < items.length; ++i) {
                 if (RouteNodesTemp[i]) {
                     RouteNodes[tempCounter] = i;
                     tempCounter++;
@@ -89,10 +93,11 @@ folio.FRoute = function(items, iterations) {
             //  1000 steps per frame displayed; you can edit this number!
             var StopPoint = RouteStep + 1000;
 
-            if (StopPoint > nodesNum)
+            if (StopPoint > nodesNum) {
                 StopPoint = nodesNum;
+            }
 
-            for (var i=RouteStep; i<StopPoint; ++i) {
+            for (var i = RouteStep; i < StopPoint; ++i) {
                 p1 = items[RouteNodes[RouteStep]].position;
                 var ClosestNode = 0;
                 var distMin = Number.MAX_VALUE;
@@ -102,7 +107,7 @@ folio.FRoute = function(items, iterations) {
 
                     var dx = p1.x - p2.x;
                     var dy = p1.y - p2.y;
-                    var distance = (dx*dx+dy*dy);   // Only looking for closest; do not need sqrt factor!
+                    var distance = (dx * dx + dy * dy);   // Only looking for closest; do not need sqrt factor!
 
                     if (distance < distMin) {
                         ClosestNode = j;
@@ -130,7 +135,7 @@ folio.FRoute = function(items, iterations) {
             // Identify a pair of edges that would become shorter by reversing part of the tour.
 
             // var groupPath = new Group();
-            for (var i=0; i<iterations; ++i) {
+            for (var i = 0; i < iterations; ++i) {
 
                 var indexA = Math.floor( Math.random()*nodesNum );
                 var indexB = Math.floor( Math.random()*nodesNum );
@@ -138,8 +143,9 @@ folio.FRoute = function(items, iterations) {
                 // console.log('indexA', indexA);
                 // console.log('indexB', indexB);
 
-                if (Math.abs(indexA - indexB) < 2)
+                if (Math.abs(indexA - indexB) < 2) {
                     continue;
+                }
 
                 if (indexB < indexA) {
                     // swap A, B.
@@ -156,18 +162,18 @@ folio.FRoute = function(items, iterations) {
                 // Original distance:
                 var dx = a0.x - a1.x;
                 var dy = a0.y - a1.y;
-                var distance = (dx*dx+dy*dy);   // Only a comparison; do not need sqrt factor!
+                var distance = (dx * dx + dy * dy);   // Only a comparison; do not need sqrt factor!
                 dx = b0.x - b1.x;
                 dy = b0.y - b1.y;
-                distance += (dx*dx+dy*dy);  //  Only a comparison; do not need sqrt factor!
+                distance += (dx * dx + dy * dy);  //  Only a comparison; do not need sqrt factor!
 
                 // Possible shorter distance?
                 dx = a0.x - b0.x;
                 dy = a0.y - b0.y;
-                var distance2 = (dx*dx+dy*dy);  //  Only a comparison; do not need sqrt factor!
+                var distance2 = (dx * dx + dy * dy);  //  Only a comparison; do not need sqrt factor!
                 dx = a1.x - b1.x;
                 dy = a1.y - b1.y;
-                distance2 += (dx*dx+dy*dy); // Only a comparison; do not need sqrt factor!
+                distance2 += (dx * dx + dy * dy); // Only a comparison; do not need sqrt factor!
 
                 if (distance2 < distance) {
                     // Reverse tour between a1 and b0.
@@ -188,22 +194,20 @@ folio.FRoute = function(items, iterations) {
             }
         // }
         //
-    };
+    })();
+
+
+
 
 
 
     // ------------------------------------------------------------------------
-    // Instantiate
-    // ------------------------------------------------------------------------
-    calculate();
-
-
-
-    // ------------------------------------------------------------------------
+    //
     // Gets
+    //
     // ------------------------------------------------------------------------
     return {
-        route: RouteNodes
+        route : RouteNodes
     };
 
 

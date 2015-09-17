@@ -16,7 +16,9 @@
  */
 folio.F3D.FScene3D = this.FScene3D = function() {
     // ------------------------------------------------------------------------
+    //
     // Properties
+    //
     // ------------------------------------------------------------------------
     /**
      * private
@@ -47,7 +49,9 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 
 
     // ------------------------------------------------------------------------
+    //
     // Methods
+    //
     // ------------------------------------------------------------------------
     /**
      * matrix for isometric projection
@@ -150,7 +154,7 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 
         // cycle through transformed 3D points
         // pull out screen 2D points
-        for (var i=0; i<_numPoints; i++) {
+        for (var i = 0; i < _numPoints; i++) {
             var i3 = i*3;
             var i2 = i*2;
 
@@ -168,7 +172,7 @@ folio.F3D.FScene3D = this.FScene3D = function() {
         // very crude and rudimentary
         var tindex = 0;
         var depthArr = []; // temp array to correlate transformed points to items
-        for (var i=0; i<_fpath3Arr.length; i++) {
+        for (var i = 0; i < _fpath3Arr.length; i++) {
             var fpath3 = _fpath3Arr[i];
 
             var avgz = this.averageZ(
@@ -190,7 +194,7 @@ folio.F3D.FScene3D = this.FScene3D = function() {
         // put the object into the group based on their z depth
         _groupBot.removeChildren(); // clear out in between draws
         _groupTop.removeChildren(); // clear out in between draws
-        for (var i=0; i<depthArr.length; i++) {
+        for (var i = 0; i < depthArr.length; i++) {
             var path = _fpath3Arr[ depthArr[i].index ].get();
 
             if (path.name == 'Z-TOP') _groupTop.appendBottom( path );
@@ -294,7 +298,7 @@ folio.F3D.FScene3D = this.FScene3D = function() {
      */
     this.addItem = function(item) {
         if (item.length > 0) {
-            for (var i=0; i<item.length; i++) {
+            for (var i = 0; i < item.length; i++) {
                 _fpath3Arr[ _fpath3Arr.length ] = item[i];
                 item[i].setScene(this);
             }

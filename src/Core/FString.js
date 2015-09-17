@@ -7,11 +7,11 @@
  */
 
 
-/** ------------------------------------------------------------------------
- *
- * Strings
- *
- * ------------------------------------------------------------------------ */
+//------------------------------------------------------------------------
+//
+// Strings
+//
+//------------------------------------------------------------------------
 
 /**
  * converts given string to Title Case
@@ -89,7 +89,7 @@ String.prototype.toBool = function() {
 String.prototype.reverse = function() {
     var lines = this.split('\n'),
         temp = '';
-    for (var i=0; i<lines.length; i++) {
+    for (var i = 0; i < lines.length; i++) {
         lines[i].trim();
         temp = lines[i] + '\n' + temp;
     }
@@ -110,7 +110,7 @@ String.prototype.perLine = function(amt, delimitter) {
     var words = this.split(delimitter),
         temp = '',
         count = 1;
-    for (var i=0; i<words.length; i++) {
+    for (var i = 0; i < words.length; i++) {
         words[i].trim();
         temp = (count % amt === 0 && count !== 1)
             ? temp + words[i] + '\n'

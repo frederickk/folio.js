@@ -65,7 +65,7 @@
 //             /* int major = */    buf.getShort();
 //             /* int minor = */    buf.getShort();
 //             int noBlocks = buf.getInt();
-//             for ( int i=0; i<noBlocks; ++i) {
+//             for (int i=0; i<noBlocks; ++i) {
 //                 readBlock(buf);
 //             }
 //         }

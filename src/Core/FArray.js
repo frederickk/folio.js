@@ -7,9 +7,11 @@
  */
 
 
+// ------------------------------------------------------------------------
 //
 // Array
 //
+// ------------------------------------------------------------------------
 
 /**
  *
@@ -41,7 +43,7 @@ Array.prototype.average = function(){
     var type = Object.prototype.toString.call(this).split(/\W/)[2];
     if (type === 'Array') {
         var sum = 0;
-        for (var i=0; i<this.length, isFinite(this[i]); i++) {
+        for (var i = 0; i < this.length, isFinite(this[i]); i++) {
             sum += parseFloat(this[i]);
         }
         return sum/this.length-1;
@@ -97,7 +99,7 @@ Array.prototype.combine = function(arr) {
  *
  */
 Array.prototype.findIndex = function(query) {
-    for (var i=this.length-1; i>=0; i--) {
+    for (var i = this.length - 1; i >= 0; i--) {
         if (this[i].toLowerCase() === query.toLowerCase()) {
             break;
         }
@@ -125,7 +127,11 @@ Array.prototype.max = function(start, stop) {
         : this.length;
     var max = start;
 
-    for (var i=(start+1); i<stop; i++) if (this[i] > this[max]) max = i;
+    for (var i = (start+1); i < stop; i++) {
+        if (this[i] > this[max]) {
+            max = i;
+        }
+    }
     return max;
 };
 
@@ -148,7 +154,11 @@ Array.prototype.min = function(start, stop) {
         : this.length;
     var min = start;
 
-    for (var i=(start+1); i<stop; i++) if (this[i] < this[min]) min = i;
+    for (var i = (start+1); i < stop; i++) {
+        if (this[i] < this[min]) {
+            min = i;
+        }
+    }
     return min;
 };
 
@@ -172,8 +182,8 @@ Array.prototype.shuffle = function() {
  */
 Array.prototype.unique = function() {
     var u = [];
-    o:for (var i=0, n=this.length; i<n; i++) {
-        for (var x=0, y=u.length; x<y; x++) {
+    o:for (var i = 0, n = this.length; i < n; i++) {
+        for (var x = 0, y = u.length; x < y; x++) {
             if (u[x] == this[i]) {
                 continue o;
             }
@@ -194,7 +204,9 @@ Array.prototype.removeDuplicates = function() {
     var type = Object.prototype.toString.call(this).split(/\W/)[2];
     if (type === 'Array') {
         return this.reduce(function(accum, cur) {
-            if (accum.indexOf(cur) === -1) accum.push(cur);
+            if (accum.indexOf(cur) === -1) {
+                accum.push(cur);
+            }
             return accum;
         }, [] );
     }
@@ -210,7 +222,9 @@ Array.prototype.removeDuplicates = function() {
  */
 Array.prototype.round = function(decimalPlaces) {
     var multi = Math.pow(10,decimalPlaces);
-    for (var i=0; i<this.length; i++) this[i] = Math.round(this[i] * multi)/multi;
+    for (var i = 0; i < this.length; i++) {
+        this[i] = Math.round(this[i] * multi)/multi;
+    }
     return this;
 };
 
@@ -228,14 +242,18 @@ var FSort = {
      *
      */
     alphabetical: function(a, b) {
-        /*
-        var A = a.toLowerCase();
-        var B = b.toLowerCase();
+        // var A = a.toLowerCase();
+        // var B = b.toLowerCase();
 
-        if (A < B) return -1;
-        else if (A > B) return  1;
-        else return 0;
-        */
+        // if (A < B) {
+        //     return -1;
+        // }
+        // else if (A > B) {
+        //     return  1;
+        // }
+        // else {
+        //     return 0;
+        // }
 
         a = a.toLowerCase();
         a = a.replace(/ä/g,'a');
@@ -249,7 +267,11 @@ var FSort = {
         b = b.replace(/ü/g,'u');
         b = b.replace(/ß/g,'s');
 
-        return(a == b) ? 0 : (a>b) ? 1 : -1;
+        return (a == b)
+            ? 0
+            : (a>b)
+                ? 1
+                : -1;
     },
 
     /**
@@ -264,8 +286,12 @@ var FSort = {
         // console.log( valueB );
         var comparisonValue = 0;
 
-        if (valueA > valueB) comparisonValue = -1;
-        else if (valueA < valueB) comparisonValue = 1;
+        if (valueA > valueB) {
+            comparisonValue = -1;
+        }
+        else if (valueA < valueB) {
+            comparisonValue = 1;
+        }
 
         return comparisonValue;
     }

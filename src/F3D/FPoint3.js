@@ -118,7 +118,7 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
      *      set x value
      */
     this.setX = function(val) {
-        if ( _scene != null ) _scene.points3D[_xIndex] = val;
+        if (_scene != null ) _scene.points3D[_xIndex] = val;
         this.x = val;
     };
 
@@ -128,7 +128,7 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
      *      set y value
      */
     this.setY = function(val) {
-        if ( _scene != null ) _scene.points3D[_yIndex] = val;
+        if (_scene != null ) _scene.points3D[_yIndex] = val;
         this.y = val;
     };
 
@@ -138,7 +138,7 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
      *      set z value
      */
     this.setZ = function(val) {
-        if ( _scene != null ) _scene.points3D[_zIndex] = val;
+        if (_scene != null ) _scene.points3D[_zIndex] = val;
         this.z = val;
     };
 

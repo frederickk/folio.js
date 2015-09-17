@@ -1,10 +1,10 @@
 /**!
  *
  * folio.js
- * 0.7.4
+ * 0.7.7
  * https://github.com/frederickk/folio.js
  *
- * 24. August 2014
+ * 24. August 2015
  *
  * Ken Frederick
  * ken.frederick@gmx.de
@@ -71,23 +71,23 @@ var html = document.documentElement;
  */
 // create methods
 // drawing
-var Setup = function(){};
-var Draw = function(){};
-var Update = function(event){};
+var Setup = function() {};
+var Draw = function() {};
+var Update = function(event) {};
 
-var Animate = function(object){};
-var AnimateClear = function(){};
+var Animate = function(object) {};
+var AnimateClear = function() {};
 
 // events
 // mouse
-var onMouseUp = function(event){};
-var onMouseDown = function(event){};
-var onMouseMove = function(event){};
-var onMouseDrag = function(event){};
+var onMouseUp = function(event) {};
+var onMouseDown = function(event) {};
+var onMouseMove = function(event) {};
+var onMouseDrag = function(event) {};
 
 // keyboard
-var onKeyDown = function(event){};
-var onKeyUp = function(event){};
+var onKeyDown = function(event) {};
+var onKeyUp = function(event) {};
 
 
 /**
@@ -98,18 +98,19 @@ var onKeyUp = function(event){};
 var container = document.createElement('div');
 container.id = 'container';
 container.style.position = 'absolute';
-container.style.width  = Math.max( body.scrollWidth, body.offsetWidth, html.clientWidth, html.scrollWidth, html.offsetWidth ) + 'px'; // '100%';
-container.style.height = Math.max( body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight ) + 'px'; // '100%';
+container.style.width    = '100%'; //Math.max( body.scrollWidth, body.offsetWidth, html.clientWidth, html.scrollWidth, html.offsetWidth ) + 'px'; // '100%';
+container.style.height   = '100%'; //Math.max( body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight ) + 'px'; // '100%';
 document.body.appendChild( container );
 
 var canvases = document.getElementsByTagName('canvas');
 var canvas;
-if ( canvases.length == 0 ) {
+if (canvases.length === 0) {
     // create canvas element
     canvas = document.createElement('canvas');
     canvas.id     = 'canvas';
     canvas.width  = '100%';
     canvas.height = '100%';
+    canvas.resize = true;
     canvas.style.backgroundColor = 'rgba(255, 255, 255, 0.0)'; //#ffffff';
     container.appendChild( canvas );
 }
@@ -126,10 +127,16 @@ paper.setup(canvas);
 // once the DOM is ready, setup Paper.js
 window.onload = function() {
     // ------------------------------------------------------------------------
+    //
     // Methods
+    //
     // ------------------------------------------------------------------------
-    if (typeof Setup === 'function') Setup();
-    if (typeof Draw === 'function') Draw();
+    if (typeof Setup === 'function') {
+        Setup();
+    }
+    if (typeof Draw === 'function') {
+        Draw();
+    }
 
 
     // ------------------------------------------------------------------------
@@ -139,58 +146,81 @@ window.onload = function() {
     function Animate(object, order) {
         // object must be a valid paper.js item
         // default is to add object to top
-        if ( order === 'bottom' ) AnimationGroup.appendBottom( object );
-        else AnimationGroup.appendTop( object );
-    };
+        if (order === 'bottom') {
+            AnimationGroup.appendBottom(object);
+        }
+        else {
+            AnimationGroup.appendTop(object);
+        }
+    }
     function AnimateClear() {
-        if ( project.activeLayer.children['__AnimationGroup'] ) {
+        if (project.activeLayer.children['__AnimationGroup']) {
             project.activeLayer.children['__AnimationGroup'].remove();
         }
-    };
+    }
 
 
 
     // ------------------------------------------------------------------------
+    //
     // Events
+    //
     // ------------------------------------------------------------------------
     view.onFrame = function(event) {
         // TODO:    add a method which clears an "animation group" each frame
-        if (typeof Update === 'function') Update(event);
+        if (typeof Update === 'function') {
+            Update(event);
+        }
         AnimateClear();
         view.update();
     };
 
     view.onResize = function(event) {
-        if (typeof onResize === 'function') onResize(event);
+        if (typeof onResize === 'function') {
+            onResize(event);
+        }
     };
 
     // ------------------------------------------------------------------------
     var tool = new Tool();
     tool.onMouseUp = function(event) {
-        if (typeof onMouseUp === 'function') onMouseUp(event);
+        if (typeof onMouseUp === 'function') {
+            onMouseUp(event);
+        }
     };
 
     tool.onMouseDown = function(event) {
-        if (typeof onMouseDown === 'function') onMouseDown(event);
+        if (typeof onMouseDown === 'function') {
+            onMouseDown(event);
+        }
     };
 
     tool.onMouseMove = function(event) {
-        if (typeof onMouseMove === 'function') onMouseMove(event);
+        if (typeof onMouseMove === 'function') {
+            onMouseMove(event);
+        }
     };
 
     tool.onMouseDrag = function(event) {
-        if (typeof onMouseDrag === 'function') onMouseDrag(event);
+        if (typeof onMouseDrag === 'function') {
+            onMouseDrag(event);
+        }
     };
 
 
     // ------------------------------------------------------------------------
     tool.onKeyDown = function(event) {
-        if (typeof onKeyDown === 'function') onKeyDown(event);
+        if (typeof onKeyDown === 'function') {
+            onKeyDown(event);
+        }
     };
 
     tool.onKeyUp = function(event) {
-        if (typeof onKeyUp === 'function') onKeyUp(event);
+        if (typeof onKeyUp === 'function') {
+            onKeyUp(event);
+        }
     };
+
 
 
     // ------------------------------------------------------------------------
@@ -198,44 +228,49 @@ window.onload = function() {
     view.update();
 
 
+
     // ------------------------------------------------------------------------
-    function resizeCanvas() {
+    function resizeCanvas(event) {
         // set canvas width and height
         if (canvas.getContext) {
-            canvas.width = container.offsetWidth;
-            canvas.height = container.offsetHeight;
-            canvas.style.width = container.offsetWidth + 'px';
-            canvas.style.height = container.offsetHeight + 'px';
+            view.viewSize.width = window.innerWidth
+                ? window.innerWidth
+                : document.documentElement.clientWidth;
+            view.viewSize.height = window.innerHeight
+                ? window.innerHeight
+                : document.documentElement.clientHeight;
 
             // resetup canvas
-            paper.setup(canvas);
+            // paper.setup(canvas);
         }
 
         // clear out view
-        for ( var i=0; i<projects.length; i++ ) {
-            for ( var j=0; j<projects[i].layers.length; j++ ) {
-                var layer = projects[i].layers[j];
-                // console.log( 'removing' );
-                layer.removeChildren();
-            }
-        }
+        // paper.clear();
 
         // re-initiate setup
-        if (typeof Setup === 'function') Setup();
+        if (typeof Setup === 'function') {
+            Setup();
+        }
         // re-initiate draw
-        if (typeof Draw === 'function') Draw();
+        if (typeof Draw === 'function') {
+            Draw();
+        }
 
         // make sure view does its draw
         view.draw();
-        view.update();
-    };
-    window.addEventListener('resize', resizeCanvas);
+        // view.update();
+    }
+    window.addEventListener('resize', resizeCanvas, false);
+    window.addEventListener('orientationchange', resizeCanvas, false);
+
 
 
     // ------------------------------------------------------------------------
     // resizeCanvas();
     console.log('Folio.js is go!');
 };
+
+
 
 /*
  *
@@ -325,17 +360,39 @@ PaperScope.inject({
      *
      */
     getType: function(obj) {
-        if (obj instanceof Point) return 'Point';
-        else if (obj instanceof Size) return 'Size';
-        else if (obj instanceof Rectangle) return 'Rectangle';
-        else if (obj instanceof Group) return 'Group';
-        else if (obj instanceof Raster) return 'Raster';
-        else if (obj instanceof PlacedSymbol) return 'PlacedSymbol';
-        else if (obj instanceof Path) return 'Path';
-        else if (obj instanceof CompoundPath) return 'CompoundPath';
-        else if (obj instanceof Symbol) return 'Symbol';
-        else if (obj instanceof TextItem) return 'TextItem';
-        else return Object.prototype.toString.call(obj).split(/\W/)[2];
+        if (obj instanceof Point) {
+            return 'Point';
+        }
+        else if (obj instanceof Size) {
+            return 'Size';
+        }
+        else if (obj instanceof Rectangle) {
+            return 'Rectangle';
+        }
+        else if (obj instanceof Group) {
+            return 'Group';
+        }
+        else if (obj instanceof Raster) {
+            return 'Raster';
+        }
+        else if (obj instanceof PlacedSymbol) {
+            return 'PlacedSymbol';
+        }
+        else if (obj instanceof Path) {
+            return 'Path';
+        }
+        else if (obj instanceof CompoundPath) {
+            return 'CompoundPath';
+        }
+        else if (obj instanceof Symbol) {
+            return 'Symbol';
+        }
+        else if (obj instanceof TextItem) {
+            return 'TextItem';
+        }
+        else {
+            return Object.prototype.toString.call(obj).split(/\W/)[2];
+        }
     },
 
     /**
@@ -352,7 +409,9 @@ PaperScope.inject({
         var path;
         for (var i = 0; i < items.length; i++) {
             var item = items[i];
-            if (item.name === name) path = item;
+            if (item.name === name) {
+                path = item;
+            }
             // break;
         }
         return path;
@@ -372,7 +431,9 @@ PaperScope.inject({
         var path;
         for (var i = 0; i < items.length; i++) {
             var item = items[i];
-            if (item.id === id) path = item;
+            if (item.id === id) {
+                path = item;
+            }
             // break;
         }
         return path;
@@ -389,14 +450,66 @@ PaperScope.inject({
      *
      */
     forEach: function(arr, callback) {
-        for (var i=0, len=arr.length; i<len; i++) {
+        for (var i = 0, len = arr.length; i < len; i++) {
             if (callback(arr[i],i) === false) {
                 return false;
             }
         }
         return true;
-    }
+    },
 
+
+    /**
+     * Clear the paper view (canvas)
+     *
+     * @param  {String} arg0 layerName name
+     * @param  {Function} arg1 callback
+     *
+     */
+    /**
+     * Clear the paper view (canvas)
+     *
+     * @param  {String} arg0 callback
+     *
+     */
+    clear: function(arg0, arg1) {
+        var layerName, callback;
+        var layer;
+
+        if (arguments.length === 2) {
+            layerName = arg0;
+            callback = arg1;
+        }
+        else if (arguments.length === 1) {
+            layerName = undefined;
+            callback = arg0;
+        }
+
+        for (var i = 0; i < projects.length; i++) {
+            if (layerName !== undefined) {
+                try {
+                    layer = projects[i].layers[layerName];
+                    layer.removeChildren();
+                }
+                catch(err) {}
+            }
+            else {
+                projects[i].clear();
+                layer = new Layer();
+                // for (var j = 0; j < projects[i].layers.length; j++) {
+                //     layer = projects[i].layers[j];
+                //     if (callback) {
+                //         callback(layer);
+                //     }
+                //     layer.removeChildren();
+                // }
+            }
+
+            if (callback) {
+                callback(layer);
+            }
+        }
+    }
 
 });
 
@@ -411,9 +524,11 @@ PaperScope.inject({
  */
 
 
+// ------------------------------------------------------------------------
 //
 // Array
 //
+// ------------------------------------------------------------------------
 
 /**
  *
@@ -445,7 +560,7 @@ Array.prototype.average = function(){
     var type = Object.prototype.toString.call(this).split(/\W/)[2];
     if (type === 'Array') {
         var sum = 0;
-        for (var i=0; i<this.length, isFinite(this[i]); i++) {
+        for (var i = 0; i < this.length, isFinite(this[i]); i++) {
             sum += parseFloat(this[i]);
         }
         return sum/this.length-1;
@@ -501,7 +616,7 @@ Array.prototype.combine = function(arr) {
  *
  */
 Array.prototype.findIndex = function(query) {
-    for (var i=this.length-1; i>=0; i--) {
+    for (var i = this.length - 1; i >= 0; i--) {
         if (this[i].toLowerCase() === query.toLowerCase()) {
             break;
         }
@@ -529,7 +644,11 @@ Array.prototype.max = function(start, stop) {
         : this.length;
     var max = start;
 
-    for (var i=(start+1); i<stop; i++) if (this[i] > this[max]) max = i;
+    for (var i = (start+1); i < stop; i++) {
+        if (this[i] > this[max]) {
+            max = i;
+        }
+    }
     return max;
 };
 
@@ -552,7 +671,11 @@ Array.prototype.min = function(start, stop) {
         : this.length;
     var min = start;
 
-    for (var i=(start+1); i<stop; i++) if (this[i] < this[min]) min = i;
+    for (var i = (start+1); i < stop; i++) {
+        if (this[i] < this[min]) {
+            min = i;
+        }
+    }
     return min;
 };
 
@@ -576,8 +699,8 @@ Array.prototype.shuffle = function() {
  */
 Array.prototype.unique = function() {
     var u = [];
-    o:for (var i=0, n=this.length; i<n; i++) {
-        for (var x=0, y=u.length; x<y; x++) {
+    o:for (var i = 0, n = this.length; i < n; i++) {
+        for (var x = 0, y = u.length; x < y; x++) {
             if (u[x] == this[i]) {
                 continue o;
             }
@@ -598,7 +721,9 @@ Array.prototype.removeDuplicates = function() {
     var type = Object.prototype.toString.call(this).split(/\W/)[2];
     if (type === 'Array') {
         return this.reduce(function(accum, cur) {
-            if (accum.indexOf(cur) === -1) accum.push(cur);
+            if (accum.indexOf(cur) === -1) {
+                accum.push(cur);
+            }
             return accum;
         }, [] );
     }
@@ -614,7 +739,9 @@ Array.prototype.removeDuplicates = function() {
  */
 Array.prototype.round = function(decimalPlaces) {
     var multi = Math.pow(10,decimalPlaces);
-    for (var i=0; i<this.length; i++) this[i] = Math.round(this[i] * multi)/multi;
+    for (var i = 0; i < this.length; i++) {
+        this[i] = Math.round(this[i] * multi)/multi;
+    }
     return this;
 };
 
@@ -632,14 +759,18 @@ var FSort = {
      *
      */
     alphabetical: function(a, b) {
-        /*
-        var A = a.toLowerCase();
-        var B = b.toLowerCase();
+        // var A = a.toLowerCase();
+        // var B = b.toLowerCase();
 
-        if (A < B) return -1;
-        else if (A > B) return  1;
-        else return 0;
-        */
+        // if (A < B) {
+        //     return -1;
+        // }
+        // else if (A > B) {
+        //     return  1;
+        // }
+        // else {
+        //     return 0;
+        // }
 
         a = a.toLowerCase();
         a = a.replace(/ä/g,'a');
@@ -653,7 +784,11 @@ var FSort = {
         b = b.replace(/ü/g,'u');
         b = b.replace(/ß/g,'s');
 
-        return(a == b) ? 0 : (a>b) ? 1 : -1;
+        return (a == b)
+            ? 0
+            : (a>b)
+                ? 1
+                : -1;
     },
 
     /**
@@ -668,8 +803,12 @@ var FSort = {
         // console.log( valueB );
         var comparisonValue = 0;
 
-        if (valueA > valueB) comparisonValue = -1;
-        else if (valueA < valueB) comparisonValue = 1;
+        if (valueA > valueB) {
+            comparisonValue = -1;
+        }
+        else if (valueA < valueB) {
+            comparisonValue = 1;
+        }
 
         return comparisonValue;
     }
@@ -1163,7 +1302,13 @@ paper.Color.inject({
      *
      */
     toHex: function() {
-        function c2h(e) { var t=e.toString(16); return t.length===1?'0'+t:t }
+        function c2h(e) {
+            var t = e.toString(16);
+            return t.length === 1
+                ? '0' + t
+                : t;
+        }
+
         return '#' +
             c2h(this.red*255) +
             c2h(this.green*255) +
@@ -1181,14 +1326,14 @@ paper.Color.inject({
      * @return {Color} desaturated Color by input amount
      *
      * @example
-     * var color = new Color( 0.0, 1.0, 0.7 );
+     * var color = new Color(0.0, 1.0, 0.7);
      * var desaturated = color.desaturate(0.2); // { red: 0, green: 0.76, blue: 0.532 }
      *
      */
     desaturate: function(amt) {
-        var color = new Color( this );
-        color.saturation = paper.clamp( this.saturation - (this.saturation * amt), 0,1 );
-        color.setType( this.type );
+        var color = new Color(this);
+        color.saturation = paper.clamp(this.saturation - (this.saturation * amt), 0,1);
+        color.setType(this.type);
         return color;
     },
 
@@ -1202,14 +1347,14 @@ paper.Color.inject({
      * @return {Color} saturated Color by input amount
      *
      * @example
-     * var color = new Color( 0.0, 1.0, 0.7 );
+     * var color = new Color(0.0, 1.0, 0.7);
      * var saturated = color.saturate(0.2); // { red: 0, green: 0.76, blue: 0.532 }
      *
      */
     saturate: function(amt) {
-        var color = new Color( this );
-        color.saturation = paper.clamp( this.saturation + (this.saturation * amt), 0,1 );
-        color.setType( this.type );
+        var color = new Color(this);
+        color.saturation = paper.clamp(this.saturation + (this.saturation * amt), 0,1);
+        color.setType(this.type);
         return color;
     },
 
@@ -1223,14 +1368,14 @@ paper.Color.inject({
      * @return {Color} darkened Color by input amount
      *
      * @example
-     * var color = new Color( 0.0, 1.0, 0.7 );
+     * var color = new Color(0.0, 1.0, 0.7);
      * var darkened = color.darken(0.2); // { red: 0, green: 0.76, blue: 0.532 }
      *
      */
     darken: function(amt) {
-        var color = new Color( this );
-        color.lightness = paper.clamp( this.lightness - (this.lightness * amt), 0,1 );
-        color.setType( this.type );
+        var color = new Color(this);
+        color.lightness = paper.clamp(this.lightness - (this.lightness * amt), 0,1);
+        color.setType(this.type);
         return color;
     },
 
@@ -1244,14 +1389,14 @@ paper.Color.inject({
      * @return {Color} dimmed Color by input amount
      *
      * @example
-     * var color = new Color( 0.0, 1.0, 0.7 );
+     * var color = new Color(0.0, 1.0, 0.7);
      * var dimmed = color.dim(0.2); // { red: 0, green: 0.76, blue: 0.532 }
      *
      */
     dim: function(amt) {
-        var color = new Color( this );
-        color.brightness = paper.clamp( this.brightness - (this.brightness * amt), 0,1 );
-        color.setType( this.type );
+        var color = new Color(this);
+        color.brightness = paper.clamp(this.brightness - (this.brightness * amt), 0,1);
+        color.setType(this.type);
         return color;
     },
 
@@ -1265,15 +1410,15 @@ paper.Color.inject({
      * @return {Color} lightened Color by input amount
      *
      * @example
-     * var color = new Color( 0.0, 1.0, 0.7 );
+     * var color = new Color(0.0, 1.0, 0.7);
      * var lightened = color.lighten(0.2); // { red: 0, green: 0.76, blue: 0.532 }
      *
      */
     lighten: function(amt) {
-        var color = new Color( this );
-        // color.saturation = paper.clamp( this.saturation - (this.saturation * amt), 0,1 );
-        color.lightness = paper.clamp( this.lightness + (this.lightness * amt), 0,1 );
-        color.setType( this.type );
+        var color = new Color(this);
+        // color.saturation = paper.clamp(this.saturation - (this.saturation * amt), 0,1);
+        color.lightness = paper.clamp(this.lightness + (this.lightness * amt), 0,1);
+        color.setType(this.type);
         return color;
     },
 
@@ -1287,15 +1432,15 @@ paper.Color.inject({
      * @return {Color} brightened Color by input amount
      *
      * @example
-     * var color = new Color( 0.0, 1.0, 0.7 );
+     * var color = new Color(0.0, 1.0, 0.7);
      * var brightened = color.brighten(0.2);
      *
      */
     brighten: function(amt) {
-        var color = new Color( this );
-        color.saturation = paper.clamp( this.saturation - (this.saturation * amt), 0,1 );
-        color.brightness = paper.clamp( this.brightness + (this.brightness * amt), 0,1 );
-        color.setType( this.type );
+        var color = new Color(this);
+        color.saturation = paper.clamp(this.saturation - (this.saturation * amt), 0,1);
+        color.brightness = paper.clamp(this.brightness + (this.brightness * amt), 0,1);
+        color.setType(this.type);
         return color;
     },
 
@@ -1309,13 +1454,13 @@ paper.Color.inject({
      * @return {Color} Color by input amount
      *
      * @example
-     * var color = new Color( 0.0, 1.0, 0.7 );
+     * var color = new Color(0.0, 1.0, 0.7);
      * var contrasted = color.contrast(0.2);
      *
      */
     contrast: function(amt) {
-        var color = new Color( this );
-        color.setType( this.type );
+        var color = new Color(this);
+        color.setType(this.type);
         return color.lightness < 0.5
             ? color.darken(amt)
             : color.lighten(amt);
@@ -1328,14 +1473,14 @@ paper.Color.inject({
      * @return {Color} inverted Color
      *
      * @example
-     * var color = new Color( 0.0, 1.0, 0.7 );
+     * var color = new Color(0.0, 1.0, 0.7);
      * var inverted = color.invert();
      *
      */
     invert: function() {
-        var color = new Color( this );
+        var color = new Color(this);
         color.hue += 180;
-        color.setType( this.type );
+        color.setType(this.type);
         return color;
     },
 
@@ -1349,10 +1494,10 @@ paper.Color.inject({
      * @return {Color} rotated Color
      *
      * @example
-     * var color = new Color( 0.0, 1.0, 0.7 );
+     * var color = new Color(0.0, 1.0, 0.7);
      * var compliment = color.rotate(180);
      *
-     * var color = new Color( 0.0, 1.0, 0.7 );
+     * var color = new Color(0.0, 1.0, 0.7);
      * var triad = [
      *  color,
      *  color.rotate(120),
@@ -1361,9 +1506,9 @@ paper.Color.inject({
      *
      */
     rotate: function(degree) {
-        var color = new Color( this );
+        var color = new Color(this);
         color.hue += degree;
-        color.setType( this.type );
+        color.setType(this.type);
         return color;
     },
 
@@ -1380,9 +1525,9 @@ paper.Color.inject({
      * @return {Color} interpolated color
      *
      * @example
-     * var color1 = new Color( 0.0, 1.0, 0.7 );
-     * var color2 = new Color( 0.0, 0.7, 1.0 );
-     * var interpolateColor = new Color().interpolate( color1, color2, 0.5 );
+     * var color1 = new Color(0.0, 1.0, 0.7);
+     * var color2 = new Color(0.0, 0.7, 1.0);
+     * var interpolateColor = new Color().interpolate(color1, color2, 0.5);
      *
      */
     /**
@@ -1395,41 +1540,41 @@ paper.Color.inject({
      * @return {Color} interpolated color
      *
      * @example
-     * var color1 = new Color( 0.0, 1.0, 0.7 );
-     * var color2 = new Color( 0.0, 0.7, 1.0 );
-     * var interpolateColor = color1.interpolate( color2, 0.5 );
+     * var color1 = new Color(0.0, 1.0, 0.7);
+     * var color2 = new Color(0.0, 0.7, 1.0);
+     * var interpolateColor = color1.interpolate(color2, 0.5);
      *
      */
     //
     //  TODO: would interpolateTo make more sense?
     //
     // interpolateTo: function(toColor, amt) {
-    //  var color = new Color( this );
-    //  for ( var i=0; i<color._components.length; i++ ) {
+    //  var color = new Color(this);
+    //  for (var i = 0; i < color._components.length; i++) {
     //      color._components[i] += ((toColor._components[i] - color._components[i]) * amt);
     //  }
     //  return color;
     // },
-    interpolate: function( arg0, arg1, arg2 ) {
-        var color = new Color( this );
+    interpolate: function(arg0, arg1, arg2) {
+        var color = new Color(this);
 
         if (typeof arg1 === 'number') {
             var to = arg0.getComponents();
-            for ( var i=0; i<color._components.length; i++ ) {
+            for (var i = 0; i < color._components.length; i++) {
                 // color._components[i] += ((to[i] - color._components[i]) * arg1);
-                color._components[i] = paper.interpolate( color._components[i], to[i], arg1 );
+                color._components[i] = paper.interpolate(color._components[i], to[i], arg1);
             }
         }
         else {
             var from = arg0.getComponents();
             var to = arg1.getComponents();
-            for ( var i=0; i<color._components.length; i++ ) {
+            for (var i = 0; i < color._components.length; i++) {
                 // color._components[i] += ((to[i] - from[i]) * arg2);
-                color._components[i] = paper.interpolate( from[i], to[i], arg2 );
+                color._components[i] = paper.interpolate(from[i], to[i], arg2);
             }
         }
 
-        color.setType( this.type );
+        color.setType(this.type);
         return color;
     },
 
@@ -1464,7 +1609,7 @@ paper.Color.inject({
         random: function(arg0, arg1, arg2, arg3) {
             var components;
 
-            if ( paper.getType(arg0) === 'String' ) {
+            if (paper.getType(arg0) === 'String') {
                 var hex = arg0.substring(1);
                 return new Color.random(
                     parseInt(hex.slice(0,2), 16)/255,
@@ -1472,10 +1617,10 @@ paper.Color.inject({
                     parseInt(hex.slice(4,6), 16)/255
                 );
             }
-            else if ( paper.getType(arg0) === 'Object' ) {
+            else if (paper.getType(arg0) === 'Object') {
                 components = {};
-                for ( var key in arg0 ) {
-                    if ( paper.getType(arg0[key]) === 'Array' ) {
+                for (var key in arg0) {
+                    if (paper.getType(arg0[key]) === 'Array') {
                         components[key] = paper.random(arg0[key][0], arg0[key][1]);
                     }
                     else {
@@ -1489,12 +1634,12 @@ paper.Color.inject({
                     ? arguments.length
                     : 4;
 
-                for ( var i=0; i<len; i++ ) {
-                    if ( paper.getType(arguments[i]) === 'Array' ) {
+                for (var i = 0; i < len; i++) {
+                    if (paper.getType(arguments[i]) === 'Array') {
                         components.push(paper.random(arguments[i][0], arguments[i][1] ));
                     }
-                    else if ( paper.getType(arguments[i]) === 'Number' ) {
-                        components.push(paper.random( 0.0, arguments[i] ));
+                    else if (paper.getType(arguments[i]) === 'Number') {
+                        components.push(paper.random(0.0, arguments[i] ));
                     }
                     else {
                         components.push(paper.random(1.0));
@@ -1503,9 +1648,14 @@ paper.Color.inject({
             }
 
             var c = new Color(components);
-            c.data = (arg0 === 'hex') ? components : null;
+            c.data = (arg0 === 'hex')
+                ? components
+                : null;
             c.alpha = 1.0;
-            c.setType( (components[0] > 1.0) ? 'hsb' : 'rgb' );
+            c.setType((components[0] > 1.0)
+                ? 'hsb'
+                : 'rgb'
+            );
             return c;
         },
 
@@ -1681,11 +1831,11 @@ paper.Item.inject({
      *
      */
     getDistanceToCenter: function() {
-        if ( this._position != undefined ) {
+        if (this._position != undefined) {
             var dx = this._position.x - view.bounds.center.x;
             var dy = this._position.y - view.bounds.center.y;
             return (dx * dx + dy * dy) + 1;
-            // return this._position.getDistance( view.bounds.center );
+            // return this._position.getDistance(view.bounds.center);
         }
     },
 
@@ -1714,7 +1864,7 @@ paper.Item.inject({
      */
     toGroup: function() {
         if (paper.getType(this) === 'CompoundPath') {
-            return new Group( this.children );
+            return new Group(this.children);
         }
         else {
             return this;
@@ -1797,7 +1947,7 @@ paper.Path.inject({
         var a = 0.0;
 
         var points = [];
-        for ( var i=0; i<this._segments.length-1; ++i ) {
+        for (var i = 0; i < this._segments.length-1; ++i) {
             points[0] = this._segments[i].point;
             points[1] = this._segments[i+1].point;
 
@@ -1846,17 +1996,17 @@ paper.Path.inject({
     //  var len = this._segments.length;
 
     //  var points = [];
-    //  for ( var i=0; i<len; i++ ) {
+    //  for (var i = 0; i < len; i++) {
     //      var point = this._segments[i].point
     //      points.push(point);
     //  }
-    //  points.sort( FSort.distanceToCenter );
+    //  points.sort(FSort.distanceToCenter);
 
-    //  for ( var i=0; i<points.length; i++ ) {
+    //  for (var i = 0; i < points.length; i++) {
     //      var point = points[i];
-    //      console.log( point.getDistanceToCenter() );
+    //      console.log(point.getDistanceToCenter());
     //  }
-    //  console.log( points );
+    //  console.log(points);
     //  console.log(' --------- ');
 
     //  var l = new Path.Line(
@@ -1867,11 +2017,11 @@ paper.Path.inject({
 
 
     //  return point;
-    //  // console.log( this._segments );
+    //  // console.log(this._segments);
     //  // var points = [];
     //  // points = points.sort(FSort.distanceToCenter());
-    //  // console.log( points );
-    //  // console.log( '---------' );
+    //  // console.log(points);
+    //  // console.log('---------');
 
     //  // var arr1 = this._segments[0].point.getPerpendicularBisector(this._segments[2].point);
     //  // var arr2;
@@ -1916,7 +2066,7 @@ paper.Path.inject({
     //  //  o.x - r/2,
     //  //  o.y + r/2
     //  // ), r);
-    //  // // console.log( pi.position );
+    //  // // console.log(pi.position);
     //  // return pi.position;
     // },
 
@@ -1925,7 +2075,7 @@ paper.Path.inject({
         var pointsX = [],
             pointsY = [];
 
-        for ( var i=0; i<len; i++ ) {
+        for (var i = 0; i < len; i++) {
             var j = (i+1 >= len) ? 0 : i+1;
             var k = (i+2 >= len) ? 1 : i+2;
 
@@ -1949,7 +2099,7 @@ paper.Path.inject({
 
             var G = 2.0*(A*(p3.y - p2.y)-B*(p3.x - p2.x));
 
-            if ( Math.abs(G) < Numerical.EPSILON ) {
+            if (Math.abs(G) < Numerical.EPSILON) {
                 var arrx = [p1.x, p2.x, p3.x];
                 var arry = [p1.y, p2.y, p3.y];
 
@@ -1958,16 +2108,16 @@ paper.Path.inject({
                 var maxx = arrx.max();
                 var maxy = arry.max();
 
-                return new Point( (arrx[minx] + arrx[maxx])/2, (arry[miny] + arry[maxy])/2 );
+                return new Point((arrx[minx] + arrx[maxx])/2, (arry[miny] + arry[maxy])/2);
             }
             else {
                 var cx = (D*E - B*F) / G;
                 var cy = (A*F - C*E) / G;
-                return new Point( cx, cy );
+                return new Point(cx, cy);
             }
         };
 
-        return new Point( pointsX.median(), pointsY.median() );
+        return new Point(pointsX.median(), pointsY.median());
     },
 
     /*
@@ -1996,17 +2146,17 @@ paper.Path.inject({
                 d = x * x + y * y;
             return Math.sqrt(d);
         };
-        arr.sort( function(a, b) {
+        arr.sort(function(a, b) {
             return getDistanceToCentroid(a) - getDistanceToCentroid(b);
         });
 
-        circumradius = getDistanceToCentroid( arr[arr.length-1] ) + getDistanceToCentroid( arr[arr.length-2] );
+        circumradius = getDistanceToCentroid(arr[arr.length-1] ) + getDistanceToCentroid(arr[arr.length-2]);
         circumradius /= 2;
 
-        // // for ( var i=0; i<arr.length; i++ ) {
+        // // for (var i = 0; i < arr.length; i++) {
         // //   var seg = arr[i].point;
-        // //   if ( seg.getDistance( this.getCentroid()) > circumradius ) {
-        // //       circumradius = seg.getDistance( this.getCentroid());
+        // //   if (seg.getDistance(this.getCentroid()) > circumradius) {
+        // //       circumradius = seg.getDistance(this.getCentroid());
         // //   }
         // // }
 
@@ -2035,10 +2185,10 @@ paper.Path.inject({
     getIncircle: function() {
         var incircleradius = Number.MAX_VALUE;
 
-        for ( var i=0; i<this._segments.length; i++ ) {
+        for (var i = 0; i < this._segments.length; i++) {
             var seg = this._segments[i].point;
-            if ( seg.getDistance( this.getCentroid() ) < incircleradius ) {
-                incircleradius = seg.getDistance( this.getCentroid() );
+            if (seg.getDistance(this.getCentroid() ) < incircleradius) {
+                incircleradius = seg.getDistance(this.getCentroid());
             }
         }
 
@@ -2051,7 +2201,7 @@ paper.Path.inject({
     // TODO: currently implementation returns false point
     // getIncenter : function() {
     //  // vertices
-    //  if ( this.segments.length == 3 ) {
+    //  if (this.segments.length == 3) {
     //      var p1 = this.segments[0].point;
     //      var p2 = this.segments[1].point;
     //      var p3 = this.segments[2].point;
@@ -2069,7 +2219,7 @@ paper.Path.inject({
     //      );
     //  }
     //  else {
-    //      console.error( 'Not Path.FTriangle' );
+    //      console.error('Not Path.FTriangle');
     //      return null;
     //  }
     // },
@@ -2080,7 +2230,7 @@ paper.Path.inject({
      */
     // TODO: currently implementation returns false point
     // toCartesian : function(bary) {
-    //  if ( this.segments.length == 3 ) {
+    //  if (this.segments.length == 3) {
     //      var p1 = this.segments[0].point;
     //      var p2 = this.segments[1].point;
     //      var p3 = this.segments[2].point;
@@ -2099,8 +2249,8 @@ paper.Path.inject({
 
     //      // var angleC = Math.acos((a*a + b*b - c*c) / (2*a*b));
 
-    //      // var cosC = Math.cos( angleC );
-    //      // var sinC = Math.sin( angleC );
+    //      // var cosC = Math.cos(angleC);
+    //      // var sinC = Math.sin(angleC);
 
     //      // var x =  (k*bary[1] - r + (k*bary[0] - r)*cosC) / sinC;
     //      // var y =  k*bary[0] - r;
@@ -2116,7 +2266,7 @@ paper.Path.inject({
     //      );
     //  }
     //  else {
-    //      console.error( 'Not Path.FTriangle' );
+    //      console.error('Not Path.FTriangle');
     //      return null;
     //  }
     // },
@@ -2125,7 +2275,7 @@ paper.Path.inject({
     // TODO: currently implementation returns false point
     // getOrthocenter : function() {
     //  // vertices
-    //  if ( this.segments.length == 3 ) {
+    //  if (this.segments.length == 3) {
     //      var p1 = this.segments[0].point;
     //      var p2 = this.segments[1].point;
     //      var p3 = this.segments[2].point;
@@ -2143,7 +2293,7 @@ paper.Path.inject({
     //      return this.toCartesian(bary);
     //  }
     //  else {
-    //      console.error( 'Not Path.FTriangle' );
+    //      console.error('Not Path.FTriangle');
     //      return null;
     //  }
     // },
@@ -2152,7 +2302,7 @@ paper.Path.inject({
     // TODO: currently implementation returns false point
     // getSchifflerPoint : function() {
     //  // vertices
-    //  if ( this.segments.length == 3 ) {
+    //  if (this.segments.length == 3) {
     //      var p1 = this.segments[0].point;
     //      var p2 = this.segments[1].point;
     //      var p3 = this.segments[2].point;
@@ -2170,7 +2320,7 @@ paper.Path.inject({
     //      return this.toCartesian(bary, p1,p2,p3);
     //  }
     //  else {
-    //      console.error( 'Not Path.FTriangle' );
+    //      console.error('Not Path.FTriangle');
     //      return null;
     //  }
     // },
@@ -2193,29 +2343,29 @@ paper.Path.inject({
              *          (optional) length of the arrow head
              *
              * @example
-             * var headPoint = new paper.Point( 9,9 );
-             * var tailPoint = new paper.Point( 90,90 );
-             * var arrowHeadSize = new paper.Size( 18,18 );
-             * var farrow = new paper.Path.FArrow( headPoint, tailPoint, arrowHeadSize );
+             * var headPoint = new paper.Point(9,9);
+             * var tailPoint = new paper.Point(90,90);
+             * var arrowHeadSize = new paper.Size(18,18);
+             * var farrow = new paper.Path.FArrow(headPoint, tailPoint, arrowHeadSize);
              *
              */
             FArrow: function(headPoint, tailPoint, arrowHeadSize) {
                 // the line part
-                var path = new Path.Line( headPoint, tailPoint );
+                var path = new Path.Line(headPoint, tailPoint);
 
                 // the arrow head
                 var arrowHeadSize = arrowHeadSize || new Size(headPoint.getDistance(tailPoint)*0.381924,headPoint.getDistance(tailPoint)*0.381924);
 
                 // rotate arrow head around to correct position
-                var a = Math.atan2( headPoint.x-tailPoint.x, tailPoint.y-headPoint.y );
+                var a = Math.atan2(headPoint.x-tailPoint.x, tailPoint.y-headPoint.y);
 
                 // slight "hack" to get strokCap correct
                 var arrowHead = [];
-                arrowHead[0] = new Path.Line( new Point(0,0), new Point(-arrowHeadSize.width,-arrowHeadSize.height) );
-                arrowHead[1] = new Path.Line( new Point(0,0), new Point( arrowHeadSize.width,-arrowHeadSize.height) );
-                for ( var i=0; i<arrowHead.length; i++ ) {
-                    arrowHead[i].rotate( 180+paper.degrees(a), new Point(0,0) );
-                    arrowHead[i].translate( headPoint );
+                arrowHead[0] = new Path.Line(new Point(0,0), new Point(-arrowHeadSize.width,-arrowHeadSize.height));
+                arrowHead[1] = new Path.Line(new Point(0,0), new Point(arrowHeadSize.width,-arrowHeadSize.height));
+                for (var i = 0; i < arrowHead.length; i++) {
+                    arrowHead[i].rotate(180+paper.degrees(a), new Point(0,0));
+                    arrowHead[i].translate(headPoint);
                 }
 
                 var group = new Group([ path, arrowHead[0], arrowHead[1] ]);
@@ -2243,11 +2393,11 @@ paper.Path.inject({
              *          'RIGHT'     right align the x-position of the point
              *
              * @example
-             * var bubblePoint = new paper.Point( 45,45 );
-             * var bubbleSize = new paper.Size( 90,60 );
-             * var bubbleTagSize = new paper.Size( 9,9 );
+             * var bubblePoint = new paper.Point(45,45);
+             * var bubbleSize = new paper.Size(90,60);
+             * var bubbleTagSize = new paper.Size(9,9);
              * var bubbleTagCenter = 'CENTER';
-             * var bubble = new paper.Path.FBubble( bubblePoint, bubbleSize, bubbleTagSize, bubbleTagCenter );
+             * var bubble = new paper.Path.FBubble(bubblePoint, bubbleSize, bubbleTagSize, bubbleTagCenter);
              *
              */
             FBubble: function(bubblePoint, bubbleSize, bubbleTagSize, bubbleTagCenter) {
@@ -2262,11 +2412,11 @@ paper.Path.inject({
                 var bubbleTagCenter = bubbleTagCenter || 'RANDOM';
 
                 // left side of bubble
-                path.add( new Point(0,0) );
+                path.add(new Point(0,0));
                 var angle = 180;
                 var through = new Point(
-                    bubbleSize.height/2 + Math.cos( paper.radians(angle) ) * (bubbleSize.height),
-                    bubbleSize.height/2 + Math.sin( paper.radians(angle) ) * (bubbleSize.height)
+                    bubbleSize.height/2 + Math.cos(paper.radians(angle) ) * (bubbleSize.height),
+                    bubbleSize.height/2 + Math.sin(paper.radians(angle) ) * (bubbleSize.height)
                 );
                 path.arcTo(through, new Point(0,bubbleSize.height));
 
@@ -2275,7 +2425,7 @@ paper.Path.inject({
                 var tagStart = paper.randomInt(0,bubbleSize.width-bubbleTagSize.width);
 
                 // create tag
-                path.add( new Point(tagStart,bubbleSize.height) );
+                path.add(new Point(tagStart,bubbleSize.height));
 
                 var tx, ty;
                 if (bubbleTagCenter == 'LEFT') {
@@ -2293,20 +2443,20 @@ paper.Path.inject({
 
                 // the length of the tag
                 ty = bubbleSize.height + bubbleTagSize.height;
-                path.add( new Point(tx,ty) );
+                path.add(new Point(tx,ty));
 
                 // continue bottom
-                path.add( new Point(tagStart+bubbleTagSize.width,bubbleSize.height) );
-                path.add( new Point(bubbleSize.width,bubbleSize.height) );
+                path.add(new Point(tagStart+bubbleTagSize.width,bubbleSize.height));
+                path.add(new Point(bubbleSize.width,bubbleSize.height));
 
 
                 // right side of bubble
                 angle = 0;
                 through = new Point(
-                    bubbleSize.height/2 + Math.cos( paper.radians(angle) ) * (bubbleSize.height/2),
-                    bubbleSize.height/2 + Math.sin( paper.radians(angle) ) * (bubbleSize.height/2)
+                    bubbleSize.height/2 + Math.cos(paper.radians(angle) ) * (bubbleSize.height/2),
+                    bubbleSize.height/2 + Math.sin(paper.radians(angle) ) * (bubbleSize.height/2)
                 );
-                path.arcTo( new Point(bubbleSize.width,0), false );
+                path.arcTo(new Point(bubbleSize.width,0), false);
 
                 // middle top
                 path.closed = true;
@@ -2333,11 +2483,11 @@ paper.Path.inject({
              *          radius of endpoint2
              *
              * @example
-             * var point1 = new paper.Point( 9,9 );
+             * var point1 = new paper.Point(9,9);
              * var radius1 = 9;
-             * var point2 = new paper.Point( 90,90 );
+             * var point2 = new paper.Point(90,90);
              * var radius2 = 90;
-             * var fchain = new paper.Path.FChain( point1, radius1, point2, radius2 );
+             * var fchain = new paper.Path.FChain(point1, radius1, point2, radius2);
              *
              */
             /**
@@ -2348,18 +2498,18 @@ paper.Path.inject({
              *          PathItem (endpoint2)
              *
              * @example
-             * var path1 = new paper.Path.Circle( new Point(9,9), 9 );
-             * var path2 = new paper.Path.Circle( new Point(90,90), 90 );
-             * var fchain = new paper.Path.FChain( path1, path2 );
+             * var path1 = new paper.Path.Circle(new Point(9,9), 9);
+             * var path2 = new paper.Path.Circle(new Point(90,90), 90);
+             * var fchain = new paper.Path.FChain(path1, path2);
              *
              */
             FChain: function(arg0, arg1, arg2, arg3) {
                 var obj1, obj2;
 
                 // check for the type of arguments being passed
-                if ( paper.getType(arg0) === 'Point' ) {
-                    obj1 = new Path.Circle( arg0, arg1 );
-                    obj2 = new Path.Circle( arg2, arg3 );
+                if (paper.getType(arg0) === 'Point') {
+                    obj1 = new Path.Circle(arg0, arg1);
+                    obj2 = new Path.Circle(arg2, arg3);
                 }
                 else {
                     obj1 = arg0;
@@ -2368,27 +2518,27 @@ paper.Path.inject({
 
                 var tangents = paper.getCommonTangents(obj1, obj2);
                 var path = new Path();
-                if ( tangents != null ) {
+                if (tangents != null) {
                     path.name = 'chain';
-                    path.add( tangents[0] );
-                    path.add( tangents[1] );
+                    path.add(tangents[0]);
+                    path.add(tangents[1]);
 
                     // determine position of chain around endpoint2
-                    if ( obj2.position.x > obj1.position.x ) {
+                    if (obj2.position.x > obj1.position.x) {
                         angle = 0;
                     }
-                    else if ( obj2.position.y < obj1.position.y ) {
+                    else if (obj2.position.y < obj1.position.y) {
                         angle = -90;
                     }
-                    else if ( obj2.position.y > obj1.position.y ) {
+                    else if (obj2.position.y > obj1.position.y) {
                         angle = 90;
                     }
                     else {
                         angle = 180;
                     }
                     var tp2 = new Point(
-                        obj2.position.x + Math.cos( paper.radians(angle) ) * (obj2.bounds.width/2),
-                        obj2.position.y + Math.sin( paper.radians(angle) ) * (obj2.bounds.height/2)
+                        obj2.position.x + Math.cos(paper.radians(angle) ) * (obj2.bounds.width/2),
+                        obj2.position.y + Math.sin(paper.radians(angle) ) * (obj2.bounds.height/2)
                     );
                     path.arcTo(tp2, tangents[2]);
 
@@ -2396,21 +2546,21 @@ paper.Path.inject({
                     path.add(tangents[3]);
 
                     // determine position of chain around endpoint1
-                    if ( obj1.position.x > obj2.position.x ) {
+                    if (obj1.position.x > obj2.position.x) {
                         angle = 0;
                     }
-                    else if ( obj1.position.y < obj2.position.y ) {
+                    else if (obj1.position.y < obj2.position.y) {
                         angle = -90;
                     }
-                    else if ( obj1.position.y > obj2.position.y ) {
+                    else if (obj1.position.y > obj2.position.y) {
                         angle = 90;
                     }
                     else {
                         angle = 180;
                     }
                     var tp1 = new Point(
-                        obj1.position.x + Math.cos( paper.radians(angle) ) * (obj1.bounds.width/2),
-                        obj1.position.y + Math.sin( paper.radians(angle) ) * (obj1.bounds.height/2)
+                        obj1.position.x + Math.cos(paper.radians(angle) ) * (obj1.bounds.width/2),
+                        obj1.position.y + Math.sin(paper.radians(angle) ) * (obj1.bounds.height/2)
                     );
                     path.arcTo(tp1, tangents[0]);
                     path.closed = true;
@@ -2436,14 +2586,14 @@ paper.Path.inject({
              *          'LINE'      simple built of lines (stroke)
              *
              * @example
-             * var centerPoint = new paper.Point( 45,45 );
-             * var size = new paper.Size( 45,45 );
+             * var centerPoint = new paper.Point(45,45);
+             * var size = new paper.Size(45,45);
              * var strokeWidth = 18;
              * var crossType = 'LINE';
-             * var fcross = new paper.Path.FCross( centerPoint, size, strokeWidth, crossType );
+             * var fcross = new paper.Path.FCross(centerPoint, size, strokeWidth, crossType);
              *
              */
-            FCross: function( centerPoint, size, strokeWidth, crossType ) {
+            FCross: function(centerPoint, size, strokeWidth, crossType) {
                 var strokeWidth = strokeWidth || 1.0;
                 var crossType = crossType || 'LINE';
 
@@ -2451,7 +2601,7 @@ paper.Path.inject({
                 // var size = new Size(_width,_height);
                 var line1, line2;
 
-                if ( crossType == 'LINE' ) {
+                if (crossType == 'LINE') {
                     line1 = new Path.Line(
                         centerPoint.x + size.width, centerPoint.y - size.height,
                         centerPoint.x - size.width, centerPoint.y + size.height
@@ -2463,23 +2613,23 @@ paper.Path.inject({
                     );
                     line2.strokeWidth = strokeWidth;
                 }
-                else if ( crossType == 'SHARP' ) {
+                else if (crossType == 'SHARP') {
                     line1 = new Path();
-                    line1.add( new Point( centerPoint.x + size.width, centerPoint.y - size.height ) );
-                    line1.add( new Point( centerPoint.x + size.width, (centerPoint.y - size.height) + (strokeWidth/2) ) );
-                    line1.add( new Point( (centerPoint.x - size.width) + (strokeWidth/2), centerPoint.y + size.height ) );
-                    line1.add( new Point( centerPoint.x - size.width, centerPoint.y + size.height ) );
-                    line1.add( new Point( centerPoint.x - size.width, (centerPoint.y + size.height) - (strokeWidth/2) ) );
-                    line1.add( new Point( (centerPoint.x + size.width) - (strokeWidth/2), centerPoint.y - size.height ) );
+                    line1.add(new Point(centerPoint.x + size.width, centerPoint.y - size.height ));
+                    line1.add(new Point(centerPoint.x + size.width, (centerPoint.y - size.height) + (strokeWidth/2) ));
+                    line1.add(new Point((centerPoint.x - size.width) + (strokeWidth/2), centerPoint.y + size.height ));
+                    line1.add(new Point(centerPoint.x - size.width, centerPoint.y + size.height ));
+                    line1.add(new Point(centerPoint.x - size.width, (centerPoint.y + size.height) - (strokeWidth/2) ));
+                    line1.add(new Point((centerPoint.x + size.width) - (strokeWidth/2), centerPoint.y - size.height ));
                     line1.closed = true;
 
                     line2 = new Path();
-                    line2.add( new Point( centerPoint.x - size.width, centerPoint.y - size.height ) );
-                    line2.add( new Point( (centerPoint.x - size.width) + (strokeWidth/2), centerPoint.y - size.height ) );
-                    line2.add( new Point( centerPoint.x + size.width, (centerPoint.y + size.height) - (strokeWidth/2) ) );
-                    line2.add( new Point( centerPoint.x + size.width, centerPoint.y + size.height ) );
-                    line2.add( new Point( (centerPoint.x + size.width) - (strokeWidth/2), centerPoint.y + size.height ) );
-                    line2.add( new Point( centerPoint.x - size.width, (centerPoint.y - size.height) + (strokeWidth/2) ) );
+                    line2.add(new Point(centerPoint.x - size.width, centerPoint.y - size.height ));
+                    line2.add(new Point((centerPoint.x - size.width) + (strokeWidth/2), centerPoint.y - size.height ));
+                    line2.add(new Point(centerPoint.x + size.width, (centerPoint.y + size.height) - (strokeWidth/2) ));
+                    line2.add(new Point(centerPoint.x + size.width, centerPoint.y + size.height ));
+                    line2.add(new Point((centerPoint.x + size.width) - (strokeWidth/2), centerPoint.y + size.height ));
+                    line2.add(new Point(centerPoint.x - size.width, (centerPoint.y - size.height) + (strokeWidth/2) ));
                     line2.closed = true;
                 }
 
@@ -2499,9 +2649,9 @@ paper.Path.inject({
              *          scale drop, maintains intended proportion
              *
              * @example
-             * var centerPoint = new paper.Point( 45,45 );
+             * var centerPoint = new paper.Point(45,45);
              * var scale = 45;
-             * var fdrop = new paper.Path.FDrip( centerPoint, scale );
+             * var fdrop = new paper.Path.FDrip(centerPoint, scale);
              *
              */
             /**
@@ -2512,56 +2662,56 @@ paper.Path.inject({
              *          scale drop, custom proportion
              *
              * @example
-             * var centerPoint = new paper.Point( 45,45 );
-             * var scale = new paper.Size( 30,61.8 );
-             * var fdrop = new paper.Path.FDrip( centerPoint, scale );
+             * var centerPoint = new paper.Point(45,45);
+             * var scale = new paper.Size(30,61.8);
+             * var fdrop = new paper.Path.FDrip(centerPoint, scale);
              *
              */
-            FDrip: function( centerPoint, arg1 ) {
+            FDrip: function(centerPoint, arg1) {
                 var path = new Path();
                 path.name = 'drop';
 
                 // segments added from top counter-clockwise
-                path.add( new Segment(
-                    new Point( -0.01, 0.01 ),
-                    new Point( 0, -0.0055078 ),
-                    new Point( 0, 0.643042 )
+                path.add(new Segment(
+                    new Point(-0.01, 0.01 ),
+                    new Point(0, -0.0055078 ),
+                    new Point(0, 0.643042 )
                 ) );
-                path.add( new Segment(
-                    new Point( -0.65, 1.6381104 ),
-                    new Point( 0, -0.6109619 ),
-                    new Point( 0, 0.3694434 )
+                path.add(new Segment(
+                    new Point(-0.65, 1.6381104 ),
+                    new Point(0, -0.6109619 ),
+                    new Point(0, 0.3694434 )
                 ) );
-                path.add( new Segment(
-                    new Point( 0, 2.31 ),
-                    new Point( -0.3578369, 0 ),
-                    new Point( 0.3578369, 0 )
+                path.add(new Segment(
+                    new Point(0, 2.31 ),
+                    new Point(-0.3578369, 0 ),
+                    new Point(0.3578369, 0 )
                 ) );
-                path.add( new Segment(
-                    new Point( 0.65, 1.6381104 ),
-                    new Point( 0, 0.3694434 ),
-                    new Point( 0, -0.6109619 )
+                path.add(new Segment(
+                    new Point(0.65, 1.6381104 ),
+                    new Point(0, 0.3694434 ),
+                    new Point(0, -0.6109619 )
                 ) );
-                path.add( new Segment(
-                    new Point( 0.01, 0.01 ),
-                    new Point( 0, 0.643042 ),
-                    new Point( 0, -0.0055078 )
+                path.add(new Segment(
+                    new Point(0.01, 0.01 ),
+                    new Point(0, 0.643042 ),
+                    new Point(0, -0.0055078 )
                 ) );
-                path.add( new Segment(
-                    new Point( 0, -0 ),
-                    new Point( 0.0055078, 0 ),
-                    new Point( -0.0055078, 0 )
+                path.add(new Segment(
+                    new Point(0, -0 ),
+                    new Point(0.0055078, 0 ),
+                    new Point(-0.0055078, 0 )
                 ) );
                 path.closed = true;
                 path.position = centerPoint;
 
                 // check for the type of arguments being passed
                 // default scale is from center (position)
-                if ( typeof arg1 == 'Size' ) {
-                    path.scale( arg1.width, arg1.height );
+                if (typeof arg1 == 'Size') {
+                    path.scale(arg1.width, arg1.height);
                 }
                 else {
-                    path.scale( arg1 );
+                    path.scale(arg1);
                 }
 
                 return path;
@@ -2580,13 +2730,13 @@ paper.Path.inject({
              *          third point of triangle
              *
              * @example
-             * var p1 = new paper.Point( 9,9 );
-             * var p2 = new paper.Point( 90,45 );
-             * var p3 = new paper.Point( 45,90 );
-             * var ftriangle = new paper.Path.FTriangle( p1, p2, p3 );
+             * var p1 = new paper.Point(9,9);
+             * var p2 = new paper.Point(90,45);
+             * var p3 = new paper.Point(45,90);
+             * var ftriangle = new paper.Path.FTriangle(p1, p2, p3);
              *
              */
-            FTriangle: function( p1, p2, p3 ) {
+            FTriangle: function(p1, p2, p3) {
                 var path = new Path();
                 path.add(p1);
                 path.add(p2);
@@ -3089,11 +3239,11 @@ paper.Size.inject({
  */
 
 
-/** ------------------------------------------------------------------------
- *
- * Strings
- *
- * ------------------------------------------------------------------------ */
+//------------------------------------------------------------------------
+//
+// Strings
+//
+//------------------------------------------------------------------------
 
 /**
  * converts given string to Title Case
@@ -3163,6 +3313,45 @@ String.prototype.toBool = function() {
     }
 };
 
+/**
+ * reverse the order of a String
+ *
+ * @return {String}
+ */
+String.prototype.reverse = function() {
+    var lines = this.split('\n'),
+        temp = '';
+    for (var i = 0; i < lines.length; i++) {
+        lines[i].trim();
+        temp = lines[i] + '\n' + temp;
+    }
+
+    return temp;
+};
+
+/**
+ * split String to contain specific amount of content per line, as defined by the delimitter
+ *
+ * @param  {Number} amt        amount of content
+ * @param  {String} delimitter (option) what to break the original String on
+ *
+ * @return {String}
+ */
+String.prototype.perLine = function(amt, delimitter) {
+    delimitter = delimitter || ' ';
+    var words = this.split(delimitter),
+        temp = '',
+        count = 1;
+    for (var i = 0; i < words.length; i++) {
+        words[i].trim();
+        temp = (count % amt === 0 && count !== 1)
+            ? temp + words[i] + '\n'
+            : temp + words[i] + delimitter;
+        count++;
+    }
+
+    return temp;
+};
 
 
 /*
@@ -3448,6 +3637,7 @@ folio.FTime.FDate = function() {
     var dateObj = new Date();
     var monthsArr = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     var shortMonthsArr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    var daysArr = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 
 
@@ -3457,7 +3647,9 @@ folio.FTime.FDate = function() {
     //
     // ------------------------------------------------------------------------
     var addZero = function(val) {
-        if (val.length == 1) val = '0' + val;
+        if (val.length === 1) {
+            val = '0' + val;
+        }
         return val;
     };
 
@@ -3465,8 +3657,10 @@ folio.FTime.FDate = function() {
      * @return {String} return the current year as 'YYYY'
      */
     var year = function() {
-        if (dateObj === undefined) dateObj = new Date();
-        var year = String( dateObj.getFullYear() );
+        if (dateObj === undefined) {
+            dateObj = new Date();
+        }
+        var year = String(dateObj.getFullYear());
         return year;
     };
 
@@ -3474,24 +3668,39 @@ folio.FTime.FDate = function() {
      * @return {String} return the current month as 'MM'
      */
     var month = function() {
-        if (dateObj === undefined) dateObj = new Date();
-        return String( dateObj.getMonth() );
+        if (dateObj === undefined) {
+            dateObj = new Date();
+        }
+        return String(dateObj.getMonth());
     };
 
     /**
      * @return {String} return the current day as 'DD'
      */
     var day = function() {
-        if (dateObj === undefined) dateObj = new Date();
-        return String( dateObj.getDate() );
+        if (dateObj === undefined) {
+            dateObj = new Date();
+        }
+        return String(dateObj.getDate());
     };
 
+    /**
+     * @return {String} return the current week day
+     */
+    var weekday = function() {
+        if (dateObj === undefined) {
+            dateObj = new Date();
+        }
+        return String(daysArr[dateObj.getDay()]);
+    };
     /**
      * @return {String} return the current hour as 'HH'
      */
     var hour = function() {
-        if (dateObj === undefined) dateObj = new Date();
-        var hour = String( dateObj.getHours() );
+        if (dateObj === undefined) {
+            dateObj = new Date();
+        }
+        var hour = String(dateObj.getHours());
         return addZero(hour);
     };
 
@@ -3499,8 +3708,10 @@ folio.FTime.FDate = function() {
      * @return {String} return the current minute as 'mm'
      */
     var minute = function() {
-        if (dateObj === undefined) dateObj = new Date();
-        var minute = String( dateObj.getMinutes() );
+        if (dateObj === undefined) {
+            dateObj = new Date();
+        }
+        var minute = String(dateObj.getMinutes());
         return addZero(minute);
     };
 
@@ -3508,8 +3719,10 @@ folio.FTime.FDate = function() {
      * @return {String} return the current second as 'ss'
      */
     var second = function() {
-        if (dateObj === undefined) dateObj = new Date();
-        var second = String( dateObj.getSeconds() );
+        if (dateObj === undefined) {
+            dateObj = new Date();
+        }
+        var second = String(dateObj.getSeconds());
         return addZero(second);
     };
 
@@ -3529,11 +3742,21 @@ folio.FTime.FDate = function() {
     var now = function(format) {
         var disp = format || [true, true, true];
         var str = '';
-        if (disp[0]) str += hour();
-        if (disp[0] && disp[1]) str += ':';
-        if (disp[1]) str += minute();
-        if (disp[1] && disp[2]) str += ':';
-        if (disp[2]) str += second();
+        if (disp[0]) {
+            str += hour();
+        }
+        if (disp[0] && disp[1]) {
+            str += ':';
+        }
+        if (disp[1]) {
+            str += minute();
+        }
+        if (disp[1] && disp[2]) {
+            str += ':';
+        }
+        if (disp[2]) {
+            str += second();
+        }
         return str;
     };
 
@@ -3541,7 +3764,7 @@ folio.FTime.FDate = function() {
      * @return {Number} the current time in milliseconds
      */
     var nowMilliseconds = function() {
-        return toMillsecond( hour(), minute(), second() );
+        return toMillsecond(hour(), minute(), second());
     };
 
     /**
@@ -3602,7 +3825,7 @@ folio.FTime.FDate = function() {
      */
     var set = function(d, h, m, s) {
         time = new Date();
-        time.setTime( (24 * d + 60 * h + 60 * m + 1000 * s) );
+        time.setTime((24 * d + 60 * h + 60 * m + 1000 * s));
         return time;
     };
 
@@ -3620,9 +3843,9 @@ folio.FTime.FDate = function() {
      */
     var get = function(ms, format) {
         var disp = format || [true, true, true];
-        var seconds = parseInt( (ms / 1000) % 60 );
-        var minutes = parseInt( ((ms / 1000) / 60) % 60 );
-        var hours   = parseInt( (((ms / 1000) / 60) / 60) % 24 );
+        var seconds = parseInt((ms / 1000) % 60);
+        var minutes = parseInt(((ms / 1000) / 60) % 60);
+        var hours   = parseInt((((ms / 1000) / 60) / 60) % 24);
 
         var hh, mm, ss;
         if (hours < 10) hh = '0' + hours;
@@ -3633,11 +3856,21 @@ folio.FTime.FDate = function() {
         else ss =  '' + seconds;
 
         var str = '';
-        if (disp[0]) str += hh;
-        if (disp[0] && disp[1]) str += ':';
-        if (disp[1]) str += mm;
-        if (disp[1] && disp[2]) str += ':';
-        if (disp[2]) str += ss;
+        if (disp[0]) {
+            str += hh;
+        }
+        if (disp[0] && disp[1]) {
+            str += ':';
+        }
+        if (disp[1]) {
+            str += mm;
+        }
+        if (disp[1] && disp[2]) {
+            str += ':';
+        }
+        if (disp[2]) {
+            str += ss;
+        }
         return str;
     };
 
@@ -3658,7 +3891,7 @@ folio.FTime.FDate = function() {
      * @return {Number} time in milliseconds
      */
     var toMillsecond = function(h, m, s) {
-        if ( m === undefined &&  s === undefined ) {
+        if (m === undefined && s === undefined) {
             h = toArray(h)[0];
             m = toArray(h)[1];
             s = toArray(h)[2];
@@ -3674,31 +3907,31 @@ folio.FTime.FDate = function() {
      */
     var toArray = function(str) {
         var hms = str.split(':');
-        return [ hms[0], hms[1], hms[2] ];
+        return [hms[0], hms[1], hms[2]];
     };
 
 
 
     // -----------------------------------------------------------------------------
     return {
-        year: year,
-        month: month,
-        day: day,
-        hour: hour,
-        minute: minute,
-        second: second,
-        date: date,
-        now: now,
-        nowMilliseconds: nowMilliseconds,
+        year            : year,
+        month           : month,
+        day             : day,
+        hour            : hour,
+        minute          : minute,
+        second          : second,
+        date            : date,
+        now             : now,
+        nowMilliseconds : nowMilliseconds,
 
-        add: add,
-        sub: sub,
+        add             : add,
+        sub             : sub,
 
-        set: set,
-        get: get,
+        set             : set,
+        get             : get,
 
-        toMillsecond: toMillsecond,
-        toArray: toArray
+        toMillsecond    : toMillsecond,
+        toArray         : toArray
     };
 
 };
@@ -4520,7 +4753,7 @@ folio.FIO = {
 //             /* int major = */    buf.getShort();
 //             /* int minor = */    buf.getShort();
 //             int noBlocks = buf.getInt();
-//             for ( int i=0; i<noBlocks; ++i) {
+//             for (int i=0; i<noBlocks; ++i) {
 //                 readBlock(buf);
 //             }
 //         }
@@ -4705,7 +4938,7 @@ folio.FCirclePack = function(circleItems, iterations) {
      *      Path.Item to add to circle packer
      */
     var add = function(item) {
-        if ( typeof item === 'array' ) {
+        if (typeof item === 'array') {
             circleItems = circleItems.concat( item );
         }
         else {
@@ -4851,22 +5084,22 @@ folio.FDrop = function(element, options) {
             function onDragEnterEvent(event) {
                 event.stopPropagation();
                 event.preventDefault();
-            };
+            }
 
             function onDragOverEvent(event) {
                 event.stopPropagation();
                 event.preventDefault();
                 event.dataTransfer.dropEffect = 'copy';
-            };
+            }
 
             function onDropEvent(event) {
                 event.stopPropagation();
                 event.preventDefault();
                 setFiles(event.dataTransfer.files);
-            };
+            }
 
             function onDrop(event) {
-            };
+            }
 
             // by default the entire window is droppable
             element = element || document.body;
@@ -4888,16 +5121,16 @@ folio.FDrop = function(element, options) {
         handleText(file, obj);
         handleGeneric(file, obj);
 
-        if ( bError ) {
+        if (bError) {
             // an error means most likely a directory
             obj.isDirectory = true;
         }
-    };
+    }
 
     function handleFiles(files) {
         if (files.length > 1) {
             output = [];
-            for (var i=0; i<files.length; i++) {
+            for (var i = 0; i < files.length; i++) {
                 var f = files[i];
                 output.push( Object.create(FDropEvent) );
                 output[i].id = element.id;
@@ -4917,7 +5150,7 @@ folio.FDrop = function(element, options) {
         }
 
         return output;
-    };
+    }
 
     function createProgressBar() {
         progressBar = document.createElement('div');
@@ -4934,7 +5167,7 @@ folio.FDrop = function(element, options) {
         progressBar.style.zIndex = '2000';
 
         document.body.appendChild(progressBar);
-    };
+    }
 
     // -----------------------------------------------------------------------------
     function handleText(file, obj) {
@@ -4951,7 +5184,7 @@ folio.FDrop = function(element, options) {
             fileReader.onerror = error;
             fileReader.readAsText(file);
         // }
-    };
+    }
 
     function handleImage(file, obj) {
         if (file.type.match(fileTypes.image)) {
@@ -4970,7 +5203,7 @@ folio.FDrop = function(element, options) {
             fileReader.onerror = error;
             fileReader.readAsDataURL(file);
         }
-    };
+    }
 
     // function handleVideo(file, obj) {
     //     if (file.type.match(fileTypes.video)) {
@@ -4986,7 +5219,7 @@ folio.FDrop = function(element, options) {
     //         fileReader.onerror = error;
     //         fileReader.readAsDataURL(file);
     //     }
-    // };
+    // }
 
     function handleGeneric(file, obj) {
         var fileReader = new FileReader();
@@ -4998,7 +5231,7 @@ folio.FDrop = function(element, options) {
         fileReader.onloadend = complete;
         // fileReader.readAsDataURL(file);
         fileReader.readAsBinaryString(file);
-    };
+    }
 
     // -----------------------------------------------------------------------------
 
@@ -5015,18 +5248,18 @@ folio.FDrop = function(element, options) {
         if (files != null) {
             createProgressBar();
 
-            if ( files.length === 1 ) {
+            if (files.length === 1) {
                 files = files[0];
                 totalSize = files.size;
             }
             else {
-                for (var i=0; i<files.length; i++) {
+                for (var i = 0; i < files.length; i++) {
                     totalSize += files[i].size;
                 }
             }
             return handleFiles(files);
         }
-    };
+    }
 
 
 
@@ -5036,7 +5269,7 @@ folio.FDrop = function(element, options) {
     //
     // -----------------------------------------------------------------------------
     function progress(event) {
-        totalLoad = Math.ceil((event.loaded / totalSize)*100);
+        totalLoad = Math.ceil((event.loaded / totalSize) * 100);
 
         progressBar.style.width = (totalLoad + '%').toString();
         progressBar.innerHTML = (totalLoad + '%').toString();
@@ -5047,11 +5280,11 @@ folio.FDrop = function(element, options) {
             onDrop(output);
             document.body.removeChild(progressBar);
         }
-    };
+    }
 
     function error(event) {
         bError = true;
-    };
+    }
 
 
 
@@ -5098,7 +5331,6 @@ folio.FDrop = function(element, options) {
 
 
 folio.FFlock = {
-
     /**
      * @param  {Point} position
      *          intial position of Boid
@@ -5111,7 +5343,7 @@ folio.FFlock = {
      *
      * @example
      * var flock = [];
-     * for (var i=0; i<30; i++) {
+     * for (var i = 0; i < 30; i++) {
      *  var boid = new folio.FFlock.boid(view.center, {
      *      radius:     30,
      *      maxSpeed:   10,
@@ -5199,7 +5431,7 @@ folio.FFlock = {
         };
 
         function updateItems() {
-            if ( path ) {
+            if (path) {
                 path.position = position;
                 var angle = vector.angle;
                 path.rotate(angle - lastAngle);
@@ -5224,10 +5456,18 @@ folio.FFlock = {
         function borders() {
             var vector = new Point();
             var size = view.size;
-            if (position.x < -radius) vector.x = size.width + radius;
-            if (position.y < -radius) vector.y = size.height + radius;
-            if (position.x > size.width + radius) vector.x = -size.width -radius;
-            if (position.y > size.height + radius) vector.y = -size.height -radius;
+            if (position.x < -radius) {
+                vector.x = size.width + radius;
+            }
+            if (position.y < -radius) {
+                vector.y = size.height + radius;
+            }
+            if (position.x > size.width + radius) {
+                vector.x = -size.width -radius;
+            }
+            if (position.y > size.height + radius) {
+                vector.y = -size.height -radius;
+            }
             if (!vector.isZero()) {
                 position.x += vector.x;
                 position.y += vector.y;
@@ -5251,15 +5491,15 @@ folio.FFlock = {
             );
 
             var distance = item.position.getDistance(target);
-            if ( distance <= radius*10 ) {
+            if (distance <= radius*10) {
                 contained = true;
             }
 
             // attract boid to the center of object
-            if ( contained ) {
+            if (contained) {
                 // path.fillColor = path.strokeColor = new Color(1.0, 0.0, 0.0);
                 var hitResult = item.hitTest(target, properties.hitOptions);
-                if ( !hitResult ) {
+                if (!hitResult) {
                     // vector = new Point();
                     vector = new Point(
                         -vector.x,
@@ -5267,7 +5507,7 @@ folio.FFlock = {
                     );
                 }
             }
-            else if ( !contained ) {
+            else if (!contained) {
                 // path.fillColor = 'white';
                 arrive(item.position);
             }
@@ -5291,18 +5531,18 @@ folio.FFlock = {
             if (obstacleItem.path()) {
                 var hitResult = obstacleItem.path().hitTest(target, properties.hitOptions);
                 var repel = new Point();
-                if ( hitResult ) {
-                    if ( hitResult.type == 'stroke' ||
+                if (hitResult) {
+                    if (hitResult.type == 'stroke' ||
                         hitResult.type == 'segment' ||
                         hitResult.type == 'handle-in' ||
-                        hitResult.type == 'handle-out' ) {
+                        hitResult.type == 'handle-out') {
                         repel = new Point(
                             position.x - hitResult.location.point.x,
                             position.y - hitResult.location.point.y
                         );
                         repel = repel.normalize();
                     }
-                    else if ( hitResult.type == 'fill' ) {
+                    else if (hitResult.type == 'fill') {
                         repel = new Point(
                             position.x * -vector.x,
                             position.y * -vector.y
@@ -5317,7 +5557,7 @@ folio.FFlock = {
                     repel.x *= maxForce*7;
                     repel.y *= maxForce*7;
 
-                    if ( Math.sqrt(repel.x * repel.x + repel.y * repel.y) < 0 ) {
+                    if (Math.sqrt(repel.x * repel.x + repel.y * repel.y) < 0) {
                         repel.y = 0;
                     }
 
@@ -5348,7 +5588,8 @@ folio.FFlock = {
             if (slowdown && distance < 100) {
                 // This damping is somewhat arbitrary:
                 desired.length = maxSpeed * (distance * 0.001);
-            } else {
+            }
+            else {
                 desired.length = maxSpeed;
             }
             steer.x = desired.x - vector.x;
@@ -5445,50 +5686,59 @@ folio.FFlock = {
         };
 
 
+
         // ------------------------------------------------------------------------
+        //
         // Sets
-        // ------------------------------------------------------------------------
+        //
+
         function setGroupTogether(val) {
             groupTogether = val || groupTogether;
             return groupTogether;
-        };
+        }
+
 
 
         // ------------------------------------------------------------------------
+        //
         // Gets
-        // ------------------------------------------------------------------------
+        //
+
         function getAcceleration() {
             return acceleration;
-        };
+        }
 
         function getVector() {
             return vector;
-        };
+        }
 
         function getPosition(val) {
-            if (val != undefined) position = new Point(val);
+            if (val != undefined) {
+                position = new Point(val);
+            }
             return position;
-        };
+        }
 
         function getRadius() {
             return radius;
-        };
+        }
 
         function getPath() {
             return path;
-        };
+        }
 
         function getData() {
             return data;
-        };
+        }
 
         function getMaxSpeed() {
             return maxSpeed;
-        };
+        }
 
         function getMaxForce() {
             return maxForce;
-        };
+        }
+
 
 
         // ------------------------------------------------------------------------
@@ -5526,6 +5776,7 @@ folio.FFlock = {
     },
 
 
+
     /**
      * @param  {Point} position
      *          intial position of Boid
@@ -5538,7 +5789,7 @@ folio.FFlock = {
      *
      * @example
      * var predators = [];
-     * for (var i=0; i<30; i++) {
+     * for (var i = 0; i < 30; i++) {
      *  var predator = new folio.FFlock.predator(view.center, {
      *      radius:     40,
      *      maxSpeed:   20,
@@ -5555,13 +5806,18 @@ folio.FFlock = {
      */
     predator: function(position, properties) {
         // ------------------------------------------------------------------------
+        //
         // Properties
+        //
         // ------------------------------------------------------------------------
         var boid = new folio.FFlock.boid(position, properties);
 
 
+
         // ------------------------------------------------------------------------
+        //
         // Methods
+        //
         // ------------------------------------------------------------------------
         boid.run = function(predators, boids) {
             if (!boid.groupTogether()) {
@@ -5588,6 +5844,7 @@ folio.FFlock = {
     },
 
 
+
     /**
      * @param  {Point} position
      *          intial position of Boid
@@ -5610,13 +5867,18 @@ folio.FFlock = {
      */
     obstacle: function(position, properties) {
         // ------------------------------------------------------------------------
+        //
         // Properties
+        //
         // ------------------------------------------------------------------------
         var boid = new folio.FFlock.boid(position, properties);
 
 
+
         // ------------------------------------------------------------------------
+        //
         // Methods
+        //
         // ------------------------------------------------------------------------
         boid.run = function(boids) {
             boid.repel(boids);
@@ -5649,18 +5911,18 @@ folio.FFlock = {
 
 
 folio.FNoise = {
-     /**
-      * This is a port of Ken Perlin's Java code. The
-      * original Java code is at http://cs.nyu.edu/%7Eperlin/noise/
-      * http://asserttrue.blogspot.de/2011/12/perlin-noise-in-javascript_31.html
-      *
-      * @param  {Number} x  x-coordinate in noise space
-      * @param  {Number} y  y-coordinate in noise space (optional)
-      * @param  {Number} z  z-coordinate in noise space (optional)
-      *
-      * @return {Number}    a float between 0.0 and 1.0
-      *
-      */
+    /**
+     * This is a port of Ken Perlin's Java code.
+     * The original Java code is at http://cs.nyu.edu/%7Eperlin/noise/
+     * http://asserttrue.blogspot.de/2011/12/perlin-noise-in-javascript_31.html
+     *
+     * @param  {Number} x  x-coordinate in noise space
+     * @param  {Number} y  y-coordinate in noise space (optional)
+     * @param  {Number} z  z-coordinate in noise space (optional)
+     *
+     * @return {Number}    a float between 0.0 and 1.0
+     *
+     */
     perlin: function(x, y, z) {
         //-----------------------------------------------------------------------------
         //
@@ -5682,7 +5944,7 @@ folio.FNoise = {
             var p = new Array(512)
             var permutation = [151, 160, 137, 91, 90, 15, 131, 13, 201, 95, 96, 53, 194, 233, 7, 225, 140, 36, 103, 30, 69, 142, 8, 99, 37, 240, 21, 10, 23, 190, 6, 148, 247, 120, 234, 75, 0, 26, 197, 62, 94, 252, 219, 203, 117, 35, 11, 32, 57, 177, 33, 88, 237, 149, 56, 87, 174, 20, 125, 136, 171, 168, 68, 175, 74, 165, 71, 134, 139, 48, 27, 166, 77, 146, 158, 231, 83, 111, 229, 122, 60, 211, 133, 230, 220, 105, 92, 41, 55, 46, 245, 40, 244, 102, 143, 54, 65, 25, 63, 161, 1, 216, 80, 73, 209, 76, 132, 187, 208, 89, 18, 169, 200, 196, 135, 130, 116, 188, 159, 86, 164, 100, 109, 198, 173, 186, 3, 64, 52, 217, 226, 250, 124, 123, 5, 202, 38, 147, 118, 126, 255, 82, 85, 212, 207, 206, 59, 227, 47, 16, 58, 17, 182, 189, 28, 42, 223, 183, 170, 213, 119, 248, 152, 2, 44, 154, 163, 70, 221, 153, 101, 155, 167, 43, 172, 9, 129, 22, 39, 253, 19, 98, 108, 110, 79, 113, 224, 232, 178, 185, 112, 104, 218, 246, 97, 228, 251, 34, 242, 193, 238, 210, 144, 12, 191, 179, 162, 241, 81, 51, 145, 235, 249, 14, 239, 107, 49, 192, 214, 31, 181, 199, 106, 157, 184, 84, 204, 176, 115, 121, 50, 45, 127, 4, 150, 254, 138, 236, 205, 93, 222, 114, 67, 29, 24, 72, 243, 141, 128, 195, 78, 66, 215, 61, 156, 180];
 
-            for (var i=0; i<256; i++) {
+            for (var i = 0; i < 256; i++) {
                 p[256 + i] = p[i] = permutation[i];
             }
 
@@ -5730,7 +5992,7 @@ folio.FNoise = {
                 )
             );
 
-        };
+        }
 
 
         //-----------------------------------------------------------------------------
@@ -5792,7 +6054,9 @@ folio.FNoise = {
  */
 folio.FRoute = function(items, iterations) {
     // ------------------------------------------------------------------------
+    //
     // Properties
+    //
     // ------------------------------------------------------------------------
     var items = items;
     var iterations = (iterations != undefined)
@@ -5805,26 +6069,28 @@ folio.FRoute = function(items, iterations) {
 
 
     // ------------------------------------------------------------------------
+    //
     // Methods
+    //
     // ------------------------------------------------------------------------
-    function calculate() {
+    (function calculate() {
         var temp;
         var p1;
 
-        if (RouteStep == 0) {
+        if (RouteStep === 0) {
             //  Begin process of optimizing plotting route,
             //  by flagging nodes that will be shown.
             //  console.log("Optimizing plotting path");
             var RouteNodesLength = 0;
             var RouteNodesTemp = [items.length];
 
-            for (var i=0; i<items.length; ++i) {
+            for (var i = 0; i < items.length; ++i) {
 
                 RouteNodesTemp[i] = false;
                 var px = items[i].position.x;
                 var py = items[i].position.y;
 
-                if ( (px >= view.bounds.width) || (py >= view.bounds.height) ||
+                if ((px >= view.bounds.width) || (py >= view.bounds.height) ||
                     (px < 0) || (py < 0)) {
                     continue;
                 }
@@ -5837,7 +6103,7 @@ folio.FRoute = function(items, iterations) {
             // These are the ONLY points to be drawn in the tour.
             RouteNodes = [RouteNodesLength];
             var tempCounter = 0;
-            for (var i=0; i<items.length; ++i) {
+            for (var i = 0; i < items.length; ++i) {
                 if (RouteNodesTemp[i]) {
                     RouteNodes[tempCounter] = i;
                     tempCounter++;
@@ -5851,10 +6117,11 @@ folio.FRoute = function(items, iterations) {
             //  1000 steps per frame displayed; you can edit this number!
             var StopPoint = RouteStep + 1000;
 
-            if (StopPoint > nodesNum)
+            if (StopPoint > nodesNum) {
                 StopPoint = nodesNum;
+            }
 
-            for (var i=RouteStep; i<StopPoint; ++i) {
+            for (var i = RouteStep; i < StopPoint; ++i) {
                 p1 = items[RouteNodes[RouteStep]].position;
                 var ClosestNode = 0;
                 var distMin = Number.MAX_VALUE;
@@ -5864,7 +6131,7 @@ folio.FRoute = function(items, iterations) {
 
                     var dx = p1.x - p2.x;
                     var dy = p1.y - p2.y;
-                    var distance = (dx*dx+dy*dy);   // Only looking for closest; do not need sqrt factor!
+                    var distance = (dx * dx + dy * dy);   // Only looking for closest; do not need sqrt factor!
 
                     if (distance < distMin) {
                         ClosestNode = j;
@@ -5892,7 +6159,7 @@ folio.FRoute = function(items, iterations) {
             // Identify a pair of edges that would become shorter by reversing part of the tour.
 
             // var groupPath = new Group();
-            for (var i=0; i<iterations; ++i) {
+            for (var i = 0; i < iterations; ++i) {
 
                 var indexA = Math.floor( Math.random()*nodesNum );
                 var indexB = Math.floor( Math.random()*nodesNum );
@@ -5900,8 +6167,9 @@ folio.FRoute = function(items, iterations) {
                 // console.log('indexA', indexA);
                 // console.log('indexB', indexB);
 
-                if (Math.abs(indexA - indexB) < 2)
+                if (Math.abs(indexA - indexB) < 2) {
                     continue;
+                }
 
                 if (indexB < indexA) {
                     // swap A, B.
@@ -5918,18 +6186,18 @@ folio.FRoute = function(items, iterations) {
                 // Original distance:
                 var dx = a0.x - a1.x;
                 var dy = a0.y - a1.y;
-                var distance = (dx*dx+dy*dy);   // Only a comparison; do not need sqrt factor!
+                var distance = (dx * dx + dy * dy);   // Only a comparison; do not need sqrt factor!
                 dx = b0.x - b1.x;
                 dy = b0.y - b1.y;
-                distance += (dx*dx+dy*dy);  //  Only a comparison; do not need sqrt factor!
+                distance += (dx * dx + dy * dy);  //  Only a comparison; do not need sqrt factor!
 
                 // Possible shorter distance?
                 dx = a0.x - b0.x;
                 dy = a0.y - b0.y;
-                var distance2 = (dx*dx+dy*dy);  //  Only a comparison; do not need sqrt factor!
+                var distance2 = (dx * dx + dy * dy);  //  Only a comparison; do not need sqrt factor!
                 dx = a1.x - b1.x;
                 dy = a1.y - b1.y;
-                distance2 += (dx*dx+dy*dy); // Only a comparison; do not need sqrt factor!
+                distance2 += (dx * dx + dy * dy); // Only a comparison; do not need sqrt factor!
 
                 if (distance2 < distance) {
                     // Reverse tour between a1 and b0.
@@ -5950,22 +6218,20 @@ folio.FRoute = function(items, iterations) {
             }
         // }
         //
-    };
+    })();
+
+
+
 
 
 
     // ------------------------------------------------------------------------
-    // Instantiate
-    // ------------------------------------------------------------------------
-    calculate();
-
-
-
-    // ------------------------------------------------------------------------
+    //
     // Gets
+    //
     // ------------------------------------------------------------------------
     return {
-        route: RouteNodes
+        route : RouteNodes
     };
 
 
@@ -6002,13 +6268,18 @@ folio.FRoute = function(items, iterations) {
  */
 folio.FSkeleton = function(item) {
     // ------------------------------------------------------------------------
+    //
     // Properties
+    //
     // ------------------------------------------------------------------------
     var item = item;
 
 
+
     // ------------------------------------------------------------------------
+    //
     // Methods
+    //
     // ------------------------------------------------------------------------
     /**
      * extract lines from PathItem into lines Array
@@ -6038,7 +6309,7 @@ folio.FSkeleton = function(item) {
                 lines[pointname][3] = handleOut;
             }
         }
-    };
+    }
 
     /**
      * @param  {PathItem} item
@@ -6051,7 +6322,7 @@ folio.FSkeleton = function(item) {
         centerlinepath = new Path();
         centerlinepath.closed = false;
 
-        for ( var i=0, j=item.segments.length; i!=j; i++) {
+        for (var i=0, j=item.segments.length; i!=j; i++) {
             // step j down
             --j;
 
@@ -6097,12 +6368,12 @@ folio.FSkeleton = function(item) {
         }
 
         return centerlinepath;
-    };
+    }
 
 
     // ------------------------------------------------------------------------
     return {
-        get: getCenterLines
+        get : getCenterLines
     };
 
 };
@@ -6163,7 +6434,7 @@ var EPSILON = 1.0e-6;
  * var triangulate = new FTriangulate( points );
  *
  * // draw faces
- * for ( var i=0; i<triangulate.length; i++ ) {
+ * for (var i = 0; i < triangulate.length; i++) {
  *  var triangle = triangulate[i];
  *
  *  // draw triangle
@@ -6176,7 +6447,7 @@ var EPSILON = 1.0e-6;
  *
  * }
  */
-folio.FTriangulate = function( points ) {
+folio.FTriangulate = function( points) {
     // -----------------------------------------------------------------------------
     //
     // Properties
@@ -6204,7 +6475,7 @@ folio.FTriangulate = function( points ) {
      *          third Point of Triangle
      */
     // TODO: remove this and rely on Path.Triangle
-    var Triangle = function( p1, p2, p3 ) {
+    var Triangle = function( p1, p2, p3) {
         // -----------------------------------------------------------------------------
         //
         // Properties
@@ -6245,7 +6516,7 @@ folio.FTriangulate = function( points ) {
             var mx1, mx2;
             var my1, my2;
 
-            if ( Math.abs(_p2.y-_p1.y) < EPSILON ) {
+            if (Math.abs(_p2.y-_p1.y) < EPSILON) {
                 m2 = - (_p3.x-_p2.x) / (_p3.y-_p2.y);
                 mx2 = (_p2.x + _p3.x) / 2.0;
                 my2 = (_p2.y + _p3.y) / 2.0;
@@ -6253,7 +6524,7 @@ folio.FTriangulate = function( points ) {
                 circle.y = m2 * (circle.x - mx2) + my2;
 
             }
-            else if ( Math.abs(_p3.y-_p2.y) < EPSILON ) {
+            else if (Math.abs(_p3.y-_p2.y) < EPSILON) {
                 m1 = - (_p2.x-_p1.x) / (_p2.y-_p1.y);
                 mx1 = (_p1.x + _p2.x) / 2.0;
                 my1 = (_p1.y + _p2.y) / 2.0;
@@ -6311,13 +6582,13 @@ folio.FTriangulate = function( points ) {
         function width() {
             var x1 = 0;
             if (_p1.x < _p2.x && _p1.x < _p3.x) x1 = _p1.x;
-            else if ( _p2.x < _p1.x && _p2.x < _p3.x ) x1 = _p2.x;
-            else if ( _p3.x < _p1.x && _p3.x < _p2.x) x1 = _p3.x;
+            else if (_p2.x < _p1.x && _p2.x < _p3.x ) x1 = _p2.x;
+            else if (_p3.x < _p1.x && _p3.x < _p2.x) x1 = _p3.x;
 
             var x2 = 0;
             if (_p1.x > _p2.x && _p1.x > _p3.x) x2 = _p1.x;
-            else if ( _p2.x > _p1.x && _p2.x > _p3.x ) x2 = _p2.x;
-            else if ( _p3.x > _p1.x && _p3.x > _p2.x) x2 = _p3.x;
+            else if (_p2.x > _p1.x && _p2.x > _p3.x ) x2 = _p2.x;
+            else if (_p3.x > _p1.x && _p3.x > _p2.x) x2 = _p3.x;
 
             var f = Math.abs(x2 - x1);
             return f;
@@ -6331,13 +6602,13 @@ folio.FTriangulate = function( points ) {
         function height() {
             var y1 = 0;
             if (_p1.y < _p2.y && _p1.y < _p3.y) y1 = _p1.y;
-            else if ( _p2.y < _p1.y && _p2.y < _p3.y ) y1 = _p2.y;
-            else if ( _p3.y < _p1.y && _p3.y < _p2.y) y1 = _p3.y;
+            else if (_p2.y < _p1.y && _p2.y < _p3.y ) y1 = _p2.y;
+            else if (_p3.y < _p1.y && _p3.y < _p2.y) y1 = _p3.y;
 
             var y2 = 0;
             if (_p1.y > _p2.y && _p1.y > _p3.y) y2 = _p1.y;
-            else if ( _p2.y > _p1.y && _p2.y > _p3.y ) y2 = _p2.y;
-            else if ( _p3.y > _p1.y && _p3.y > _p2.y) y2 = _p3.y;
+            else if (_p2.y > _p1.y && _p2.y > _p3.y ) y2 = _p2.y;
+            else if (_p3.y > _p1.y && _p3.y > _p2.y) y2 = _p3.y;
 
             var g = Math.abs(y2 - y1);
             return g;
@@ -6394,7 +6665,7 @@ folio.FTriangulate = function( points ) {
      * @param {Point} p2
      *          second Point of Edge
      */
-    var Edge = function( p1, p2 ) {
+    var Edge = function( p1, p2) {
         // -----------------------------------------------------------------------------
         //
         // Properties
@@ -6472,7 +6743,7 @@ folio.FTriangulate = function( points ) {
     function init() {
         _triangles = [];
 
-        if ( _points.length != null ) {
+        if (_points.length != null) {
             // remove duplicate points
             _points = uniquePoints( _points );
 
@@ -6491,7 +6762,7 @@ folio.FTriangulate = function( points ) {
             // z is used for storing misc. info i.e. normalized brightness data
             var z = (_points[0]).z;
 
-            for ( var i=0; i<_points.length; i++ ) {
+            for (var i = 0; i < _points.length; i++) {
                 var p = _points[i];
                 if (p.x < xmin) xmin = p.x;
                 if (p.x > xmax) xmax = p.x;
@@ -6524,7 +6795,7 @@ folio.FTriangulate = function( points ) {
 
             // Include each point one at a time into the existing mesh
             var edges = [];
-            for ( var i=0; i<_points.length; i++ ) {
+            for (var i = 0; i < _points.length; i++) {
                 var p = _points[i];
                 edges = [];
 
@@ -6560,7 +6831,7 @@ folio.FTriangulate = function( points ) {
                 // Tag multiple edges
                 // Note: if all triangles are specified anticlockwise then all
                 // interior edges are opposite pointing in direction.
-                for (var j=0; j<edges.length-1; j++) {
+                for (var j = 0; j < edges.length-1; j++) {
                     var e1 = edges[j];
                     for (var k=j+1; k<edges.length; k++) {
                         var e2 = edges[k];
@@ -6583,21 +6854,21 @@ folio.FTriangulate = function( points ) {
                 // Form new triangles for the current point
                 // Skipping over any tagged edges.
                 // All edges are arranged in clockwise order.
-                for (var j=0; j<edges.length; j++) {
+                for (var j = 0; j < edges.length; j++) {
                     var e = edges[j];
                     if (e.p1 == null || e.p2 == null) {
                         continue;
                     }
                     // determine if point in triangle is new
                     // if it is mark it as so
-                    for ( var k=0; k<_pointsNew.length; k++ ) {
-                        if ( e.p1 == _pointsNew[k] ) e.p1.name = '__new';
+                    for (var k = 0; k < _pointsNew.length; k++) {
+                        if (e.p1 == _pointsNew[k] ) e.p1.name = '__new';
                         else e.p1.name = null;
 
-                        if ( e.p2 == _pointsNew[k] ) e.p2.name = '__new';
+                        if (e.p2 == _pointsNew[k] ) e.p2.name = '__new';
                         else e.p2.name = null;
 
-                        if ( p == _pointsNew[k] ) p.name = '__new';
+                        if (p == _pointsNew[k] ) p.name = '__new';
                         else p.name = null;
                     }
                     _triangles.push( new Triangle(e.p1, e.p2, p) );
@@ -6634,7 +6905,7 @@ folio.FTriangulate = function( points ) {
      *          circle to check
      *
      */
-    function circumCircle( p, t, circle ) {
+    function circumCircle( p, t, circle) {
         var m1, m2;
         var mx1, mx2;
         var my1, my2;
@@ -6644,19 +6915,19 @@ folio.FTriangulate = function( points ) {
         var drsqr;
 
         // Check for coincident points
-        if ( Math.abs(t.p1.y-t.p2.y) < EPSILON && Math.abs(t.p2.y-t.p3.y) < EPSILON ) {
+        if (Math.abs(t.p1.y-t.p2.y) < EPSILON && Math.abs(t.p2.y-t.p3.y) < EPSILON) {
             //System.err.println("CircumCircle: Points are coincident.");
             return false;
         }
 
-        if ( Math.abs(t.p2.y-t.p1.y) < EPSILON ) {
+        if (Math.abs(t.p2.y-t.p1.y) < EPSILON) {
             m2 = - (t.p3.x-t.p2.x) / (t.p3.y-t.p2.y);
             mx2 = (t.p2.x + t.p3.x) / 2.0;
             my2 = (t.p2.y + t.p3.y) / 2.0;
             circle.x = (t.p2.x + t.p1.x) / 2.0;
             circle.y = m2 * (circle.x - mx2) + my2;
         }
-        else if ( Math.abs(t.p3.y-t.p2.y) < EPSILON ) {
+        else if (Math.abs(t.p3.y-t.p2.y) < EPSILON) {
             m1 = - (t.p2.x-t.p1.x) / (t.p2.y-t.p1.y);
             mx1 = (t.p1.x + t.p2.x) / 2.0;
             my1 = (t.p1.y + t.p2.y) / 2.0;
@@ -6700,16 +6971,16 @@ folio.FTriangulate = function( points ) {
     function findClosest(other) {
         var result;
 
-        for (var i=0; i<_triangles.length; i++) {
+        for (var i = 0; i < _triangles.length; i++) {
             var iFind = _triangles[i];
             var d1 = other.getCentroid.getDistance( iFind.getCentroid );
 
-            for (var j=0; j<_triangles.length; j++) {
+            for (var j = 0; j < _triangles.length; j++) {
                 // var jFind = _triangles[i];
                 var jFind = _triangles[j];
                 var d2 = other.getCentroid.getDistance( jFind.getCentroid );
 
-                if ( d2 < d1 ) {
+                if (d2 < d1) {
                     result = jFind;
                     break;
                 }
@@ -6761,8 +7032,8 @@ folio.FTriangulate = function( points ) {
      */
     function uniquePoints(arr){
         arr.sort();
-        for ( var i=1; i<arr.length; ){
-            if ( arr[i-1].x == arr[i].x && arr[i-1].y == arr[i].y ) arr.splice(i, 1);
+        for (var i=1; i<arr.length; ){
+            if (arr[i-1].x == arr[i].x && arr[i-1].y == arr[i].y ) arr.splice(i, 1);
             else i++;
         }
         return arr;
@@ -6780,8 +7051,8 @@ folio.FTriangulate = function( points ) {
      */
     function uniqueEdges(arr) {
         arr.sort();
-        for ( var i=1; i<arr.length; ){
-            if ( arr[i-1].p1 == arr[i].p1 && arr[i-1].p2 == arr[i].p2 ||
+        for (var i=1; i<arr.length; ){
+            if (arr[i-1].p1 == arr[i].p1 && arr[i-1].p2 == arr[i].p2 ||
                 arr[i-1].p1 == arr[i].p2 && arr[i-1].p2 == arr[i].p2 ) arr.splice(i, 1);
             else i++;
         }
@@ -6789,22 +7060,22 @@ folio.FTriangulate = function( points ) {
 
         // TODO: This is O(n^2), make it O(n) with a hash or some such
         // var uniqueEdges = [];
-        // for ( var i=0; i<edges.length; i++ ) {
+        // for (var i = 0; i < edges.length; i++) {
         //  var edge1 = edges[i];
         //  var unique = true;
 
-        //  for ( var j=0; j<edges.length; j++ ) {
-        //      if ( i != j ) {
+        //  for (var j = 0; j < edges.length; j++) {
+        //      if (i != j) {
         //          var edge2 = edges[j];
-        //          if ( ( edge1.p1 == edge2.p1 && edge1.p2 == edge2.p2 ) ||
-        //              ( edge1.p1 == edge2.p2 && edge1.p2 == edge2.p1 ) ) {
+        //          if (( edge1.p1 == edge2.p1 && edge1.p2 == edge2.p2 ) ||
+        //              ( edge1.p1 == edge2.p2 && edge1.p2 == edge2.p1 )) {
         //              unique = false;
         //              break;
         //          }
         //      }
         //  }
 
-        //  if ( unique ) {
+        //  if (unique) {
         //      uniqueEdges.push( edge1 );
         //  }
         // }
@@ -6829,7 +7100,7 @@ folio.FTriangulate = function( points ) {
     function addPoint(point) {
         _pointsNew = [];
 
-        if ( point instanceof Array ) {
+        if (point instanceof Array) {
             _pointsNew = point;
             // add points to points array
             _points = _points.concat( point );
@@ -6858,7 +7129,7 @@ folio.FTriangulate = function( points ) {
      * @return {Array} the Triangles as array
      */
     function getTriangles(index) {
-        if ( index != null ) {
+        if (index != null) {
             return _triangles[index];
         }
         else {
@@ -6873,7 +7144,7 @@ folio.FTriangulate = function( points ) {
      * @return {Array} the points as a Point array
      */
     function getPoints(index) {
-        if ( index != null ) {
+        if (index != null) {
             return _points[index];
         }
         else {
@@ -6922,7 +7193,7 @@ var HashSet = function() {
     // Properties
     //
     // -----------------------------------------------------------------------------
-    var _arr = [];
+    var arr = [];
 
 
 
@@ -6931,30 +7202,37 @@ var HashSet = function() {
     // Methods
     //
     // -----------------------------------------------------------------------------
-    function _add(e) {
-        var arr = _arr;
+    function add(e) {
+        var arr = arr;
         var i = arr.indexOf(e);
-        if (i == -1) arr.push(e);
-    };
+        if (i == -1) {
+            arr.push(e);
+        }
+    }
 
-    function _get(i) {
-        return _arr[i];
-    };
+    function get(i) {
+        return arr[i];
+    }
 
-    function _size(i) {
-        return _arr.length;
-    };
+    function size(i) {
+        return arr.length;
+    }
 
-    function _remove(e) {
-        var arr =_arr;
+    function remove(e) {
+        var arr =arr;
         var i = arr.indexOf(e);
-        if (i != -1) arr.splice(i, 1);
-    };
+        if (i != -1) {
+            arr.splice(i, 1);
+        }
+    }
 
-    function _contains(o) {
+    function contains(o) {
         var b = false;
-        for (var i=0; i<_arr.length; i++) {
-            if (_arr[i] === o) b = true; // break;
+        for (var i = 0; i < arr.length; i++) {
+            if (arr[i] === o) {
+                b = true;
+                // break;
+            }
         }
         return b;
     };
@@ -6963,20 +7241,20 @@ var HashSet = function() {
     //
     // Gets
     //
-    function _toString() {
-        return _arr.join(',');
+    function toString() {
+        return arr.join(',');
     };
 
 
 
     // -----------------------------------------------------------------------------
     return {
-        add: _add,
-        get: _get,
-        size: _size,
-        remove: _remove,
-        contains: _contains,
-        toString: _toString
+        add      : add,
+        get      : get,
+        size     : size,
+        remove   : remove,
+        contains : contains,
+        toString : toString
     };
 
 };
@@ -7025,7 +7303,7 @@ var HashSet = function() {
 var Matrix3D = function( n11, n12, n13, n14,
                          n21, n22, n23, n24,
                          n31, n32, n33, n34,
-                         n41, n42, n43, n44 ) {
+                         n41, n42, n43, n44) {
     // ------------------------------------------------------------------------
     //
     // Properties
@@ -7088,7 +7366,7 @@ var Matrix3D = function( n11, n12, n13, n14,
     // ------------------------------------------------------------------------
     this.createBox = function(  scalex, scaley, scalez,
                                 rotationx, rotationy, rotationz,
-                                tx, ty, tz ) {
+                                tx, ty, tz) {
         this.identity();
         if (rotationx != 0) {
             this.rotateX( rotationx );
@@ -7232,7 +7510,7 @@ var Matrix3D = function( n11, n12, n13, n14,
         var rVal=[];
         var numPoints=arr.length/3;
 
-        for (var i=0; i<numPoints; i++) {
+        for (var i = 0; i < numPoints; i++) {
             var i3 = i*3;
             var x = arr[i3];
             var y = arr[i3+1];
@@ -7389,7 +7667,9 @@ folio.F3D = {
 
 folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
     // ------------------------------------------------------------------------
+    //
     // Properties
+    //
     // ------------------------------------------------------------------------
     _class: 'FPath3',
     _serializeFields: {
@@ -7409,7 +7689,9 @@ folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
 
 
     // ------------------------------------------------------------------------
+    //
     // Methods
+    //
     // ------------------------------------------------------------------------
     /**
      *
@@ -7444,8 +7726,9 @@ folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
 
 
     // ------------------------------------------------------------------------
+    //
     // Sets
-    // ------------------------------------------------------------------------
+    //
     /**
      * @param scene
      *      scene to associate points with
@@ -7454,7 +7737,7 @@ folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
         // the scene
         this._scene = scene;
 
-        for (var i=0; i<this._fpoints3.length; i++) {
+        for (var i = 0; i < this._fpoints3.length; i++) {
             this._fpoints3[i].setup( this._scene );
         }
     },
@@ -7508,7 +7791,7 @@ folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
                 : 0;
         }
 
-        for (var i=0; i<this._fpoints3.length; i++) {
+        for (var i = 0; i < this._fpoints3.length; i++) {
             var pt3 = this._fpoints3[i];
             pt3.setX( (pt3.x + this._translation.x) );
             pt3.setY( (pt3.y + this._translation.y) );
@@ -7543,14 +7826,16 @@ folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
 
 
     // ------------------------------------------------------------------------
+    //
     // Gets
-    // ------------------------------------------------------------------------
+    //
+
     get: function() {
         // clear segments
         this._segments = [];
 
         // push points into 2D path
-        for (var i=0; i<this._fpoints3.length; i++) {
+        for (var i = 0; i < this._fpoints3.length; i++) {
             var pt3 = this._fpoints3[i];
             this.add(
                 new Point( pt3.x2D(), pt3.y2D() )
@@ -7664,13 +7949,13 @@ folio.F3D.FPath3.inject({
                 ];
 
                 var vertices = [];
-                for (var i=0; i<faces.length; i++) {
+                for (var i = 0; i < faces.length; i++) {
                     sides[i] = new folio.F3D.FPath3();
                     // sides[i].name = faces[i][0];
                     sides[i].name = 'Z-TOP'; // hack until FScene3D is fixed
 
                     vertices = faces[i][1];
-                    for (var j=0; j<vertices.length; j++) {
+                    for (var j = 0; j < vertices.length; j++) {
                         sides[i].add3( new folio.F3D.FPoint3(
                             vertices[j].x * this._size.width,
                             vertices[j].y * this._size.height,
@@ -7731,7 +8016,7 @@ folio.F3D.FPath3.inject({
 
 
                 var vertices = [];
-                for (var i=0; i<=latlon[0]; i++) {
+                for (var i = 0; i <= latlon[0]; i++) {
                     var lat0 = (Math.PI * (-_c + ( (i-1)/latlon[0]) ));
                     var z0   = Math.sin(lat0);
                     var zr0  = Math.cos(lat0);
@@ -7740,7 +8025,7 @@ folio.F3D.FPath3.inject({
                     var z1   = Math.sin(lat1);
                     var zr1  = Math.cos(lat1);
 
-                    for (var j=0; j<=latlon[1]; j++) {
+                    for (var j = 0; j <= latlon[1]; j++) {
                         var lng = ((Math.PI*2) * ( (j-1)/latlon[1] ));
                         var x = Math.cos(lng);
                         var y = Math.sin(lng);
@@ -7751,7 +8036,7 @@ folio.F3D.FPath3.inject({
                 } // _lats
                 var sides = [vertices.length-2];
 
-                for (var i=0; i<vertices.length-2; i++) {
+                for (var i = 0; i < vertices.length-2; i++) {
                     sides[i] = new folio.F3D.FPath3();
                     sides[i].name = 'face'+i;
 
@@ -7908,7 +8193,7 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
      *      set x value
      */
     this.setX = function(val) {
-        if ( _scene != null ) _scene.points3D[_xIndex] = val;
+        if (_scene != null ) _scene.points3D[_xIndex] = val;
         this.x = val;
     };
 
@@ -7918,7 +8203,7 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
      *      set y value
      */
     this.setY = function(val) {
-        if ( _scene != null ) _scene.points3D[_yIndex] = val;
+        if (_scene != null ) _scene.points3D[_yIndex] = val;
         this.y = val;
     };
 
@@ -7928,7 +8213,7 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
      *      set z value
      */
     this.setZ = function(val) {
-        if ( _scene != null ) _scene.points3D[_zIndex] = val;
+        if (_scene != null ) _scene.points3D[_zIndex] = val;
         this.z = val;
     };
 
@@ -8211,7 +8496,9 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
  */
 folio.F3D.FScene3D = this.FScene3D = function() {
     // ------------------------------------------------------------------------
+    //
     // Properties
+    //
     // ------------------------------------------------------------------------
     /**
      * private
@@ -8242,7 +8529,9 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 
 
     // ------------------------------------------------------------------------
+    //
     // Methods
+    //
     // ------------------------------------------------------------------------
     /**
      * matrix for isometric projection
@@ -8345,7 +8634,7 @@ folio.F3D.FScene3D = this.FScene3D = function() {
 
         // cycle through transformed 3D points
         // pull out screen 2D points
-        for (var i=0; i<_numPoints; i++) {
+        for (var i = 0; i < _numPoints; i++) {
             var i3 = i*3;
             var i2 = i*2;
 
@@ -8363,7 +8652,7 @@ folio.F3D.FScene3D = this.FScene3D = function() {
         // very crude and rudimentary
         var tindex = 0;
         var depthArr = []; // temp array to correlate transformed points to items
-        for (var i=0; i<_fpath3Arr.length; i++) {
+        for (var i = 0; i < _fpath3Arr.length; i++) {
             var fpath3 = _fpath3Arr[i];
 
             var avgz = this.averageZ(
@@ -8385,7 +8674,7 @@ folio.F3D.FScene3D = this.FScene3D = function() {
         // put the object into the group based on their z depth
         _groupBot.removeChildren(); // clear out in between draws
         _groupTop.removeChildren(); // clear out in between draws
-        for (var i=0; i<depthArr.length; i++) {
+        for (var i = 0; i < depthArr.length; i++) {
             var path = _fpath3Arr[ depthArr[i].index ].get();
 
             if (path.name == 'Z-TOP') _groupTop.appendBottom( path );
@@ -8489,7 +8778,7 @@ folio.F3D.FScene3D = this.FScene3D = function() {
      */
     this.addItem = function(item) {
         if (item.length > 0) {
-            for (var i=0; i<item.length; i++) {
+            for (var i = 0; i < item.length; i++) {
                 _fpath3Arr[ _fpath3Arr.length ] = item[i];
                 item[i].setScene(this);
             }

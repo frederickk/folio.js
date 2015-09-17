@@ -27,13 +27,18 @@
  */
 folio.FSkeleton = function(item) {
     // ------------------------------------------------------------------------
+    //
     // Properties
+    //
     // ------------------------------------------------------------------------
     var item = item;
 
 
+
     // ------------------------------------------------------------------------
+    //
     // Methods
+    //
     // ------------------------------------------------------------------------
     /**
      * extract lines from PathItem into lines Array
@@ -63,7 +68,7 @@ folio.FSkeleton = function(item) {
                 lines[pointname][3] = handleOut;
             }
         }
-    };
+    }
 
     /**
      * @param  {PathItem} item
@@ -76,7 +81,7 @@ folio.FSkeleton = function(item) {
         centerlinepath = new Path();
         centerlinepath.closed = false;
 
-        for ( var i=0, j=item.segments.length; i!=j; i++) {
+        for (var i=0, j=item.segments.length; i!=j; i++) {
             // step j down
             --j;
 
@@ -122,12 +127,12 @@ folio.FSkeleton = function(item) {
         }
 
         return centerlinepath;
-    };
+    }
 
 
     // ------------------------------------------------------------------------
     return {
-        get: getCenterLines
+        get : getCenterLines
     };
 
 };

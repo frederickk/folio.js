@@ -69,22 +69,22 @@ folio.FDrop = function(element, options) {
             function onDragEnterEvent(event) {
                 event.stopPropagation();
                 event.preventDefault();
-            };
+            }
 
             function onDragOverEvent(event) {
                 event.stopPropagation();
                 event.preventDefault();
                 event.dataTransfer.dropEffect = 'copy';
-            };
+            }
 
             function onDropEvent(event) {
                 event.stopPropagation();
                 event.preventDefault();
                 setFiles(event.dataTransfer.files);
-            };
+            }
 
             function onDrop(event) {
-            };
+            }
 
             // by default the entire window is droppable
             element = element || document.body;
@@ -106,16 +106,16 @@ folio.FDrop = function(element, options) {
         handleText(file, obj);
         handleGeneric(file, obj);
 
-        if ( bError ) {
+        if (bError) {
             // an error means most likely a directory
             obj.isDirectory = true;
         }
-    };
+    }
 
     function handleFiles(files) {
         if (files.length > 1) {
             output = [];
-            for (var i=0; i<files.length; i++) {
+            for (var i = 0; i < files.length; i++) {
                 var f = files[i];
                 output.push( Object.create(FDropEvent) );
                 output[i].id = element.id;
@@ -135,7 +135,7 @@ folio.FDrop = function(element, options) {
         }
 
         return output;
-    };
+    }
 
     function createProgressBar() {
         progressBar = document.createElement('div');
@@ -152,7 +152,7 @@ folio.FDrop = function(element, options) {
         progressBar.style.zIndex = '2000';
 
         document.body.appendChild(progressBar);
-    };
+    }
 
     // -----------------------------------------------------------------------------
     function handleText(file, obj) {
@@ -169,7 +169,7 @@ folio.FDrop = function(element, options) {
             fileReader.onerror = error;
             fileReader.readAsText(file);
         // }
-    };
+    }
 
     function handleImage(file, obj) {
         if (file.type.match(fileTypes.image)) {
@@ -188,7 +188,7 @@ folio.FDrop = function(element, options) {
             fileReader.onerror = error;
             fileReader.readAsDataURL(file);
         }
-    };
+    }
 
     // function handleVideo(file, obj) {
     //     if (file.type.match(fileTypes.video)) {
@@ -204,7 +204,7 @@ folio.FDrop = function(element, options) {
     //         fileReader.onerror = error;
     //         fileReader.readAsDataURL(file);
     //     }
-    // };
+    // }
 
     function handleGeneric(file, obj) {
         var fileReader = new FileReader();
@@ -216,7 +216,7 @@ folio.FDrop = function(element, options) {
         fileReader.onloadend = complete;
         // fileReader.readAsDataURL(file);
         fileReader.readAsBinaryString(file);
-    };
+    }
 
     // -----------------------------------------------------------------------------
 
@@ -233,18 +233,18 @@ folio.FDrop = function(element, options) {
         if (files != null) {
             createProgressBar();
 
-            if ( files.length === 1 ) {
+            if (files.length === 1) {
                 files = files[0];
                 totalSize = files.size;
             }
             else {
-                for (var i=0; i<files.length; i++) {
+                for (var i = 0; i < files.length; i++) {
                     totalSize += files[i].size;
                 }
             }
             return handleFiles(files);
         }
-    };
+    }
 
 
 
@@ -254,7 +254,7 @@ folio.FDrop = function(element, options) {
     //
     // -----------------------------------------------------------------------------
     function progress(event) {
-        totalLoad = Math.ceil((event.loaded / totalSize)*100);
+        totalLoad = Math.ceil((event.loaded / totalSize) * 100);
 
         progressBar.style.width = (totalLoad + '%').toString();
         progressBar.innerHTML = (totalLoad + '%').toString();
@@ -265,11 +265,11 @@ folio.FDrop = function(element, options) {
             onDrop(output);
             document.body.removeChild(progressBar);
         }
-    };
+    }
 
     function error(event) {
         bError = true;
-    };
+    }
 
 
 

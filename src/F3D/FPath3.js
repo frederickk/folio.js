@@ -10,7 +10,9 @@
 
 folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
     // ------------------------------------------------------------------------
+    //
     // Properties
+    //
     // ------------------------------------------------------------------------
     _class: 'FPath3',
     _serializeFields: {
@@ -30,7 +32,9 @@ folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
 
 
     // ------------------------------------------------------------------------
+    //
     // Methods
+    //
     // ------------------------------------------------------------------------
     /**
      *
@@ -65,8 +69,9 @@ folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
 
 
     // ------------------------------------------------------------------------
+    //
     // Sets
-    // ------------------------------------------------------------------------
+    //
     /**
      * @param scene
      *      scene to associate points with
@@ -75,7 +80,7 @@ folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
         // the scene
         this._scene = scene;
 
-        for (var i=0; i<this._fpoints3.length; i++) {
+        for (var i = 0; i < this._fpoints3.length; i++) {
             this._fpoints3[i].setup( this._scene );
         }
     },
@@ -129,7 +134,7 @@ folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
                 : 0;
         }
 
-        for (var i=0; i<this._fpoints3.length; i++) {
+        for (var i = 0; i < this._fpoints3.length; i++) {
             var pt3 = this._fpoints3[i];
             pt3.setX( (pt3.x + this._translation.x) );
             pt3.setY( (pt3.y + this._translation.y) );
@@ -164,14 +169,16 @@ folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
 
 
     // ------------------------------------------------------------------------
+    //
     // Gets
-    // ------------------------------------------------------------------------
+    //
+
     get: function() {
         // clear segments
         this._segments = [];
 
         // push points into 2D path
-        for (var i=0; i<this._fpoints3.length; i++) {
+        for (var i = 0; i < this._fpoints3.length; i++) {
             var pt3 = this._fpoints3[i];
             this.add(
                 new Point( pt3.x2D(), pt3.y2D() )

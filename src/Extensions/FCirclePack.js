@@ -147,7 +147,7 @@ folio.FCirclePack = function(circleItems, iterations) {
      *      Path.Item to add to circle packer
      */
     var add = function(item) {
-        if ( typeof item === 'array' ) {
+        if (typeof item === 'array') {
             circleItems = circleItems.concat( item );
         }
         else {
