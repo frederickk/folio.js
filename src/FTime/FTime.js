@@ -22,4 +22,3 @@ folio.FTime = {
     Ease: {}
 
 };
-

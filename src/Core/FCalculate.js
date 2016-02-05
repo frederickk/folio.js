@@ -441,6 +441,39 @@ PaperScope.inject({
         );
 
         return [pt1, pt2, pt3, pt4];
+    },
+
+    /**
+     *
+     *
+     *
+     */
+    reversal: function(min, max) {
+        min = min || 0;
+        max = max || 100;
+        var divisor = (min === 0 && max === 100)
+            ? 100
+            : 1;
+        var flip = false;
+        var val = 0;
+
+        return function() {
+            if (flip) {
+                val++;
+            }
+            else {
+                val--;
+            }
+
+            if (val < min && !flip) {
+                flip = true;
+            }
+            else if (val > max && flip) {
+                flip = false;
+            }
+
+            return val / divisor;
+        };
     }
 
 });
