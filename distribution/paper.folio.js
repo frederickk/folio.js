@@ -1,7 +1,7 @@
 /**!
  *
  * folio.js
- * 0.8.1
+ * 0.8.2
  * https://github.com/frederickk/folio.js
  *
  * 16. February 2016
@@ -1536,6 +1536,9 @@ paper.Item.inject({
     // -----------------------------------------------------------------------------
     enumerable: true,
     _prevAngle: 0,
+    _prevPosition: {x: 0, y: 0},
+    _prevHor: 1.0,
+    _prevVer: 1.0,
 
 
 
@@ -1636,6 +1639,23 @@ paper.Item.inject({
             center
         );
         this._prevAngle = angle;
+        return this;
+    },
+
+    /**
+     * Translation that doesn't accumulate
+     *
+     * @param  {Point} delta
+     *
+     * @return {Item}
+     */
+    setTranslation: function(delta) {
+        delta = new Point(delta);
+        this.translate(new Point(
+            (delta.x - this._prevPosition.x),
+            (delta.y - this._prevPosition.y)
+        ));
+        this._prevPosition = delta;
         return this;
     },
 
@@ -2503,7 +2523,6 @@ paper.Path.inject({
     } // end statics:
 });
 
-
 /*
  *
  * FPoint.js
@@ -2520,16 +2539,19 @@ paper.Path.inject({
  */
 paper.Point.inject({
     // ------------------------------------------------------------------------
+    //
     // Properties
+    //
     // ------------------------------------------------------------------------
     name: null,
     data: {},
-    _prevAngle: 0,
 
 
 
     // ------------------------------------------------------------------------
+    //
     // Methods
+    // 
     // ------------------------------------------------------------------------
     /**
      *
@@ -2871,8 +2893,6 @@ paper.Point.inject({
     }
 
 });
-
-
 
 /*
  *
@@ -9455,3 +9475,5 @@ folio.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
 
 
 };
+
+

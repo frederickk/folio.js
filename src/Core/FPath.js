@@ -27,6 +27,9 @@ paper.Item.inject({
     // -----------------------------------------------------------------------------
     enumerable: true,
     _prevAngle: 0,
+    _prevPosition: {x: 0, y: 0},
+    _prevHor: 1.0,
+    _prevVer: 1.0,
 
 
 
@@ -127,6 +130,23 @@ paper.Item.inject({
             center
         );
         this._prevAngle = angle;
+        return this;
+    },
+
+    /**
+     * Translation that doesn't accumulate
+     *
+     * @param  {Point} delta
+     *
+     * @return {Item}
+     */
+    setTranslation: function(delta) {
+        delta = new Point(delta);
+        this.translate(new Point(
+            (delta.x - this._prevPosition.x),
+            (delta.y - this._prevPosition.y)
+        ));
+        this._prevPosition = delta;
         return this;
     },
 
@@ -993,4 +1013,3 @@ paper.Path.inject({
 
     } // end statics:
 });
-
