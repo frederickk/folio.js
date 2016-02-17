@@ -1,10 +1,10 @@
 /**!
  *
  * folio.js
- * 0.7.7
+ * 0.8.1
  * https://github.com/frederickk/folio.js
  *
- * 24. August 2015
+ * 16. February 2016
  *
  * Ken Frederick
  * ken.frederick@gmx.de
@@ -57,12 +57,13 @@
 
 
 // ------------------------------------------------------------------------
+// TODO: add ability to pass global parameters
+// var folio = folio(parameters) || {};
+// TODO: fix overall library implementation
 var folio = folio || {};
-
 
 var body = document.body;
 var html = document.documentElement;
-
 
 /**
  *
@@ -75,7 +76,8 @@ var Setup = function() {};
 var Draw = function() {};
 var Update = function(event) {};
 
-var Animate = function(object) {};
+var Animate = function(event, callback) {};
+var AnimateAdd = function(object, order) {};
 var AnimateClear = function() {};
 
 // events
@@ -90,42 +92,54 @@ var onKeyDown = function(event) {};
 var onKeyUp = function(event) {};
 
 
-/**
- *
- * Initialize Canvas
- *
- */
-var container = document.createElement('div');
-container.id = 'container';
-container.style.position = 'absolute';
-container.style.width    = '100%'; //Math.max( body.scrollWidth, body.offsetWidth, html.clientWidth, html.scrollWidth, html.offsetWidth ) + 'px'; // '100%';
-container.style.height   = '100%'; //Math.max( body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight ) + 'px'; // '100%';
-document.body.appendChild( container );
-
-var canvases = document.getElementsByTagName('canvas');
-var canvas;
-if (canvases.length === 0) {
-    // create canvas element
-    canvas = document.createElement('canvas');
-    canvas.id     = 'canvas';
-    canvas.width  = '100%';
-    canvas.height = '100%';
-    canvas.resize = true;
-    canvas.style.backgroundColor = 'rgba(255, 255, 255, 0.0)'; //#ffffff';
-    container.appendChild( canvas );
-}
-else {
-    // use first canvas found
-    canvas = canvases[0];
-}
-
 // paper.js
 paper.install(window);
-paper.setup(canvas);
 
 
 // once the DOM is ready, setup Paper.js
-window.onload = function() {
+// window.onload = function() {
+window.addEventListener('DOMContentLoaded', function() {
+    //
+    // Initialize Canvas
+    //
+    var canvases = document.getElementsByTagName('canvas');
+    var canvas;
+    if (canvases.length === 0) {
+        // create container for canvas
+        var container = document.createElement('div');
+        container.id = 'container';
+        container.style.position = 'absolute';
+        container.style.top = 0;
+        container.style.left = 0;
+        container.style.width  = '100%';
+        container.style.height = '100%';
+        document.body.appendChild(container);
+
+        // create canvas element
+        canvas = document.createElement('canvas');
+        canvas.id = 'canvas';
+        canvas.resize = true;
+        canvas.style.backgroundColor = 'rgba(0, 0, 0, 0)';
+        canvas.style.webkitUserDrag = 'none';
+        canvas.style.webkitUserSelect = 'none';
+        canvas.style.webkitTapHighlightColor = 'rgba(0, 0, 0, 0)';
+        container.appendChild(canvas);
+    }
+    else {
+        // use first canvas found
+        canvas = canvases[0];
+    }
+    if (canvas.style.width === '') {
+        canvas.style.width  = '100%';
+    }
+    if (canvas.style.height === '') {
+        canvas.style.height = '100%';
+    }
+
+    paper.setup(canvas);
+
+
+
     // ------------------------------------------------------------------------
     //
     // Methods
@@ -143,7 +157,14 @@ window.onload = function() {
     var AnimationGroup = new Group();
     AnimationGroup.name = '__AnimationGroup';
 
-    function Animate(object, order) {
+    function Animate(callback) {
+        for (var i = 0; i < AnimationGroup.children.length; i++) {
+            if (callback) {
+                callback(AnimationGroup.children[i]);
+            }
+        }
+    }
+    function AnimateAdd(object, order) {
         // object must be a valid paper.js item
         // default is to add object to top
         if (order === 'bottom') {
@@ -167,7 +188,6 @@ window.onload = function() {
     //
     // ------------------------------------------------------------------------
     view.onFrame = function(event) {
-        // TODO:    add a method which clears an "animation group" each frame
         if (typeof Update === 'function') {
             Update(event);
         }
@@ -175,6 +195,7 @@ window.onload = function() {
         view.update();
     };
 
+    // TODO: make this functionality toggleable
     view.onResize = function(event) {
         if (typeof onResize === 'function') {
             onResize(event);
@@ -245,7 +266,7 @@ window.onload = function() {
         }
 
         // clear out view
-        // paper.clear();
+        paper.clear();
 
         // re-initiate setup
         if (typeof Setup === 'function') {
@@ -266,11 +287,8 @@ window.onload = function() {
 
 
     // ------------------------------------------------------------------------
-    // resizeCanvas();
     console.log('Folio.js is go!');
-};
-
-
+});
 
 /*
  *
@@ -514,306 +532,6 @@ PaperScope.inject({
 });
 
 
-
-/*
- *
- * FArray.js
- *
- * Extensions to JavaScript Array may be bad form... but whatever
- *
- */
-
-
-// ------------------------------------------------------------------------
-//
-// Array
-//
-// ------------------------------------------------------------------------
-
-/**
- *
- * @return {Number} median value
- *
- */
-Array.prototype.median = function() {
-    var type = Object.prototype.toString.call(this).split(/\W/)[2];
-    if (type === 'Array') {
-        var median = 0;
-        this.sort();
-        if (this.length % 2 === 0) {
-            median = (this[this.length / 2 - 1] + this[this.length / 2]) / 2;
-        }
-        else {
-            median = this[(this.length - 1) / 2];
-        }
-        return median;
-    }
-};
-
-/**
- * http://stackoverflow.com/questions/10359907/array-sum-and-average
- *
- * @return {Number} average  value
- *
- */
-Array.prototype.average = function(){
-    var type = Object.prototype.toString.call(this).split(/\W/)[2];
-    if (type === 'Array') {
-        var sum = 0;
-        for (var i = 0; i < this.length, isFinite(this[i]); i++) {
-            sum += parseFloat(this[i]);
-        }
-        return sum/this.length-1;
-    }
-};
-
-
-/**
- * combines two Arrays
- *
- * @param {Array} arr
- *          Array object
- *
- * @return {Array} new merged Array object
- *
- */
-Array.prototype.merge = function(arr, bShuffle) {
-    var type = Object.prototype.toString.call(this).split(/\W/)[2];
-    if (type === 'Array') {
-        var output = this.concat(arr);
-        return output;
-    }
-};
-
-
-/*
- * combine two associative arrays together
- * http://stackoverflow.com/questions/929776/merging-associative-arrays-javascript (modified)
- *
- * @param {Array} arr
- *          Array object
- *
- * @return {Array} new combined associatibe Array
- *
- */
-Array.prototype.combine = function(arr) {
-    for (item in this) {
-        arr[item] = (arr[item] != undefined)
-            ? arr[item]
-            : this[item];
-    }
-    return arr;
-};
-
-
-/**
- * find index of particular value within an array
- *
- * @param {String} query
- *          the value to search for within array
- *
- * @return {Number} index of object within array
- *
- */
-Array.prototype.findIndex = function(query) {
-    for (var i = this.length - 1; i >= 0; i--) {
-        if (this[i].toLowerCase() === query.toLowerCase()) {
-            break;
-        }
-    }
-    return i;
-};
-
-
-/**
- *
- * @param {Number} start
- *          start position in array
- * @param {Number} stop
- *          stop position in array
- *
- * @return {Number} index of maximum value within array
- *
- */
-Array.prototype.max = function(start, stop) {
-    start = (start != undefined)
-        ? start
-        : 0;
-    stop = (stop != undefined)
-        ? stop
-        : this.length;
-    var max = start;
-
-    for (var i = (start+1); i < stop; i++) {
-        if (this[i] > this[max]) {
-            max = i;
-        }
-    }
-    return max;
-};
-
-/**
- *
- * @param {Number} start
- *          start position in array
- * @param {Number} stop
- *          stop position in array
- *
- * @return {Number} index of minimum value within array
- *
- */
-Array.prototype.min = function(start, stop) {
-    start = (start != undefined)
-        ? start
-        : 0;
-    stop = (stop != undefined)
-        ? stop
-        : this.length;
-    var min = start;
-
-    for (var i = (start+1); i < stop; i++) {
-        if (this[i] < this[min]) {
-            min = i;
-        }
-    }
-    return min;
-};
-
-/**
- *
- * http://jsfromhell.com/array/shuffle
- * http://www.brain4.de/programmierecke/js/arrayShuffle.php
- *
- * @return {Array} original array but with the order "shuffled"
- *
- */
-Array.prototype.shuffle = function() {
-    for (var j, x, i=this.length; i; j=parseInt(Math.random() * i), x=this[--i], this[i]=this[j], this[j]=x);
-};
-
-/**
- * Eliminate all non-unique elements from an Array
- *
- * @return {Object} unique element
- *
- */
-Array.prototype.unique = function() {
-    var u = [];
-    o:for (var i = 0, n = this.length; i < n; i++) {
-        for (var x = 0, y = u.length; x < y; x++) {
-            if (u[x] == this[i]) {
-                continue o;
-            }
-        }
-        u[u.length] = this[i];
-    }
-    return u;
-};
-
-/**
- * Eliminate all duplicates from an Array
- * http://stackoverflow.com/questions/9229645/remove-duplicates-from-javascript-array
- *
- * @return {Array} original array without duplicates
- *
- */
-Array.prototype.removeDuplicates = function() {
-    var type = Object.prototype.toString.call(this).split(/\W/)[2];
-    if (type === 'Array') {
-        return this.reduce(function(accum, cur) {
-            if (accum.indexOf(cur) === -1) {
-                accum.push(cur);
-            }
-            return accum;
-        }, [] );
-    }
-};
-
-/**
- *
- * @param {Number} decimalPlaces
- *      number of decimal places
- *
- * @return {Array} original array with rounded values
- *
- */
-Array.prototype.round = function(decimalPlaces) {
-    var multi = Math.pow(10,decimalPlaces);
-    for (var i = 0; i < this.length; i++) {
-        this[i] = Math.round(this[i] * multi)/multi;
-    }
-    return this;
-};
-
-
-
-// ------------------------------------------------------------------------
-// TODO: integrate sorting methods in a much cleaner way
-var FSort = {
-
-    /**
-     *
-     * sort Array in alphabetical order
-     *
-     * http://www.brain4.de/programmierecke/js/arraySort.php
-     *
-     */
-    alphabetical: function(a, b) {
-        // var A = a.toLowerCase();
-        // var B = b.toLowerCase();
-
-        // if (A < B) {
-        //     return -1;
-        // }
-        // else if (A > B) {
-        //     return  1;
-        // }
-        // else {
-        //     return 0;
-        // }
-
-        a = a.toLowerCase();
-        a = a.replace(/ä/g,'a');
-        a = a.replace(/ö/g,'o');
-        a = a.replace(/ü/g,'u');
-        a = a.replace(/ß/g,'s');
-
-        b = b.toLowerCase();
-        b = b.replace(/ä/g,'a');
-        b = b.replace(/ö/g,'o');
-        b = b.replace(/ü/g,'u');
-        b = b.replace(/ß/g,'s');
-
-        return (a == b)
-            ? 0
-            : (a>b)
-                ? 1
-                : -1;
-    },
-
-    /**
-     *
-     * sort array by distance of object from center of canvas
-     *
-     */
-    distanceToCenter: function(a, b) {
-        var valueA = a.getDistanceToCenter();
-        // console.log( valueA );
-        var valueB = b.getDistanceToCenter();
-        // console.log( valueB );
-        var comparisonValue = 0;
-
-        if (valueA > valueB) {
-            comparisonValue = -1;
-        }
-        else if (valueA < valueB) {
-            comparisonValue = 1;
-        }
-
-        return comparisonValue;
-    }
-
-};
 
 /*
  *
@@ -1258,6 +976,39 @@ PaperScope.inject({
         );
 
         return [pt1, pt2, pt3, pt4];
+    },
+
+    /**
+     *
+     *
+     *
+     */
+    reversal: function(min, max) {
+        min = min || 0;
+        max = max || 100;
+        var divisor = (min === 0 && max === 100)
+            ? 100
+            : 1;
+        var flip = false;
+        var val = 0;
+
+        return function() {
+            if (flip) {
+                val++;
+            }
+            else {
+                val--;
+            }
+
+            if (val < min && !flip) {
+                flip = true;
+            }
+            else if (val > max && flip) {
+                flip = false;
+            }
+
+            return val / divisor;
+        };
     }
 
 });
@@ -3232,130 +2983,6 @@ paper.Size.inject({
 
 /*
  *
- * FString.js
- *
- * Extensions to JavaScript Array may be bad form... but whatever
- *
- */
-
-
-//------------------------------------------------------------------------
-//
-// Strings
-//
-//------------------------------------------------------------------------
-
-/**
- * converts given string to Title Case
- * http://stackoverflow.com/questions/196972/convert-string-to-title-case-with-javascript
- *
- * @return {String} input String in Title Case
- *
- */
-String.prototype.toTitleCase = function() {
-    return this.replace(/\w\S*/g, function(txt) {
-        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-    });
-};
-
-/**
- * trims white space from left (start) of String
- * http://stackoverflow.com/questions/3000649/trim-spaces-from-start-and-end-of-string
- *
- * @return {String} trimmed input String
- *
- */
-String.prototype.trimStart = function() {
-    return this.replace(/^\s\s*/, '');
-};
-if (!String.prototype.trimLeft) {
-    String.prototype.trimLeft = String.prototype.trimStart;
-}
-
-/**
- * trims white space from right (end) of String
- * http://stackoverflow.com/questions/3000649/trim-spaces-from-start-and-end-of-string
- *
- * @return {String} trimmed input String
- *
- */
-String.prototype.trimEnd = function() {
-    return this.replace(/\s\s*$/, '');
-};
-if (!String.prototype.trimRight) {
-    String.prototype.trimRight = String.prototype.trimEnd;
-}
-
-/**
- * trims all white space from String
- * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/Trim
- *
- * @return {String} trimmed input string
- *
- */
-if (!String.prototype.trim) {
-    String.prototype.trim = function () {
-        return this.replace(/^\s+|\s+$/gm, '');
-    };
-}
-
-/**
- * converts String to Boolean value
- *
- * @return {Boolean}
- *
- */
-String.prototype.toBool = function() {
-    switch(this.toLowerCase()) {
-            case 'true': case 'yes': case '1': return true;
-            case 'false': case 'no': case '0': case null: return false;
-            default: return Boolean(this);
-    }
-};
-
-/**
- * reverse the order of a String
- *
- * @return {String}
- */
-String.prototype.reverse = function() {
-    var lines = this.split('\n'),
-        temp = '';
-    for (var i = 0; i < lines.length; i++) {
-        lines[i].trim();
-        temp = lines[i] + '\n' + temp;
-    }
-
-    return temp;
-};
-
-/**
- * split String to contain specific amount of content per line, as defined by the delimitter
- *
- * @param  {Number} amt        amount of content
- * @param  {String} delimitter (option) what to break the original String on
- *
- * @return {String}
- */
-String.prototype.perLine = function(amt, delimitter) {
-    delimitter = delimitter || ' ';
-    var words = this.split(delimitter),
-        temp = '',
-        count = 1;
-    for (var i = 0; i < words.length; i++) {
-        words[i].trim();
-        temp = (count % amt === 0 && count !== 1)
-            ? temp + words[i] + '\n'
-            : temp + words[i] + delimitter;
-        count++;
-    }
-
-    return temp;
-};
-
-
-/*
- *
  * FTextItem.js
  *
  * A collection of extensions for paper.TextItem
@@ -3409,7 +3036,6 @@ folio.FTime = {
     Ease: {}
 
 };
-
 
 /*
  *
@@ -4327,12 +3953,12 @@ folio.FTime.FStopwatch = function() {
 
 
 /*
- *
- * FIO.js
- *
- * A collection of I/O methods
- *
- */
+*
+* FIO.js
+*
+* A collection of I/O methods
+*
+*/
 
 
 folio.FIO = {
@@ -4556,21 +4182,63 @@ folio.FIO = {
 
     // ------------------------------------------------------------------------
     /*
-     * Scriptographer specific
-     *
-     * modified from Jürg Lehni
-     * http://scriptographer.org/forum/help/save-array-data-to-external-file/
-     *
+     * paper.js specific
      */
 
     /**
-     * @param {String} str
-     *          the String of information to save (JSON encoded)
-     * @param {String} fname
-     *          the name of the file to save to
+     * download current view as
+     *
+     * @param  {[type]} filename [description]
+     * @param  {[type]} width    [description]
+     * @param  {[type]} height   [description]
+     *
+     * @return {Boolean} true if successful, false otherwise
      */
+    downloadSVG: function(filename, width, height) {
+        var w = width || view.bounds.width;
+        var h = height || view.bounds.height;
+
+        var svg = '<svg id="svg" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 ' + w + ' ' + h + '" enable-background="new 0 0 ' + w + ' ' + h + '" xml:space="preserve">';
+        svg += pathGroup.exportSVG({asString: true});
+        svg += '</svg>';
+        var b64 = btoa(svg);
+
+        var img = document.createElement('svg');
+        img.src = 'data:image/svg+xml;base64,\n' + b64;
+        img.alt = filename;
+
+        try {
+            // FIX: don't judge... it works :)
+            var link = document.createElement('a');
+            link.download = filename;
+            link.href = img.src;
+            link.click();
+
+            return true;
+        }
+        catch(err) {
+            return false;
+        }
+    },
+
+    // ------------------------------------------------------------------------
+    /*
+    * TODO: deprecate... :(
+    * Scriptographer specific
+    *
+    * modified from Jürg Lehni
+    * http://scriptographer.org/forum/help/save-array-data-to-external-file/
+    *
+    */
+
+    /**
+    * @param {String} str
+    *          the String of information to save (JSON encoded)
+    * @param {String} fname
+    *          the name of the file to save to
+    */
     saveFile: function(str, filename) {
-       filename = filename || 'foliojs_fio_file.file';
+        filename = filename || 'foliojs_fio_file.file';
 
         try {
             // scriptographer
@@ -4645,11 +4313,11 @@ folio.FIO = {
 
 
     /**
-     * @param {String} fname
-     *          the name of the file to open
-     *
-     * @return {Object} JSon output
-     */
+    * @param {String} fname
+    *          the name of the file to open
+    *
+    * @return {Object} JSon output
+    */
     openFile: function(fname) {
         var file = new File(script.file.parent, fname);
         file.open();
@@ -4660,9 +4328,9 @@ folio.FIO = {
     },
 
     /**
-     * @param {String} fname
-     *          the name of the file to delete
-     */
+    * @param {String} fname
+    *          the name of the file to delete
+    */
     deleteFile: function(fname) {
         var file = new File(script.file.parent, fname);
         // If file exists, we need to remove it first in order to overwrite its content.
@@ -4670,11 +4338,11 @@ folio.FIO = {
     },
 
     /**
-     * @param {String} fname
-     *          the name of the file to verify exists
-     *
-     * @return {Boolean} true if exists, false otherwise
-     */
+    * @param {String} fname
+    *          the name of the file to verify exists
+    *
+    * @return {Boolean} true if exists, false otherwise
+    */
     checkFile: function(fname) {
         var file = new File(script.file.parent, fname);
         if (file.exists()) return true;
@@ -4683,8 +4351,6 @@ folio.FIO = {
 
 
 };
-
-
 
 // /*
 //  * FASE
@@ -4788,6 +4454,327 @@ folio.FIO = {
 //     };
 
 // };
+
+/*
+ *
+ * FArray.js
+ *
+ * Extensions to JavaScript Array may be bad form... but whatever
+ *
+ */
+
+
+// ------------------------------------------------------------------------
+//
+// Array
+//
+// ------------------------------------------------------------------------
+
+/**
+ *
+ * @return {Number} median value
+ *
+ */
+Array.prototype.median = function() {
+    var type = Object.prototype.toString.call(this).split(/\W/)[2];
+    if (type === 'Array') {
+        var median = 0;
+        this.sort();
+        if (this.length % 2 === 0) {
+            median = (this[this.length / 2 - 1] + this[this.length / 2]) / 2;
+        }
+        else {
+            median = this[(this.length - 1) / 2];
+        }
+        return median;
+    }
+};
+
+/**
+ * http://stackoverflow.com/questions/10359907/array-sum-and-average
+ *
+ * @return {Number} average  value
+ *
+ */
+Array.prototype.average = function(){
+    var type = Object.prototype.toString.call(this).split(/\W/)[2];
+    if (type === 'Array') {
+        var sum = 0;
+        for (var i = 0; i < this.length, isFinite(this[i]); i++) {
+            sum += parseFloat(this[i]);
+        }
+        return sum/this.length-1;
+    }
+};
+
+
+/**
+ * combines two Arrays
+ *
+ * @param {Array} arr
+ *          Array object
+ *
+ * @return {Array} new merged Array object
+ *
+ */
+Array.prototype.merge = function(arr, bShuffle) {
+    var type = Object.prototype.toString.call(this).split(/\W/)[2];
+    if (type === 'Array') {
+        var output = this.concat(arr);
+        return output;
+    }
+};
+
+
+/*
+ * combine two associative arrays together
+ * http://stackoverflow.com/questions/929776/merging-associative-arrays-javascript (modified)
+ *
+ * @param {Array} arr
+ *          Array object
+ *
+ * @return {Array} new combined associatibe Array
+ *
+ */
+Array.prototype.combine = function(arr) {
+    for (item in this) {
+        arr[item] = (arr[item] != undefined)
+            ? arr[item]
+            : this[item];
+    }
+    return arr;
+};
+
+
+/**
+ * find index of particular value within an array
+ *
+ * @param {String} query
+ *          the value to search for within array
+ *
+ * @return {Number} index of object within array
+ *
+ */
+Array.prototype.findIndex = function(query) {
+    for (var i = this.length - 1; i >= 0; i--) {
+        if (this[i].toLowerCase() === query.toLowerCase()) {
+            break;
+        }
+    }
+    return i;
+};
+
+
+/**
+ *
+ * @param {Number} start
+ *          start position in array
+ * @param {Number} stop
+ *          stop position in array
+ *
+ * @return {Number} index of maximum value within array
+ *
+ */
+Array.prototype.max = function(start, stop) {
+    start = (start != undefined)
+        ? start
+        : 0;
+    stop = (stop != undefined)
+        ? stop
+        : this.length;
+    var max = start;
+
+    for (var i = (start+1); i < stop; i++) {
+        if (this[i] > this[max]) {
+            max = i;
+        }
+    }
+    return max;
+};
+
+/**
+ *
+ * @param {Number} start
+ *          start position in array
+ * @param {Number} stop
+ *          stop position in array
+ *
+ * @return {Number} index of minimum value within array
+ *
+ */
+Array.prototype.min = function(start, stop) {
+    start = (start != undefined)
+        ? start
+        : 0;
+    stop = (stop != undefined)
+        ? stop
+        : this.length;
+    var min = start;
+
+    for (var i = (start+1); i < stop; i++) {
+        if (this[i] < this[min]) {
+            min = i;
+        }
+    }
+    return min;
+};
+
+/**
+ *
+ * http://jsfromhell.com/array/shuffle
+ * http://www.brain4.de/programmierecke/js/arrayShuffle.php
+ *
+ * @return {Array} original array but with the order "shuffled"
+ *
+ */
+Array.prototype.shuffle = function() {
+    for (var j, x, i=this.length; i; j=parseInt(Math.random() * i), x=this[--i], this[i]=this[j], this[j]=x);
+};
+
+/**
+ * Eliminate all non-unique elements from an Array
+ *
+ * @return {Object} unique element
+ *
+ */
+Array.prototype.unique = function() {
+    var u = [];
+    o:for (var i = 0, n = this.length; i < n; i++) {
+        for (var x = 0, y = u.length; x < y; x++) {
+            if (u[x] == this[i]) {
+                continue o;
+            }
+        }
+        u[u.length] = this[i];
+    }
+    return u;
+};
+
+/**
+ * Eliminate all duplicates from an Array
+ * http://stackoverflow.com/questions/9229645/remove-duplicates-from-javascript-array
+ *
+ * @return {Array} original array without duplicates
+ *
+ */
+Array.prototype.removeDuplicates = function() {
+    var type = Object.prototype.toString.call(this).split(/\W/)[2];
+    if (type === 'Array') {
+        return this.reduce(function(accum, cur) {
+            if (accum.indexOf(cur) === -1) {
+                accum.push(cur);
+            }
+            return accum;
+        }, []);
+    }
+};
+
+/**
+ *
+ * @param {Number} decimalPlaces
+ *      number of decimal places
+ *
+ * @return {Array} original array with rounded values
+ *
+ */
+Array.prototype.round = function(decimalPlaces) {
+    var multi = Math.pow(10,decimalPlaces);
+    for (var i = 0; i < this.length; i++) {
+        this[i] = Math.round(this[i] * multi)/multi;
+    }
+    return this;
+};
+
+/**
+ * Compare two arrays and create a new array
+ * with only the objects that are the same
+ *
+ * @param {Array} arr
+ *          Array object
+ *
+ * @return {Array} new Array object
+ *
+ */
+Array.prototype.same = function(arr) {
+    var a = this.concat();
+    var c = [];
+    for (var i = 0; i < a.length; ++i) {
+        for (var j = 0; j < arr.length; ++j) {
+            if (a[i] === arr[j]) {
+                c.push(a[i]);
+            }
+        }
+    }
+    return c;
+};
+
+// ------------------------------------------------------------------------
+// TODO: integrate sorting methods in a much cleaner way
+var FSort = {
+
+    /**
+     *
+     * sort Array in alphabetical order
+     *
+     * http://www.brain4.de/programmierecke/js/arraySort.php
+     *
+     */
+    alphabetical: function(a, b) {
+        // var A = a.toLowerCase();
+        // var B = b.toLowerCase();
+
+        // if (A < B) {
+        //     return -1;
+        // }
+        // else if (A > B) {
+        //     return  1;
+        // }
+        // else {
+        //     return 0;
+        // }
+
+        a = a.toLowerCase();
+        a = a.replace(/ä/g,'a');
+        a = a.replace(/ö/g,'o');
+        a = a.replace(/ü/g,'u');
+        a = a.replace(/ß/g,'s');
+
+        b = b.toLowerCase();
+        b = b.replace(/ä/g,'a');
+        b = b.replace(/ö/g,'o');
+        b = b.replace(/ü/g,'u');
+        b = b.replace(/ß/g,'s');
+
+        return (a == b)
+            ? 0
+            : (a>b)
+                ? 1
+                : -1;
+    },
+
+    /**
+     *
+     * sort array by distance of object from center of canvas
+     *
+     */
+    distanceToCenter: function(a, b) {
+        var valueA = a.getDistanceToCenter();
+        // console.log( valueA );
+        var valueB = b.getDistanceToCenter();
+        // console.log( valueB );
+        var comparisonValue = 0;
+
+        if (valueA > valueB) {
+            comparisonValue = -1;
+        }
+        else if (valueA < valueB) {
+            comparisonValue = 1;
+        }
+
+        return comparisonValue;
+    }
+
+};
 
 /*
  * FCirclePack
@@ -6383,6 +6370,477 @@ folio.FSkeleton = function(item) {
 
 
 /*
+ *
+ * FString.js
+ *
+ * Extensions to JavaScript Array may be bad form... but whatever
+ *
+ */
+
+
+//------------------------------------------------------------------------
+//
+// Strings
+//
+//------------------------------------------------------------------------
+
+/**
+ * converts given string to Title Case
+ * http://stackoverflow.com/questions/196972/convert-string-to-title-case-with-javascript
+ *
+ * @return {String} input String in Title Case
+ *
+ */
+String.prototype.toTitleCase = function() {
+    return this.replace(/\w\S*/g, function(txt) {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
+};
+
+/**
+ * trims white space from left (start) of String
+ * http://stackoverflow.com/questions/3000649/trim-spaces-from-start-and-end-of-string
+ *
+ * @return {String} trimmed input String
+ *
+ */
+String.prototype.trimStart = function() {
+    return this.replace(/^\s\s*/, '');
+};
+if (!String.prototype.trimLeft) {
+    String.prototype.trimLeft = String.prototype.trimStart;
+}
+
+/**
+ * trims white space from right (end) of String
+ * http://stackoverflow.com/questions/3000649/trim-spaces-from-start-and-end-of-string
+ *
+ * @return {String} trimmed input String
+ *
+ */
+String.prototype.trimEnd = function() {
+    return this.replace(/\s\s*$/, '');
+};
+if (!String.prototype.trimRight) {
+    String.prototype.trimRight = String.prototype.trimEnd;
+}
+
+/**
+ * trims all white space from String
+ * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/Trim
+ *
+ * @return {String} trimmed input string
+ *
+ */
+if (!String.prototype.trim) {
+    String.prototype.trim = function () {
+        return this.replace(/^\s+|\s+$/gm, '');
+    };
+}
+
+/**
+ * converts String to Boolean value
+ *
+ * @return {Boolean}
+ *
+ */
+String.prototype.toBool = function() {
+    switch(this.toLowerCase()) {
+            case 'true': case 'yes': case '1': return true;
+            case 'false': case 'no': case '0': case null: return false;
+            default: return Boolean(this);
+    }
+};
+
+/**
+ * reverse the order of a String
+ *
+ * @return {String}
+ */
+String.prototype.reverse = function() {
+    var lines = this.split('\n'),
+        temp = '';
+    for (var i = 0; i < lines.length; i++) {
+        lines[i].trim();
+        temp = lines[i] + '\n' + temp;
+    }
+
+    return temp;
+};
+
+/**
+ * split String to contain specific amount of content per line, as defined by the delimitter
+ *
+ * @param  {Number} amt        amount of content
+ * @param  {String} delimitter (option) what to break the original String on
+ *
+ * @return {String}
+ */
+String.prototype.perLine = function(amt, delimitter) {
+    delimitter = delimitter || ' ';
+    var words = this.split(delimitter),
+        temp = '',
+        count = 1;
+    for (var i = 0; i < words.length; i++) {
+        words[i].trim();
+        temp = (count % amt === 0 && count !== 1)
+            ? temp + words[i] + '\n'
+            : temp + words[i] + delimitter;
+        count++;
+    }
+
+    return temp;
+};
+
+/**
+ * generate a String of random characters
+ *
+ * @param  {Number} length number of charaters in random String (default: 36)
+ *
+ * @return {String}
+ */
+String.prototype.random = function(length) {
+    length = length || 36;
+    var val = '';
+    for (; val.length < length; val += Math.random().toString(36).substr(2)) {}
+    return val.substr(0, length);
+};
+
+/*
+ * FTileEngine
+ *
+ * A simple tile engine
+ * (requires FArray.js)
+ *
+ * Reads a collection of SVG tiles (square) and generatively piece them
+ * together based on where the tiles have connection points.
+ * Only supports connections on the top, right, bottom, left
+ *
+ * Each SVG must have a 'data-sides' attribute that is expressed in 1's and 0's
+ * <svg id="tile-00" data-sides="0101"...
+ *
+ * @example
+ *
+ *   ----------- ----------- -----------
+ *   |    |    | |         | |         |
+ *   |    +----| |---------| |----+    |
+ *   |    |    | |         | |    |    |
+ *   ----------- ----------- -----------
+ *     trbl         trbl        trbl
+ *     1110         0101        0011
+ *
+ *
+ * Ken Frederick
+ * ken.frederick@gmx.de
+ *
+ * http://kennethfrederick.de/
+ * http://blog.kennethfrederick.de/
+ *
+ */
+
+/**
+ * FTileEngine
+ *
+ * @param {Array} ids an array of SVG id attributes
+ *
+ * @return {Object}
+ *
+ * @example
+ * var tileEngine = new FTileEngine([
+ *     'tile-00',
+ *     'tile-01',
+ *     'tile-02',
+ *     'tile-03'
+ * ]);
+ *
+ * // draw tiles on screen
+ * var row, svg, path;
+ * for (var i = 0; i < tileEngine.getMap().length; i++) {
+ *      row = tileEngin.getMap()[i];
+ *      for (var j = 0; j < row.length; j++) {
+ *          svg = project.importSVG(document.getElementById(row[j].id), true);
+ *          path = new Group(svg.children);
+ *          path.bounds.x = j * path.bounds.width;
+ *          path.bounds.y = i * path.bounds.height;
+ *          svg.remove();
+ *      }
+ *  }
+ *
+ */
+
+folio.FTileEngine = function(ids) {
+    // -----------------------------------------------------------------------------
+    //
+    // Properties
+    //
+    // -----------------------------------------------------------------------------
+    var tiles = {};
+    var tileMap = [];
+
+
+
+    // -----------------------------------------------------------------------------
+    //
+    // Methods
+    //
+    // -----------------------------------------------------------------------------
+    // /**
+    //  * Compare two arrays and create a new array
+    //  * with only the objects that are the same
+    //  *
+    //  * @param {Array} arr
+    //  *          Array object
+    //  *
+    //  * @return {Array} new Array object
+    //  *
+    //  */
+    // Array.prototype.same = function(arr) {
+    //     var a = this.concat();
+    //     var c = [];
+    //     for (var i = 0; i < a.length; ++i) {
+    //         for (var j = 0; j < arr.length; ++j) {
+    //             if (a[i] === arr[j]) {
+    //                 c.push(a[i]);
+    //             }
+    //         }
+    //     }
+    //     return c;
+    // };
+
+    // -----------------------------------------------------------------------------
+    (function init() {
+        if (ids !== undefined) {
+            setIds(ids);
+        }
+    })();
+
+    // -----------------------------------------------------------------------------
+    // TODO: make this an FTile class
+    function createTileObject(element) {
+        var data = element.getAttribute('data-sides');
+        var obj = {
+            id     : element.id,
+
+            width  : element.getBBox().width,
+            height : element.getBBox().height,
+
+            data   : data,
+            top    : [],
+            right  : [],
+            bottom : [],
+            left   : []
+        };
+        return obj;
+    }
+
+    function createNeighbors() {
+        for (var i in tiles) {
+            for (var j in tiles) {
+                if (tiles[i].data[0] === '1' && tiles[j].data[2] === '1' ||
+                    tiles[i].data[0] === '0' && tiles[j].data[2] === '0') {
+                    tiles[i].top.push(j);
+                }
+                if (tiles[i].data[1] === '1' && tiles[j].data[3] === '1' ||
+                    tiles[i].data[1] === '0' && tiles[j].data[3] === '0') {
+                    tiles[i].right.push(j);
+                }
+                if (tiles[i].data[2] === '1' && tiles[j].data[0] === '1' ||
+                    tiles[i].data[2] === '0' && tiles[j].data[0] === '0') {
+                    tiles[i].bottom.push(j);
+                }
+                if (tiles[i].data[3] === '1' && tiles[j].data[1] === '1' ||
+                    tiles[i].data[3] === '0' && tiles[j].data[1] === '0') {
+                    tiles[i].left.push(j);
+                }
+            }
+        }
+
+
+        return tiles;
+    }
+
+    function createTileMap(cols, rows) {
+        var tile = getRandom();
+        cols = cols || Math.ceil(view.bounds.width / tile.width);
+        rows = rows || Math.ceil(view.bounds.height / tile.height);
+
+        tileMap = [];
+        var tileRow = [];
+        for (var i = 0; i < rows; i++) {
+            for (var j = 0; j < cols; j++) {
+                if (i === 0) {
+                    tile = getRandomNeighbor(tile, 'right');
+                }
+                else if (i > 0 && j > 0) {
+                    tile = getRandomNeighborMultipleSides([{
+                        tile : tile,
+                        side : 'right'
+                    }, {
+                        tile : tileMap[i - 1][j],
+                        side : 'bottom'
+                    }]);
+                }
+                tileRow.push(tile);
+            }
+            tileMap.push(tileRow);
+            tileRow = [];
+            tile = getRandomNeighbor(tileMap[i][j - cols], 'bottom');
+        }
+        return tileMap;
+    }
+
+    // -----------------------------------------------------------------------------
+    //
+    // Sets
+    //
+    /**
+     * Take an array of SVG id's and create tile objects from them
+     *
+     * @param {Array} arr an array of SVG tile id's
+     */
+    function setIds(arr) {
+        var key;
+        for (var i = 0; i < arr.length; i++) {
+            key = arr[i];
+            tiles[key] = createTileObject(document.getElementById(arr[i]));
+        }
+
+        createNeighbors();
+        createTileMap();
+    }
+
+
+    // -----------------------------------------------------------------------------
+    //
+    // Gets
+    //
+    /**
+     * Get a tile
+     *
+     * @param {String} id an id of a specific tile
+     *
+     * @return {Object} a valid tile object
+     */
+    function get(id) {
+        if(typeof id === 'string') {
+            return tiles[id];
+        }
+        return null;
+    }
+
+    /**
+     * Get a random tile
+     *
+     * @return {Object} a valid tile object
+     */
+    function getRandom() {
+        var keys = Object.keys(tiles);
+        var sel = keys[Math.floor(keys.length * Math.random())];
+        return tiles[sel];
+    }
+
+    /**
+     * Get an array of valid neighbors, as determined from one tile
+     *
+     * @param  {Object} obj  a valid tile object
+     * @param  {String} side which side should the neighbor match
+     *                       'top', 'right', 'bottom', 'left'
+     *
+     * @return {Array}       an array of valid tile objects
+     */
+    function getNeighbor(obj, side) {
+        return obj[side];
+    }
+
+    /**
+     * Get a random valid neighbor, as determined from one tile
+     *
+     * @param  {Object} obj  a valid tile object
+     * @param  {String} side which side should the neighbor match
+     *                       'top', 'right', 'bottom', 'left'
+     *
+     * @return {Object}      a valid tile object
+     */
+    function getRandomNeighbor(obj, side) {
+        var arr = getNeighbor(obj, side);
+        // var sel = arr[paper.randomInt(arr.length)];
+        var sel = arr[parseInt(Math.random() * arr.length)];
+        return tiles[sel];
+    }
+
+    /**
+     * Get an array of valid neighbors, as determined from two tiles
+     *
+     * @param  {Array} arr an array of objects
+     *  [{
+     *     tile : tile,
+     *     side : 'right'
+     *  }, {
+     *     tile : tileMap[i - 1][j],
+     *     side : 'bottom'
+     *  }]
+     *
+     * @return {Array} an array of valid tile objects
+     */
+    function getNeighborMultipleSides(arr) {
+        if (arr.length >= 2) {
+            var neighbors = arr[0].tile[arr[0].side].same(arr[1].tile[arr[1].side]);
+            return neighbors;
+        }
+        return false;
+    }
+
+    /**
+     * Get a random valid neighbor, as determined from two tiles
+     *
+     * @param  {Array} arr an array of objects
+     *  [{
+     *     tile : tile,
+     *     side : 'right'
+     *  }, {
+     *     tile : tileMap[i - 1][j],
+     *     side : 'bottom'
+     *  }]
+     *
+     * @return {Object} a tile object
+     */
+    function getRandomNeighborMultipleSides(arr) {
+        if (arr.length >= 2) {
+            var neighbors = getNeighborMultipleSides(arr);
+            // var sel = paper.randomInt(neighbors.length);
+            var sel = neighbors[parseInt(Math.random() * neighbors.length)];
+            return get(neighbors[sel]);
+        }
+        return false;
+    }
+
+    /**
+     * @return {Array} tile map array
+     */
+    function getTileMap() {
+        return tileMap;
+    }
+
+
+    // -----------------------------------------------------------------------------
+    return {
+        tiles                          : tiles,
+
+        createMap                      : createTileMap,
+
+        set                            : setIds,
+
+        get                            : get,
+        getRandom                      : getRandom,
+        getNeighbor                    : getNeighbor,
+        getRandomNeighbor              : getRandomNeighbor,
+        getNeighborMultipleSides       : getNeighborMultipleSides,
+        getRandomNeighborMultipleSides : getRandomNeighborMultipleSides,
+        getMap                         : getTileMap
+    };
+}
+
+/*
  * FTriangulate
  *
  * Delaunay Triangulation
@@ -6447,7 +6905,7 @@ var EPSILON = 1.0e-6;
  *
  * }
  */
-folio.FTriangulate = function( points) {
+folio.FTriangulate = function(points) {
     // -----------------------------------------------------------------------------
     //
     // Properties
@@ -8997,5 +9455,3 @@ folio.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
 
 
 };
-
-

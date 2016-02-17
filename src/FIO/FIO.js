@@ -1,10 +1,10 @@
 /*
- *
- * FIO.js
- *
- * A collection of I/O methods
- *
- */
+*
+* FIO.js
+*
+* A collection of I/O methods
+*
+*/
 
 
 folio.FIO = {
@@ -228,21 +228,63 @@ folio.FIO = {
 
     // ------------------------------------------------------------------------
     /*
-     * Scriptographer specific
-     *
-     * modified from Jürg Lehni
-     * http://scriptographer.org/forum/help/save-array-data-to-external-file/
-     *
+     * paper.js specific
      */
 
     /**
-     * @param {String} str
-     *          the String of information to save (JSON encoded)
-     * @param {String} fname
-     *          the name of the file to save to
+     * download current view as
+     *
+     * @param  {[type]} filename [description]
+     * @param  {[type]} width    [description]
+     * @param  {[type]} height   [description]
+     *
+     * @return {Boolean} true if successful, false otherwise
      */
+    downloadSVG: function(filename, width, height) {
+        var w = width || view.bounds.width;
+        var h = height || view.bounds.height;
+
+        var svg = '<svg id="svg" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 ' + w + ' ' + h + '" enable-background="new 0 0 ' + w + ' ' + h + '" xml:space="preserve">';
+        svg += pathGroup.exportSVG({asString: true});
+        svg += '</svg>';
+        var b64 = btoa(svg);
+
+        var img = document.createElement('svg');
+        img.src = 'data:image/svg+xml;base64,\n' + b64;
+        img.alt = filename;
+
+        try {
+            // FIX: don't judge... it works :)
+            var link = document.createElement('a');
+            link.download = filename;
+            link.href = img.src;
+            link.click();
+
+            return true;
+        }
+        catch(err) {
+            return false;
+        }
+    },
+
+    // ------------------------------------------------------------------------
+    /*
+    * TODO: deprecate... :(
+    * Scriptographer specific
+    *
+    * modified from Jürg Lehni
+    * http://scriptographer.org/forum/help/save-array-data-to-external-file/
+    *
+    */
+
+    /**
+    * @param {String} str
+    *          the String of information to save (JSON encoded)
+    * @param {String} fname
+    *          the name of the file to save to
+    */
     saveFile: function(str, filename) {
-       filename = filename || 'foliojs_fio_file.file';
+        filename = filename || 'foliojs_fio_file.file';
 
         try {
             // scriptographer
@@ -317,11 +359,11 @@ folio.FIO = {
 
 
     /**
-     * @param {String} fname
-     *          the name of the file to open
-     *
-     * @return {Object} JSon output
-     */
+    * @param {String} fname
+    *          the name of the file to open
+    *
+    * @return {Object} JSon output
+    */
     openFile: function(fname) {
         var file = new File(script.file.parent, fname);
         file.open();
@@ -332,9 +374,9 @@ folio.FIO = {
     },
 
     /**
-     * @param {String} fname
-     *          the name of the file to delete
-     */
+    * @param {String} fname
+    *          the name of the file to delete
+    */
     deleteFile: function(fname) {
         var file = new File(script.file.parent, fname);
         // If file exists, we need to remove it first in order to overwrite its content.
@@ -342,11 +384,11 @@ folio.FIO = {
     },
 
     /**
-     * @param {String} fname
-     *          the name of the file to verify exists
-     *
-     * @return {Boolean} true if exists, false otherwise
-     */
+    * @param {String} fname
+    *          the name of the file to verify exists
+    *
+    * @return {Boolean} true if exists, false otherwise
+    */
     checkFile: function(fname) {
         var file = new File(script.file.parent, fname);
         if (file.exists()) return true;
@@ -355,5 +397,3 @@ folio.FIO = {
 
 
 };
-
-

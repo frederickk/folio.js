@@ -10,12 +10,13 @@
 
 
 // ------------------------------------------------------------------------
+// TODO: add ability to pass global parameters
+// var folio = folio(parameters) || {};
+// TODO: fix overall library implementation
 var folio = folio || {};
-
 
 var body = document.body;
 var html = document.documentElement;
-
 
 /**
  *
@@ -28,7 +29,8 @@ var Setup = function() {};
 var Draw = function() {};
 var Update = function(event) {};
 
-var Animate = function(object) {};
+var Animate = function(event, callback) {};
+var AnimateAdd = function(object, order) {};
 var AnimateClear = function() {};
 
 // events
@@ -43,42 +45,54 @@ var onKeyDown = function(event) {};
 var onKeyUp = function(event) {};
 
 
-/**
- *
- * Initialize Canvas
- *
- */
-var container = document.createElement('div');
-container.id = 'container';
-container.style.position = 'absolute';
-container.style.width    = '100%'; //Math.max( body.scrollWidth, body.offsetWidth, html.clientWidth, html.scrollWidth, html.offsetWidth ) + 'px'; // '100%';
-container.style.height   = '100%'; //Math.max( body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight ) + 'px'; // '100%';
-document.body.appendChild( container );
-
-var canvases = document.getElementsByTagName('canvas');
-var canvas;
-if (canvases.length === 0) {
-    // create canvas element
-    canvas = document.createElement('canvas');
-    canvas.id     = 'canvas';
-    canvas.width  = '100%';
-    canvas.height = '100%';
-    canvas.resize = true;
-    canvas.style.backgroundColor = 'rgba(255, 255, 255, 0.0)'; //#ffffff';
-    container.appendChild( canvas );
-}
-else {
-    // use first canvas found
-    canvas = canvases[0];
-}
-
 // paper.js
 paper.install(window);
-paper.setup(canvas);
 
 
 // once the DOM is ready, setup Paper.js
-window.onload = function() {
+// window.onload = function() {
+window.addEventListener('DOMContentLoaded', function() {
+    //
+    // Initialize Canvas
+    //
+    var canvases = document.getElementsByTagName('canvas');
+    var canvas;
+    if (canvases.length === 0) {
+        // create container for canvas
+        var container = document.createElement('div');
+        container.id = 'container';
+        container.style.position = 'absolute';
+        container.style.top = 0;
+        container.style.left = 0;
+        container.style.width  = '100%';
+        container.style.height = '100%';
+        document.body.appendChild(container);
+
+        // create canvas element
+        canvas = document.createElement('canvas');
+        canvas.id = 'canvas';
+        canvas.resize = true;
+        canvas.style.backgroundColor = 'rgba(0, 0, 0, 0)';
+        canvas.style.webkitUserDrag = 'none';
+        canvas.style.webkitUserSelect = 'none';
+        canvas.style.webkitTapHighlightColor = 'rgba(0, 0, 0, 0)';
+        container.appendChild(canvas);
+    }
+    else {
+        // use first canvas found
+        canvas = canvases[0];
+    }
+    if (canvas.style.width === '') {
+        canvas.style.width  = '100%';
+    }
+    if (canvas.style.height === '') {
+        canvas.style.height = '100%';
+    }
+
+    paper.setup(canvas);
+
+
+
     // ------------------------------------------------------------------------
     //
     // Methods
@@ -96,7 +110,14 @@ window.onload = function() {
     var AnimationGroup = new Group();
     AnimationGroup.name = '__AnimationGroup';
 
-    function Animate(object, order) {
+    function Animate(callback) {
+        for (var i = 0; i < AnimationGroup.children.length; i++) {
+            if (callback) {
+                callback(AnimationGroup.children[i]);
+            }
+        }
+    }
+    function AnimateAdd(object, order) {
         // object must be a valid paper.js item
         // default is to add object to top
         if (order === 'bottom') {
@@ -120,7 +141,6 @@ window.onload = function() {
     //
     // ------------------------------------------------------------------------
     view.onFrame = function(event) {
-        // TODO:    add a method which clears an "animation group" each frame
         if (typeof Update === 'function') {
             Update(event);
         }
@@ -128,6 +148,7 @@ window.onload = function() {
         view.update();
     };
 
+    // TODO: make this functionality toggleable
     view.onResize = function(event) {
         if (typeof onResize === 'function') {
             onResize(event);
@@ -198,7 +219,7 @@ window.onload = function() {
         }
 
         // clear out view
-        // paper.clear();
+        paper.clear();
 
         // re-initiate setup
         if (typeof Setup === 'function') {
@@ -219,8 +240,5 @@ window.onload = function() {
 
 
     // ------------------------------------------------------------------------
-    // resizeCanvas();
     console.log('Folio.js is go!');
-};
-
-
+});

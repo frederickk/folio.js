@@ -121,3 +121,16 @@ String.prototype.perLine = function(amt, delimitter) {
     return temp;
 };
 
+/**
+ * generate a String of random characters
+ *
+ * @param  {Number} length number of charaters in random String (default: 36)
+ *
+ * @return {String}
+ */
+String.prototype.random = function(length) {
+    length = length || 36;
+    var val = '';
+    for (; val.length < length; val += Math.random().toString(36).substr(2)) {}
+    return val.substr(0, length);
+};

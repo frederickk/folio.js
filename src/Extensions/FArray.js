@@ -208,7 +208,7 @@ Array.prototype.removeDuplicates = function() {
                 accum.push(cur);
             }
             return accum;
-        }, [] );
+        }, []);
     }
 };
 
@@ -228,7 +228,28 @@ Array.prototype.round = function(decimalPlaces) {
     return this;
 };
 
-
+/**
+ * Compare two arrays and create a new array
+ * with only the objects that are the same
+ *
+ * @param {Array} arr
+ *          Array object
+ *
+ * @return {Array} new Array object
+ *
+ */
+Array.prototype.same = function(arr) {
+    var a = this.concat();
+    var c = [];
+    for (var i = 0; i < a.length; ++i) {
+        for (var j = 0; j < arr.length; ++j) {
+            if (a[i] === arr[j]) {
+                c.push(a[i]);
+            }
+        }
+    }
+    return c;
+};
 
 // ------------------------------------------------------------------------
 // TODO: integrate sorting methods in a much cleaner way
