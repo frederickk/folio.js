@@ -158,17 +158,17 @@ paper.Item.inject({
      *
      * @return {Item}
      */
-    setScaling: function(hor, ver) {
-        // ver = ver || 1.0;
-        this.scale(
-            (hor - this._prevHor),
-            (ver - this._prevVer)
-        );
-        this._prevHor = 1.0+hor;
-        this._prevVer = 1.0+ver;
-        return this;
-    }
-
+     setScaling: function(hor, ver) {
+         ver = ver || 1.0;
+         this.scale(
+             1.0 + (hor - this._prevHor),
+             1.0 + (ver - this._prevVer),
+             this.position
+         );
+         this._prevHor = hor;
+         this._prevVer = ver;
+         return this;
+     }
 });
 
 

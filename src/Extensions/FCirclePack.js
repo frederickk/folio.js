@@ -62,7 +62,7 @@ folio.FCirclePack = function(circleItems, iterations) {
     //
     // Methods
     //
-    var update = function() {
+    function update() {
         circleItems = circleItems.sort( FSort.distanceToCenter );
         var pp = new Point();
 
@@ -132,7 +132,7 @@ folio.FCirclePack = function(circleItems, iterations) {
         //  this.dragCircle.x = this._mouseEvent.offsetX;//stage.mouseX;
         //  this.dragCircle.y = this._mouseEvent.offsetY;//stage.mouseY;
         // }
-    };
+    }
 
 
     //
@@ -146,39 +146,39 @@ folio.FCirclePack = function(circleItems, iterations) {
      * @param {Item} item
      *      Path.Item to add to circle packer
      */
-    var add = function(item) {
+    function add(item) {
         if (typeof item === 'array') {
             circleItems = circleItems.concat( item );
         }
         else {
             circleItems.push( item );
         }
-    };
+    }
 
     /**
      * @param {Number} val
      *      damping value
      */
-    var setDamping = function(val) {
+    function setDamping(val) {
         dampingAmt = val;
-    };
+    }
 
     /**
      * @param {Number} val
      *      padding around elements
      */
-    var setPadding = function(val) {
+    function setPadding(val) {
         padding = val;
-    };
+    }
 
 
     /**
      * @param {Point} point
      *      the target location for the elements to pack around (default: view.center)
      */
-    var setTarget = function(point) {
+    function setTarget(point) {
         target = point;
-    };
+    }
 
     //
     // gets
@@ -208,16 +208,15 @@ folio.FCirclePack = function(circleItems, iterations) {
     // gets
     //
     return {
-        update:     update,
+        update     : update,
 
-        add:        add,
-        setDamping: setDamping,
-        setPadding: setPadding,
-        setTarget:  setTarget,
+        add        : add,
+        setDamping : setDamping,
+        setPadding : setPadding,
+        setTarget  : setTarget,
 
-        getItems:   getItems,
-        getItem:    getItem
+        getItems   : getItems,
+        getItem    : getItem
     };
 
 };
-

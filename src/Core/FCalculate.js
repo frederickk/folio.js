@@ -82,7 +82,9 @@ PaperScope.inject({
 
         var i = parseInt(Math.floor(bias));
         var n = _map[i];
-        if (bias < 10) n += (_map[i+1]-n) * (bias-i);
+        if (bias < 10) {
+            n += (_map[i+1]-n) * (bias-i);
+        }
 
         return Math.pow( Math.random(),n ) * (maxr-minr) + minr;
     },
@@ -443,14 +445,20 @@ PaperScope.inject({
         return [pt1, pt2, pt3, pt4];
     },
 
+
     /**
+     * [function description]
      *
+     * @param  {Number} min  lowest range of value to return
+     * @param  {Number} max  highest range of value to return
+     * @param  {Number} inc  increment value
      *
-     *
+     * @return {Function}
      */
-    reversal: function(min, max) {
+    reverser: function(min, max, inc) {
         min = min || 0;
         max = max || 100;
+        inc = inc || 1;
         var divisor = (min === 0 && max === 100)
             ? 100
             : 1;
@@ -459,10 +467,10 @@ PaperScope.inject({
 
         return function() {
             if (flip) {
-                val++;
+                val += inc;
             }
             else {
-                val--;
+                val -= inc;
             }
 
             if (val < min && !flip) {

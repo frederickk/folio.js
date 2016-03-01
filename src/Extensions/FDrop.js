@@ -258,7 +258,7 @@ folio.FDrop = function(element, options) {
 
         progressBar.style.width = (totalLoad + '%').toString();
         progressBar.innerHTML = (totalLoad + '%').toString();
-    };
+    }
 
     function complete(event) {
         if (totalLoad >= 98) {
@@ -275,14 +275,10 @@ folio.FDrop = function(element, options) {
 
     // -----------------------------------------------------------------------------
     return {
-        target: element,
-        event:  output,
+        target : element,
+        event  : output,
 
-        read: setFiles
+        read   : setFiles
     };
 
 };
-
-
-
-

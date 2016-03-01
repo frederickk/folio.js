@@ -13,7 +13,6 @@
  *
  */
 paper.Size.inject({
-
     /**
      *
      * @return {Number} area
@@ -101,6 +100,5 @@ paper.Size.inject({
     getSlopeAngle: function() {
         return Math.atan( this.width/this.height );
     }
-
 
 });

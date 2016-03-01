@@ -62,15 +62,15 @@ folio.FTime.FStepper = function() {
      * @param {Number} currentSeconds
      *      the elapsed time of the application in seconds
      */
-    var update = function(currentSeconds) {
+    function update(currentSeconds) {
         if (bBeginStepper) {
             bBeginStepper = false;
             timeStart = currentSeconds;
             if (bIn) {
-                timeEnd = paper.round( (currentSeconds + ((1.0 - delta) * stepMillis)), 3 );
+                timeEnd = paper.round((currentSeconds + ((1.0 - delta) * stepMillis)), 3);
             }
             else {
-                timeEnd = paper.round( (currentSeconds + (delta*stepMillis)), 3 );
+                timeEnd = paper.round((currentSeconds + (delta*stepMillis)), 3);
             }
             if (timeEnd <= currentSeconds) {
                 if (bIn) {
@@ -84,7 +84,7 @@ folio.FTime.FStepper = function() {
             }
         }
         if (bIn) {
-            delta = paper.round( (1.0 - ((timeEnd - currentSeconds) / stepMillis)), 3 );
+            delta = paper.round((1.0 - ((timeEnd - currentSeconds) / stepMillis)), 3);
             if (currentSeconds == timeEnd) {
                 bIn = false;
                 delta = 1.0;
@@ -93,7 +93,7 @@ folio.FTime.FStepper = function() {
             }
         }
         else if (bOut) {
-            delta = paper.round( ((timeEnd - currentSeconds) / stepMillis), 3 );
+            delta = paper.round(((timeEnd - currentSeconds) / stepMillis), 3);
             if (currentSeconds == timeEnd) {
                 bIn = false;
                 delta = 0.0;
@@ -101,7 +101,7 @@ folio.FTime.FStepper = function() {
                 return;
             }
         }
-    };
+    }
 
     // ------------------------------------------------------------------------
     /**
@@ -113,8 +113,12 @@ folio.FTime.FStepper = function() {
         bBeginStepper = true;
         bIn = true;
         bOut = false;
-        if (bIn) return;
-        if (delta === 1.0) return;
+        if (bIn) {
+            return;
+        }
+        if (delta === 1.0) {
+            return;
+        }
     };
 
     /**
@@ -126,8 +130,12 @@ folio.FTime.FStepper = function() {
         bBeginStepper = true;
         bOut = true;
         bIn = false;
-        if (bOut) return;
-        if (delta === 0.0) return;
+        if (bOut) {
+            return;
+        }
+        if (delta === 0.0) {
+            return;
+        }
     };
 
     // ------------------------------------------------------------------------
@@ -148,7 +156,9 @@ folio.FTime.FStepper = function() {
      * @return {Boolean} if the object has finished it's stepping
      */
     var isDone = function() {
-        if (delta < 1.0 && delta > 0.0) return false;
+        if (delta < 1.0 && delta > 0.0) {
+            return false;
+        }
         else if (delta > 1.0) {
             delta = 1.0;
             return true;
@@ -165,9 +175,9 @@ folio.FTime.FStepper = function() {
      * stop stepping
      *
      */
-    var stop = function() {
+    function stop() {
         bBeginStepper = bIn = bOut = false;
-    };
+    }
 
     /**
      * @return {Number}
@@ -193,49 +203,48 @@ folio.FTime.FStepper = function() {
      * @param {Number} seconds
      *      length of fade in seconds
      */
-    var setSeconds = function(seconds) {
-        setMillis( parseInt(seconds * 1000.0) );
-    };
+    function setSeconds(seconds) {
+        setMillis(parseInt(seconds * 1000.0));
+    }
+
     /**
      * @param {Number} millis
      *      length of fade in milliseconds
      */
-    var setMillis = function(millis) {
+    function setMillis(millis) {
         stepMillis = millis;
         stepMillis /= 1000;
-    };
+    }
 
     /**
      * @param {Number} val
      *      set a value for the delta 0.0 - 1.0
      */
-    var setDelta = function(val) {
+    function setDelta(val) {
         delta = val;
-    };
+    }
 
 
     // ------------------------------------------------------------------------
     return {
-        delta: getDelta,
-        counter: getCounter,
+        delta      : getDelta,
+        counter    : getCounter,
 
-        toggle: toggle,
-        update: update,
-        stepIn: stepIn,
-        stepOut: stepOut,
+        toggle     : toggle,
+        update     : update,
+        stepIn     : stepIn,
+        stepOut    : stepOut,
 
-        isIn: isIn,
-        isOut: isOut,
-        isDone: isDone,
+        isIn       : isIn,
+        isOut      : isOut,
+        isDone     : isDone,
 
-        stop: stop,
+        stop       : stop,
 
-        setSeconds: setSeconds,
-        setMillis: setMillis,
-        setDelta: setDelta
+        setSeconds : setSeconds,
+        setMillis  : setMillis,
+        setDelta   : setDelta
     };
 
 
 };
-
-

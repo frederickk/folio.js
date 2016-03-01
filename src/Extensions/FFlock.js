@@ -292,7 +292,7 @@ folio.FFlock = {
             steer.y = desired.y - vector.y;
             steer.length = Math.min(maxForce, steer.length);
             return steer;
-        };
+        }
 
         function separate(boids) {
             var desiredSeperation = radius*100; //3600;
@@ -326,7 +326,7 @@ folio.FFlock = {
                 steer.length = Math.min(steer.length, maxForce);
             }
             return steer;
-        };
+        }
 
         // Alignment
         // For every nearby boid in the system, calculate the average velocity
@@ -355,7 +355,7 @@ folio.FFlock = {
                 steer.length = Math.min(steer.length, maxForce);
             }
             return steer;
-        };
+        }
 
         // Cohesion
         // For the average location (i.e. center) of all nearby boids,
@@ -379,7 +379,7 @@ folio.FFlock = {
                 return steer(sum, false);
             }
             return sum;
-        };
+        }
 
 
 
@@ -387,7 +387,6 @@ folio.FFlock = {
         //
         // Sets
         //
-
         function setGroupTogether(val) {
             groupTogether = val || groupTogether;
             return groupTogether;
@@ -399,7 +398,6 @@ folio.FFlock = {
         //
         // Gets
         //
-
         function getAcceleration() {
             return acceleration;
         }
@@ -592,4 +590,3 @@ folio.FFlock = {
     }
 
 };
-

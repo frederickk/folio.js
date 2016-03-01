@@ -4,7 +4,7 @@
  * 0.8.2
  * https://github.com/frederickk/folio.js
  *
- * 16. February 2016
+ * 01. March 2016
  *
  * Ken Frederick
  * ken.frederick@gmx.de
@@ -617,7 +617,9 @@ PaperScope.inject({
 
         var i = parseInt(Math.floor(bias));
         var n = _map[i];
-        if (bias < 10) n += (_map[i+1]-n) * (bias-i);
+        if (bias < 10) {
+            n += (_map[i+1]-n) * (bias-i);
+        }
 
         return Math.pow( Math.random(),n ) * (maxr-minr) + minr;
     },
@@ -978,14 +980,20 @@ PaperScope.inject({
         return [pt1, pt2, pt3, pt4];
     },
 
+
     /**
+     * [function description]
      *
+     * @param  {Number} min  lowest range of value to return
+     * @param  {Number} max  highest range of value to return
+     * @param  {Number} inc  increment value
      *
-     *
+     * @return {Function}
      */
-    reversal: function(min, max) {
+    reverser: function(min, max, inc) {
         min = min || 0;
         max = max || 100;
+        inc = inc || 1;
         var divisor = (min === 0 && max === 100)
             ? 100
             : 1;
@@ -994,10 +1002,10 @@ PaperScope.inject({
 
         return function() {
             if (flip) {
-                val++;
+                val += inc;
             }
             else {
-                val--;
+                val -= inc;
             }
 
             if (val < min && !flip) {
@@ -1667,17 +1675,17 @@ paper.Item.inject({
      *
      * @return {Item}
      */
-    setScaling: function(hor, ver) {
-        // ver = ver || 1.0;
-        this.scale(
-            (hor - this._prevHor),
-            (ver - this._prevVer)
-        );
-        this._prevHor = 1.0+hor;
-        this._prevVer = 1.0+ver;
-        return this;
-    }
-
+     setScaling: function(hor, ver) {
+         ver = ver || 1.0;
+         this.scale(
+             1.0 + (hor - this._prevHor),
+             1.0 + (ver - this._prevVer),
+             this.position
+         );
+         this._prevHor = hor;
+         this._prevVer = ver;
+         return this;
+     }
 });
 
 
@@ -2909,7 +2917,6 @@ paper.Point.inject({
  *
  */
 paper.Size.inject({
-
     /**
      *
      * @return {Number} area
@@ -2997,7 +3004,6 @@ paper.Size.inject({
     getSlopeAngle: function() {
         return Math.atan( this.width/this.height );
     }
-
 
 });
 
@@ -3648,15 +3654,15 @@ folio.FTime.FStepper = function() {
      * @param {Number} currentSeconds
      *      the elapsed time of the application in seconds
      */
-    var update = function(currentSeconds) {
+    function update(currentSeconds) {
         if (bBeginStepper) {
             bBeginStepper = false;
             timeStart = currentSeconds;
             if (bIn) {
-                timeEnd = paper.round( (currentSeconds + ((1.0 - delta) * stepMillis)), 3 );
+                timeEnd = paper.round((currentSeconds + ((1.0 - delta) * stepMillis)), 3);
             }
             else {
-                timeEnd = paper.round( (currentSeconds + (delta*stepMillis)), 3 );
+                timeEnd = paper.round((currentSeconds + (delta*stepMillis)), 3);
             }
             if (timeEnd <= currentSeconds) {
                 if (bIn) {
@@ -3670,7 +3676,7 @@ folio.FTime.FStepper = function() {
             }
         }
         if (bIn) {
-            delta = paper.round( (1.0 - ((timeEnd - currentSeconds) / stepMillis)), 3 );
+            delta = paper.round((1.0 - ((timeEnd - currentSeconds) / stepMillis)), 3);
             if (currentSeconds == timeEnd) {
                 bIn = false;
                 delta = 1.0;
@@ -3679,7 +3685,7 @@ folio.FTime.FStepper = function() {
             }
         }
         else if (bOut) {
-            delta = paper.round( ((timeEnd - currentSeconds) / stepMillis), 3 );
+            delta = paper.round(((timeEnd - currentSeconds) / stepMillis), 3);
             if (currentSeconds == timeEnd) {
                 bIn = false;
                 delta = 0.0;
@@ -3687,7 +3693,7 @@ folio.FTime.FStepper = function() {
                 return;
             }
         }
-    };
+    }
 
     // ------------------------------------------------------------------------
     /**
@@ -3699,8 +3705,12 @@ folio.FTime.FStepper = function() {
         bBeginStepper = true;
         bIn = true;
         bOut = false;
-        if (bIn) return;
-        if (delta === 1.0) return;
+        if (bIn) {
+            return;
+        }
+        if (delta === 1.0) {
+            return;
+        }
     };
 
     /**
@@ -3712,8 +3722,12 @@ folio.FTime.FStepper = function() {
         bBeginStepper = true;
         bOut = true;
         bIn = false;
-        if (bOut) return;
-        if (delta === 0.0) return;
+        if (bOut) {
+            return;
+        }
+        if (delta === 0.0) {
+            return;
+        }
     };
 
     // ------------------------------------------------------------------------
@@ -3734,7 +3748,9 @@ folio.FTime.FStepper = function() {
      * @return {Boolean} if the object has finished it's stepping
      */
     var isDone = function() {
-        if (delta < 1.0 && delta > 0.0) return false;
+        if (delta < 1.0 && delta > 0.0) {
+            return false;
+        }
         else if (delta > 1.0) {
             delta = 1.0;
             return true;
@@ -3751,9 +3767,9 @@ folio.FTime.FStepper = function() {
      * stop stepping
      *
      */
-    var stop = function() {
+    function stop() {
         bBeginStepper = bIn = bOut = false;
-    };
+    }
 
     /**
      * @return {Number}
@@ -3779,52 +3795,51 @@ folio.FTime.FStepper = function() {
      * @param {Number} seconds
      *      length of fade in seconds
      */
-    var setSeconds = function(seconds) {
-        setMillis( parseInt(seconds * 1000.0) );
-    };
+    function setSeconds(seconds) {
+        setMillis(parseInt(seconds * 1000.0));
+    }
+
     /**
      * @param {Number} millis
      *      length of fade in milliseconds
      */
-    var setMillis = function(millis) {
+    function setMillis(millis) {
         stepMillis = millis;
         stepMillis /= 1000;
-    };
+    }
 
     /**
      * @param {Number} val
      *      set a value for the delta 0.0 - 1.0
      */
-    var setDelta = function(val) {
+    function setDelta(val) {
         delta = val;
-    };
+    }
 
 
     // ------------------------------------------------------------------------
     return {
-        delta: getDelta,
-        counter: getCounter,
+        delta      : getDelta,
+        counter    : getCounter,
 
-        toggle: toggle,
-        update: update,
-        stepIn: stepIn,
-        stepOut: stepOut,
+        toggle     : toggle,
+        update     : update,
+        stepIn     : stepIn,
+        stepOut    : stepOut,
 
-        isIn: isIn,
-        isOut: isOut,
-        isDone: isDone,
+        isIn       : isIn,
+        isOut      : isOut,
+        isDone     : isDone,
 
-        stop: stop,
+        stop       : stop,
 
-        setSeconds: setSeconds,
-        setMillis: setMillis,
-        setDelta: setDelta
+        setSeconds : setSeconds,
+        setMillis  : setMillis,
+        setDelta   : setDelta
     };
 
 
 };
-
-
 
 /*
  *
@@ -4860,7 +4875,7 @@ folio.FCirclePack = function(circleItems, iterations) {
     //
     // Methods
     //
-    var update = function() {
+    function update() {
         circleItems = circleItems.sort( FSort.distanceToCenter );
         var pp = new Point();
 
@@ -4930,7 +4945,7 @@ folio.FCirclePack = function(circleItems, iterations) {
         //  this.dragCircle.x = this._mouseEvent.offsetX;//stage.mouseX;
         //  this.dragCircle.y = this._mouseEvent.offsetY;//stage.mouseY;
         // }
-    };
+    }
 
 
     //
@@ -4944,39 +4959,39 @@ folio.FCirclePack = function(circleItems, iterations) {
      * @param {Item} item
      *      Path.Item to add to circle packer
      */
-    var add = function(item) {
+    function add(item) {
         if (typeof item === 'array') {
             circleItems = circleItems.concat( item );
         }
         else {
             circleItems.push( item );
         }
-    };
+    }
 
     /**
      * @param {Number} val
      *      damping value
      */
-    var setDamping = function(val) {
+    function setDamping(val) {
         dampingAmt = val;
-    };
+    }
 
     /**
      * @param {Number} val
      *      padding around elements
      */
-    var setPadding = function(val) {
+    function setPadding(val) {
         padding = val;
-    };
+    }
 
 
     /**
      * @param {Point} point
      *      the target location for the elements to pack around (default: view.center)
      */
-    var setTarget = function(point) {
+    function setTarget(point) {
         target = point;
-    };
+    }
 
     //
     // gets
@@ -5006,19 +5021,18 @@ folio.FCirclePack = function(circleItems, iterations) {
     // gets
     //
     return {
-        update:     update,
+        update     : update,
 
-        add:        add,
-        setDamping: setDamping,
-        setPadding: setPadding,
-        setTarget:  setTarget,
+        add        : add,
+        setDamping : setDamping,
+        setPadding : setPadding,
+        setTarget  : setTarget,
 
-        getItems:   getItems,
-        getItem:    getItem
+        getItems   : getItems,
+        getItem    : getItem
     };
 
 };
-
 
 /*
  * FDrop
@@ -5280,7 +5294,7 @@ folio.FDrop = function(element, options) {
 
         progressBar.style.width = (totalLoad + '%').toString();
         progressBar.innerHTML = (totalLoad + '%').toString();
-    };
+    }
 
     function complete(event) {
         if (totalLoad >= 98) {
@@ -5297,17 +5311,13 @@ folio.FDrop = function(element, options) {
 
     // -----------------------------------------------------------------------------
     return {
-        target: element,
-        event:  output,
+        target : element,
+        event  : output,
 
-        read: setFiles
+        read   : setFiles
     };
 
 };
-
-
-
-
 
 /*
  * FFlock
@@ -5603,7 +5613,7 @@ folio.FFlock = {
             steer.y = desired.y - vector.y;
             steer.length = Math.min(maxForce, steer.length);
             return steer;
-        };
+        }
 
         function separate(boids) {
             var desiredSeperation = radius*100; //3600;
@@ -5637,7 +5647,7 @@ folio.FFlock = {
                 steer.length = Math.min(steer.length, maxForce);
             }
             return steer;
-        };
+        }
 
         // Alignment
         // For every nearby boid in the system, calculate the average velocity
@@ -5666,7 +5676,7 @@ folio.FFlock = {
                 steer.length = Math.min(steer.length, maxForce);
             }
             return steer;
-        };
+        }
 
         // Cohesion
         // For the average location (i.e. center) of all nearby boids,
@@ -5690,7 +5700,7 @@ folio.FFlock = {
                 return steer(sum, false);
             }
             return sum;
-        };
+        }
 
 
 
@@ -5698,7 +5708,6 @@ folio.FFlock = {
         //
         // Sets
         //
-
         function setGroupTogether(val) {
             groupTogether = val || groupTogether;
             return groupTogether;
@@ -5710,7 +5719,6 @@ folio.FFlock = {
         //
         // Gets
         //
-
         function getAcceleration() {
             return acceleration;
         }
@@ -5904,7 +5912,6 @@ folio.FFlock = {
 
 };
 
-
 /*
  * FNoise
  *
@@ -5947,62 +5954,6 @@ folio.FNoise = {
         // Methods
         //
         //-----------------------------------------------------------------------------
-        function init(x, y, z) {
-            var p = new Array(512)
-            var permutation = [151, 160, 137, 91, 90, 15, 131, 13, 201, 95, 96, 53, 194, 233, 7, 225, 140, 36, 103, 30, 69, 142, 8, 99, 37, 240, 21, 10, 23, 190, 6, 148, 247, 120, 234, 75, 0, 26, 197, 62, 94, 252, 219, 203, 117, 35, 11, 32, 57, 177, 33, 88, 237, 149, 56, 87, 174, 20, 125, 136, 171, 168, 68, 175, 74, 165, 71, 134, 139, 48, 27, 166, 77, 146, 158, 231, 83, 111, 229, 122, 60, 211, 133, 230, 220, 105, 92, 41, 55, 46, 245, 40, 244, 102, 143, 54, 65, 25, 63, 161, 1, 216, 80, 73, 209, 76, 132, 187, 208, 89, 18, 169, 200, 196, 135, 130, 116, 188, 159, 86, 164, 100, 109, 198, 173, 186, 3, 64, 52, 217, 226, 250, 124, 123, 5, 202, 38, 147, 118, 126, 255, 82, 85, 212, 207, 206, 59, 227, 47, 16, 58, 17, 182, 189, 28, 42, 223, 183, 170, 213, 119, 248, 152, 2, 44, 154, 163, 70, 221, 153, 101, 155, 167, 43, 172, 9, 129, 22, 39, 253, 19, 98, 108, 110, 79, 113, 224, 232, 178, 185, 112, 104, 218, 246, 97, 228, 251, 34, 242, 193, 238, 210, 144, 12, 191, 179, 162, 241, 81, 51, 145, 235, 249, 14, 239, 107, 49, 192, 214, 31, 181, 199, 106, 157, 184, 84, 204, 176, 115, 121, 50, 45, 127, 4, 150, 254, 138, 236, 205, 93, 222, 114, 67, 29, 24, 72, 243, 141, 128, 195, 78, 66, 215, 61, 156, 180];
-
-            for (var i = 0; i < 256; i++) {
-                p[256 + i] = p[i] = permutation[i];
-            }
-
-            var _x = Math.floor(x) & 255;
-                // find unit cube that...
-            var _Y = Math.floor(y) & 255;
-                // contains point
-            var _z = Math.floor(z) & 255;
-            x -= Math.floor(x); // find relative x, y, z...
-            y -= Math.floor(y); // of point in cube
-            z -= Math.floor(z);
-
-            var u = fade(x);
-                // compute fade curves...
-            var v = fade(y);
-                // for each x, y, z
-            var w = fade(z);
-
-            var A = p[_x] + _Y;
-            var AA = p[A] + _z;
-            var AB = p[A + 1] + _z;
-                // hash coordinates of...
-            var B = p[_x + 1] + _Y;
-            var BA = p[B] + _z;
-            var BB = p[B + 1] + _z; // the 8 cube corners
-
-            return scale(
-                lerp(
-                    w, lerp(v, lerp(u, grad(p[AA], x, y, z), // and add..
-
-                    grad(p[BA], x - 1, y, z)), // blended...
-
-                    lerp(u, grad(p[AB], x, y - 1, z), // results...
-
-                    grad(p[BB], x - 1, y - 1, z))), // from 8...
-
-                    lerp(v, lerp(u, grad(p[AA + 1], x, y, z - 1), // corners...
-
-                        grad(p[BA + 1], x - 1, y, z - 1)), // of cube
-
-                        lerp(u, grad(p[AB + 1], x, y - 1, z - 1),
-                            grad(p[BB + 1], x - 1, y - 1, z - 1)
-                        )
-                    )
-                )
-            );
-
-        }
-
-
-        //-----------------------------------------------------------------------------
         var fade = function(t) {
             return t * t * t * (t * (t * 6 - 15) + 10);
         };
@@ -6024,11 +5975,58 @@ folio.FNoise = {
 
 
         //-----------------------------------------------------------------------------
-        return init(x, y, z);
+        return function(x, y, z) {
+            var p = new Array(512)
+            var permutation = [151, 160, 137, 91, 90, 15, 131, 13, 201, 95, 96, 53, 194, 233, 7, 225, 140, 36, 103, 30, 69, 142, 8, 99, 37, 240, 21, 10, 23, 190, 6, 148, 247, 120, 234, 75, 0, 26, 197, 62, 94, 252, 219, 203, 117, 35, 11, 32, 57, 177, 33, 88, 237, 149, 56, 87, 174, 20, 125, 136, 171, 168, 68, 175, 74, 165, 71, 134, 139, 48, 27, 166, 77, 146, 158, 231, 83, 111, 229, 122, 60, 211, 133, 230, 220, 105, 92, 41, 55, 46, 245, 40, 244, 102, 143, 54, 65, 25, 63, 161, 1, 216, 80, 73, 209, 76, 132, 187, 208, 89, 18, 169, 200, 196, 135, 130, 116, 188, 159, 86, 164, 100, 109, 198, 173, 186, 3, 64, 52, 217, 226, 250, 124, 123, 5, 202, 38, 147, 118, 126, 255, 82, 85, 212, 207, 206, 59, 227, 47, 16, 58, 17, 182, 189, 28, 42, 223, 183, 170, 213, 119, 248, 152, 2, 44, 154, 163, 70, 221, 153, 101, 155, 167, 43, 172, 9, 129, 22, 39, 253, 19, 98, 108, 110, 79, 113, 224, 232, 178, 185, 112, 104, 218, 246, 97, 228, 251, 34, 242, 193, 238, 210, 144, 12, 191, 179, 162, 241, 81, 51, 145, 235, 249, 14, 239, 107, 49, 192, 214, 31, 181, 199, 106, 157, 184, 84, 204, 176, 115, 121, 50, 45, 127, 4, 150, 254, 138, 236, 205, 93, 222, 114, 67, 29, 24, 72, 243, 141, 128, 195, 78, 66, 215, 61, 156, 180];
+
+            for (var i = 0; i < 256; i++) {
+                p[256 + i] = p[i] = permutation[i];
+            }
+
+            var _x = Math.floor(x) & 255;
+            // find unit cube that...
+            var _Y = Math.floor(y) & 255;
+            // contains point
+            var _z = Math.floor(z) & 255;
+            x -= Math.floor(x); // find relative x, y, z...
+            y -= Math.floor(y); // of point in cube
+            z -= Math.floor(z);
+
+            var u = fade(x);
+            // compute fade curves...
+            var v = fade(y);
+            // for each x, y, z
+            var w = fade(z);
+
+            var A = p[_x] + _Y;
+            var AA = p[A] + _z;
+            var AB = p[A + 1] + _z;
+            // hash coordinates of...
+            var B = p[_x + 1] + _Y;
+            var BA = p[B] + _z;
+            var BB = p[B + 1] + _z; // the 8 cube corners
+
+            return scale(
+                lerp(
+                    w,
+                    lerp(v, lerp(u, grad(p[AA], x, y, z), // and add..
+                    grad(p[BA], x - 1, y, z)), // blended...
+                    lerp(u, grad(p[AB], x, y - 1, z), // results...
+                    grad(p[BB], x - 1, y - 1, z))), // from 8...
+                    lerp(v, lerp(u, grad(p[AA + 1], x, y, z - 1), // corners...
+                        grad(p[BA + 1], x - 1, y, z - 1)), // of cube
+                        lerp(u, grad(p[AB + 1], x, y - 1, z - 1),
+                            grad(p[BB + 1], x - 1, y - 1, z - 1)
+                        )
+                    )
+                )
+            );
+
+        }
     }
 
-
 };
+
 /*
  * FRoute
  *
