@@ -1,4 +1,4 @@
-/*
+/**!
  * FFlock
  *
  * Adapted from Flocking Processing example by Daniel Schiffman:

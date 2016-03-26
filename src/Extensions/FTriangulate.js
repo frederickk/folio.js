@@ -1,4 +1,4 @@
-/*
+/**!
  * FTriangulate
  *
  * Delaunay Triangulation
@@ -874,5 +874,3 @@ var HashSet = function() {
     };
 
 };
-
-

@@ -1,4 +1,4 @@
-/*
+/**!
  * FSkeleton
  *
  * Calculate center points
@@ -136,7 +136,3 @@ folio.FSkeleton = function(item) {
     };
 
 };
-
-
-
-

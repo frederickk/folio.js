@@ -1,4 +1,4 @@
-/*
+/**!
  * FRoute
  *
  * Travelling Salesman Problem Algorithm
@@ -212,5 +212,3 @@ folio.FRoute = function(items, iterations) {
 
 
 };
-
-

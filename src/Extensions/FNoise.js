@@ -1,4 +1,4 @@
-/*
+/**!
  * FNoise
  *
  * Ken Frederick
