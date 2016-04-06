@@ -14,38 +14,39 @@
  * @param {Sring} element
  *              (optional) HTML elemment for drop-target
  *              by default the entire window is droppable
- * @param {Array} options
- *              (optional) options
+ * @param {Array} properties
+ * {
+ * }
  *
  */
-folio.FDrop = function(element, options) {
+folio.FDrop = function(element, properties) {
     // -----------------------------------------------------------------------------
     //
     // Properties
     //
     // -----------------------------------------------------------------------------
     var fileTypes = {
-        text:        /text.*/,
-        image:       /image.*/,
-        video:       /video.*/,
-        application: /application.*/
+        text        : /text.*/,
+        image       : /image.*/,
+        video       : /video.*/,
+        application : /application.*/
     };
     var FDropEvent = {
-        id:          '',
+        id          : '',
 
-        isImage:     false,
-        isVideo:     false,
-        isFile:      false,
-        isFileList:  false,
-        isDirectory: false,
+        isImage     : false,
+        isVideo     : false,
+        isFile      : false,
+        isFileList  : false,
+        isDirectory : false,
 
-        filename:    '',
-        type:        '',
-        data:        '',
-        size:        0,
-        text:        '',
-        file:        '',
-        files:       []
+        filename    : '',
+        type        : '',
+        data        : '',
+        size        : 0,
+        text        : '',
+        file        : '',
+        files       : []
     };
     var files, output;
 

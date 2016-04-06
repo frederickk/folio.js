@@ -1,7 +1,7 @@
 /**!
  *
  * folio.js
- * 0.8.8
+ * 0.8.9
  * https://github.com/frederickk/folio.js
  *
  * 06. April 2016
@@ -5138,18 +5138,27 @@ var FSort = {
 /**
  * @param {Group} circleItems
  *              Group of Items
- * @param {Number} iterations
- *              (optional) number of iterations per cycle (default: 11)
- *              higher iterations == slower movement
+ * @param {Object} properties (optional)
+ * {
+ *     iterations : 11,         // {Number} iterations per cycle, higher = slower
+ *     damping    : 0.1,        // {Number} movement damping, the lower the slower
+ *     padding    : 0,          // {Number} spacing between packed elements
+ *     target     : view.center // {Point}  the packing center target
+ * }
  *
  * @return {Object}
  */
 /**
  * @param {Array} circleItems
  *              Array of Items
- * @param {Number} iterations
- *              (optional) number of iterations per cycle (default: 11)
- *              higher iterations == slower movement
+ * @param {Object} properties (optional)
+ * {
+ *     iterations : 11,         // {Number} iterations per cycle, higher = slower
+ *     damping    : 0.1,        // {Number} movement damping, the lower the slower
+ *     padding    : 0,          // {Number} spacing between packed elements
+ *     target     : view.center // {Point}  the packing center target
+ * }
+ *
  *
  * @return {Object}
  *
@@ -5168,7 +5177,7 @@ folio.FCirclePack = function(circleItems, properties) {
 
     properties = properties || {};
     var iterations = properties.iterations || 11;
-    var dampingAmt = properties.damping || 0.1; // the lower the slower
+    var dampingAmt = properties.damping || 0.1; //
     var padding = properties.padding || 0;
     var target = properties.target || view.center;
 
@@ -5391,38 +5400,39 @@ folio.FCirclePack = function(circleItems, properties) {
  * @param {Sring} element
  *              (optional) HTML elemment for drop-target
  *              by default the entire window is droppable
- * @param {Array} options
- *              (optional) options
+ * @param {Array} properties
+ * {
+ * }
  *
  */
-folio.FDrop = function(element, options) {
+folio.FDrop = function(element, properties) {
     // -----------------------------------------------------------------------------
     //
     // Properties
     //
     // -----------------------------------------------------------------------------
     var fileTypes = {
-        text:        /text.*/,
-        image:       /image.*/,
-        video:       /video.*/,
-        application: /application.*/
+        text        : /text.*/,
+        image       : /image.*/,
+        video       : /video.*/,
+        application : /application.*/
     };
     var FDropEvent = {
-        id:          '',
+        id          : '',
 
-        isImage:     false,
-        isVideo:     false,
-        isFile:      false,
-        isFileList:  false,
-        isDirectory: false,
+        isImage     : false,
+        isVideo     : false,
+        isFile      : false,
+        isFileList  : false,
+        isDirectory : false,
 
-        filename:    '',
-        type:        '',
-        data:        '',
-        size:        0,
-        text:        '',
-        file:        '',
-        files:       []
+        filename    : '',
+        type        : '',
+        data        : '',
+        size        : 0,
+        text        : '',
+        file        : '',
+        files       : []
     };
     var files, output;
 
@@ -6441,22 +6451,24 @@ folio.FNoise = {
 /**
  * @param  {PathItem} items
  *      an array of PathItems
- * @param  {Number} iterations (optional)
- *      tests per frame (higher = better) default: 1000
+ * @param  {Object} properties (optional)
+ * {
+ *     iterations : 1000 // {Number} tests per frame (higher = better)
+ * }
  *
  * @return {Array}
  *
  */
-folio.FRoute = function(items, iterations) {
+folio.FRoute = function(items, properties) {
     // ------------------------------------------------------------------------
     //
     // Properties
     //
     // ------------------------------------------------------------------------
     var items = items;
-    var iterations = (iterations != undefined)
-        ? iterations
-        : 1000;
+
+    properties = properties || {};
+    var iterations = properties.iterations || 1000;
 
     var RouteStep = 0;
     var RouteNodes = [];
@@ -6476,10 +6488,11 @@ folio.FRoute = function(items, iterations) {
             var RouteNodesLength = 0;
             var RouteNodesTemp = [items.length];
 
+            var px, py;
             for (var i = 0; i < items.length; ++i) {
                 RouteNodesTemp[i] = false;
-                var px = items[i].position.x;
-                var py = items[i].position.y;
+                px = items[i].position.x;
+                py = items[i].position.y;
 
                 if ((px >= view.bounds.width) || (py >= view.bounds.height) ||
                     (px < 0) || (py < 0)) {
@@ -6511,17 +6524,20 @@ folio.FRoute = function(items, iterations) {
                 StopPoint = nodesNum;
             }
 
+            var ClosestNode;
+            var distMin;
+            var p2, dx, dy;
             for (var i = RouteStep; i < StopPoint; ++i) {
                 p1 = items[RouteNodes[RouteStep]].position;
-                var ClosestNode = 0;
-                var distMin = Number.MAX_VALUE;
+                ClosestNode = 0;
+                distMin = Number.MAX_VALUE;
 
                 for (var j = RouteStep + 1; j<nodesNum; ++j) {
-                    var p2 = items[RouteNodes[j]].position;
+                    p2 = items[RouteNodes[j]].position;
 
-                    var dx = p1.x - p2.x;
-                    var dy = p1.y - p2.y;
-                    var distance = (dx * dx + dy * dy);   // Only looking for closest; do not need sqrt factor!
+                    dx = p1.x - p2.x;
+                    dy = p1.y - p2.y;
+                    distance = (dx * dx + dy * dy);   // Only looking for closest; do not need sqrt factor!
 
                     if (distance < distMin) {
                         ClosestNode = j;
@@ -6538,7 +6554,7 @@ folio.FRoute = function(items, iterations) {
                     RouteStep++;
                 }
                 else {
-                    console.log('Now optimizing plot path');
+                    console.log('Optimizing path');
                 }
             }
 
@@ -6549,10 +6565,15 @@ folio.FRoute = function(items, iterations) {
             // Identify a pair of edges that would become shorter by reversing part of the tour.
 
             // var groupPath = new Group();
+            var indexA, indexB;
+            var a0, a1;
+            var b0, b1;
+            var dx, dy;
+            var distance, distance2;
+            var indexhigh, indexLow;
             for (var i = 0; i < iterations; ++i) {
-
-                var indexA = Math.floor(Math.random() * nodesNum);
-                var indexB = Math.floor(Math.random() * nodesNum);
+                indexA = Math.floor(Math.random() * nodesNum);
+                indexB = Math.floor(Math.random() * nodesNum);
 
                 if (Math.abs(indexA - indexB) < 2) {
                     continue;
@@ -6564,15 +6585,16 @@ folio.FRoute = function(items, iterations) {
                     indexA = temp;
                 }
 
-                var a0 = items[RouteNodes[indexA]].position;
-                var a1 = items[RouteNodes[indexA + 1]].position;
-                var b0 = items[RouteNodes[indexB]].position;
-                var b1 = items[RouteNodes[indexB + 1]].position;
+                a0 = items[RouteNodes[indexA]].position;
+                a1 = items[RouteNodes[indexA + 1]].position;
+                b0 = items[RouteNodes[indexB]].position;
+                b1 = items[RouteNodes[indexB + 1]].position;
 
                 // Original distance:
-                var dx = a0.x - a1.x;
-                var dy = a0.y - a1.y;
-                var distance = (dx * dx + dy * dy);   // Only a comparison; do not need sqrt factor!
+                dx = a0.x - a1.x;
+                dy = a0.y - a1.y;
+                distance = (dx * dx + dy * dy);   // Only a comparison; do not need sqrt factor!
+
                 dx = b0.x - b1.x;
                 dy = b0.y - b1.y;
                 distance += (dx * dx + dy * dy);  // Only a comparison; do not need sqrt factor!
@@ -6581,14 +6603,14 @@ folio.FRoute = function(items, iterations) {
                 dx = a0.x - b0.x;
                 dy = a0.y - b0.y;
 
-                var distance2 = (dx * dx + dy * dy);  // Only a comparison; do not need sqrt factor!
+                distance2 = (dx * dx + dy * dy);  // Only a comparison; do not need sqrt factor!
                 dx = a1.x - b1.x;
                 dy = a1.y - b1.y;
                 distance2 += (dx * dx + dy * dy); // Only a comparison; do not need sqrt factor!
 
                 if (distance2 < distance) {
-                    var indexhigh = indexB;
-                    var indexlow = indexA + 1;
+                    indexhigh = indexB;
+                    indexlow = indexA + 1;
 
                     while (indexhigh > indexlow) {
                         temp = RouteNodes[indexlow];

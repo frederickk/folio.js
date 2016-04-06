@@ -26,18 +26,27 @@
 /**
  * @param {Group} circleItems
  *              Group of Items
- * @param {Number} iterations
- *              (optional) number of iterations per cycle (default: 11)
- *              higher iterations == slower movement
+ * @param {Object} properties (optional)
+ * {
+ *     iterations : 11,         // {Number} iterations per cycle, higher = slower
+ *     damping    : 0.1,        // {Number} movement damping, the lower the slower
+ *     padding    : 0,          // {Number} spacing between packed elements
+ *     target     : view.center // {Point}  the packing center target
+ * }
  *
  * @return {Object}
  */
 /**
  * @param {Array} circleItems
  *              Array of Items
- * @param {Number} iterations
- *              (optional) number of iterations per cycle (default: 11)
- *              higher iterations == slower movement
+ * @param {Object} properties (optional)
+ * {
+ *     iterations : 11,         // {Number} iterations per cycle, higher = slower
+ *     damping    : 0.1,        // {Number} movement damping, the lower the slower
+ *     padding    : 0,          // {Number} spacing between packed elements
+ *     target     : view.center // {Point}  the packing center target
+ * }
+ *
  *
  * @return {Object}
  *
@@ -56,7 +65,7 @@ folio.FCirclePack = function(circleItems, properties) {
 
     properties = properties || {};
     var iterations = properties.iterations || 11;
-    var dampingAmt = properties.damping || 0.1; // the lower the slower
+    var dampingAmt = properties.damping || 0.1; //
     var padding = properties.padding || 0;
     var target = properties.target || view.center;
 
