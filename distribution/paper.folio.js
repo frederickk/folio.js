@@ -1,10 +1,10 @@
 /**!
  *
  * folio.js
- * 0.8.2
+ * 0.8.7
  * https://github.com/frederickk/folio.js
  *
- * 01. March 2016
+ * 05. April 2016
  *
  * Ken Frederick
  * ken.frederick@gmx.de
@@ -3236,39 +3236,39 @@ folio.FTime.Ease = function() {
          * see http://easings.net/de for visual examples
          * of each spline method
          */
-        linear: function(t) { return t },
+        linear     : function(t) { return t },
 
-        inQuad: function(t) { return t*t },
-        outQuad: function(t) { return t*(2-t) },
-        inOutQuad: function(t) { return t<.5 ? 2*t*t : -1+(4-2*t)*t },
+        inQuad     : function(t) { return t*t },
+        outQuad    : function(t) { return t*(2-t) },
+        inOutQuad  : function(t) { return t<.5 ? 2*t*t : -1+(4-2*t)*t },
 
-        inCubic: function(t) { return t*t*t },
-        outCubic: function(t) { return (--t)*t*t+1 },
-        inOutCubic: function(t) { return t<.5 ? 4*t*t*t : (t-1)*(2*t-2)*(2*t-2)+1 },
+        inCubic    : function(t) { return t*t*t },
+        outCubic   : function(t) { return (--t)*t*t+1 },
+        inOutCubic : function(t) { return t<.5 ? 4*t*t*t : (t-1)*(2*t-2)*(2*t-2)+1 },
 
-        inQuart: function(t) { return t*t*t*t },
-        outQuart: function(t) { return 1-(--t)*t*t*t },
-        inOutQuart: function(t) { return t<.5 ? 8*t*t*t*t : 1-8*(--t)*t*t*t },
+        inQuart    : function(t) { return t*t*t*t },
+        outQuart   : function(t) { return 1-(--t)*t*t*t },
+        inOutQuart : function(t) { return t<.5 ? 8*t*t*t*t : 1-8*(--t)*t*t*t },
 
-        inQuint: function(t) { return t*t*t*t*t },
-        outQuint: function(t) { return 1+(--t)*t*t*t*t },
-        inOutQuint: function(t) { return t<.5 ? 16*t*t*t*t*t : 1+16*(--t)*t*t*t*t },
+        inQuint    : function(t) { return t*t*t*t*t },
+        outQuint   : function(t) { return 1+(--t)*t*t*t*t },
+        inOutQuint : function(t) { return t<.5 ? 16*t*t*t*t*t : 1+16*(--t)*t*t*t*t },
 
-        inSine: function(t) { return -1*Math.cos(t*(Math.PI/2))+1 },
-        outSine: function(t) { return 1*Math.sin(t*(Math.PI/2)) },
-        inOutSine: function(t) { return -0.5*(Math.cos(Math.PI*t)-1) },
+        inSine     : function(t) { return -1*Math.cos(t*(Math.PI/2))+1 },
+        outSine    : function(t) { return 1*Math.sin(t*(Math.PI/2)) },
+        inOutSine  : function(t) { return -0.5*(Math.cos(Math.PI*t)-1) },
 
-        inExpo: function(t) { return 1*Math.pow(2, 10*(t-1)) },
-        outExpo: function(t) { return 1*(-Math.pow(2, -10*t)+1 ) },
-        inOutExpo: function(t) { t /= 0.5; if (t < 1) return 0.5 * Math.pow(2, 10*(t-1)); t--; return 0.5 * (-Math.pow(2, -10*t)+2); },
+        inExpo     : function(t) { return 1*Math.pow(2, 10*(t-1)) },
+        outExpo    : function(t) { return 1*(-Math.pow(2, -10*t)+1 ) },
+        inOutExpo  : function(t) { t /= 0.5; if (t < 1) return 0.5 * Math.pow(2, 10*(t-1)); t--; return 0.5 * (-Math.pow(2, -10*t)+2); },
 
-        inCirc: function(t) { return -1*(Math.sqrt(1-t*t)-1) },
-        outCirc: function(t) { t--; return 1*Math.sqrt(1-t*t); },
-        inOutCirc: function(t) { t /= 0.5; if (t<1) { return -0.5*(Math.sqrt(1-t*t)-1); }else{ t-=2; return 0.5*(Math.sqrt(1-t*t)+1); } },
+        inCirc     : function(t) { return -1*(Math.sqrt(1-t*t)-1) },
+        outCirc    : function(t) { t--; return 1*Math.sqrt(1-t*t); },
+        inOutCirc  : function(t) { t /= 0.5; if (t<1) { return -0.5*(Math.sqrt(1-t*t)-1); }else{ t-=2; return 0.5*(Math.sqrt(1-t*t)+1); } },
 
 
-        spline: KeySpline
-        // values: splineValues
+        spline     : KeySpline
+        // values     : splineValues
     };
 
 };
@@ -4387,110 +4387,409 @@ folio.FIO = {
 
 };
 
-// /*
-//  * FASE
-//  *
-//  * Ken Frederick
-//  * ken.frederick@gmx.de
-//  *
-//  * http://kennethfrederick.de/
-//  * http://blog.kennethfrederick.de/
-//  *
-//  *
-//  *  a class to load ASE files
-//  *  code inspired and modified from the following
-//  *
-//  *  https://github.com/DanielWeber/kulerviewer/
-//  *  http://www.generative-gestaltung.de/
-//  *
-//  */
+/**!
+ * FASE
+ *
+ * Ken Frederick
+ * ken.frederick@gmx.de
+ *
+ * http://kennethfrederick.de/
+ * http://blog.kennethfrederick.de/
+ *
+ *
+ * javascript class to load ASE files
+ * requires jDataView - https://github.com/vjeux/jDataView
+ *
+ *
+ * code inspired and modified from the following:
+ *
+ * Copyright (c) 2012, Ger Hobbelt (ger@hobbelt.com)
+ * All rights reserved.
+ *
+ * https://gist.github.com/GerHobbelt/3173233
+ *
+ * LICENSE
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * Redistributions of source code must retain the above copyright notice, this
+ * list of conditions and the following disclaimer.
+ *
+ * Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following disclaimer in the documentation
+ * and/or other materials provided with the distribution.
+ *
+ * The name Ger Hobbelt may not be used to endorse or promote products
+ * derived from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 'AS IS'
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL MICHAEL BOSTOCK BE LIABLE FOR ANY DIRECT,
+ * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
+ * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+ * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 
-// folio.FASE = function(filepath) {
-//     // -----------------------------------------------------------------------------
-//     // Properties
-//     // -----------------------------------------------------------------------------
-//     var filepath = filepath;
-
-//     var palette = [];
-//     var bVerbose = false;
-
-
-
-//     // -----------------------------------------------------------------------------
-//     // Methods
-//     // -----------------------------------------------------------------------------
-//     /**
-//      * @param {} filepath
-//      *          filepath of ASE file
-//      */
-//     function load(filepath) {
-//         parseASEFile(filepath);
-//     };
-
-//     //
-//     // load ASE
-//     // https://github.com/DanielWeber/kulerviewer/
-//     //
-//     function parseASEFile(filepath) {
-//         File ase = new File(filepath);
-//         FileInputStream inStream;
-//         ByteBuffer buf;
-
-//         try {
-//             inStream = new FileInputStream(ase);
-//             buf = ByteBuffer.allocate((int)inStream.getChannel().size() * 2);
-//             buf.order(ByteOrder.BIG_ENDIAN);
-//             inStream.getChannel().read(buf);
-
-//             buf.rewind();
-
-//             byte[] signature = new byte[4];
-//             byte[] expectedSignature = new byte[] { 'A', 'S', 'E', 'F' };
-//             buf.get(signature);
-//             if (!Arrays.equals(expectedSignature, signature)) {
-//                 throw new IOException("'" + ase.getAbsolutePath() + "' is not an .ase file. Signature does not match!");
-//             }
-//             /* int major = */    buf.getShort();
-//             /* int minor = */    buf.getShort();
-//             int noBlocks = buf.getInt();
-//             for (int i=0; i<noBlocks; ++i) {
-//                 readBlock(buf);
-//             }
-//         }
-//         catch(Exception e) {
-//             if (bVerbose) System.out.println(e);
-//         }
-//     };
+/**
+ * [function description]
+ *
+ * @param  {[type]} input [description]
+ *
+ * @return {[type]}       [description]
+ */
+folio.FASE = function(input) {
+    // -----------------------------------------------------------------------------
+    //
+    // Properties
+    //
+    // -----------------------------------------------------------------------------
+    var colors = {};
 
 
-//     // -----------------------------------------------------------------------------
-//     //
-//     // Gets
-//     //
 
-//     /**
-//      * Get a color at index.
-//      * It does not matter if index is out of bounds, this function will just cycle.
-//      *
-//      * @param {Number} index
-//      *
-//      * @return {Number} Returns the color at the index position
-//      */
-//     /**
-//      *
-//      * @return {Array} Returns the colors as array
-//      */
-//     function get(index) {
-//         var len = palette.length;
-//         return (index != undefined)
-//         	? palette.get( index < 0 ? index % len + len : index % len )
-//         	: palette;
-//     };
+    // -----------------------------------------------------------------------------
+    //
+    // Methods
+    //
+    // -----------------------------------------------------------------------------
+    (function init() {
+        if (input) {
+            return (typeof input === 'string')
+                ? load(input)
+                : (typeof input === 'object')
+                    ? loadData(input)
+                    : null;
+        }
+    })();
 
-// };
 
-/*
+
+    // -----------------------------------------------------------------------------
+    /**
+     * load ASE file from a data buffer object
+     *
+     * @param  {Object} buffer data buffer object
+     *
+     * @return {Object}
+     */
+    function loadData(buffer) {
+        var versionMajor;
+        var versionMinor;
+        var count;
+        var view;
+
+        var palette = {};
+        var flattened = [];
+
+        try {
+            // big-endian format
+            view = new jDataView(buffer, 0, undefined, false);
+        }
+        catch (e) {
+            view = null;
+        }
+
+        if (!view ||
+            'ASEF' !== view.getString(4) ||
+            (versionMajor = view.getInt16()) < 1 ||
+            (versionMinor = view.getInt16()) < 0 ||
+            (count = view.getInt32()) < 1) {
+                console.error('illegal file format, not a ASE color palette file');
+        }
+
+        if (!parse_block(view, palette)) {
+            setColors({
+                palette : palette,
+                values  : flattened
+            });
+            return colors;
+        }
+    }
+
+
+    /**
+     * load ASE file from URL/file location
+     *
+     * @param  {String} url data as URL/file location
+     *
+     * @return {Object}
+     */
+    function load(url) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+        xhr.responseType = 'arraybuffer';
+        xhr.onload = function(event) {
+            if (xhr.response) {
+                return loadData(xhr.response);
+            }
+            else {
+                console.error('could not load ASE file');
+                return colors;
+            }
+        }
+        xhr.send(null);
+    }
+
+
+    // -----------------------------------------------------------------------------
+    //
+    // Gets
+    //
+    function rgb2str(rgb) {
+        var r, g, b;
+
+        r = rgb[0].toString(16);
+        if (r.length < 2) {
+            r = '0' + r;
+        }
+        g = rgb[1].toString(16);
+        if (g.length < 2) {
+            g = '0' + g;
+        }
+        b = rgb[2].toString(16);
+        if (b.length < 2) {
+            b = '0' + b;
+        }
+        return '#' + r + g + b;
+    }
+
+    function parse_utf16_Cstring(view) {
+        var slen = view.getUint16();
+        var c, name = '',
+            i = slen;
+        // ignore NUL sentinel at the end of the string
+        while (--i > 0) {
+            c = view.getUint16();
+            name += String.fromCharCode(c);
+        }
+        view.getUint16();
+        return name;
+    }
+
+    function parse_block(view, palette) {
+        // parse block:
+        var count, i, id, len, slen, model, type, c, m, k, l, a, r, g, b, x, y, z, name, p;
+
+        while (--count >= 0) {
+            id = view.getUint16();
+
+            switch (id) {
+                default:
+                    // illegal block; damaged ASE file?
+                    console.error('unknown block type ' + id.toString(16) + ': corrupt ASE file');
+                    return;
+                return -1;
+
+                // group start
+                case 0xc001:
+                    len = view.getUint32();
+                    name = parse_utf16_Cstring(view);
+
+                    if (!palette.groups) {
+                        palette.groups = [];
+                    }
+
+                    palette.groups.push(p = {
+                        name : name
+                    });
+
+                    if (parse_block(view, p)) {
+                        return -1;
+                    }
+                    continue;
+
+                // group end
+                case 0xc002:
+                    view.getUint32(); // skip 0 length
+                    return 0;
+
+                // color
+                case 0x0001:
+                    len = view.getUint32();
+                    name = parse_utf16_Cstring(view);
+                    model = view.getString(4);
+
+                    if (!palette.colors) {
+                        palette.colors = [];
+                    }
+
+                    palette.colors.push(p = {
+                        name  : name,
+                        model : model
+                    });
+
+                    switch (model) {
+                        case 'CMYK':
+                            c = view.getFloat32();
+                            m = view.getFloat32();
+                            y = view.getFloat32();
+                            k = view.getFloat32();
+                            p.cmyk = [c, m, y, k];
+
+                            if (k >= 1) {
+                                // Black
+                                r = g = b = 0;
+                            }
+                            else {
+                                // CMYK and CMY values from 0 to 1
+                                c = c * (1 - k) + k;
+                                m = m * (1 - k) + k;
+                                y = y * (1 - k) + k;
+
+                                // CMY values from 0 to 1
+                                // RGB results from 0 to 255
+                                r = (1 - c);
+                                g = (1 - m);
+                                b = (1 - y);
+
+                                r = Math.min(255, Math.max(0, Math.round(r * 255)));
+                                g = Math.min(255, Math.max(0, Math.round(g * 255)));
+                                b = Math.min(255, Math.max(0, Math.round(b * 255)));
+                            }
+                            flattened.push(rgb2str(p.html_rgb = [r, g, b]));
+                            break;
+
+                        case 'RGB ':
+                            r = view.getFloat32();
+                            g = view.getFloat32();
+                            b = view.getFloat32();
+                            p.rgb = [r, g, b]; // also keep the raw RGB
+
+                            r = Math.min(255, Math.max(0, Math.round(r * 255)));
+                            g = Math.min(255, Math.max(0, Math.round(g * 255)));
+                            b = Math.min(255, Math.max(0, Math.round(b * 255)));
+                            flattened.push(rgb2str(p.html_rgb = [r, g, b]));
+                            break;
+
+                        case 'LAB ':
+                            l = view.getFloat32();
+                            a = view.getFloat32();
+                            b = view.getFloat32();
+                            p.lab = [l, a, b];
+
+                            // Photoshop CS5.5 saves these as perunage (0..1), value, value. So we need to adjust L before commencing:
+                            l *= 100;
+
+                            // CIE-L*ab -> XYZ
+                            y = (l + 16) / 116;
+                            x = a / 500 + y;
+                            z = y - b / 200;
+
+                            if (Math.pow(y, 3) > 0.008856) {
+                                y = Math.pow(y, 3);
+                            }
+                            else {
+                                y = (y - 16 / 116) / 7.787;
+                            }
+                            if (Math.pow(x, 3) > 0.008856) {
+                                x = Math.pow(x, 3);
+                            }
+                            else {
+                                x = (x - 16 / 116) / 7.787;
+                            }
+                            if (Math.pow(z, 3) > 0.008856) {
+                                z = Math.pow(z, 3);
+                            }
+                            else {
+                                z = (z - 16 / 116) / 7.787;
+                            }
+
+                            x = 95.047 * x; // ref_X =  95.047     Observer= 2°, Illuminant= D65
+                            y = 100.000 * y; // ref_Y = 100.000
+                            z = 108.883 * z; // ref_Z = 108.883
+
+                            // XYZ -> RGB
+                            x = x / 100; // X from 0 to  95.047      (Observer = 2°, Illuminant = D65)
+                            y = y / 100; // Y from 0 to 100.000
+                            z = z / 100; // Z from 0 to 108.883
+
+                            r = x * 3.2406 + y * -1.5372 + z * -0.4986;
+                            g = x * -0.9689 + y * 1.8758 + z * 0.0415;
+                            b = x * 0.0557 + y * -0.2040 + z * 1.0570;
+
+                            if (r > 0.0031308) {
+                                r = 1.055 * Math.pow(r, 1 / 2.4) - 0.055;
+                            }
+                            else {
+                                r = 12.92 * r;
+                            }
+                            if (g > 0.0031308) {
+                                g = 1.055 * Math.pow(g, 1 / 2.4) - 0.055;
+                            }
+                            else {
+                                g = 12.92 * g;
+                            }
+                            if (b > 0.0031308) {
+                                b = 1.055 * Math.pow(b, 1 / 2.4) - 0.055;
+                            }
+                            else {
+                                b = 12.92 * b;
+                            }
+
+                            r = Math.min(255, Math.max(0, Math.round(r * 255)));
+                            g = Math.min(255, Math.max(0, Math.round(g * 255)));
+                            b = Math.min(255, Math.max(0, Math.round(b * 255)));
+                            flattened.push(rgb2str(p.html_rgb = [r, g, b]));
+                            break;
+
+                        case 'GRAY':
+                            g = view.getFloat32();
+                            p.gray = g;
+
+                            g = Math.min(255, Math.max(0, Math.round(g * 255)));
+                            flattened.push(rgb2str(p.html_rgb = [g, g, g]));
+                            break;
+
+                        default:
+                            console.error('unknown color model ' + model + ': corrupt ASE file');
+                            return -1;
+                    }
+
+                    type = view.getUint16();
+                    // (0 => Global, 1 => Spot, 2 => Normal)
+                    p.color_type = type;
+                    continue;
+            }
+        }
+        return 0;
+    }
+
+    // -----------------------------------------------------------------------------
+    /**
+     * return colors object
+     *
+     * @return {Object}
+     */
+    function getColors() {
+        return colors;
+    }
+
+
+
+    // -----------------------------------------------------------------------------
+    //
+    // Sets
+    //
+    function setColors(obj) {
+        colors = obj;
+    }
+
+
+
+    return {
+        colors   : getColors,
+
+        load     : load,
+        loadData : loadData
+    };
+};
+
+/**!
  *
  * FArray.js
  *
@@ -4663,7 +4962,7 @@ Array.prototype.min = function(start, stop) {
  *
  */
 Array.prototype.shuffle = function() {
-    for (var j, x, i=this.length; i; j=parseInt(Math.random() * i), x=this[--i], this[i]=this[j], this[j]=x);
+    for (var j, x, i = this.length; i; j = parseInt(Math.random() * i), x = this[--i], this[i] = this[j], this[j] = x);
 };
 
 /**
@@ -4811,7 +5110,7 @@ var FSort = {
 
 };
 
-/*
+/**!
  * FCirclePack
  *
  * Original from onedayitwillmake
@@ -4843,7 +5142,7 @@ var FSort = {
  *              (optional) number of iterations per cycle (default: 11)
  *              higher iterations == slower movement
  *
- * @return {Array}
+ * @return {Object}
  */
 /**
  * @param {Array} circleItems
@@ -4852,13 +5151,15 @@ var FSort = {
  *              (optional) number of iterations per cycle (default: 11)
  *              higher iterations == slower movement
  *
- * @return {Array}
+ * @return {Object}
  *
  */
 folio.FCirclePack = function(circleItems, iterations) {
+    // ------------------------------------------------------------------------
     //
     // Properties
     //
+    // ------------------------------------------------------------------------
     var circleItems = (circleItems instanceof Group)
         ? circleItems.children
         : (circleItems == null)
@@ -4872,21 +5173,27 @@ folio.FCirclePack = function(circleItems, iterations) {
     var padding = 0;
     var target = view.center;
 
+
+
+    // ------------------------------------------------------------------------
     //
     // Methods
     //
+    // ------------------------------------------------------------------------
     function update() {
-        circleItems = circleItems.sort( FSort.distanceToCenter );
+        circleItems = circleItems.sort(FSort.distanceToCenter);
         var pp = new Point();
 
         // Push items away from each other
-        for (var i=circleItems.length-1; i>=0; --i) {
+        for (var i = circleItems.length - 1; i >= 0; --i) {
             var ci = circleItems[i];
 
-            for (var j=i+1; j<circleItems.length; j++) {
+            for (var j = i + 1; j < circleItems.length; j++) {
                 var cj = circleItems[j];
 
-                if (i == j) continue;
+                if (i == j) {
+                    continue;
+                }
 
                 var dx = cj.position.x - ci.position.x;
                 var dy = cj.position.y - ci.position.y;
@@ -4905,7 +5212,7 @@ folio.FCirclePack = function(circleItems, iterations) {
                     pp.x = dx;
                     pp.y = dy;
                     pp = pp.normalize(1.0);
-                    pp = pp.multiply( (r - Math.sqrt(d)) * 0.5 );
+                    pp = pp.multiply((r - Math.sqrt(d)) * 0.5);
 
                     try {
                         // if (cj != this.dragCircle) {
@@ -4948,6 +5255,7 @@ folio.FCirclePack = function(circleItems, iterations) {
     }
 
 
+    // ------------------------------------------------------------------------
     //
     // sets
     //
@@ -4961,10 +5269,10 @@ folio.FCirclePack = function(circleItems, iterations) {
      */
     function add(item) {
         if (typeof item === 'array') {
-            circleItems = circleItems.concat( item );
+            circleItems = circleItems.concat(item);
         }
         else {
-            circleItems.push( item );
+            circleItems.push(item);
         }
     }
 
@@ -4993,6 +5301,7 @@ folio.FCirclePack = function(circleItems, iterations) {
         target = point;
     }
 
+    // ------------------------------------------------------------------------
     //
     // gets
     //
@@ -5017,9 +5326,7 @@ folio.FCirclePack = function(circleItems, iterations) {
 
 
 
-    //
-    // gets
-    //
+    // ------------------------------------------------------------------------
     return {
         update     : update,
 
@@ -5034,7 +5341,7 @@ folio.FCirclePack = function(circleItems, iterations) {
 
 };
 
-/*
+/**!
  * FDrop
  *
  * Ken Frederick
@@ -5319,7 +5626,7 @@ folio.FDrop = function(element, options) {
 
 };
 
-/*
+/**!
  * FFlock
  *
  * Adapted from Flocking Processing example by Daniel Schiffman:
@@ -5342,7 +5649,8 @@ folio.FDrop = function(element, options) {
  * http://blog.kennethfrederick.de/
  *
  *
- * TODO: fix repelling for predators & obstacles
+ * TODO: fix repelling for predators & obstacles, fixed?
+ * TODO: performance is shit!
  *
  */
 
@@ -5352,67 +5660,79 @@ folio.FFlock = {
      * @param  {Point} position
      *          intial position of Boid
      * @param  {Object} properties (optional)
-     *          radius:    30    // distance from other Boids
-     *          maxSpeed:  10    // the maximum speed of the Boid
-     *          maxForce:  0.05  // the maximum force of the Boid
-     *          strength:  Math.random() * 0.5  // strength of the Boid's force
-     *          path:      new Path() // Item to apply behavior to
+     *          radius   : 30    // distance from other Boids
+     *          maxSpeed : 10    // the maximum speed of the Boid
+     *          maxForce : 0.05  // the maximum force of the Boid
+     *          strength : Math.random() * 0.5  // strength of the Boid's force
+     *          path     : new Path() // Item to apply behavior to
      *
      * @example
      * var flock = [];
      * for (var i = 0; i < 30; i++) {
      *  var boid = new folio.FFlock.boid(view.center, {
-     *      radius:     30,
-     *      maxSpeed:   10,
-     *      maxForce:   0.05,
-     *      path:       new Path.Rectangle({
-     *                      position:   [0, 0],
-     *                      size:       [10, 10],
-     *                      fillColor:  new Color.random()
-     *                  })
+     *      radius   : 30,
+     *      maxSpeed : 10,
+     *      maxForce : 0.05,
+     *      path     : new Path.Rectangle({
+     *                     position  : [0, 0],
+     *                     size      : [10, 10],
+     *                     fillColor : new Color.random()
+     *                 })
      *  });
-     *  flock.push( boid );
+     *  flock.push(boid);
      * }
      *
      */
     boid: function(position, properties) {
         // ------------------------------------------------------------------------
+        //
         // Properties
+        //
         // ------------------------------------------------------------------------
-        var mass = 1.0;
-        var strength = properties.strength || Math.random() * 0.5;
         var radius = properties.radius || 30;
+        var strength = properties.strength || Math.random() * 0.5;
         var maxSpeed = properties.maxSpeed + strength || 10 + strength;
         var maxForce = properties.maxForce + strength || 0.05 + strength;
         var path = properties.path || null;
         var data = properties.data || null;
+        var groupTogether = properties.groupTogether || true;
+        var bounce = properties.bounce || false;
+        var container = properties.container || view;
+        var contained = false;
 
+        var mass = 1.0;
         var acceleration = new Point();
-        var vector = new Point.random(-maxSpeed*maxForce, maxSpeed*maxForce);
+        var vector = new Point.random(-maxSpeed * maxForce, maxSpeed * maxForce);
         var position = new Point(position); //.clone();
 
         var count = 0;
         var lastAngle = 0;
         var distances = [];
-        var groupTogether = false;
 
-        var contained = false;
+        // this is my bootleg way to fix a stuck boid
+        var stuckCounter = 0;
+        // if a boid increments the stuckCounter beyond
+        // stuckMax it's movement is more drastic
+        var stuckMax = 100;
+
 
 
         // ------------------------------------------------------------------------
+        //
         // Methods
+        //
         // ------------------------------------------------------------------------
         function run(boids) {
-            if (!groupTogether) {
+            if (groupTogether) {
                 flock(boids);
             }
             else {
                 align(boids);
             }
-            borders();
+            borders(bounce);
             update();
             updateItems();
-        };
+        }
 
         // We accumulate a new acceleration each time based on three rules
         function flock(boids) {
@@ -5420,11 +5740,12 @@ folio.FFlock = {
             var separation = separate(boids);
             separation.x *= 3;
             separation.y *= 3;
+
             var alignment = align(boids);
             var coherence = cohesion(boids);
             acceleration.x += separation.x + alignment.x + coherence.x;
             acceleration.y += separation.y + alignment.y + coherence.y;
-        };
+        }
 
         // ------------------------------------------------------------------------
         function calculateDistances(boids) {
@@ -5432,20 +5753,22 @@ folio.FFlock = {
                 var other = boids[i];
                 distances[i] = other.position().getDistance(position, true);
             }
-        };
+        }
 
         // ------------------------------------------------------------------------
         function update() {
             // Update velocity
             vector.x += acceleration.x;
             vector.y += acceleration.y;
+
             // Limit speed (vector#limit?)
             vector.length = Math.min(maxSpeed, vector.length);
             position.x += vector.x;
             position.y += vector.y;
+
             // Reset acceleration to 0 each cycle
             acceleration = new Point();
-        };
+        }
 
         function updateItems() {
             if (path) {
@@ -5454,42 +5777,62 @@ folio.FFlock = {
                 path.rotate(angle - lastAngle);
                 lastAngle = angle;
             }
-        };
+        }
 
         // ------------------------------------------------------------------------
         function seek(target) {
             var s = steer(target, false);
             acceleration.x += s.x;
             acceleration.y += s.y;
-        };
+        }
 
         function arrive(target) {
             var s = steer(target, true);
             acceleration.x += s.x;
             acceleration.y += s.y;
-        };
+        }
 
         // ------------------------------------------------------------------------
-        function borders() {
-            var vector = new Point();
-            var size = view.size;
-            if (position.x < -radius) {
-                vector.x = size.width + radius;
+        function borders(isBounce) {
+            isBounce = isBounce || false;
+            var size = container.bounds.size;
+
+            if (isBounce) {
+                if (stuckCounter > stuckMax) {
+                    stuckCounter = 0;
+                    position = new Point.random(size.width, size.height);
+                }
+
+                if (position.x < radius || position.x > size.width - radius) {
+                    vector.x *= -1;
+                    stuckCounter++;
+                }
+                if (position.y < radius || position.y > size.height - radius) {
+                    vector.y *= -1;
+                    stuckCounter++;
+                }
             }
-            if (position.y < -radius) {
-                vector.y = size.height + radius;
+            else {
+                // the -2 is intended to keep items from getting stuck
+                if (position.x < -radius) {
+                    position.x = size.width + (radius - 2);
+                }
+                if (position.y < -radius) {
+                    position.y = size.height + (radius - 2);
+                }
+                if (position.x > size.width + radius) {
+                    position.x = -(radius + 2);
+                }
+                if (position.y >= size.height + radius) {
+                    position.y = -(radius + 2);
+                }
             }
-            if (position.x > size.width + radius) {
-                vector.x = -size.width -radius;
-            }
-            if (position.y > size.height + radius) {
-                vector.y = -size.height -radius;
-            }
+
             if (!vector.isZero()) {
                 position.x += vector.x;
                 position.y += vector.y;
             }
-        };
+        }
 
         // ------------------------------------------------------------------------
         // A method that causes the boid to be contained within an item
@@ -5499,7 +5842,7 @@ folio.FFlock = {
                 fill:      true,
                 stroke:    true,
                 segment:   true,
-                tolerance: radius/2
+                tolerance: radius// / 2
             };
 
             var target = new Point(
@@ -5508,7 +5851,7 @@ folio.FFlock = {
             );
 
             var distance = item.position.getDistance(target);
-            if (distance <= radius*10) {
+            if (distance <= radius * 10) {
                 contained = true;
             }
 
@@ -5528,16 +5871,15 @@ folio.FFlock = {
                 // path.fillColor = 'white';
                 arrive(item.position);
             }
-
-        };
+        }
 
         // A method that causes the boid to be repelled/avoid an item
         function repel(obstacleItem, properties) {
             properties.hitOptions = properties.hitOptions || {
-                fill:      true,
-                stroke:    true,
-                segment:   true,
-                tolerance: radius/2
+                fill      : true,
+                stroke    : true,
+                segment   : true,
+                tolerance : radius// / 2
             };
 
             var target = new Point(
@@ -5549,8 +5891,7 @@ folio.FFlock = {
                 var hitResult = obstacleItem.path().hitTest(target, properties.hitOptions);
                 var repel = new Point();
                 if (hitResult) {
-                    if (hitResult.type == 'stroke' ||
-                        hitResult.type == 'segment' ||
+                    if (hitResult.type == 'segment' ||
                         hitResult.type == 'handle-in' ||
                         hitResult.type == 'handle-out') {
                         repel = new Point(
@@ -5559,20 +5900,21 @@ folio.FFlock = {
                         );
                         repel = repel.normalize();
                     }
-                    else if (hitResult.type == 'fill') {
-                        repel = new Point(
-                            position.x * -vector.x,
-                            position.y * -vector.y
-                        );
-                        // repel = repel.normalize();
+                    else if (hitResult.type == 'stroke' ||
+                             hitResult.type == 'fill') {
                         // repel = new Point(
-                        //     target.x - vector.x,
-                        //     target.y - vector.y
+                        //     position.x * -vector.x,
+                        //     position.y * -vector.y
                         // );
+                        repel = repel.normalize();
+                        repel = new Point(
+                            target.x - vector.x,
+                            target.y - vector.y
+                        );
                     }
 
-                    repel.x *= maxForce*7;
-                    repel.y *= maxForce*7;
+                    repel.x *= maxForce * 7; // 7 is a magic number
+                    repel.y *= maxForce * 7;
 
                     if (Math.sqrt(repel.x * repel.x + repel.y * repel.y) < 0) {
                         repel.y = 0;
@@ -5586,20 +5928,20 @@ folio.FFlock = {
 
                 }
             }
-
-        };
+        }
 
         // ------------------------------------------------------------------------
         // A method that calculates a steering vector towards a target
         // Takes a second argument, if true, it slows down as it approaches
         // the target
         function steer(target, slowdown) {
-            var steer = new Point(),
-                desired = new Point(
+            var steer = new Point();
+            var desired = new Point(
                     target.x - position.x,
                     target.y - position.y
                 );
             var distance = desired.length;
+
             // Two options for desired vector magnitude
             // (1 -- based on distance, 2 -- maxSpeed)
             if (slowdown && distance < 100) {
@@ -5616,7 +5958,7 @@ folio.FFlock = {
         }
 
         function separate(boids) {
-            var desiredSeperation = radius*100; //3600;
+            var desiredSeperation = radius * 100; //3600;
             var steer = new Point();
             var count = 0;
             // For every boid in the system, check if it's too close
@@ -5699,6 +6041,7 @@ folio.FFlock = {
                 // Steer towards the location
                 return steer(sum, false);
             }
+
             return sum;
         }
 
@@ -5711,6 +6054,10 @@ folio.FFlock = {
         function setGroupTogether(val) {
             groupTogether = val || groupTogether;
             return groupTogether;
+        }
+
+        function setBounce(val) {
+            bounce = val;
         }
 
 
@@ -5754,38 +6101,43 @@ folio.FFlock = {
             return maxForce;
         }
 
+        function getBounce() {
+            return bounce;
+        }
+
 
 
         // ------------------------------------------------------------------------
         return {
-            run:            run,
-            flock:          flock,
+            run           : run,
+            flock         : flock,
 
-            update:         update,
-            updateItems:    updateItems,
+            update        : update,
+            updateItems   : updateItems,
 
-            seek:           seek,
-            arrive:         arrive,
+            seek          : seek,
+            arrive        : arrive,
 
-            borders:        borders,
+            borders       : borders,
 
-            contain:        contain,
-            repel:          repel,
-            steer:          steer,
-            separate:       separate,
-            align:          align,
-            cohesion:       cohesion,
+            contain       : contain,
+            repel         : repel,
+            steer         : steer,
+            separate      : separate,
+            align         : align,
+            cohesion      : cohesion,
 
-            groupTogether:  setGroupTogether,
+            groupTogether : setGroupTogether,
 
-            acceleration:   getAcceleration,
-            vector:         getVector,
-            position:       getPosition,
-            radius:         getRadius,
-            path:           getPath,
-            data:           getData,
-            maxSpeed:       getMaxSpeed,
-            maxForce:       getMaxForce
+            acceleration  : getAcceleration,
+            vector        : getVector,
+            position      : getPosition,
+            radius        : getRadius,
+            path          : getPath,
+            data          : getData,
+            maxSpeed      : getMaxSpeed,
+            maxForce      : getMaxForce,
+            bounce        : getBounce
         };
 
     },
@@ -5794,28 +6146,28 @@ folio.FFlock = {
 
     /**
      * @param  {Point} position
-     *          intial position of Boid
+     *          intial position of Predator
      * @param  {Object} properties (optional)
-     *          radius:    30    // distance from other Boids
-     *          maxSpeed:  10    // the maximum speed of the Boid
-     *          maxForce:  0.05  // the maximum force of the Boid
-     *          strength:  Math.random() * 0.5  // strength of the Boid's force
-     *          path:      new Path() // Item to apply behavior to
+     *          radius   : 30    // distance from other Boids
+     *          maxSpeed : 10    // the maximum speed of the Predator
+     *          maxForce : 0.05  // the maximum force of the Predator
+     *          strength : Math.random() * 0.5  // strength of the Predator's force
+     *          path     : new Path() // Item to apply behavior to
      *
      * @example
      * var predators = [];
      * for (var i = 0; i < 30; i++) {
      *  var predator = new folio.FFlock.predator(view.center, {
-     *      radius:     40,
-     *      maxSpeed:   20,
-     *      maxForce:   0.01,
-     *      path:       new Path.Rectangle({
-     *                      position:   [0, 0],
-     *                      size:       [10, 10],
-     *                      fillColor:  new Color.random()
-     *                  })
+     *      radius   : 40,
+     *      maxSpeed : 20,
+     *      maxForce : 0.01,
+     *      path     : new Path.Rectangle({
+     *                     position  : [0, 0],
+     *                     size      : [10, 10],
+     *                     fillColor : new Color.random()
+     *                 })
      *  });
-     *  predators.push( predator );
+     *  predators.push(predator);
      * }
      *
      */
@@ -5825,7 +6177,7 @@ folio.FFlock = {
         // Properties
         //
         // ------------------------------------------------------------------------
-        var boid = new folio.FFlock.boid(position, properties);
+        var boidPredator = new folio.FFlock.boid(position, properties);
 
 
 
@@ -5834,50 +6186,54 @@ folio.FFlock = {
         // Methods
         //
         // ------------------------------------------------------------------------
-        boid.run = function(predators, boids) {
-            if (!boid.groupTogether()) {
-                boid.flock(predators);
+        boidPredator.run = function(predators, boids) {
+            if (boidPredator.groupTogether()) {
+                boidPredator.flock(predators);
             }
             else {
-                boid.align(predators);
+                boidPredator.align(predators);
             }
-            boid.borders();
-            boid.update();
-            boid.updateItems();
-            boid.repel(boids);
+            boidPredator.borders(boidPredator.bounce());
+            boidPredator.update();
+            boidPredator.updateItems();
+            boidPredator.repel(boids);
         };
 
-        boid.repel = function(boids) {
+        boidPredator.repel = function(boids) {
+            var boid;
             for (var i = 0, l = boids.length; i < l; i++) {
-                boids[i].repel(boid, properties);
+                boid = boids[i];
+
+                boidPredator.seek(boid.position());
+                boid.repel(boidPredator, properties);
             }
         };
 
 
         // ------------------------------------------------------------------------
-        return boid;
+        return boidPredator;
     },
 
 
 
     /**
      * @param  {Point} position
-     *          intial position of Boid
+     *          intial position of Obstacle
      * @param  {Object} properties (optional)
-     *          radius:    30    // repel distance from Boids
-     *          path:      new Path() // Item to apply behavior to
+     *          radius : 30    // repel distance from Boids
+     *          path   : new Path() // Item to apply behavior to
      *
      * @example
      * var obstacles = [];
      * var obstacle = new folio.FFlock.obstacle(new Point(100, 100), {
-     *  radius:     35,
-     *  path:       new Path.Circle({
-     *                  position:   [0, 0],
-     *                  radius:     30,
-     *                  fillColor:  'black'
-     *              })
+     *  radius : 35,
+     *  path   : new Path.Circle({
+     *               position  : [0, 0],
+     *               radius    : 30,
+     *               fillColor : 'black'
+     *           })
      * });
-     * obstacles.push( obstacle );
+     * obstacles.push(obstacle);
      *
      */
     obstacle: function(position, properties) {
@@ -5886,7 +6242,7 @@ folio.FFlock = {
         // Properties
         //
         // ------------------------------------------------------------------------
-        var boid = new folio.FFlock.boid(position, properties);
+        var boidObstacle = new folio.FFlock.boid(position, properties);
 
 
 
@@ -5895,24 +6251,24 @@ folio.FFlock = {
         // Methods
         //
         // ------------------------------------------------------------------------
-        boid.run = function(boids) {
-            boid.repel(boids);
+        boidObstacle.run = function(boids) {
+            boidObstacle.repel(boids);
         };
 
-        boid.repel = function(boids) {
+        boidObstacle.repel = function(boids) {
             for (var i = 0, l = boids.length; i < l; i++) {
-                boids[i].repel(boid, properties);
+                boids[i].repel(boidObstacle, properties);
             }
         };
 
 
         // ------------------------------------------------------------------------
-        return boid;
+        return boidObstacle;
     }
 
 };
 
-/*
+/**!
  * FNoise
  *
  * Ken Frederick
@@ -6027,7 +6383,7 @@ folio.FNoise = {
 
 };
 
-/*
+/**!
  * FRoute
  *
  * Travelling Salesman Problem Algorithm
@@ -6083,14 +6439,10 @@ folio.FRoute = function(items, iterations) {
         var p1;
 
         if (RouteStep === 0) {
-            //  Begin process of optimizing plotting route,
-            //  by flagging nodes that will be shown.
-            //  console.log("Optimizing plotting path");
             var RouteNodesLength = 0;
             var RouteNodesTemp = [items.length];
 
             for (var i = 0; i < items.length; ++i) {
-
                 RouteNodesTemp[i] = false;
                 var px = items[i].position.x;
                 var py = items[i].position.y;
@@ -6105,7 +6457,6 @@ folio.FRoute = function(items, iterations) {
                 }
             }
 
-            // These are the ONLY points to be drawn in the tour.
             RouteNodes = [RouteNodesLength];
             var tempCounter = 0;
             for (var i = 0; i < items.length; ++i) {
@@ -6118,8 +6469,8 @@ folio.FRoute = function(items, iterations) {
 
         var nodesNum = RouteNodes.length - 1;
         if (RouteStep < (RouteNodes.length - 2))  {
-            //  console.log('Nearest neighbor ("Simple, Greedy") algorithm path optimization:');
-            //  1000 steps per frame displayed; you can edit this number!
+            // console.log('Nearest neighbor ("Simple, Greedy") algorithm path optimization:');
+            // 1000 steps per frame displayed; you can edit this number!
             var StopPoint = RouteStep + 1000;
 
             if (StopPoint > nodesNum) {
@@ -6131,8 +6482,8 @@ folio.FRoute = function(items, iterations) {
                 var ClosestNode = 0;
                 var distMin = Number.MAX_VALUE;
 
-                for (var j=RouteStep+1; j<nodesNum; ++j) {
-                    var p2 = items[ RouteNodes[j] ].position;
+                for (var j = RouteStep + 1; j<nodesNum; ++j) {
+                    var p2 = items[RouteNodes[j]].position;
 
                     var dx = p1.x - p2.x;
                     var dy = p1.y - p2.y;
@@ -6166,27 +6517,23 @@ folio.FRoute = function(items, iterations) {
             // var groupPath = new Group();
             for (var i = 0; i < iterations; ++i) {
 
-                var indexA = Math.floor( Math.random()*nodesNum );
-                var indexB = Math.floor( Math.random()*nodesNum );
-
-                // console.log('indexA', indexA);
-                // console.log('indexB', indexB);
+                var indexA = Math.floor(Math.random() * nodesNum);
+                var indexB = Math.floor(Math.random() * nodesNum);
 
                 if (Math.abs(indexA - indexB) < 2) {
                     continue;
                 }
 
                 if (indexB < indexA) {
-                    // swap A, B.
                     temp = indexB;
                     indexB = indexA;
                     indexA = temp;
                 }
 
-                var a0 = items[ RouteNodes[indexA] ].position;
-                var a1 = items[ RouteNodes[indexA + 1] ].position;
-                var b0 = items[ RouteNodes[indexB] ].position;
-                var b1 = items[ RouteNodes[indexB + 1] ].position;
+                var a0 = items[RouteNodes[indexA]].position;
+                var a1 = items[RouteNodes[indexA + 1]].position;
+                var b0 = items[RouteNodes[indexB]].position;
+                var b1 = items[RouteNodes[indexB + 1]].position;
 
                 // Original distance:
                 var dx = a0.x - a1.x;
@@ -6194,19 +6541,18 @@ folio.FRoute = function(items, iterations) {
                 var distance = (dx * dx + dy * dy);   // Only a comparison; do not need sqrt factor!
                 dx = b0.x - b1.x;
                 dy = b0.y - b1.y;
-                distance += (dx * dx + dy * dy);  //  Only a comparison; do not need sqrt factor!
+                distance += (dx * dx + dy * dy);  // Only a comparison; do not need sqrt factor!
 
                 // Possible shorter distance?
                 dx = a0.x - b0.x;
                 dy = a0.y - b0.y;
-                var distance2 = (dx * dx + dy * dy);  //  Only a comparison; do not need sqrt factor!
+
+                var distance2 = (dx * dx + dy * dy);  // Only a comparison; do not need sqrt factor!
                 dx = a1.x - b1.x;
                 dy = a1.y - b1.y;
                 distance2 += (dx * dx + dy * dy); // Only a comparison; do not need sqrt factor!
 
                 if (distance2 < distance) {
-                    // Reverse tour between a1 and b0.
-
                     var indexhigh = indexB;
                     var indexlow = indexA + 1;
 
@@ -6227,13 +6573,6 @@ folio.FRoute = function(items, iterations) {
 
 
 
-
-
-
-    // ------------------------------------------------------------------------
-    //
-    // Gets
-    //
     // ------------------------------------------------------------------------
     return {
         route : RouteNodes
@@ -6242,9 +6581,7 @@ folio.FRoute = function(items, iterations) {
 
 };
 
-
-
-/*
+/**!
  * FSkeleton
  *
  * Calculate center points
@@ -6383,11 +6720,7 @@ folio.FSkeleton = function(item) {
 
 };
 
-
-
-
-
-/*
+/**!
  *
  * FString.js
  *
@@ -6524,7 +6857,7 @@ String.prototype.random = function(length) {
     return val.substr(0, length);
 };
 
-/*
+/**!
  * FTileEngine
  *
  * A simple tile engine
@@ -6858,7 +7191,7 @@ folio.FTileEngine = function(ids) {
     };
 }
 
-/*
+/**!
  * FTriangulate
  *
  * Delaunay Triangulation
@@ -6907,7 +7240,7 @@ var EPSILON = 1.0e-6;
  * @return {Array}
  *
  * @example
- * var triangulate = new FTriangulate( points );
+ * var triangulate = new FTriangulate(points);
  *
  * // draw faces
  * for (var i = 0; i < triangulate.length; i++) {
@@ -6915,9 +7248,9 @@ var EPSILON = 1.0e-6;
  *
  *  // draw triangle
  *  face = new Path();
- *  face.add( triangle.p1 );
- *  face.add( triangle.p2 );
- *  face.add( triangle.p3 );
+ *  face.add(triangle.p1);
+ *  face.add(triangle.p2);
+ *  face.add(triangle.p3);
  *  face.closed = true;
  *  face.strokeColor = 'white';
  *
@@ -6980,7 +7313,7 @@ folio.FTriangulate = function(points) {
             return p1 == other.p1 || p1 == other.p2 || p1 == other.p3 ||
             p2 == other.p1 || p2 == other.p2 || p2 == other.p3 ||
             p3 == other.p1 || p3 == other.p2 || p3 == other.p3;
-        };
+        }
 
         /**
          * @return {Point} circle
@@ -6992,25 +7325,23 @@ folio.FTriangulate = function(points) {
             var mx1, mx2;
             var my1, my2;
 
-            if (Math.abs(_p2.y-_p1.y) < EPSILON) {
-                m2 = - (_p3.x-_p2.x) / (_p3.y-_p2.y);
+            if (Math.abs(_p2.y - _p1.y) < EPSILON) {
+                m2 = - (_p3.x - _p2.x) / (_p3.y - _p2.y);
                 mx2 = (_p2.x + _p3.x) / 2.0;
                 my2 = (_p2.y + _p3.y) / 2.0;
                 circle.x = (_p2.x + _p1.x) / 2.0;
                 circle.y = m2 * (circle.x - mx2) + my2;
-
             }
-            else if (Math.abs(_p3.y-_p2.y) < EPSILON) {
-                m1 = - (_p2.x-_p1.x) / (_p2.y-_p1.y);
+            else if (Math.abs(_p3.y - _p2.y) < EPSILON) {
+                m1 = - (_p2.x - _p1.x) / (_p2.y - _p1.y);
                 mx1 = (_p1.x + _p2.x) / 2.0;
                 my1 = (_p1.y + _p2.y) / 2.0;
                 circle.x = (_p3.x + _p2.x) / 2.0;
                 circle.y = m1 * (circle.x - mx1) + my1;
-
             }
             else {
-                m1 = - (_p2.x-_p1.x) / (_p2.y-_p1.y);
-                m2 = - (_p3.x-_p2.x) / (_p3.y-_p2.y);
+                m1 = - (_p2.x - _p1.x) / (_p2.y - _p1.y);
+                m2 = - (_p3.x - _p2.x) / (_p3.y - _p2.y);
                 mx1 = (_p1.x + _p2.x) / 2.0;
                 mx2 = (_p2.x + _p3.x) / 2.0;
                 my1 = (_p1.y + _p2.y) / 2.0;
@@ -7020,7 +7351,7 @@ folio.FTriangulate = function(points) {
             }
 
             return circle;
-        };
+        }
 
         // -----------------------------------------------------------------------------
         /**
@@ -7030,10 +7361,10 @@ folio.FTriangulate = function(points) {
          */
         function centroid() {
             return new Point(
-                (_p1.x + _p2.x + _p3.x)/3,
-                (_p1.y + _p2.y + _p3.y)/3
+                (_p1.x + _p2.x + _p3.x) / 3,
+                (_p1.y + _p2.y + _p3.y) / 3
             );
-        };
+        }
 
         // -----------------------------------------------------------------------------
         /**
@@ -7047,7 +7378,7 @@ folio.FTriangulate = function(points) {
 
             distances.sort();
             return distances;
-        };
+        }
 
         // -----------------------------------------------------------------------------
         /**
@@ -7057,18 +7388,31 @@ folio.FTriangulate = function(points) {
          */
         function width() {
             var x1 = 0;
-            if (_p1.x < _p2.x && _p1.x < _p3.x) x1 = _p1.x;
-            else if (_p2.x < _p1.x && _p2.x < _p3.x ) x1 = _p2.x;
-            else if (_p3.x < _p1.x && _p3.x < _p2.x) x1 = _p3.x;
+            if (_p1.x < _p2.x && _p1.x < _p3.x) {
+                x1 = _p1.x;
+            }
+            else if (_p2.x < _p1.x && _p2.x < _p3.x) {
+                x1 = _p2.x;
+            }
+            else if (_p3.x < _p1.x && _p3.x < _p2.x) {
+                x1 = _p3.x;
+            }
 
             var x2 = 0;
-            if (_p1.x > _p2.x && _p1.x > _p3.x) x2 = _p1.x;
-            else if (_p2.x > _p1.x && _p2.x > _p3.x ) x2 = _p2.x;
-            else if (_p3.x > _p1.x && _p3.x > _p2.x) x2 = _p3.x;
+            if (_p1.x > _p2.x && _p1.x > _p3.x) {
+                x2 = _p1.x;
+            }
+            else if (_p2.x > _p1.x && _p2.x > _p3.x) {
+                x2 = _p2.x;
+            }
+            else if (_p3.x > _p1.x && _p3.x > _p2.x) {
+                x2 = _p3.x;
+            }
 
             var f = Math.abs(x2 - x1);
+
             return f;
-        };
+        }
 
         /**
          * http://www.btinternet.com/~se16/hgb/triangle.htm
@@ -7077,27 +7421,42 @@ folio.FTriangulate = function(points) {
          */
         function height() {
             var y1 = 0;
-            if (_p1.y < _p2.y && _p1.y < _p3.y) y1 = _p1.y;
-            else if (_p2.y < _p1.y && _p2.y < _p3.y ) y1 = _p2.y;
-            else if (_p3.y < _p1.y && _p3.y < _p2.y) y1 = _p3.y;
+            if (_p1.y < _p2.y && _p1.y < _p3.y) {
+                y1 = _p1.y;
+            }
+            else if (_p2.y < _p1.y && _p2.y < _p3.y) {
+                y1 = _p2.y;
+            }
+            else if (_p3.y < _p1.y && _p3.y < _p2.y) {
+                y1 = _p3.y;
+            }
 
             var y2 = 0;
-            if (_p1.y > _p2.y && _p1.y > _p3.y) y2 = _p1.y;
-            else if (_p2.y > _p1.y && _p2.y > _p3.y ) y2 = _p2.y;
-            else if (_p3.y > _p1.y && _p3.y > _p2.y) y2 = _p3.y;
+            if (_p1.y > _p2.y && _p1.y > _p3.y) {
+                y2 = _p1.y;
+            }
+            else if (_p2.y > _p1.y && _p2.y > _p3.y) {
+                y2 = _p2.y;
+            }
+            else if (_p3.y > _p1.y && _p3.y > _p2.y) {
+                y2 = _p3.y;
+            }
 
             var g = Math.abs(y2 - y1);
+
             return g;
-        };
+        }
 
         // -----------------------------------------------------------------------------
+        // TODO: add this to FCalculate.js
         function area() {
             var area = 0;
             area += (_p1.x + _p3.x) * (_p3.y - _p1.y);
             area += (_p2.x + _p1.x) * (_p1.y - _p2.y);
             area += (_p3.x + _p2.x) * (_p2.y - _p3.y);
-            return area/2;
-        };
+
+            return area / 2;
+        }
 
 
 
@@ -7109,25 +7468,26 @@ folio.FTriangulate = function(points) {
          */
         function get() {
             var points = [_p1, _p2, _p3];
+
             return points;
-        };
+        }
 
 
 
         // -----------------------------------------------------------------------------
         return {
-            p1: _p1,
-            p2: _p2,
-            p3: _p3,
+            p1           : _p1,
+            p2           : _p2,
+            p3           : _p3,
 
-            sharesVertex: sharesVertex,
-            getCentroid: centroid,
+            sharesVertex : sharesVertex,
+            getCentroid  : centroid,
 
-            getArea: area,
-            getWidth: width,
-            getHeight: height,
+            getArea      : area,
+            getWidth     : width,
+            getHeight    : height,
 
-            getPoints: get
+            getPoints    : get
         };
 
     };
@@ -7141,7 +7501,7 @@ folio.FTriangulate = function(points) {
      * @param {Point} p2
      *          second Point of Edge
      */
-    var Edge = function( p1, p2) {
+    var Edge = function(p1, p2) {
         // -----------------------------------------------------------------------------
         //
         // Properties
@@ -7167,9 +7527,12 @@ folio.FTriangulate = function(points) {
          * @return {Number}
          */
         function compareTo(other) {
-            return _dist < other.dist ? -1 : _dist > other.dist ? 1 : 0;
-        };
-
+            return _dist < other.dist
+                ? -1
+                : _dist > other.dist
+                    ? 1
+                    : 0;
+        }
 
 
         //
@@ -7183,18 +7546,19 @@ folio.FTriangulate = function(points) {
          */
         function get() {
             var points = [_p1, _p2];
+
             return points;
-        };
+        }
 
 
 
         // -----------------------------------------------------------------------------
         return {
-            p1: _p1,
-            p2: _p2,
-            dist: _dist,
+            p1        : _p1,
+            p2        : _p2,
+            dist      : _dist,
 
-            getPoints: get
+            getPoints : get
         };
 
     };
@@ -7221,11 +7585,11 @@ folio.FTriangulate = function(points) {
 
         if (_points.length != null) {
             // remove duplicate points
-            _points = uniquePoints( _points );
+            _points = uniquePoints(_points);
 
             // sort vertex array in increasing x values
-            _points.sort( sortLeftToRight );
-            // _points.sort( sortTopToBottom );
+            _points.sort(sortLeftToRight);
+            // _points.sort(sortTopToBottom);
 
 
             // Find the maximum and minimum vertex bounds.
@@ -7240,10 +7604,18 @@ folio.FTriangulate = function(points) {
 
             for (var i = 0; i < _points.length; i++) {
                 var p = _points[i];
-                if (p.x < xmin) xmin = p.x;
-                if (p.x > xmax) xmax = p.x;
-                if (p.y < ymin) ymin = p.y;
-                if (p.y > ymax) ymax = p.y;
+                if (p.x < xmin) {
+                    xmin = p.x;
+                }
+                if (p.x > xmax) {
+                    xmax = p.x;
+                }
+                if (p.y < ymin) {
+                    ymin = p.y;
+                }
+                if (p.y > ymax) {
+                    ymax = p.y;
+                }
             }
 
             var dx = xmax - xmin;
@@ -7262,11 +7634,11 @@ folio.FTriangulate = function(points) {
             // vertex list. The super triangle is the first triangle in
             // the triangle list.
             var superTriangle = new Triangle(
-                new Point( xmid - 2.0 * dmax, ymid - dmax ),
-                new Point( xmid, ymid + 2.0 * dmax ),
-                new Point( xmid + 2.0 * dmax, ymid - dmax )
+                new Point(xmid - 2.0 * dmax, ymid - dmax),
+                new Point(xmid, ymid + 2.0 * dmax),
+                new Point(xmid + 2.0 * dmax, ymid - dmax)
             );
-            _triangles.push( superTriangle );
+            _triangles.push(superTriangle);
 
 
             // Include each point one at a time into the existing mesh
@@ -7282,34 +7654,34 @@ folio.FTriangulate = function(points) {
                 // and that triangle is removed.
                 var circle = new Point();
 
-                for (var j=_triangles.length-1; j>=0; j--) {
+                for (var j = _triangles.length - 1; j >= 0; j--) {
                     var t = _triangles[j];
                     if (complete.contains(t)) {
                         continue;
                     }
 
-                    var inside = circumCircle( p, t, circle );
+                    var inside = circumCircle(p, t, circle);
 
                     if (circle.x + circle.z < p.x) {
                         complete.add(t);
                     }
                     if (inside) {
-                        edges.push( new Edge(t.p1, t.p2) );
-                        edges.push( new Edge(t.p2, t.p3) );
-                        edges.push( new Edge(t.p3, t.p1) );
+                        edges.push(new Edge(t.p1, t.p2));
+                        edges.push(new Edge(t.p2, t.p3));
+                        edges.push(new Edge(t.p3, t.p1));
                         _triangles.splice(j, 1);
                     }
                 }
 
                 // remove duplicate edges
-                edges = uniqueEdges( edges );
+                edges = uniqueEdges(edges);
 
                 // Tag multiple edges
                 // Note: if all triangles are specified anticlockwise then all
                 // interior edges are opposite pointing in direction.
-                for (var j = 0; j < edges.length-1; j++) {
+                for (var j = 0; j < edges.length - 1; j++) {
                     var e1 = edges[j];
-                    for (var k=j+1; k<edges.length; k++) {
+                    for (var k = j + 1; k < edges.length; k++) {
                         var e2 = edges[k];
                         if (e1.p1 == e2.p2 && e1.p2 == e2.p1) {
                             e1.p1 = null;
@@ -7338,22 +7710,34 @@ folio.FTriangulate = function(points) {
                     // determine if point in triangle is new
                     // if it is mark it as so
                     for (var k = 0; k < _pointsNew.length; k++) {
-                        if (e.p1 == _pointsNew[k] ) e.p1.name = '__new';
-                        else e.p1.name = null;
+                        if (e.p1 == _pointsNew[k]) {
+                            e.p1.name = '__new';
+                        }
+                        else {
+                            e.p1.name = null;
+                        }
 
-                        if (e.p2 == _pointsNew[k] ) e.p2.name = '__new';
-                        else e.p2.name = null;
+                        if (e.p2 == _pointsNew[k]) {
+                            e.p2.name = '__new';
+                        }
+                        else {
+                            e.p2.name = null;
+                        }
 
-                        if (p == _pointsNew[k] ) p.name = '__new';
-                        else p.name = null;
+                        if (p == _pointsNew[k]) {
+                            p.name = '__new';
+                        }
+                        else {
+                            p.name = null;
+                        }
                     }
-                    _triangles.push( new Triangle(e.p1, e.p2, p) );
+                    _triangles.push(new Triangle(e.p1, e.p2, p));
                 }
 
             }
 
             // Remove triangles with super triangle vertices
-            for (var i=_triangles.length-1; i>=0; i--) {
+            for (var i = _triangles.length - 1; i >= 0; i--) {
                 var t = _triangles[i];
                 if (t.sharesVertex(superTriangle)) {
                     _triangles.splice(i, 1);
@@ -7363,7 +7747,7 @@ folio.FTriangulate = function(points) {
         }
 
         // return _triangles;
-    };
+    }
     init();
 
     // -----------------------------------------------------------------------------
@@ -7391,28 +7775,28 @@ folio.FTriangulate = function(points) {
         var drsqr;
 
         // Check for coincident points
-        if (Math.abs(t.p1.y-t.p2.y) < EPSILON && Math.abs(t.p2.y-t.p3.y) < EPSILON) {
+        if (Math.abs(t.p1.y - t.p2.y) < EPSILON && Math.abs(t.p2.y - t.p3.y) < EPSILON) {
             //System.err.println("CircumCircle: Points are coincident.");
             return false;
         }
 
-        if (Math.abs(t.p2.y-t.p1.y) < EPSILON) {
-            m2 = - (t.p3.x-t.p2.x) / (t.p3.y-t.p2.y);
+        if (Math.abs(t.p2.y - t.p1.y) < EPSILON) {
+            m2 = - (t.p3.x - t.p2.x) / (t.p3.y - t.p2.y);
             mx2 = (t.p2.x + t.p3.x) / 2.0;
             my2 = (t.p2.y + t.p3.y) / 2.0;
             circle.x = (t.p2.x + t.p1.x) / 2.0;
             circle.y = m2 * (circle.x - mx2) + my2;
         }
-        else if (Math.abs(t.p3.y-t.p2.y) < EPSILON) {
-            m1 = - (t.p2.x-t.p1.x) / (t.p2.y-t.p1.y);
+        else if (Math.abs(t.p3.y - t.p2.y) < EPSILON) {
+            m1 = - (t.p2.x - t.p1.x) / (t.p2.y - t.p1.y);
             mx1 = (t.p1.x + t.p2.x) / 2.0;
             my1 = (t.p1.y + t.p2.y) / 2.0;
             circle.x = (t.p3.x + t.p2.x) / 2.0;
             circle.y = m1 * (circle.x - mx1) + my1;
         }
         else {
-            m1 = - (t.p2.x-t.p1.x) / (t.p2.y-t.p1.y);
-            m2 = - (t.p3.x-t.p2.x) / (t.p3.y-t.p2.y);
+            m1 = - (t.p2.x - t.p1.x) / (t.p2.y - t.p1.y);
+            m2 = - (t.p3.x - t.p2.x) / (t.p3.y - t.p2.y);
             mx1 = (t.p1.x + t.p2.x) / 2.0;
             mx2 = (t.p2.x + t.p3.x) / 2.0;
             my1 = (t.p1.y + t.p2.y) / 2.0;
@@ -7423,15 +7807,15 @@ folio.FTriangulate = function(points) {
 
         dx = t.p2.x - circle.x;
         dy = t.p2.y - circle.y;
-        rsqr = dx*dx + dy*dy;
+        rsqr = dx * dx + dy * dy;
         circle.z = Math.sqrt(rsqr);
 
         dx = p.x - circle.x;
         dy = p.y - circle.y;
-        drsqr = dx*dx + dy*dy;
+        drsqr = dx * dx + dy * dy;
 
         return drsqr <= rsqr;
-    };
+    }
 
     // -----------------------------------------------------------------------------
     /**
@@ -7449,12 +7833,12 @@ folio.FTriangulate = function(points) {
 
         for (var i = 0; i < _triangles.length; i++) {
             var iFind = _triangles[i];
-            var d1 = other.getCentroid.getDistance( iFind.getCentroid );
+            var d1 = other.getCentroid.getDistance(iFind.getCentroid);
 
             for (var j = 0; j < _triangles.length; j++) {
                 // var jFind = _triangles[i];
                 var jFind = _triangles[j];
-                var d2 = other.getCentroid.getDistance( jFind.getCentroid );
+                var d2 = other.getCentroid.getDistance(jFind.getCentroid);
 
                 if (d2 < d1) {
                     result = jFind;
@@ -7465,7 +7849,7 @@ folio.FTriangulate = function(points) {
         }
 
         return result;
-    };
+    }
 
     // -----------------------------------------------------------------------------
     /**
@@ -7476,11 +7860,17 @@ folio.FTriangulate = function(points) {
      * @param {Point} b
      *
      */
-    function sortLeftToRight(a,b) {
-        if (a.x < b.x) return 1;
-        else if (a.x > b.x) return -1;
-        else return 0;
-    };
+    function sortLeftToRight(a, b) {
+        if (a.x < b.x) {
+            return 1;
+        }
+        else if (a.x > b.x) {
+            return -1;
+        }
+        else {
+            return 0;
+        }
+    }
 
     /**
      *
@@ -7490,15 +7880,21 @@ folio.FTriangulate = function(points) {
      * @param {Point} b
      *
      */
-    function sortTopToBottom(a,b) {
-        if (a.y < b.y) return 1;
-        else if (a.y > b.y) return -1;
-        else return 0;
-    };
+    function sortTopToBottom(a, b) {
+        if (a.y < b.y) {
+            return 1;
+        }
+        else if (a.y > b.y) {
+            return -1;
+        }
+        else {
+            return 0;
+        }
+    }
 
     /**
-     *
      * remove Point duplicates
+     * TODO: add FCalculate.js (if it doesn't exist already)
      *
      * @param {Array} arr
      *      array to remove duplicate points from
@@ -7508,16 +7904,20 @@ folio.FTriangulate = function(points) {
      */
     function uniquePoints(arr){
         arr.sort();
-        for (var i=1; i<arr.length; ){
-            if (arr[i-1].x == arr[i].x && arr[i-1].y == arr[i].y ) arr.splice(i, 1);
-            else i++;
+        for (var i = 1; i < arr.length;){
+            if (arr[i - 1].x == arr[i].x && arr[i - 1].y == arr[i].y) {
+                arr.splice(i, 1);
+            }
+            else {
+                i++;
+            }
         }
         return arr;
-    };
+    }
 
     /**
-     *
      * remove Edge duplicates
+     * TODO: add FCalculate.js (if it doesn't exist already)
      *
      * @param {Array} arr
      *      array to remove duplicate edges from
@@ -7527,10 +7927,14 @@ folio.FTriangulate = function(points) {
      */
     function uniqueEdges(arr) {
         arr.sort();
-        for (var i=1; i<arr.length; ){
-            if (arr[i-1].p1 == arr[i].p1 && arr[i-1].p2 == arr[i].p2 ||
-                arr[i-1].p1 == arr[i].p2 && arr[i-1].p2 == arr[i].p2 ) arr.splice(i, 1);
-            else i++;
+        for (var i = 1; i<arr.length;){
+            if (arr[i - 1].p1 == arr[i].p1 && arr[i - 1].p2 == arr[i].p2 ||
+                arr[i - 1].p1 == arr[i].p2 && arr[i - 1].p2 == arr[i].p2 ) {
+                    arr.splice(i, 1);
+            }
+            else {
+                i++;
+            }
         }
         return arr;
 
@@ -7543,8 +7947,8 @@ folio.FTriangulate = function(points) {
         //  for (var j = 0; j < edges.length; j++) {
         //      if (i != j) {
         //          var edge2 = edges[j];
-        //          if (( edge1.p1 == edge2.p1 && edge1.p2 == edge2.p2 ) ||
-        //              ( edge1.p1 == edge2.p2 && edge1.p2 == edge2.p1 )) {
+        //          if ((edge1.p1 == edge2.p1 && edge1.p2 == edge2.p2) ||
+        //              (edge1.p1 == edge2.p2 && edge1.p2 == edge2.p1)) {
         //              unique = false;
         //              break;
         //          }
@@ -7552,12 +7956,12 @@ folio.FTriangulate = function(points) {
         //  }
 
         //  if (unique) {
-        //      uniqueEdges.push( edge1 );
+        //      uniqueEdges.push(edge1);
         //  }
         // }
 
         // return uniqueEdges;
-    };
+    }
 
 
     // -----------------------------------------------------------------------------
@@ -7578,22 +7982,17 @@ folio.FTriangulate = function(points) {
 
         if (point instanceof Array) {
             _pointsNew = point;
-            // add points to points array
-            _points = _points.concat( point );
+            _points = _points.concat(point);
         }
         else {
             _pointsNew[0] = point;
-            // add point to points array
-            _points.push( point );
+            _points.push(point);
         }
 
-        // check for duplicate points
-        _points = uniquePoints( _points );
+        _points = uniquePoints(_points);
 
-        // console.log( _pointsNew );
-        // create (new) triangulation
         init();
-    };
+    }
 
     //
     // Gets
@@ -7611,7 +8010,7 @@ folio.FTriangulate = function(points) {
         else {
             return _triangles;
         }
-    };
+    }
 
     /**
      * @param {Number} index
@@ -7626,19 +8025,17 @@ folio.FTriangulate = function(points) {
         else {
             return _points;
         }
-    };
+    }
 
 
 
     // -----------------------------------------------------------------------------
     return {
-        // sets
-        add: addPoint,
+        add          : addPoint,
 
-        // gets
-        getTriangles: getTriangles,
-        getPoints: getPoints,
-        getClosest: findClosest
+        getTriangles : getTriangles,
+        getPoints    : getPoints,
+        getClosest   : findClosest
     };
 
 
@@ -7646,7 +8043,7 @@ folio.FTriangulate = function(points) {
 
 
 
-/*Ô
+/**
  *
  * HashSet
  * Phùng Văn Huy
@@ -7711,7 +8108,7 @@ var HashSet = function() {
             }
         }
         return b;
-    };
+    }
 
 
     //
@@ -7719,7 +8116,7 @@ var HashSet = function() {
     //
     function toString() {
         return arr.join(',');
-    };
+    }
 
 
 
@@ -7734,8 +8131,6 @@ var HashSet = function() {
     };
 
 };
-
-
 
 /**
  *

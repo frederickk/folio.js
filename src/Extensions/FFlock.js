@@ -21,7 +21,8 @@
  * http://blog.kennethfrederick.de/
  *
  *
- * TODO: fix repelling for predators & obstacles
+ * TODO: fix repelling for predators & obstacles, fixed?
+ * TODO: performance is shit!
  *
  */
 
@@ -31,67 +32,79 @@ folio.FFlock = {
      * @param  {Point} position
      *          intial position of Boid
      * @param  {Object} properties (optional)
-     *          radius:    30    // distance from other Boids
-     *          maxSpeed:  10    // the maximum speed of the Boid
-     *          maxForce:  0.05  // the maximum force of the Boid
-     *          strength:  Math.random() * 0.5  // strength of the Boid's force
-     *          path:      new Path() // Item to apply behavior to
+     *          radius   : 30    // distance from other Boids
+     *          maxSpeed : 10    // the maximum speed of the Boid
+     *          maxForce : 0.05  // the maximum force of the Boid
+     *          strength : Math.random() * 0.5  // strength of the Boid's force
+     *          path     : new Path() // Item to apply behavior to
      *
      * @example
      * var flock = [];
      * for (var i = 0; i < 30; i++) {
      *  var boid = new folio.FFlock.boid(view.center, {
-     *      radius:     30,
-     *      maxSpeed:   10,
-     *      maxForce:   0.05,
-     *      path:       new Path.Rectangle({
-     *                      position:   [0, 0],
-     *                      size:       [10, 10],
-     *                      fillColor:  new Color.random()
-     *                  })
+     *      radius   : 30,
+     *      maxSpeed : 10,
+     *      maxForce : 0.05,
+     *      path     : new Path.Rectangle({
+     *                     position  : [0, 0],
+     *                     size      : [10, 10],
+     *                     fillColor : new Color.random()
+     *                 })
      *  });
-     *  flock.push( boid );
+     *  flock.push(boid);
      * }
      *
      */
     boid: function(position, properties) {
         // ------------------------------------------------------------------------
+        //
         // Properties
+        //
         // ------------------------------------------------------------------------
-        var mass = 1.0;
-        var strength = properties.strength || Math.random() * 0.5;
         var radius = properties.radius || 30;
+        var strength = properties.strength || Math.random() * 0.5;
         var maxSpeed = properties.maxSpeed + strength || 10 + strength;
         var maxForce = properties.maxForce + strength || 0.05 + strength;
         var path = properties.path || null;
         var data = properties.data || null;
+        var groupTogether = properties.groupTogether || true;
+        var bounce = properties.bounce || false;
+        var container = properties.container || view;
+        var contained = false;
 
+        var mass = 1.0;
         var acceleration = new Point();
-        var vector = new Point.random(-maxSpeed*maxForce, maxSpeed*maxForce);
+        var vector = new Point.random(-maxSpeed * maxForce, maxSpeed * maxForce);
         var position = new Point(position); //.clone();
 
         var count = 0;
         var lastAngle = 0;
         var distances = [];
-        var groupTogether = false;
 
-        var contained = false;
+        // this is my bootleg way to fix a stuck boid
+        var stuckCounter = 0;
+        // if a boid increments the stuckCounter beyond
+        // stuckMax it's movement is more drastic
+        var stuckMax = 100;
+
 
 
         // ------------------------------------------------------------------------
+        //
         // Methods
+        //
         // ------------------------------------------------------------------------
         function run(boids) {
-            if (!groupTogether) {
+            if (groupTogether) {
                 flock(boids);
             }
             else {
                 align(boids);
             }
-            borders();
+            borders(bounce);
             update();
             updateItems();
-        };
+        }
 
         // We accumulate a new acceleration each time based on three rules
         function flock(boids) {
@@ -99,11 +112,12 @@ folio.FFlock = {
             var separation = separate(boids);
             separation.x *= 3;
             separation.y *= 3;
+
             var alignment = align(boids);
             var coherence = cohesion(boids);
             acceleration.x += separation.x + alignment.x + coherence.x;
             acceleration.y += separation.y + alignment.y + coherence.y;
-        };
+        }
 
         // ------------------------------------------------------------------------
         function calculateDistances(boids) {
@@ -111,20 +125,22 @@ folio.FFlock = {
                 var other = boids[i];
                 distances[i] = other.position().getDistance(position, true);
             }
-        };
+        }
 
         // ------------------------------------------------------------------------
         function update() {
             // Update velocity
             vector.x += acceleration.x;
             vector.y += acceleration.y;
+
             // Limit speed (vector#limit?)
             vector.length = Math.min(maxSpeed, vector.length);
             position.x += vector.x;
             position.y += vector.y;
+
             // Reset acceleration to 0 each cycle
             acceleration = new Point();
-        };
+        }
 
         function updateItems() {
             if (path) {
@@ -133,42 +149,62 @@ folio.FFlock = {
                 path.rotate(angle - lastAngle);
                 lastAngle = angle;
             }
-        };
+        }
 
         // ------------------------------------------------------------------------
         function seek(target) {
             var s = steer(target, false);
             acceleration.x += s.x;
             acceleration.y += s.y;
-        };
+        }
 
         function arrive(target) {
             var s = steer(target, true);
             acceleration.x += s.x;
             acceleration.y += s.y;
-        };
+        }
 
         // ------------------------------------------------------------------------
-        function borders() {
-            var vector = new Point();
-            var size = view.size;
-            if (position.x < -radius) {
-                vector.x = size.width + radius;
+        function borders(isBounce) {
+            isBounce = isBounce || false;
+            var size = container.bounds.size;
+
+            if (isBounce) {
+                if (stuckCounter > stuckMax) {
+                    stuckCounter = 0;
+                    position = new Point.random(size.width, size.height);
+                }
+
+                if (position.x < radius || position.x > size.width - radius) {
+                    vector.x *= -1;
+                    stuckCounter++;
+                }
+                if (position.y < radius || position.y > size.height - radius) {
+                    vector.y *= -1;
+                    stuckCounter++;
+                }
             }
-            if (position.y < -radius) {
-                vector.y = size.height + radius;
+            else {
+                // the -2 is intended to keep items from getting stuck
+                if (position.x < -radius) {
+                    position.x = size.width + (radius - 2);
+                }
+                if (position.y < -radius) {
+                    position.y = size.height + (radius - 2);
+                }
+                if (position.x > size.width + radius) {
+                    position.x = -(radius + 2);
+                }
+                if (position.y >= size.height + radius) {
+                    position.y = -(radius + 2);
+                }
             }
-            if (position.x > size.width + radius) {
-                vector.x = -size.width -radius;
-            }
-            if (position.y > size.height + radius) {
-                vector.y = -size.height -radius;
-            }
+
             if (!vector.isZero()) {
                 position.x += vector.x;
                 position.y += vector.y;
             }
-        };
+        }
 
         // ------------------------------------------------------------------------
         // A method that causes the boid to be contained within an item
@@ -178,7 +214,7 @@ folio.FFlock = {
                 fill:      true,
                 stroke:    true,
                 segment:   true,
-                tolerance: radius/2
+                tolerance: radius// / 2
             };
 
             var target = new Point(
@@ -187,7 +223,7 @@ folio.FFlock = {
             );
 
             var distance = item.position.getDistance(target);
-            if (distance <= radius*10) {
+            if (distance <= radius * 10) {
                 contained = true;
             }
 
@@ -207,16 +243,15 @@ folio.FFlock = {
                 // path.fillColor = 'white';
                 arrive(item.position);
             }
-
-        };
+        }
 
         // A method that causes the boid to be repelled/avoid an item
         function repel(obstacleItem, properties) {
             properties.hitOptions = properties.hitOptions || {
-                fill:      true,
-                stroke:    true,
-                segment:   true,
-                tolerance: radius/2
+                fill      : true,
+                stroke    : true,
+                segment   : true,
+                tolerance : radius// / 2
             };
 
             var target = new Point(
@@ -228,8 +263,7 @@ folio.FFlock = {
                 var hitResult = obstacleItem.path().hitTest(target, properties.hitOptions);
                 var repel = new Point();
                 if (hitResult) {
-                    if (hitResult.type == 'stroke' ||
-                        hitResult.type == 'segment' ||
+                    if (hitResult.type == 'segment' ||
                         hitResult.type == 'handle-in' ||
                         hitResult.type == 'handle-out') {
                         repel = new Point(
@@ -238,20 +272,21 @@ folio.FFlock = {
                         );
                         repel = repel.normalize();
                     }
-                    else if (hitResult.type == 'fill') {
-                        repel = new Point(
-                            position.x * -vector.x,
-                            position.y * -vector.y
-                        );
-                        // repel = repel.normalize();
+                    else if (hitResult.type == 'stroke' ||
+                             hitResult.type == 'fill') {
                         // repel = new Point(
-                        //     target.x - vector.x,
-                        //     target.y - vector.y
+                        //     position.x * -vector.x,
+                        //     position.y * -vector.y
                         // );
+                        repel = repel.normalize();
+                        repel = new Point(
+                            target.x - vector.x,
+                            target.y - vector.y
+                        );
                     }
 
-                    repel.x *= maxForce*7;
-                    repel.y *= maxForce*7;
+                    repel.x *= maxForce * 7; // 7 is a magic number
+                    repel.y *= maxForce * 7;
 
                     if (Math.sqrt(repel.x * repel.x + repel.y * repel.y) < 0) {
                         repel.y = 0;
@@ -265,20 +300,20 @@ folio.FFlock = {
 
                 }
             }
-
-        };
+        }
 
         // ------------------------------------------------------------------------
         // A method that calculates a steering vector towards a target
         // Takes a second argument, if true, it slows down as it approaches
         // the target
         function steer(target, slowdown) {
-            var steer = new Point(),
-                desired = new Point(
+            var steer = new Point();
+            var desired = new Point(
                     target.x - position.x,
                     target.y - position.y
                 );
             var distance = desired.length;
+
             // Two options for desired vector magnitude
             // (1 -- based on distance, 2 -- maxSpeed)
             if (slowdown && distance < 100) {
@@ -295,7 +330,7 @@ folio.FFlock = {
         }
 
         function separate(boids) {
-            var desiredSeperation = radius*100; //3600;
+            var desiredSeperation = radius * 100; //3600;
             var steer = new Point();
             var count = 0;
             // For every boid in the system, check if it's too close
@@ -378,6 +413,7 @@ folio.FFlock = {
                 // Steer towards the location
                 return steer(sum, false);
             }
+
             return sum;
         }
 
@@ -390,6 +426,10 @@ folio.FFlock = {
         function setGroupTogether(val) {
             groupTogether = val || groupTogether;
             return groupTogether;
+        }
+
+        function setBounce(val) {
+            bounce = val;
         }
 
 
@@ -433,38 +473,43 @@ folio.FFlock = {
             return maxForce;
         }
 
+        function getBounce() {
+            return bounce;
+        }
+
 
 
         // ------------------------------------------------------------------------
         return {
-            run:            run,
-            flock:          flock,
+            run           : run,
+            flock         : flock,
 
-            update:         update,
-            updateItems:    updateItems,
+            update        : update,
+            updateItems   : updateItems,
 
-            seek:           seek,
-            arrive:         arrive,
+            seek          : seek,
+            arrive        : arrive,
 
-            borders:        borders,
+            borders       : borders,
 
-            contain:        contain,
-            repel:          repel,
-            steer:          steer,
-            separate:       separate,
-            align:          align,
-            cohesion:       cohesion,
+            contain       : contain,
+            repel         : repel,
+            steer         : steer,
+            separate      : separate,
+            align         : align,
+            cohesion      : cohesion,
 
-            groupTogether:  setGroupTogether,
+            groupTogether : setGroupTogether,
 
-            acceleration:   getAcceleration,
-            vector:         getVector,
-            position:       getPosition,
-            radius:         getRadius,
-            path:           getPath,
-            data:           getData,
-            maxSpeed:       getMaxSpeed,
-            maxForce:       getMaxForce
+            acceleration  : getAcceleration,
+            vector        : getVector,
+            position      : getPosition,
+            radius        : getRadius,
+            path          : getPath,
+            data          : getData,
+            maxSpeed      : getMaxSpeed,
+            maxForce      : getMaxForce,
+            bounce        : getBounce
         };
 
     },
@@ -473,28 +518,28 @@ folio.FFlock = {
 
     /**
      * @param  {Point} position
-     *          intial position of Boid
+     *          intial position of Predator
      * @param  {Object} properties (optional)
-     *          radius:    30    // distance from other Boids
-     *          maxSpeed:  10    // the maximum speed of the Boid
-     *          maxForce:  0.05  // the maximum force of the Boid
-     *          strength:  Math.random() * 0.5  // strength of the Boid's force
-     *          path:      new Path() // Item to apply behavior to
+     *          radius   : 30    // distance from other Boids
+     *          maxSpeed : 10    // the maximum speed of the Predator
+     *          maxForce : 0.05  // the maximum force of the Predator
+     *          strength : Math.random() * 0.5  // strength of the Predator's force
+     *          path     : new Path() // Item to apply behavior to
      *
      * @example
      * var predators = [];
      * for (var i = 0; i < 30; i++) {
      *  var predator = new folio.FFlock.predator(view.center, {
-     *      radius:     40,
-     *      maxSpeed:   20,
-     *      maxForce:   0.01,
-     *      path:       new Path.Rectangle({
-     *                      position:   [0, 0],
-     *                      size:       [10, 10],
-     *                      fillColor:  new Color.random()
-     *                  })
+     *      radius   : 40,
+     *      maxSpeed : 20,
+     *      maxForce : 0.01,
+     *      path     : new Path.Rectangle({
+     *                     position  : [0, 0],
+     *                     size      : [10, 10],
+     *                     fillColor : new Color.random()
+     *                 })
      *  });
-     *  predators.push( predator );
+     *  predators.push(predator);
      * }
      *
      */
@@ -504,7 +549,7 @@ folio.FFlock = {
         // Properties
         //
         // ------------------------------------------------------------------------
-        var boid = new folio.FFlock.boid(position, properties);
+        var boidPredator = new folio.FFlock.boid(position, properties);
 
 
 
@@ -513,50 +558,54 @@ folio.FFlock = {
         // Methods
         //
         // ------------------------------------------------------------------------
-        boid.run = function(predators, boids) {
-            if (!boid.groupTogether()) {
-                boid.flock(predators);
+        boidPredator.run = function(predators, boids) {
+            if (boidPredator.groupTogether()) {
+                boidPredator.flock(predators);
             }
             else {
-                boid.align(predators);
+                boidPredator.align(predators);
             }
-            boid.borders();
-            boid.update();
-            boid.updateItems();
-            boid.repel(boids);
+            boidPredator.borders(boidPredator.bounce());
+            boidPredator.update();
+            boidPredator.updateItems();
+            boidPredator.repel(boids);
         };
 
-        boid.repel = function(boids) {
+        boidPredator.repel = function(boids) {
+            var boid;
             for (var i = 0, l = boids.length; i < l; i++) {
-                boids[i].repel(boid, properties);
+                boid = boids[i];
+
+                boidPredator.seek(boid.position());
+                boid.repel(boidPredator, properties);
             }
         };
 
 
         // ------------------------------------------------------------------------
-        return boid;
+        return boidPredator;
     },
 
 
 
     /**
      * @param  {Point} position
-     *          intial position of Boid
+     *          intial position of Obstacle
      * @param  {Object} properties (optional)
-     *          radius:    30    // repel distance from Boids
-     *          path:      new Path() // Item to apply behavior to
+     *          radius : 30    // repel distance from Boids
+     *          path   : new Path() // Item to apply behavior to
      *
      * @example
      * var obstacles = [];
      * var obstacle = new folio.FFlock.obstacle(new Point(100, 100), {
-     *  radius:     35,
-     *  path:       new Path.Circle({
-     *                  position:   [0, 0],
-     *                  radius:     30,
-     *                  fillColor:  'black'
-     *              })
+     *  radius : 35,
+     *  path   : new Path.Circle({
+     *               position  : [0, 0],
+     *               radius    : 30,
+     *               fillColor : 'black'
+     *           })
      * });
-     * obstacles.push( obstacle );
+     * obstacles.push(obstacle);
      *
      */
     obstacle: function(position, properties) {
@@ -565,7 +614,7 @@ folio.FFlock = {
         // Properties
         //
         // ------------------------------------------------------------------------
-        var boid = new folio.FFlock.boid(position, properties);
+        var boidObstacle = new folio.FFlock.boid(position, properties);
 
 
 
@@ -574,19 +623,19 @@ folio.FFlock = {
         // Methods
         //
         // ------------------------------------------------------------------------
-        boid.run = function(boids) {
-            boid.repel(boids);
+        boidObstacle.run = function(boids) {
+            boidObstacle.repel(boids);
         };
 
-        boid.repel = function(boids) {
+        boidObstacle.repel = function(boids) {
             for (var i = 0, l = boids.length; i < l; i++) {
-                boids[i].repel(boid, properties);
+                boids[i].repel(boidObstacle, properties);
             }
         };
 
 
         // ------------------------------------------------------------------------
-        return boid;
+        return boidObstacle;
     }
 
 };

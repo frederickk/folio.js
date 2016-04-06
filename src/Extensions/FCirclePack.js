@@ -30,7 +30,7 @@
  *              (optional) number of iterations per cycle (default: 11)
  *              higher iterations == slower movement
  *
- * @return {Array}
+ * @return {Object}
  */
 /**
  * @param {Array} circleItems
@@ -39,13 +39,15 @@
  *              (optional) number of iterations per cycle (default: 11)
  *              higher iterations == slower movement
  *
- * @return {Array}
+ * @return {Object}
  *
  */
 folio.FCirclePack = function(circleItems, iterations) {
+    // ------------------------------------------------------------------------
     //
     // Properties
     //
+    // ------------------------------------------------------------------------
     var circleItems = (circleItems instanceof Group)
         ? circleItems.children
         : (circleItems == null)
@@ -59,21 +61,27 @@ folio.FCirclePack = function(circleItems, iterations) {
     var padding = 0;
     var target = view.center;
 
+
+
+    // ------------------------------------------------------------------------
     //
     // Methods
     //
+    // ------------------------------------------------------------------------
     function update() {
-        circleItems = circleItems.sort( FSort.distanceToCenter );
+        circleItems = circleItems.sort(FSort.distanceToCenter);
         var pp = new Point();
 
         // Push items away from each other
-        for (var i=circleItems.length-1; i>=0; --i) {
+        for (var i = circleItems.length - 1; i >= 0; --i) {
             var ci = circleItems[i];
 
-            for (var j=i+1; j<circleItems.length; j++) {
+            for (var j = i + 1; j < circleItems.length; j++) {
                 var cj = circleItems[j];
 
-                if (i == j) continue;
+                if (i == j) {
+                    continue;
+                }
 
                 var dx = cj.position.x - ci.position.x;
                 var dy = cj.position.y - ci.position.y;
@@ -92,7 +100,7 @@ folio.FCirclePack = function(circleItems, iterations) {
                     pp.x = dx;
                     pp.y = dy;
                     pp = pp.normalize(1.0);
-                    pp = pp.multiply( (r - Math.sqrt(d)) * 0.5 );
+                    pp = pp.multiply((r - Math.sqrt(d)) * 0.5);
 
                     try {
                         // if (cj != this.dragCircle) {
@@ -135,6 +143,7 @@ folio.FCirclePack = function(circleItems, iterations) {
     }
 
 
+    // ------------------------------------------------------------------------
     //
     // sets
     //
@@ -148,10 +157,10 @@ folio.FCirclePack = function(circleItems, iterations) {
      */
     function add(item) {
         if (typeof item === 'array') {
-            circleItems = circleItems.concat( item );
+            circleItems = circleItems.concat(item);
         }
         else {
-            circleItems.push( item );
+            circleItems.push(item);
         }
     }
 
@@ -180,6 +189,7 @@ folio.FCirclePack = function(circleItems, iterations) {
         target = point;
     }
 
+    // ------------------------------------------------------------------------
     //
     // gets
     //
@@ -204,9 +214,7 @@ folio.FCirclePack = function(circleItems, iterations) {
 
 
 
-    //
-    // gets
-    //
+    // ------------------------------------------------------------------------
     return {
         update     : update,
 
