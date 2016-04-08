@@ -37,10 +37,10 @@
  * Matrix3D
  *
  */
-var Matrix3D = function( n11, n12, n13, n14,
-                         n21, n22, n23, n24,
-                         n31, n32, n33, n34,
-                         n41, n42, n43, n44) {
+var Matrix3D = function(n11, n12, n13, n14,
+                        n21, n22, n23, n24,
+                        n31, n32, n33, n34,
+                        n41, n42, n43, n44) {
     // ------------------------------------------------------------------------
     //
     // Properties
@@ -62,15 +62,15 @@ var Matrix3D = function( n11, n12, n13, n14,
         for (var i in values) {
             this[i] = values[i];
         }
-    };
+    }
 
     // ------------------------------------------------------------------------
     function clone() {
-        return new Matrix3D( n11, n12, n13, n14,
-                             n21, n22, n23, n24,
-                             n31, n32, n33, n34,
-                             n41, n42, n43, n44 );
-    };
+        return new Matrix3D(n11, n12, n13, n14,
+                            n21, n22, n23, n24,
+                            n31, n32, n33, n34,
+                            n41, n42, n43, n44);
+    }
 
     // ------------------------------------------------------------------------
     function concat(m) {
@@ -97,39 +97,40 @@ var Matrix3D = function( n11, n12, n13, n14,
         values.n44 = n41 * m.n14 + n42 * m.n24 + n43 * m.n34 + n44 * m.n44;
 
         init(values);
-    };
+    }
 
     // ------------------------------------------------------------------------
-    function createBox( scalex, scaley, scalez,
-                        rotationx, rotationy, rotationz,
-                        tx, ty, tz) {
+    // TODO: paper.js-ify the arguments
+    function createBox(scalex, scaley, scalez, rotationx, rotationy, rotationz, tx, ty, tz) {
         identity();
 
         if (rotationx != 0) {
-            rotateX( rotationx );
+            rotateX(rotationx);
         }
         if (rotationy != 0) {
-            rotateY( rotationy );
+            rotateY(rotationy);
         }
         if (rotationz != 0) {
-            rotateZ( rotationz );
+            rotateZ(rotationz);
         }
         if (scalex != 1 || scaley != 1 || scalez != 1) {
-            scale( scalex, scaley, scalez );
+            scale(scalex, scaley, scalez);
         }
         if (tx != 0 || ty != 0 || tz != 0) {
-            translate( tx, ty, tz );
+            translate(tx, ty, tz);
         }
-    };
+    }
 
 
     // ------------------------------------------------------------------------
     function identity() {
-        init({ n11:1, n12:0, n13:0, n14:0,
-               n21:0, n22:1, n23:0, n24:0,
-               n31:0, n32:0, n33:1, n34:0,
-               n41:0, n42:0, n43:0, n44:1 });
-    };
+        init({
+            n11 : 1, n12 : 0, n13 : 0, n14 : 0,
+            n21 : 0, n22 : 1, n23 : 0, n24 : 0,
+            n31 : 0, n32 : 0, n33 : 1, n34 : 0,
+            n41 : 0, n42 : 0, n43 : 0, n44 : 1
+        });
+    }
 
 
     // ------------------------------------------------------------------------
@@ -147,7 +148,7 @@ var Matrix3D = function( n11, n12, n13, n14,
             0, sin, cos, 0,
             0, 0, 0, 1)
         );
-    };
+    }
 
     function rotateY(angle) {
         var sin = Math.sin(angle);
@@ -159,7 +160,7 @@ var Matrix3D = function( n11, n12, n13, n14,
             -sin, 0, cos, 0,
             0, 0, 0, 1)
         );
-    };
+    }
 
     function rotateZ(angle) {
         var sin = Math.sin(angle);
@@ -171,7 +172,7 @@ var Matrix3D = function( n11, n12, n13, n14,
             0, 0, 1, 0,
             0, 0, 0, 1)
         );
-    };
+    }
 
     /**
      *
@@ -184,8 +185,8 @@ var Matrix3D = function( n11, n12, n13, n14,
     function setRotateAxis(axis, angle) {
         // Based on http://www.gamedev.net/reference/articles/article1199.asp
 
-        var cos = Math.cos( angle );
-        var sin = Math.sin( angle );
+        var cos = Math.cos(angle);
+        var sin = Math.sin(angle);
 
         var t = 1 - cos;
 
@@ -202,7 +203,7 @@ var Matrix3D = function( n11, n12, n13, n14,
             tx * z - sin * y,   ty * z + sin * x,   t * z * z + cos,    0,
             0, 0, 0, 1
         );
-    };
+    }
 
 
     // ------------------------------------------------------------------------
@@ -213,11 +214,11 @@ var Matrix3D = function( n11, n12, n13, n14,
     /**
      * Scale
      *
-     * @param  {[type]} sx [description]
-     * @param  {[type]} sy [description]
-     * @param  {[type]} sz [description]
+     * @param  {Number} sx [description]
+     * @param  {Number} sy [description]
+     * @param  {Number} sz [description]
      *
-     * @return {[type]}    [description]
+     * @return {Object}    [description]
      */
     function scale(sx, sy, sz) {
         concat(new Matrix3D(
@@ -226,7 +227,7 @@ var Matrix3D = function( n11, n12, n13, n14,
             0, 0, sz, 0,
             0, 0, 0,  1)
         );
-    };
+    }
 
 
     // ------------------------------------------------------------------------
@@ -237,17 +238,17 @@ var Matrix3D = function( n11, n12, n13, n14,
     /**
      * Translate
      *
-     * @param  {[type]} dx [description]
-     * @param  {[type]} dy [description]
-     * @param  {[type]} dz [description]
+     * @param  {Number} dx [description]
+     * @param  {Number} dy [description]
+     * @param  {Number} dz [description]
      *
-     * @return {[type]}    [description]
+     * @return {Object}    [description]
      */
     function translate(dx, dy, dz) {
         n41 += dx;
         n42 += dy;
         n43 += dz;
-    };
+    }
 
 
     // ------------------------------------------------------------------------
@@ -258,9 +259,9 @@ var Matrix3D = function( n11, n12, n13, n14,
     /**
      * Transform Point
      *
-     * @param  {[type]} point [description]
+     * @param  {Point} point [description]
      *
-     * @return {[type]}       [description]
+     * @return {Vertex3D}       [description]
      */
     function transformPoint(point) {
         return new Vertex3D(
@@ -268,24 +269,24 @@ var Matrix3D = function( n11, n12, n13, n14,
             n12 * point.x + n22 * point.y + n32 * point.z + n42,
             n13 * point.x + n23 * point.y + n33 * point.z + n43
         );
-    };
+    }
 
     function transformArray(arr) {
-        var rVal=[];
-        var numPoints=arr.length/3;
+        var rVal = [];
+        var numPoints = arr.length / 3;
 
         for (var i = 0; i < numPoints; i++) {
             var i3 = i*3;
             var x = arr[i3];
-            var y = arr[i3+1];
-            var z = arr[i3+2];
+            var y = arr[i3 + 1];
+            var z = arr[i3 + 2];
 
             rVal[i3]   = n11 * x + n21 * y + n31 * z + n41;
             rVal[i3+1] = n12 * x + n22 * y + n32 * z + n42;
             rVal[i3+2] = n13 * x + n23 * y + n33 * z + n43;
         }
         return rVal;
-    };
+    }
 
 
     // ------------------------------------------------------------------------
@@ -304,7 +305,7 @@ var Matrix3D = function( n11, n12, n13, n14,
         n13 = fpoint3.y;
         n14 = fpoint3.z;
         return this;
-    };
+    }
 
 
 
@@ -314,18 +315,18 @@ var Matrix3D = function( n11, n12, n13, n14,
     /**
      * Position
      *
-     * @return {[type]} [description]
+     * @return {Array} [description]
      */
     var getPosition = function() {
-        return [ n12, n13, n14 ];
-    };
+        return [n12, n13, n14];
+    }
 
     var toString = function() {
         return  n11 + ',' + n12 + ',' + n13 + ',' + n14 + ',' +
                 n21 + ',' + n22 + ',' + n23 + ',' + n24 + ',' +
                 n31 + ',' + n32 + ',' + n33 + ',' + n34 + ',' +
                 n41 + ',' + n42 + ',' + n43 + ',' + n44;
-    };
+    }
 
 
 
@@ -339,25 +340,23 @@ var Matrix3D = function( n11, n12, n13, n14,
      * Frustrum
      * https://github.com/mrdoob/three.js/blob/master/src/core/Matrix4.js
      *
-     * @param  {[type]} left   [description]
-     * @param  {[type]} right  [description]
-     * @param  {[type]} bottom [description]
-     * @param  {[type]} top    [description]
-     * @param  {[type]} near   [description]
-     * @param  {[type]} far    [description]
-     *
-     * @return {[type]}        [description]
+     * @param  {Number} left   [description]
+     * @param  {Number} right  [description]
+     * @param  {Number} bottom [description]
+     * @param  {Number} top    [description]
+     * @param  {Number} near   [description]
+     * @param  {Number} far    [description]
      */
     function makeFrustum(left, right, bottom, top, near, far) {
         var values = {};
 
-        var x = 2 * near / ( right - left );
-        var y = 2 * near / ( top - bottom );
+        var x = 2 * near / (right - left);
+        var y = 2 * near / (top - bottom);
 
-        var a = ( right + left ) / ( right - left );
-        var b = ( top + bottom ) / ( top - bottom );
-        var c = - ( far + near ) / ( far - near );
-        var d = - 2 * far * near / ( far - near );
+        var a = (right + left) / (right - left);
+        var b = (top + bottom) / (top - bottom);
+        var c = - (far + near) / (far - near);
+        var d = - 2 * far * near / (far - near);
 
         values.n11 = x; values.n12 = 0; values.n13 = a;     values.n14 = 0;
         values.n21 = 0; values.n22 = y; values.n23 = b;     values.n24 = 0;
@@ -369,12 +368,12 @@ var Matrix3D = function( n11, n12, n13, n14,
     };
 
     function makePerspective(fov, aspect, near, far) {
-        var ymax = near * Math.tan( fov * Math.PI / 360 );
+        var ymax = near * Math.tan(fov * Math.PI / 360);
         var ymin = - ymax;
         var xmin = ymin * aspect;
         var xmax = ymax * aspect;
 
-        makeFrustum( xmin, xmax, ymin, ymax, near, far );
+        makeFrustum(xmin, xmax, ymin, ymax, near, far);
     };
 
     function makeOrtho(left, right, top, bottom, near, far) {
@@ -384,9 +383,9 @@ var Matrix3D = function( n11, n12, n13, n14,
         var h = top - bottom;
         var p = far - near;
 
-        var x = ( right + left ) / w;
-        var y = ( top + bottom ) / h;
-        var z = ( far + near ) / p;
+        var x = (right + left) / w;
+        var y = (top + bottom) / h;
+        var z = (far + near) / p;
 
         values.n11 = 2/w;   values.n12 = 0;     values.n13 = 0;     values.n14 = -x;
         values.n21 = 0;     values.n22 = 2/h;   values.n23 = 0;     values.n24 = -y;
@@ -428,5 +427,3 @@ var Matrix3D = function( n11, n12, n13, n14,
     }
 
 };
-
-

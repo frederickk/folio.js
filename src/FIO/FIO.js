@@ -234,9 +234,9 @@ folio.FIO = {
     /**
      * download current view as
      *
-     * @param  {[type]} filename [description]
-     * @param  {[type]} width    [description]
-     * @param  {[type]} height   [description]
+     * @param  {String} filename [description]
+     * @param  {Number} width    [description]
+     * @param  {Number} height   [description]
      *
      * @return {Boolean} true if successful, false otherwise
      */

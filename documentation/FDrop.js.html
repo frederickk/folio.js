@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Extensions/FDrop.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: Extensions/FDrop.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>/**!
+ * FDrop
+ *
+ * Ken Frederick
+ * ken.frederick@gmx.de
+ *
+ * http://kennethfrederick.de/
+ * http://blog.kennethfrederick.de/
+ *
+ */
+
+
+/**
+ * @param {Sring} element
+ *              (optional) HTML elemment for drop-target
+ *              by default the entire window is droppable
+ * @param {Array} properties
+ * {
+ * }
+ *
+ */
+folio.FDrop = function(element, properties) {
+    // -----------------------------------------------------------------------------
+    //
+    // Properties
+    //
+    // -----------------------------------------------------------------------------
+    var fileTypes = {
+        text        : /text.*/,
+        image       : /image.*/,
+        video       : /video.*/,
+        application : /application.*/
+    };
+    var FDropEvent = {
+        id          : '',
+
+        isImage     : false,
+        isVideo     : false,
+        isFile      : false,
+        isFileList  : false,
+        isDirectory : false,
+
+        filename    : '',
+        type        : '',
+        data        : '',
+        size        : 0,
+        text        : '',
+        file        : '',
+        files       : []
+    };
+    var files, output;
+
+    // progress bar
+    var totalSize = totalLoad = 0;
+    var progressBar;
+
+    var bError = false;
+
+
+
+    // -----------------------------------------------------------------------------
+    //
+    // Methods
+    //
+    // -----------------------------------------------------------------------------
+    (function() {
+    // function init(element) {
+        // Check for the various File API support.
+        if (window.File && window.FileReader && window.FileList && window.Blob) {
+            function onDragEnterEvent(event) {
+                event.stopPropagation();
+                event.preventDefault();
+            }
+
+            function onDragOverEvent(event) {
+                event.stopPropagation();
+                event.preventDefault();
+                event.dataTransfer.dropEffect = 'copy';
+            }
+
+            function onDropEvent(event) {
+                event.stopPropagation();
+                event.preventDefault();
+                setFiles(event.dataTransfer.files);
+            }
+
+            function onDrop(event) {
+            }
+
+            // by default the entire window is droppable
+            element = element || document.body;
+            element.addEventListener('dragenter', onDragEnterEvent, false);
+            element.addEventListener('dragover',  onDragOverEvent, false);
+            element.addEventListener('drop',      onDropEvent, false);
+            element.addEventListener('ondrop',    onDrop, false);
+        }
+        else {
+            alert('Drag and drop is not fully supported in this browser.');
+        }
+    // };
+    }());
+
+    // -----------------------------------------------------------------------------
+    function handleFile(file, obj) {
+        handleImage(file, obj);
+        // handleVideo(file, obj);
+        handleText(file, obj);
+        handleGeneric(file, obj);
+
+        if (bError) {
+            // an error means most likely a directory
+            obj.isDirectory = true;
+        }
+    }
+
+    function handleFiles(files) {
+        if (files.length > 1) {
+            output = [];
+            for (var i = 0; i &lt; files.length; i++) {
+                var f = files[i];
+                output.push( Object.create(FDropEvent) );
+                output[i].id = element.id;
+                output[i].isFileList = true;
+                output[i].filename = f.name;
+                output[i].size = f.size;
+                output[i].files.push( f.name );
+                handleFile(f, output[i]);
+            }
+        }
+        else {
+            output = Object.create(FDropEvent);
+            output.id = element.id;
+            output.filename = files.name;
+            output.size = files.size;
+            handleFile(files, output);
+        }
+
+        return output;
+    }
+
+    function createProgressBar() {
+        progressBar = document.createElement('div');
+        progressBar.id = 'progressBar';
+        progressBar.style.position = 'absolute';
+        progressBar.style.top = '0px';
+        progressBar.style.left = '0px';
+        progressBar.style.width = '0px';
+        progressBar.style.height = '18px';
+        progressBar.style.background = 'rgba(0, 255, 170, 0.3)';
+        progressBar.style.color = 'rgba(255, 255, 255, 0.9)';
+        progressBar.style.paddingLeft = '6px';
+        progressBar.style.paddingTop = '3px';
+        progressBar.style.zIndex = '2000';
+
+        document.body.appendChild(progressBar);
+    }
+
+    // -----------------------------------------------------------------------------
+    function handleText(file, obj) {
+        // if (file.type.match(fileTypes.text)) {
+            var fileReader = new FileReader();
+            fileReader.onload = function(e) {
+                obj.text = fileReader.result;
+                obj.type = file.type;
+
+                obj.isFile = true;
+            };
+            // fileReader.onloadend = complete;
+            fileReader.onprogress = progress;
+            fileReader.onerror = error;
+            fileReader.readAsText(file);
+        // }
+    }
+
+    function handleImage(file, obj) {
+        if (file.type.match(fileTypes.image)) {
+            var fileReader = new FileReader();
+            fileReader.onload = function(e) {
+                var img = new Image();
+                img.src = fileReader.result;
+
+                obj.file = img;
+                obj.type = file.type;
+
+                obj.isImage = true;
+            };
+            // fileReader.onloadend = complete;
+            fileReader.onprogress = progress;
+            fileReader.onerror = error;
+            fileReader.readAsDataURL(file);
+        }
+    }
+
+    // function handleVideo(file, obj) {
+    //     if (file.type.match(fileTypes.video)) {
+    //         var fileReader = new FileReader();
+    //         fileReader.onload = function(e) {
+    //             obj.data = fileReader.result;
+    //             obj.type = file.type;
+
+    //             obj.isVideo = true;
+    //         };
+    //         // fileReader.onloadend = complete;
+    //         fileReader.onprogress = progress;
+    //         fileReader.onerror = error;
+    //         fileReader.readAsDataURL(file);
+    //     }
+    // }
+
+    function handleGeneric(file, obj) {
+        var fileReader = new FileReader();
+        fileReader.onload = function(e) {
+            obj.data = fileReader.result;
+            obj.type = file.type;
+        };
+        fileReader.onprogress = progress;
+        fileReader.onloadend = complete;
+        // fileReader.readAsDataURL(file);
+        fileReader.readAsBinaryString(file);
+    }
+
+    // -----------------------------------------------------------------------------
+
+    //
+    // Sets
+    //
+    /**
+     *
+     * @param {window.File} files
+     *              the dropped file/files to process
+     *
+     */
+    function setFiles(files) {
+        if (files != null) {
+            createProgressBar();
+
+            if (files.length === 1) {
+                files = files[0];
+                totalSize = files.size;
+            }
+            else {
+                for (var i = 0; i &lt; files.length; i++) {
+                    totalSize += files[i].size;
+                }
+            }
+            return handleFiles(files);
+        }
+    }
+
+
+
+    // -----------------------------------------------------------------------------
+    //
+    // Events
+    //
+    // -----------------------------------------------------------------------------
+    function progress(event) {
+        totalLoad = Math.ceil((event.loaded / totalSize) * 100);
+
+        progressBar.style.width = (totalLoad + '%').toString();
+        progressBar.innerHTML = (totalLoad + '%').toString();
+    }
+
+    function complete(event) {
+        if (totalLoad >= 98) {
+            onDrop(output);
+            document.body.removeChild(progressBar);
+        }
+    }
+
+    function error(event) {
+        bError = true;
+    }
+
+
+
+    // -----------------------------------------------------------------------------
+    return {
+        target : element,
+        event  : output,
+
+        read   : setFiles
+    };
+
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Global</h3><ul><li><a href="global.html#boolToInt">boolToInt</a></li><li><a href="global.html#brighten">brighten</a></li><li><a href="global.html#clamp">clamp</a></li><li><a href="global.html#clear">clear</a></li><li><a href="global.html#contrast">contrast</a></li><li><a href="global.html#cosec">cosec</a></li><li><a href="global.html#darken">darken</a></li><li><a href="global.html#degrees">degrees</a></li><li><a href="global.html#desaturate">desaturate</a></li><li><a href="global.html#dim">dim</a></li><li><a href="global.html#divisor">divisor</a></li><li><a href="global.html#EPSILON">EPSILON</a></li><li><a href="global.html#FArrow">FArrow</a></li><li><a href="global.html#FBubble">FBubble</a></li><li><a href="global.html#FChain">FChain</a></li><li><a href="global.html#FCross">FCross</a></li><li><a href="global.html#FDrip">FDrip</a></li><li><a href="global.html#findById">findById</a></li><li><a href="global.html#findByName">findByName</a></li><li><a href="global.html#forEach">forEach</a></li><li><a href="global.html#FTriangle">FTriangle</a></li><li><a href="global.html#getAngle">getAngle</a></li><li><a href="global.html#getArea">getArea</a></li><li><a href="global.html#getCentroid">getCentroid</a></li><li><a href="global.html#getCircumarea">getCircumarea</a></li><li><a href="global.html#getCircumcenter">getCircumcenter</a></li><li><a href="global.html#getCircumcircle">getCircumcircle</a></li><li><a href="global.html#getCircumradius">getCircumradius</a></li><li><a href="global.html#getCommonTangents">getCommonTangents</a></li><li><a href="global.html#getDistanceToCenter">getDistanceToCenter</a></li><li><a href="global.html#getHeading">getHeading</a></li><li><a href="global.html#getIncircle">getIncircle</a></li><li><a href="global.html#getIncirclearea">getIncirclearea</a></li><li><a href="global.html#getIncircleradius">getIncircleradius</a></li><li><a href="global.html#getMid">getMid</a></li><li><a href="global.html#getPerpendicularBisector">getPerpendicularBisector</a></li><li><a href="global.html#getSlope">getSlope</a></li><li><a href="global.html#getSlopeAngle">getSlopeAngle</a></li><li><a href="global.html#getType">getType</a></li><li><a href="global.html#HashSet">HashSet</a></li><li><a href="global.html#interpolate">interpolate</a></li><li><a href="global.html#interpolateTo">interpolateTo</a></li><li><a href="global.html#invert">invert</a></li><li><a href="global.html#invertX">invertX</a></li><li><a href="global.html#invertY">invertY</a></li><li><a href="global.html#lighten">lighten</a></li><li><a href="global.html#magSq">magSq</a></li><li><a href="global.html#map">map</a></li><li><a href="global.html#norm">norm</a></li><li><a href="global.html#normalize">normalize</a></li><li><a href="global.html#numToBool">numToBool</a></li><li><a href="global.html#println">println</a></li><li><a href="global.html#radians">radians</a></li><li><a href="global.html#random">random</a></li><li><a href="global.html#randomBias">randomBias</a></li><li><a href="global.html#randomInt">randomInt</a></li><li><a href="global.html#reverser">reverser</a></li><li><a href="global.html#rotate">rotate</a></li><li><a href="global.html#round">round</a></li><li><a href="global.html#roundMultiple">roundMultiple</a></li><li><a href="global.html#saturate">saturate</a></li><li><a href="global.html#sec">sec</a></li><li><a href="global.html#setRotation">setRotation</a></li><li><a href="global.html#setScaling">setScaling</a></li><li><a href="global.html#setTranslation">setTranslation</a></li><li><a href="global.html#slope">slope</a></li><li><a href="global.html#slopeAngle">slopeAngle</a></li><li><a href="global.html#slopeRatio">slopeRatio</a></li><li><a href="global.html#snap">snap</a></li><li><a href="global.html#sq">sq</a></li><li><a href="global.html#statics">statics</a></li><li><a href="global.html#toGroup">toGroup</a></li><li><a href="global.html#toHex">toHex</a></li><li><a href="global.html#toInt">toInt</a></li><li><a href="global.html#trimToFit">trimToFit</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Fri Apr 08 2016 15:41:10 GMT-0700 (PDT)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

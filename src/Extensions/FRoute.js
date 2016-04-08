@@ -41,8 +41,8 @@ folio.FRoute = function(items, properties) {
     properties = properties || {};
     var iterations = properties.iterations || 1000;
 
-    var RouteStep = 0;
-    var RouteNodes = [];
+    var routeStep = 0;
+    var routeNodes = [];
 
 
 
@@ -55,13 +55,13 @@ folio.FRoute = function(items, properties) {
         var temp;
         var p1;
 
-        if (RouteStep === 0) {
-            var RouteNodesLength = 0;
-            var RouteNodesTemp = [items.length];
+        if (routeStep === 0) {
+            var routeNodesLength = 0;
+            var routeNodesTemp = [items.length];
 
             var px, py;
             for (var i = 0; i < items.length; ++i) {
-                RouteNodesTemp[i] = false;
+                routeNodesTemp[i] = false;
                 px = items[i].position.x;
                 py = items[i].position.y;
 
@@ -70,26 +70,26 @@ folio.FRoute = function(items, properties) {
                     continue;
                 }
                 else {
-                    RouteNodesTemp[i] = true;
-                    RouteNodesLength++;
+                    routeNodesTemp[i] = true;
+                    routeNodesLength++;
                 }
             }
 
-            RouteNodes = [RouteNodesLength];
+            routeNodes = [routeNodesLength];
             var tempCounter = 0;
             for (var i = 0; i < items.length; ++i) {
-                if (RouteNodesTemp[i]) {
-                    RouteNodes[tempCounter] = i;
+                if (routeNodesTemp[i]) {
+                    routeNodes[tempCounter] = i;
                     tempCounter++;
                 }
             }
         }
 
-        var nodesNum = RouteNodes.length - 1;
-        if (RouteStep < (RouteNodes.length - 2))  {
+        var nodesNum = routeNodes.length - 1;
+        if (routeStep < (routeNodes.length - 2))  {
             // console.log('Nearest neighbor ("Simple, Greedy") algorithm path optimization:');
             // 1000 steps per frame displayed; you can edit this number!
-            var StopPoint = RouteStep + 1000;
+            var StopPoint = routeStep + 1000;
 
             if (StopPoint > nodesNum) {
                 StopPoint = nodesNum;
@@ -98,13 +98,13 @@ folio.FRoute = function(items, properties) {
             var ClosestNode;
             var distMin;
             var p2, dx, dy;
-            for (var i = RouteStep; i < StopPoint; ++i) {
-                p1 = items[RouteNodes[RouteStep]].position;
+            for (var i = routeStep; i < StopPoint; ++i) {
+                p1 = items[routeNodes[routeStep]].position;
                 ClosestNode = 0;
                 distMin = Number.MAX_VALUE;
 
-                for (var j = RouteStep + 1; j<nodesNum; ++j) {
-                    p2 = items[RouteNodes[j]].position;
+                for (var j = routeStep + 1; j<nodesNum; ++j) {
+                    p2 = items[routeNodes[j]].position;
 
                     dx = p1.x - p2.x;
                     dy = p1.y - p2.y;
@@ -116,13 +116,13 @@ folio.FRoute = function(items, properties) {
                     }
                 }
 
-                temp = RouteNodes[RouteStep + 1];
-                //p1 = items[RouteNodes[RouteStep + 1]];
-                RouteNodes[RouteStep + 1] = RouteNodes[ClosestNode];
-                RouteNodes[ClosestNode] = temp;
+                temp = routeNodes[routeStep + 1];
+                //p1 = items[routeNodes[routeStep + 1]];
+                routeNodes[routeStep + 1] = routeNodes[ClosestNode];
+                routeNodes[ClosestNode] = temp;
 
-                if (RouteStep < (nodesNum)) {
-                    RouteStep++;
+                if (routeStep < (nodesNum)) {
+                    routeStep++;
                 }
                 else {
                     console.log('Optimizing path');
@@ -156,10 +156,10 @@ folio.FRoute = function(items, properties) {
                     indexA = temp;
                 }
 
-                a0 = items[RouteNodes[indexA]].position;
-                a1 = items[RouteNodes[indexA + 1]].position;
-                b0 = items[RouteNodes[indexB]].position;
-                b1 = items[RouteNodes[indexB + 1]].position;
+                a0 = items[routeNodes[indexA]].position;
+                a1 = items[routeNodes[indexA + 1]].position;
+                b0 = items[routeNodes[indexB]].position;
+                b1 = items[routeNodes[indexB + 1]].position;
 
                 // Original distance:
                 dx = a0.x - a1.x;
@@ -184,9 +184,9 @@ folio.FRoute = function(items, properties) {
                     indexlow = indexA + 1;
 
                     while (indexhigh > indexlow) {
-                        temp = RouteNodes[indexlow];
-                        RouteNodes[indexlow] = RouteNodes[indexhigh];
-                        RouteNodes[indexhigh] = temp;
+                        temp = routeNodes[indexlow];
+                        routeNodes[indexlow] = routeNodes[indexhigh];
+                        routeNodes[indexhigh] = temp;
 
                         indexhigh--;
                         indexlow++;
@@ -199,11 +199,5 @@ folio.FRoute = function(items, properties) {
     })();
 
 
-
-    // ------------------------------------------------------------------------
-    return {
-        route : RouteNodes
-    };
-
-
+    return routeNodes;
 };

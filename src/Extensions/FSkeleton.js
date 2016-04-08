@@ -43,11 +43,12 @@ folio.FSkeleton = function(item) {
     /**
      * extract lines from PathItem into lines Array
      *
-     * @param  {[type]} point     [description]
-     * @param  {[type]} coords    [description]
-     * @param  {[type]} handleIn  [description]
-     * @param  {[type]} handleOut [description]
-     * @return {[type]}           [description]
+     * @param  {Point} point     [description]
+     * @param  {Point} coords    [description]
+     * @param  {Point} handleIn  [description]
+     * @param  {Point} handleOut [description]
+     *
+     * @return {Object}           [description]
      */
     function getLines(point, coords, handleIn, handleOut) {
         var regex = /(z\d+)([lr])/;

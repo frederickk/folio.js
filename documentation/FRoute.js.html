@@ -25,7 +25,7 @@
     
     <section>
         <article>
-            <pre class="prettyprint source"><code>/*
+            <pre class="prettyprint source"><code>/**!
  * FRoute
  *
  * Travelling Salesman Problem Algorithm
@@ -48,195 +48,186 @@
 
 /**
  * @param  {PathItem} items
- * 	   	an array of PathItems
- * @param  {Number} iterations (optional)
- * 	   	tests per frame (higher = better) default: 1000
+ *      an array of PathItems
+ * @param  {Object} properties (optional)
+ * {
+ *     iterations : 1000 // {Number} tests per frame (higher = better)
+ * }
  *
  * @return {Array}
  *
  */
-folio.FRoute = function(items, iterations) {
-	// ------------------------------------------------------------------------
-	// Properties
-	// ------------------------------------------------------------------------
-	var items = items;
-	var iterations = (iterations != undefined)
-		? iterations
-		: 1000;
+folio.FRoute = function(items, properties) {
+    // ------------------------------------------------------------------------
+    //
+    // Properties
+    //
+    // ------------------------------------------------------------------------
+    var items = items;
 
-	var RouteStep = 0;
-	var RouteNodes = [];
+    properties = properties || {};
+    var iterations = properties.iterations || 1000;
 
-
-
-	// ------------------------------------------------------------------------
-	// Methods
-	// ------------------------------------------------------------------------
-	function calculate() {
-		var temp;
-		var p1;
-
-		if(RouteStep == 0) {
-			//	Begin process of optimizing plotting route,
-			//	by flagging nodes that will be shown.
-			//	console.log("Optimizing plotting path");
-			var RouteNodesLength = 0;
-			var RouteNodesTemp = [items.length];
-
-			for(var i=0; i&lt;items.length; ++i) {
-
-				RouteNodesTemp[i] = false;
-				var px = items[i].position.x;
-				var py = items[i].position.y;
-
-				if( (px >= view.bounds.width) || (py >= view.bounds.height) ||
-					(px &lt; 0) || (py &lt; 0)) {
-					continue;
-				}
-				else {
-					RouteNodesTemp[i] = true;
-					RouteNodesLength++;
-				}
-			}
-
-			// These are the ONLY points to be drawn in the tour.
-			RouteNodes = [RouteNodesLength];
-			var tempCounter = 0;
-			for(var i=0; i&lt;items.length; ++i) {
-				if(RouteNodesTemp[i]) {
-					RouteNodes[tempCounter] = i;
-					tempCounter++;
-				}
-			}
-		}
-
-		var nodesNum = RouteNodes.length - 1;
-		if(RouteStep &lt; (RouteNodes.length - 2))  {
-			//	console.log('Nearest neighbor ("Simple, Greedy") algorithm path optimization:');
-			//	1000 steps per frame displayed; you can edit this number!
-			var StopPoint = RouteStep + 1000;
-
-			if(StopPoint > nodesNum)
-				StopPoint = nodesNum;
-
-			for(var i=RouteStep; i&lt;StopPoint; ++i) {
-				p1 = items[RouteNodes[RouteStep]].position;
-				var ClosestNode = 0;
-				var distMin = Number.MAX_VALUE;
-
-				for(var j=RouteStep+1; j&lt;nodesNum; ++j) {
-					var p2 = items[ RouteNodes[j] ].position;
-
-					var dx = p1.x - p2.x;
-					var dy = p1.y - p2.y;
-					var distance = (dx*dx+dy*dy);	// Only looking for closest; do not need sqrt factor!
-
-					if(distance &lt; distMin) {
-						ClosestNode = j;
-						distMin = distance;
-					}
-				}
-
-				temp = RouteNodes[RouteStep + 1];
-				//p1 = items[RouteNodes[RouteStep + 1]];
-				RouteNodes[RouteStep + 1] = RouteNodes[ClosestNode];
-				RouteNodes[ClosestNode] = temp;
-
-				if(RouteStep &lt; (nodesNum)) {
-					RouteStep++;
-				}
-				else {
-					console.log('Now optimizing plot path');
-				}
-			}
-
-		}
-		//else {
-			// Initial routing is complete
-			// console.log('2-opt heuristic optimization');
-			// Identify a pair of edges that would become shorter by reversing part of the tour.
-
-			// var groupPath = new Group();
-			for(var i=0; i&lt;iterations; ++i) {
-
-				var indexA = Math.floor( Math.random()*nodesNum );
-				var indexB = Math.floor( Math.random()*nodesNum );
-
-				// console.log('indexA', indexA);
-				// console.log('indexB', indexB);
-
-				if(Math.abs(indexA - indexB) &lt; 2)
-					continue;
-
-				if(indexB &lt; indexA) {
-					// swap A, B.
-					temp = indexB;
-					indexB = indexA;
-					indexA = temp;
-				}
-
-				var a0 = items[ RouteNodes[indexA] ].position;
-				var a1 = items[ RouteNodes[indexA + 1] ].position;
-				var b0 = items[ RouteNodes[indexB] ].position;
-				var b1 = items[ RouteNodes[indexB + 1] ].position;
-
-				// Original distance:
-				var dx = a0.x - a1.x;
-				var dy = a0.y - a1.y;
-				var distance = (dx*dx+dy*dy);	// Only a comparison; do not need sqrt factor!
-				dx = b0.x - b1.x;
-				dy = b0.y - b1.y;
-				distance += (dx*dx+dy*dy);	//	Only a comparison; do not need sqrt factor!
-
-				// Possible shorter distance?
-				dx = a0.x - b0.x;
-				dy = a0.y - b0.y;
-				var distance2 = (dx*dx+dy*dy);	//	Only a comparison; do not need sqrt factor!
-				dx = a1.x - b1.x;
-				dy = a1.y - b1.y;
-				distance2 += (dx*dx+dy*dy);	// Only a comparison; do not need sqrt factor!
-
-				if(distance2 &lt; distance) {
-					// Reverse tour between a1 and b0.
-
-					var indexhigh = indexB;
-					var indexlow = indexA + 1;
-
-					while (indexhigh > indexlow) {
-						temp = RouteNodes[indexlow];
-						RouteNodes[indexlow] = RouteNodes[indexhigh];
-						RouteNodes[indexhigh] = temp;
-
-						indexhigh--;
-						indexlow++;
-					}
-				}
-
-			}
-		// }
-		//
-	};
+    var routeStep = 0;
+    var routeNodes = [];
 
 
 
-	// ------------------------------------------------------------------------
-	// Instantiate
-	// ------------------------------------------------------------------------
-	calculate();
+    // ------------------------------------------------------------------------
+    //
+    // Methods
+    //
+    // ------------------------------------------------------------------------
+    (function calculate() {
+        var temp;
+        var p1;
+
+        if (routeStep === 0) {
+            var routeNodesLength = 0;
+            var routeNodesTemp = [items.length];
+
+            var px, py;
+            for (var i = 0; i &lt; items.length; ++i) {
+                routeNodesTemp[i] = false;
+                px = items[i].position.x;
+                py = items[i].position.y;
+
+                if ((px >= view.bounds.width) || (py >= view.bounds.height) ||
+                    (px &lt; 0) || (py &lt; 0)) {
+                    continue;
+                }
+                else {
+                    routeNodesTemp[i] = true;
+                    routeNodesLength++;
+                }
+            }
+
+            routeNodes = [routeNodesLength];
+            var tempCounter = 0;
+            for (var i = 0; i &lt; items.length; ++i) {
+                if (routeNodesTemp[i]) {
+                    routeNodes[tempCounter] = i;
+                    tempCounter++;
+                }
+            }
+        }
+
+        var nodesNum = routeNodes.length - 1;
+        if (routeStep &lt; (routeNodes.length - 2))  {
+            // console.log('Nearest neighbor ("Simple, Greedy") algorithm path optimization:');
+            // 1000 steps per frame displayed; you can edit this number!
+            var StopPoint = routeStep + 1000;
+
+            if (StopPoint > nodesNum) {
+                StopPoint = nodesNum;
+            }
+
+            var ClosestNode;
+            var distMin;
+            var p2, dx, dy;
+            for (var i = routeStep; i &lt; StopPoint; ++i) {
+                p1 = items[routeNodes[routeStep]].position;
+                ClosestNode = 0;
+                distMin = Number.MAX_VALUE;
+
+                for (var j = routeStep + 1; j&lt;nodesNum; ++j) {
+                    p2 = items[routeNodes[j]].position;
+
+                    dx = p1.x - p2.x;
+                    dy = p1.y - p2.y;
+                    distance = (dx * dx + dy * dy);   // Only looking for closest; do not need sqrt factor!
+
+                    if (distance &lt; distMin) {
+                        ClosestNode = j;
+                        distMin = distance;
+                    }
+                }
+
+                temp = routeNodes[routeStep + 1];
+                //p1 = items[routeNodes[routeStep + 1]];
+                routeNodes[routeStep + 1] = routeNodes[ClosestNode];
+                routeNodes[ClosestNode] = temp;
+
+                if (routeStep &lt; (nodesNum)) {
+                    routeStep++;
+                }
+                else {
+                    console.log('Optimizing path');
+                }
+            }
+
+        }
+        //else {
+            // Initial routing is complete
+            // console.log('2-opt heuristic optimization');
+            // Identify a pair of edges that would become shorter by reversing part of the tour.
+
+            // var groupPath = new Group();
+            var indexA, indexB;
+            var a0, a1;
+            var b0, b1;
+            var dx, dy;
+            var distance, distance2;
+            var indexhigh, indexLow;
+            for (var i = 0; i &lt; iterations; ++i) {
+                indexA = Math.floor(Math.random() * nodesNum);
+                indexB = Math.floor(Math.random() * nodesNum);
+
+                if (Math.abs(indexA - indexB) &lt; 2) {
+                    continue;
+                }
+
+                if (indexB &lt; indexA) {
+                    temp = indexB;
+                    indexB = indexA;
+                    indexA = temp;
+                }
+
+                a0 = items[routeNodes[indexA]].position;
+                a1 = items[routeNodes[indexA + 1]].position;
+                b0 = items[routeNodes[indexB]].position;
+                b1 = items[routeNodes[indexB + 1]].position;
+
+                // Original distance:
+                dx = a0.x - a1.x;
+                dy = a0.y - a1.y;
+                distance = (dx * dx + dy * dy);   // Only a comparison; do not need sqrt factor!
+
+                dx = b0.x - b1.x;
+                dy = b0.y - b1.y;
+                distance += (dx * dx + dy * dy);  // Only a comparison; do not need sqrt factor!
+
+                // Possible shorter distance?
+                dx = a0.x - b0.x;
+                dy = a0.y - b0.y;
+
+                distance2 = (dx * dx + dy * dy);  // Only a comparison; do not need sqrt factor!
+                dx = a1.x - b1.x;
+                dy = a1.y - b1.y;
+                distance2 += (dx * dx + dy * dy); // Only a comparison; do not need sqrt factor!
+
+                if (distance2 &lt; distance) {
+                    indexhigh = indexB;
+                    indexlow = indexA + 1;
+
+                    while (indexhigh > indexlow) {
+                        temp = routeNodes[indexlow];
+                        routeNodes[indexlow] = routeNodes[indexhigh];
+                        routeNodes[indexhigh] = temp;
+
+                        indexhigh--;
+                        indexlow++;
+                    }
+                }
+
+            }
+        // }
+        //
+    })();
 
 
-
-	// ------------------------------------------------------------------------
-	// Gets
-	// ------------------------------------------------------------------------
-	return {
-		route: RouteNodes
-	};
-
-
+    return routeNodes;
 };
-
-
 </code></pre>
         </article>
     </section>
@@ -247,13 +238,13 @@ folio.FRoute = function(items, iterations) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Global</h3><ul><li><a href="global.html#boolToInt">boolToInt</a></li><li><a href="global.html#brighten">brighten</a></li><li><a href="global.html#clamp">clamp</a></li><li><a href="global.html#contrast">contrast</a></li><li><a href="global.html#cosec">cosec</a></li><li><a href="global.html#darken">darken</a></li><li><a href="global.html#degrees">degrees</a></li><li><a href="global.html#desaturate">desaturate</a></li><li><a href="global.html#dim">dim</a></li><li><a href="global.html#divisor">divisor</a></li><li><a href="global.html#FArrow">FArrow</a></li><li><a href="global.html#FBubble">FBubble</a></li><li><a href="global.html#FChain">FChain</a></li><li><a href="global.html#FCross">FCross</a></li><li><a href="global.html#FDrop">FDrop</a></li><li><a href="global.html#findById">findById</a></li><li><a href="global.html#findByName">findByName</a></li><li><a href="global.html#FTriangle">FTriangle</a></li><li><a href="global.html#getAngle">getAngle</a></li><li><a href="global.html#getArea">getArea</a></li><li><a href="global.html#getCentroid">getCentroid</a></li><li><a href="global.html#getCircumarea">getCircumarea</a></li><li><a href="global.html#getCircumcenter">getCircumcenter</a></li><li><a href="global.html#getCircumcircle">getCircumcircle</a></li><li><a href="global.html#getCircumradius">getCircumradius</a></li><li><a href="global.html#getCommonTangents">getCommonTangents</a></li><li><a href="global.html#getDistanceToCenter">getDistanceToCenter</a></li><li><a href="global.html#getHeading">getHeading</a></li><li><a href="global.html#getIncircle">getIncircle</a></li><li><a href="global.html#getIncirclearea">getIncirclearea</a></li><li><a href="global.html#getIncircleradius">getIncircleradius</a></li><li><a href="global.html#getMid">getMid</a></li><li><a href="global.html#getPerpendicularBisector">getPerpendicularBisector</a></li><li><a href="global.html#getSlope">getSlope</a></li><li><a href="global.html#getSlopeAngle">getSlopeAngle</a></li><li><a href="global.html#getType">getType</a></li><li><a href="global.html#interpolate">interpolate</a></li><li><a href="global.html#interpolateTo">interpolateTo</a></li><li><a href="global.html#invert">invert</a></li><li><a href="global.html#invertX">invertX</a></li><li><a href="global.html#invertY">invertY</a></li><li><a href="global.html#lighten">lighten</a></li><li><a href="global.html#magSq">magSq</a></li><li><a href="global.html#map">map</a></li><li><a href="global.html#norm">norm</a></li><li><a href="global.html#normalize">normalize</a></li><li><a href="global.html#numToBool">numToBool</a></li><li><a href="global.html#println">println</a></li><li><a href="global.html#radians">radians</a></li><li><a href="global.html#random">random</a></li><li><a href="global.html#randomBias">randomBias</a></li><li><a href="global.html#randomInt">randomInt</a></li><li><a href="global.html#rotate">rotate</a></li><li><a href="global.html#rotation">rotation</a></li><li><a href="global.html#round">round</a></li><li><a href="global.html#roundMultiple">roundMultiple</a></li><li><a href="global.html#saturate">saturate</a></li><li><a href="global.html#sec">sec</a></li><li><a href="global.html#slope">slope</a></li><li><a href="global.html#slopeAngle">slopeAngle</a></li><li><a href="global.html#slopeRatio">slopeRatio</a></li><li><a href="global.html#snap">snap</a></li><li><a href="global.html#snapGrid">snapGrid</a></li><li><a href="global.html#snapIso">snapIso</a></li><li><a href="global.html#sq">sq</a></li><li><a href="global.html#statics">statics</a></li><li><a href="global.html#toGroup">toGroup</a></li><li><a href="global.html#toHex">toHex</a></li><li><a href="global.html#toInt">toInt</a></li><li><a href="global.html#trimToFit">trimToFit</a></li></ul>
+    <h2><a href="index.html">Index</a></h2><h3>Global</h3><ul><li><a href="global.html#boolToInt">boolToInt</a></li><li><a href="global.html#brighten">brighten</a></li><li><a href="global.html#clamp">clamp</a></li><li><a href="global.html#clear">clear</a></li><li><a href="global.html#contrast">contrast</a></li><li><a href="global.html#cosec">cosec</a></li><li><a href="global.html#darken">darken</a></li><li><a href="global.html#degrees">degrees</a></li><li><a href="global.html#desaturate">desaturate</a></li><li><a href="global.html#dim">dim</a></li><li><a href="global.html#divisor">divisor</a></li><li><a href="global.html#EPSILON">EPSILON</a></li><li><a href="global.html#FArrow">FArrow</a></li><li><a href="global.html#FBubble">FBubble</a></li><li><a href="global.html#FChain">FChain</a></li><li><a href="global.html#FCross">FCross</a></li><li><a href="global.html#FDrip">FDrip</a></li><li><a href="global.html#findById">findById</a></li><li><a href="global.html#findByName">findByName</a></li><li><a href="global.html#forEach">forEach</a></li><li><a href="global.html#FTriangle">FTriangle</a></li><li><a href="global.html#getAngle">getAngle</a></li><li><a href="global.html#getArea">getArea</a></li><li><a href="global.html#getCentroid">getCentroid</a></li><li><a href="global.html#getCircumarea">getCircumarea</a></li><li><a href="global.html#getCircumcenter">getCircumcenter</a></li><li><a href="global.html#getCircumcircle">getCircumcircle</a></li><li><a href="global.html#getCircumradius">getCircumradius</a></li><li><a href="global.html#getCommonTangents">getCommonTangents</a></li><li><a href="global.html#getDistanceToCenter">getDistanceToCenter</a></li><li><a href="global.html#getHeading">getHeading</a></li><li><a href="global.html#getIncircle">getIncircle</a></li><li><a href="global.html#getIncirclearea">getIncirclearea</a></li><li><a href="global.html#getIncircleradius">getIncircleradius</a></li><li><a href="global.html#getMid">getMid</a></li><li><a href="global.html#getPerpendicularBisector">getPerpendicularBisector</a></li><li><a href="global.html#getSlope">getSlope</a></li><li><a href="global.html#getSlopeAngle">getSlopeAngle</a></li><li><a href="global.html#getType">getType</a></li><li><a href="global.html#HashSet">HashSet</a></li><li><a href="global.html#interpolate">interpolate</a></li><li><a href="global.html#interpolateTo">interpolateTo</a></li><li><a href="global.html#invert">invert</a></li><li><a href="global.html#invertX">invertX</a></li><li><a href="global.html#invertY">invertY</a></li><li><a href="global.html#lighten">lighten</a></li><li><a href="global.html#magSq">magSq</a></li><li><a href="global.html#map">map</a></li><li><a href="global.html#norm">norm</a></li><li><a href="global.html#normalize">normalize</a></li><li><a href="global.html#numToBool">numToBool</a></li><li><a href="global.html#println">println</a></li><li><a href="global.html#radians">radians</a></li><li><a href="global.html#random">random</a></li><li><a href="global.html#randomBias">randomBias</a></li><li><a href="global.html#randomInt">randomInt</a></li><li><a href="global.html#reverser">reverser</a></li><li><a href="global.html#rotate">rotate</a></li><li><a href="global.html#round">round</a></li><li><a href="global.html#roundMultiple">roundMultiple</a></li><li><a href="global.html#saturate">saturate</a></li><li><a href="global.html#sec">sec</a></li><li><a href="global.html#setRotation">setRotation</a></li><li><a href="global.html#setScaling">setScaling</a></li><li><a href="global.html#setTranslation">setTranslation</a></li><li><a href="global.html#slope">slope</a></li><li><a href="global.html#slopeAngle">slopeAngle</a></li><li><a href="global.html#slopeRatio">slopeRatio</a></li><li><a href="global.html#snap">snap</a></li><li><a href="global.html#sq">sq</a></li><li><a href="global.html#statics">statics</a></li><li><a href="global.html#toGroup">toGroup</a></li><li><a href="global.html#toHex">toHex</a></li><li><a href="global.html#toInt">toInt</a></li><li><a href="global.html#trimToFit">trimToFit</a></li></ul>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Sun Jan 26 2014 10:10:53 GMT-0800 (PST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Fri Apr 08 2016 15:41:10 GMT-0700 (PDT)
 </footer>
 
 <script> prettyPrint(); </script>

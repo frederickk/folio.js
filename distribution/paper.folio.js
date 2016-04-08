@@ -1,10 +1,10 @@
 /**!
  *
  * folio.js
- * 0.8.9
+ * 0.8.13
  * https://github.com/frederickk/folio.js
  *
- * 07. April 2016
+ * 08. April 2016
  *
  * Ken Frederick
  * ken.frederick@gmx.de
@@ -1670,17 +1670,63 @@ paper.Item.inject({
     /**
      * Scaling that doesn't accumulate
      *
-     * @param  {Number} hor
-     * @param  {Number} ver
+     * @param  {Number} arg0  horizontal and vertical scale factor
      *
      * @return {Item}
      */
-     setScaling: function(hor, ver) {
-         ver = ver || 1.0;
+    /**
+     * Scaling that doesn't accumulate
+     *
+     * @param  {Number} arg0  horizontal scale factor
+     * @param  {Number} arg1  vertical scale factor
+     *
+     * @return {Item}
+     */
+     /**
+      * Scaling that doesn't accumulate
+      *
+      * @param  {Number} arg0  horizontal and vertical scale factor
+      * @param  {Point}  arg1  scale from
+      *
+      * @return {Item}
+      */
+     /**
+      * Scaling that doesn't accumulate
+      *
+      * @param  {Number} arg0  horizontal scale factor
+      * @param  {Number} arg1  vertical scale factor
+      * @param  {Point}  arg2  scale from
+      *
+      * @return {Item}
+      */
+     setScaling: function(arg0, arg1, arg2) {
+         var hor;
+         var ver;
+         var pos;
+         if (arguments.length === 0) {
+             return;
+         }
+         if (arguments.length === 2) {
+             hor = arg0;
+             if (arg1 instanceof Point) {
+                ver = hor;
+                pos = arg1;
+             }
+             else {
+                 ver = arg1;
+                 pos = this.position;
+             }
+         }
+         if (arguments.length === 3) {
+             hor = arg0;
+             ver = arg1;
+             pos = arg2;
+         }
+
          this.scale(
              1.0 + (hor - this._prevHor),
              1.0 + (ver - this._prevVer),
-             this.position
+             pos
          );
          this._prevHor = hor;
          this._prevVer = ver;
@@ -4223,9 +4269,9 @@ folio.FIO = {
     /**
      * download current view as
      *
-     * @param  {[type]} filename [description]
-     * @param  {[type]} width    [description]
-     * @param  {[type]} height   [description]
+     * @param  {String} filename [description]
+     * @param  {Number} width    [description]
+     * @param  {Number} height   [description]
      *
      * @return {Boolean} true if successful, false otherwise
      */
@@ -4436,11 +4482,15 @@ folio.FIO = {
 
 
 /**
- * [function description]
+ * Load Adobe Swatch Exchange (ASE) files
  *
- * @param  {[type]} input [description]
+ * @param  {String} input URL or file
  *
- * @return {[type]}       [description]
+ * @return {Object}
+ *
+ * @example
+ * var ase = new folio.FASE(url);
+ *
  */
 folio.FASE = function(input) {
     // -----------------------------------------------------------------------------
@@ -5693,7 +5743,7 @@ folio.FDrop = function(element, properties) {
  * http://blog.kennethfrederick.de/
  *
  *
- * TODO: fix repelling for predators & obstacles, fixed?
+ * TODO: fix repelling for predators & obstacles, fixed? NOPE
  * TODO: performance is shit!
  *
  */
@@ -6347,6 +6397,7 @@ folio.FNoise = {
         var y = y || 0;
         var z = z || 0;
 
+        var result;
 
 
         //-----------------------------------------------------------------------------
@@ -6375,7 +6426,7 @@ folio.FNoise = {
 
 
         //-----------------------------------------------------------------------------
-        return function(x, y, z) {
+        (function() {
             var p = new Array(512)
             var permutation = [151, 160, 137, 91, 90, 15, 131, 13, 201, 95, 96, 53, 194, 233, 7, 225, 140, 36, 103, 30, 69, 142, 8, 99, 37, 240, 21, 10, 23, 190, 6, 148, 247, 120, 234, 75, 0, 26, 197, 62, 94, 252, 219, 203, 117, 35, 11, 32, 57, 177, 33, 88, 237, 149, 56, 87, 174, 20, 125, 136, 171, 168, 68, 175, 74, 165, 71, 134, 139, 48, 27, 166, 77, 146, 158, 231, 83, 111, 229, 122, 60, 211, 133, 230, 220, 105, 92, 41, 55, 46, 245, 40, 244, 102, 143, 54, 65, 25, 63, 161, 1, 216, 80, 73, 209, 76, 132, 187, 208, 89, 18, 169, 200, 196, 135, 130, 116, 188, 159, 86, 164, 100, 109, 198, 173, 186, 3, 64, 52, 217, 226, 250, 124, 123, 5, 202, 38, 147, 118, 126, 255, 82, 85, 212, 207, 206, 59, 227, 47, 16, 58, 17, 182, 189, 28, 42, 223, 183, 170, 213, 119, 248, 152, 2, 44, 154, 163, 70, 221, 153, 101, 155, 167, 43, 172, 9, 129, 22, 39, 253, 19, 98, 108, 110, 79, 113, 224, 232, 178, 185, 112, 104, 218, 246, 97, 228, 251, 34, 242, 193, 238, 210, 144, 12, 191, 179, 162, 241, 81, 51, 145, 235, 249, 14, 239, 107, 49, 192, 214, 31, 181, 199, 106, 157, 184, 84, 204, 176, 115, 121, 50, 45, 127, 4, 150, 254, 138, 236, 205, 93, 222, 114, 67, 29, 24, 72, 243, 141, 128, 195, 78, 66, 215, 61, 156, 180];
 
@@ -6406,7 +6457,7 @@ folio.FNoise = {
             var BA = p[B] + _z;
             var BB = p[B + 1] + _z; // the 8 cube corners
 
-            return scale(
+            result = scale(
                 lerp(
                     w,
                     lerp(v, lerp(u, grad(p[AA], x, y, z), // and add..
@@ -6421,8 +6472,9 @@ folio.FNoise = {
                     )
                 )
             );
+        })();
 
-        }
+        return result;
     }
 
 };
@@ -6470,8 +6522,8 @@ folio.FRoute = function(items, properties) {
     properties = properties || {};
     var iterations = properties.iterations || 1000;
 
-    var RouteStep = 0;
-    var RouteNodes = [];
+    var routeStep = 0;
+    var routeNodes = [];
 
 
 
@@ -6484,13 +6536,13 @@ folio.FRoute = function(items, properties) {
         var temp;
         var p1;
 
-        if (RouteStep === 0) {
-            var RouteNodesLength = 0;
-            var RouteNodesTemp = [items.length];
+        if (routeStep === 0) {
+            var routeNodesLength = 0;
+            var routeNodesTemp = [items.length];
 
             var px, py;
             for (var i = 0; i < items.length; ++i) {
-                RouteNodesTemp[i] = false;
+                routeNodesTemp[i] = false;
                 px = items[i].position.x;
                 py = items[i].position.y;
 
@@ -6499,26 +6551,26 @@ folio.FRoute = function(items, properties) {
                     continue;
                 }
                 else {
-                    RouteNodesTemp[i] = true;
-                    RouteNodesLength++;
+                    routeNodesTemp[i] = true;
+                    routeNodesLength++;
                 }
             }
 
-            RouteNodes = [RouteNodesLength];
+            routeNodes = [routeNodesLength];
             var tempCounter = 0;
             for (var i = 0; i < items.length; ++i) {
-                if (RouteNodesTemp[i]) {
-                    RouteNodes[tempCounter] = i;
+                if (routeNodesTemp[i]) {
+                    routeNodes[tempCounter] = i;
                     tempCounter++;
                 }
             }
         }
 
-        var nodesNum = RouteNodes.length - 1;
-        if (RouteStep < (RouteNodes.length - 2))  {
+        var nodesNum = routeNodes.length - 1;
+        if (routeStep < (routeNodes.length - 2))  {
             // console.log('Nearest neighbor ("Simple, Greedy") algorithm path optimization:');
             // 1000 steps per frame displayed; you can edit this number!
-            var StopPoint = RouteStep + 1000;
+            var StopPoint = routeStep + 1000;
 
             if (StopPoint > nodesNum) {
                 StopPoint = nodesNum;
@@ -6527,13 +6579,13 @@ folio.FRoute = function(items, properties) {
             var ClosestNode;
             var distMin;
             var p2, dx, dy;
-            for (var i = RouteStep; i < StopPoint; ++i) {
-                p1 = items[RouteNodes[RouteStep]].position;
+            for (var i = routeStep; i < StopPoint; ++i) {
+                p1 = items[routeNodes[routeStep]].position;
                 ClosestNode = 0;
                 distMin = Number.MAX_VALUE;
 
-                for (var j = RouteStep + 1; j<nodesNum; ++j) {
-                    p2 = items[RouteNodes[j]].position;
+                for (var j = routeStep + 1; j<nodesNum; ++j) {
+                    p2 = items[routeNodes[j]].position;
 
                     dx = p1.x - p2.x;
                     dy = p1.y - p2.y;
@@ -6545,13 +6597,13 @@ folio.FRoute = function(items, properties) {
                     }
                 }
 
-                temp = RouteNodes[RouteStep + 1];
-                //p1 = items[RouteNodes[RouteStep + 1]];
-                RouteNodes[RouteStep + 1] = RouteNodes[ClosestNode];
-                RouteNodes[ClosestNode] = temp;
+                temp = routeNodes[routeStep + 1];
+                //p1 = items[routeNodes[routeStep + 1]];
+                routeNodes[routeStep + 1] = routeNodes[ClosestNode];
+                routeNodes[ClosestNode] = temp;
 
-                if (RouteStep < (nodesNum)) {
-                    RouteStep++;
+                if (routeStep < (nodesNum)) {
+                    routeStep++;
                 }
                 else {
                     console.log('Optimizing path');
@@ -6585,10 +6637,10 @@ folio.FRoute = function(items, properties) {
                     indexA = temp;
                 }
 
-                a0 = items[RouteNodes[indexA]].position;
-                a1 = items[RouteNodes[indexA + 1]].position;
-                b0 = items[RouteNodes[indexB]].position;
-                b1 = items[RouteNodes[indexB + 1]].position;
+                a0 = items[routeNodes[indexA]].position;
+                a1 = items[routeNodes[indexA + 1]].position;
+                b0 = items[routeNodes[indexB]].position;
+                b1 = items[routeNodes[indexB + 1]].position;
 
                 // Original distance:
                 dx = a0.x - a1.x;
@@ -6613,9 +6665,9 @@ folio.FRoute = function(items, properties) {
                     indexlow = indexA + 1;
 
                     while (indexhigh > indexlow) {
-                        temp = RouteNodes[indexlow];
-                        RouteNodes[indexlow] = RouteNodes[indexhigh];
-                        RouteNodes[indexhigh] = temp;
+                        temp = routeNodes[indexlow];
+                        routeNodes[indexlow] = routeNodes[indexhigh];
+                        routeNodes[indexhigh] = temp;
 
                         indexhigh--;
                         indexlow++;
@@ -6628,13 +6680,7 @@ folio.FRoute = function(items, properties) {
     })();
 
 
-
-    // ------------------------------------------------------------------------
-    return {
-        route : RouteNodes
-    };
-
-
+    return routeNodes;
 };
 
 /**!
@@ -6682,11 +6728,12 @@ folio.FSkeleton = function(item) {
     /**
      * extract lines from PathItem into lines Array
      *
-     * @param  {[type]} point     [description]
-     * @param  {[type]} coords    [description]
-     * @param  {[type]} handleIn  [description]
-     * @param  {[type]} handleOut [description]
-     * @return {[type]}           [description]
+     * @param  {Point} point     [description]
+     * @param  {Point} coords    [description]
+     * @param  {Point} handleIn  [description]
+     * @param  {Point} handleOut [description]
+     *
+     * @return {Object}           [description]
      */
     function getLines(point, coords, handleIn, handleOut) {
         var regex = /(z\d+)([lr])/;

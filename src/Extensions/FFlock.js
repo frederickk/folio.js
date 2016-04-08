@@ -21,7 +21,7 @@
  * http://blog.kennethfrederick.de/
  *
  *
- * TODO: fix repelling for predators & obstacles, fixed?
+ * TODO: fix repelling for predators & obstacles, fixed? NOPE
  * TODO: performance is shit!
  *
  */

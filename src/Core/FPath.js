@@ -153,17 +153,63 @@ paper.Item.inject({
     /**
      * Scaling that doesn't accumulate
      *
-     * @param  {Number} hor
-     * @param  {Number} ver
+     * @param  {Number} arg0  horizontal and vertical scale factor
      *
      * @return {Item}
      */
-     setScaling: function(hor, ver) {
-         ver = ver || 1.0;
+    /**
+     * Scaling that doesn't accumulate
+     *
+     * @param  {Number} arg0  horizontal scale factor
+     * @param  {Number} arg1  vertical scale factor
+     *
+     * @return {Item}
+     */
+     /**
+      * Scaling that doesn't accumulate
+      *
+      * @param  {Number} arg0  horizontal and vertical scale factor
+      * @param  {Point}  arg1  scale from
+      *
+      * @return {Item}
+      */
+     /**
+      * Scaling that doesn't accumulate
+      *
+      * @param  {Number} arg0  horizontal scale factor
+      * @param  {Number} arg1  vertical scale factor
+      * @param  {Point}  arg2  scale from
+      *
+      * @return {Item}
+      */
+     setScaling: function(arg0, arg1, arg2) {
+         var hor;
+         var ver;
+         var pos;
+         if (arguments.length === 0) {
+             return;
+         }
+         if (arguments.length === 2) {
+             hor = arg0;
+             if (arg1 instanceof Point) {
+                ver = hor;
+                pos = arg1;
+             }
+             else {
+                 ver = arg1;
+                 pos = this.position;
+             }
+         }
+         if (arguments.length === 3) {
+             hor = arg0;
+             ver = arg1;
+             pos = arg2;
+         }
+
          this.scale(
              1.0 + (hor - this._prevHor),
              1.0 + (ver - this._prevVer),
-             this.position
+             pos
          );
          this._prevHor = hor;
          this._prevVer = ver;

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: Core/FString.js</title>
+    <title>JSDoc: Source: Extensions/FString.js</title>
     
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Source: Core/FString.js</h1>
+    <h1 class="page-title">Source: Extensions/FString.js</h1>
     
     
 
@@ -25,7 +25,7 @@
     
     <section>
         <article>
-            <pre class="prettyprint source"><code>/*
+            <pre class="prettyprint source"><code>/**!
  *
  * FString.js
  *
@@ -34,11 +34,24 @@
  */
 
 
-/** ------------------------------------------------------------------------
+//------------------------------------------------------------------------
+//
+// Strings
+//
+//------------------------------------------------------------------------
+
+/**
+ * converts given string to Title Case
+ * http://stackoverflow.com/questions/196972/convert-string-to-title-case-with-javascript
  *
- * Strings
+ * @return {String} input String in Title Case
  *
- * ------------------------------------------------------------------------/
+ */
+String.prototype.toTitleCase = function() {
+    return this.replace(/\w\S*/g, function(txt) {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
+};
 
 /**
  * trims white space from left (start) of String
@@ -48,10 +61,10 @@
  *
  */
 String.prototype.trimStart = function() {
-	return this.replace(/^\s\s*/, '');
+    return this.replace(/^\s\s*/, '');
 };
 if (!String.prototype.trimLeft) {
-	String.prototype.trimLeft = String.prototype.trimStart;
+    String.prototype.trimLeft = String.prototype.trimStart;
 }
 
 /**
@@ -62,10 +75,10 @@ if (!String.prototype.trimLeft) {
  *
  */
 String.prototype.trimEnd = function() {
-	return this.replace(/\s\s*$/, '');
+    return this.replace(/\s\s*$/, '');
 };
 if (!String.prototype.trimRight) {
-	String.prototype.trimRight = String.prototype.trimEnd;
+    String.prototype.trimRight = String.prototype.trimEnd;
 }
 
 /**
@@ -76,9 +89,9 @@ if (!String.prototype.trimRight) {
  *
  */
 if (!String.prototype.trim) {
-  String.prototype.trim = function () {
-    return this.replace(/^\s+|\s+$/gm, '');
-  };
+    String.prototype.trim = function () {
+        return this.replace(/^\s+|\s+$/gm, '');
+    };
 }
 
 /**
@@ -88,14 +101,66 @@ if (!String.prototype.trim) {
  *
  */
 String.prototype.toBool = function() {
-	switch(this.toLowerCase()) {
-		case 'true': case 'yes': case '1': return true;
-		case 'false': case 'no': case '0': case null: return false;
-		default: return Boolean(this);
-	}
+    switch(this.toLowerCase()) {
+            case 'true': case 'yes': case '1': return true;
+            case 'false': case 'no': case '0': case null: return false;
+            default: return Boolean(this);
+    }
 };
 
+/**
+ * reverse the order of a String
+ *
+ * @return {String}
+ */
+String.prototype.reverse = function() {
+    var lines = this.split('\n'),
+        temp = '';
+    for (var i = 0; i &lt; lines.length; i++) {
+        lines[i].trim();
+        temp = lines[i] + '\n' + temp;
+    }
 
+    return temp;
+};
+
+/**
+ * split String to contain specific amount of content per line, as defined by the delimitter
+ *
+ * @param  {Number} amt        amount of content
+ * @param  {String} delimitter (option) what to break the original String on
+ *
+ * @return {String}
+ */
+String.prototype.perLine = function(amt, delimitter) {
+    delimitter = delimitter || ' ';
+    var words = this.split(delimitter),
+        temp = '',
+        count = 1;
+    for (var i = 0; i &lt; words.length; i++) {
+        words[i].trim();
+        temp = (count % amt === 0 && count !== 1)
+            ? temp + words[i] + '\n'
+            : temp + words[i] + delimitter;
+        count++;
+    }
+
+    return temp;
+};
+
+/**
+ * generate a String of random characters
+ *
+ * @param  {Number} length number of charaters in random String (default: 36)
+ *
+ * @return {String}
+ */
+String.prototype.random = function(length) {
+    length = length || 36;
+    var val = '';
+    for (; val.length &lt; length; val += Math.random().toString(36).substr(2)) {}
+    return val.substr(0, length);
+};
 </code></pre>
         </article>
     </section>
@@ -106,13 +171,13 @@ String.prototype.toBool = function() {
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Global</h3><ul><li><a href="global.html#boolToInt">boolToInt</a></li><li><a href="global.html#brighten">brighten</a></li><li><a href="global.html#clamp">clamp</a></li><li><a href="global.html#contrast">contrast</a></li><li><a href="global.html#cosec">cosec</a></li><li><a href="global.html#darken">darken</a></li><li><a href="global.html#degrees">degrees</a></li><li><a href="global.html#desaturate">desaturate</a></li><li><a href="global.html#dim">dim</a></li><li><a href="global.html#divisor">divisor</a></li><li><a href="global.html#FArrow">FArrow</a></li><li><a href="global.html#FBubble">FBubble</a></li><li><a href="global.html#FChain">FChain</a></li><li><a href="global.html#FCross">FCross</a></li><li><a href="global.html#FDrop">FDrop</a></li><li><a href="global.html#findById">findById</a></li><li><a href="global.html#findByName">findByName</a></li><li><a href="global.html#FTriangle">FTriangle</a></li><li><a href="global.html#getAngle">getAngle</a></li><li><a href="global.html#getArea">getArea</a></li><li><a href="global.html#getCentroid">getCentroid</a></li><li><a href="global.html#getCircumarea">getCircumarea</a></li><li><a href="global.html#getCircumcenter">getCircumcenter</a></li><li><a href="global.html#getCircumcircle">getCircumcircle</a></li><li><a href="global.html#getCircumradius">getCircumradius</a></li><li><a href="global.html#getCommonTangents">getCommonTangents</a></li><li><a href="global.html#getDistanceToCenter">getDistanceToCenter</a></li><li><a href="global.html#getHeading">getHeading</a></li><li><a href="global.html#getIncircle">getIncircle</a></li><li><a href="global.html#getIncirclearea">getIncirclearea</a></li><li><a href="global.html#getIncircleradius">getIncircleradius</a></li><li><a href="global.html#getMid">getMid</a></li><li><a href="global.html#getPerpendicularBisector">getPerpendicularBisector</a></li><li><a href="global.html#getSlope">getSlope</a></li><li><a href="global.html#getSlopeAngle">getSlopeAngle</a></li><li><a href="global.html#getType">getType</a></li><li><a href="global.html#interpolate">interpolate</a></li><li><a href="global.html#interpolateTo">interpolateTo</a></li><li><a href="global.html#invert">invert</a></li><li><a href="global.html#invertX">invertX</a></li><li><a href="global.html#invertY">invertY</a></li><li><a href="global.html#lighten">lighten</a></li><li><a href="global.html#magSq">magSq</a></li><li><a href="global.html#map">map</a></li><li><a href="global.html#norm">norm</a></li><li><a href="global.html#normalize">normalize</a></li><li><a href="global.html#numToBool">numToBool</a></li><li><a href="global.html#println">println</a></li><li><a href="global.html#radians">radians</a></li><li><a href="global.html#random">random</a></li><li><a href="global.html#randomBias">randomBias</a></li><li><a href="global.html#randomInt">randomInt</a></li><li><a href="global.html#rotate">rotate</a></li><li><a href="global.html#rotation">rotation</a></li><li><a href="global.html#round">round</a></li><li><a href="global.html#roundMultiple">roundMultiple</a></li><li><a href="global.html#saturate">saturate</a></li><li><a href="global.html#sec">sec</a></li><li><a href="global.html#slope">slope</a></li><li><a href="global.html#slopeAngle">slopeAngle</a></li><li><a href="global.html#slopeRatio">slopeRatio</a></li><li><a href="global.html#snap">snap</a></li><li><a href="global.html#snapGrid">snapGrid</a></li><li><a href="global.html#snapIso">snapIso</a></li><li><a href="global.html#sq">sq</a></li><li><a href="global.html#statics">statics</a></li><li><a href="global.html#toGroup">toGroup</a></li><li><a href="global.html#toHex">toHex</a></li><li><a href="global.html#toInt">toInt</a></li><li><a href="global.html#trimToFit">trimToFit</a></li></ul>
+    <h2><a href="index.html">Index</a></h2><h3>Global</h3><ul><li><a href="global.html#boolToInt">boolToInt</a></li><li><a href="global.html#brighten">brighten</a></li><li><a href="global.html#clamp">clamp</a></li><li><a href="global.html#clear">clear</a></li><li><a href="global.html#contrast">contrast</a></li><li><a href="global.html#cosec">cosec</a></li><li><a href="global.html#darken">darken</a></li><li><a href="global.html#degrees">degrees</a></li><li><a href="global.html#desaturate">desaturate</a></li><li><a href="global.html#dim">dim</a></li><li><a href="global.html#divisor">divisor</a></li><li><a href="global.html#EPSILON">EPSILON</a></li><li><a href="global.html#FArrow">FArrow</a></li><li><a href="global.html#FBubble">FBubble</a></li><li><a href="global.html#FChain">FChain</a></li><li><a href="global.html#FCross">FCross</a></li><li><a href="global.html#FDrip">FDrip</a></li><li><a href="global.html#findById">findById</a></li><li><a href="global.html#findByName">findByName</a></li><li><a href="global.html#forEach">forEach</a></li><li><a href="global.html#FTriangle">FTriangle</a></li><li><a href="global.html#getAngle">getAngle</a></li><li><a href="global.html#getArea">getArea</a></li><li><a href="global.html#getCentroid">getCentroid</a></li><li><a href="global.html#getCircumarea">getCircumarea</a></li><li><a href="global.html#getCircumcenter">getCircumcenter</a></li><li><a href="global.html#getCircumcircle">getCircumcircle</a></li><li><a href="global.html#getCircumradius">getCircumradius</a></li><li><a href="global.html#getCommonTangents">getCommonTangents</a></li><li><a href="global.html#getDistanceToCenter">getDistanceToCenter</a></li><li><a href="global.html#getHeading">getHeading</a></li><li><a href="global.html#getIncircle">getIncircle</a></li><li><a href="global.html#getIncirclearea">getIncirclearea</a></li><li><a href="global.html#getIncircleradius">getIncircleradius</a></li><li><a href="global.html#getMid">getMid</a></li><li><a href="global.html#getPerpendicularBisector">getPerpendicularBisector</a></li><li><a href="global.html#getSlope">getSlope</a></li><li><a href="global.html#getSlopeAngle">getSlopeAngle</a></li><li><a href="global.html#getType">getType</a></li><li><a href="global.html#HashSet">HashSet</a></li><li><a href="global.html#interpolate">interpolate</a></li><li><a href="global.html#interpolateTo">interpolateTo</a></li><li><a href="global.html#invert">invert</a></li><li><a href="global.html#invertX">invertX</a></li><li><a href="global.html#invertY">invertY</a></li><li><a href="global.html#lighten">lighten</a></li><li><a href="global.html#magSq">magSq</a></li><li><a href="global.html#map">map</a></li><li><a href="global.html#norm">norm</a></li><li><a href="global.html#normalize">normalize</a></li><li><a href="global.html#numToBool">numToBool</a></li><li><a href="global.html#println">println</a></li><li><a href="global.html#radians">radians</a></li><li><a href="global.html#random">random</a></li><li><a href="global.html#randomBias">randomBias</a></li><li><a href="global.html#randomInt">randomInt</a></li><li><a href="global.html#reverser">reverser</a></li><li><a href="global.html#rotate">rotate</a></li><li><a href="global.html#round">round</a></li><li><a href="global.html#roundMultiple">roundMultiple</a></li><li><a href="global.html#saturate">saturate</a></li><li><a href="global.html#sec">sec</a></li><li><a href="global.html#setRotation">setRotation</a></li><li><a href="global.html#setScaling">setScaling</a></li><li><a href="global.html#setTranslation">setTranslation</a></li><li><a href="global.html#slope">slope</a></li><li><a href="global.html#slopeAngle">slopeAngle</a></li><li><a href="global.html#slopeRatio">slopeRatio</a></li><li><a href="global.html#snap">snap</a></li><li><a href="global.html#sq">sq</a></li><li><a href="global.html#statics">statics</a></li><li><a href="global.html#toGroup">toGroup</a></li><li><a href="global.html#toHex">toHex</a></li><li><a href="global.html#toInt">toInt</a></li><li><a href="global.html#trimToFit">trimToFit</a></li></ul>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Sun Jan 26 2014 10:10:53 GMT-0800 (PST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Fri Apr 08 2016 15:41:10 GMT-0700 (PDT)
 </footer>
 
 <script> prettyPrint(); </script>

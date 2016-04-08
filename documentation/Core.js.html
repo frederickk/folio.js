@@ -35,12 +35,12 @@
 
 
 folio = {
-	// ------------------------------------------------------------------------
-	// Setup Core Namespaces
-	// ------------------------------------------------------------------------
-	FTime: {},
-	FIO: {},
-	F3D: {}
+    //
+    // Setup Core Namespaces
+    //
+    FTime: {},
+    FIO: {},
+    F3D: {}
 };
 
 
@@ -51,112 +51,218 @@ folio = {
  *
  */
 PaperScope.inject({
-	enumerable: true,
+    // -----------------------------------------------------------------------------
+    //
+    // Properties
+    //
+    // -----------------------------------------------------------------------------
+    enumerable: true,
 
 
-	// -----------------------------------------------------------------------------
-	// Methods
-	// -----------------------------------------------------------------------------
-	/**
-	 * Java style println output
-	 *
-	 * @param {Object} obj
-	 * 		  any Javascript Object
-	 */
-	println: function(obj) {
-		console.log(obj);
-		console.log('\n');
-	},
 
-	// ------------------------------------------------------------------------
-	/**
-	 *
-	 * @param {Boolean} val
-	 * 	  input boolean value
-	 *
-	 * @return {Number} val as integer
-	 *
-	 */
-	boolToInt: function(val) {
-		return (val) ? 1 : 0;
-	},
+    // -----------------------------------------------------------------------------
+    //
+    // Methods
+    //
+    // -----------------------------------------------------------------------------
+    /**
+     * Java style println output
+     *
+     * @param {Object} obj
+     *        any Javascript Object
+     */
+    println: function(obj) {
+        console.log(obj);
+        console.log('\n');
+    },
 
-	// ------------------------------------------------------------------------
-	/**
-	 *
-	 * @param {Number} val
-	 * 	  input number value
-	 *
-	 * @return {Number} val as boolean
-	 *
-	 */
-	numToBool: function(val) {
-		return (val != 0) ? true : false;
-	},
+    // ------------------------------------------------------------------------
+    /**
+     *
+     * @param {Boolean} val
+     *    input boolean value
+     *
+     * @return {Number} val as integer
+     *
+     */
+    boolToInt: function(val) {
+        return (val) ? 1 : 0;
+    },
 
-	// ------------------------------------------------------------------------
-	/**
-	 * http://stackoverflow.com/questions/4775722/check-if-object-is-array
-	 *
-	 * @param {Object} obj
-	 * 	  object whose type to determine
-	 *
-	 * @return {String} Paper.js object type
-	 *
-	 */
-	getType: function(obj) {
-		if (obj instanceof Point) return 'Point';
-		else if (obj instanceof Size) return 'Size';
-		else if (obj instanceof Rectangle) return 'Rectangle';
-		else if (obj instanceof Group) return 'Group';
-		else if (obj instanceof Raster) return 'Raster';
-		else if (obj instanceof PlacedSymbol) return 'PlacedSymbol';
-		else if (obj instanceof Path) return 'Path';
-		else if (obj instanceof CompoundPath) return 'CompoundPath';
-		else if (obj instanceof Symbol) return 'Symbol';
-		else if (obj instanceof TextItem) return 'TextItem';
-		else return Object.prototype.toString.call(obj).split(/\W/)[2];
-	},
+    // ------------------------------------------------------------------------
+    /**
+     *
+     * @param {Number} val
+     *    input number value
+     *
+     * @return {Number} val as boolean
+     *
+     */
+    numToBool: function(val) {
+        return (val != 0) ? true : false;
+    },
 
-	/**
-	 *
-	 * @param {Array} items
-	 * 	  Array of items to go through
-	 * @param {String} name
-	 * 	  name of Item to find
-	 *
-	 * @return {Path} path with the name that matches
-	 *
-	 */
-	findByName: function(items, name) {
-		var path;
-		for (var i = 0; i &lt; items.length; i++) {
-			var item = items[i];
-			if (item.name === name) path = item;
-			// break;
-		}
-		return path;
-	},
+    // ------------------------------------------------------------------------
+    /**
+     * http://stackoverflow.com/questions/4775722/check-if-object-is-array
+     *
+     * @param {Object} obj
+     *    object whose type to determine
+     *
+     * @return {String} Paper.js object type
+     *
+     */
+    getType: function(obj) {
+        if (obj instanceof Point) {
+            return 'Point';
+        }
+        else if (obj instanceof Size) {
+            return 'Size';
+        }
+        else if (obj instanceof Rectangle) {
+            return 'Rectangle';
+        }
+        else if (obj instanceof Group) {
+            return 'Group';
+        }
+        else if (obj instanceof Raster) {
+            return 'Raster';
+        }
+        else if (obj instanceof PlacedSymbol) {
+            return 'PlacedSymbol';
+        }
+        else if (obj instanceof Path) {
+            return 'Path';
+        }
+        else if (obj instanceof CompoundPath) {
+            return 'CompoundPath';
+        }
+        else if (obj instanceof Symbol) {
+            return 'Symbol';
+        }
+        else if (obj instanceof TextItem) {
+            return 'TextItem';
+        }
+        else {
+            return Object.prototype.toString.call(obj).split(/\W/)[2];
+        }
+    },
 
-	/**
-	 *
-	 * @param {Array} items
-	 * 	  Array of items to go through
-	 * @param {Number} name
-	 * 	  name of Item to find
-	 *
-	 * @return {Path} path with the id that matches
-	 *
-	 */
-	findById: function(items, id) {
-		var path;
-		for (var i = 0; i &lt; items.length; i++) {
-			var item = items[i];
-			if (item.id === id) path = item;
-			// break;
-		}
-		return path;
-	}
+    /**
+     *
+     * @param {Array} items
+     *    Array of items to go through
+     * @param {String} name
+     *    name of Item to find
+     *
+     * @return {Path} path with the name that matches
+     *
+     */
+    findByName: function(items, name) {
+        var path;
+        for (var i = 0; i &lt; items.length; i++) {
+            var item = items[i];
+            if (item.name === name) {
+                path = item;
+            }
+            // break;
+        }
+        return path;
+    },
+
+    /**
+     *
+     * @param {Array} items
+     *    Array of items to go through
+     * @param {Number} name
+     *    name of Item to find
+     *
+     * @return {Path} path with the id that matches
+     *
+     */
+    findById: function(items, id) {
+        var path;
+        for (var i = 0; i &lt; items.length; i++) {
+            var item = items[i];
+            if (item.id === id) {
+                path = item;
+            }
+            // break;
+        }
+        return path;
+    },
+
+
+    /**
+     * Iterate through and array
+     *
+     * @param  {Array}    arr
+     * @param  {Function} callback
+     *
+     * @return {boolean}
+     *
+     */
+    forEach: function(arr, callback) {
+        for (var i = 0, len = arr.length; i &lt; len; i++) {
+            if (callback(arr[i],i) === false) {
+                return false;
+            }
+        }
+        return true;
+    },
+
+
+    /**
+     * Clear the paper view (canvas)
+     *
+     * @param  {String} arg0 layerName name
+     * @param  {Function} arg1 callback
+     *
+     */
+    /**
+     * Clear the paper view (canvas)
+     *
+     * @param  {String} arg0 callback
+     *
+     */
+    clear: function(arg0, arg1) {
+        var layerName, callback;
+        var layer;
+
+        if (arguments.length === 2) {
+            layerName = arg0;
+            callback = arg1;
+        }
+        else if (arguments.length === 1) {
+            layerName = undefined;
+            callback = arg0;
+        }
+
+        for (var i = 0; i &lt; projects.length; i++) {
+            if (layerName !== undefined) {
+                try {
+                    layer = projects[i].layers[layerName];
+                    layer.removeChildren();
+                }
+                catch(err) {}
+            }
+            else {
+                projects[i].clear();
+                layer = new Layer();
+                // for (var j = 0; j &lt; projects[i].layers.length; j++) {
+                //     layer = projects[i].layers[j];
+                //     if (callback) {
+                //         callback(layer);
+                //     }
+                //     layer.removeChildren();
+                // }
+            }
+
+            if (callback) {
+                callback(layer);
+            }
+        }
+    }
 
 });
 
@@ -171,13 +277,13 @@ PaperScope.inject({
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Global</h3><ul><li><a href="global.html#boolToInt">boolToInt</a></li><li><a href="global.html#brighten">brighten</a></li><li><a href="global.html#clamp">clamp</a></li><li><a href="global.html#contrast">contrast</a></li><li><a href="global.html#cosec">cosec</a></li><li><a href="global.html#darken">darken</a></li><li><a href="global.html#degrees">degrees</a></li><li><a href="global.html#desaturate">desaturate</a></li><li><a href="global.html#dim">dim</a></li><li><a href="global.html#divisor">divisor</a></li><li><a href="global.html#FArrow">FArrow</a></li><li><a href="global.html#FBubble">FBubble</a></li><li><a href="global.html#FChain">FChain</a></li><li><a href="global.html#FCross">FCross</a></li><li><a href="global.html#FDrop">FDrop</a></li><li><a href="global.html#findById">findById</a></li><li><a href="global.html#findByName">findByName</a></li><li><a href="global.html#FTriangle">FTriangle</a></li><li><a href="global.html#getAngle">getAngle</a></li><li><a href="global.html#getArea">getArea</a></li><li><a href="global.html#getCentroid">getCentroid</a></li><li><a href="global.html#getCircumarea">getCircumarea</a></li><li><a href="global.html#getCircumcenter">getCircumcenter</a></li><li><a href="global.html#getCircumcircle">getCircumcircle</a></li><li><a href="global.html#getCircumradius">getCircumradius</a></li><li><a href="global.html#getCommonTangents">getCommonTangents</a></li><li><a href="global.html#getDistanceToCenter">getDistanceToCenter</a></li><li><a href="global.html#getHeading">getHeading</a></li><li><a href="global.html#getIncircle">getIncircle</a></li><li><a href="global.html#getIncirclearea">getIncirclearea</a></li><li><a href="global.html#getIncircleradius">getIncircleradius</a></li><li><a href="global.html#getMid">getMid</a></li><li><a href="global.html#getPerpendicularBisector">getPerpendicularBisector</a></li><li><a href="global.html#getSlope">getSlope</a></li><li><a href="global.html#getSlopeAngle">getSlopeAngle</a></li><li><a href="global.html#getType">getType</a></li><li><a href="global.html#interpolate">interpolate</a></li><li><a href="global.html#interpolateTo">interpolateTo</a></li><li><a href="global.html#invert">invert</a></li><li><a href="global.html#invertX">invertX</a></li><li><a href="global.html#invertY">invertY</a></li><li><a href="global.html#lighten">lighten</a></li><li><a href="global.html#magSq">magSq</a></li><li><a href="global.html#map">map</a></li><li><a href="global.html#norm">norm</a></li><li><a href="global.html#normalize">normalize</a></li><li><a href="global.html#numToBool">numToBool</a></li><li><a href="global.html#println">println</a></li><li><a href="global.html#radians">radians</a></li><li><a href="global.html#random">random</a></li><li><a href="global.html#randomBias">randomBias</a></li><li><a href="global.html#randomInt">randomInt</a></li><li><a href="global.html#rotate">rotate</a></li><li><a href="global.html#rotation">rotation</a></li><li><a href="global.html#round">round</a></li><li><a href="global.html#roundMultiple">roundMultiple</a></li><li><a href="global.html#saturate">saturate</a></li><li><a href="global.html#sec">sec</a></li><li><a href="global.html#slope">slope</a></li><li><a href="global.html#slopeAngle">slopeAngle</a></li><li><a href="global.html#slopeRatio">slopeRatio</a></li><li><a href="global.html#snap">snap</a></li><li><a href="global.html#snapGrid">snapGrid</a></li><li><a href="global.html#snapIso">snapIso</a></li><li><a href="global.html#sq">sq</a></li><li><a href="global.html#statics">statics</a></li><li><a href="global.html#toGroup">toGroup</a></li><li><a href="global.html#toHex">toHex</a></li><li><a href="global.html#toInt">toInt</a></li><li><a href="global.html#trimToFit">trimToFit</a></li></ul>
+    <h2><a href="index.html">Index</a></h2><h3>Global</h3><ul><li><a href="global.html#boolToInt">boolToInt</a></li><li><a href="global.html#brighten">brighten</a></li><li><a href="global.html#clamp">clamp</a></li><li><a href="global.html#clear">clear</a></li><li><a href="global.html#contrast">contrast</a></li><li><a href="global.html#cosec">cosec</a></li><li><a href="global.html#darken">darken</a></li><li><a href="global.html#degrees">degrees</a></li><li><a href="global.html#desaturate">desaturate</a></li><li><a href="global.html#dim">dim</a></li><li><a href="global.html#divisor">divisor</a></li><li><a href="global.html#EPSILON">EPSILON</a></li><li><a href="global.html#FArrow">FArrow</a></li><li><a href="global.html#FBubble">FBubble</a></li><li><a href="global.html#FChain">FChain</a></li><li><a href="global.html#FCross">FCross</a></li><li><a href="global.html#FDrip">FDrip</a></li><li><a href="global.html#findById">findById</a></li><li><a href="global.html#findByName">findByName</a></li><li><a href="global.html#forEach">forEach</a></li><li><a href="global.html#FTriangle">FTriangle</a></li><li><a href="global.html#getAngle">getAngle</a></li><li><a href="global.html#getArea">getArea</a></li><li><a href="global.html#getCentroid">getCentroid</a></li><li><a href="global.html#getCircumarea">getCircumarea</a></li><li><a href="global.html#getCircumcenter">getCircumcenter</a></li><li><a href="global.html#getCircumcircle">getCircumcircle</a></li><li><a href="global.html#getCircumradius">getCircumradius</a></li><li><a href="global.html#getCommonTangents">getCommonTangents</a></li><li><a href="global.html#getDistanceToCenter">getDistanceToCenter</a></li><li><a href="global.html#getHeading">getHeading</a></li><li><a href="global.html#getIncircle">getIncircle</a></li><li><a href="global.html#getIncirclearea">getIncirclearea</a></li><li><a href="global.html#getIncircleradius">getIncircleradius</a></li><li><a href="global.html#getMid">getMid</a></li><li><a href="global.html#getPerpendicularBisector">getPerpendicularBisector</a></li><li><a href="global.html#getSlope">getSlope</a></li><li><a href="global.html#getSlopeAngle">getSlopeAngle</a></li><li><a href="global.html#getType">getType</a></li><li><a href="global.html#HashSet">HashSet</a></li><li><a href="global.html#interpolate">interpolate</a></li><li><a href="global.html#interpolateTo">interpolateTo</a></li><li><a href="global.html#invert">invert</a></li><li><a href="global.html#invertX">invertX</a></li><li><a href="global.html#invertY">invertY</a></li><li><a href="global.html#lighten">lighten</a></li><li><a href="global.html#magSq">magSq</a></li><li><a href="global.html#map">map</a></li><li><a href="global.html#norm">norm</a></li><li><a href="global.html#normalize">normalize</a></li><li><a href="global.html#numToBool">numToBool</a></li><li><a href="global.html#println">println</a></li><li><a href="global.html#radians">radians</a></li><li><a href="global.html#random">random</a></li><li><a href="global.html#randomBias">randomBias</a></li><li><a href="global.html#randomInt">randomInt</a></li><li><a href="global.html#reverser">reverser</a></li><li><a href="global.html#rotate">rotate</a></li><li><a href="global.html#round">round</a></li><li><a href="global.html#roundMultiple">roundMultiple</a></li><li><a href="global.html#saturate">saturate</a></li><li><a href="global.html#sec">sec</a></li><li><a href="global.html#setRotation">setRotation</a></li><li><a href="global.html#setScaling">setScaling</a></li><li><a href="global.html#setTranslation">setTranslation</a></li><li><a href="global.html#slope">slope</a></li><li><a href="global.html#slopeAngle">slopeAngle</a></li><li><a href="global.html#slopeRatio">slopeRatio</a></li><li><a href="global.html#snap">snap</a></li><li><a href="global.html#sq">sq</a></li><li><a href="global.html#statics">statics</a></li><li><a href="global.html#toGroup">toGroup</a></li><li><a href="global.html#toHex">toHex</a></li><li><a href="global.html#toInt">toInt</a></li><li><a href="global.html#trimToFit">trimToFit</a></li></ul>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Sun Jan 26 2014 10:10:53 GMT-0800 (PST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Fri Apr 08 2016 15:41:10 GMT-0700 (PDT)
 </footer>
 
 <script> prettyPrint(); </script>
