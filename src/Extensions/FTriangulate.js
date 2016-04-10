@@ -113,7 +113,6 @@ folio.FTriangulate = function(points) {
      *          third Point of Triangle
      */
     /**
-     * Triangle
      *
      * @param {Path} arg0
      *          3-sided Path (or FTriangle)
@@ -342,7 +341,6 @@ folio.FTriangulate = function(points) {
      *          second Point of Edge
      */
      /**
-      * Edge
       *
       * @param {Path} p1
       *          first Point of Edge

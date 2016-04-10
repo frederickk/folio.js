@@ -383,11 +383,18 @@ paper.Path.inject({
         var pointsX = [],
             pointsY = [];
 
+        var j;
+        var k;
+        var point;
         for (var i = 0; i < len; i++) {
-            var j = (i+1 >= len) ? 0 : i+1;
-            var k = (i+2 >= len) ? 1 : i+2;
+            j = (i + 1 >= len)
+                ? 0
+                : i + 1;
+            k = (i + 2 >= len)
+                ? 1
+                : i + 2;
 
-            var point = calculate(
+            point = calculate(
                 this._segments[i].point,
                 this._segments[j].point,
                 this._segments[k].point
@@ -419,8 +426,8 @@ paper.Path.inject({
                 return new Point((arrx[minx] + arrx[maxx])/2, (arry[miny] + arry[maxy])/2);
             }
             else {
-                var cx = (D*E - B*F) / G;
-                var cy = (A*F - C*E) / G;
+                var cx = (D * E - B * F) / G;
+                var cy = (A * F - C * E) / G;
                 return new Point(cx, cy);
             }
         };
@@ -445,8 +452,8 @@ paper.Path.inject({
     getCircumcircle: function() {
         var that = this;
         var circumradius = 0;
-
         var arr = this._segments.slice();
+
         function getDistanceToCentroid(segment) {
             var point = segment.point;
             var x = point.x - that.getCircumcenter().x,
@@ -458,7 +465,7 @@ paper.Path.inject({
             return getDistanceToCentroid(a) - getDistanceToCentroid(b);
         });
 
-        circumradius = getDistanceToCentroid(arr[arr.length-1] ) + getDistanceToCentroid(arr[arr.length-2]);
+        circumradius = getDistanceToCentroid(arr[arr.length - 1]) + getDistanceToCentroid(arr[arr.length - 2]);
         circumradius /= 2;
 
         // // for (var i = 0; i < arr.length; i++) {
@@ -468,7 +475,7 @@ paper.Path.inject({
         // //   }
         // // }
 
-        return Path.Circle(
+        return Shape.Circle(
             // that.getCentroid(),
             that.getCircumcenter(),
             // that.getCenterOfPolygon(),
@@ -500,7 +507,7 @@ paper.Path.inject({
             }
         }
 
-        return Path.Circle(
+        return Shape.Circle(
             this.getCentroid(),
             incircleradius
         );
@@ -651,8 +658,8 @@ paper.Path.inject({
              *          (optional) length of the arrow head
              *
              * @example
-             * var headPoint = new paper.Point(9,9);
-             * var tailPoint = new paper.Point(90,90);
+             * var headPoint = new Point(9,9);
+             * var tailPoint = new Point(90,90);
              * var arrowHeadSize = new paper.Size(18,18);
              * var farrow = new paper.Path.FArrow(headPoint, tailPoint, arrowHeadSize);
              *
@@ -701,7 +708,7 @@ paper.Path.inject({
              *          'RIGHT'     right align the x-position of the point
              *
              * @example
-             * var bubblePoint = new paper.Point(45,45);
+             * var bubblePoint = new Point(45,45);
              * var bubbleSize = new paper.Size(90,60);
              * var bubbleTagSize = new paper.Size(9,9);
              * var bubbleTagCenter = 'CENTER';
@@ -791,9 +798,9 @@ paper.Path.inject({
              *          radius of endpoint2
              *
              * @example
-             * var point1 = new paper.Point(9,9);
+             * var point1 = new Point(9,9);
              * var radius1 = 9;
-             * var point2 = new paper.Point(90,90);
+             * var point2 = new Point(90,90);
              * var radius2 = 90;
              * var fchain = new paper.Path.FChain(point1, radius1, point2, radius2);
              *
@@ -894,7 +901,7 @@ paper.Path.inject({
              *          'LINE'      simple built of lines (stroke)
              *
              * @example
-             * var centerPoint = new paper.Point(45,45);
+             * var centerPoint = new Point(45,45);
              * var size = new paper.Size(45,45);
              * var strokeWidth = 18;
              * var crossType = 'LINE';
@@ -957,7 +964,7 @@ paper.Path.inject({
              *          scale drop, maintains intended proportion
              *
              * @example
-             * var centerPoint = new paper.Point(45,45);
+             * var centerPoint = new Point(45,45);
              * var scale = 45;
              * var fdrop = new paper.Path.FDrip(centerPoint, scale);
              *
@@ -970,7 +977,7 @@ paper.Path.inject({
              *          scale drop, custom proportion
              *
              * @example
-             * var centerPoint = new paper.Point(45,45);
+             * var centerPoint = new Point(45,45);
              * var scale = new paper.Size(30,61.8);
              * var fdrop = new paper.Path.FDrip(centerPoint, scale);
              *
@@ -981,35 +988,35 @@ paper.Path.inject({
 
                 // segments added from top counter-clockwise
                 path.add(new Segment(
-                    new Point(-0.01, 0.01 ),
-                    new Point(0, -0.0055078 ),
-                    new Point(0, 0.643042 )
-                ) );
+                    new Point(-0.01, 0.01),
+                    new Point(0, -0.0055078),
+                    new Point(0, 0.643042)
+                ));
                 path.add(new Segment(
-                    new Point(-0.65, 1.6381104 ),
-                    new Point(0, -0.6109619 ),
-                    new Point(0, 0.3694434 )
-                ) );
+                    new Point(-0.65, 1.6381104),
+                    new Point(0, -0.6109619),
+                    new Point(0, 0.3694434)
+                ));
                 path.add(new Segment(
-                    new Point(0, 2.31 ),
-                    new Point(-0.3578369, 0 ),
-                    new Point(0.3578369, 0 )
-                ) );
+                    new Point(0, 2.31),
+                    new Point(-0.3578369, 0),
+                    new Point(0.3578369, 0)
+                ));
                 path.add(new Segment(
-                    new Point(0.65, 1.6381104 ),
-                    new Point(0, 0.3694434 ),
-                    new Point(0, -0.6109619 )
-                ) );
+                    new Point(0.65, 1.6381104),
+                    new Point(0, 0.3694434),
+                    new Point(0, -0.6109619)
+                ));
                 path.add(new Segment(
-                    new Point(0.01, 0.01 ),
-                    new Point(0, 0.643042 ),
-                    new Point(0, -0.0055078 )
-                ) );
+                    new Point(0.01, 0.01),
+                    new Point(0, 0.643042),
+                    new Point(0, -0.0055078)
+                ));
                 path.add(new Segment(
-                    new Point(0, -0 ),
-                    new Point(0.0055078, 0 ),
-                    new Point(-0.0055078, 0 )
-                ) );
+                    new Point(0, -0),
+                    new Point(0.0055078, 0),
+                    new Point(-0.0055078, 0)
+                ));
                 path.closed = true;
                 path.position = centerPoint;
 
@@ -1030,25 +1037,47 @@ paper.Path.inject({
              * FTriangle
              * Create a triangle
              *
-             * @param {Point} p1
+             * @param {Point} arg0
              *          first point of triangle
-             * @param {Point} p2
+             * @param {Point} arg1
              *          second point of triangle
-             * @param {Point} p3
+             * @param {Point} arg2
              *          third point of triangle
              *
              * @example
-             * var p1 = new paper.Point(9,9);
-             * var p2 = new paper.Point(90,45);
-             * var p3 = new paper.Point(45,90);
+             * var p1 = new Point(9, 9);
+             * var p2 = new Point(90, 45);
+             * var p3 = new Point(45, 90);
              * var ftriangle = new paper.Path.FTriangle(p1, p2, p3);
              *
              */
-            FTriangle: function(p1, p2, p3) {
-                var path = new Path();
-                path.add(p1);
-                path.add(p2);
-                path.add(p3);
+             /**
+              *
+              * @param {Point} arg0
+              *          center point of triangle
+              * @param {Number} arg1
+              *          radius of triangle
+              *
+              * @example
+              * var p1 = new Point(45, 45);
+              * var radius = 90;
+              * var ftriangle = new paper.Path.FTriangle(p1, radius);
+              *
+              */
+            FTriangle: function(arg0, arg1, arg2) {
+                var path;
+                if (arguments.length === 3) {
+                    path = new Path();
+                    path.add(arg0);
+                    path.add(arg1);
+                    path.add(arg2);
+                }
+                else if (arguments.length === 2) {
+                    path = new Path.RegularPolygon(arg0, 3, arg1);
+                }
+                else {
+                    return;
+                }
                 path.closed = true;
                 path.name = 'triangle';
 

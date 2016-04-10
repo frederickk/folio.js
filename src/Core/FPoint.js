@@ -26,7 +26,7 @@ paper.Point.inject({
     // ------------------------------------------------------------------------
     //
     // Methods
-    // 
+    //
     // ------------------------------------------------------------------------
     /**
      *
@@ -151,33 +151,64 @@ paper.Point.inject({
      *
      */
     getMid: function(point) {
-        return new Point( (this.x + point.x)/2, (this.y + point.y)/2 );
+        return new Point((this.x + point.x) / 2, (this.y + point.y) / 2);
     },
 
     /**
      * Returns the perpendicular bisector of two points
+     * TODO: test! test! test!
      *
-     * @return {Point}
+     * @param  {Point} point
+     * @param  {Number} scale (default: 1.0)
+     *
+     * @return {Object}
+     * {
+     *  start : {Point}, // starting point of bisector
+     *  mid   : {Point}, // mid point of bisector
+     *  end   : {Point}  // end point of bisector
+     * }
      *
      * @example
      * var point1 = new Point(0, 90);
      * var point2 = new Point(90, 180);
-     * var result = point1.getPerpendicularBisector(point2); // { x: 45, y: 135 }
+     * var result = point1.getPerpendicularBisector(point2);
      *
      */
-    getPerpendicularBisector: function(point) {
-        var mid = this.getMid(point);
-        var arr = defline(
-            new Point( mid.x - (this.y - mid.y), mid.y + (this.x - mid.x) ),
-            new Point( mid.x - (point.y - mid.y), mid.y + (point.x - mid.x) )
-        );
+    /**
+     * @param  {Point} point
+     * @param  {String} scale 'fit' will scale the bisector to fit view
+     *
+     * @return {Object}
+     * {
+     *  start : {Point}, // starting point of bisector
+     *  mid   : {Point}, // mid point of bisector
+     *  end   : {Point}  // end point of bisector
+     * }
+     *
+     * @example
+     * var point1 = new Point(0, 90);
+     * var point2 = new Point(90, 180);
+     * var result = point1.getPerpendicularBisector(point2, 'fit');
+     *
+     */
+    getPerpendicularBisector: function(point, scale) {
+       var line = new Path.Line(this, point);
+       line.setRotation(90);
 
-        function defline(p1, p2) {
-            var a = p1.y - p2.y;
-            var b = p1.x - p2.x;
-            return [a, -b, b * p1.y - a * p1.x];
-        };
-        return arr;
+       scale = scale || 1.0;
+       if (scale === 'fit') {
+           scale = view.size.getArea() / line.bounds.size.getArea();
+       }
+       line.setScaling(scale, scale);
+
+       var result = {
+           start : line.segments[0].point,
+           mid   : line.position,
+           end   : line.segments[1].point
+       }
+       line.remove();
+
+       return result;
     },
 
     /**
