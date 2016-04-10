@@ -1,6 +1,6 @@
-console.log( 'Script Loaded' );
+console.log('Script Loaded');
 /**
-*	FolioTemplate 0.7.1
+*	FolioTemplate 0.8.14
 *
 *	Ken Frederick
 *	ken.frederick@gmx.de
@@ -33,7 +33,9 @@ console.log( 'Script Loaded' );
 
 
 // ------------------------------------------------------------------------
+//
 // Properties
+//
 // ------------------------------------------------------------------------
 /*
  *	Add all local properties here
@@ -43,42 +45,30 @@ console.log( 'Script Loaded' );
 
 
 // ------------------------------------------------------------------------
-// Setup
+//
+// Methods
+//
 // ------------------------------------------------------------------------
 /*
  *	Just like in Processing or OpenFrameworks, the
  *	Setup() is called once upon initial loading
  */
 function Setup() {
-};
+}
 
-
-
-// ------------------------------------------------------------------------
-// Update
-// ------------------------------------------------------------------------
 /*
  *	Update() is called every frame
  */
 function Update(event) {
-};
+}
 
-
-
-// ------------------------------------------------------------------------
-// Draw
-// ------------------------------------------------------------------------
 /*
  *	Draw() is the main method which is called to Draw
  *	elements to the screen, similar to Processing's Draw()
  */
 function Draw() {
-};
+}
 
-
-
-// ------------------------------------------------------------------------
-// Methods
 // ------------------------------------------------------------------------
 /*
  *	Any additional Methods/Functions needed for this
@@ -89,7 +79,9 @@ function Draw() {
 
 
 // ------------------------------------------------------------------------
+//
 // Events
+//
 // ------------------------------------------------------------------------
 /*
  *	onResize() is called when the browser window's size changes
@@ -98,7 +90,7 @@ function Draw() {
  */
 function onResize(event) {
 	view.size = event.size; // currently seems to only work with the nightly-build
-};
+}
 
 
 // ------------------------------------------------------------------------
@@ -111,19 +103,16 @@ function onResize(event) {
  *	http://paperjs.org/reference/tool#onmousedrag
  */
 function onMouseUp(event) {
-};
+}
 
-// ------------------------------------------------------------------------
 function onMouseDown(event) {
-};
+}
 
-// ------------------------------------------------------------------------
 function onMouseMove(event) {
-};
+}
 
-// ------------------------------------------------------------------------
 function onMouseDrag(event) {
-};
+}
 
 
 // ------------------------------------------------------------------------
@@ -134,8 +123,7 @@ function onMouseDrag(event) {
  *	http://paperjs.org/reference/tool#onkeyup
  */
 function onKeyDown(event) {
-};
+}
 
-// ------------------------------------------------------------------------
 function onKeyUp(event) {
-};
+}

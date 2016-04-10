@@ -1,890 +1,174 @@
-/*@import "bootstrap.css";*/
 /**
-*	Folio
+* folio.css
 *
-*	Ken Frederick
-*	ken.frederick@gmx.de
+* Ken Frederick
+* ken.frederick@gmx.de
 *
-*	http://kennethfrederick.de/
-*	http://blog.kennethfrederick.de/
+* http://kennethfrederick.de/
+* http://blog.kennethfrederick.de/
 *
 *
-*	This CSS is part of FolioTemplate
+* This CSS is part of FolioTemplate
 *
 */
-/*	------------------------------------------------------------------------
- *
- *	Bootstrap
- *
- *	------------------------------------------------------------------------ */
-/*	------------------------------------------------------------------------
- *
- *	Typography
- *
- *	------------------------------------------------------------------------ */
-@font-face {
-}
-/**
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
- *
- *
- *	a slightly modified version of
- *	Typeplate
- *	1.0.0
- *
- *	Zachary Kain (@zakkain) & Dennis Gaebel (@gryghostvisuals)
- *
- *	http://typeplate.com/
- *	https://github.com/typeplate/typeplate
- *
- *	Creative Commmons License
- *	http://creativecommons.org/licenses/by/3.0
- *
- */
-.tera {
-  font-size: 240px;
-  line-height: 204px;
-  letter-spacing: -9px;
-}
-.giga {
-  font-size: 198px;
-  line-height: 198px;
-}
-.mega {
-  font-size: 126px;
-  line-height: 126px;
-}
-.alpha {
-  font-size: 90px;
-  line-height: 90px;
-}
-.beta {
-  font-size: 66px;
-  line-height: 69px;
-}
-.gamma {
-  font-size: 54px;
-  line-height: 57px;
-}
-.delta {
-  font-size: 24px;
-  line-height: 27px;
-}
-.epsilon {
-  font-size: 12px;
-  line-height: 15px;
-}
-.zeta {
-  font-size: 11px;
-  line-height: 14px;
-}
-.ampersand-placeholder {
-  font-family: "Akzidenz-Grotesk", akzidenz grotesk, helvetica, sans-serif;
-}
-/*
- *	<ul class="stats-tabs">
- *		<li><a href="#">[value]<b>[name]</b></a></li>
- *	</ul>
- */
-.stats-tabs {
-  padding: 0;
-}
-.stats-tabs li {
-  display: inline-block;
-  margin: 0 0.625rem 0 0;
-  padding: 0 0.625rem 0 0;
-  border-right: 0.125rem solid rgba(30, 20, 15, 0.45);
-}
-.stats-tabs li:last-child {
-  margin: 0;
-  padding: 0;
-  border: none;
-}
-.stats-tabs li a {
-  display: inline-block;
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-.stats-tabs li a b {
-  display: block;
-  margin: 0.125rem 0 0 0;
-  font-size: 0.875rem;
-  font-weight: normal;
-}
-.no-hyphens {
-  -webkit-hyphens: none;
-  -webkit-hyphenate-character: "\2010";
-  -webkit-hyphenate-limit-after: 2;
-  -webkit-hyphenate-limit-before: 6;
-  -webkit-hyphenate-lines: 3;
-  -moz-hyphens: none;
-  -ms-hyphens: none;
-  hyphens: none;
-}
-.no-wrap {
-  -webkit-hyphens: none;
-  -webkit-hyphenate-character: "\2010";
-  -webkit-hyphenate-limit-after: 2;
-  -webkit-hyphenate-limit-before: 6;
-  -webkit-hyphenate-lines: 3;
-  -moz-hyphens: none;
-  -ms-hyphens: none;
-  hyphens: none;
-  white-space: nowrap;
-}
-.ellipsis {
-  /*width: 200px;*/
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  /*text-overflow: clip|ellipsis|string;*/
-  -o-text-overflow: ellipsis;
-  -ms-text-overflow: ellipsis;
-}
-.bold {
-  font-family: "Akzidenz-Grotesk", akzidenz grotesk, helvetica, sans-serif;
-}
-.regular {
-  font-family: "Akzidenz-Grotesk", akzidenz grotesk, helvetica, sans-serif;
-}
-.inherit-wrap {
-  word-wrap: auto;
-}
-.normal-wrap {
-  word-wrap: normal;
-}
-.breakword {
-  word-wrap: break-word;
-}
-.drop-cap:first-letter {
-  float: left;
-  margin: inherit;
-  padding: inherit;
-  font-size: 4em;
-  font-family: inherit;
-  line-height: 1px;
-  text-indent: 0;
-  background: transparent;
-  color: inherit;
-}
-/*	------------------------------------------------------------------------
- *
- *	Specific Application
- *
- *	------------------------------------------------------------------------ */
-/**
-*	Folio.css 0.0
-*
-*	Ken Frederick
-*	ken.frederick@gmx.de
-*
-*	http://kennethfrederick.de/
-*	http://blog.kennethfrederick.de/
-*
-*
-*	This CSS is part of FolioTemplate
-*
-*/
-.white {
-  color: #ffffff;
-}
-a.white {
-  color: #ffffff;
-  border-color: #ffffff;
-}
-a:hover.white {
-  color: #ffffff;
-  border-color: #ffffff;
-}
-div.white {
-  background-color: #ffffff;
-}
-.background.white {
-  background-color: ade(#1e140f, 15%);
-  border: 0px solid rgba(30, 20, 15, 0.2);
-  -moz-box-shadow: 0px 1px 0px rgba(30, 20, 15, 0.3);
-  -webkit-box-shadow: 0px 1px 0px rgba(30, 20, 15, 0.3);
-  box-shadow: 0px 1px 0px rgba(30, 20, 15, 0.3);
-}
-.white-light-gray {
-  color: rgba(255, 255, 255, 0.45);
-}
-a.white-light-gray {
-  color: rgba(255, 255, 255, 0.45);
-  border-color: rgba(255, 255, 255, 0.45);
-}
-a:hover.white-light-gray {
-  color: #e9e8e7;
-  border-color: #e9e8e7;
-}
-div.white-light-gray {
-  background-color: rgba(255, 255, 255, 0.45);
-}
-.background.white-light-gray {
-  background-color: rgba(255, 255, 255, 0.2);
-  border: 0px solid rgba(255, 255, 255, 0.25);
-  -moz-box-shadow: 0px 1px 0px rgba(30, 20, 15, 0.15);
-  -webkit-box-shadow: 0px 1px 0px rgba(30, 20, 15, 0.15);
-  box-shadow: 0px 1px 0px rgba(30, 20, 15, 0.15);
-}
-.white-dark-gray {
-  color: rgba(255, 255, 255, 0.83);
-}
-a.white-dark-gray {
-  color: rgba(255, 255, 255, 0.83);
-  border-color: rgba(255, 255, 255, 0.83);
-}
-a:hover.white-dark-gray {
-  color: #9a9593;
-  border-color: #9a9593;
-}
-div.white-dark-gray {
-  background-color: rgba(255, 255, 255, 0.83);
-}
-div.black {
-  background-color: #1e140f;
-}
-.background.black {
-  background-color: rgba(30, 20, 15, 0.15);
-  border: 0px solid rgba(30, 20, 15, 0.2);
-  -moz-box-shadow: 0px 1px 0px rgba(30, 20, 15, 0.3);
-  -webkit-box-shadow: 0px 1px 0px rgba(30, 20, 15, 0.3);
-  box-shadow: 0px 1px 0px rgba(30, 20, 15, 0.3);
-}
-.black-light-gray {
-  color: rgba(30, 20, 15, 0.1);
-}
-a.black-light-gray {
-  color: rgba(30, 20, 15, 0.1);
-  border-color: rgba(30, 20, 15, 0.1);
-}
-a:hover.black-light-gray {
-  color: #e9e8e7;
-  border-color: #e9e8e7;
-}
-div.black-light-gray {
-  background-color: rgba(30, 20, 15, 0.1);
-}
-.black-dark-gray {
-  color: rgba(30, 20, 15, 0.45);
-}
-a.black-dark-gray {
-  color: rgba(30, 20, 15, 0.45);
-  border-color: rgba(30, 20, 15, 0.45);
-}
-a:hover.black-dark-gray {
-  color: #9a9593;
-  border-color: #9a9593;
-}
-div.black-dark-gray {
-  background-color: rgba(30, 20, 15, 0.45);
-}
-.red {
-  color: #ff4464;
-}
-a.red {
-  color: #ff4464;
-  border-color: #ff4464;
-}
-a:hover.red {
-  color: #ff4464;
-  border-color: #ff4464;
-}
-div.red {
-  background-color: #ff4464;
-}
+
+
+body,
 html {
-  background-color: #ffffff;
-  font-size: 12px;
-  font-family: "Akzidenz-Grotesk", akzidenz grotesk, helvetica, sans-serif;
-  font-weight: bold;
-  line-height: 15px;
-  font-smoothing: antialiased;
-  -webkit-font-smoothing: antialiased;
-  -khtml-font-smoothing: antialiased;
-  -moz-font-smoothing: antialiased;
-  -ms-font-smoothing: antialiased;
-  -webkit-hyphens: auto;
-  -webkit-hyphenate-character: "\2010";
-  -webkit-hyphenate-limit-after: 2;
-  -webkit-hyphenate-limit-before: 6;
-  -webkit-hyphenate-lines: 3;
-  -moz-hyphens: auto;
-  -ms-hyphens: auto;
-  hyphens: auto;
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+    font-family: helvetica, sans-serif;
+    font-weight: bold;
+    line-height: 15px;
+    letter-spacing: -0.2px;
+    color: #1e140f;
 }
-body {
-  margin: 0;
-  padding: 0;
-  font-size: 12px;
-  font-family: "Akzidenz-Grotesk", akzidenz grotesk, helvetica, sans-serif;
-  font-weight: bold;
-  line-height: 15px;
-  letter-spacing: -0.2px;
-  -webkit-hyphens: auto;
-  -webkit-hyphenate-character: "\2010";
-  -webkit-hyphenate-limit-after: 2;
-  -webkit-hyphenate-limit-before: 6;
-  -webkit-hyphenate-lines: 3;
-  -moz-hyphens: auto;
-  -ms-hyphens: auto;
-  hyphens: auto;
-  word-wrap: break-word;
-  color: #1e140f;
-}
+
 a {
-  text-decoration: underline;
-  color: #1e140f;
+    text-decoration: underline;
+    color: #1e140f;
 }
 a:hover {
-  text-decoration: underline;
-  color: #1e140f;
-}
-.align-left {
-  text-align: left;
-}
-.align-center {
-  text-align: center;
-}
-.align-right {
-  text-align: right;
-}
-.align-top {
-  position: absolute;
-  top: 0px;
-}
-.align-bottom {
-  position: absolute;
-  bottom: 0px;
-}
-.baseline-grid-68 {
-  position: absolute;
-  top: 0px;
-  margin-top: 1020px;
-}
-.baseline-grid-67 {
-  position: absolute;
-  top: 0px;
-  margin-top: 1005px;
-}
-.baseline-grid-66 {
-  position: absolute;
-  top: 0px;
-  margin-top: 990px;
-}
-.baseline-grid-65 {
-  position: absolute;
-  top: 0px;
-  margin-top: 975px;
-}
-.baseline-grid-64 {
-  position: absolute;
-  top: 0px;
-  margin-top: 960px;
-}
-.baseline-grid-63 {
-  position: absolute;
-  top: 0px;
-  margin-top: 945px;
-}
-.baseline-grid-62 {
-  position: absolute;
-  top: 0px;
-  margin-top: 930px;
-}
-.baseline-grid-61 {
-  position: absolute;
-  top: 0px;
-  margin-top: 915px;
-}
-.baseline-grid-60 {
-  position: absolute;
-  top: 0px;
-  margin-top: 900px;
-}
-.baseline-grid-59 {
-  position: absolute;
-  top: 0px;
-  margin-top: 885px;
-}
-.baseline-grid-58 {
-  position: absolute;
-  top: 0px;
-  margin-top: 870px;
-}
-.baseline-grid-57 {
-  position: absolute;
-  top: 0px;
-  margin-top: 855px;
-}
-.baseline-grid-56 {
-  position: absolute;
-  top: 0px;
-  margin-top: 840px;
-}
-.baseline-grid-55 {
-  position: absolute;
-  top: 0px;
-  margin-top: 825px;
-}
-.baseline-grid-54 {
-  position: absolute;
-  top: 0px;
-  margin-top: 810px;
-}
-.baseline-grid-53 {
-  position: absolute;
-  top: 0px;
-  margin-top: 795px;
-}
-.baseline-grid-52 {
-  position: absolute;
-  top: 0px;
-  margin-top: 780px;
-}
-.baseline-grid-51 {
-  position: absolute;
-  top: 0px;
-  margin-top: 765px;
-}
-.baseline-grid-50 {
-  position: absolute;
-  top: 0px;
-  margin-top: 750px;
-}
-.baseline-grid-49 {
-  position: absolute;
-  top: 0px;
-  margin-top: 735px;
-}
-.baseline-grid-48 {
-  position: absolute;
-  top: 0px;
-  margin-top: 720px;
-}
-.baseline-grid-47 {
-  position: absolute;
-  top: 0px;
-  margin-top: 705px;
-}
-.baseline-grid-46 {
-  position: absolute;
-  top: 0px;
-  margin-top: 690px;
-}
-.baseline-grid-45 {
-  position: absolute;
-  top: 0px;
-  margin-top: 675px;
-}
-.baseline-grid-44 {
-  position: absolute;
-  top: 0px;
-  margin-top: 660px;
-}
-.baseline-grid-43 {
-  position: absolute;
-  top: 0px;
-  margin-top: 645px;
-}
-.baseline-grid-42 {
-  position: absolute;
-  top: 0px;
-  margin-top: 630px;
-}
-.baseline-grid-41 {
-  position: absolute;
-  top: 0px;
-  margin-top: 615px;
-}
-.baseline-grid-40 {
-  position: absolute;
-  top: 0px;
-  margin-top: 600px;
-}
-.baseline-grid-39 {
-  position: absolute;
-  top: 0px;
-  margin-top: 585px;
-}
-.baseline-grid-38 {
-  position: absolute;
-  top: 0px;
-  margin-top: 570px;
-}
-.baseline-grid-37 {
-  position: absolute;
-  top: 0px;
-  margin-top: 555px;
-}
-.baseline-grid-36 {
-  position: absolute;
-  top: 0px;
-  margin-top: 540px;
-}
-.baseline-grid-35 {
-  position: absolute;
-  top: 0px;
-  margin-top: 525px;
-}
-.baseline-grid-34 {
-  position: absolute;
-  top: 0px;
-  margin-top: 510px;
-}
-.baseline-grid-33 {
-  position: absolute;
-  top: 0px;
-  margin-top: 495px;
-}
-.baseline-grid-32 {
-  position: absolute;
-  top: 0px;
-  margin-top: 480px;
-}
-.baseline-grid-31 {
-  position: absolute;
-  top: 0px;
-  margin-top: 465px;
-}
-.baseline-grid-30 {
-  position: absolute;
-  top: 0px;
-  margin-top: 450px;
-}
-.baseline-grid-29 {
-  position: absolute;
-  top: 0px;
-  margin-top: 435px;
-}
-.baseline-grid-28 {
-  position: absolute;
-  top: 0px;
-  margin-top: 420px;
-}
-.baseline-grid-27 {
-  position: absolute;
-  top: 0px;
-  margin-top: 405px;
-}
-.baseline-grid-26 {
-  position: absolute;
-  top: 0px;
-  margin-top: 390px;
-}
-.baseline-grid-25 {
-  position: absolute;
-  top: 0px;
-  margin-top: 375px;
-}
-.baseline-grid-24 {
-  position: absolute;
-  top: 0px;
-  margin-top: 360px;
-}
-.baseline-grid-23 {
-  position: absolute;
-  top: 0px;
-  margin-top: 345px;
-}
-.baseline-grid-22 {
-  position: absolute;
-  top: 0px;
-  margin-top: 330px;
-}
-.baseline-grid-21 {
-  position: absolute;
-  top: 0px;
-  margin-top: 315px;
-}
-.baseline-grid-20 {
-  position: absolute;
-  top: 0px;
-  margin-top: 300px;
-}
-.baseline-grid-19 {
-  position: absolute;
-  top: 0px;
-  margin-top: 285px;
-}
-.baseline-grid-18 {
-  position: absolute;
-  top: 0px;
-  margin-top: 270px;
-}
-.baseline-grid-17 {
-  position: absolute;
-  top: 0px;
-  margin-top: 255px;
-}
-.baseline-grid-16 {
-  position: absolute;
-  top: 0px;
-  margin-top: 240px;
-}
-.baseline-grid-15 {
-  position: absolute;
-  top: 0px;
-  margin-top: 225px;
-}
-.baseline-grid-14 {
-  position: absolute;
-  top: 0px;
-  margin-top: 210px;
-}
-.baseline-grid-13 {
-  position: absolute;
-  top: 0px;
-  margin-top: 195px;
-}
-.baseline-grid-12 {
-  position: absolute;
-  top: 0px;
-  margin-top: 180px;
-}
-.baseline-grid-11 {
-  position: absolute;
-  top: 0px;
-  margin-top: 165px;
-}
-.baseline-grid-10 {
-  position: absolute;
-  top: 0px;
-  margin-top: 150px;
-}
-.baseline-grid-9 {
-  position: absolute;
-  top: 0px;
-  margin-top: 135px;
-}
-.baseline-grid-8 {
-  position: absolute;
-  top: 0px;
-  margin-top: 120px;
-}
-.baseline-grid-7 {
-  position: absolute;
-  top: 0px;
-  margin-top: 105px;
-}
-.baseline-grid-6 {
-  position: absolute;
-  top: 0px;
-  margin-top: 90px;
-}
-.baseline-grid-5 {
-  position: absolute;
-  top: 0px;
-  margin-top: 75px;
-}
-.baseline-grid-4 {
-  position: absolute;
-  top: 0px;
-  margin-top: 60px;
-}
-.baseline-grid-3 {
-  position: absolute;
-  top: 0px;
-  margin-top: 45px;
-}
-.baseline-grid-2 {
-  position: absolute;
-  top: 0px;
-  margin-top: 30px;
-}
-.baseline-grid-1 {
-  position: absolute;
-  top: 0px;
-  margin-top: 15px;
-}
-.baseline-grid {
-  position: absolute;
-  top: 0px;
-  margin-top: 0px;
-}
+    text-decoration: underline;
+    color: #1e140f;
+}
+
+
 #canvas {
-  width: 100%;
-  height: 100%;
-  top: 0px;
-  left: 0px;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
 }
-/*
- *	a div to hold raster images
- *	hides them from view
- */
+
 #rasters {
-  visibility: hidden;
+    visibility: hidden;
 }
-/*
- *	container div for text (season to taste)
- */
+
 #text-container {
-  position: absolute;
-  width: 100%;
-  top: 70px;
-  margin: 0 35px 0 35px;
-  padding: 0px;
-  white-space: nowrap;
-  z-index: 200;
-  /* my personal faves */
+    position: absolute;
+    width: 100%;
+    top: 70px;
+    margin: 0 35px 0 35px;
+    padding: 0px;
+    white-space: nowrap;
+    z-index: 200;
 }
+
 #manual {
-  position: absolute;
-  width: 100%;
-  bottom: 70px;
-  margin: 0 35px 0 35px;
-  padding: 0px;
-  white-space: nowrap;
-  z-index: 200;
-  font-weight: normal;
-  /* my personal faves */
-  /*color: rgba(0,0,0, 0.6);*/
+    position: absolute;
+    width: 100%;
+    bottom: 70px;
+    margin: 0 35px 0 35px;
+    padding: 0px;
+    white-space: nowrap;
+    z-index: 200;
+    font-weight: normal;
+    /* my personal faves */
+    /*color: rgba(0,0,0, 0.6);*/
+
 }
-/*
- *	TODO: entertain notion to switch to https://code.google.com/p/dat-gui/
- */
-#input-container {
-  position: absolute;
-  bottom: 17px;
-  width: 100%;
-  text-align: center;
+
+.row {
+    width: 100%;
+    float: left;
 }
-.input-component {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  display: inline-block;
-  vertical-align: middle;
-  padding: 0px 6px 0px 6px;
+.col {
+    width: 20%;
+    padding-bottom: 6%;
+    float: left;
 }
-input {
-  font-family: "Akzidenz-Grotesk", akzidenz grotesk, helvetica, sans-serif;
-  font-weight: bold;
-  font-size: 30px;
-  text-align: center;
-  width: 100%;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  border-radius: 2px;
-  background-color: #e9e8e7;
-  border: 6px solid #e9e8e7;
+
+
+.white {
+    color: #ffffff;
 }
-input[type="checkbox"] {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  width: 18px;
-  height: 18px;
-  padding: 9px;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  border-radius: 2px;
-  background-color: #e9e8e7;
-  border: 6px solid #e9e8e7;
+a.white {
+    color: #ffffff;
+    border-color: #ffffff;
 }
-input[type="checkbox"]:checked {
-  -webkit-border-radius: 18px;
-  -moz-border-radius: 18px;
-  border-radius: 18px;
-  background-color: #9a9593;
+a:hover.white {
+    color: #ffffff;
+    border-color: #ffffff;
 }
-input.submit {
-  /* font-family: akzidenz grotesk, helvetica, arial; */
-  /* font-size: 11px; */
-  background-color: none;
-  border: none;
+
+.white-light-gray {
+    color: rgba(255, 255, 255, 0.45);
 }
-select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  font-family: "Akzidenz-Grotesk", akzidenz grotesk, helvetica, sans-serif;
-  font-weight: bold;
-  font-size: 18px;
-  /* typeface cut-off at larger sizes */
-  width: 100%;
-  height: 48px;
-  padding: 9px;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  border-radius: 2px;
-  background-color: #e9e8e7;
-  border: none;
-  outline: none;
-  display: inline-block;
+a.white-light-gray {
+    color: rgba(255, 255, 255, 0.45);
+    border-color: rgba(255, 255, 255, 0.45);
 }
-/*	------------------------------------------------------------------------
- *
- *	Media Queries
- *
- *	------------------------------------------------------------------------ */
-/**
- *
- *	Ken Frederick
- *	ken.frederick@gmx.de
- *
- *	http://kennethfrederick.de/
- *	http://blog.kennethfrederick.de/
- *
- *
- *	mostly borrowed from
- *	Dapper
- *	0.1.0
- *
- *	Flip Steward (@flipstewart)
- *
- *	Licensed under The MIT License
- *	http://opensource.org/licenses/MIT
- *
- */
-/*
- *	iPhone & iPod Touch Portrait
- */
+a:hover.white-light-gray {
+    color: #e9e8e7;
+    border-color: #e9e8e7;
+}
+
+.white-dark-gray {
+    color: rgba(255, 255, 255, 0.83);
+}
+a.white-dark-gray {
+    color: rgba(255, 255, 255, 0.83);
+    border-color: rgba(255, 255, 255, 0.83);
+}
+a:hover.white-dark-gray {
+    color: #9a9593;
+    border-color: #9a9593;
+}
+
+.black-light-gray {
+    color: rgba(30, 20, 15, 0.1);
+}
+a.black-light-gray {
+    color: rgba(30, 20, 15, 0.1);
+    border-color: rgba(30, 20, 15, 0.1);
+}
+a:hover.black-light-gray {
+    color: #e9e8e7;
+    border-color: #e9e8e7;
+}
+
+.black-dark-gray {
+    color: rgba(30, 20, 15, 0.45);
+}
+a.black-dark-gray {
+    color: rgba(30, 20, 15, 0.45);
+    border-color: rgba(30, 20, 15, 0.45);
+}
+a:hover.black-dark-gray {
+    color: #9a9593;
+    border-color: #9a9593;
+}
+
+.red {
+    color: red;
+}
+a.red {
+    color: red;
+    border-color: red;
+}
+a:hover.red {
+    color: red;
+    border-color: red;
+}
+
+
+
 @media screen and (width: 320px), (height: 480px) {
-  #text-container {
-    visibility: hidden;
-  }
-  #manual {
-    visibility: hidden;
-  }
-  #input-container {
-    visibility: hidden;
-  }
+    #text-container {
+        visibility: hidden;
+    }
+    #manual {
+        visibility: hidden;
+    }
 }
-/*
- *	iPhone & iPod Touch Landscape
- */
+
 @media screen and (width: 480px), (height: 320px) {
-  #text-container {
-    visibility: hidden;
-  }
-  #manual {
-    visibility: hidden;
-  }
-  #input-container {
-    visibility: hidden;
-  }
+    #text-container {
+        visibility: hidden;
+    }
+    #manual {
+        visibility: hidden;
+    }
 }
-/*
- *	iPhone 4 Portrait
- */
-/*
- *	iPhone 4 Landscape
- */
-/*
- *	iPhone 5 & 5th Generation iPod Touch Portrait
- */
-/*
- *	iPhone 5 & 5th Generation iPod Touch Landscape
- */
-/*
- *	iPad Portrait
- */
-/*
- *	iPad Landscape
- */
