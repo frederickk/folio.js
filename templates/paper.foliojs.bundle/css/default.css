@@ -23,6 +23,7 @@ html {
     line-height: 15px;
     letter-spacing: -0.2px;
     color: #1e140f;
+    overflow: hidden;
 }
 
 a {
@@ -44,6 +45,7 @@ a:hover {
 
 #rasters {
     visibility: hidden;
+    pointer-events: none;
 }
 
 #text-container {
@@ -65,9 +67,7 @@ a:hover {
     white-space: nowrap;
     z-index: 200;
     font-weight: normal;
-    /* my personal faves */
-    /*color: rgba(0,0,0, 0.6);*/
-
+    pointer-events: none;
 }
 
 .row {
