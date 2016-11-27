@@ -1,10 +1,10 @@
 /**!
  *
  * folio.js
- * 0.8.14
+ * 0.8.15
  * https://github.com/frederickk/folio.js
  *
- * 10. April 2016
+ * 27. November 2016
  *
  * Ken Frederick
  * ken.frederick@gmx.de
@@ -1675,24 +1675,18 @@ paper.Item.inject({
      * @return {Item}
      */
     /**
-     * Scaling that doesn't accumulate
-     *
      * @param  {Number} arg0  horizontal scale factor
      * @param  {Number} arg1  vertical scale factor
      *
      * @return {Item}
      */
      /**
-      * Scaling that doesn't accumulate
-      *
       * @param  {Number} arg0  horizontal and vertical scale factor
       * @param  {Point}  arg1  scale from
       *
       * @return {Item}
       */
      /**
-      * Scaling that doesn't accumulate
-      *
       * @param  {Number} arg0  horizontal scale factor
       * @param  {Number} arg1  vertical scale factor
       * @param  {Point}  arg2  scale from
@@ -4091,8 +4085,6 @@ folio.FTime.FStopwatch = function() {
 
 };
 
-
-
 /*
 *
 * FIO.js
@@ -4263,7 +4255,6 @@ folio.FIO = {
     deleteSession: function(name) {
         sessionStorage.removeItem(name);
     },
-
 
 
     // ------------------------------------------------------------------------

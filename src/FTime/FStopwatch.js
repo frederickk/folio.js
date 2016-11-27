@@ -141,5 +141,3 @@ folio.FTime.FStopwatch = function() {
     };
 
 };
-
-

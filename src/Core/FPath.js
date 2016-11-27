@@ -158,24 +158,18 @@ paper.Item.inject({
      * @return {Item}
      */
     /**
-     * Scaling that doesn't accumulate
-     *
      * @param  {Number} arg0  horizontal scale factor
      * @param  {Number} arg1  vertical scale factor
      *
      * @return {Item}
      */
      /**
-      * Scaling that doesn't accumulate
-      *
       * @param  {Number} arg0  horizontal and vertical scale factor
       * @param  {Point}  arg1  scale from
       *
       * @return {Item}
       */
      /**
-      * Scaling that doesn't accumulate
-      *
       * @param  {Number} arg0  horizontal scale factor
       * @param  {Number} arg1  vertical scale factor
       * @param  {Point}  arg2  scale from
