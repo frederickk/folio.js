@@ -53,7 +53,7 @@ module.exports = function(grunt) {
                 banner: '<%= banner %>',
             },
             paper: {
-                dest: 'distribution/paper.' + name + '.js',
+                dest: 'dist/paper.' + name + '.js',
                 src: ['./src/folio.js', srcFiles, src3DFiles]
             }
         },
@@ -68,7 +68,7 @@ module.exports = function(grunt) {
             },
             paper: {
                 src: '<%= concat.paper.dest %>',
-                dest: 'distribution/paper.' + name + '.min.js'
+                dest: 'dist/paper.' + name + '.min.js'
             }
         },
 

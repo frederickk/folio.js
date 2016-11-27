@@ -29,11 +29,11 @@ Usage
 
 A full-size canvas element is created by [Folio.js](http://kennethfrederick.de/foliojs/) upon loading. Otherwise, the first found canvas element is used.
 
-You can find the library for [Paper.js](http://paperjs.org/) within the `distribution/` folder.
+You can find the library for [Paper.js](http://paperjs.org/) within the `dist/` folder.
 
 ```
-/distribution/paper.folio.js
-/distribution/paper.folio.min.js
+/dist/paper.folio.js
+/dist/paper.folio.min.js
 ```
 
 I recommend a file structure as such:
@@ -119,7 +119,7 @@ To only build for [Paper.js](http://paperjs.org/)
 $ grunt paper
 ```
 
-Results are built into the `distribution/` folder
+Results are built into the `dist/` folder
 
 Alternatively type `grunt watch` to have the build run automatically when you make changes to source files.
 
@@ -128,6 +128,3 @@ $ grunt watch
 ```
 
 **Note** grunt watch doesn't run unit tests.
-
-
-
