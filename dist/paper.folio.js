@@ -4,7 +4,7 @@
  * 0.8.2
  * https://github.com/frederickk/folio.js
  *
- * 27. November 2016
+ * 28. November 2016
  *
  * Ken Frederick
  * ken.frederick@gmx.de
@@ -156,6 +156,16 @@ var onKeyUp = function() {};
     //
     // -----------------------------------------------------------------------------
     /**
+     * Java style print output
+     *
+     * @param {Object} obj
+     *        any Javascript Object
+     */
+    print: function(obj) {
+      console.log(obj);
+    },
+
+    /**
      * Java style println output
      *
      * @param {Object} obj
@@ -195,6 +205,7 @@ var onKeyUp = function() {};
     // ------------------------------------------------------------------------
     /**
      * http://stackoverflow.com/questions/4775722/check-if-object-is-array
+     * TODO: is this necessary?
      *
      * @param {Object} obj
      *    object whose type to determine
@@ -239,15 +250,14 @@ var onKeyUp = function() {};
      *
      */
     findByName: function(items, name) {
-      var path;
+      var item;
       for (var i = 0; i < items.length; i++) {
-        var item = items[i];
+        item = items[i];
         if (item.name === name) {
-          path = item;
+          break;
         }
-        // break;
       }
-      return path;
+      return item;
     },
 
     /**
@@ -261,20 +271,20 @@ var onKeyUp = function() {};
      *
      */
     findById: function(items, id) {
-      var path;
+      var item;
       for (var i = 0; i < items.length; i++) {
-        var item = items[i];
+        item = items[i];
         if (item.id === id) {
-          path = item;
+          break;
         }
-        // break;
       }
-      return path;
+      return item;
     },
 
 
     /**
      * Iterate through and array
+     * TODO: remove once refactored for ES6
      *
      * @param  {Array}    arr
      * @param  {Function} callback
@@ -306,39 +316,32 @@ var onKeyUp = function() {};
      *
      */
     clear: function(arg0, arg1) {
-      var layerName, callback;
-      var layer;
+      var layerName;
+      var callback = function() {};
 
       if (arguments.length === 2) {
         layerName = arg0;
         callback = arg1;
       } else if (arguments.length === 1) {
-        layerName = undefined;
-        callback = arg0;
+        layerName = arg0;
       }
 
-      for (var i = 0; i < projects.length; i++) {
-        if (layerName !== undefined) {
-          try {
-            layer = projects[i].layers[layerName];
+      var layer;
+      if (layerName === undefined) {
+        for (var i = 0; i < paper.projects.length; i++) {
+          for (var j = 0; j < paper.project.layers.length; j++) {
+            layer = paper.project.layers[j];
             layer.removeChildren();
-          } catch (err) {}
-        } else {
-          projects[i].clear();
-          layer = new Layer();
-          // for (var j = 0; j < projects[i].layers.length; j++) {
-          //     layer = projects[i].layers[j];
-          //     if (callback) {
-          //         callback(layer);
-          //     }
-          //     layer.removeChildren();
-          // }
+            callback(layer);
+          }
         }
-
-        if (callback) {
-          callback(layer);
-        }
+      } else {
+        layer = paper.project.layers[layerName];
+        layer.removeChildren();
+        callback(layer);
       }
+
+      return layer;
     }
 
   });
