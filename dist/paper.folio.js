@@ -103,19 +103,12 @@ var onKeyUp = function() {};
    *
    */
   var Folio = {
-    //
-    // Constants
-    // ...of sorts
-    //
     body: document.body,
     html: document.documentElement,
 
-    //
-    // Setup Core Namespaces
-    //
-    FTime: {},
+    F3D: {},
     FIO: {},
-    F3D: {}
+    FTime: {}
   };
 
 
@@ -10311,10 +10304,10 @@ var onKeyUp = function() {};
       canvas = document.createElement('canvas');
       canvas.id = 'canvas';
       canvas.resize = true;
-      canvas.style.backgroundColor = 'rgba(0, 0, 0, 0)';
+      canvas.style.backgroundColor = 'transparent';
       canvas.style.webkitUserDrag = 'none';
       canvas.style.webkitUserSelect = 'none';
-      canvas.style.webkitTapHighlightColor = 'rgba(0, 0, 0, 0)';
+      canvas.style.webkitTapHighlightColor = 'transparent';
       container.appendChild(canvas);
     } else {
       // use first canvas found
@@ -10326,6 +10319,7 @@ var onKeyUp = function() {};
     if (canvas.style.height === '') {
       canvas.style.height = '100%';
     }
+    canvas.classList.add('folio-canvas');
 
     paper.setup(canvas);
 
