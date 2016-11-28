@@ -11,8 +11,9 @@ Thumbs.db
 
 # Compiled source #
 ###################
-*.less
+
 
 # Folders #
 ###################
 node_modules/
+bower_components/

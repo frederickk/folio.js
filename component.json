@@ -1,23 +1,30 @@
 {
   "name": "folio.js",
   "filename": "folio",
-  "version": "0.7.7.",
-  "author": {
-    "name": "Ken Frederick",
-    "url": "http://blog.kennethfrederick.de/"
-  },
+  "version": "0.8.2",
+  "description": "A library for use with Paper.js (http://paperjs.org/)",
   "homepage": "https://github.com/frederickk/folio.js/",
   "main": "./distribution/paper.folio.js",
+
   "repository": {
     "type": "git",
     "url": "git://github.com/frederickk/folio.git"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "http://opensource.org/licenses/MIT"
-    }
+  "keywords": [
+    "paperjs",
+    "javascript",
+    "library",
+    "generative",
+    "tools",
+    "design",
+    "svg",
+    "html"
   ],
+  "author": {
+    "name": "Ken Frederick",
+    "url": "http://blog.kennethfrederick.de/"
+  },
+  "license": "MIT",
   "dependencies": {
     "paper.js": "git://github.com/paperjs/paper.js.git"
   },
@@ -29,21 +36,5 @@
     "test",
     "tests"
   ],
-  "authors": [
-    "Ken Frederick"
-  ],
-  "description": "A library for use with Paper.js (http://paperjs.org/) and Scriptographer (http://scriptographer.org/)",
-  "keywords": [
-    "\"paperjs\"",
-    "\"scriptographer\"",
-    "\"javascript\"",
-    "\"library\"",
-    "\"generative\"",
-    "\"tools\"",
-    "\"design\"",
-    "\"svg\"",
-    "\"html\""
-  ],
-  "license": "MIT",
   "private": true
 }

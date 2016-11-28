@@ -3,6 +3,7 @@
   "filename": "folio",
   "version": "0.8.2",
   "description": "A library for use with Paper.js (http://paperjs.org/)",
+  "homepage": "https://github.com/frederickk/folio.js/",
   "main": "distribution/paper.folio.js",
   "directories": {
     "example": "examples"
@@ -21,12 +22,14 @@
     "svg",
     "html"
   ],
-  "author": "Ken Frederick",
+  "author": {
+    "name": "Ken Frederick",
+    "url": "http://blog.kennethfrederick.de/"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/frederickk/folio.js/issues"
   },
-  "homepage": "https://github.com/frederickk/folio.js",
   "devDependencies": {
     "grunt": "~0.4.1",
     "grunt-closure-compiler": "0.0.21",

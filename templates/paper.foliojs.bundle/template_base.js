@@ -1,7 +1,7 @@
 console.log('##filename## Loaded');
-use 'strict';
+'use strict';
 
-/*
+/**!
  *  ##filename##
  *  ##date##
  *

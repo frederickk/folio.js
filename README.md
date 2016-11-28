@@ -16,18 +16,12 @@ Examples
 
 [http://frederickk.github.io/folio.js/](http://frederickk.github.io/folio.js/)
 
-I've moved the [Folio.js](http://kennethfrederick.de/foliojs/) examples to [gh-pages branch](https://github.com/frederickk/folio.js/tree/gh-pages).
-
-In the near future I will depreciate all support for [Scriptographer](http://scriptographer.org/). Until then, [Scriptographer](http://scriptographer.org/) examples can be found `/examples/scriptographer.folio`.
-
-To run the [Scriptographer](http://scriptographer.org/) examples, simply add the `/examples/scriptographer.folio` as a [repository](http://scriptographer.org/news/2.8.050-is-out-welcome-on-board-cs5/). The examples will then appear in your [Scriptographer](http://scriptographer.org/) palette.
-
 
 
 Usage
 -------------
 
-A full-size canvas element is created by [Folio.js](http://kennethfrederick.de/foliojs/) upon loading. Otherwise, the first found canvas element is used.
+A full-size canvas element is automatically created on load of  [Folio.js](http://kennethfrederick.de/foliojs/). Otherwise, the first found canvas element is used.
 
 You can find the library for [Paper.js](http://paperjs.org/) within the `dist/` folder.
 
@@ -45,22 +39,6 @@ I recommend a file structure as such:
 └── js/
 	└── // additional JavaScript libraries JQuery, Angular, etc.
 ```
-
-Load the [Folio.js](http://kennethfrederick.de/foliojs/) namespace.
-
-
-```javascript
-var f = folio;
-```
-
-To access other features quickly you can use additional shortcuts for namespaces
-
-```javascript
-var f3d = f.F3D;
-var fio = f.FIO;
-var ftime = f.FTime;
-```
-
 
 
 
@@ -80,7 +58,7 @@ Documentation
 
 A (not yet) comprehensive documentation of [Folio.js](http://kennethfrederick.de/foliojs/) functions can be found in the `documentation/` folder. You can build documentation by following the build steps below, once inside the [Folio.js](http://kennethfrederick.de/foliojs/) directy simply enter:
 
-```shell
+```bash
 $ grunt doc
 ```
 
@@ -91,31 +69,31 @@ Building
 
 [Folio.js](http://kennethfrederick.de/foliojs/) uses [Grunt](http://gruntjs.com/) 0.4.1 to build the library. If you don't have Grunt installed you'll have to do so, and I recommend installing it globally. You might need to use `sudo npm`, depending on your configuration.
 
-```shell
+```bash
 $ npm install -g grunt-cli
 ```
 
 Using terminal, enter into the [Folio.js](http://kennethfrederick.de/foliojs/) directory.
 
-```shell
+```bash
 $ cd folio.js
 ```
 
 Then you'll have to install dependencies with npm
 
-```shell
+```bash
 $ npm install
 ```
 
 Once you've installed all of the dependencies, to build the library for [Paper.js](http://paperjs.org/) simply enter:
 
-```shell
+```bash
 $ grunt
 ```
 
 To only build for [Paper.js](http://paperjs.org/)
 
-```shell
+```bash
 $ grunt paper
 ```
 
@@ -123,7 +101,7 @@ Results are built into the `dist/` folder
 
 Alternatively type `grunt watch` to have the build run automatically when you make changes to source files.
 
-```shell
+```bash
 $ grunt watch
 ```
 
