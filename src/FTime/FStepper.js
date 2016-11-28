@@ -4,7 +4,7 @@
  *
  */
 
-
+ // TODO: this needs to be completely refactored
 folio.FTime.FStepper = function() {
     // ------------------------------------------------------------------------
     //
@@ -16,14 +16,14 @@ folio.FTime.FStepper = function() {
     var timeStart = 0.0;
     var timeEnd = 0.0;
 
-    var bToggleStart = 0;
-    var bBeginStepper = false;
-    var bIn = false;
-    var bOut = false;
-    var bDone = true;
+    var isToggleStart = 0;
+    var isBeginStepper = false;
+    var isIn = false;
+    var isOut = false;
+    // var isDone = true;
 
-    var easing = 0.05;
-    var bEase = true;
+    // var easing = 0.05;
+    // var isEase = true;
 
     var delta = 1.0;
     var counter = 0;
@@ -43,15 +43,15 @@ folio.FTime.FStepper = function() {
      *
      */
     var toggle = function() {
-        if (bToggleStart === 0) {
-            bToggleStart = 1;
+        if (isToggleStart === 0) {
+            isToggleStart = 1;
             stepOut();
         }
         else {
-            bToggleStart = 0;
+            isToggleStart = 0;
             stepIn();
         }
-        return bToggleStart;
+        return isToggleStart;
     };
 
     // ------------------------------------------------------------------------
@@ -63,39 +63,39 @@ folio.FTime.FStepper = function() {
      *      the elapsed time of the application in seconds
      */
     function update(currentSeconds) {
-        if (bBeginStepper) {
-            bBeginStepper = false;
+        if (isBeginStepper) {
+            isBeginStepper = false;
             timeStart = currentSeconds;
-            if (bIn) {
+            if (isIn) {
                 timeEnd = paper.round((currentSeconds + ((1.0 - delta) * stepMillis)), 3);
             }
             else {
                 timeEnd = paper.round((currentSeconds + (delta*stepMillis)), 3);
             }
             if (timeEnd <= currentSeconds) {
-                if (bIn) {
-                    bIn = false;
+                if (isIn) {
+                    isIn = false;
                     delta = 1.0;
                 }
                 else {
-                    bOut = false;
+                    isOut = false;
                     delta = 0.0;
                 }
             }
         }
-        if (bIn) {
+        if (isIn) {
             delta = paper.round((1.0 - ((timeEnd - currentSeconds) / stepMillis)), 3);
-            if (currentSeconds == timeEnd) {
-                bIn = false;
+            if (currentSeconds === timeEnd) {
+                isIn = false;
                 delta = 1.0;
                 counter++;
                 return;
             }
         }
-        else if (bOut) {
+        else if (isOut) {
             delta = paper.round(((timeEnd - currentSeconds) / stepMillis), 3);
-            if (currentSeconds == timeEnd) {
-                bIn = false;
+            if (currentSeconds === timeEnd) {
+                isIn = false;
                 delta = 0.0;
                 counter++;
                 return;
@@ -110,10 +110,10 @@ folio.FTime.FStepper = function() {
      *
      */
     var stepIn = function() {
-        bBeginStepper = true;
-        bIn = true;
-        bOut = false;
-        if (bIn) {
+        isBeginStepper = true;
+        isIn = true;
+        isOut = false;
+        if (isIn) {
             return;
         }
         if (delta === 1.0) {
@@ -127,10 +127,10 @@ folio.FTime.FStepper = function() {
      *
      */
     var stepOut = function() {
-        bBeginStepper = true;
-        bOut = true;
-        bIn = false;
-        if (bOut) {
+        isBeginStepper = true;
+        isOut = true;
+        isIn = false;
+        if (isOut) {
             return;
         }
         if (delta === 0.0) {
@@ -142,14 +142,14 @@ folio.FTime.FStepper = function() {
     /**
      * @return {Boolean} if the object is stepping in (going down)
      */
-    var isIn = function() {
-        return bIn;
+    var getIsIn = function() {
+        return isIn;
     };
     /**
      * @return {Boolean} if the object is stepping out (going up)
      */
-    var isOut = function() {
-        return bOut;
+    var getIsOut = function() {
+        return isOut;
     };
 
     /**
@@ -176,7 +176,7 @@ folio.FTime.FStepper = function() {
      *
      */
     function stop() {
-        bBeginStepper = bIn = bOut = false;
+        isBeginStepper = isIn = isOut = false;
     }
 
     /**
@@ -235,8 +235,8 @@ folio.FTime.FStepper = function() {
         stepIn     : stepIn,
         stepOut    : stepOut,
 
-        isIn       : isIn,
-        isOut      : isOut,
+        isIn       : getIsIn,
+        isOut      : getIsOut,
         isDone     : isDone,
 
         stop       : stop,

@@ -31,7 +31,7 @@ folio.FSkeleton = function(item) {
     // Properties
     //
     // ------------------------------------------------------------------------
-    var item = item;
+    // var item = item;
 
 
 
@@ -60,10 +60,10 @@ folio.FSkeleton = function(item) {
                 lines[pointname] = [undefined, undefined, undefined, undefined];
             }
 
-            if (match[2] == 'r') {
+            if (match[2] === 'r') {
                 lines[pointname][1] = coords;
             }
-            else if (match[2] == 'l') {
+            else if (match[2] === 'l') {
                 lines[pointname][0] = coords;
                 lines[pointname][2] = handleIn;
                 lines[pointname][3] = handleOut;
@@ -82,7 +82,7 @@ folio.FSkeleton = function(item) {
         centerlinepath = new Path();
         centerlinepath.closed = false;
 
-        for (var i=0, j=item.segments.length; i!=j; i++) {
+        for (var i=0, j=item.segments.length; i !== j; i++) {
             // step j down
             --j;
 
@@ -93,13 +93,13 @@ folio.FSkeleton = function(item) {
             var x2 = item.segments[j].point.x;
             var y2 = item.segments[j].point.y;
 
-            var k, b, Xc, Yc;
+            var Xc, Yc;
 
-            if (x2 == x1) {
+            if (x2 === x1) {
                 Xc = x1;
                 Yc = y2 - (y2 - y1) / 2;
             }
-            else if (y1 == y2) {
+            else if (y1 === y2) {
                 Xc = x2 - (x2 - x1) / 2;
                 Yc = y1;
             }
@@ -133,7 +133,8 @@ folio.FSkeleton = function(item) {
 
     // ------------------------------------------------------------------------
     return {
-        get : getCenterLines
+        getLines : getLines,
+        get      : getCenterLines
     };
 
 };

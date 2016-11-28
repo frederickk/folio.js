@@ -19,7 +19,7 @@
  * }
  *
  */
-folio.FDrop = function(element, properties) {
+folio.FDrop = function(element) {
     // -----------------------------------------------------------------------------
     //
     // Properties
@@ -48,10 +48,11 @@ folio.FDrop = function(element, properties) {
         file        : '',
         files       : []
     };
-    var files, output;
+    var output;
 
     // progress bar
-    var totalSize = totalLoad = 0;
+    var totalSize = 0;
+    var totalLoad = 0;
     var progressBar;
 
     var bError = false;
@@ -66,25 +67,29 @@ folio.FDrop = function(element, properties) {
     (function() {
     // function init(element) {
         // Check for the various File API support.
+        var onDragEnterEvent;
+        var onDragOverEvent;
+        var onDropEvent;
+        var onDrop;
         if (window.File && window.FileReader && window.FileList && window.Blob) {
-            function onDragEnterEvent(event) {
+            onDragEnterEvent = function(event) {
                 event.stopPropagation();
                 event.preventDefault();
             }
 
-            function onDragOverEvent(event) {
+            onDragOverEvent = function(event) {
                 event.stopPropagation();
                 event.preventDefault();
                 event.dataTransfer.dropEffect = 'copy';
             }
 
-            function onDropEvent(event) {
+            onDropEvent = function(event) {
                 event.stopPropagation();
                 event.preventDefault();
                 setFiles(event.dataTransfer.files);
             }
 
-            function onDrop(event) {
+            onDrop = function() {
             }
 
             // by default the entire window is droppable
@@ -159,7 +164,7 @@ folio.FDrop = function(element, properties) {
     function handleText(file, obj) {
         // if (file.type.match(fileTypes.text)) {
             var fileReader = new FileReader();
-            fileReader.onload = function(e) {
+            fileReader.onload = function() {
                 obj.text = fileReader.result;
                 obj.type = file.type;
 
@@ -175,7 +180,7 @@ folio.FDrop = function(element, properties) {
     function handleImage(file, obj) {
         if (file.type.match(fileTypes.image)) {
             var fileReader = new FileReader();
-            fileReader.onload = function(e) {
+            fileReader.onload = function() {
                 var img = new Image();
                 img.src = fileReader.result;
 
@@ -194,7 +199,7 @@ folio.FDrop = function(element, properties) {
     // function handleVideo(file, obj) {
     //     if (file.type.match(fileTypes.video)) {
     //         var fileReader = new FileReader();
-    //         fileReader.onload = function(e) {
+    //         fileReader.onload = function() {
     //             obj.data = fileReader.result;
     //             obj.type = file.type;
 
@@ -209,7 +214,7 @@ folio.FDrop = function(element, properties) {
 
     function handleGeneric(file, obj) {
         var fileReader = new FileReader();
-        fileReader.onload = function(e) {
+        fileReader.onload = function() {
             obj.data = fileReader.result;
             obj.type = file.type;
         };
@@ -261,14 +266,14 @@ folio.FDrop = function(element, properties) {
         progressBar.innerHTML = (totalLoad + '%').toString();
     }
 
-    function complete(event) {
+    function complete() {
         if (totalLoad >= 98) {
             onDrop(output);
             document.body.removeChild(progressBar);
         }
     }
 
-    function error(event) {
+    function error() {
         bError = true;
     }
 

@@ -188,12 +188,12 @@ folio.FIO = {
      *          how many days do we want to save it for
      */
     saveCookie: function(name, value, days) {
+        var expires = '';
         if (days) {
             var date = new Date();
-            date.setTime(date.getTime() + (days*24*60*60*1000));
-            var expires = '; expires=' + date.toGMTString();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = '; expires=' + date.toGMTString();
         }
-        else var expires = '';
         document.cookie = name + '=' + value + expires + '; path=/';
     },
 
@@ -206,10 +206,14 @@ folio.FIO = {
     openCookie: function(name) {
         var nameEQ = name + '=';
         var ca = document.cookie.split(';');
-        for (var i=0;i < ca.length;i++) {
+        for (var i = 0; i < ca.length; i++) {
             var c = ca[i];
-            while (c.charAt(0)==' ') c = c.substring(1,c.length);
-            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+            while (c.charAt(0) === ' ') {
+                c = c.substring(1, c.length);
+            }
+            if (c.indexOf(nameEQ) === 0) {
+                return c.substring(nameEQ.length, c.length);
+            }
         }
         // return null;
     },
@@ -244,7 +248,7 @@ folio.FIO = {
         var w = width || view.bounds.width;
         var h = height || view.bounds.height;
 
-        var svg = '<svg id="svg" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 ' + w + ' ' + h + '" enable-background="new 0 0 ' + w + ' ' + h + '" xml:space="preserve">';
+        var svg = '<svg id="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + w + ' ' + h + '">';
         svg += pathGroup.exportSVG({asString: true});
         svg += '</svg>';
         var b64 = btoa(svg);
@@ -262,7 +266,7 @@ folio.FIO = {
 
             return true;
         }
-        catch(err) {
+        catch (err) {
             return false;
         }
     },
@@ -289,7 +293,9 @@ folio.FIO = {
         try {
             // scriptographer
             var file = new File(script.file.parent, fname);
-            if (file.exists()) file.remove();
+            if (file.exists()) {
+                file.remove();
+            }
             file.open();
             file.write( Json.encode(str) );
             file.close();
@@ -367,7 +373,7 @@ folio.FIO = {
     openFile: function(fname) {
         var file = new File(script.file.parent, fname);
         file.open();
-        var data = Json.decode( file.readAll() );
+        var data = Json.decode(file.readAll());
         file.close();
 
         return data;
@@ -380,7 +386,9 @@ folio.FIO = {
     deleteFile: function(fname) {
         var file = new File(script.file.parent, fname);
         // If file exists, we need to remove it first in order to overwrite its content.
-        if (file.exists()) file.remove();
+        if (file.exists()) {
+            file.remove();
+        }
     },
 
     /**
@@ -391,8 +399,12 @@ folio.FIO = {
     */
     checkFile: function(fname) {
         var file = new File(script.file.parent, fname);
-        if (file.exists()) return true;
-        else return false;
+        if (file.exists()) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
 

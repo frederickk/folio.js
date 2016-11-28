@@ -4,7 +4,7 @@
  *
  */
 
-
+// TODO: this needs to be completely refactored
 folio.FTime.FDate = function() {
     // ------------------------------------------------------------------------
     //
@@ -12,8 +12,8 @@ folio.FTime.FDate = function() {
     //
     // ------------------------------------------------------------------------
     var dateObj = new Date();
-    var monthsArr = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    var shortMonthsArr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    // var monthsArr = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    // var shortMonthsArr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     var daysArr = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 
@@ -225,12 +225,26 @@ folio.FTime.FDate = function() {
         var hours   = parseInt((((ms / 1000) / 60) / 60) % 24);
 
         var hh, mm, ss;
-        if (hours < 10) hh = '0' + hours;
-        else hh =  '' + hours;
-        if (minutes < 10) mm = '0' + minutes;
-        else mm =  '' + minutes;
-        if (seconds < 10) ss = '0' + seconds;
-        else ss =  '' + seconds;
+        if (hours < 10) {
+            hh = '0' + hours;
+        }
+        else {
+            hh =  '' + hours;
+        }
+
+        if (minutes < 10) {
+            mm = '0' + minutes;
+        }
+        else {
+            mm =  '' + minutes;
+        }
+
+        if (seconds < 10) {
+            ss = '0' + seconds;
+        }
+        else {
+            ss =  '' + seconds;
+        }
 
         var str = '';
         if (disp[0]) {
@@ -294,6 +308,7 @@ folio.FTime.FDate = function() {
         year            : year,
         month           : month,
         day             : day,
+        weekday         : weekday,
         hour            : hour,
         minute          : minute,
         second          : second,
@@ -312,5 +327,3 @@ folio.FTime.FDate = function() {
     };
 
 };
-
-

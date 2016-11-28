@@ -16,17 +16,17 @@ folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
     // ------------------------------------------------------------------------
     _class: 'FPath3',
     _serializeFields: {
-        segments: [],
-        closed: false,
+        segments    : [],
+        closed      : false,
 
         // F3D
-        scene: null,
-        matrix: null,
-        size: null,
-        position3: null,
-        fpoints3: [],
-        rotation: null,
-        translation: null
+        scene       : null,
+        matrix      : null,
+        size        : null,
+        position3   : null,
+        fpoints3    : [],
+        rotation    : null,
+        translation : null
     },
 
 
@@ -81,7 +81,7 @@ folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
         this._scene = scene;
 
         for (var i = 0; i < this._fpoints3.length; i++) {
-            this._fpoints3[i].setup( this._scene );
+            this._fpoints3[i].setup(this._scene);
         }
     },
 
@@ -90,7 +90,7 @@ folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
      *      add FPoint3 to path
      */
     add3: function(fpoint3) {
-        this._fpoints3[ this._fpoints3.length ] = fpoint3;
+        this._fpoints3[this._fpoints3.length] = fpoint3;
     },
 
 
@@ -112,33 +112,33 @@ folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
      *      z point
      */
     translate: function(arg0, arg1, arg2) {
-        if (typeof arg0 == 'number') {
+        if (typeof arg0 === 'number') {
             this._translation.x = arg0;
             this._translation.y = arg1;
             this._translation.z = arg2;
         }
-        else if (typeof arg0 == 'object') { // FPoint3
+        else if (typeof arg0 === 'object') { // FPoint3
             this._translation.x = arg0.x;
             this._translation.y = arg0.y;
             this._translation.z = arg0.z;
         }
         else {
-            this._translation.x = (arg0 != undefined)
+            this._translation.x = (arg0 !== undefined)
                 ? arg0
                 : 0;
-            this._translation.y = (arg1 != undefined)
+            this._translation.y = (arg1 !== undefined)
                 ? arg1
                 : 0;
-            this._translation.z = (arg2 != undefined)
+            this._translation.z = (arg2 !== undefined)
                 ? arg2
                 : 0;
         }
 
         for (var i = 0; i < this._fpoints3.length; i++) {
             var pt3 = this._fpoints3[i];
-            pt3.setX( (pt3.x + this._translation.x) );
-            pt3.setY( (pt3.y + this._translation.y) );
-            pt3.setZ( (pt3.z + this._translation.z) );
+            pt3.setX((pt3.x + this._translation.x));
+            pt3.setY((pt3.y + this._translation.y));
+            pt3.setZ((pt3.z + this._translation.z));
         }
     },
 
@@ -146,7 +146,7 @@ folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
      * @param val
      *      degree value for x axis rotation
      */
-    rotateX:  function(val) {
+    rotateX: function(val) {
         this._rotation.x = val;
     },
 
@@ -154,7 +154,7 @@ folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
      * @param val
      *      degree value for y axis rotation
      */
-    rotateY:  function(val) {
+    rotateY: function(val) {
         this._rotation.y = val;
     },
 
@@ -162,7 +162,7 @@ folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
      * @param val
      *      degree value for z axis rotation
      */
-    rotateZ:  function(val) {
+    rotateZ: function(val) {
         this._rotation.z = val;
     },
 
@@ -180,9 +180,7 @@ folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
         // push points into 2D path
         for (var i = 0; i < this._fpoints3.length; i++) {
             var pt3 = this._fpoints3[i];
-            this.add(
-                new Point( pt3.x2D(), pt3.y2D() )
-            );
+            this.add(new Point(pt3.x2D(), pt3.y2D()));
         }
         return this;
     }

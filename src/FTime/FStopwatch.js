@@ -16,7 +16,7 @@ folio.FTime.FStopwatch = function() {
     var now;
     var then;
     var timeInMs = 0;
-    var bStart = 0;
+    var hasStarted = 0;
 
 
 
@@ -31,7 +31,7 @@ folio.FTime.FStopwatch = function() {
      *
      */
     var toggle = function() {
-        if (bStart == 0) {
+        if (hasStarted === 0) {
             start();
         }
         else {
@@ -46,7 +46,7 @@ folio.FTime.FStopwatch = function() {
      */
     var start = function() {
         // start
-        bStart = 1;
+        hasStarted = 1;
         then = new Date();
         then.setTime(then.getTime() - timeInMs);
     };
@@ -58,7 +58,7 @@ folio.FTime.FStopwatch = function() {
      */
     var pause = function() {
         // pause
-        bStart = 0;
+        hasStarted = 0;
         now = new Date();
         timeInMs = now.getTime() - then.getTime();
     };
@@ -69,7 +69,7 @@ folio.FTime.FStopwatch = function() {
      *
      */
     var reset = function() {
-        bStart = 0;
+        hasStarted = 0;
         timeInMs = 0;
     };
 
@@ -92,10 +92,10 @@ folio.FTime.FStopwatch = function() {
      */
     var set = function(ms, run) {
         timeInMs = ms;
-        bStart = (run)
+        hasStarted = (run)
             ? 0
             : 1;
-        // (run == true) ? bStart = 0 : bStart = 1;
+        // (run === true) ? hasStarted = 0 : hasStarted = 1;
 
         then = new Date();
         then.setTime(then.getTime() - timeInMs);
@@ -112,7 +112,7 @@ folio.FTime.FStopwatch = function() {
      *
      */
     var get = function() {
-        if (bStart == 1)  {
+        if (hasStarted === 1)  {
             now = new Date();
             timeInMs = now.getTime() - then.getTime();
         }
@@ -125,7 +125,7 @@ folio.FTime.FStopwatch = function() {
      *
      */
     var isRunning = function() {
-        return (bStart === 0)
+        return (hasStarted === 0)
             ? true
             : false;
     };
@@ -133,15 +133,15 @@ folio.FTime.FStopwatch = function() {
 
     // ------------------------------------------------------------------------
     return {
-        toggle: toggle,
-        start: start,
-        pause: pause,
-        reset: reset,
+        toggle    : toggle,
+        start     : start,
+        pause     : pause,
+        reset     : reset,
 
-        set: set,
+        set       : set,
 
-        get: get,
-        isRunning: isRunning
+        get       : get,
+        isRunning : isRunning
     };
 
 };

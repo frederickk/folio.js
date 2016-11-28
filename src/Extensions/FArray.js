@@ -60,7 +60,7 @@ Array.prototype.average = function(){
  * @return {Array} new merged Array object
  *
  */
-Array.prototype.merge = function(arr, bShuffle) {
+Array.prototype.merge = function(arr) {
     var type = Object.prototype.toString.call(this).split(/\W/)[2];
     if (type === 'Array') {
         var output = this.concat(arr);
@@ -80,8 +80,8 @@ Array.prototype.merge = function(arr, bShuffle) {
  *
  */
 Array.prototype.combine = function(arr) {
-    for (item in this) {
-        arr[item] = (arr[item] != undefined)
+    for (var item in this) {
+        arr[item] = (arr[item] !== undefined)
             ? arr[item]
             : this[item];
     }
@@ -119,10 +119,10 @@ Array.prototype.findIndex = function(query) {
  *
  */
 Array.prototype.max = function(start, stop) {
-    start = (start != undefined)
+    start = (start !== undefined)
         ? start
         : 0;
-    stop = (stop != undefined)
+    stop = (stop !== undefined)
         ? stop
         : this.length;
     var max = start;
@@ -146,10 +146,10 @@ Array.prototype.max = function(start, stop) {
  *
  */
 Array.prototype.min = function(start, stop) {
-    start = (start != undefined)
+    start = (start !== undefined)
         ? start
         : 0;
-    stop = (stop != undefined)
+    stop = (stop !== undefined)
         ? stop
         : this.length;
     var min = start;
@@ -171,7 +171,7 @@ Array.prototype.min = function(start, stop) {
  *
  */
 Array.prototype.shuffle = function() {
-    for (var j, x, i = this.length; i; j = parseInt(Math.random() * i), x = this[--i], this[i] = this[j], this[j] = x);
+    for (var j, x, i = this.length; i; j = parseInt(Math.random() * i), x = this[--i], this[i] = this[j], this[j] = x) {}
 };
 
 /**
@@ -184,7 +184,7 @@ Array.prototype.unique = function() {
     var u = [];
     o:for (var i = 0, n = this.length; i < n; i++) {
         for (var x = 0, y = u.length; x < y; x++) {
-            if (u[x] == this[i]) {
+            if (u[x] === this[i]) {
                 continue o;
             }
         }
@@ -288,9 +288,9 @@ var FSort = {
         b = b.replace(/ü/g,'u');
         b = b.replace(/ß/g,'s');
 
-        return (a == b)
+        return (a === b)
             ? 0
-            : (a>b)
+            : (a > b)
                 ? 1
                 : -1;
     },

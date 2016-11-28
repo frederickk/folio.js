@@ -138,7 +138,7 @@ folio.FASE = function(input) {
         var xhr = new XMLHttpRequest();
         xhr.open('GET', url, true);
         xhr.responseType = 'arraybuffer';
-        xhr.onload = function(event) {
+        xhr.onload = function() {
             if (xhr.response) {
                 return loadData(xhr.response);
             }
@@ -175,8 +175,9 @@ folio.FASE = function(input) {
 
     function parse_utf16_Cstring(view) {
         var slen = view.getUint16();
-        var c, name = '',
-            i = slen;
+        var c;
+        var name = '';
+        var i = slen;
         // ignore NUL sentinel at the end of the string
         while (--i > 0) {
             c = view.getUint16();
@@ -188,7 +189,7 @@ folio.FASE = function(input) {
 
     function parse_block(view, palette) {
         // parse block:
-        var count, i, id, len, slen, model, type, c, m, k, l, a, r, g, b, x, y, z, name, p;
+        var count, id, len, model, type, c, m, k, l, a, r, g, b, x, y, z, name, p;
 
         while (--count >= 0) {
             id = view.getUint16();

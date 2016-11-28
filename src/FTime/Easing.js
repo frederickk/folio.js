@@ -51,11 +51,11 @@ folio.FTime.Ease = function() {
      *
      */
     var splineValues = {
-        ease:       [ 0.25, 0.1, 0.25, 1.0 ],
-        linear:     [ 0.00, 0.0, 1.00, 1.0 ],
-        // in:          [ 0.42, 0.0, 1.00, 1.0 ],
-        out:        [ 0.00, 0.0, 0.58, 1.0 ],
-        inOut:      [ 0.42, 0.0, 0.58, 1.0 ]
+        ease   : [0.25, 0.1, 0.25, 1.0],
+        linear : [0.00, 0.0, 1.00, 1.0],
+        // in     : [0.42, 0.0, 1.00, 1.0],
+        out    : [0.00, 0.0, 0.58, 1.0],
+        inOut  : [0.42, 0.0, 0.58, 1.0]
     };
 
 
@@ -121,7 +121,7 @@ folio.FTime.Ease = function() {
          *
          */
         function CalcBezier(t, arg0, arg1) {
-            return ((A(arg0, arg1)*t + B(arg0, arg1))*t + C(arg0))*t;
+            return ((new A(arg0, arg1) * t + new B(arg0, arg1)) * t + new C(arg0)) * t;
         };
 
         /**
@@ -136,16 +136,18 @@ folio.FTime.Ease = function() {
          *
          */
         function GetSlope(t, arg0, arg1) {
-            return 3.0 * A(arg0, arg1)*t*t + 2.0 * B(arg0, arg1) * t + C(arg0);
+            return 3.0 * new A(arg0, arg1)*t*t + 2.0 * new B(arg0, arg1) * t + new C(arg0);
         };
 
         function GetTForX(t) {
             // Newton raphson iteration
             var aGuessT = t;
             for (var i = 0; i < 4; ++i) {
-                var currentSlope = GetSlope(aGuessT, values[0], values[2]);
-                if (currentSlope == 0.0) return aGuessT;
-                var currentX = CalcBezier(aGuessT, values[0], values[2]) - t;
+                var currentSlope = new GetSlope(aGuessT, values[0], values[2]);
+                if (currentSlope === 0.0) {
+                    return aGuessT;
+                }
+                var currentX = new CalcBezier(aGuessT, values[0], values[2]) - t;
                 aGuessT -= currentX / currentSlope;
             }
             return aGuessT;
@@ -154,8 +156,10 @@ folio.FTime.Ease = function() {
 
         function get(t) {
             // normalize();
-            if (values[0] == values[1] && values[2] == values[3]) return t; // linear
-            return CalcBezier(GetTForX(t), values[1], values[3]);
+            if (values[0] === values[1] && values[2] === values[3]) {
+                return t; // linear
+            }
+            return new CalcBezier(new GetTForX(t), values[1], values[3]);
         };
 
 
@@ -171,39 +175,101 @@ folio.FTime.Ease = function() {
          * see http://easings.net/de for visual examples
          * of each spline method
          */
-        linear     : function(t) { return t },
+        linear     : function(t) {
+                        return t;
+                    },
 
-        inQuad     : function(t) { return t*t },
-        outQuad    : function(t) { return t*(2-t) },
-        inOutQuad  : function(t) { return t<.5 ? 2*t*t : -1+(4-2*t)*t },
+        inQuad     : function(t) {
+                        return t * t;
+                    },
+        outQuad    : function(t) {
+                        return t * (2 - t);
+                    },
+        inOutQuad  : function(t) {
+                        return t < 0.5
+                            ? 2 * t * t
+                            : -1 + (4 - 2 * t) * t;
+                    },
 
-        inCubic    : function(t) { return t*t*t },
-        outCubic   : function(t) { return (--t)*t*t+1 },
-        inOutCubic : function(t) { return t<.5 ? 4*t*t*t : (t-1)*(2*t-2)*(2*t-2)+1 },
+        inCubic    : function(t) {
+                        return t * t * t;
+                    },
+        outCubic   : function(t) {
+                        return (--t) * t * t + 1;
+                    },
+        inOutCubic : function(t) {
+                        return t < 0.5
+                            ? 4 * t * t * t
+                            : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
+                    },
 
-        inQuart    : function(t) { return t*t*t*t },
-        outQuart   : function(t) { return 1-(--t)*t*t*t },
-        inOutQuart : function(t) { return t<.5 ? 8*t*t*t*t : 1-8*(--t)*t*t*t },
+        inQuart    : function(t) {
+                        return t * t * t * t;
+                    },
+        outQuart   : function(t) {
+                        return 1 - (--t) * t * t * t;
+                    },
+        inOutQuart : function(t) {
+                        return t < 0.5
+                            ? 8 * t * t * t * t
+                            : 1 - 8 * (--t) * t * t * t;
+                    },
 
-        inQuint    : function(t) { return t*t*t*t*t },
-        outQuint   : function(t) { return 1+(--t)*t*t*t*t },
-        inOutQuint : function(t) { return t<.5 ? 16*t*t*t*t*t : 1+16*(--t)*t*t*t*t },
+        inQuint    : function(t) {
+                        return t * t * t * t * t;
+                    },
+        outQuint   : function(t) {
+                        return 1 + (--t) * t * t * t * t;
+                    },
+        inOutQuint : function(t) {
+                        return t < 0.5
+                            ? 16 * t * t * t * t * t
+                            : 1 + 16 * (--t) * t * t * t * t;
+                    },
 
-        inSine     : function(t) { return -1*Math.cos(t*(Math.PI/2))+1 },
-        outSine    : function(t) { return 1*Math.sin(t*(Math.PI/2)) },
-        inOutSine  : function(t) { return -0.5*(Math.cos(Math.PI*t)-1) },
+        inSine     : function(t) {
+                        return -1 * Math.cos(t * (Math.PI / 2)) + 1;
+                    },
+        outSine    : function(t) {
+                        return 1 * Math.sin(t * (Math.PI / 2));
+                    },
+        inOutSine  : function(t) {
+                        return -0.5 * (Math.cos(Math.PI * t) - 1);
+                    },
 
-        inExpo     : function(t) { return 1*Math.pow(2, 10*(t-1)) },
-        outExpo    : function(t) { return 1*(-Math.pow(2, -10*t)+1 ) },
-        inOutExpo  : function(t) { t /= 0.5; if (t < 1) return 0.5 * Math.pow(2, 10*(t-1)); t--; return 0.5 * (-Math.pow(2, -10*t)+2); },
+        inExpo     : function(t) {
+                        return 1 * Math.pow(2, 10 * (t - 1));
+                    },
+        outExpo    : function(t) {
+                        return 1 * (-Math.pow(2, -10 * t) + 1);
+                    },
+        inOutExpo  : function(t) {
+                        t /= 0.5;
+                        if (t < 1) {
+                            return 0.5 * Math.pow(2, 10 * (t - 1));
+                            // t--;
+                        }
+                        return 0.5 * (-Math.pow(2, -10 * t) + 2);
+                    },
 
-        inCirc     : function(t) { return -1*(Math.sqrt(1-t*t)-1) },
-        outCirc    : function(t) { t--; return 1*Math.sqrt(1-t*t); },
-        inOutCirc  : function(t) { t /= 0.5; if (t<1) { return -0.5*(Math.sqrt(1-t*t)-1); }else{ t-=2; return 0.5*(Math.sqrt(1-t*t)+1); } },
+        inCirc     : function(t) {
+                        return -1 * (Math.sqrt(1 - t * t ) - 1);
+                    },
+        outCirc    : function(t) {
+                        t--;
+                        return 1 * Math.sqrt(1 - t * t);
+                    },
+        inOutCirc  : function(t) {
+                        t /= 0.5;
+                        if (t < 1) {
+                            return -0.5 * (Math.sqrt(1 - t * t) - 1);
+                        }
+                        t -= 2;
+                        return 0.5 * (Math.sqrt(1 - t * t ) + 1);
+                    },
 
-
-        spline     : KeySpline
-        // values     : splineValues
+        spline     : KeySpline,
+        values     : splineValues
     };
 
 };

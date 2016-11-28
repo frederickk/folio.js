@@ -1,9 +1,43 @@
-module.exports = function(grunt) {
-    // properties
-    var pkg = grunt.file.readJSON("package.json");
+'use strict';
 
-    var name = '<%= pkg.filename %>';
-    var srcFiles = [
+/**!
+ *
+ * folio.js
+ * gruntfile.js
+ *
+ * Ken Frederick
+ * ken.frederick@gmx.de
+ *
+ * http://kennethfrederick.de/
+ * http://blog.kennethfrederick.de/
+ *
+ */
+
+module.exports = function(grunt) {
+    // -----------------------------------------------------------------------------
+    //
+    // Load NPM modules
+    //
+    // -----------------------------------------------------------------------------
+    require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
+
+
+
+    // -----------------------------------------------------------------------------
+    //
+    // Properties
+    //
+    // -----------------------------------------------------------------------------
+    const path = require('path');
+    const pkg = grunt.file.readJSON('package.json');
+    const name = '<%= pkg.filename %>';
+    const author = '<%= pkg.author %>';
+    const config = {
+        src  : 'src',
+        dist : 'dist'
+    };
+
+    const src = [
         './src/Core/*.js',
 
         './src/FTime/FTime.js',
@@ -15,9 +49,7 @@ module.exports = function(grunt) {
         './src/FIO/*.js',
 
         './src/Extensions/*.js',
-    ];
-    // temporary until 3D in Scriptographer is solved
-    var src3DFiles = [
+
         './src/F3D/Matrix3D.js',
         './src/F3D/F3D.js',
         './src/F3D/FPath3.js',
@@ -27,78 +59,172 @@ module.exports = function(grunt) {
         './src/F3D/FSize3.js'
     ];
 
+    const closureOptions = {
+        compilation_level : 'SIMPLE_OPTIMIZATIONS',
+        language_in       : 'ECMASCRIPT5_STRICT',
+    };
+
+
+
+    // -----------------------------------------------------------------------------
+    //
+    // Methods
+    //
+    // -----------------------------------------------------------------------------
+    function getUserDir() {
+        let dirpath = path.join.apply(path, arguments);
+        let homepath = process.env[process.platform === 'win32'
+            ? 'USERPROFILE'
+            : 'HOME'];
+        dirpath = path.resolve(homepath, dirpath);
+
+        return dirpath;
+    }
+
+    function handlerInclude(filename, content, srcpath) {
+        let file = 'dist/' + filename;
+        let temp = grunt.file.read(file);
+        grunt.file.delete(file);
+
+        return grunt.template.process(content.replace(/@INCLUDES/, temp));
+    }
+
+    function include(content, srcpath) {
+        return handlerInclude('.temp.js', content, srcpath);
+    }
+
+
+
+    // -----------------------------------------------------------------------------
+    //
+    // Configure tasks
+    //
+    // -----------------------------------------------------------------------------
     grunt.initConfig({
         // Metadata
-        pkg : grunt.file.readJSON('package.json'),
-        banner: grunt.file.read('./src/header.js')
-            .replace(/@VERSION/, pkg.version)
-            .replace(/@DATE/, grunt.template.today('dd. mmmm yyyy')),
+        pkg    : grunt.file.readJSON('package.json'),
+        config : config,
+        banner : grunt.file.read('./src/license-info.txt')
+                           .replace(/@VERSION/, pkg.version)
+                           .replace(/@DATE/,    grunt.template.today('dd. mmmm yyyy'))
+                           .replace(/@YEAR/,    grunt.template.today('yyyy'))
+                           .replace(/@AUTHOR/,  pkg.author),
 
-        // Configure each task
-        // jshint: {
-        //  options: {
-        //      curly: false,
-        //      quotmark: true,
-        //      asi: true,
-        //      trailing: true,
-        //      eqeqeq: false
-        //  },
-        //  target: {
-        //      src: ['src/**/*.js']
-        //  }
-        // },
+        clean: [
+            'dist',
+            'docs'
+        ],
+
+
+
+        //
+        // JavaScript
+        //
+        'closure-compiler': {
+            base: {
+                options      : closureOptions,
+                js           : '<%= config.dist %>/' + name + '.js',
+                jsOutputFile : '<%= config.dist %>/' + name + '.min.js',
+                maxBuffer    : 500,
+                noreport     : true
+            },
+        },
+
+        jshint: {
+            options: {
+                jshintrc: '.jshintrc'
+            },
+            dist: {
+                src: [
+                    '<%= config.dist %>/**/*.js',
+                    '!<%= config.dist %>/**/*.min.js'
+                ]
+                // src: ['<%= config.dist %>/' + name + '.js']
+            }
+        },
 
         concat: {
-            options: {
-                banner: '<%= banner %>',
-            },
-            paper: {
-                dest: 'dist/paper.' + name + '.js',
-                src: ['./src/folio.js', srcFiles, src3DFiles]
-            }
-        },
-
-        uglify: {
-            options: {
-                report: 'min',
-                preserveComments: false,
-                mangle: {
-                    except: ['paper']
+            temp: {
+                files: {
+                    '<%= config.dist %>/.temp.js': [
+                        src,
+                        '!<%= config.src %>/folio.js'
+                    ],
                 }
             },
-            paper: {
-                src: '<%= concat.paper.dest %>',
-                dest: 'dist/paper.' + name + '.min.js'
-            }
-        },
-
-        jsdoc: {
-            dist: {
-                src: srcFiles,
+            base: {
                 options: {
-                    destination: 'documentation'
+                    banner: '<%= banner %>',
+                    process: include
+                },
+                files: {
+                    '<%= config.dist %>/paper.folio.js': [
+                        '<%= config.src %>/folio.js'
+                    ]
                 }
             }
         },
 
-        watch: {
-            files: [srcFiles, src3DFiles],
-            tasks: ['concat', 'uglify']
-        }
+        jsbeautifier: {
+            src : [
+                '<%= config.dist %>/**/*',
+                '!<%= config.dist %>/**/*.min.js'
+            ],
+            options: {
+                js: {
+                    indentSize: 2
+                },
+                html: {
+                    indentSize: 2
+                }
+            }
+        },
 
+
+
+        //
+        // Watch
+        //
+        watch: {
+            files: [
+                '<%= config.src %>/**/*'
+            ],
+            tasks: ['default']
+        },
+
+
+        //
+        // Documentation
+        //
+        // TODO: NPM kept timing out when installing grunt-jsdoc
+        // TODO: Getting error when using later versions of grunt-jsdoc@0.4.1
+        // jsdoc: {
+        //     dist: {
+        //         src: src,
+        //         options: {
+        //             destination: 'docs'
+        //         }
+        //     }
+        // },
     });
 
 
-    // load the NPM modules
-    grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-contrib-concat');
-    grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-jsdoc');
 
-    // register tasks
-    grunt.registerTask('default', ['concat', 'uglify']);
-    grunt.registerTask('paper', ['concat:paper', 'uglify:paper']);
+    // -----------------------------------------------------------------------------
+    //
+    // Register tasks
+    //
+    // -----------------------------------------------------------------------------
+    grunt.registerTask('default', [
+        'clean',
+        'concat',
+        'jshint',
+        // 'closure-compiler',
+        'jsbeautifier',
+        // 'docs'
+    ]);
 
-    grunt.registerTask('doc', ['jsdoc']);
+    // grunt.registerTask('docs', [
+    //     'jsdoc'
+    // ]);
 };

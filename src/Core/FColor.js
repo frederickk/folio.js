@@ -46,9 +46,9 @@ paper.Color.inject({
         }
 
         return '#' +
-            c2h(this.red*255) +
-            c2h(this.green*255) +
-            c2h(this.blue*255);
+            c2h(this.red * 255) +
+            c2h(this.green * 255) +
+            c2h(this.blue * 255);
     },
 
     // ------------------------------------------------------------------------
@@ -293,18 +293,20 @@ paper.Color.inject({
     // },
     interpolate: function(arg0, arg1, arg2) {
         var color = new Color(this);
-
+        var from;
+        var to;
+        var i = 0;
         if (typeof arg1 === 'number') {
-            var to = arg0.getComponents();
-            for (var i = 0; i < color._components.length; i++) {
+            to = arg0.getComponents();
+            for (i = 0; i < color._components.length; i++) {
                 // color._components[i] += ((to[i] - color._components[i]) * arg1);
                 color._components[i] = paper.interpolate(color._components[i], to[i], arg1);
             }
         }
         else {
-            var from = arg0.getComponents();
-            var to = arg1.getComponents();
-            for (var i = 0; i < color._components.length; i++) {
+            from = arg0.getComponents();
+            to = arg1.getComponents();
+            for (i = 0; i < color._components.length; i++) {
                 // color._components[i] += ((to[i] - from[i]) * arg2);
                 color._components[i] = paper.interpolate(from[i], to[i], arg2);
             }
@@ -342,15 +344,15 @@ paper.Color.inject({
          * // [ hue: 274, saturation: 1, lightness: 0.9 ]
          *
          */
-        random: function(arg0, arg1, arg2, arg3) {
+        random: function(arg0) { // arg1, arg2, arg3) {
             var components;
 
             if (paper.getType(arg0) === 'String') {
                 var hex = arg0.substring(1);
                 return new Color.random(
-                    parseInt(hex.slice(0,2), 16)/255,
-                    parseInt(hex.slice(2,4), 16)/255,
-                    parseInt(hex.slice(4,6), 16)/255
+                    parseInt(hex.slice(0, 2), 16) / 255,
+                    parseInt(hex.slice(2, 4), 16) / 255,
+                    parseInt(hex.slice(4, 6), 16) / 255
                 );
             }
             else if (paper.getType(arg0) === 'Object') {
@@ -429,17 +431,17 @@ paper.Color.inject({
         bytes: function(arg0, arg1, arg2, arg3) {
             if (arguments.length === 4) {
                 return new Color(
-                    arg0/255,
-                    (arg1 != undefined) ? arg1/255 : arg0/255,
-                    (arg2 != undefined) ? arg2/255 : arg0/255,
-                    (arg3 != undefined) ? arg3/255 : 1.0
+                    arg0 / 255,
+                    arg1 / 255 || arg0 / 255,
+                    arg2 / 255 || arg0 / 255,
+                    arg3 / 255 || 1.0
                 );
             }
             else {
                 return new Color(
-                    arg0/255,
-                    (arg1 != undefined) ? arg1/255 : arg0/255,
-                    (arg2 != undefined) ? arg2/255 : arg0/255
+                    arg0 / 255,
+                    arg1 / 255 || arg0 / 255,
+                    arg2 / 255 || arg0 / 255
                 );
             }
         },
@@ -447,5 +449,3 @@ paper.Color.inject({
 
 
 });
-
-

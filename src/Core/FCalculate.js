@@ -33,11 +33,11 @@ PaperScope.inject({
      *
      */
     random: function(min, max) {
-        if (max == undefined) {
+        if (max === undefined) {
             max = min;
             min = 0;
         }
-        // else if (min == undefined) {
+        // else if (min === undefined) {
         //  max = 1;
         //  min = 0;
         // )
@@ -204,7 +204,7 @@ PaperScope.inject({
      *
      */
     snap: function(val, snapInc, roundFunction) {
-        var roundFunction = roundFunction || Math.round;
+        roundFunction = roundFunction || Math.round;
         return paper.round( snapInc * roundFunction(val / snapInc), 2 );
     },
 
@@ -245,10 +245,10 @@ PaperScope.inject({
         var small = [];
         var large = [];
         var end = Math.floor(Math.sqrt(val));
-        for (var i=1; i<=end; i++) {
-            if (val % i == 0) {
+        for (var i = 1; i <= end; i++) {
+            if (val % i === 0) {
                 small.push(i);
-                if (i * i != val) {
+                if (i * i !== val) {
                     large.push(val / i);
                 }
             }

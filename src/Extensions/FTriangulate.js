@@ -154,48 +154,48 @@ folio.FTriangulate = function(points) {
          * @return {Triangle} the triangle that shares the given vertex (Edge)
          */
         function sharesVertex(other) {
-            return p1 == other.p1 || p1 == other.p2 || p1 == other.p3 ||
-                   p2 == other.p1 || p2 == other.p2 || p2 == other.p3 ||
-                   p3 == other.p1 || p3 == other.p2 || p3 == other.p3;
+            return p1 === other.p1 || p1 === other.p2 || p1 === other.p3 ||
+                   p2 === other.p1 || p2 === other.p2 || p2 === other.p3 ||
+                   p3 === other.p1 || p3 === other.p2 || p3 === other.p3;
         }
 
         /**
          * @return {Point} circle
          *      Point of the circle center
          */
-        function circumcenter() {
-            var circle = new Point();
-            var m1, m2;
-            var mx1, mx2;
-            var my1, my2;
-
-            if (Math.abs(p2.y - p1.y) < EPSILON) {
-                m2 = - (p3.x - p2.x) / (p3.y - p2.y);
-                mx2 = (p2.x + p3.x) / 2.0;
-                my2 = (p2.y + p3.y) / 2.0;
-                circle.x = (p2.x + p1.x) / 2.0;
-                circle.y = m2 * (circle.x - mx2) + my2;
-            }
-            else if (Math.abs(p3.y - p2.y) < EPSILON) {
-                m1 = - (p2.x - p1.x) / (p2.y - p1.y);
-                mx1 = (p1.x + p2.x) / 2.0;
-                my1 = (p1.y + p2.y) / 2.0;
-                circle.x = (p3.x + p2.x) / 2.0;
-                circle.y = m1 * (circle.x - mx1) + my1;
-            }
-            else {
-                m1 = - (p2.x - p1.x) / (p2.y - p1.y);
-                m2 = - (p3.x - p2.x) / (p3.y - p2.y);
-                mx1 = (p1.x + p2.x) / 2.0;
-                mx2 = (p2.x + p3.x) / 2.0;
-                my1 = (p1.y + p2.y) / 2.0;
-                my2 = (p2.y + p3.y) / 2.0;
-                circle.x = (m1 * mx1 - m2 * mx2 + my2 - my1) / (m1 - m2);
-                circle.y = m1 * (circle.x - mx1) + my1;
-            }
-
-            return circle;
-        }
+        // function circumcenter() {
+        //     var circle = new Point();
+        //     var m1, m2;
+        //     var mx1, mx2;
+        //     var my1, my2;
+        //
+        //     if (Math.abs(p2.y - p1.y) < EPSILON) {
+        //         m2 = - (p3.x - p2.x) / (p3.y - p2.y);
+        //         mx2 = (p2.x + p3.x) / 2.0;
+        //         my2 = (p2.y + p3.y) / 2.0;
+        //         circle.x = (p2.x + p1.x) / 2.0;
+        //         circle.y = m2 * (circle.x - mx2) + my2;
+        //     }
+        //     else if (Math.abs(p3.y - p2.y) < EPSILON) {
+        //         m1 = - (p2.x - p1.x) / (p2.y - p1.y);
+        //         mx1 = (p1.x + p2.x) / 2.0;
+        //         my1 = (p1.y + p2.y) / 2.0;
+        //         circle.x = (p3.x + p2.x) / 2.0;
+        //         circle.y = m1 * (circle.x - mx1) + my1;
+        //     }
+        //     else {
+        //         m1 = - (p2.x - p1.x) / (p2.y - p1.y);
+        //         m2 = - (p3.x - p2.x) / (p3.y - p2.y);
+        //         mx1 = (p1.x + p2.x) / 2.0;
+        //         mx2 = (p2.x + p3.x) / 2.0;
+        //         my1 = (p1.y + p2.y) / 2.0;
+        //         my2 = (p2.y + p3.y) / 2.0;
+        //         circle.x = (m1 * mx1 - m2 * mx2 + my2 - my1) / (m1 - m2);
+        //         circle.y = m1 * (circle.x - mx1) + my1;
+        //     }
+        //
+        //     return circle;
+        // }
 
         // -----------------------------------------------------------------------------
         /**
@@ -214,15 +214,15 @@ folio.FTriangulate = function(points) {
         /**
          * @return {Array} a sorted array (Edge) of the Triangle's Edges (shortest to longest)
          */
-        function distances() {
-            var distances = [];
-            distances[0] = new Edge(p1, p2);
-            distances[1] = new Edge(p1, p3);
-            distances[2] = new Edge(p3, p2);
-
-            distances.sort();
-            return distances;
-        }
+        // function distances() {
+        //     var distancesArr = [];
+        //     distancesArr[0] = new Edge(p1, p2);
+        //     distancesArr[1] = new Edge(p1, p3);
+        //     distancesArr[2] = new Edge(p3, p2);
+        //
+        //     distancesArr.sort();
+        //     return distancesArr;
+        // }
 
         // -----------------------------------------------------------------------------
         /**
@@ -230,7 +230,7 @@ folio.FTriangulate = function(points) {
          *
          * @return {Number} triangle width
          */
-        function width() {
+        function getWidth() {
             var x1 = 0;
             if (p1.x < p2.x && p1.x < p3.x) {
                 x1 = p1.x;
@@ -263,7 +263,7 @@ folio.FTriangulate = function(points) {
          *
          * @return {Number} triangle height
          */
-        function height() {
+        function getHeight() {
             var y1 = 0;
             if (p1.y < p2.y && p1.y < p3.y) {
                 y1 = p1.y;
@@ -293,7 +293,7 @@ folio.FTriangulate = function(points) {
 
         // -----------------------------------------------------------------------------
         // TODO: add this to FCalculate.js
-        function area() {
+        function getArea() {
             var area = 0;
             area += (p1.x + p3.x) * (p3.y - p1.y);
             area += (p2.x + p1.x) * (p1.y - p2.y);
@@ -323,9 +323,9 @@ folio.FTriangulate = function(points) {
             sharesVertex : sharesVertex,
             getCentroid  : centroid,
 
-            getArea      : area,
-            getWidth     : width,
-            getHeight    : height,
+            getArea      : getArea,
+            getWidth     : getWidth,
+            getHeight    : getHeight,
 
             getPoints    : get
         };
@@ -377,13 +377,13 @@ folio.FTriangulate = function(points) {
         /*
          * sorts edge by shortest to longest
          */
-        function compareTo(other) {
-            return dist < other.dist
-                ? -1
-                : dist > other.dist
-                    ? 1
-                    : 0;
-        }
+        // function compareTo(other) {
+        //     return dist < other.dist
+        //         ? -1
+        //         : dist > other.dist
+        //             ? 1
+        //             : 0;
+        // }
 
         /**
          *
@@ -425,7 +425,7 @@ folio.FTriangulate = function(points) {
     function init() {
         triangles = [];
 
-        if (points.length != null) {
+        if (points.length !== null) {
             // remove duplicate points
             points = uniquePoints(points);
 
@@ -442,10 +442,14 @@ folio.FTriangulate = function(points) {
             var ymax = ymin;
 
             // z is used for storing misc. info i.e. normalized brightness data
-            var z = (points[0]).z;
-
-            for (var i = 0; i < points.length; i++) {
-                var p = points[i];
+            // var z = (points[0]).z;
+            var i;
+            var j;
+            var k;
+            var p;
+            var t;
+            for (i = 0; i < points.length; i++) {
+                p = points[i];
                 if (p.x < xmin) {
                     xmin = p.x;
                 }
@@ -485,8 +489,8 @@ folio.FTriangulate = function(points) {
 
             // Include each point one at a time into the existing mesh
             var edges = [];
-            for (var i = 0; i < points.length; i++) {
-                var p = points[i];
+            for (i = 0; i < points.length; i++) {
+                p = points[i];
                 edges = [];
 
 
@@ -496,8 +500,8 @@ folio.FTriangulate = function(points) {
                 // and that triangle is removed.
                 var circle = new Point();
 
-                for (var j = triangles.length - 1; j >= 0; j--) {
-                    var t = triangles[j];
+                for (j = triangles.length - 1; j >= 0; j--) {
+                    t = triangles[j];
                     if (complete.contains(t)) {
                         continue;
                     }
@@ -521,18 +525,18 @@ folio.FTriangulate = function(points) {
                 // Tag multiple edges
                 // Note: if all triangles are specified anticlockwise then all
                 // interior edges are opposite pointing in direction.
-                for (var j = 0; j < edges.length - 1; j++) {
+                for (j = 0; j < edges.length - 1; j++) {
                     var e1 = edges[j];
-                    for (var k = j + 1; k < edges.length; k++) {
+                    for (k = j + 1; k < edges.length; k++) {
                         var e2 = edges[k];
-                        if (e1.p1 == e2.p2 && e1.p2 == e2.p1) {
+                        if (e1.p1 === e2.p2 && e1.p2 === e2.p1) {
                             e1.p1 = null;
                             e1.p2 = null;
                             e2.p1 = null;
                             e2.p2 = null;
                         }
                         // Shouldn't need the following, see note above
-                        if (e1.p1 == e2.p1 && e1.p2 == e2.p2) {
+                        if (e1.p1 === e2.p1 && e1.p2 === e2.p2) {
                             e1.p1 = null;
                             e1.p2 = null;
                             e2.p1 = null;
@@ -544,29 +548,29 @@ folio.FTriangulate = function(points) {
                 // Form new triangles for the current point
                 // Skipping over any tagged edges.
                 // All edges are arranged in clockwise order.
-                for (var j = 0; j < edges.length; j++) {
+                for (j = 0; j < edges.length; j++) {
                     var e = edges[j];
-                    if (e.p1 == null || e.p2 == null) {
+                    if (e.p1 === null || e.p2 === null) {
                         continue;
                     }
                     // determine if point in triangle is new
                     // if it is mark it as so
-                    for (var k = 0; k < pointsNew.length; k++) {
-                        if (e.p1 == pointsNew[k]) {
+                    for (k = 0; k < pointsNew.length; k++) {
+                        if (e.p1 === pointsNew[k]) {
                             e.p1.name = '__new';
                         }
                         else {
                             e.p1.name = null;
                         }
 
-                        if (e.p2 == pointsNew[k]) {
+                        if (e.p2 === pointsNew[k]) {
                             e.p2.name = '__new';
                         }
                         else {
                             e.p2.name = null;
                         }
 
-                        if (p == pointsNew[k]) {
+                        if (p === pointsNew[k]) {
                             p.name = '__new';
                         }
                         else {
@@ -579,8 +583,8 @@ folio.FTriangulate = function(points) {
             }
 
             // Remove triangles with super triangle vertices
-            for (var i = triangles.length - 1; i >= 0; i--) {
-                var t = triangles[i];
+            for (i = triangles.length - 1; i >= 0; i--) {
+                t = triangles[i];
                 if (t.sharesVertex(superTriangle)) {
                     triangles.splice(i, 1);
                 }
@@ -722,17 +726,17 @@ folio.FTriangulate = function(points) {
      * @param {Point} b
      *
      */
-    function sortTopToBottom(a, b) {
-        if (a.y < b.y) {
-            return 1;
-        }
-        else if (a.y > b.y) {
-            return -1;
-        }
-        else {
-            return 0;
-        }
-    }
+    // function sortTopToBottom(a, b) {
+    //     if (a.y < b.y) {
+    //         return 1;
+    //     }
+    //     else if (a.y > b.y) {
+    //         return -1;
+    //     }
+    //     else {
+    //         return 0;
+    //     }
+    // }
 
     /**
      * remove Point duplicates
@@ -747,7 +751,7 @@ folio.FTriangulate = function(points) {
     function uniquePoints(arr){
         arr.sort();
         for (var i = 1; i < arr.length;){
-            if (arr[i - 1].x == arr[i].x && arr[i - 1].y == arr[i].y) {
+            if (arr[i - 1].x === arr[i].x && arr[i - 1].y === arr[i].y) {
                 arr.splice(i, 1);
             }
             else {
@@ -770,8 +774,8 @@ folio.FTriangulate = function(points) {
     function uniqueEdges(arr) {
         arr.sort();
         for (var i = 1; i<arr.length;){
-            if (arr[i - 1].p1 == arr[i].p1 && arr[i - 1].p2 == arr[i].p2 ||
-                arr[i - 1].p1 == arr[i].p2 && arr[i - 1].p2 == arr[i].p2 ) {
+            if (arr[i - 1].p1 === arr[i].p1 && arr[i - 1].p2 === arr[i].p2 ||
+                arr[i - 1].p1 === arr[i].p2 && arr[i - 1].p2 === arr[i].p2 ) {
                     arr.splice(i, 1);
             }
             else {
@@ -787,10 +791,10 @@ folio.FTriangulate = function(points) {
         //  var unique = true;
 
         //  for (var j = 0; j < edges.length; j++) {
-        //      if (i != j) {
+        //      if (i !== j) {
         //          var edge2 = edges[j];
-        //          if ((edge1.p1 == edge2.p1 && edge1.p2 == edge2.p2) ||
-        //              (edge1.p1 == edge2.p2 && edge1.p2 == edge2.p1)) {
+        //          if ((edge1.p1 === edge2.p1 && edge1.p2 === edge2.p2) ||
+        //              (edge1.p1 === edge2.p2 && edge1.p2 === edge2.p1)) {
         //              unique = false;
         //              break;
         //          }
@@ -846,7 +850,7 @@ folio.FTriangulate = function(points) {
      * @return {Array} the Triangles as array
      */
     function getTriangles(index) {
-        if (index != null) {
+        if (index !== null) {
             return triangles[index];
         }
         else {
@@ -861,7 +865,7 @@ folio.FTriangulate = function(points) {
      * @return {Array} the points as a Point array
      */
     function getPoints(index) {
-        if (index != null) {
+        if (index !== null) {
             return points[index];
         }
         else {
@@ -920,7 +924,7 @@ var HashSet = function() {
     function add(e) {
         var arr = arr;
         var i = arr.indexOf(e);
-        if (i == -1) {
+        if (i === -1) {
             arr.push(e);
         }
     }
@@ -929,14 +933,14 @@ var HashSet = function() {
         return arr[i];
     }
 
-    function size(i) {
+    function size() {
         return arr.length;
     }
 
     function remove(e) {
         var arr =arr;
         var i = arr.indexOf(e);
-        if (i != -1) {
+        if (i !== -1) {
             arr.splice(i, 1);
         }
     }

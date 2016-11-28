@@ -29,9 +29,9 @@ folio.FNoise = {
         // Properties
         //
         //-----------------------------------------------------------------------------
-        var x = x || 0;
-        var y = y || 0;
-        var z = z || 0;
+        x = x || 0;
+        y = y || 0;
+        z = z || 0;
 
         var result;
 
@@ -51,9 +51,19 @@ folio.FNoise = {
 
         var grad = function(hash, x, y, z) {
             var h = hash & 15;
-            var u = h < 8 ? x : y,
-                v = h < 4 ? y : h == 12 || h == 14 ? x : z;
-            return ((h & 1) == 0 ? u : -u) + ((h & 2) == 0 ? v : -v);
+            var u = h < 8
+                ? x
+                : y;
+            var v = h < 4
+                ? y
+                : h === 12 || h === 14
+                    ? x
+                    : z;
+            return ((h & 1) === 0
+                        ? u
+                        : -u) + ((h & 2) === 0
+                            ? v
+                            : -v);
         };
 
         var scale = function(n) {

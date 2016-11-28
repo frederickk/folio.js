@@ -21,22 +21,23 @@
 // drawing
 var Setup = function() {};
 var Draw = function() {};
-var Update = function(event) {};
+var Update = function() {};
 
-var Animate = function(event, callback) {};
-var AnimateAdd = function(object, order) {};
-var AnimateClear = function() {};
+// TODO: implement animation methods for better animation management
+// var Animate = function(event, callback) {};
+// var AnimateAdd = function(object, order) {};
+// var AnimateClear = function() {};
 
 // events
 // mouse
-var onMouseUp = function(event) {};
-var onMouseDown = function(event) {};
-var onMouseMove = function(event) {};
-var onMouseDrag = function(event) {};
+var onMouseUp = function() {};
+var onMouseDown = function() {};
+var onMouseMove = function() {};
+var onMouseDrag = function() {};
 
 // keyboard
-var onKeyDown = function(event) {};
-var onKeyUp = function(event) {};
+var onKeyDown = function() {};
+var onKeyUp = function() {};
 
 
 
@@ -147,28 +148,28 @@ var onKeyUp = function(event) {};
         var AnimationGroup = new Group();
         AnimationGroup.name = '__AnimationGroup';
 
-        function Animate(callback) {
-            for (var i = 0; i < AnimationGroup.children.length; i++) {
-                if (callback) {
-                    callback(AnimationGroup.children[i]);
-                }
-            }
-        }
-        function AnimateAdd(object, order) {
-            // object must be a valid paper.js item
-            // default is to add object to top
-            if (order === 'bottom') {
-                AnimationGroup.appendBottom(object);
-            }
-            else {
-                AnimationGroup.appendTop(object);
-            }
-        }
-        function AnimateClear() {
-            if (project.activeLayer.children['__AnimationGroup']) {
-                project.activeLayer.children['__AnimationGroup'].remove();
-            }
-        }
+        // function Animate(callback) {
+        //     for (var i = 0; i < AnimationGroup.children.length; i++) {
+        //         if (callback) {
+        //             callback(AnimationGroup.children[i]);
+        //         }
+        //     }
+        // }
+        // function AnimateAdd(object, order) {
+        //     // object must be a valid paper.js item
+        //     // default is to add object to top
+        //     if (order === 'bottom') {
+        //         AnimationGroup.appendBottom(object);
+        //     }
+        //     else {
+        //         AnimationGroup.appendTop(object);
+        //     }
+        // }
+        // function AnimateClear() {
+        //     if (project.activeLayer.children.__AnimationGroup) {
+        //         project.activeLayer.children.__AnimationGroup.remove();
+        //     }
+        // }
 
 
 
@@ -181,7 +182,7 @@ var onKeyUp = function(event) {};
             if (typeof Update === 'function') {
                 Update(event);
             }
-            AnimateClear();
+            // AnimateClear();
             view.update();
         };
 
@@ -241,7 +242,7 @@ var onKeyUp = function(event) {};
 
 
         // ------------------------------------------------------------------------
-        function resizeCanvas(event) {
+        function resizeCanvas() {
             // set canvas width and height
             if (canvas.getContext) {
                 view.viewSize.width = window.innerWidth

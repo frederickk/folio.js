@@ -72,12 +72,12 @@ folio.FFlock = {
         var container = properties.container || view;
         var contained = false;
 
-        var mass = 1.0;
+        // var mass = 1.0;
         var acceleration = new Point();
         var vector = new Point.random(-maxSpeed * maxForce, maxSpeed * maxForce);
-        var position = new Point(position); //.clone();
+        position = new Point(position); //.clone();
 
-        var count = 0;
+        // var count = 0;
         var lastAngle = 0;
         var distances = [];
 
@@ -261,42 +261,42 @@ folio.FFlock = {
 
             if (obstacleItem.path()) {
                 var hitResult = obstacleItem.path().hitTest(target, properties.hitOptions);
-                var repel = new Point();
+                var repelPt = new Point();
                 if (hitResult) {
-                    if (hitResult.type == 'segment' ||
-                        hitResult.type == 'handle-in' ||
-                        hitResult.type == 'handle-out') {
-                        repel = new Point(
+                    if (hitResult.type === 'segment' ||
+                        hitResult.type === 'handle-in' ||
+                        hitResult.type === 'handle-out') {
+                        repelPt = new Point(
                             position.x - hitResult.location.point.x,
                             position.y - hitResult.location.point.y
                         );
-                        repel = repel.normalize();
+                        repelPt = repelPt.normalize();
                     }
-                    else if (hitResult.type == 'stroke' ||
-                             hitResult.type == 'fill') {
-                        // repel = new Point(
+                    else if (hitResult.type === 'stroke' ||
+                             hitResult.type === 'fill') {
+                        // repelPt = new Point(
                         //     position.x * -vector.x,
                         //     position.y * -vector.y
                         // );
-                        repel = repel.normalize();
-                        repel = new Point(
+                        repelPt = repelPt.normalize();
+                        repelPt = new Point(
                             target.x - vector.x,
                             target.y - vector.y
                         );
                     }
 
-                    repel.x *= maxForce * 7; // 7 is a magic number
-                    repel.y *= maxForce * 7;
+                    repelPt.x *= maxForce * 7; // 7 is a magic number
+                    repelPt.y *= maxForce * 7;
 
-                    if (Math.sqrt(repel.x * repel.x + repel.y * repel.y) < 0) {
-                        repel.y = 0;
+                    if (Math.sqrt(repelPt.x * repelPt.x + repelPt.y * repelPt.y) < 0) {
+                        repelPt.y = 0;
                     }
 
                     // apply
-                    // repel.x /= mass;
-                    // repel.y /= mass;
-                    acceleration.x += repel.x;
-                    acceleration.y += repel.y;
+                    // repelPt.x /= mass;
+                    // repelPt.y /= mass;
+                    acceleration.x += repelPt.x;
+                    acceleration.y += repelPt.y;
 
                 }
             }
@@ -307,7 +307,7 @@ folio.FFlock = {
         // Takes a second argument, if true, it slows down as it approaches
         // the target
         function steer(target, slowdown) {
-            var steer = new Point();
+            var steerPt = new Point();
             var desired = new Point(
                     target.x - position.x,
                     target.y - position.y
@@ -323,15 +323,15 @@ folio.FFlock = {
             else {
                 desired.length = maxSpeed;
             }
-            steer.x = desired.x - vector.x;
-            steer.y = desired.y - vector.y;
-            steer.length = Math.min(maxForce, steer.length);
-            return steer;
+            steerPt.x = desired.x - vector.x;
+            steerPt.y = desired.y - vector.y;
+            steerPt.length = Math.min(maxForce, steerPt.length);
+            return steerPt;
         }
 
         function separate(boids) {
             var desiredSeperation = radius * 100; //3600;
-            var steer = new Point();
+            var steerPt = new Point();
             var count = 0;
             // For every boid in the system, check if it's too close
             for (var i = 0, l = boids.length; i < l; i++) {
@@ -343,53 +343,53 @@ folio.FFlock = {
                         position.y - boids[i].position().y
                     );
                     delta.length = 1 / distance;
-                    steer.x += delta.x;
-                    steer.y += delta.y;
+                    steerPt.x += delta.x;
+                    steerPt.y += delta.y;
                     count++;
                 }
             }
             // Average -- divide by how many
             if (count > 0) {
-                steer.x /= count;
-                steer.y /= count;
+                steerPt.x /= count;
+                steerPt.y /= count;
             }
-            if (!steer.isZero()) {
+            if (!steerPt.isZero()) {
                 // Implement Reynolds: Steering = Desired - Velocity
-                steer.length = maxSpeed;
-                steer.x -= vector.x;
-                steer.y -= vector.y;
-                steer.length = Math.min(steer.length, maxForce);
+                steerPt.length = maxSpeed;
+                steerPt.x -= vector.x;
+                steerPt.y -= vector.y;
+                steerPt.length = Math.min(steerPt.length, maxForce);
             }
-            return steer;
+            return steerPt;
         }
 
         // Alignment
         // For every nearby boid in the system, calculate the average velocity
         function align(boids) {
             var neighborDist = 25;
-            var steer = new Point();
+            var steerPt = new Point();
             var count = 0;
             for (var i = 0, l = boids.length; i < l; i++) {
                 var distance = distances[i];
                 if (distance > 0 && distance < neighborDist) {
-                    steer.x += boids[i].vector().x;
-                    steer.y += boids[i].vector().y;
+                    steerPt.x += boids[i].vector().x;
+                    steerPt.y += boids[i].vector().y;
                     count++;
                 }
             }
 
             if (count > 0) {
-                steer.x /= count;
-                steer.y /= count;
+                steerPt.x /= count;
+                steerPt.y /= count;
             }
-            if (!steer.isZero()) {
+            if (!steerPt.isZero()) {
                 // Implement Reynolds: Steering = Desired - Velocity
-                steer.length = maxSpeed;
-                steer.x -= vector.x;
-                steer.y -= vector.y;
-                steer.length = Math.min(steer.length, maxForce);
+                steerPt.length = maxSpeed;
+                steerPt.x -= vector.x;
+                steerPt.y -= vector.y;
+                steerPt.length = Math.min(steerPt.length, maxForce);
             }
-            return steer;
+            return steerPt;
         }
 
         // Cohesion
@@ -428,9 +428,9 @@ folio.FFlock = {
             return groupTogether;
         }
 
-        function setBounce(val) {
-            bounce = val;
-        }
+        // function setBounce(val) {
+        //     bounce = val;
+        // }
 
 
 
@@ -447,7 +447,7 @@ folio.FFlock = {
         }
 
         function getPosition(val) {
-            if (val != undefined) {
+            if (val !== undefined) {
                 position = new Point(val);
             }
             return position;

@@ -37,10 +37,10 @@
  * Matrix3D
  *
  */
-var Matrix3D = function( n11, n12, n13, n14,
-                         n21, n22, n23, n24,
-                         n31, n32, n33, n34,
-                         n41, n42, n43, n44) {
+var Matrix3D = function(n11, n12, n13, n14,
+                        n21, n22, n23, n24,
+                        n31, n32, n33, n34,
+                        n41, n42, n43, n44) {
     // ------------------------------------------------------------------------
     //
     // Properties
@@ -67,7 +67,6 @@ var Matrix3D = function( n11, n12, n13, n14,
 
     // ------------------------------------------------------------------------
     this.concat = function(m) {
-
         this.init({
             n11: this.n11 * m.n11 + this.n12 * m.n21 + this.n13 * m.n31 + this.n14 * m.n41,
             n12: this.n11 * m.n12 + this.n12 * m.n22 + this.n13 * m.n32 + this.n14 * m.n42,
@@ -101,23 +100,21 @@ var Matrix3D = function( n11, n12, n13, n14,
     };
 
     // ------------------------------------------------------------------------
-    this.createBox = function(  scalex, scaley, scalez,
-                                rotationx, rotationy, rotationz,
-                                tx, ty, tz) {
+    this.createBox = function(scalex, scaley, scalez, rotationx, rotationy, rotationz, tx, ty, tz) {
         this.identity();
-        if (rotationx != 0) {
+        if (rotationx !== 0) {
             this.rotateX( rotationx );
         }
-        if (rotationy != 0) {
+        if (rotationy !== 0) {
             this.rotateY( rotationy );
         }
-        if (rotationz != 0) {
+        if (rotationz !== 0) {
             this.rotateZ( rotationz );
         }
-        if (scalex != 1 || scaley != 1 || scalez != 1) {
+        if (scalex !== 1 || scaley !== 1 || scalez !== 1) {
             this.scale( scalex, scaley, scalez );
         }
-        if (tx != 0 || ty != 0 || tz != 0) {
+        if (tx !== 0 || ty !== 0 || tz !== 0) {
             this.translate( tx, ty, tz );
         }
     };
@@ -125,10 +122,12 @@ var Matrix3D = function( n11, n12, n13, n14,
 
     // ------------------------------------------------------------------------
     this.identity = function() {
-        this.init({ n11:1, n12:0, n13:0, n14:0,
-                          n21:0, n22:1, n23:0, n24:0,
-                          n31:0, n32:0, n33:1, n34:0,
-                          n41:0, n42:0, n43:0, n44:1 });
+        this.init({
+            n11:1, n12:0, n13:0, n14:0,
+            n21:0, n22:1, n23:0, n24:0,
+            n31:0, n32:0, n33:1, n34:0,
+            n41:0, n42:0, n43:0, n44:1
+        });
     };
 
 
@@ -353,11 +352,3 @@ var Matrix3D = function( n11, n12, n13, n14,
     };
 
 };
-
-
-
-
-
-
-
-

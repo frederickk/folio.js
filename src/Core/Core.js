@@ -7,17 +7,6 @@
  */
 
 
-folio = {
-    //
-    // Setup Core Namespaces
-    //
-    FTime: {},
-    FIO: {},
-    F3D: {}
-};
-
-
-
 /**
  *
  * Global Scope (Paper.js core)
@@ -72,7 +61,7 @@ PaperScope.inject({
      *
      */
     numToBool: function(val) {
-        return (val != 0) ? true : false;
+        return (val !== 0) ? true : false;
     },
 
     // ------------------------------------------------------------------------
@@ -238,5 +227,3 @@ PaperScope.inject({
     }
 
 });
-
-

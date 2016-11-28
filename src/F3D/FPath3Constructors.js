@@ -31,13 +31,13 @@ folio.F3D.FPath3.inject({
              *
              */
             FBox: function(scene, fpoint3, fsize3) {
-                this._position3 = (fpoint3 != undefined)
+                this._position3 = (fpoint3 !== undefined)
                     ? fpoint3
-                    : new folio.F3D.FPoint3( 0,0,0 );
+                    : new folio.F3D.FPoint3(0,0,0);
 
-                this._size = (fsize3 != undefined)
+                this._size = (fsize3 !== undefined)
                     ? fsize3
-                    : new folio.F3D.FSize3( 10,10,10 );
+                    : new folio.F3D.FSize3(10,10,10);
 
                 var sides = [6];
                 var faceFRONT = [
@@ -101,11 +101,11 @@ folio.F3D.FPath3.inject({
                         ));
                     }
 
-                    // sides[i].fillColor = new Color( 0.0, 1.0, 0.7, 0.8 );
+                    // sides[i].fillColor = new Color(0.0, 1.0, 0.7, 0.8);
                     sides[i].closed = true;
-                    sides[i].translate( fpoint3 );
+                    sides[i].translate(fpoint3);
 
-                    scene.addItem( sides[i] );
+                    scene.addItem(sides[i]);
                 }
 
                 return new Group(sides);
@@ -129,18 +129,18 @@ folio.F3D.FPath3.inject({
              *
              */
             FSphere: function(scene, fpoint3, radius, detail) {
-                this._position3 = (fpoint3 != undefined)
+                this._position3 = (fpoint3 !== undefined)
                     ? fpoint3
-                    : new folio.F3D.FPoint3( 0,0,0 );
+                    : new folio.F3D.FPoint3(0,0,0);
 
-                this._size = (radius != undefined)
-                    ? new folio.F3D.FSize3( radius, radius, radius )
-                    : new folio.F3D.FSize3( 10,10,10 );
+                this._size = (radius !== undefined)
+                    ? new folio.F3D.FSize3(radius, radius, radius)
+                    : new folio.F3D.FSize3(10,10,10);
 
                 var _c = 0.5;
 
                 var latlon;
-                if (detail != undefined) {
+                if (detail !== undefined) {
                     if (detail instanceof Array) {
                         latlon = detail;
                     }
@@ -154,51 +154,52 @@ folio.F3D.FPath3.inject({
 
 
                 var vertices = [];
-                for (var i = 0; i <= latlon[0]; i++) {
-                    var lat0 = (Math.PI * (-_c + ( (i-1)/latlon[0]) ));
+                var i;
+                for (i = 0; i <= latlon[0]; i++) {
+                    var lat0 = (Math.PI * (-_c + ((i - 1) / latlon[0])));
                     var z0   = Math.sin(lat0);
                     var zr0  = Math.cos(lat0);
 
-                    var lat1 = (Math.PI * (-_c + ( i/latlon[0]) ));
+                    var lat1 = (Math.PI * (-_c + (i / latlon[0])));
                     var z1   = Math.sin(lat1);
                     var zr1  = Math.cos(lat1);
 
                     for (var j = 0; j <= latlon[1]; j++) {
-                        var lng = ((Math.PI*2) * ( (j-1)/latlon[1] ));
+                        var lng = ((Math.PI * 2) * ((j - 1) / latlon[1]));
                         var x = Math.cos(lng);
                         var y = Math.sin(lng);
 
-                        vertices.push( new folio.F3D.FPoint3( x*zr0, y*zr0, z0 ) );
-                        vertices.push( new folio.F3D.FPoint3( x*zr1, y*zr1, z1 ) );
+                        vertices.push(new folio.F3D.FPoint3(x * zr0, y * zr0, z0));
+                        vertices.push(new folio.F3D.FPoint3(x * zr1, y * zr1, z1));
                     } // _longs
                 } // _lats
-                var sides = [vertices.length-2];
+                var sides = [vertices.length - 2];
 
-                for (var i = 0; i < vertices.length-2; i++) {
+                for (i = 0; i < vertices.length - 2; i++) {
                     sides[i] = new folio.F3D.FPath3();
-                    sides[i].name = 'face'+i;
+                    sides[i].name = 'face' + i;
 
                     sides[i].add3( new folio.F3D.FPoint3(
-                        vertices[i].x*(this._size.width*0.5),
-                        vertices[i].y*(this._size.height*0.5),
-                        vertices[i].z*(this._size.depth*0.5)
+                        vertices[i].x * (this._size.width * 0.5),
+                        vertices[i].y * (this._size.height * 0.5),
+                        vertices[i].z * (this._size.depth * 0.5)
                     ));
                     sides[i].add3( new folio.F3D.FPoint3(
-                        vertices[i+1].x*(this._size.width*0.5),
-                        vertices[i+1].y*(this._size.height*0.5),
-                        vertices[i+1].z*(this._size.depth*0.5)
+                        vertices[i + 1].x * (this._size.width * 0.5),
+                        vertices[i + 1].y * (this._size.height * 0.5),
+                        vertices[i + 1].z * (this._size.depth * 0.5)
                     ));
                     sides[i].add3( new folio.F3D.FPoint3(
-                        vertices[i+2].x*(this._size.width*0.5),
-                        vertices[i+2].y*(this._size.height*0.5),
-                        vertices[i+2].z*(this._size.depth*0.5)
+                        vertices[i + 2].x * (this._size.width * 0.5),
+                        vertices[i + 2].y * (this._size.height * 0.5),
+                        vertices[i + 2].z * (this._size.depth * 0.5)
                     ));
 
-                    // sides[i].fillColor = new Color( 0.0, 1.0, 0.7, 0.8 );
+                    // sides[i].fillColor = new Color(0.0, 1.0, 0.7, 0.8);
                     sides[i].closed = true;
-                    sides[i].translate( fpoint3 );
+                    sides[i].translate(fpoint3);
 
-                    scene.addItem( sides[i] );
+                    scene.addItem(sides[i]);
                 }
 
                 return new Group(sides);
@@ -209,4 +210,3 @@ folio.F3D.FPath3.inject({
 
     } // end statics:
 });
-

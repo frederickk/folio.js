@@ -57,9 +57,9 @@ folio.FCirclePack = function(circleItems, properties) {
     // Properties
     //
     // ------------------------------------------------------------------------
-    var circleItems = (circleItems instanceof Group)
+    circleItems = (circleItems instanceof Group)
         ? circleItems.children
-        : (circleItems == null)
+        : (circleItems === null)
             ? []
             : circleItems;
 
@@ -91,13 +91,14 @@ folio.FCirclePack = function(circleItems, properties) {
         var ci, cj;
         var dx, dy;
         var radius, dist;
-        for (var i = circleItems.length - 1; i >= 0; --i) {
+        var i;
+        for (i = circleItems.length - 1; i >= 0; --i) {
             ci = circleItems[i];
 
             for (var j = i + 1; j < circleItems.length; j++) {
                 cj = circleItems[j];
 
-                if (i == j) {
+                if (i === j) {
                     continue;
                 }
 
@@ -121,11 +122,11 @@ folio.FCirclePack = function(circleItems, properties) {
                     pp = pp.multiply((radius - Math.sqrt(dist)) * 0.5);
 
                     try {
-                        // if (cj != dragCircle) {
+                        // if (cj !== dragCircle) {
                             cj.position.x += pp.x;
                             cj.position.y += pp.y;
                         // }
-                        // if (ci != dragCircle) {
+                        // if (ci !== dragCircle) {
                             ci.position.x -= pp.x;
                             ci.position.y -= pp.y;
                         // }
@@ -142,9 +143,9 @@ folio.FCirclePack = function(circleItems, properties) {
 
         var damping = dampingAmt / parseInt(iterations);
         var c;
-        for (var i = 0; i < circleItems.length; i++) {
+        for (i = 0; i < circleItems.length; i++) {
             c = circleItems[i];
-            if (c == dragCircle) {
+            if (c === dragCircle) {
                 continue;
             }
             else {

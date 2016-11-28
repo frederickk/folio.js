@@ -19,17 +19,16 @@
  *      depth
  */
 folio.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
-    /**
-     * public
-     */
-    this.width = arg0 != undefined ? arg0 : 0;
-    this.height = arg1 != undefined ? arg1 : 0;
-    this.depth = arg2 != undefined ? arg2 : 0;
+    this.width = arg0 || 0;
+    this.height = arg1 || 0;
+    this.depth = arg2 || 0;
 
 
 
     // ------------------------------------------------------------------------
+    //
     // Sets
+    //
     // ------------------------------------------------------------------------
     /**
      *
@@ -68,8 +67,10 @@ folio.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
 
 
     // ------------------------------------------------------------------------
+    //
     // Gets
-    // ------------------------------------------------------------------------
+    //
+
     /**
      * Get a copy of this size
      */
@@ -102,12 +103,12 @@ folio.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
      *
      */
     this.random = function(minw, maxw, minh, maxh, mind, maxd) {
-        minw = (minw != undefined) ? minw : 0;
-        maxw = (maxw != undefined) ? maxw : view.bounds.width;
-        minh = (minh != undefined) ? minh : 0;
-        maxh = (maxh != undefined) ? maxh : view.bounds.height;
-        mind = (mind != undefined) ? mind : 0;
-        maxd = (maxd != undefined) ? maxd : 1000;
+        minw = minw || 0;
+        maxw = maxw || view.bounds.width;
+        minh = minh || 0;
+        maxh = maxh || view.bounds.height;
+        mind = mind || 0;
+        maxd = maxd || 1000;
 
         this.width = paper.random(minw, maxw);
         this.height = paper.random(minh, maxh);
@@ -126,5 +127,3 @@ folio.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
 
 
 };
-
-

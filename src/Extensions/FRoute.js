@@ -36,7 +36,7 @@ folio.FRoute = function(items, properties) {
     // Properties
     //
     // ------------------------------------------------------------------------
-    var items = items;
+    // items = items;
 
     properties = properties || {};
     var iterations = properties.iterations || 1000;
@@ -53,14 +53,16 @@ folio.FRoute = function(items, properties) {
     // ------------------------------------------------------------------------
     (function calculate() {
         var temp;
-        var p1;
+        var p1, p2;
+        var dx, dy;
+        var i;
 
         if (routeStep === 0) {
             var routeNodesLength = 0;
             var routeNodesTemp = [items.length];
 
             var px, py;
-            for (var i = 0; i < items.length; ++i) {
+            for (i = 0; i < items.length; ++i) {
                 routeNodesTemp[i] = false;
                 px = items[i].position.x;
                 py = items[i].position.y;
@@ -77,7 +79,7 @@ folio.FRoute = function(items, properties) {
 
             routeNodes = [routeNodesLength];
             var tempCounter = 0;
-            for (var i = 0; i < items.length; ++i) {
+            for (i = 0; i < items.length; ++i) {
                 if (routeNodesTemp[i]) {
                     routeNodes[tempCounter] = i;
                     tempCounter++;
@@ -97,8 +99,7 @@ folio.FRoute = function(items, properties) {
 
             var ClosestNode;
             var distMin;
-            var p2, dx, dy;
-            for (var i = routeStep; i < StopPoint; ++i) {
+            for (i = routeStep; i < StopPoint; ++i) {
                 p1 = items[routeNodes[routeStep]].position;
                 ClosestNode = 0;
                 distMin = Number.MAX_VALUE;
@@ -139,10 +140,9 @@ folio.FRoute = function(items, properties) {
             var indexA, indexB;
             var a0, a1;
             var b0, b1;
-            var dx, dy;
             var distance, distance2;
-            var indexhigh, indexLow;
-            for (var i = 0; i < iterations; ++i) {
+            var indexHigh, indexLow;
+            for (i = 0; i < iterations; ++i) {
                 indexA = Math.floor(Math.random() * nodesNum);
                 indexB = Math.floor(Math.random() * nodesNum);
 
@@ -180,16 +180,16 @@ folio.FRoute = function(items, properties) {
                 distance2 += (dx * dx + dy * dy); // Only a comparison; do not need sqrt factor!
 
                 if (distance2 < distance) {
-                    indexhigh = indexB;
-                    indexlow = indexA + 1;
+                    indexHigh = indexB;
+                    indexLow = indexA + 1;
 
-                    while (indexhigh > indexlow) {
-                        temp = routeNodes[indexlow];
-                        routeNodes[indexlow] = routeNodes[indexhigh];
-                        routeNodes[indexhigh] = temp;
+                    while (indexHigh > indexLow) {
+                        temp = routeNodes[indexLow];
+                        routeNodes[indexLow] = routeNodes[indexHigh];
+                        routeNodes[indexHigh] = temp;
 
-                        indexhigh--;
-                        indexlow++;
+                        indexHigh--;
+                        indexLow++;
                     }
                 }
 

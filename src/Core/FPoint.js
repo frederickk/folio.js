@@ -54,25 +54,25 @@ paper.Point.inject({
      *
      */
     snap: function(scale, options) {
-        var options = (options != undefined)
+        options = (options !== undefined)
             ? options
-            : { grid: true, isometric: false };
-        var scale = (scale.type === 'Size')
+            : {grid: true, isometric: false};
+        scale = (scale.type === 'Size')
             ? scale
-            : new Size(scale,scale);
+            : new Size(scale, scale);
 
         var ix, iy;
         if (options.isometric === true) {
-            ix = Math.round(this.y/(16*scale.height) - this.x/(32*scale.width));
-            iy = Math.round(this.y/(16*scale.height) + this.x/(16*scale.width));
-            this.x = (iy - ix)/2*(32*scale.width);
-            this.y = (iy + ix)/2*(16*scale.height);
+            ix = Math.round(this.y / (16 * scale.height) - this.x / (32 * scale.width));
+            iy = Math.round(this.y / (16 * scale.height) + this.x / (16 * scale.width));
+            this.x = (iy - ix) / 2 * (32 * scale.width);
+            this.y = (iy + ix) / 2 * (16 * scale.height);
         }
         else {
-            ix = Math.round(this.y/scale.height - this.x/scale.width);
-            iy = Math.round(this.y/scale.height + this.x/scale.width);
-            this.x = (iy - ix)/2*scale.width;
-            this.y = (iy + ix)/2*scale.height;
+            ix = Math.round(this.y / scale.height - this.x / scale.width);
+            iy = Math.round(this.y / scale.height + this.x / scale.width);
+            this.x = (iy - ix) / 2 * scale.width;
+            this.y = (iy + ix) / 2 * scale.height;
         }
 
         return this;
@@ -136,7 +136,7 @@ paper.Point.inject({
         // var dx = this.x - view.bounds.center.x;
         // var dy = this.y - view.bounds.center.y;
         // return (dx * dx + dy * dy) + 1;
-        return this.getDistance( view.bounds.center );
+        return this.getDistance(view.bounds.center);
     },
 
     /**
@@ -258,7 +258,7 @@ paper.Point.inject({
      *
      */
     getAngle: function(point2) {
-        var point2 = point2 || new Point(0, 0);
+        point2 = point2 || new Point(0, 0);
         return Math.atan2(point2.y - this.y, point2.x - this.x);
     },
 
@@ -343,7 +343,7 @@ paper.Point.inject({
          *
          */
         invertX: function(point) {
-            var point = new Point(point);
+            point = new Point(point);
             return point.invertX();
         },
 
@@ -356,7 +356,7 @@ paper.Point.inject({
          *
          */
         invertY: function(point) {
-            var point = new Point(point);
+            point = new Point(point);
             return point.invertY();
         },
 

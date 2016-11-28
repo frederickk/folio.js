@@ -1,0 +1,40 @@
+{
+    "node"      : true,
+    "esnext"    : true,
+    "bitwise"   : true,
+    "camelcase" : false,
+
+    "curly"     : true,
+    "eqeqeq"    : true,
+    "immed"     : true,
+    // "indent"    : 2,
+    // "latedef"   : true,
+    "plusplus"  : false,
+    "undef"     : true,
+    "strict"    : true,
+
+    "newcap"    : true,
+    "noarg"     : true,
+    "quotmark"  : "single",
+    "unused"    : true,
+    // force       : true,
+
+    "asi"       : true,
+    "eqnull"    : true,
+    "expr"      : true,
+    "browser"   : true,
+
+    "trailing"  : true,
+    "-W032"     : true,
+    "-W117"     : true,
+    // "-W082"     : true,
+    "-W014"     : false,
+    "-W040"     : false,
+    "-W016"     : false,
+    "-W057"     : false,
+    "-W122"     : false,
+    "-W058"     : false,
+    "-W055"     : false,
+    "-W027"     : false,
+    "-W064"     : false // Missing 'new' prefix when invoking a constructor.
+}

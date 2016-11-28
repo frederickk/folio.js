@@ -76,7 +76,7 @@ paper.Item.inject({
      *
      */
     getDistanceToCenter: function() {
-        if (this._position != undefined) {
+        if (this._position !== undefined) {
             var dx = this._position.x - view.bounds.center.x;
             var dy = this._position.y - view.bounds.center.y;
             return (dx * dx + dy * dy) + 1;
@@ -516,7 +516,7 @@ paper.Path.inject({
     // TODO: currently implementation returns false point
     // getIncenter : function() {
     //  // vertices
-    //  if (this.segments.length == 3) {
+    //  if (this.segments.length === 3) {
     //      var p1 = this.segments[0].point;
     //      var p2 = this.segments[1].point;
     //      var p3 = this.segments[2].point;
@@ -545,7 +545,7 @@ paper.Path.inject({
      */
     // TODO: currently implementation returns false point
     // toCartesian : function(bary) {
-    //  if (this.segments.length == 3) {
+    //  if (this.segments.length === 3) {
     //      var p1 = this.segments[0].point;
     //      var p2 = this.segments[1].point;
     //      var p3 = this.segments[2].point;
@@ -590,7 +590,7 @@ paper.Path.inject({
     // TODO: currently implementation returns false point
     // getOrthocenter : function() {
     //  // vertices
-    //  if (this.segments.length == 3) {
+    //  if (this.segments.length === 3) {
     //      var p1 = this.segments[0].point;
     //      var p2 = this.segments[1].point;
     //      var p3 = this.segments[2].point;
@@ -617,7 +617,7 @@ paper.Path.inject({
     // TODO: currently implementation returns false point
     // getSchifflerPoint : function() {
     //  // vertices
-    //  if (this.segments.length == 3) {
+    //  if (this.segments.length === 3) {
     //      var p1 = this.segments[0].point;
     //      var p2 = this.segments[1].point;
     //      var p3 = this.segments[2].point;
@@ -669,21 +669,21 @@ paper.Path.inject({
                 var path = new Path.Line(headPoint, tailPoint);
 
                 // the arrow head
-                var arrowHeadSize = arrowHeadSize || new Size(headPoint.getDistance(tailPoint)*0.381924,headPoint.getDistance(tailPoint)*0.381924);
+                arrowHeadSize = arrowHeadSize || new Size(headPoint.getDistance(tailPoint) * 0.381924, headPoint.getDistance(tailPoint) * 0.381924);
 
                 // rotate arrow head around to correct position
                 var a = Math.atan2(headPoint.x-tailPoint.x, tailPoint.y-headPoint.y);
 
                 // slight "hack" to get strokCap correct
                 var arrowHead = [];
-                arrowHead[0] = new Path.Line(new Point(0,0), new Point(-arrowHeadSize.width,-arrowHeadSize.height));
-                arrowHead[1] = new Path.Line(new Point(0,0), new Point(arrowHeadSize.width,-arrowHeadSize.height));
+                arrowHead[0] = new Path.Line(new Point(0,0), new Point(-arrowHeadSize.width, -arrowHeadSize.height));
+                arrowHead[1] = new Path.Line(new Point(0,0), new Point(arrowHeadSize.width, -arrowHeadSize.height));
                 for (var i = 0; i < arrowHead.length; i++) {
                     arrowHead[i].rotate(180+paper.degrees(a), new Point(0,0));
                     arrowHead[i].translate(headPoint);
                 }
 
-                var group = new Group([ path, arrowHead[0], arrowHead[1] ]);
+                var group = new Group([path, arrowHead[0], arrowHead[1]]);
                 group.name = 'arrow';
                 return group;
             },
@@ -719,12 +719,12 @@ paper.Path.inject({
                 var path = new Path();
                 path.name = 'bubble';
 
-                var bubbleTagSize = bubbleTagSize || defaultFBubbleTagSize;
+                bubbleTagSize = bubbleTagSize || defaultFBubbleTagSize;
                 if (bubbleSize.width < 10) {
                     bubbleSize.width = 10;
                     bubbleTagSize = new Size(10,10);
                 }
-                var bubbleTagCenter = bubbleTagCenter || 'RANDOM';
+                bubbleTagCenter = bubbleTagCenter || 'RANDOM';
 
                 // left side of bubble
                 path.add(new Point(0,0));
@@ -743,16 +743,16 @@ paper.Path.inject({
                 path.add(new Point(tagStart,bubbleSize.height));
 
                 var tx, ty;
-                if (bubbleTagCenter == 'LEFT') {
+                if (bubbleTagCenter === 'LEFT') {
                     tx = tagStart;
                 }
-                else if (bubbleTagCenter == 'CENTER') {
+                else if (bubbleTagCenter === 'CENTER') {
                     tx = tagStart + (bubbleTagSize.width/2);
                 }
-                else if (bubbleTagCenter == 'RIGHT') {
+                else if (bubbleTagCenter === 'RIGHT') {
                     tx = tagStart+bubbleTagSize.width;
                 }
-                else { // if (bubbleTagCenter == 'RANDOM') {
+                else { // if (bubbleTagCenter === 'RANDOM') {
                     tx = paper.randomInt(tagStart,tagStart+bubbleTagSize.width);
                 }
 
@@ -833,7 +833,7 @@ paper.Path.inject({
 
                 var tangents = paper.getCommonTangents(obj1, obj2);
                 var path = new Path();
-                if (tangents != null) {
+                if (tangents !== null) {
                     path.name = 'chain';
                     path.add(tangents[0]);
                     path.add(tangents[1]);
@@ -909,14 +909,14 @@ paper.Path.inject({
              *
              */
             FCross: function(centerPoint, size, strokeWidth, crossType) {
-                var strokeWidth = strokeWidth || 1.0;
-                var crossType = crossType || 'LINE';
+                strokeWidth = strokeWidth || 1.0;
+                crossType = crossType || 'LINE';
 
                 // var centerPoint = new Point(_x,_y);
                 // var size = new Size(_width,_height);
                 var line1, line2;
 
-                if (crossType == 'LINE') {
+                if (crossType === 'LINE') {
                     line1 = new Path.Line(
                         centerPoint.x + size.width, centerPoint.y - size.height,
                         centerPoint.x - size.width, centerPoint.y + size.height
@@ -928,7 +928,7 @@ paper.Path.inject({
                     );
                     line2.strokeWidth = strokeWidth;
                 }
-                else if (crossType == 'SHARP') {
+                else if (crossType === 'SHARP') {
                     line1 = new Path();
                     line1.add(new Point(centerPoint.x + size.width, centerPoint.y - size.height ));
                     line1.add(new Point(centerPoint.x + size.width, (centerPoint.y - size.height) + (strokeWidth/2) ));
@@ -1022,7 +1022,7 @@ paper.Path.inject({
 
                 // check for the type of arguments being passed
                 // default scale is from center (position)
-                if (typeof arg1 == 'Size') {
+                if (typeof arg1 === 'Size') {
                     path.scale(arg1.width, arg1.height);
                 }
                 else {
