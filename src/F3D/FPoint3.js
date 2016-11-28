@@ -16,7 +16,7 @@
  * @param arg2
  *      z coordinate
  */
-folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
+Folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
     // ------------------------------------------------------------------------
     //
     // Properties
@@ -108,7 +108,7 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
         this.y = paper.random(miny, maxy);
         this.z = paper.random(minz, maxz);
 
-        return new folio.F3D.FPoint3(this.x, this.y, this.z);
+        return new Folio.F3D.FPoint3(this.x, this.y, this.z);
     };
 
 
@@ -168,7 +168,7 @@ folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
      * @return a copy of this point
      */
     this.get = function() {
-        return new folio.F3D.FPoint3(this.x, this.y, this.z);
+        return new Folio.F3D.FPoint3(this.x, this.y, this.z);
     };
 
 

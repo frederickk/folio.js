@@ -5,7 +5,7 @@
  */
 
 // TODO: this needs to be completely refactored
-folio.FTime.FDate = function() {
+Folio.FTime.FDate = function() {
     // ------------------------------------------------------------------------
     //
     // Properties

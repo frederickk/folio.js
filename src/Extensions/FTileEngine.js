@@ -60,7 +60,7 @@
  *
  */
 
-folio.FTileEngine = function(ids) {
+Folio.FTileEngine = function(ids) {
     // -----------------------------------------------------------------------------
     //
     // Properties

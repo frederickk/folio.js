@@ -7,7 +7,7 @@
 */
 
 
-folio.FIO = {
+Folio.FIO = {
     // ------------------------------------------------------------------------
     // Methods
     // ------------------------------------------------------------------------
@@ -288,7 +288,7 @@ folio.FIO = {
     *          the name of the file to save to
     */
     saveFile: function(str, filename) {
-        filename = filename || 'foliojs_fio_file.file';
+        filename = filename || 'Folio.js_fio_file.file';
 
         try {
             // scriptographer

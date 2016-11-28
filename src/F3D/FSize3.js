@@ -18,7 +18,7 @@
  * @param arg2
  *      depth
  */
-folio.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
+Folio.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
     this.width = arg0 || 0;
     this.height = arg1 || 0;
     this.depth = arg2 || 0;
@@ -75,7 +75,7 @@ folio.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
      * Get a copy of this size
      */
     this.get = function() {
-        return new folio.F3D.FSize3(this.width, this.height, this.depth);
+        return new Folio.F3D.FSize3(this.width, this.height, this.depth);
     };
 
 

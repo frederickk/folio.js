@@ -14,7 +14,7 @@
  *      possibly look into using three.js as the engine
  *
  */
-folio.F3D.FScene3D = this.FScene3D = function() {
+Folio.F3D.FScene3D = this.FScene3D = function() {
     // ------------------------------------------------------------------------
     //
     // Properties
@@ -23,11 +23,11 @@ folio.F3D.FScene3D = this.FScene3D = function() {
     var _mode = 'PERSPECTIVE'; // default
     var _matrix = null;
 
-    var _half = new folio.F3D.FSize3(0, 0, 0);
+    var _half = new Folio.F3D.FSize3(0, 0, 0);
 
     // transfomrations
     var _sceneScale = 1;
-    var _rotation = new folio.F3D.FPoint3(0, 0, 0);
+    var _rotation = new Folio.F3D.FPoint3(0, 0, 0);
 
     // items
     var _numPoints = 0;
@@ -36,7 +36,7 @@ folio.F3D.FScene3D = this.FScene3D = function() {
     var _groupTop = null;
 
 
-    this.bounds = new folio.F3D.FSize3(0, 0, 0);
+    this.bounds = new Folio.F3D.FSize3(0, 0, 0);
 
     this.points3D = [];
     this.points2D = [];

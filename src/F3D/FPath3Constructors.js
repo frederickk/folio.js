@@ -2,7 +2,7 @@
  *
  * FPath3Constuctors.js
  *
- * A collection of primitive 3D shapes for folio.F3D.FPath3
+ * A collection of primitive 3D shapes for Folio.F3D.FPath3
  *
  * FBox
  * FSphere
@@ -11,7 +11,7 @@
 
 
 
-folio.F3D.FPath3.inject({
+Folio.F3D.FPath3.inject({
 
     // -----------------------------------------------------------------------------
     statics: new function() {
@@ -22,59 +22,59 @@ folio.F3D.FPath3.inject({
              * FBox
              * Create simple box
              *
-             * @param {folio.F3D.FScene3D} scene
+             * @param {Folio.F3D.FScene3D} scene
              *          the scene to attach the Box to
-             * @param {folio.F3D.FPoint3} fpoint3
+             * @param {Folio.F3D.FPoint3} fpoint3
              *          the position of the Box
-             * @param {folio.F3D.FSize3} fsize3
+             * @param {Folio.F3D.FSize3} fsize3
              *          the size of the Box
              *
              */
             FBox: function(scene, fpoint3, fsize3) {
                 this._position3 = (fpoint3 !== undefined)
                     ? fpoint3
-                    : new folio.F3D.FPoint3(0,0,0);
+                    : new Folio.F3D.FPoint3(0,0,0);
 
                 this._size = (fsize3 !== undefined)
                     ? fsize3
-                    : new folio.F3D.FSize3(10,10,10);
+                    : new Folio.F3D.FSize3(10,10,10);
 
                 var sides = [6];
                 var faceFRONT = [
-                    new folio.F3D.FPoint3(-0.5, -0.5, -0.5),    // corner
-                    new folio.F3D.FPoint3( 0.5, -0.5, -0.5),    // corner
-                    new folio.F3D.FPoint3( 0.5, 0.5, -0.5), // corner
-                    new folio.F3D.FPoint3(-0.5, 0.5, -0.5)  // corner
+                    new Folio.F3D.FPoint3(-0.5, -0.5, -0.5),    // corner
+                    new Folio.F3D.FPoint3( 0.5, -0.5, -0.5),    // corner
+                    new Folio.F3D.FPoint3( 0.5, 0.5, -0.5), // corner
+                    new Folio.F3D.FPoint3(-0.5, 0.5, -0.5)  // corner
                 ],
                     faceTOP = [
-                    new folio.F3D.FPoint3(-0.5, -0.5,   0.5),   // corner
-                    new folio.F3D.FPoint3( 0.5, -0.5,   0.5),   // corner
-                    new folio.F3D.FPoint3( 0.5, -0.5, -0.5),    // corner
-                    new folio.F3D.FPoint3(-0.5, -0.5, -0.5) // corner
+                    new Folio.F3D.FPoint3(-0.5, -0.5,   0.5),   // corner
+                    new Folio.F3D.FPoint3( 0.5, -0.5,   0.5),   // corner
+                    new Folio.F3D.FPoint3( 0.5, -0.5, -0.5),    // corner
+                    new Folio.F3D.FPoint3(-0.5, -0.5, -0.5) // corner
                 ],
                     faceBOTTOM = [
-                    new folio.F3D.FPoint3(-0.5, 0.5,    0.5),   // corner
-                    new folio.F3D.FPoint3( 0.5, 0.5,    0.5),   // corner
-                    new folio.F3D.FPoint3( 0.5, 0.5, -0.5), // corner
-                    new folio.F3D.FPoint3(-0.5, 0.5, -0.5)  // corner
+                    new Folio.F3D.FPoint3(-0.5, 0.5,    0.5),   // corner
+                    new Folio.F3D.FPoint3( 0.5, 0.5,    0.5),   // corner
+                    new Folio.F3D.FPoint3( 0.5, 0.5, -0.5), // corner
+                    new Folio.F3D.FPoint3(-0.5, 0.5, -0.5)  // corner
                 ],
                     faceLEFT = [
-                    new folio.F3D.FPoint3(-0.5, -0.5, -0.5),    // corner
-                    new folio.F3D.FPoint3(-0.5, -0.5,   0.5),   // corner
-                    new folio.F3D.FPoint3(-0.5, 0.5,    0.5),   // corner
-                    new folio.F3D.FPoint3(-0.5, 0.5, -0.5)  // corner
+                    new Folio.F3D.FPoint3(-0.5, -0.5, -0.5),    // corner
+                    new Folio.F3D.FPoint3(-0.5, -0.5,   0.5),   // corner
+                    new Folio.F3D.FPoint3(-0.5, 0.5,    0.5),   // corner
+                    new Folio.F3D.FPoint3(-0.5, 0.5, -0.5)  // corner
                 ],
                     faceRIGHT = [
-                    new folio.F3D.FPoint3( 0.5, -0.5, -0.5),    // corner
-                    new folio.F3D.FPoint3( 0.5, -0.5,   0.5),   // corner
-                    new folio.F3D.FPoint3( 0.5, 0.5,    0.5),   // corner
-                    new folio.F3D.FPoint3( 0.5, 0.5, -0.5)  // corner
+                    new Folio.F3D.FPoint3( 0.5, -0.5, -0.5),    // corner
+                    new Folio.F3D.FPoint3( 0.5, -0.5,   0.5),   // corner
+                    new Folio.F3D.FPoint3( 0.5, 0.5,    0.5),   // corner
+                    new Folio.F3D.FPoint3( 0.5, 0.5, -0.5)  // corner
                 ],
                     faceBACK = [
-                    new folio.F3D.FPoint3(-0.5, -0.5,   0.5),   // corner
-                    new folio.F3D.FPoint3( 0.5, -0.5,   0.5),   // corner
-                    new folio.F3D.FPoint3( 0.5, 0.5,    0.5),   // corner
-                    new folio.F3D.FPoint3(-0.5, 0.5,    0.5)    // corner
+                    new Folio.F3D.FPoint3(-0.5, -0.5,   0.5),   // corner
+                    new Folio.F3D.FPoint3( 0.5, -0.5,   0.5),   // corner
+                    new Folio.F3D.FPoint3( 0.5, 0.5,    0.5),   // corner
+                    new Folio.F3D.FPoint3(-0.5, 0.5,    0.5)    // corner
                 ];
 
                 var faces = [
@@ -88,13 +88,13 @@ folio.F3D.FPath3.inject({
 
                 var vertices = [];
                 for (var i = 0; i < faces.length; i++) {
-                    sides[i] = new folio.F3D.FPath3();
+                    sides[i] = new Folio.F3D.FPath3();
                     // sides[i].name = faces[i][0];
                     sides[i].name = 'Z-TOP'; // hack until FScene3D is fixed
 
                     vertices = faces[i][1];
                     for (var j = 0; j < vertices.length; j++) {
-                        sides[i].add3( new folio.F3D.FPoint3(
+                        sides[i].add3( new Folio.F3D.FPoint3(
                             vertices[j].x * this._size.width,
                             vertices[j].y * this._size.height,
                             vertices[j].z * this._size.depth
@@ -116,11 +116,11 @@ folio.F3D.FPath3.inject({
              * FSphere
              * Create simple sphere
              *
-             * @param {folio.F3D.FScene3D} scene
+             * @param {Folio.F3D.FScene3D} scene
              *          the scene to attach the Sphere to
-             * @param {folio.F3D.FPoint3} fpoint3
+             * @param {Folio.F3D.FPoint3} fpoint3
              *          the position of the Sphere
-             * @param {folio.F3D.FSize3} radius
+             * @param {Folio.F3D.FSize3} radius
              *          the radius of the Sphere
              * @param {Array} detail (optional)
              *          the longitude and latitude detail
@@ -131,11 +131,11 @@ folio.F3D.FPath3.inject({
             FSphere: function(scene, fpoint3, radius, detail) {
                 this._position3 = (fpoint3 !== undefined)
                     ? fpoint3
-                    : new folio.F3D.FPoint3(0,0,0);
+                    : new Folio.F3D.FPoint3(0,0,0);
 
                 this._size = (radius !== undefined)
-                    ? new folio.F3D.FSize3(radius, radius, radius)
-                    : new folio.F3D.FSize3(10,10,10);
+                    ? new Folio.F3D.FSize3(radius, radius, radius)
+                    : new Folio.F3D.FSize3(10,10,10);
 
                 var _c = 0.5;
 
@@ -169,27 +169,27 @@ folio.F3D.FPath3.inject({
                         var x = Math.cos(lng);
                         var y = Math.sin(lng);
 
-                        vertices.push(new folio.F3D.FPoint3(x * zr0, y * zr0, z0));
-                        vertices.push(new folio.F3D.FPoint3(x * zr1, y * zr1, z1));
+                        vertices.push(new Folio.F3D.FPoint3(x * zr0, y * zr0, z0));
+                        vertices.push(new Folio.F3D.FPoint3(x * zr1, y * zr1, z1));
                     } // _longs
                 } // _lats
                 var sides = [vertices.length - 2];
 
                 for (i = 0; i < vertices.length - 2; i++) {
-                    sides[i] = new folio.F3D.FPath3();
+                    sides[i] = new Folio.F3D.FPath3();
                     sides[i].name = 'face' + i;
 
-                    sides[i].add3( new folio.F3D.FPoint3(
+                    sides[i].add3( new Folio.F3D.FPoint3(
                         vertices[i].x * (this._size.width * 0.5),
                         vertices[i].y * (this._size.height * 0.5),
                         vertices[i].z * (this._size.depth * 0.5)
                     ));
-                    sides[i].add3( new folio.F3D.FPoint3(
+                    sides[i].add3( new Folio.F3D.FPoint3(
                         vertices[i + 1].x * (this._size.width * 0.5),
                         vertices[i + 1].y * (this._size.height * 0.5),
                         vertices[i + 1].z * (this._size.depth * 0.5)
                     ));
-                    sides[i].add3( new folio.F3D.FPoint3(
+                    sides[i].add3( new Folio.F3D.FPoint3(
                         vertices[i + 2].x * (this._size.width * 0.5),
                         vertices[i + 2].y * (this._size.height * 0.5),
                         vertices[i + 2].z * (this._size.depth * 0.5)

@@ -27,7 +27,7 @@
  */
 
 
-folio.FFlock = {
+Folio.FFlock = {
     /**
      * @param  {Point} position
      *          intial position of Boid
@@ -41,7 +41,7 @@ folio.FFlock = {
      * @example
      * var flock = [];
      * for (var i = 0; i < 30; i++) {
-     *  var boid = new folio.FFlock.boid(view.center, {
+     *  var boid = new Folio.FFlock.boid(view.center, {
      *      radius   : 30,
      *      maxSpeed : 10,
      *      maxForce : 0.05,
@@ -529,7 +529,7 @@ folio.FFlock = {
      * @example
      * var predators = [];
      * for (var i = 0; i < 30; i++) {
-     *  var predator = new folio.FFlock.predator(view.center, {
+     *  var predator = new Folio.FFlock.predator(view.center, {
      *      radius   : 40,
      *      maxSpeed : 20,
      *      maxForce : 0.01,
@@ -549,7 +549,7 @@ folio.FFlock = {
         // Properties
         //
         // ------------------------------------------------------------------------
-        var boidPredator = new folio.FFlock.boid(position, properties);
+        var boidPredator = new Folio.FFlock.boid(position, properties);
 
 
 
@@ -597,7 +597,7 @@ folio.FFlock = {
      *
      * @example
      * var obstacles = [];
-     * var obstacle = new folio.FFlock.obstacle(new Point(100, 100), {
+     * var obstacle = new Folio.FFlock.obstacle(new Point(100, 100), {
      *  radius : 35,
      *  path   : new Path.Circle({
      *               position  : [0, 0],
@@ -614,7 +614,7 @@ folio.FFlock = {
         // Properties
         //
         // ------------------------------------------------------------------------
-        var boidObstacle = new folio.FFlock.boid(position, properties);
+        var boidObstacle = new Folio.FFlock.boid(position, properties);
 
 
 

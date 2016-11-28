@@ -5,7 +5,7 @@
  */
 
  // TODO: this needs to be completely refactored
-folio.FTime.FStepper = function() {
+Folio.FTime.FStepper = function() {
     // ------------------------------------------------------------------------
     //
     // Properties

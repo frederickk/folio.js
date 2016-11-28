@@ -33,20 +33,21 @@ Array.prototype.median = function() {
     }
 };
 
+
 /**
  * http://stackoverflow.com/questions/10359907/array-sum-and-average
  *
  * @return {Number} average  value
  *
  */
-Array.prototype.average = function(){
+Array.prototype.average = function() {
     var type = Object.prototype.toString.call(this).split(/\W/)[2];
     if (type === 'Array') {
         var sum = 0;
         for (var i = 0; i < this.length, isFinite(this[i]); i++) {
             sum += parseFloat(this[i]);
         }
-        return sum/this.length-1;
+        return sum / (this.length - 1);
     }
 };
 
@@ -63,8 +64,7 @@ Array.prototype.average = function(){
 Array.prototype.merge = function(arr) {
     var type = Object.prototype.toString.call(this).split(/\W/)[2];
     if (type === 'Array') {
-        var output = this.concat(arr);
-        return output;
+        return this.concat(arr);
     }
 };
 
@@ -79,7 +79,7 @@ Array.prototype.merge = function(arr) {
  * @return {Array} new combined associatibe Array
  *
  */
-Array.prototype.combine = function(arr) {
+Object.prototype.combine = function(arr) {
     for (var item in this) {
         arr[item] = (arr[item] !== undefined)
             ? arr[item]
@@ -99,8 +99,16 @@ Array.prototype.combine = function(arr) {
  *
  */
 Array.prototype.findIndex = function(query) {
+    var val;
     for (var i = this.length - 1; i >= 0; i--) {
-        if (this[i].toLowerCase() === query.toLowerCase()) {
+        val = this[i];
+        if (typeof this[i] === 'string') {
+            val = val.toLowerCase();
+        }
+        if (typeof query === 'string') {
+            query = query.toLowerCase();
+        }
+        if (val === query) {
             break;
         }
     }
@@ -135,6 +143,7 @@ Array.prototype.max = function(start, stop) {
     return max;
 };
 
+
 /**
  *
  * @param {Number} start
@@ -162,6 +171,7 @@ Array.prototype.min = function(start, stop) {
     return min;
 };
 
+
 /**
  *
  * http://jsfromhell.com/array/shuffle
@@ -173,6 +183,7 @@ Array.prototype.min = function(start, stop) {
 Array.prototype.shuffle = function() {
     for (var j, x, i = this.length; i; j = parseInt(Math.random() * i), x = this[--i], this[i] = this[j], this[j] = x) {}
 };
+
 
 /**
  * Eliminate all non-unique elements from an Array
@@ -192,6 +203,7 @@ Array.prototype.unique = function() {
     }
     return u;
 };
+
 
 /**
  * Eliminate all duplicates from an Array
@@ -249,72 +261,4 @@ Array.prototype.same = function(arr) {
         }
     }
     return c;
-};
-
-// ------------------------------------------------------------------------
-// TODO: integrate sorting methods in a much cleaner way
-var FSort = {
-
-    /**
-     *
-     * sort Array in alphabetical order
-     *
-     * http://www.brain4.de/programmierecke/js/arraySort.php
-     *
-     */
-    alphabetical: function(a, b) {
-        // var A = a.toLowerCase();
-        // var B = b.toLowerCase();
-
-        // if (A < B) {
-        //     return -1;
-        // }
-        // else if (A > B) {
-        //     return  1;
-        // }
-        // else {
-        //     return 0;
-        // }
-
-        a = a.toLowerCase();
-        a = a.replace(/ä/g,'a');
-        a = a.replace(/ö/g,'o');
-        a = a.replace(/ü/g,'u');
-        a = a.replace(/ß/g,'s');
-
-        b = b.toLowerCase();
-        b = b.replace(/ä/g,'a');
-        b = b.replace(/ö/g,'o');
-        b = b.replace(/ü/g,'u');
-        b = b.replace(/ß/g,'s');
-
-        return (a === b)
-            ? 0
-            : (a > b)
-                ? 1
-                : -1;
-    },
-
-    /**
-     *
-     * sort array by distance of object from center of canvas
-     *
-     */
-    distanceToCenter: function(a, b) {
-        var valueA = a.getDistanceToCenter();
-        // console.log( valueA );
-        var valueB = b.getDistanceToCenter();
-        // console.log( valueB );
-        var comparisonValue = 0;
-
-        if (valueA > valueB) {
-            comparisonValue = -1;
-        }
-        else if (valueA < valueB) {
-            comparisonValue = 1;
-        }
-
-        return comparisonValue;
-    }
-
 };

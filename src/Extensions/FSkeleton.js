@@ -25,7 +25,7 @@
  * @return {Array}
  *
  */
-folio.FSkeleton = function(item) {
+Folio.FSkeleton = function(item) {
     // ------------------------------------------------------------------------
     //
     // Properties

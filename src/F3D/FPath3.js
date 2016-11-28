@@ -8,7 +8,7 @@
 
 
 
-folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
+Folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
     // ------------------------------------------------------------------------
     //
     // Properties
@@ -48,15 +48,15 @@ folio.F3D.FPath3 = Path.extend(/** @lends Path# */{
 
         this._scene = scene;
         this._matrix = new Matrix3D();
-        this._size = new folio.F3D.FSize3();
-        this._position3 = new folio.F3D.FPoint3();
+        this._size = new Folio.F3D.FSize3();
+        this._position3 = new Folio.F3D.FPoint3();
 
         // setup 3D points array
         this._fpoints3 = [];
 
         // setup transformation
-        this._rotation = new folio.F3D.FPoint3();
-        this._translation = new folio.F3D.FPoint3();
+        this._rotation = new Folio.F3D.FPoint3();
+        this._translation = new Folio.F3D.FPoint3();
 
         // set generic name
         this.name = 'FPath3';

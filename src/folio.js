@@ -90,6 +90,9 @@ var onKeyUp = function() {};
     // once the DOM is ready, setup everything needed for
     // Paper.js and Folio.js
     window.addEventListener('DOMContentLoaded', function() {
+        Folio.body = Folio.body || document.body;
+        Folio.html = Folio.html || document.documentElement;
+
         //
         // Initialize Canvas
         //
@@ -183,7 +186,9 @@ var onKeyUp = function() {};
                 Update(event);
             }
             // AnimateClear();
-            view.update();
+            if (view) {
+                view.update();
+            }
         };
 
         // TODO: make this functionality toggleable

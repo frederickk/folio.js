@@ -83,7 +83,7 @@ var EPSILON = 1.0e-6;
  * }
  *
  */
-folio.FTriangulate = function(points) {
+Folio.FTriangulate = function(points) {
     // -----------------------------------------------------------------------------
     //
     // Properties

@@ -30,7 +30,7 @@
  * @return {Array}
  *
  */
-folio.FRoute = function(items, properties) {
+Folio.FRoute = function(items, properties) {
     // ------------------------------------------------------------------------
     //
     // Properties

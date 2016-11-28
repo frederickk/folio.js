@@ -7,7 +7,7 @@
  */
 
 
-folio.FTime.FStopwatch = function() {
+Folio.FTime.FStopwatch = function() {
     // ------------------------------------------------------------------------
     //
     // Properties

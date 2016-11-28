@@ -44,7 +44,7 @@
  */
 
 
-folio.FTime.Ease = function() {
+Folio.FTime.Ease = function() {
     /*
      *
      * values of classic easing functions, similar to CSS

@@ -10,7 +10,7 @@
  */
 
 
-folio.FNoise = {
+Folio.FNoise = {
     /**
      * This is a port of Ken Perlin's Java code.
      * The original Java code is at http://cs.nyu.edu/%7Eperlin/noise/

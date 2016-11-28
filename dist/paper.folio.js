@@ -3247,7 +3247,7 @@ var onKeyUp = function() {};
    */
 
 
-  folio.FTime = {
+  Folio.FTime = {
     // ------------------------------------------------------------------------
     //
     // Namespaces
@@ -3309,7 +3309,7 @@ var onKeyUp = function() {};
    */
 
 
-  folio.FTime.Ease = function() {
+  Folio.FTime.Ease = function() {
     /*
      *
      * values of classic easing functions, similar to CSS
@@ -3553,7 +3553,7 @@ var onKeyUp = function() {};
    */
 
   // TODO: this needs to be completely refactored
-  folio.FTime.FDate = function() {
+  Folio.FTime.FDate = function() {
     // ------------------------------------------------------------------------
     //
     // Properties
@@ -3880,7 +3880,7 @@ var onKeyUp = function() {};
    */
 
   // TODO: this needs to be completely refactored
-  folio.FTime.FStepper = function() {
+  Folio.FTime.FStepper = function() {
     // ------------------------------------------------------------------------
     //
     // Properties
@@ -4127,7 +4127,7 @@ var onKeyUp = function() {};
    */
 
 
-  folio.FTime.FStopwatch = function() {
+  Folio.FTime.FStopwatch = function() {
     // ------------------------------------------------------------------------
     //
     // Properties
@@ -4274,7 +4274,7 @@ var onKeyUp = function() {};
    */
 
 
-  folio.FIO = {
+  Folio.FIO = {
     // ------------------------------------------------------------------------
     // Methods
     // ------------------------------------------------------------------------
@@ -4554,7 +4554,7 @@ var onKeyUp = function() {};
      *          the name of the file to save to
      */
     saveFile: function(str, filename) {
-      filename = filename || 'foliojs_fio_file.file';
+      filename = filename || 'Folio.js_fio_file.file';
 
       try {
         // scriptographer
@@ -4727,10 +4727,10 @@ var onKeyUp = function() {};
    * @return {Object}
    *
    * @example
-   * var ase = new folio.FASE(url);
+   * var ase = new Folio.FASE(url);
    *
    */
-  folio.FASE = function(input) {
+  Folio.FASE = function(input) {
     // -----------------------------------------------------------------------------
     //
     // Properties
@@ -5103,6 +5103,7 @@ var onKeyUp = function() {};
     }
   };
 
+
   /**
    * http://stackoverflow.com/questions/10359907/array-sum-and-average
    *
@@ -5116,7 +5117,7 @@ var onKeyUp = function() {};
       for (var i = 0; i < this.length, isFinite(this[i]); i++) {
         sum += parseFloat(this[i]);
       }
-      return sum / this.length - 1;
+      return sum / (this.length - 1);
     }
   };
 
@@ -5133,8 +5134,7 @@ var onKeyUp = function() {};
   Array.prototype.merge = function(arr) {
     var type = Object.prototype.toString.call(this).split(/\W/)[2];
     if (type === 'Array') {
-      var output = this.concat(arr);
-      return output;
+      return this.concat(arr);
     }
   };
 
@@ -5149,7 +5149,7 @@ var onKeyUp = function() {};
    * @return {Array} new combined associatibe Array
    *
    */
-  Array.prototype.combine = function(arr) {
+  Object.prototype.combine = function(arr) {
     for (var item in this) {
       arr[item] = (arr[item] !== undefined) ?
         arr[item] :
@@ -5169,8 +5169,16 @@ var onKeyUp = function() {};
    *
    */
   Array.prototype.findIndex = function(query) {
+    var val;
     for (var i = this.length - 1; i >= 0; i--) {
-      if (this[i].toLowerCase() === query.toLowerCase()) {
+      val = this[i];
+      if (typeof this[i] === 'string') {
+        val = val.toLowerCase();
+      }
+      if (typeof query === 'string') {
+        query = query.toLowerCase();
+      }
+      if (val === query) {
         break;
       }
     }
@@ -5205,6 +5213,7 @@ var onKeyUp = function() {};
     return max;
   };
 
+
   /**
    *
    * @param {Number} start
@@ -5232,6 +5241,7 @@ var onKeyUp = function() {};
     return min;
   };
 
+
   /**
    *
    * http://jsfromhell.com/array/shuffle
@@ -5243,6 +5253,7 @@ var onKeyUp = function() {};
   Array.prototype.shuffle = function() {
     for (var j, x, i = this.length; i; j = parseInt(Math.random() * i), x = this[--i], this[i] = this[j], this[j] = x) {}
   };
+
 
   /**
    * Eliminate all non-unique elements from an Array
@@ -5262,6 +5273,7 @@ var onKeyUp = function() {};
     }
     return u;
   };
+
 
   /**
    * Eliminate all duplicates from an Array
@@ -5321,73 +5333,6 @@ var onKeyUp = function() {};
     return c;
   };
 
-  // ------------------------------------------------------------------------
-  // TODO: integrate sorting methods in a much cleaner way
-  var FSort = {
-
-    /**
-     *
-     * sort Array in alphabetical order
-     *
-     * http://www.brain4.de/programmierecke/js/arraySort.php
-     *
-     */
-    alphabetical: function(a, b) {
-      // var A = a.toLowerCase();
-      // var B = b.toLowerCase();
-
-      // if (A < B) {
-      //     return -1;
-      // }
-      // else if (A > B) {
-      //     return  1;
-      // }
-      // else {
-      //     return 0;
-      // }
-
-      a = a.toLowerCase();
-      a = a.replace(/ä/g, 'a');
-      a = a.replace(/ö/g, 'o');
-      a = a.replace(/ü/g, 'u');
-      a = a.replace(/ß/g, 's');
-
-      b = b.toLowerCase();
-      b = b.replace(/ä/g, 'a');
-      b = b.replace(/ö/g, 'o');
-      b = b.replace(/ü/g, 'u');
-      b = b.replace(/ß/g, 's');
-
-      return (a === b) ?
-        0 :
-        (a > b) ?
-        1 :
-        -1;
-    },
-
-    /**
-     *
-     * sort array by distance of object from center of canvas
-     *
-     */
-    distanceToCenter: function(a, b) {
-      var valueA = a.getDistanceToCenter();
-      // console.log( valueA );
-      var valueB = b.getDistanceToCenter();
-      // console.log( valueB );
-      var comparisonValue = 0;
-
-      if (valueA > valueB) {
-        comparisonValue = -1;
-      } else if (valueA < valueB) {
-        comparisonValue = 1;
-      }
-
-      return comparisonValue;
-    }
-
-  };
-
   /**!
    * FCirclePack
    *
@@ -5441,7 +5386,7 @@ var onKeyUp = function() {};
    * @return {Object}
    *
    */
-  folio.FCirclePack = function(circleItems, properties) {
+  Folio.FCirclePack = function(circleItems, properties) {
     // ------------------------------------------------------------------------
     //
     // Properties
@@ -5681,7 +5626,7 @@ var onKeyUp = function() {};
    * }
    *
    */
-  folio.FDrop = function(element) {
+  Folio.FDrop = function(element) {
     // -----------------------------------------------------------------------------
     //
     // Properties
@@ -5976,7 +5921,7 @@ var onKeyUp = function() {};
    */
 
 
-  folio.FFlock = {
+  Folio.FFlock = {
     /**
      * @param  {Point} position
      *          intial position of Boid
@@ -5990,7 +5935,7 @@ var onKeyUp = function() {};
      * @example
      * var flock = [];
      * for (var i = 0; i < 30; i++) {
-     *  var boid = new folio.FFlock.boid(view.center, {
+     *  var boid = new Folio.FFlock.boid(view.center, {
      *      radius   : 30,
      *      maxSpeed : 10,
      *      maxForce : 0.05,
@@ -6470,7 +6415,7 @@ var onKeyUp = function() {};
      * @example
      * var predators = [];
      * for (var i = 0; i < 30; i++) {
-     *  var predator = new folio.FFlock.predator(view.center, {
+     *  var predator = new Folio.FFlock.predator(view.center, {
      *      radius   : 40,
      *      maxSpeed : 20,
      *      maxForce : 0.01,
@@ -6490,7 +6435,7 @@ var onKeyUp = function() {};
       // Properties
       //
       // ------------------------------------------------------------------------
-      var boidPredator = new folio.FFlock.boid(position, properties);
+      var boidPredator = new Folio.FFlock.boid(position, properties);
 
 
 
@@ -6537,7 +6482,7 @@ var onKeyUp = function() {};
      *
      * @example
      * var obstacles = [];
-     * var obstacle = new folio.FFlock.obstacle(new Point(100, 100), {
+     * var obstacle = new Folio.FFlock.obstacle(new Point(100, 100), {
      *  radius : 35,
      *  path   : new Path.Circle({
      *               position  : [0, 0],
@@ -6554,7 +6499,7 @@ var onKeyUp = function() {};
       // Properties
       //
       // ------------------------------------------------------------------------
-      var boidObstacle = new folio.FFlock.boid(position, properties);
+      var boidObstacle = new Folio.FFlock.boid(position, properties);
 
 
 
@@ -6592,7 +6537,7 @@ var onKeyUp = function() {};
    */
 
 
-  folio.FNoise = {
+  Folio.FNoise = {
     /**
      * This is a port of Ken Perlin's Java code.
      * The original Java code is at http://cs.nyu.edu/%7Eperlin/noise/
@@ -6739,7 +6684,7 @@ var onKeyUp = function() {};
    * @return {Array}
    *
    */
-  folio.FRoute = function(items, properties) {
+  Folio.FRoute = function(items, properties) {
     // ------------------------------------------------------------------------
     //
     // Properties
@@ -6936,7 +6881,7 @@ var onKeyUp = function() {};
    * @return {Array}
    *
    */
-  folio.FSkeleton = function(item) {
+  Folio.FSkeleton = function(item) {
     // ------------------------------------------------------------------------
     //
     // Properties
@@ -7044,6 +6989,77 @@ var onKeyUp = function() {};
       getLines: getLines,
       get: getCenterLines
     };
+
+  };
+
+  /**!
+   *
+   * FSort.js
+   *
+   * Sorting methods
+   *
+   */
+
+
+  Folio.FSort = {
+    /**
+     *
+     * sort Array in alphabetical order
+     * TODO: make scalable for all non-latin languages
+     *
+     * http://www.brain4.de/programmierecke/js/arraySort.php
+     *
+     */
+    alphabetical: function(a, b) {
+      // var A = a.toLowerCase();
+      // var B = b.toLowerCase();
+
+      // if (A < B) {
+      //     return -1;
+      // }
+      // else if (A > B) {
+      //     return  1;
+      // }
+      // else {
+      //     return 0;
+      // }
+
+      a = a.toLowerCase();
+      a = a.replace(/ä/g, 'a');
+      a = a.replace(/ö/g, 'o');
+      a = a.replace(/ü/g, 'u');
+      a = a.replace(/ß/g, 's');
+
+      b = b.toLowerCase();
+      b = b.replace(/ä/g, 'a');
+      b = b.replace(/ö/g, 'o');
+      b = b.replace(/ü/g, 'u');
+      b = b.replace(/ß/g, 's');
+
+      return (a === b) ?
+        0 :
+        (a > b) ?
+        1 :
+        -1;
+    },
+
+    /**
+     *
+     * sort array by distance of object from center of canvas
+     *
+     */
+    distanceToCenter: function(a, b) {
+      a = a.getDistanceToCenter();
+      // console.log(a);
+      b = b.getDistanceToCenter();
+      // console.log(b);
+
+      return (a === b) ?
+        0 :
+        (a > b) ?
+        1 :
+        -1;
+    }
 
   };
 
@@ -7254,7 +7270,7 @@ var onKeyUp = function() {};
    *
    */
 
-  folio.FTileEngine = function(ids) {
+  Folio.FTileEngine = function(ids) {
     // -----------------------------------------------------------------------------
     //
     // Properties
@@ -7610,7 +7626,7 @@ var onKeyUp = function() {};
    * }
    *
    */
-  folio.FTriangulate = function(points) {
+  Folio.FTriangulate = function(points) {
     // -----------------------------------------------------------------------------
     //
     // Properties
@@ -8892,7 +8908,7 @@ var onKeyUp = function() {};
    */
 
 
-  folio.F3D = {
+  Folio.F3D = {
     // ------------------------------------------------------------------------
     //
     // Namespaces
@@ -8908,7 +8924,7 @@ var onKeyUp = function() {};
     // ------------------------------------------------------------------------
     //
     // Methods
-    // 
+    //
     // ------------------------------------------------------------------------
   };
 
@@ -8922,7 +8938,7 @@ var onKeyUp = function() {};
 
 
 
-  folio.F3D.FPath3 = Path.extend( /** @lends Path# */ {
+  Folio.F3D.FPath3 = Path.extend( /** @lends Path# */ {
     // ------------------------------------------------------------------------
     //
     // Properties
@@ -8962,15 +8978,15 @@ var onKeyUp = function() {};
 
       this._scene = scene;
       this._matrix = new Matrix3D();
-      this._size = new folio.F3D.FSize3();
-      this._position3 = new folio.F3D.FPoint3();
+      this._size = new Folio.F3D.FSize3();
+      this._position3 = new Folio.F3D.FPoint3();
 
       // setup 3D points array
       this._fpoints3 = [];
 
       // setup transformation
-      this._rotation = new folio.F3D.FPoint3();
-      this._translation = new folio.F3D.FPoint3();
+      this._rotation = new Folio.F3D.FPoint3();
+      this._translation = new Folio.F3D.FPoint3();
 
       // set generic name
       this.name = 'FPath3';
@@ -9117,7 +9133,7 @@ var onKeyUp = function() {};
    *
    * FPath3Constuctors.js
    *
-   * A collection of primitive 3D shapes for folio.F3D.FPath3
+   * A collection of primitive 3D shapes for Folio.F3D.FPath3
    *
    * FBox
    * FSphere
@@ -9126,7 +9142,7 @@ var onKeyUp = function() {};
 
 
 
-  folio.F3D.FPath3.inject({
+  Folio.F3D.FPath3.inject({
 
     // -----------------------------------------------------------------------------
     statics: new function() {
@@ -9137,59 +9153,59 @@ var onKeyUp = function() {};
            * FBox
            * Create simple box
            *
-           * @param {folio.F3D.FScene3D} scene
+           * @param {Folio.F3D.FScene3D} scene
            *          the scene to attach the Box to
-           * @param {folio.F3D.FPoint3} fpoint3
+           * @param {Folio.F3D.FPoint3} fpoint3
            *          the position of the Box
-           * @param {folio.F3D.FSize3} fsize3
+           * @param {Folio.F3D.FSize3} fsize3
            *          the size of the Box
            *
            */
           FBox: function(scene, fpoint3, fsize3) {
             this._position3 = (fpoint3 !== undefined) ?
               fpoint3 :
-              new folio.F3D.FPoint3(0, 0, 0);
+              new Folio.F3D.FPoint3(0, 0, 0);
 
             this._size = (fsize3 !== undefined) ?
               fsize3 :
-              new folio.F3D.FSize3(10, 10, 10);
+              new Folio.F3D.FSize3(10, 10, 10);
 
             var sides = [6];
             var faceFRONT = [
-                new folio.F3D.FPoint3(-0.5, -0.5, -0.5), // corner
-                new folio.F3D.FPoint3(0.5, -0.5, -0.5), // corner
-                new folio.F3D.FPoint3(0.5, 0.5, -0.5), // corner
-                new folio.F3D.FPoint3(-0.5, 0.5, -0.5) // corner
+                new Folio.F3D.FPoint3(-0.5, -0.5, -0.5), // corner
+                new Folio.F3D.FPoint3(0.5, -0.5, -0.5), // corner
+                new Folio.F3D.FPoint3(0.5, 0.5, -0.5), // corner
+                new Folio.F3D.FPoint3(-0.5, 0.5, -0.5) // corner
               ],
               faceTOP = [
-                new folio.F3D.FPoint3(-0.5, -0.5, 0.5), // corner
-                new folio.F3D.FPoint3(0.5, -0.5, 0.5), // corner
-                new folio.F3D.FPoint3(0.5, -0.5, -0.5), // corner
-                new folio.F3D.FPoint3(-0.5, -0.5, -0.5) // corner
+                new Folio.F3D.FPoint3(-0.5, -0.5, 0.5), // corner
+                new Folio.F3D.FPoint3(0.5, -0.5, 0.5), // corner
+                new Folio.F3D.FPoint3(0.5, -0.5, -0.5), // corner
+                new Folio.F3D.FPoint3(-0.5, -0.5, -0.5) // corner
               ],
               faceBOTTOM = [
-                new folio.F3D.FPoint3(-0.5, 0.5, 0.5), // corner
-                new folio.F3D.FPoint3(0.5, 0.5, 0.5), // corner
-                new folio.F3D.FPoint3(0.5, 0.5, -0.5), // corner
-                new folio.F3D.FPoint3(-0.5, 0.5, -0.5) // corner
+                new Folio.F3D.FPoint3(-0.5, 0.5, 0.5), // corner
+                new Folio.F3D.FPoint3(0.5, 0.5, 0.5), // corner
+                new Folio.F3D.FPoint3(0.5, 0.5, -0.5), // corner
+                new Folio.F3D.FPoint3(-0.5, 0.5, -0.5) // corner
               ],
               faceLEFT = [
-                new folio.F3D.FPoint3(-0.5, -0.5, -0.5), // corner
-                new folio.F3D.FPoint3(-0.5, -0.5, 0.5), // corner
-                new folio.F3D.FPoint3(-0.5, 0.5, 0.5), // corner
-                new folio.F3D.FPoint3(-0.5, 0.5, -0.5) // corner
+                new Folio.F3D.FPoint3(-0.5, -0.5, -0.5), // corner
+                new Folio.F3D.FPoint3(-0.5, -0.5, 0.5), // corner
+                new Folio.F3D.FPoint3(-0.5, 0.5, 0.5), // corner
+                new Folio.F3D.FPoint3(-0.5, 0.5, -0.5) // corner
               ],
               faceRIGHT = [
-                new folio.F3D.FPoint3(0.5, -0.5, -0.5), // corner
-                new folio.F3D.FPoint3(0.5, -0.5, 0.5), // corner
-                new folio.F3D.FPoint3(0.5, 0.5, 0.5), // corner
-                new folio.F3D.FPoint3(0.5, 0.5, -0.5) // corner
+                new Folio.F3D.FPoint3(0.5, -0.5, -0.5), // corner
+                new Folio.F3D.FPoint3(0.5, -0.5, 0.5), // corner
+                new Folio.F3D.FPoint3(0.5, 0.5, 0.5), // corner
+                new Folio.F3D.FPoint3(0.5, 0.5, -0.5) // corner
               ],
               faceBACK = [
-                new folio.F3D.FPoint3(-0.5, -0.5, 0.5), // corner
-                new folio.F3D.FPoint3(0.5, -0.5, 0.5), // corner
-                new folio.F3D.FPoint3(0.5, 0.5, 0.5), // corner
-                new folio.F3D.FPoint3(-0.5, 0.5, 0.5) // corner
+                new Folio.F3D.FPoint3(-0.5, -0.5, 0.5), // corner
+                new Folio.F3D.FPoint3(0.5, -0.5, 0.5), // corner
+                new Folio.F3D.FPoint3(0.5, 0.5, 0.5), // corner
+                new Folio.F3D.FPoint3(-0.5, 0.5, 0.5) // corner
               ];
 
             var faces = [
@@ -9203,13 +9219,13 @@ var onKeyUp = function() {};
 
             var vertices = [];
             for (var i = 0; i < faces.length; i++) {
-              sides[i] = new folio.F3D.FPath3();
+              sides[i] = new Folio.F3D.FPath3();
               // sides[i].name = faces[i][0];
               sides[i].name = 'Z-TOP'; // hack until FScene3D is fixed
 
               vertices = faces[i][1];
               for (var j = 0; j < vertices.length; j++) {
-                sides[i].add3(new folio.F3D.FPoint3(
+                sides[i].add3(new Folio.F3D.FPoint3(
                   vertices[j].x * this._size.width,
                   vertices[j].y * this._size.height,
                   vertices[j].z * this._size.depth
@@ -9231,11 +9247,11 @@ var onKeyUp = function() {};
            * FSphere
            * Create simple sphere
            *
-           * @param {folio.F3D.FScene3D} scene
+           * @param {Folio.F3D.FScene3D} scene
            *          the scene to attach the Sphere to
-           * @param {folio.F3D.FPoint3} fpoint3
+           * @param {Folio.F3D.FPoint3} fpoint3
            *          the position of the Sphere
-           * @param {folio.F3D.FSize3} radius
+           * @param {Folio.F3D.FSize3} radius
            *          the radius of the Sphere
            * @param {Array} detail (optional)
            *          the longitude and latitude detail
@@ -9246,11 +9262,11 @@ var onKeyUp = function() {};
           FSphere: function(scene, fpoint3, radius, detail) {
             this._position3 = (fpoint3 !== undefined) ?
               fpoint3 :
-              new folio.F3D.FPoint3(0, 0, 0);
+              new Folio.F3D.FPoint3(0, 0, 0);
 
             this._size = (radius !== undefined) ?
-              new folio.F3D.FSize3(radius, radius, radius) :
-              new folio.F3D.FSize3(10, 10, 10);
+              new Folio.F3D.FSize3(radius, radius, radius) :
+              new Folio.F3D.FSize3(10, 10, 10);
 
             var _c = 0.5;
 
@@ -9282,27 +9298,27 @@ var onKeyUp = function() {};
                 var x = Math.cos(lng);
                 var y = Math.sin(lng);
 
-                vertices.push(new folio.F3D.FPoint3(x * zr0, y * zr0, z0));
-                vertices.push(new folio.F3D.FPoint3(x * zr1, y * zr1, z1));
+                vertices.push(new Folio.F3D.FPoint3(x * zr0, y * zr0, z0));
+                vertices.push(new Folio.F3D.FPoint3(x * zr1, y * zr1, z1));
               } // _longs
             } // _lats
             var sides = [vertices.length - 2];
 
             for (i = 0; i < vertices.length - 2; i++) {
-              sides[i] = new folio.F3D.FPath3();
+              sides[i] = new Folio.F3D.FPath3();
               sides[i].name = 'face' + i;
 
-              sides[i].add3(new folio.F3D.FPoint3(
+              sides[i].add3(new Folio.F3D.FPoint3(
                 vertices[i].x * (this._size.width * 0.5),
                 vertices[i].y * (this._size.height * 0.5),
                 vertices[i].z * (this._size.depth * 0.5)
               ));
-              sides[i].add3(new folio.F3D.FPoint3(
+              sides[i].add3(new Folio.F3D.FPoint3(
                 vertices[i + 1].x * (this._size.width * 0.5),
                 vertices[i + 1].y * (this._size.height * 0.5),
                 vertices[i + 1].z * (this._size.depth * 0.5)
               ));
-              sides[i].add3(new folio.F3D.FPoint3(
+              sides[i].add3(new Folio.F3D.FPoint3(
                 vertices[i + 2].x * (this._size.width * 0.5),
                 vertices[i + 2].y * (this._size.height * 0.5),
                 vertices[i + 2].z * (this._size.depth * 0.5)
@@ -9342,7 +9358,7 @@ var onKeyUp = function() {};
    * @param arg2
    *      z coordinate
    */
-  folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
+  Folio.F3D.FPoint3 = this.FPoint3 = function(arg0, arg1, arg2) {
     // ------------------------------------------------------------------------
     //
     // Properties
@@ -9434,7 +9450,7 @@ var onKeyUp = function() {};
       this.y = paper.random(miny, maxy);
       this.z = paper.random(minz, maxz);
 
-      return new folio.F3D.FPoint3(this.x, this.y, this.z);
+      return new Folio.F3D.FPoint3(this.x, this.y, this.z);
     };
 
 
@@ -9494,7 +9510,7 @@ var onKeyUp = function() {};
      * @return a copy of this point
      */
     this.get = function() {
-      return new folio.F3D.FPoint3(this.x, this.y, this.z);
+      return new Folio.F3D.FPoint3(this.x, this.y, this.z);
     };
 
 
@@ -9749,7 +9765,7 @@ var onKeyUp = function() {};
    *      possibly look into using three.js as the engine
    *
    */
-  folio.F3D.FScene3D = this.FScene3D = function() {
+  Folio.F3D.FScene3D = this.FScene3D = function() {
     // ------------------------------------------------------------------------
     //
     // Properties
@@ -9758,11 +9774,11 @@ var onKeyUp = function() {};
     var _mode = 'PERSPECTIVE'; // default
     var _matrix = null;
 
-    var _half = new folio.F3D.FSize3(0, 0, 0);
+    var _half = new Folio.F3D.FSize3(0, 0, 0);
 
     // transfomrations
     var _sceneScale = 1;
-    var _rotation = new folio.F3D.FPoint3(0, 0, 0);
+    var _rotation = new Folio.F3D.FPoint3(0, 0, 0);
 
     // items
     var _numPoints = 0;
@@ -9771,7 +9787,7 @@ var onKeyUp = function() {};
     var _groupTop = null;
 
 
-    this.bounds = new folio.F3D.FSize3(0, 0, 0);
+    this.bounds = new Folio.F3D.FSize3(0, 0, 0);
 
     this.points3D = [];
     this.points2D = [];
@@ -10149,7 +10165,7 @@ var onKeyUp = function() {};
    * @param arg2
    *      depth
    */
-  folio.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
+  Folio.F3D.FSize3 = this.FSize3 = function(arg0, arg1, arg2) {
     this.width = arg0 || 0;
     this.height = arg1 || 0;
     this.depth = arg2 || 0;
@@ -10206,7 +10222,7 @@ var onKeyUp = function() {};
      * Get a copy of this size
      */
     this.get = function() {
-      return new folio.F3D.FSize3(this.width, this.height, this.depth);
+      return new Folio.F3D.FSize3(this.width, this.height, this.depth);
     };
 
 
@@ -10269,6 +10285,9 @@ var onKeyUp = function() {};
   // once the DOM is ready, setup everything needed for
   // Paper.js and Folio.js
   window.addEventListener('DOMContentLoaded', function() {
+    Folio.body = Folio.body || document.body;
+    Folio.html = Folio.html || document.documentElement;
+
     //
     // Initialize Canvas
     //
@@ -10361,7 +10380,9 @@ var onKeyUp = function() {};
         Update(event);
       }
       // AnimateClear();
-      view.update();
+      if (view) {
+        view.update();
+      }
     };
 
     // TODO: make this functionality toggleable

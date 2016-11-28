@@ -19,7 +19,7 @@
  * }
  *
  */
-folio.FDrop = function(element) {
+Folio.FDrop = function(element) {
     // -----------------------------------------------------------------------------
     //
     // Properties

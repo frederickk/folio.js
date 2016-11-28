@@ -121,10 +121,10 @@ module.exports = function(grunt) {
         // JavaScript
         //
         'closure-compiler': {
-            base: {
+            dist: {
                 options      : closureOptions,
-                js           : '<%= config.dist %>/' + name + '.js',
-                jsOutputFile : '<%= config.dist %>/' + name + '.min.js',
+                js           : '<%= config.dist %>/paper.folio.js',
+                jsOutputFile : '<%= config.dist %>/paper.folio.min.js',
                 maxBuffer    : 500,
                 noreport     : true
             },
@@ -152,7 +152,7 @@ module.exports = function(grunt) {
                     ],
                 }
             },
-            base: {
+            dist: {
                 options: {
                     banner: '<%= banner %>',
                     process: include
@@ -219,7 +219,7 @@ module.exports = function(grunt) {
         'clean',
         'concat',
         'jshint',
-        // 'closure-compiler',
+        'closure-compiler',
         'jsbeautifier',
         // 'docs'
     ]);

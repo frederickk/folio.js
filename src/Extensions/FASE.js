@@ -54,10 +54,10 @@
  * @return {Object}
  *
  * @example
- * var ase = new folio.FASE(url);
+ * var ase = new Folio.FASE(url);
  *
  */
-folio.FASE = function(input) {
+Folio.FASE = function(input) {
     // -----------------------------------------------------------------------------
     //
     // Properties

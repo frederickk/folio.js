@@ -51,7 +51,7 @@
  * @return {Object}
  *
  */
-folio.FCirclePack = function(circleItems, properties) {
+Folio.FCirclePack = function(circleItems, properties) {
     // ------------------------------------------------------------------------
     //
     // Properties
